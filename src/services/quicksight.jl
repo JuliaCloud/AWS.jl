@@ -11,49 +11,99 @@ using AWS.UUIDs
 Cancels an ongoing ingestion of data into SPICE.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
+- `aws_account_id`: The Amazon Web Services account; ID.
 - `data_set_id`: The ID of the dataset used in the ingestion.
 - `ingestion_id`: An ID for the ingestion.
 
 """
-cancel_ingestion(AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)"; aws_config=aws_config)
-cancel_ingestion(AwsAccountId, DataSetId, IngestionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)", params; aws_config=aws_config)
+function cancel_ingestion(
+    AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)";
+        aws_config=aws_config,
+    )
+end
+function cancel_ingestion(
+    AwsAccountId,
+    DataSetId,
+    IngestionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     create_account_customization(account_customization, aws_account_id)
     create_account_customization(account_customization, aws_account_id, params::Dict{String,<:Any})
 
-Creates Amazon QuickSight customizations the current AWS Region. Currently, you can add a
+Creates Amazon QuickSight customizations the current Region;. Currently, you can add a
 custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization
 API operation. To further customize QuickSight by removing QuickSight sample assets and
 videos for all new users, see Customizing QuickSight in the Amazon QuickSight User Guide.
-You can create customizations for your AWS account or, if you specify a namespace, for a
-QuickSight namespace instead. Customizations that apply to a namespace always override
-customizations that apply to an AWS account. To find out which customizations apply, use
-the DescribeAccountCustomization API operation. Before you use the
-CreateAccountCustomization API operation to add a theme as the namespace default, make sure
-that you first share the theme with the namespace. If you don't share it with the
+You can create customizations for your Amazon Web Services account; or, if you specify a
+namespace, for a QuickSight namespace instead. Customizations that apply to a namespace
+always override customizations that apply to an Amazon Web Services account;. To find out
+which customizations apply, use the DescribeAccountCustomization API operation. Before you
+use the CreateAccountCustomization API operation to add a theme as the namespace default,
+make sure that you first share the theme with the namespace. If you don't share it with the
 namespace, the theme isn't visible to your users even if you make it the default theme. To
 check if the theme is shared, view the current permissions by using the
 DescribeThemePermissions  API operation. To share the theme, grant permissions by using the
  UpdateThemePermissions  API operation.
 
 # Arguments
-- `account_customization`: The QuickSight customizations you're adding in the current AWS
-  Region. You can add these to an AWS account and a QuickSight namespace.  For example, you
-  can add a default theme by setting AccountCustomization to the midnight theme:
-  \"AccountCustomization\": { \"DefaultTheme\": \"arn:aws:quicksight::aws:theme/MIDNIGHT\" }.
-  Or, you can add a custom theme by specifying \"AccountCustomization\": { \"DefaultTheme\":
+- `account_customization`: The QuickSight customizations you're adding in the current
+  Region;. You can add these to an Amazon Web Services account; and a QuickSight namespace.
+  For example, you can add a default theme by setting AccountCustomization to the midnight
+  theme: \"AccountCustomization\": { \"DefaultTheme\":
+  \"arn:aws:quicksight::aws:theme/MIDNIGHT\" }. Or, you can add a custom theme by specifying
+  \"AccountCustomization\": { \"DefaultTheme\":
   \"arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639\" }.
-- `aws_account_id`: The ID for the AWS account that you want to customize QuickSight for.
+- `aws_account_id`: The ID for the Amazon Web Services account; that you want to customize
+  QuickSight for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A list of the tags that you want to attach to this resource.
 - `"namespace"`: The QuickSight namespace that you want to add customizations to.
 """
-create_account_customization(AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/customizations", Dict{String, Any}("AccountCustomization"=>AccountCustomization); aws_config=aws_config)
-create_account_customization(AccountCustomization, AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/customizations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountCustomization"=>AccountCustomization), params)); aws_config=aws_config)
+function create_account_customization(
+    AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/customizations",
+        Dict{String,Any}("AccountCustomization" => AccountCustomization);
+        aws_config=aws_config,
+    )
+end
+function create_account_customization(
+    AccountCustomization,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/customizations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountCustomization" => AccountCustomization),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_analysis(analysis_id, aws_account_id, name, source_entity)
@@ -64,7 +114,8 @@ Creates an analysis in Amazon QuickSight.
 # Arguments
 - `analysis_id`: The ID for the analysis that you're creating. This ID displays in the URL
   of the analysis.
-- `aws_account_id`: The ID of the AWS account where you are creating an analysis.
+- `aws_account_id`: The ID of the Amazon Web Services account; where you are creating an
+  analysis.
 - `name`: A descriptive name for the analysis that you're creating. This name displays for
   the analysis in the QuickSight console.
 - `source_entity`: A source entity to use for the analysis that you're creating. This
@@ -77,7 +128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can have any parameter type, and some parameters might accept multiple values.
 - `"Permissions"`: A structure that describes the principals and the resource-level
   permissions on an analysis. You can use the Permissions structure to grant permissions by
-  providing a list of AWS Identity and Access Management (IAM) action information for each
+  providing a list of Identity and Access Management (IAM) action information for each
   principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit
   Permissions.
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
@@ -85,8 +136,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ThemeArn"`: The ARN for the theme to apply to the analysis that you're creating. To see
   the theme in the QuickSight console, make sure that you have access to it.
 """
-create_analysis(AnalysisId, AwsAccountId, Name, SourceEntity; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity); aws_config=aws_config)
-create_analysis(AnalysisId, AwsAccountId, Name, SourceEntity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity), params)); aws_config=aws_config)
+function create_analysis(
+    AnalysisId,
+    AwsAccountId,
+    Name,
+    SourceEntity;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
+        Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity);
+        aws_config=aws_config,
+    )
+end
+function create_analysis(
+    AnalysisId,
+    AwsAccountId,
+    Name,
+    SourceEntity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_dashboard(aws_account_id, dashboard_id, name, source_entity)
@@ -96,10 +180,11 @@ Creates a dashboard from a template. To first create a template, see the  Create
 API operation. A dashboard is an entity in QuickSight that identifies QuickSight reports,
 created from analyses. You can share QuickSight dashboards. With the right permissions, you
 can create scheduled email reports from them. If you have the correct permissions, you can
-create a dashboard from a template that exists in a different AWS account.
+create a dashboard from a template that exists in a different Amazon Web Services account;.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account where you want to create the dashboard.
+- `aws_account_id`: The ID of the Amazon Web Services account; where you want to create the
+  dashboard.
 - `dashboard_id`: The ID for the dashboard, also added to the IAM policy.
 - `name`: The display name of the dashboard.
 - `source_entity`: The entity that you are using as a source when you create the dashboard.
@@ -107,9 +192,9 @@ create a dashboard from a template that exists in a different AWS account.
   a dashboard from a template, so you use a SourceTemplate entity. If you need to create a
   dashboard from an analysis, first convert the analysis to a template by using the
   CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of
-  the source template. The SourceTemplateARN can contain any AWS Account and any
-  QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate to
-  list the replacement datasets for the placeholders listed in the original. The schema in
+  the source template. The SourceTemplateARN can contain any Amazon Web Services account; and
+  any QuickSight-supported Region;.  Use the DataSetReferences entity within SourceTemplate
+  to list the replacement datasets for the placeholders listed in the original. The schema in
   each dataset must match its placeholder.
 
 # Optional Parameters
@@ -133,13 +218,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the dashboard.
 - `"ThemeArn"`: The Amazon Resource Name (ARN) of the theme that is being used for this
   dashboard. If you add a value for this field, it overrides the value that is used in the
-  source entity. The theme ARN must exist in the same AWS account where you create the
-  dashboard.
+  source entity. The theme ARN must exist in the same Amazon Web Services account; where you
+  create the dashboard.
 - `"VersionDescription"`: A description for the first version of the dashboard being
   created.
 """
-create_dashboard(AwsAccountId, DashboardId, Name, SourceEntity; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity); aws_config=aws_config)
-create_dashboard(AwsAccountId, DashboardId, Name, SourceEntity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity), params)); aws_config=aws_config)
+function create_dashboard(
+    AwsAccountId,
+    DashboardId,
+    Name,
+    SourceEntity;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
+        Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity);
+        aws_config=aws_config,
+    )
+end
+function create_dashboard(
+    AwsAccountId,
+    DashboardId,
+    Name,
+    SourceEntity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_data_set(aws_account_id, data_set_id, import_mode, name, physical_table_map)
@@ -148,9 +266,9 @@ create_dashboard(AwsAccountId, DashboardId, Name, SourceEntity, params::Abstract
 Creates a dataset.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_set_id`: An ID for the dataset that you want to create. This ID is unique per AWS
-  Region for each AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_set_id`: An ID for the dataset that you want to create. This ID is unique per
+  Region; for each Amazon Web Services account;.
 - `import_mode`: Indicates whether you want to import the data into SPICE.
 - `name`: The display name for the dataset.
 - `physical_table_map`: Declares the physical tables that are available in the underlying
@@ -168,11 +286,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Permissions"`: A list of resource permissions on the dataset.
 - `"RowLevelPermissionDataSet"`: The row-level security configuration for the data that you
   want to create.
+- `"RowLevelPermissionTagConfiguration"`: The configuration of tags on a dataset to set
+  row-level security. Row-level security tags are currently supported for anonymous embedding
+  only.
 - `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags assigned to
   the dataset.
 """
-create_data_set(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sets", Dict{String, Any}("DataSetId"=>DataSetId, "ImportMode"=>ImportMode, "Name"=>Name, "PhysicalTableMap"=>PhysicalTableMap); aws_config=aws_config)
-create_data_set(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSetId"=>DataSetId, "ImportMode"=>ImportMode, "Name"=>Name, "PhysicalTableMap"=>PhysicalTableMap), params)); aws_config=aws_config)
+function create_data_set(
+    AwsAccountId,
+    DataSetId,
+    ImportMode,
+    Name,
+    PhysicalTableMap;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sets",
+        Dict{String,Any}(
+            "DataSetId" => DataSetId,
+            "ImportMode" => ImportMode,
+            "Name" => Name,
+            "PhysicalTableMap" => PhysicalTableMap,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_data_set(
+    AwsAccountId,
+    DataSetId,
+    ImportMode,
+    Name,
+    PhysicalTableMap,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataSetId" => DataSetId,
+                    "ImportMode" => ImportMode,
+                    "Name" => Name,
+                    "PhysicalTableMap" => PhysicalTableMap,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_data_source(aws_account_id, data_source_id, name, type)
@@ -181,9 +347,9 @@ create_data_set(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap, par
 Creates a data source.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_source_id`: An ID for the data source. This ID is unique per AWS Region for each
-  AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_source_id`: An ID for the data source. This ID is unique per Region; for each
+  Amazon Web Services account;.
 - `name`: A display name for the data source.
 - `type`: The type of the data source. Currently, the supported types for this operation
   are: ATHENA, AURORA, AURORA_POSTGRESQL, AMAZON_ELASTICSEARCH, MARIADB, MYSQL, POSTGRESQL,
@@ -205,8 +371,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcConnectionProperties"`: Use this parameter only when you want QuickSight to use a
   VPC connection when connecting to your underlying source.
 """
-create_data_source(AwsAccountId, DataSourceId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources", Dict{String, Any}("DataSourceId"=>DataSourceId, "Name"=>Name, "Type"=>Type); aws_config=aws_config)
-create_data_source(AwsAccountId, DataSourceId, Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
+function create_data_source(
+    AwsAccountId,
+    DataSourceId,
+    Name,
+    Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sources",
+        Dict{String,Any}("DataSourceId" => DataSourceId, "Name" => Name, "Type" => Type);
+        aws_config=aws_config,
+    )
+end
+function create_data_source(
+    AwsAccountId,
+    DataSourceId,
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataSourceId" => DataSourceId, "Name" => Name, "Type" => Type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_folder(aws_account_id, folder_id)
@@ -228,8 +429,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions of a folder. To specify no permissions, omit Permissions.
 - `"Tags"`: Tags for the folder.
 """
-create_folder(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/folders/$(FolderId)"; aws_config=aws_config)
-create_folder(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/folders/$(FolderId)", params; aws_config=aws_config)
+function create_folder(
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST", "/accounts/$(AwsAccountId)/folders/$(FolderId)"; aws_config=aws_config
+    )
+end
+function create_folder(
+    AwsAccountId,
+    FolderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     create_folder_membership(aws_account_id, folder_id, member_id, member_type)
@@ -244,8 +463,34 @@ Adds an asset, such as a dashboard, analysis, or dataset into a folder.
 - `member_type`: The type of the member, including DASHBOARD, ANALYSIS, and DATASET.
 
 """
-create_folder_membership(AwsAccountId, FolderId, MemberId, MemberType; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)"; aws_config=aws_config)
-create_folder_membership(AwsAccountId, FolderId, MemberId, MemberType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)", params; aws_config=aws_config)
+function create_folder_membership(
+    AwsAccountId,
+    FolderId,
+    MemberId,
+    MemberType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)";
+        aws_config=aws_config,
+    )
+end
+function create_folder_membership(
+    AwsAccountId,
+    FolderId,
+    MemberId,
+    MemberType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     create_group(aws_account_id, group_name, namespace)
@@ -256,8 +501,9 @@ arn:aws:quicksight:us-east-1:&lt;relevant-aws-account-id&gt;:group/default/&lt;g
 ; . The response is a group object.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the group is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the group is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `group_name`: A name for the group that you want to create.
 - `namespace`: The namespace. Currently, you should set this to default.
 
@@ -265,8 +511,32 @@ arn:aws:quicksight:us-east-1:&lt;relevant-aws-account-id&gt;:group/default/&lt;g
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description for the group that you want to create.
 """
-create_group(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-create_group(AwsAccountId, GroupName, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
+function create_group(
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups",
+        Dict{String,Any}("GroupName" => GroupName);
+        aws_config=aws_config,
+    )
+end
+function create_group(
+    AwsAccountId,
+    GroupName,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_group_membership(aws_account_id, group_name, member_name, namespace)
@@ -275,15 +545,42 @@ create_group(AwsAccountId, GroupName, Namespace, params::AbstractDict{String}; a
 Adds an Amazon QuickSight user to an Amazon QuickSight group.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the group is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the group is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `group_name`: The name of the group that you want to add the user to.
 - `member_name`: The name of the user that you want to add to the group membership.
 - `namespace`: The namespace. Currently, you should set this to default.
 
 """
-create_group_membership(AwsAccountId, GroupName, MemberName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)"; aws_config=aws_config)
-create_group_membership(AwsAccountId, GroupName, MemberName, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)", params; aws_config=aws_config)
+function create_group_membership(
+    AwsAccountId,
+    GroupName,
+    MemberName,
+    Namespace;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)";
+        aws_config=aws_config,
+    )
+end
+function create_group_membership(
+    AwsAccountId,
+    GroupName,
+    MemberName,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     create_iampolicy_assignment(assignment_name, assignment_status, aws_account_id, namespace)
@@ -291,18 +588,18 @@ create_group_membership(AwsAccountId, GroupName, MemberName, Namespace, params::
 
 Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name
 (ARN). This policy assignment is attached to the specified groups or users of Amazon
-QuickSight. Assignment names are unique per AWS account. To avoid overwriting rules in
-other namespaces, use assignment names that are unique.
+QuickSight. Assignment names are unique per Amazon Web Services account;. To avoid
+overwriting rules in other namespaces, use assignment names that are unique.
 
 # Arguments
 - `assignment_name`: The name of the assignment, also called a rule. It must be unique
-  within an AWS account.
+  within an Amazon Web Services account;.
 - `assignment_status`: The status of the assignment. Possible values are as follows:
   ENABLED - Anything specified in this assignment is used when creating the data source.
   DISABLED - This assignment isn't used when creating the data source.    DRAFT - This
   assignment is an unfinished draft and isn't used when creating the data source.
-- `aws_account_id`: The ID of the AWS account where you want to assign an IAM policy to
-  QuickSight users or groups.
+- `aws_account_id`: The ID of the Amazon Web Services account; where you want to assign an
+  IAM policy to QuickSight users or groups.
 - `namespace`: The namespace that contains the assignment.
 
 # Optional Parameters
@@ -312,8 +609,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyArn"`: The ARN for the IAM policy to apply to the QuickSight users and groups
   specified in this assignment.
 """
-create_iampolicy_assignment(AssignmentName, AssignmentStatus, AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/", Dict{String, Any}("AssignmentName"=>AssignmentName, "AssignmentStatus"=>AssignmentStatus); aws_config=aws_config)
-create_iampolicy_assignment(AssignmentName, AssignmentStatus, AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentName"=>AssignmentName, "AssignmentStatus"=>AssignmentStatus), params)); aws_config=aws_config)
+function create_iampolicy_assignment(
+    AssignmentName,
+    AssignmentStatus,
+    AwsAccountId,
+    Namespace;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/",
+        Dict{String,Any}(
+            "AssignmentName" => AssignmentName, "AssignmentStatus" => AssignmentStatus
+        );
+        aws_config=aws_config,
+    )
+end
+function create_iampolicy_assignment(
+    AssignmentName,
+    AssignmentStatus,
+    AwsAccountId,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssignmentName" => AssignmentName,
+                    "AssignmentStatus" => AssignmentStatus,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_ingestion(aws_account_id, data_set_id, ingestion_id)
@@ -322,17 +657,38 @@ create_iampolicy_assignment(AssignmentName, AssignmentStatus, AwsAccountId, Name
 Creates and starts a new SPICE ingestion on a dataset Any ingestions operating on tagged
 datasets inherit the same tags automatically for use in access control. For an example, see
 How do I create an IAM policy to control access to Amazon EC2 resources using tags? in the
-AWS Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion
-resource.
+Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on
+the ingestion resource.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
+- `aws_account_id`: The Amazon Web Services account; ID.
 - `data_set_id`: The ID of the dataset used in the ingestion.
 - `ingestion_id`: An ID for the ingestion.
 
 """
-create_ingestion(AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)"; aws_config=aws_config)
-create_ingestion(AwsAccountId, DataSetId, IngestionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)", params; aws_config=aws_config)
+function create_ingestion(
+    AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)";
+        aws_config=aws_config,
+    )
+end
+function create_ingestion(
+    AwsAccountId,
+    DataSetId,
+    IngestionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     create_namespace(aws_account_id, identity_store, namespace)
@@ -342,13 +698,14 @@ create_ingestion(AwsAccountId, DataSetId, IngestionId, params::AbstractDict{Stri
 namespace allows you to isolate the QuickSight users and groups that are registered for
 that namespace. Users that access the namespace can share assets only with other users or
 groups in the same namespace. They can't see users and groups in other namespaces. You can
-create a namespace after your AWS account is subscribed to QuickSight. The namespace must
-be unique within the AWS account. By default, there is a limit of 100 namespaces per AWS
-account. To increase your limit, create a ticket with AWS Support.
+create a namespace after your Amazon Web Services account; is subscribed to QuickSight. The
+namespace must be unique within the Amazon Web Services account;. By default, there is a
+limit of 100 namespaces per Amazon Web Services account;. To increase your limit, create a
+ticket with Amazon Web Services Support.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that you want to create the QuickSight
-  namespace in.
+- `aws_account_id`: The ID for the Amazon Web Services account; that you want to create the
+  QuickSight namespace in.
 - `identity_store`: Specifies the type of your user identity directory. Currently, this
   supports users with an identity type of QUICKSIGHT.
 - `namespace`: The name that you want to use to describe the new namespace.
@@ -357,14 +714,47 @@ account. To increase your limit, create a ticket with AWS Support.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tags that you want to associate with the namespace that you're creating.
 """
-create_namespace(AwsAccountId, IdentityStore, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)", Dict{String, Any}("IdentityStore"=>IdentityStore, "Namespace"=>Namespace); aws_config=aws_config)
-create_namespace(AwsAccountId, IdentityStore, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityStore"=>IdentityStore, "Namespace"=>Namespace), params)); aws_config=aws_config)
+function create_namespace(
+    AwsAccountId,
+    IdentityStore,
+    Namespace;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)",
+        Dict{String,Any}("IdentityStore" => IdentityStore, "Namespace" => Namespace);
+        aws_config=aws_config,
+    )
+end
+function create_namespace(
+    AwsAccountId,
+    IdentityStore,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IdentityStore" => IdentityStore, "Namespace" => Namespace
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_template(aws_account_id, source_entity, template_id)
     create_template(aws_account_id, source_entity, template_id, params::Dict{String,<:Any})
 
-Creates a template from an existing QuickSight analysis or template. You can use the
+Creates a template from an existing Amazon QuickSight analysis or template. You can use the
 resulting template to create a dashboard. A template is an entity in QuickSight that
 encapsulates the metadata required to create an analysis and that you can use to create s
 dashboard. A template adds a layer of abstraction by using placeholders to replace the
@@ -373,18 +763,19 @@ replacing dataset placeholders with datasets that follow the same schema that wa
 create the source analysis and template.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the group is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the group is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `source_entity`: The entity that you are using as a source when you create the template.
   In SourceEntity, you specify the type of object you're using as source: SourceTemplate for
   a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name
   (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis,
-  specify the ARN of the source analysis. The SourceTemplate ARN can contain any AWS Account
-  and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within
-  SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders
-  listed in the original. The schema in each dataset must match its placeholder.
+  specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web
+  Services account; and any QuickSight-supported Region;.  Use the DataSetReferences entity
+  within SourceTemplate or SourceAnalysis to list the replacement datasets for the
+  placeholders listed in the original. The schema in each dataset must match its placeholder.
 - `template_id`: An ID for the template that you want to create. This template is unique
-  per AWS Region in each AWS account.
+  per Region; in each Amazon Web Services account;.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -397,8 +788,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   called, a new version is created. Each version of the template maintains a description of
   the version in the VersionDescription field.
 """
-create_template(AwsAccountId, SourceEntity, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", Dict{String, Any}("SourceEntity"=>SourceEntity); aws_config=aws_config)
-create_template(AwsAccountId, SourceEntity, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceEntity"=>SourceEntity), params)); aws_config=aws_config)
+function create_template(
+    AwsAccountId,
+    SourceEntity,
+    TemplateId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
+        Dict{String,Any}("SourceEntity" => SourceEntity);
+        aws_config=aws_config,
+    )
+end
+function create_template(
+    AwsAccountId,
+    SourceEntity,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SourceEntity" => SourceEntity), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_template_alias(alias_name, aws_account_id, template_id, template_version_number)
@@ -409,15 +827,48 @@ Creates a template alias for a template.
 # Arguments
 - `alias_name`: The name that you want to give to the template alias that you're creating.
   Don't start the alias name with the  character. Alias names that start with  are reserved
-  by QuickSight.
-- `aws_account_id`: The ID of the AWS account that contains the template that you creating
-  an alias for.
+  by Amazon QuickSight.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the template
+  that you creating an alias for.
 - `template_id`: An ID for the template.
 - `template_version_number`: The version number of the template.
 
 """
-create_template_alias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", Dict{String, Any}("TemplateVersionNumber"=>TemplateVersionNumber); aws_config=aws_config)
-create_template_alias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateVersionNumber"=>TemplateVersionNumber), params)); aws_config=aws_config)
+function create_template_alias(
+    AliasName,
+    AwsAccountId,
+    TemplateId,
+    TemplateVersionNumber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
+        Dict{String,Any}("TemplateVersionNumber" => TemplateVersionNumber);
+        aws_config=aws_config,
+    )
+end
+function create_template_alias(
+    AliasName,
+    AwsAccountId,
+    TemplateId,
+    TemplateVersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TemplateVersionNumber" => TemplateVersionNumber),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_theme(aws_account_id, base_theme_id, configuration, name, theme_id)
@@ -428,14 +879,15 @@ to analyses and dashboards. For more information, see Using Themes in Amazon Qui
 the Amazon QuickSight User Guide.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account where you want to store the new theme.
+- `aws_account_id`: The ID of the Amazon Web Services account; where you want to store the
+  new theme.
 - `base_theme_id`: The ID of the theme that a custom theme will inherit from. All themes
   inherit from one of the starting themes defined by Amazon QuickSight. For a list of the
   starting themes, use ListThemes or choose Themes from within a QuickSight analysis.
 - `configuration`: The theme configuration, which contains the theme display properties.
 - `name`: A display name for the theme.
-- `theme_id`: An ID for the theme that you want to create. The theme ID is unique per AWS
-  Region in each AWS account.
+- `theme_id`: An ID for the theme that you want to create. The theme ID is unique per
+  Region; in each Amazon Web Services account;.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -446,8 +898,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating. Every time UpdateTheme is called, a new version is created. Each version of the
   theme has a description of the version in the VersionDescription field.
 """
-create_theme(AwsAccountId, BaseThemeId, Configuration, Name, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", Dict{String, Any}("BaseThemeId"=>BaseThemeId, "Configuration"=>Configuration, "Name"=>Name); aws_config=aws_config)
-create_theme(AwsAccountId, BaseThemeId, Configuration, Name, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaseThemeId"=>BaseThemeId, "Configuration"=>Configuration, "Name"=>Name), params)); aws_config=aws_config)
+function create_theme(
+    AwsAccountId,
+    BaseThemeId,
+    Configuration,
+    Name,
+    ThemeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
+        Dict{String,Any}(
+            "BaseThemeId" => BaseThemeId, "Configuration" => Configuration, "Name" => Name
+        );
+        aws_config=aws_config,
+    )
+end
+function create_theme(
+    AwsAccountId,
+    BaseThemeId,
+    Configuration,
+    Name,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BaseThemeId" => BaseThemeId,
+                    "Configuration" => Configuration,
+                    "Name" => Name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_theme_alias(alias_name, aws_account_id, theme_id, theme_version_number)
@@ -459,32 +952,77 @@ Creates a theme alias for a theme.
 - `alias_name`: The name that you want to give to the theme alias that you are creating.
   The alias name can't begin with a . Alias names that start with  are reserved by Amazon
   QuickSight.
-- `aws_account_id`: The ID of the AWS account that contains the theme for the new theme
-  alias.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme for
+  the new theme alias.
 - `theme_id`: An ID for the theme alias.
 - `theme_version_number`: The version number of the theme.
 
 """
-create_theme_alias(AliasName, AwsAccountId, ThemeId, ThemeVersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", Dict{String, Any}("ThemeVersionNumber"=>ThemeVersionNumber); aws_config=aws_config)
-create_theme_alias(AliasName, AwsAccountId, ThemeId, ThemeVersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThemeVersionNumber"=>ThemeVersionNumber), params)); aws_config=aws_config)
+function create_theme_alias(
+    AliasName,
+    AwsAccountId,
+    ThemeId,
+    ThemeVersionNumber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
+        Dict{String,Any}("ThemeVersionNumber" => ThemeVersionNumber);
+        aws_config=aws_config,
+    )
+end
+function create_theme_alias(
+    AliasName,
+    AwsAccountId,
+    ThemeId,
+    ThemeVersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ThemeVersionNumber" => ThemeVersionNumber), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_account_customization(aws_account_id)
     delete_account_customization(aws_account_id, params::Dict{String,<:Any})
 
-Deletes all Amazon QuickSight customizations in this AWS Region for the specified AWS
-account and QuickSight namespace.
+Deletes all Amazon QuickSight customizations in this Region; for the specified Amazon Web
+Services account; and QuickSight namespace.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that you want to delete QuickSight
-  customizations from in this AWS Region.
+- `aws_account_id`: The ID for the Amazon Web Services account; that you want to delete
+  QuickSight customizations from in this Region;.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"namespace"`: The QuickSight namespace that you're deleting the customizations from.
 """
-delete_account_customization(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/customizations"; aws_config=aws_config)
-delete_account_customization(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/customizations", params; aws_config=aws_config)
+function delete_account_customization(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE", "/accounts/$(AwsAccountId)/customizations"; aws_config=aws_config
+    )
+end
+function delete_account_customization(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE", "/accounts/$(AwsAccountId)/customizations", params; aws_config=aws_config
+    )
+end
 
 """
     delete_analysis(analysis_id, aws_account_id)
@@ -503,7 +1041,8 @@ it. Deleting an analysis doesn't delete the dashboards that you publish from it.
 
 # Arguments
 - `analysis_id`: The ID of the analysis that you're deleting.
-- `aws_account_id`: The ID of the AWS account where you want to delete an analysis.
+- `aws_account_id`: The ID of the Amazon Web Services account; where you want to delete an
+  analysis.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -514,8 +1053,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   waits before it deletes the analysis. You can't use this parameter with the
   ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
 """
-delete_analysis(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)"; aws_config=aws_config)
-delete_analysis(AnalysisId, AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", params; aws_config=aws_config)
+function delete_analysis(
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)"; aws_config=aws_config
+    )
+end
+function delete_analysis(
+    AnalysisId,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_dashboard(aws_account_id, dashboard_id)
@@ -524,8 +1081,8 @@ delete_analysis(AnalysisId, AwsAccountId, params::AbstractDict{String}; aws_conf
 Deletes a dashboard.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the dashboard that you're
-  deleting.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the dashboard
+  that you're deleting.
 - `dashboard_id`: The ID for the dashboard.
 
 # Optional Parameters
@@ -533,8 +1090,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version-number"`: The version number of the dashboard. If the version number property
   is provided, only the specified version of the dashboard is deleted.
 """
-delete_dashboard(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)"; aws_config=aws_config)
-delete_dashboard(AwsAccountId, DashboardId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", params; aws_config=aws_config)
+function delete_dashboard(
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)";
+        aws_config=aws_config,
+    )
+end
+function delete_dashboard(
+    AwsAccountId,
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_data_set(aws_account_id, data_set_id)
@@ -543,13 +1120,31 @@ delete_dashboard(AwsAccountId, DashboardId, params::AbstractDict{String}; aws_co
 Deletes a dataset.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_set_id`: The ID for the dataset that you want to create. This ID is unique per AWS
-  Region for each AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_set_id`: The ID for the dataset that you want to create. This ID is unique per
+  Region; for each Amazon Web Services account;.
 
 """
-delete_data_set(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)"; aws_config=aws_config)
-delete_data_set(AwsAccountId, DataSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", params; aws_config=aws_config)
+function delete_data_set(
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)"; aws_config=aws_config
+    )
+end
+function delete_data_set(
+    AwsAccountId,
+    DataSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_data_source(aws_account_id, data_source_id)
@@ -559,13 +1154,33 @@ Deletes the data source permanently. This operation breaks all the datasets that
 the deleted data source.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_source_id`: The ID of the data source. This ID is unique per AWS Region for each
-  AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_source_id`: The ID of the data source. This ID is unique per Region; for each
+  Amazon Web Services account;.
 
 """
-delete_data_source(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)"; aws_config=aws_config)
-delete_data_source(AwsAccountId, DataSourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", params; aws_config=aws_config)
+function delete_data_source(
+    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)";
+        aws_config=aws_config,
+    )
+end
+function delete_data_source(
+    AwsAccountId,
+    DataSourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_folder(aws_account_id, folder_id)
@@ -578,8 +1193,26 @@ Deletes an empty folder.
 - `folder_id`: The folder ID.
 
 """
-delete_folder(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)"; aws_config=aws_config)
-delete_folder(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)", params; aws_config=aws_config)
+function delete_folder(
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)"; aws_config=aws_config
+    )
+end
+function delete_folder(
+    AwsAccountId,
+    FolderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_folder_membership(aws_account_id, folder_id, member_id, member_type)
@@ -595,8 +1228,34 @@ Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
 - `member_type`: The type of the member, including DASHBOARD, ANALYSIS, and DATASET
 
 """
-delete_folder_membership(AwsAccountId, FolderId, MemberId, MemberType; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)"; aws_config=aws_config)
-delete_folder_membership(AwsAccountId, FolderId, MemberId, MemberType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)", params; aws_config=aws_config)
+function delete_folder_membership(
+    AwsAccountId,
+    FolderId,
+    MemberId,
+    MemberType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)";
+        aws_config=aws_config,
+    )
+end
+function delete_folder_membership(
+    AwsAccountId,
+    FolderId,
+    MemberId,
+    MemberType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_group(aws_account_id, group_name, namespace)
@@ -605,14 +1264,36 @@ delete_folder_membership(AwsAccountId, FolderId, MemberId, MemberType, params::A
 Removes a user group from Amazon QuickSight.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the group is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the group is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `group_name`: The name of the group that you want to delete.
 - `namespace`: The namespace. Currently, you should set this to default.
 
 """
-delete_group(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)"; aws_config=aws_config)
-delete_group(AwsAccountId, GroupName, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)", params; aws_config=aws_config)
+function delete_group(
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)";
+        aws_config=aws_config,
+    )
+end
+function delete_group(
+    AwsAccountId,
+    GroupName,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_group_membership(aws_account_id, group_name, member_name, namespace)
@@ -621,15 +1302,42 @@ delete_group(AwsAccountId, GroupName, Namespace, params::AbstractDict{String}; a
 Removes a user from a group so that the user is no longer a member of the group.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the group is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the group is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `group_name`: The name of the group that you want to delete the user from.
 - `member_name`: The name of the user that you want to delete from the group membership.
 - `namespace`: The namespace. Currently, you should set this to default.
 
 """
-delete_group_membership(AwsAccountId, GroupName, MemberName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)"; aws_config=aws_config)
-delete_group_membership(AwsAccountId, GroupName, MemberName, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)", params; aws_config=aws_config)
+function delete_group_membership(
+    AwsAccountId,
+    GroupName,
+    MemberName,
+    Namespace;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)";
+        aws_config=aws_config,
+    )
+end
+function delete_group_membership(
+    AwsAccountId,
+    GroupName,
+    MemberName,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_iampolicy_assignment(assignment_name, aws_account_id, namespace)
@@ -639,12 +1347,37 @@ Deletes an existing IAM policy assignment.
 
 # Arguments
 - `assignment_name`: The name of the assignment.
-- `aws_account_id`: The AWS account ID where you want to delete the IAM policy assignment.
+- `aws_account_id`: The Amazon Web Services account; ID where you want to delete the IAM
+  policy assignment.
 - `namespace`: The namespace that contains the assignment.
 
 """
-delete_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)"; aws_config=aws_config)
-delete_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)", params; aws_config=aws_config)
+function delete_iampolicy_assignment(
+    AssignmentName,
+    AwsAccountId,
+    Namespace;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)";
+        aws_config=aws_config,
+    )
+end
+function delete_iampolicy_assignment(
+    AssignmentName,
+    AwsAccountId,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_namespace(aws_account_id, namespace)
@@ -656,13 +1389,31 @@ sources are not deleted. To delete these assets, you use the API operations for 
 relevant asset.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that you want to delete the QuickSight
-  namespace from.
+- `aws_account_id`: The ID for the Amazon Web Services account; that you want to delete the
+  QuickSight namespace from.
 - `namespace`: The namespace that you want to delete.
 
 """
-delete_namespace(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)"; aws_config=aws_config)
-delete_namespace(AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)", params; aws_config=aws_config)
+function delete_namespace(
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)"; aws_config=aws_config
+    )
+end
+function delete_namespace(
+    AwsAccountId,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_template(aws_account_id, template_id)
@@ -671,8 +1422,8 @@ delete_namespace(AwsAccountId, Namespace, params::AbstractDict{String}; aws_conf
 Deletes a template.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the template that you're
-  deleting.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the template
+  that you're deleting.
 - `template_id`: An ID for the template you want to delete.
 
 # Optional Parameters
@@ -680,8 +1431,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version-number"`: Specifies the version of the template that you want to delete. If you
   don't provide a version number, DeleteTemplate deletes all versions of the template.
 """
-delete_template(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)"; aws_config=aws_config)
-delete_template(AwsAccountId, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", params; aws_config=aws_config)
+function delete_template(
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)"; aws_config=aws_config
+    )
+end
+function delete_template(
+    AwsAccountId,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_template_alias(alias_name, aws_account_id, template_id)
@@ -694,12 +1463,34 @@ alias, you delete the version of the template that the alias points to.
 - `alias_name`: The name for the template alias. To delete a specific alias, you delete the
   version that the alias points to. You can specify the alias name, or specify the latest
   version of the template by providing the keyword LATEST in the AliasName parameter.
-- `aws_account_id`: The ID of the AWS account that contains the item to delete.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the item to
+  delete.
 - `template_id`: The ID for the template that the specified alias is for.
 
 """
-delete_template_alias(AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)"; aws_config=aws_config)
-delete_template_alias(AliasName, AwsAccountId, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", params; aws_config=aws_config)
+function delete_template_alias(
+    AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)";
+        aws_config=aws_config,
+    )
+end
+function delete_template_alias(
+    AliasName,
+    AwsAccountId,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_theme(aws_account_id, theme_id)
@@ -708,7 +1499,8 @@ delete_template_alias(AliasName, AwsAccountId, TemplateId, params::AbstractDict{
 Deletes a theme.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the theme that you're deleting.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme that
+  you're deleting.
 - `theme_id`: An ID for the theme that you want to delete.
 
 # Optional Parameters
@@ -717,8 +1509,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't provide a version number, you're using this call to DeleteTheme to delete all
   versions of the theme.
 """
-delete_theme(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/themes/$(ThemeId)"; aws_config=aws_config)
-delete_theme(AwsAccountId, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", params; aws_config=aws_config)
+function delete_theme(
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE", "/accounts/$(AwsAccountId)/themes/$(ThemeId)"; aws_config=aws_config
+    )
+end
+function delete_theme(
+    AwsAccountId,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_theme_alias(alias_name, aws_account_id, theme_id)
@@ -729,30 +1539,74 @@ specific alias, you delete the version of the theme that the alias points to.
 
 # Arguments
 - `alias_name`: The unique name for the theme alias to delete.
-- `aws_account_id`: The ID of the AWS account that contains the theme alias to delete.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme
+  alias to delete.
 - `theme_id`: The ID for the theme that the specified alias is for.
 
 """
-delete_theme_alias(AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)"; aws_config=aws_config)
-delete_theme_alias(AliasName, AwsAccountId, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", params; aws_config=aws_config)
+function delete_theme_alias(
+    AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)";
+        aws_config=aws_config,
+    )
+end
+function delete_theme_alias(
+    AliasName,
+    AwsAccountId,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_user(aws_account_id, namespace, user_name)
     delete_user(aws_account_id, namespace, user_name, params::Dict{String,<:Any})
 
-Deletes the Amazon QuickSight user that is associated with the identity of the AWS Identity
-and Access Management (IAM) user or role that's making the call. The IAM user isn't deleted
-as a result of this call.
+Deletes the Amazon QuickSight user that is associated with the identity of the Identity and
+Access Management (IAM) user or role that's making the call. The IAM user isn't deleted as
+a result of this call.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the user is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the user is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `namespace`: The namespace. Currently, you should set this to default.
 - `user_name`: The name of the user that you want to delete.
 
 """
-delete_user(AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)"; aws_config=aws_config)
-delete_user(AwsAccountId, Namespace, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", params; aws_config=aws_config)
+function delete_user(
+    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)";
+        aws_config=aws_config,
+    )
+end
+function delete_user(
+    AwsAccountId,
+    Namespace,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_user_by_principal_id(aws_account_id, namespace, principal_id)
@@ -761,49 +1615,72 @@ delete_user(AwsAccountId, Namespace, UserName, params::AbstractDict{String}; aws
 Deletes a user identified by its principal ID.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the user is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the user is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `namespace`: The namespace. Currently, you should set this to default.
 - `principal_id`: The principal ID of the user.
 
 """
-delete_user_by_principal_id(AwsAccountId, Namespace, PrincipalId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)"; aws_config=aws_config)
-delete_user_by_principal_id(AwsAccountId, Namespace, PrincipalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)", params; aws_config=aws_config)
+function delete_user_by_principal_id(
+    AwsAccountId, Namespace, PrincipalId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)";
+        aws_config=aws_config,
+    )
+end
+function delete_user_by_principal_id(
+    AwsAccountId,
+    Namespace,
+    PrincipalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_account_customization(aws_account_id)
     describe_account_customization(aws_account_id, params::Dict{String,<:Any})
 
-Describes the customizations associated with the provided AWS account and Amazon QuickSight
-namespace in an AWS Region. The QuickSight console evaluates which customizations to apply
-by running this API operation with the Resolved flag included.  To determine what
-customizations display when you run this command, it can help to visualize the relationship
-of the entities involved.     AWS Account - The AWS account exists at the top of the
-hierarchy. It has the potential to use all of the AWS Regions and AWS Services. When you
-subscribe to QuickSight, you choose one AWS Region to use as your home Region. That's where
-your free SPICE capacity is located. You can use QuickSight in any supported AWS Region.
- AWS Region - In each AWS Region where you sign in to QuickSight at least once, QuickSight
-acts as a separate instance of the same service. If you have a user directory, it resides
-in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have
-access to QuickSight in any AWS Region, unless they are constrained to a namespace.  To run
-the command in a different AWS Region, you change your Region settings. If you're using the
-AWS CLI, you can use one of the following options:   Use command line options.    Use named
-profiles.    Run aws configure to change your default AWS Region. Use Enter to key the same
-settings for your keys. For more information, see Configuring the AWS CLI.      Namespace -
-A QuickSight namespace is a partition that contains users and assets (data sources,
-datasets, dashboards, and so on). To access assets that are in a specific namespace, users
-and groups must also be part of the same namespace. People who share a namespace are
-completely isolated from users and assets in other namespaces, even if they are in the same
-AWS account and AWS Region.    Applied customizations - Within an AWS Region, a set of
-QuickSight customizations can apply to an AWS account or to a namespace. Settings that you
-apply to a namespace override settings that you apply to an AWS account. All settings are
-isolated to a single AWS Region. To apply them in other AWS Regions, run the
-CreateAccountCustomization command in each AWS Region where you want to apply the same
+Describes the customizations associated with the provided Amazon Web Services account; and
+Amazon QuickSight namespace in an Region;. The QuickSight console evaluates which
+customizations to apply by running this API operation with the Resolved flag included.  To
+determine what customizations display when you run this command, it can help to visualize
+the relationship of the entities involved.     Amazon Web Services account; - The Amazon
+Web Services account; exists at the top of the hierarchy. It has the potential to use all
+of the Regions; and AWS Services. When you subscribe to QuickSight, you choose one Region;
+to use as your home Region. That's where your free SPICE capacity is located. You can use
+QuickSight in any supported Region;.     Region; - In each Region; where you sign in to
+QuickSight at least once, QuickSight acts as a separate instance of the same service. If
+you have a user directory, it resides in us-east-1, which is the US East (N. Virginia).
+Generally speaking, these users have access to QuickSight in any Region;, unless they are
+constrained to a namespace.  To run the command in a different Region;, you change your
+Region settings. If you're using the AWS CLI, you can use one of the following options:
+Use command line options.    Use named profiles.    Run aws configure to change your
+default Region;. Use Enter to key the same settings for your keys. For more information,
+see Configuring the AWS CLI.      Namespace - A QuickSight namespace is a partition that
+contains users and assets (data sources, datasets, dashboards, and so on). To access assets
+that are in a specific namespace, users and groups must also be part of the same namespace.
+People who share a namespace are completely isolated from users and assets in other
+namespaces, even if they are in the same Amazon Web Services account; and Region;.
+Applied customizations - Within an Region;, a set of QuickSight customizations can apply to
+an Amazon Web Services account; or to a namespace. Settings that you apply to a namespace
+override settings that you apply to an Amazon Web Services account;. All settings are
+isolated to a single Region;. To apply them in other Regions;, run the
+CreateAccountCustomization command in each Region; where you want to apply the same
 customizations.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that you want to describe QuickSight
-  customizations for.
+- `aws_account_id`: The ID for the Amazon Web Services account; that you want to describe
+  QuickSight customizations for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -815,23 +1692,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Omit this flag, or set it to no-resolved, to reveal customizations that are configured at
   different levels.
 """
-describe_account_customization(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/customizations"; aws_config=aws_config)
-describe_account_customization(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/customizations", params; aws_config=aws_config)
+function describe_account_customization(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/customizations"; aws_config=aws_config
+    )
+end
+function describe_account_customization(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/customizations", params; aws_config=aws_config
+    )
+end
 
 """
     describe_account_settings(aws_account_id)
     describe_account_settings(aws_account_id, params::Dict{String,<:Any})
 
 Describes the settings that were used when your QuickSight subscription was first created
-in this AWS account.
+in this Amazon Web Services account;.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that contains the settings that you want to
-  list.
+- `aws_account_id`: The ID for the Amazon Web Services account; that contains the settings
+  that you want to list.
 
 """
-describe_account_settings(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/settings"; aws_config=aws_config)
-describe_account_settings(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/settings", params; aws_config=aws_config)
+function describe_account_settings(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight("GET", "/accounts/$(AwsAccountId)/settings"; aws_config=aws_config)
+end
+function describe_account_settings(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/settings", params; aws_config=aws_config
+    )
+end
 
 """
     describe_analysis(analysis_id, aws_account_id)
@@ -842,12 +1745,30 @@ Provides a summary of the metadata for an analysis.
 # Arguments
 - `analysis_id`: The ID of the analysis that you're describing. The ID is part of the URL
   of the analysis.
-- `aws_account_id`: The ID of the AWS account that contains the analysis. You must be using
-  the AWS account that the analysis is in.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the analysis.
+  You must be using the Amazon Web Services account; that the analysis is in.
 
 """
-describe_analysis(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)"; aws_config=aws_config)
-describe_analysis(AnalysisId, AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", params; aws_config=aws_config)
+function describe_analysis(
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)"; aws_config=aws_config
+    )
+end
+function describe_analysis(
+    AnalysisId,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_analysis_permissions(analysis_id, aws_account_id)
@@ -858,12 +1779,33 @@ Provides the read and write permissions for an analysis.
 # Arguments
 - `analysis_id`: The ID of the analysis whose permissions you're describing. The ID is part
   of the analysis URL.
-- `aws_account_id`: The ID of the AWS account that contains the analysis whose permissions
-  you're describing. You must be using the AWS account that the analysis is in.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the analysis
+  whose permissions you're describing. You must be using the Amazon Web Services account;
+  that the analysis is in.
 
 """
-describe_analysis_permissions(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions"; aws_config=aws_config)
-describe_analysis_permissions(AnalysisId, AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions", params; aws_config=aws_config)
+function describe_analysis_permissions(
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function describe_analysis_permissions(
+    AnalysisId,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_dashboard(aws_account_id, dashboard_id)
@@ -872,8 +1814,8 @@ describe_analysis_permissions(AnalysisId, AwsAccountId, params::AbstractDict{Str
 Provides a summary for a dashboard.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the dashboard that you're
-  describing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the dashboard
+  that you're describing.
 - `dashboard_id`: The ID for the dashboard.
 
 # Optional Parameters
@@ -882,8 +1824,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version-number"`: The version number for the dashboard. If a version number isn't
   passed, the latest published dashboard version is described.
 """
-describe_dashboard(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)"; aws_config=aws_config)
-describe_dashboard(AwsAccountId, DashboardId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", params; aws_config=aws_config)
+function describe_dashboard(
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)"; aws_config=aws_config
+    )
+end
+function describe_dashboard(
+    AwsAccountId,
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_dashboard_permissions(aws_account_id, dashboard_id)
@@ -892,13 +1852,33 @@ describe_dashboard(AwsAccountId, DashboardId, params::AbstractDict{String}; aws_
 Describes read and write permissions for a dashboard.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the dashboard that you're
-  describing permissions for.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the dashboard
+  that you're describing permissions for.
 - `dashboard_id`: The ID for the dashboard, also added to the IAM policy.
 
 """
-describe_dashboard_permissions(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions"; aws_config=aws_config)
-describe_dashboard_permissions(AwsAccountId, DashboardId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions", params; aws_config=aws_config)
+function describe_dashboard_permissions(
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function describe_dashboard_permissions(
+    AwsAccountId,
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_data_set(aws_account_id, data_set_id)
@@ -907,13 +1887,31 @@ describe_dashboard_permissions(AwsAccountId, DashboardId, params::AbstractDict{S
 Describes a dataset.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_set_id`: The ID for the dataset that you want to create. This ID is unique per AWS
-  Region for each AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_set_id`: The ID for the dataset that you want to create. This ID is unique per
+  Region; for each Amazon Web Services account;.
 
 """
-describe_data_set(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)"; aws_config=aws_config)
-describe_data_set(AwsAccountId, DataSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", params; aws_config=aws_config)
+function describe_data_set(
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)"; aws_config=aws_config
+    )
+end
+function describe_data_set(
+    AwsAccountId,
+    DataSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_data_set_permissions(aws_account_id, data_set_id)
@@ -923,13 +1921,33 @@ Describes the permissions on a dataset. The permissions resource is
 arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_set_id`: The ID for the dataset that you want to create. This ID is unique per AWS
-  Region for each AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_set_id`: The ID for the dataset that you want to create. This ID is unique per
+  Region; for each Amazon Web Services account;.
 
 """
-describe_data_set_permissions(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions"; aws_config=aws_config)
-describe_data_set_permissions(AwsAccountId, DataSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions", params; aws_config=aws_config)
+function describe_data_set_permissions(
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function describe_data_set_permissions(
+    AwsAccountId,
+    DataSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_data_source(aws_account_id, data_source_id)
@@ -938,13 +1956,33 @@ describe_data_set_permissions(AwsAccountId, DataSetId, params::AbstractDict{Stri
 Describes a data source.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_source_id`: The ID of the data source. This ID is unique per AWS Region for each
-  AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_source_id`: The ID of the data source. This ID is unique per Region; for each
+  Amazon Web Services account;.
 
 """
-describe_data_source(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)"; aws_config=aws_config)
-describe_data_source(AwsAccountId, DataSourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", params; aws_config=aws_config)
+function describe_data_source(
+    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)";
+        aws_config=aws_config,
+    )
+end
+function describe_data_source(
+    AwsAccountId,
+    DataSourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_data_source_permissions(aws_account_id, data_source_id)
@@ -953,13 +1991,33 @@ describe_data_source(AwsAccountId, DataSourceId, params::AbstractDict{String}; a
 Describes the resource permissions for a data source.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_source_id`: The ID of the data source. This ID is unique per AWS Region for each
-  AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_source_id`: The ID of the data source. This ID is unique per Region; for each
+  Amazon Web Services account;.
 
 """
-describe_data_source_permissions(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions"; aws_config=aws_config)
-describe_data_source_permissions(AwsAccountId, DataSourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions", params; aws_config=aws_config)
+function describe_data_source_permissions(
+    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function describe_data_source_permissions(
+    AwsAccountId,
+    DataSourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_folder(aws_account_id, folder_id)
@@ -972,8 +2030,26 @@ Describes a folder.
 - `folder_id`: The folder ID.
 
 """
-describe_folder(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)"; aws_config=aws_config)
-describe_folder(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)", params; aws_config=aws_config)
+function describe_folder(
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)"; aws_config=aws_config
+    )
+end
+function describe_folder(
+    AwsAccountId,
+    FolderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_folder_permissions(aws_account_id, folder_id)
@@ -986,8 +2062,28 @@ Describes permissions for a folder.
 - `folder_id`: The folder ID.
 
 """
-describe_folder_permissions(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions"; aws_config=aws_config)
-describe_folder_permissions(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions", params; aws_config=aws_config)
+function describe_folder_permissions(
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function describe_folder_permissions(
+    AwsAccountId,
+    FolderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_folder_resolved_permissions(aws_account_id, folder_id)
@@ -1001,8 +2097,28 @@ permissions and the inherited permissions from the ancestor folders.
 - `folder_id`: The folder ID.
 
 """
-describe_folder_resolved_permissions(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions"; aws_config=aws_config)
-describe_folder_resolved_permissions(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions", params; aws_config=aws_config)
+function describe_folder_resolved_permissions(
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions";
+        aws_config=aws_config,
+    )
+end
+function describe_folder_resolved_permissions(
+    AwsAccountId,
+    FolderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_group(aws_account_id, group_name, namespace)
@@ -1011,14 +2127,36 @@ describe_folder_resolved_permissions(AwsAccountId, FolderId, params::AbstractDic
 Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the group is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the group is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `group_name`: The name of the group that you want to describe.
 - `namespace`: The namespace. Currently, you should set this to default.
 
 """
-describe_group(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)"; aws_config=aws_config)
-describe_group(AwsAccountId, GroupName, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)", params; aws_config=aws_config)
+function describe_group(
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)";
+        aws_config=aws_config,
+    )
+end
+function describe_group(
+    AwsAccountId,
+    GroupName,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_iampolicy_assignment(assignment_name, aws_account_id, namespace)
@@ -1028,13 +2166,37 @@ Describes an existing IAM policy assignment, as specified by the assignment name
 
 # Arguments
 - `assignment_name`: The name of the assignment, also called a rule.
-- `aws_account_id`: The ID of the AWS account that contains the assignment that you want to
-  describe.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the assignment
+  that you want to describe.
 - `namespace`: The namespace that contains the assignment.
 
 """
-describe_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)"; aws_config=aws_config)
-describe_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)", params; aws_config=aws_config)
+function describe_iampolicy_assignment(
+    AssignmentName,
+    AwsAccountId,
+    Namespace;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)";
+        aws_config=aws_config,
+    )
+end
+function describe_iampolicy_assignment(
+    AssignmentName,
+    AwsAccountId,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_ingestion(aws_account_id, data_set_id, ingestion_id)
@@ -1043,13 +2205,34 @@ describe_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace, params::A
 Describes a SPICE ingestion.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
+- `aws_account_id`: The Amazon Web Services account; ID.
 - `data_set_id`: The ID of the dataset used in the ingestion.
 - `ingestion_id`: An ID for the ingestion.
 
 """
-describe_ingestion(AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)"; aws_config=aws_config)
-describe_ingestion(AwsAccountId, DataSetId, IngestionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)", params; aws_config=aws_config)
+function describe_ingestion(
+    AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)";
+        aws_config=aws_config,
+    )
+end
+function describe_ingestion(
+    AwsAccountId,
+    DataSetId,
+    IngestionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_namespace(aws_account_id, namespace)
@@ -1058,13 +2241,31 @@ describe_ingestion(AwsAccountId, DataSetId, IngestionId, params::AbstractDict{St
 Describes the current namespace.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that contains the QuickSight namespace that
-  you want to describe.
+- `aws_account_id`: The ID for the Amazon Web Services account; that contains the
+  QuickSight namespace that you want to describe.
 - `namespace`: The namespace that you want to describe.
 
 """
-describe_namespace(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)"; aws_config=aws_config)
-describe_namespace(AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)", params; aws_config=aws_config)
+function describe_namespace(
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)"; aws_config=aws_config
+    )
+end
+function describe_namespace(
+    AwsAccountId,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_template(aws_account_id, template_id)
@@ -1073,8 +2274,8 @@ describe_namespace(AwsAccountId, Namespace, params::AbstractDict{String}; aws_co
 Describes a template's metadata.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the template that you're
-  describing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the template
+  that you're describing.
 - `template_id`: The ID for the template.
 
 # Optional Parameters
@@ -1086,8 +2287,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version-number"`: (Optional) The number for the version to describe. If a VersionNumber
   parameter value isn't provided, the latest version of the template is described.
 """
-describe_template(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)"; aws_config=aws_config)
-describe_template(AwsAccountId, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", params; aws_config=aws_config)
+function describe_template(
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)"; aws_config=aws_config
+    )
+end
+function describe_template(
+    AwsAccountId,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_template_alias(alias_name, aws_account_id, template_id)
@@ -1100,13 +2319,34 @@ Describes the template alias for a template.
   specific alias, you describe the version that the alias points to. You can specify the
   latest version of the template by providing the keyword LATEST in the AliasName parameter.
   The keyword PUBLISHED doesn't apply to templates.
-- `aws_account_id`: The ID of the AWS account that contains the template alias that you're
-  describing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the template
+  alias that you're describing.
 - `template_id`: The ID for the template.
 
 """
-describe_template_alias(AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)"; aws_config=aws_config)
-describe_template_alias(AliasName, AwsAccountId, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", params; aws_config=aws_config)
+function describe_template_alias(
+    AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)";
+        aws_config=aws_config,
+    )
+end
+function describe_template_alias(
+    AliasName,
+    AwsAccountId,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_template_permissions(aws_account_id, template_id)
@@ -1115,13 +2355,33 @@ describe_template_alias(AliasName, AwsAccountId, TemplateId, params::AbstractDic
 Describes read and write permissions on a template.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the template that you're
-  describing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the template
+  that you're describing.
 - `template_id`: The ID for the template.
 
 """
-describe_template_permissions(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions"; aws_config=aws_config)
-describe_template_permissions(AwsAccountId, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions", params; aws_config=aws_config)
+function describe_template_permissions(
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function describe_template_permissions(
+    AwsAccountId,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_theme(aws_account_id, theme_id)
@@ -1130,8 +2390,8 @@ describe_template_permissions(AwsAccountId, TemplateId, params::AbstractDict{Str
 Describes a theme.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the theme that you're
-  describing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme that
+  you're describing.
 - `theme_id`: The ID for the theme.
 
 # Optional Parameters
@@ -1143,8 +2403,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version-number"`: The version number for the version to describe. If a VersionNumber
   parameter value isn't provided, the latest version of the theme is described.
 """
-describe_theme(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)"; aws_config=aws_config)
-describe_theme(AwsAccountId, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", params; aws_config=aws_config)
+function describe_theme(
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)"; aws_config=aws_config
+    )
+end
+function describe_theme(
+    AwsAccountId,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_theme_alias(alias_name, aws_account_id, theme_id)
@@ -1154,13 +2429,34 @@ Describes the alias for a theme.
 
 # Arguments
 - `alias_name`: The name of the theme alias that you want to describe.
-- `aws_account_id`: The ID of the AWS account that contains the theme alias that you're
-  describing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme
+  alias that you're describing.
 - `theme_id`: The ID for the theme.
 
 """
-describe_theme_alias(AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)"; aws_config=aws_config)
-describe_theme_alias(AliasName, AwsAccountId, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", params; aws_config=aws_config)
+function describe_theme_alias(
+    AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)";
+        aws_config=aws_config,
+    )
+end
+function describe_theme_alias(
+    AliasName,
+    AwsAccountId,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_theme_permissions(aws_account_id, theme_id)
@@ -1169,13 +2465,33 @@ describe_theme_alias(AliasName, AwsAccountId, ThemeId, params::AbstractDict{Stri
 Describes the read and write permissions for a theme.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the theme that you're
-  describing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme that
+  you're describing.
 - `theme_id`: The ID for the theme that you want to describe permissions for.
 
 """
-describe_theme_permissions(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions"; aws_config=aws_config)
-describe_theme_permissions(AwsAccountId, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions", params; aws_config=aws_config)
+function describe_theme_permissions(
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function describe_theme_permissions(
+    AwsAccountId,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_user(aws_account_id, namespace, user_name)
@@ -1184,14 +2500,188 @@ describe_theme_permissions(AwsAccountId, ThemeId, params::AbstractDict{String}; 
 Returns information about a user, given the user name.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the user is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the user is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `namespace`: The namespace. Currently, you should set this to default.
 - `user_name`: The name of the user that you want to describe.
 
 """
-describe_user(AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)"; aws_config=aws_config)
-describe_user(AwsAccountId, Namespace, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", params; aws_config=aws_config)
+function describe_user(
+    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)";
+        aws_config=aws_config,
+    )
+end
+function describe_user(
+    AwsAccountId,
+    Namespace,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
+        params;
+        aws_config=aws_config,
+    )
+end
+
+"""
+    generate_embed_url_for_anonymous_user(authorized_resource_arns, aws_account_id, experience_configuration, namespace)
+    generate_embed_url_for_anonymous_user(authorized_resource_arns, aws_account_id, experience_configuration, namespace, params::Dict{String,<:Any})
+
+Generates an embed URL that you can use to embed an Amazon QuickSight dashboard in your
+website, without having to register any reader users. Before you use this action, make sure
+that you have configured the dashboards and permissions. The following rules apply to the
+generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it
+is generated. Once redeemed within this period, it cannot be re-used again.   The URL
+validity period should not be confused with the actual session lifetime that can be
+customized using the  SessionLifetimeInMinutes  parameter. The resulting user session is
+valid for 15 minutes (default) to 10 hours (maximum).   You are charged only when the URL
+is used or there is interaction with Amazon QuickSight.   For more information, see
+Embedded Analytics in the Amazon QuickSight User Guide. For more information about the
+high-level steps for embedding and for an interactive demo of the ways you can customize
+embedding, visit the Amazon QuickSight Developer Portal.
+
+# Arguments
+- `authorized_resource_arns`: The Amazon Resource Names for the Amazon QuickSight resources
+  that the user is authorized to access during the lifetime of the session. If you choose
+  Dashboard embedding experience, pass the list of dashboard ARNs in the account that you
+  want the user to be able to view.
+- `aws_account_id`: The ID for the Amazon Web Services account that contains the dashboard
+  that you're embedding.
+- `experience_configuration`: The configuration of the experience you are embedding.
+- `namespace`: The Amazon QuickSight namespace that the anonymous user virtually belongs
+  to. If you are not using an Amazon QuickSight custom namespace, set this to default.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SessionLifetimeInMinutes"`: How many minutes the session is valid. The session lifetime
+  must be in [15-600] minutes range.
+- `"SessionTags"`: The session tags used for row-level security. Before you use this
+  parameter, make sure that you have configured the relevant datasets using the
+  DataSetRowLevelPermissionTagConfiguration parameter so that session tags can be used to
+  provide row-level security. These are not the tags used for the Amazon Web Services
+  resource tagging feature. For more information, see Using Row-Level Security (RLS) with
+  Tags.
+"""
+function generate_embed_url_for_anonymous_user(
+    AuthorizedResourceArns,
+    AwsAccountId,
+    ExperienceConfiguration,
+    Namespace;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/embed-url/anonymous-user",
+        Dict{String,Any}(
+            "AuthorizedResourceArns" => AuthorizedResourceArns,
+            "ExperienceConfiguration" => ExperienceConfiguration,
+            "Namespace" => Namespace,
+        );
+        aws_config=aws_config,
+    )
+end
+function generate_embed_url_for_anonymous_user(
+    AuthorizedResourceArns,
+    AwsAccountId,
+    ExperienceConfiguration,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/embed-url/anonymous-user",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthorizedResourceArns" => AuthorizedResourceArns,
+                    "ExperienceConfiguration" => ExperienceConfiguration,
+                    "Namespace" => Namespace,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    generate_embed_url_for_registered_user(aws_account_id, experience_configuration, user_arn)
+    generate_embed_url_for_registered_user(aws_account_id, experience_configuration, user_arn, params::Dict{String,<:Any})
+
+Generates an embed URL that you can use to embed an Amazon QuickSight experience in your
+website. This action can be used for any type of user registered in an Amazon QuickSight
+account. Before you use this action, make sure that you have configured the relevant Amazon
+QuickSight resource and permissions. The following rules apply to the generated URL:   It
+contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once
+redeemed within this period, it cannot be re-used again.   The URL validity period should
+not be confused with the actual session lifetime that can be customized using the
+SessionLifetimeInMinutes  parameter. The resulting user session is valid for 15 minutes
+(default) to 10 hours (maximum).   You are charged only when the URL is used or there is
+interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the
+Amazon QuickSight User Guide. For more information about the high-level steps for embedding
+and for an interactive demo of the ways you can customize embedding, visit the Amazon
+QuickSight Developer Portal.
+
+# Arguments
+- `aws_account_id`: The ID for the Amazon Web Services account that contains the dashboard
+  that you're embedding.
+- `experience_configuration`: The experience you are embedding. For registered users, you
+  can embed Amazon QuickSight dashboards or the entire Amazon QuickSight console.
+- `user_arn`: The Amazon Resource Name for the registered user.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SessionLifetimeInMinutes"`: How many minutes the session is valid. The session lifetime
+  must be in [15-600] minutes range.
+"""
+function generate_embed_url_for_registered_user(
+    AwsAccountId,
+    ExperienceConfiguration,
+    UserArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/embed-url/registered-user",
+        Dict{String,Any}(
+            "ExperienceConfiguration" => ExperienceConfiguration, "UserArn" => UserArn
+        );
+        aws_config=aws_config,
+    )
+end
+function generate_embed_url_for_registered_user(
+    AwsAccountId,
+    ExperienceConfiguration,
+    UserArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/embed-url/registered-user",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExperienceConfiguration" => ExperienceConfiguration,
+                    "UserArn" => UserArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_dashboard_embed_url(aws_account_id, dashboard_id, creds-type)
@@ -1204,12 +2694,14 @@ GetDashboardEmbedURL only from the server, not from the user's browser. The foll
 apply to the combination of URL and authorization code:   They must be used together.
 They can be used one time only.   They are valid for 5 minutes after you run this command.
  The resulting user session is valid for 10 hours.   For more information, see Embedded
-Analytics in the Amazon QuickSight User Guide.
+Analytics in the Amazon QuickSight User Guide. For more information about the high-level
+steps for embedding and for an interactive demo of the ways you can customize embedding,
+visit the Amazon QuickSight Developer Portal.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that contains the dashboard that you're
-  embedding.
-- `dashboard_id`: The ID for the dashboard, also added to the AWS Identity and Access
+- `aws_account_id`: The ID for the Amazon Web Services account; that contains the dashboard
+  that you're embedding.
+- `dashboard_id`: The ID for the dashboard, also added to the Identity and Access
   Management (IAM) policy.
 - `creds-type`: The authentication method that the user uses to sign in.
 
@@ -1220,8 +2712,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ANONYMOUS for this to work, because other identity types authenticate as QuickSight or IAM
   users. For example, if you set \"--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3
   identity-type ANONYMOUS\", the session can access all three dashboards.
-- `"namespace"`: The QuickSight namespace that contains the dashboard IDs in this request.
-  If you're not using a custom namespace, set this to \"default\".
+- `"namespace"`: The Amazon QuickSight namespace that the user virtually belongs to. If you
+  are not using an Amazon QuickSight custom namespace, set this to default.
 - `"reset-disabled"`: Remove the reset button on the embedded dashboard. The default is
   FALSE, which enables the reset button.
 - `"session-lifetime"`: How many minutes the session is valid. The session lifetime must be
@@ -1243,8 +2735,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   federation.   Omit this parameter for users in the third group – IAM users and IAM
   role-based sessions.
 """
-get_dashboard_embed_url(AwsAccountId, DashboardId, creds_type; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/embed-url", Dict{String, Any}("creds-type"=>creds_type); aws_config=aws_config)
-get_dashboard_embed_url(AwsAccountId, DashboardId, creds_type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/embed-url", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("creds-type"=>creds_type), params)); aws_config=aws_config)
+function get_dashboard_embed_url(
+    AwsAccountId, DashboardId, creds_type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/embed-url",
+        Dict{String,Any}("creds-type" => creds_type);
+        aws_config=aws_config,
+    )
+end
+function get_dashboard_embed_url(
+    AwsAccountId,
+    DashboardId,
+    creds_type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/embed-url",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("creds-type" => creds_type), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_session_embed_url(aws_account_id)
@@ -1262,7 +2778,8 @@ Guide:    Embedding the Amazon QuickSight Console     Customizing Access to the 
 QuickSight Console
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account associated with your QuickSight subscription.
+- `aws_account_id`: The ID for the Amazon Web Services account; associated with your
+  QuickSight subscription.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1277,29 +2794,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your
   account (readers, authors, or admins). They need to be authenticated as one of the
   following:   Active Directory (AD) users or group members   Invited nonfederated users
-  AWS Identity and Access Management (IAM) users and IAM role-based sessions authenticated
+  Identity and Access Management (IAM) users and IAM role-based sessions authenticated
   through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this
   parameter for users in the third group, IAM users and IAM role-based sessions.
 """
-get_session_embed_url(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/session-embed-url"; aws_config=aws_config)
-get_session_embed_url(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/session-embed-url", params; aws_config=aws_config)
+function get_session_embed_url(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/session-embed-url"; aws_config=aws_config
+    )
+end
+function get_session_embed_url(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/session-embed-url", params; aws_config=aws_config
+    )
+end
 
 """
     list_analyses(aws_account_id)
     list_analyses(aws_account_id, params::Dict{String,<:Any})
 
-Lists Amazon QuickSight analyses that exist in the specified AWS account.
+Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account;.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the analyses.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the analyses.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"max-results"`: The maximum number of results to return.
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
-list_analyses(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/analyses"; aws_config=aws_config)
-list_analyses(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/analyses", params; aws_config=aws_config)
+function list_analyses(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight("GET", "/accounts/$(AwsAccountId)/analyses"; aws_config=aws_config)
+end
+function list_analyses(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/analyses", params; aws_config=aws_config
+    )
+end
 
 """
     list_dashboard_versions(aws_account_id, dashboard_id)
@@ -1308,8 +2849,8 @@ list_analyses(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAW
 Lists all the versions of the dashboards in the QuickSight subscription.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the dashboard that you're
-  listing versions for.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the dashboard
+  that you're listing versions for.
 - `dashboard_id`: The ID for the dashboard.
 
 # Optional Parameters
@@ -1318,18 +2859,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_dashboard_versions(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions"; aws_config=aws_config)
-list_dashboard_versions(AwsAccountId, DashboardId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions", params; aws_config=aws_config)
+function list_dashboard_versions(
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions";
+        aws_config=aws_config,
+    )
+end
+function list_dashboard_versions(
+    AwsAccountId,
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_dashboards(aws_account_id)
     list_dashboards(aws_account_id, params::Dict{String,<:Any})
 
-Lists dashboards in an AWS account.
+Lists dashboards in an Amazon Web Services account;.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the dashboards that you're
-  listing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the dashboards
+  that you're listing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1337,18 +2898,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_dashboards(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards"; aws_config=aws_config)
-list_dashboards(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards", params; aws_config=aws_config)
+function list_dashboards(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight("GET", "/accounts/$(AwsAccountId)/dashboards"; aws_config=aws_config)
+end
+function list_dashboards(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/dashboards", params; aws_config=aws_config
+    )
+end
 
 """
     list_data_sets(aws_account_id)
     list_data_sets(aws_account_id, params::Dict{String,<:Any})
 
-Lists all of the datasets belonging to the current AWS account in an AWS Region. The
-permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
+Lists all of the datasets belonging to the current Amazon Web Services account; in an
+Region;. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
+- `aws_account_id`: The Amazon Web Services account; ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1356,17 +2927,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_data_sets(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets"; aws_config=aws_config)
-list_data_sets(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets", params; aws_config=aws_config)
+function list_data_sets(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight("GET", "/accounts/$(AwsAccountId)/data-sets"; aws_config=aws_config)
+end
+function list_data_sets(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/data-sets", params; aws_config=aws_config
+    )
+end
 
 """
     list_data_sources(aws_account_id)
     list_data_sources(aws_account_id, params::Dict{String,<:Any})
 
-Lists data sources in current AWS Region that belong to this AWS account.
+Lists data sources in current Region; that belong to this Amazon Web Services account;.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
+- `aws_account_id`: The Amazon Web Services account; ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1374,8 +2955,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_data_sources(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources"; aws_config=aws_config)
-list_data_sources(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources", params; aws_config=aws_config)
+function list_data_sources(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/data-sources"; aws_config=aws_config
+    )
+end
+function list_data_sources(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/data-sources", params; aws_config=aws_config
+    )
+end
 
 """
     list_folder_members(aws_account_id, folder_id)
@@ -1393,8 +2986,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_folder_members(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members"; aws_config=aws_config)
-list_folder_members(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members", params; aws_config=aws_config)
+function list_folder_members(
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/members";
+        aws_config=aws_config,
+    )
+end
+function list_folder_members(
+    AwsAccountId,
+    FolderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/members",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_folders(aws_account_id)
@@ -1411,8 +3024,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_folders(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders"; aws_config=aws_config)
-list_folders(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders", params; aws_config=aws_config)
+function list_folders(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight("GET", "/accounts/$(AwsAccountId)/folders"; aws_config=aws_config)
+end
+function list_folders(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/folders", params; aws_config=aws_config
+    )
+end
 
 """
     list_group_memberships(aws_account_id, group_name, namespace)
@@ -1421,8 +3044,9 @@ list_folders(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWS
 Lists member users in a group.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the group is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the group is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `group_name`: The name of the group that you want to see a membership list of.
 - `namespace`: The namespace. Currently, you should set this to default.
 
@@ -1431,8 +3055,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return from this request.
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
-list_group_memberships(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members"; aws_config=aws_config)
-list_group_memberships(AwsAccountId, GroupName, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members", params; aws_config=aws_config)
+function list_group_memberships(
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members";
+        aws_config=aws_config,
+    )
+end
+function list_group_memberships(
+    AwsAccountId,
+    GroupName,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_groups(aws_account_id, namespace)
@@ -1441,8 +3086,9 @@ list_group_memberships(AwsAccountId, GroupName, Namespace, params::AbstractDict{
 Lists all user groups in Amazon QuickSight.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the group is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the group is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `namespace`: The namespace. Currently, you should set this to default.
 
 # Optional Parameters
@@ -1450,8 +3096,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return.
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
-list_groups(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups"; aws_config=aws_config)
-list_groups(AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups", params; aws_config=aws_config)
+function list_groups(
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups";
+        aws_config=aws_config,
+    )
+end
+function list_groups(
+    AwsAccountId,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_iampolicy_assignments(aws_account_id, namespace)
@@ -1460,7 +3126,8 @@ list_groups(AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::A
 Lists IAM policy assignments in the current Amazon QuickSight account.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains these IAM policy assignments.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains these IAM
+  policy assignments.
 - `namespace`: The namespace for the assignments.
 
 # Optional Parameters
@@ -1470,8 +3137,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_iampolicy_assignments(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments"; aws_config=aws_config)
-list_iampolicy_assignments(AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments", params; aws_config=aws_config)
+function list_iampolicy_assignments(
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments";
+        aws_config=aws_config,
+    )
+end
+function list_iampolicy_assignments(
+    AwsAccountId,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_iampolicy_assignments_for_user(aws_account_id, namespace, user_name)
@@ -1481,7 +3168,8 @@ Lists all the IAM policy assignments, including the Amazon Resource Names (ARNs)
 IAM policies assigned to the specified user and group or groups that the user belongs to.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the assignments.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the
+  assignments.
 - `namespace`: The namespace of the assignment.
 - `user_name`: The name of the user.
 
@@ -1491,8 +3179,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_iampolicy_assignments_for_user(AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments"; aws_config=aws_config)
-list_iampolicy_assignments_for_user(AwsAccountId, Namespace, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments", params; aws_config=aws_config)
+function list_iampolicy_assignments_for_user(
+    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments";
+        aws_config=aws_config,
+    )
+end
+function list_iampolicy_assignments_for_user(
+    AwsAccountId,
+    Namespace,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_ingestions(aws_account_id, data_set_id)
@@ -1501,7 +3210,7 @@ list_iampolicy_assignments_for_user(AwsAccountId, Namespace, UserName, params::A
 Lists the history of SPICE ingestions for a dataset.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
+- `aws_account_id`: The Amazon Web Services account; ID.
 - `data_set_id`: The ID of the dataset used in the ingestion.
 
 # Optional Parameters
@@ -1510,26 +3219,56 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_ingestions(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions"; aws_config=aws_config)
-list_ingestions(AwsAccountId, DataSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions", params; aws_config=aws_config)
+function list_ingestions(
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions";
+        aws_config=aws_config,
+    )
+end
+function list_ingestions(
+    AwsAccountId,
+    DataSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_namespaces(aws_account_id)
     list_namespaces(aws_account_id, params::Dict{String,<:Any})
 
-Lists the namespaces for the specified AWS account.
+Lists the namespaces for the specified Amazon Web Services account;.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that contains the QuickSight namespaces that
-  you want to list.
+- `aws_account_id`: The ID for the Amazon Web Services account; that contains the
+  QuickSight namespaces that you want to list.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"max-results"`: The maximum number of results to return.
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
-list_namespaces(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces"; aws_config=aws_config)
-list_namespaces(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces", params; aws_config=aws_config)
+function list_namespaces(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight("GET", "/accounts/$(AwsAccountId)/namespaces"; aws_config=aws_config)
+end
+function list_namespaces(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/namespaces", params; aws_config=aws_config
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -1542,8 +3281,20 @@ Lists the tags assigned to a resource.
   tags for.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/resources/$(ResourceArn)/tags"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/resources/$(ResourceArn)/tags", params; aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight("GET", "/resources/$(ResourceArn)/tags"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/resources/$(ResourceArn)/tags", params; aws_config=aws_config
+    )
+end
 
 """
     list_template_aliases(aws_account_id, template_id)
@@ -1552,8 +3303,8 @@ list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::Ab
 Lists all the aliases of a template.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the template aliases that
-  you're listing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the template
+  aliases that you're listing.
 - `template_id`: The ID for the template.
 
 # Optional Parameters
@@ -1562,8 +3313,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_template_aliases(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases"; aws_config=aws_config)
-list_template_aliases(AwsAccountId, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases", params; aws_config=aws_config)
+function list_template_aliases(
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases";
+        aws_config=aws_config,
+    )
+end
+function list_template_aliases(
+    AwsAccountId,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_template_versions(aws_account_id, template_id)
@@ -1572,8 +3343,8 @@ list_template_aliases(AwsAccountId, TemplateId, params::AbstractDict{String}; aw
 Lists all the versions of the templates in the current Amazon QuickSight account.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the templates that you're
-  listing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the templates
+  that you're listing.
 - `template_id`: The ID for the template.
 
 # Optional Parameters
@@ -1582,8 +3353,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_template_versions(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions"; aws_config=aws_config)
-list_template_versions(AwsAccountId, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions", params; aws_config=aws_config)
+function list_template_versions(
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions";
+        aws_config=aws_config,
+    )
+end
+function list_template_versions(
+    AwsAccountId,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_templates(aws_account_id)
@@ -1592,8 +3383,8 @@ list_template_versions(AwsAccountId, TemplateId, params::AbstractDict{String}; a
 Lists all the templates in the current Amazon QuickSight account.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the templates that you're
-  listing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the templates
+  that you're listing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1601,8 +3392,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_templates(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates"; aws_config=aws_config)
-list_templates(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/templates", params; aws_config=aws_config)
+function list_templates(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight("GET", "/accounts/$(AwsAccountId)/templates"; aws_config=aws_config)
+end
+function list_templates(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/templates", params; aws_config=aws_config
+    )
+end
 
 """
     list_theme_aliases(aws_account_id, theme_id)
@@ -1611,8 +3412,8 @@ list_templates(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractA
 Lists all the aliases of a theme.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the theme aliases that you're
-  listing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme
+  aliases that you're listing.
 - `theme_id`: The ID for the theme.
 
 # Optional Parameters
@@ -1621,17 +3422,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_theme_aliases(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases"; aws_config=aws_config)
-list_theme_aliases(AwsAccountId, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases", params; aws_config=aws_config)
+function list_theme_aliases(
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases"; aws_config=aws_config
+    )
+end
+function list_theme_aliases(
+    AwsAccountId,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_theme_versions(aws_account_id, theme_id)
     list_theme_versions(aws_account_id, theme_id, params::Dict{String,<:Any})
 
-Lists all the versions of the themes in the current AWS account.
+Lists all the versions of the themes in the current Amazon Web Services account;.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the themes that you're listing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the themes
+  that you're listing.
 - `theme_id`: The ID for the theme.
 
 # Optional Parameters
@@ -1640,17 +3460,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
 """
-list_theme_versions(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/versions"; aws_config=aws_config)
-list_theme_versions(AwsAccountId, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/versions", params; aws_config=aws_config)
+function list_theme_versions(
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/versions"; aws_config=aws_config
+    )
+end
+function list_theme_versions(
+    AwsAccountId,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/versions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_themes(aws_account_id)
     list_themes(aws_account_id, params::Dict{String,<:Any})
 
-Lists all the themes in the current AWS account.
+Lists all the themes in the current Amazon Web Services account;.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the themes that you're listing.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the themes
+  that you're listing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1660,10 +3499,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of themes that you want to list. Valid options include the following:
     ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created
   by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined
-  by QuickSight.
+  by Amazon QuickSight.
 """
-list_themes(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes"; aws_config=aws_config)
-list_themes(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/themes", params; aws_config=aws_config)
+function list_themes(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight("GET", "/accounts/$(AwsAccountId)/themes"; aws_config=aws_config)
+end
+function list_themes(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET", "/accounts/$(AwsAccountId)/themes", params; aws_config=aws_config
+    )
+end
 
 """
     list_user_groups(aws_account_id, namespace, user_name)
@@ -1672,8 +3521,9 @@ list_themes(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSC
 Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
 
 # Arguments
-- `aws_account_id`: The AWS account ID that the user is in. Currently, you use the ID for
-  the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The Amazon Web Services account; ID that the user is in. Currently, you
+  use the ID for the Amazon Web Services account; that contains your Amazon QuickSight
+  account.
 - `namespace`: The namespace. Currently, you should set this to default.
 - `user_name`: The Amazon QuickSight user name that you want to list group memberships for.
 
@@ -1682,8 +3532,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return from this request.
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
-list_user_groups(AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups"; aws_config=aws_config)
-list_user_groups(AwsAccountId, Namespace, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups", params; aws_config=aws_config)
+function list_user_groups(
+    AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups";
+        aws_config=aws_config,
+    )
+end
+function list_user_groups(
+    AwsAccountId,
+    Namespace,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_users(aws_account_id, namespace)
@@ -1692,8 +3563,9 @@ list_user_groups(AwsAccountId, Namespace, UserName, params::AbstractDict{String}
 Returns a list of all of the Amazon QuickSight users belonging to this account.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the user is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the user is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `namespace`: The namespace. Currently, you should set this to default.
 
 # Optional Parameters
@@ -1701,8 +3573,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return from this request.
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
-list_users(AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users"; aws_config=aws_config)
-list_users(AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users", params; aws_config=aws_config)
+function list_users(
+    AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users";
+        aws_config=aws_config,
+    )
+end
+function list_users(
+    AwsAccountId,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     register_user(aws_account_id, email, identity_type, namespace, user_role)
@@ -1712,8 +3604,9 @@ Creates an Amazon QuickSight user, whose identity is associated with the AWS Ide
 Access Management (IAM) identity or role specified in the request.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the user is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the user is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `email`: The email address of the user that you want to register.
 - `identity_type`: Amazon QuickSight supports several ways of managing the identity of
   users. This parameter accepts two values:    IAM: A user whose identity maps to an existing
@@ -1744,8 +3637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   QuickSight user.  QuickSight custom permissions are applied through IAM policies.
   Therefore, they override the permissions typically granted by assigning QuickSight users to
   one of the default security cohorts in QuickSight (admin, author, reader). This feature is
-  available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based
-  Federation for Single Sign-On (SSO).
+  available only to QuickSight Enterprise edition subscriptions.
 - `"ExternalLoginFederationProviderType"`: The type of supported external login provider
   that provides identity to let a user federate into Amazon QuickSight with an associated AWS
   Identity and Access Management (IAM) role. The type of supported external login provider
@@ -1766,8 +3658,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserName"`: The Amazon QuickSight user name that you want to create for the user you
   are registering.
 """
-register_user(AwsAccountId, Email, IdentityType, Namespace, UserRole; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users", Dict{String, Any}("Email"=>Email, "IdentityType"=>IdentityType, "UserRole"=>UserRole); aws_config=aws_config)
-register_user(AwsAccountId, Email, IdentityType, Namespace, UserRole, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "IdentityType"=>IdentityType, "UserRole"=>UserRole), params)); aws_config=aws_config)
+function register_user(
+    AwsAccountId,
+    Email,
+    IdentityType,
+    Namespace,
+    UserRole;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users",
+        Dict{String,Any}(
+            "Email" => Email, "IdentityType" => IdentityType, "UserRole" => UserRole
+        );
+        aws_config=aws_config,
+    )
+end
+function register_user(
+    AwsAccountId,
+    Email,
+    IdentityType,
+    Namespace,
+    UserRole,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Email" => Email, "IdentityType" => IdentityType, "UserRole" => UserRole
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     restore_analysis(analysis_id, aws_account_id)
@@ -1777,21 +3708,43 @@ Restores an analysis.
 
 # Arguments
 - `analysis_id`: The ID of the analysis that you're restoring.
-- `aws_account_id`: The ID of the AWS account that contains the analysis.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the analysis.
 
 """
-restore_analysis(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/restore/analyses/$(AnalysisId)"; aws_config=aws_config)
-restore_analysis(AnalysisId, AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/restore/analyses/$(AnalysisId)", params; aws_config=aws_config)
+function restore_analysis(
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/restore/analyses/$(AnalysisId)";
+        aws_config=aws_config,
+    )
+end
+function restore_analysis(
+    AnalysisId,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/restore/analyses/$(AnalysisId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     search_analyses(aws_account_id, filters)
     search_analyses(aws_account_id, filters, params::Dict{String,<:Any})
 
-Searches for analyses that belong to the user specified in the filter.
+Searches for analyses that belong to the user specified in the filter.  This operation is
+eventually consistent. The results are best effort and may not reflect very recent updates
+and changes.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the analyses that you're
-  searching for.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the analyses
+  that you're searching for.
 - `filters`: The structure for the search filters that you want to apply to your search.
 
 # Optional Parameters
@@ -1799,18 +3752,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A pagination token that can be used in a subsequent request.
 """
-search_analyses(AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/search/analyses", Dict{String, Any}("Filters"=>Filters); aws_config=aws_config)
-search_analyses(AwsAccountId, Filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/search/analyses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config)
+function search_analyses(
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/analyses",
+        Dict{String,Any}("Filters" => Filters);
+        aws_config=aws_config,
+    )
+end
+function search_analyses(
+    AwsAccountId,
+    Filters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/analyses",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     search_dashboards(aws_account_id, filters)
     search_dashboards(aws_account_id, filters, params::Dict{String,<:Any})
 
-Searches for dashboards that belong to a user.
+Searches for dashboards that belong to a user.   This operation is eventually consistent.
+The results are best effort and may not reflect very recent updates and changes.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the user whose dashboards
-  you're searching for.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the user whose
+  dashboards you're searching for.
 - `filters`: The filters to apply to the search. Currently, you can search only by user
   name, for example, \"Filters\": [ { \"Name\": \"QUICKSIGHT_USER\", \"Operator\":
   \"StringEquals\", \"Value\": \"arn:aws:quicksight:us-east-1:1:user/default/UserName1\" } ]
@@ -1821,8 +3796,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
-search_dashboards(AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/search/dashboards", Dict{String, Any}("Filters"=>Filters); aws_config=aws_config)
-search_dashboards(AwsAccountId, Filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/search/dashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config)
+function search_dashboards(
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/dashboards",
+        Dict{String,Any}("Filters" => Filters);
+        aws_config=aws_config,
+    )
+end
+function search_dashboards(
+    AwsAccountId,
+    Filters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/dashboards",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     search_folders(aws_account_id, filters)
@@ -1843,8 +3839,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
-search_folders(AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/search/folders", Dict{String, Any}("Filters"=>Filters); aws_config=aws_config)
-search_folders(AwsAccountId, Filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/search/folders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config)
+function search_folders(
+    AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/folders",
+        Dict{String,Any}("Filters" => Filters);
+        aws_config=aws_config,
+    )
+end
+function search_folders(
+    AwsAccountId,
+    Filters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/search/folders",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filters" => Filters), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1862,7 +3879,7 @@ data source, dashboard, and template.  Tagging for QuickSight works in a similar
 tagging for other AWS services, except for the following:   You can't use tags to track AWS
 costs for QuickSight. This restriction is because QuickSight costs are based on users and
 SPICE capacity, which aren't taggable resources.   QuickSight doesn't currently support the
-Tag Editor for AWS Resource Groups.
+Tag Editor for Resource Groups.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -1870,8 +3887,27 @@ Tag Editor for AWS Resource Groups.
   the resource.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/resources/$(ResourceArn)/tags", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/resources/$(ResourceArn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight(
+        "POST",
+        "/resources/$(ResourceArn)/tags",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/resources/$(ResourceArn)/tags",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, keys)
@@ -1885,52 +3921,127 @@ Removes a tag or tags from a resource.
   resource.
 
 """
-untag_resource(ResourceArn, keys; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/resources/$(ResourceArn)/tags", Dict{String, Any}("keys"=>keys); aws_config=aws_config)
-untag_resource(ResourceArn, keys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/resources/$(ResourceArn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keys"=>keys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceArn, keys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/resources/$(ResourceArn)/tags",
+        Dict{String,Any}("keys" => keys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    keys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/resources/$(ResourceArn)/tags",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("keys" => keys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_account_customization(account_customization, aws_account_id)
     update_account_customization(account_customization, aws_account_id, params::Dict{String,<:Any})
 
-Updates Amazon QuickSight customizations the current AWS Region. Currently, the only
-customization you can use is a theme. You can use customizations for your AWS account or,
-if you specify a namespace, for a QuickSight namespace instead. Customizations that apply
-to a namespace override customizations that apply to an AWS account. To find out which
-customizations apply, use the DescribeAccountCustomization API operation.
+Updates Amazon QuickSight customizations the current Region;. Currently, the only
+customization you can use is a theme. You can use customizations for your Amazon Web
+Services account; or, if you specify a namespace, for a QuickSight namespace instead.
+Customizations that apply to a namespace override customizations that apply to an Amazon
+Web Services account;. To find out which customizations apply, use the
+DescribeAccountCustomization API operation.
 
 # Arguments
-- `account_customization`: The QuickSight customizations you're updating in the current AWS
-  Region.
-- `aws_account_id`: The ID for the AWS account that you want to update QuickSight
-  customizations for.
+- `account_customization`: The QuickSight customizations you're updating in the current
+  Region;.
+- `aws_account_id`: The ID for the Amazon Web Services account; that you want to update
+  QuickSight customizations for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"namespace"`: The namespace that you want to update QuickSight customizations for.
 """
-update_account_customization(AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/customizations", Dict{String, Any}("AccountCustomization"=>AccountCustomization); aws_config=aws_config)
-update_account_customization(AccountCustomization, AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/customizations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountCustomization"=>AccountCustomization), params)); aws_config=aws_config)
+function update_account_customization(
+    AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/customizations",
+        Dict{String,Any}("AccountCustomization" => AccountCustomization);
+        aws_config=aws_config,
+    )
+end
+function update_account_customization(
+    AccountCustomization,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/customizations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountCustomization" => AccountCustomization),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_account_settings(aws_account_id, default_namespace)
     update_account_settings(aws_account_id, default_namespace, params::Dict{String,<:Any})
 
-Updates the Amazon QuickSight settings in your AWS account.
+Updates the Amazon QuickSight settings in your Amazon Web Services account;.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that contains the QuickSight settings that
-  you want to list.
-- `default_namespace`: The default namespace for this AWS account. Currently, the default
-  is default. AWS Identity and Access Management (IAM) users that register for the first time
-  with QuickSight provide an email that becomes associated with the default namespace.
+- `aws_account_id`: The ID for the Amazon Web Services account; that contains the
+  QuickSight settings that you want to list.
+- `default_namespace`: The default namespace for this Amazon Web Services account;.
+  Currently, the default is default. Identity and Access Management (IAM) users that register
+  for the first time with QuickSight provide an email that becomes associated with the
+  default namespace.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NotificationEmail"`: The email address that you want QuickSight to send notifications
-  to regarding your AWS account or QuickSight subscription.
+  to regarding your Amazon Web Services account; or QuickSight subscription.
 """
-update_account_settings(AwsAccountId, DefaultNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/settings", Dict{String, Any}("DefaultNamespace"=>DefaultNamespace); aws_config=aws_config)
-update_account_settings(AwsAccountId, DefaultNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultNamespace"=>DefaultNamespace), params)); aws_config=aws_config)
+function update_account_settings(
+    AwsAccountId, DefaultNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/settings",
+        Dict{String,Any}("DefaultNamespace" => DefaultNamespace);
+        aws_config=aws_config,
+    )
+end
+function update_account_settings(
+    AwsAccountId,
+    DefaultNamespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/settings",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DefaultNamespace" => DefaultNamespace), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_analysis(analysis_id, aws_account_id, name, source_entity)
@@ -1941,8 +4052,8 @@ Updates an analysis in Amazon QuickSight
 # Arguments
 - `analysis_id`: The ID for the analysis that you're updating. This ID displays in the URL
   of the analysis.
-- `aws_account_id`: The ID of the AWS account that contains the analysis that you're
-  updating.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the analysis
+  that you're updating.
 - `name`: A descriptive name for the analysis that you're updating. This name displays for
   the analysis in the QuickSight console.
 - `source_entity`: A source entity to use for the analysis that you're updating. This
@@ -1957,8 +4068,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you're creating. To see the theme in the QuickSight console, make sure that you have access
   to it.
 """
-update_analysis(AnalysisId, AwsAccountId, Name, SourceEntity; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity); aws_config=aws_config)
-update_analysis(AnalysisId, AwsAccountId, Name, SourceEntity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity), params)); aws_config=aws_config)
+function update_analysis(
+    AnalysisId,
+    AwsAccountId,
+    Name,
+    SourceEntity;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
+        Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity);
+        aws_config=aws_config,
+    )
+end
+function update_analysis(
+    AnalysisId,
+    AwsAccountId,
+    Name,
+    SourceEntity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_analysis_permissions(analysis_id, aws_account_id)
@@ -1969,8 +4113,9 @@ Updates the read and write permissions for an analysis.
 # Arguments
 - `analysis_id`: The ID of the analysis whose permissions you're updating. The ID is part
   of the analysis URL.
-- `aws_account_id`: The ID of the AWS account that contains the analysis whose permissions
-  you're updating. You must be using the AWS account that the analysis is in.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the analysis
+  whose permissions you're updating. You must be using the Amazon Web Services account; that
+  the analysis is in.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1979,18 +4124,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: A structure that describes the permissions to remove and the
   principal to remove them from.
 """
-update_analysis_permissions(AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions"; aws_config=aws_config)
-update_analysis_permissions(AnalysisId, AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions", params; aws_config=aws_config)
+function update_analysis_permissions(
+    AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function update_analysis_permissions(
+    AnalysisId,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/analyses/$(AnalysisId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_dashboard(aws_account_id, dashboard_id, name, source_entity)
     update_dashboard(aws_account_id, dashboard_id, name, source_entity, params::Dict{String,<:Any})
 
-Updates a dashboard in an AWS account.
+Updates a dashboard in an Amazon Web Services account;.  Updating a Dashboard creates a new
+dashboard version but does not immediately publish the new version. You can update the
+published version of a dashboard by using the UpdateDashboardPublishedVersion API
+operation.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the dashboard that you're
-  updating.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the dashboard
+  that you're updating.
 - `dashboard_id`: The ID for the dashboard.
 - `name`: The display name of the dashboard.
 - `source_entity`: The entity that you are using as a source when you update the dashboard.
@@ -1998,10 +4166,10 @@ Updates a dashboard in an AWS account.
   a dashboard from a template, so you use a SourceTemplate entity. If you need to update a
   dashboard from an analysis, first convert the analysis to a template by using the
   CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of
-  the source template. The SourceTemplate ARN can contain any AWS Account and any
-  QuickSight-supported AWS Region.  Use the DataSetReferences entity within SourceTemplate to
-  list the replacement datasets for the placeholders listed in the original. The schema in
-  each dataset must match its placeholder.
+  the source template. The SourceTemplate ARN can contain any Amazon Web Services account;
+  and any QuickSight-supported Region;.  Use the DataSetReferences entity within
+  SourceTemplate to list the replacement datasets for the placeholders listed in the
+  original. The schema in each dataset must match its placeholder.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2019,13 +4187,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters might accept multiple values.
 - `"ThemeArn"`: The Amazon Resource Name (ARN) of the theme that is being used for this
   dashboard. If you add a value for this field, it overrides the value that was originally
-  associated with the entity. The theme ARN must exist in the same AWS account where you
-  create the dashboard.
+  associated with the entity. The theme ARN must exist in the same Amazon Web Services
+  account; where you create the dashboard.
 - `"VersionDescription"`: A description for the first version of the dashboard being
   created.
 """
-update_dashboard(AwsAccountId, DashboardId, Name, SourceEntity; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity); aws_config=aws_config)
-update_dashboard(AwsAccountId, DashboardId, Name, SourceEntity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceEntity"=>SourceEntity), params)); aws_config=aws_config)
+function update_dashboard(
+    AwsAccountId,
+    DashboardId,
+    Name,
+    SourceEntity;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
+        Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity);
+        aws_config=aws_config,
+    )
+end
+function update_dashboard(
+    AwsAccountId,
+    DashboardId,
+    Name,
+    SourceEntity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "SourceEntity" => SourceEntity),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_dashboard_permissions(aws_account_id, dashboard_id)
@@ -2034,8 +4235,8 @@ update_dashboard(AwsAccountId, DashboardId, Name, SourceEntity, params::Abstract
 Updates read and write permissions on a dashboard.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the dashboard whose permissions
-  you're updating.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the dashboard
+  whose permissions you're updating.
 - `dashboard_id`: The ID for the dashboard.
 
 # Optional Parameters
@@ -2043,8 +4244,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GrantPermissions"`: The permissions that you want to grant on this resource.
 - `"RevokePermissions"`: The permissions that you want to revoke from this resource.
 """
-update_dashboard_permissions(AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions"; aws_config=aws_config)
-update_dashboard_permissions(AwsAccountId, DashboardId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions", params; aws_config=aws_config)
+function update_dashboard_permissions(
+    AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function update_dashboard_permissions(
+    AwsAccountId,
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_dashboard_published_version(aws_account_id, dashboard_id, version_number)
@@ -2053,14 +4274,38 @@ update_dashboard_permissions(AwsAccountId, DashboardId, params::AbstractDict{Str
 Updates the published version of a dashboard.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the dashboard that you're
-  updating.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the dashboard
+  that you're updating.
 - `dashboard_id`: The ID for the dashboard.
 - `version_number`: The version number of the dashboard.
 
 """
-update_dashboard_published_version(AwsAccountId, DashboardId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)"; aws_config=aws_config)
-update_dashboard_published_version(AwsAccountId, DashboardId, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)", params; aws_config=aws_config)
+function update_dashboard_published_version(
+    AwsAccountId,
+    DashboardId,
+    VersionNumber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)";
+        aws_config=aws_config,
+    )
+end
+function update_dashboard_published_version(
+    AwsAccountId,
+    DashboardId,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_data_set(aws_account_id, data_set_id, import_mode, name, physical_table_map)
@@ -2069,9 +4314,9 @@ update_dashboard_published_version(AwsAccountId, DashboardId, VersionNumber, par
 Updates a dataset.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_set_id`: The ID for the dataset that you want to update. This ID is unique per AWS
-  Region for each AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_set_id`: The ID for the dataset that you want to update. This ID is unique per
+  Region; for each Amazon Web Services account;.
 - `import_mode`: Indicates whether you want to import the data into SPICE.
 - `name`: The display name for the dataset.
 - `physical_table_map`: Declares the physical tables that are available in the underlying
@@ -2088,9 +4333,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   physical tables.
 - `"RowLevelPermissionDataSet"`: The row-level security configuration for the data you want
   to create.
+- `"RowLevelPermissionTagConfiguration"`: The configuration of tags on a dataset to set
+  row-level security. Row-level security tags are currently supported for anonymous embedding
+  only.
 """
-update_data_set(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", Dict{String, Any}("ImportMode"=>ImportMode, "Name"=>Name, "PhysicalTableMap"=>PhysicalTableMap); aws_config=aws_config)
-update_data_set(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportMode"=>ImportMode, "Name"=>Name, "PhysicalTableMap"=>PhysicalTableMap), params)); aws_config=aws_config)
+function update_data_set(
+    AwsAccountId,
+    DataSetId,
+    ImportMode,
+    Name,
+    PhysicalTableMap;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
+        Dict{String,Any}(
+            "ImportMode" => ImportMode,
+            "Name" => Name,
+            "PhysicalTableMap" => PhysicalTableMap,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_data_set(
+    AwsAccountId,
+    DataSetId,
+    ImportMode,
+    Name,
+    PhysicalTableMap,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImportMode" => ImportMode,
+                    "Name" => Name,
+                    "PhysicalTableMap" => PhysicalTableMap,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_data_set_permissions(aws_account_id, data_set_id)
@@ -2100,17 +4391,37 @@ Updates the permissions on a dataset. The permissions resource is
 arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
+- `aws_account_id`: The Amazon Web Services account; ID.
 - `data_set_id`: The ID for the dataset whose permissions you want to update. This ID is
-  unique per AWS Region for each AWS account.
+  unique per Region; for each Amazon Web Services account;.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"GrantPermissions"`: The resource permissions that you want to grant to the dataset.
 - `"RevokePermissions"`: The resource permissions that you want to revoke from the dataset.
 """
-update_data_set_permissions(AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions"; aws_config=aws_config)
-update_data_set_permissions(AwsAccountId, DataSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions", params; aws_config=aws_config)
+function update_data_set_permissions(
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function update_data_set_permissions(
+    AwsAccountId,
+    DataSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_data_source(aws_account_id, data_source_id, name)
@@ -2119,9 +4430,9 @@ update_data_set_permissions(AwsAccountId, DataSetId, params::AbstractDict{String
 Updates a data source.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_source_id`: The ID of the data source. This ID is unique per AWS Region for each
-  AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_source_id`: The ID of the data source. This ID is unique per Region; for each
+  Amazon Web Services account;.
 - `name`: A display name for the data source.
 
 # Optional Parameters
@@ -2135,8 +4446,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcConnectionProperties"`: Use this parameter only when you want QuickSight to use a
   VPC connection when connecting to your underlying source.
 """
-update_data_source(AwsAccountId, DataSourceId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_data_source(AwsAccountId, DataSourceId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function update_data_source(
+    AwsAccountId, DataSourceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function update_data_source(
+    AwsAccountId,
+    DataSourceId,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_data_source_permissions(aws_account_id, data_source_id)
@@ -2145,9 +4478,9 @@ update_data_source(AwsAccountId, DataSourceId, Name, params::AbstractDict{String
 Updates the permissions to a data source.
 
 # Arguments
-- `aws_account_id`: The AWS account ID.
-- `data_source_id`: The ID of the data source. This ID is unique per AWS Region for each
-  AWS account.
+- `aws_account_id`: The Amazon Web Services account; ID.
+- `data_source_id`: The ID of the data source. This ID is unique per Region; for each
+  Amazon Web Services account;.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2156,8 +4489,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: A list of resource permissions that you want to revoke on the data
   source.
 """
-update_data_source_permissions(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions"; aws_config=aws_config)
-update_data_source_permissions(AwsAccountId, DataSourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions", params; aws_config=aws_config)
+function update_data_source_permissions(
+    AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function update_data_source_permissions(
+    AwsAccountId,
+    DataSourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_folder(aws_account_id, folder_id, name)
@@ -2171,8 +4524,30 @@ Updates the name of a folder.
 - `name`: The name of the folder.
 
 """
-update_folder(AwsAccountId, FolderId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_folder(AwsAccountId, FolderId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function update_folder(
+    AwsAccountId, FolderId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function update_folder(
+    AwsAccountId,
+    FolderId,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_folder_permissions(aws_account_id, folder_id)
@@ -2189,8 +4564,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GrantPermissions"`: The permissions that you want to grant on a resource.
 - `"RevokePermissions"`: The permissions that you want to revoke from a resource.
 """
-update_folder_permissions(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions"; aws_config=aws_config)
-update_folder_permissions(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions", params; aws_config=aws_config)
+function update_folder_permissions(
+    AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function update_folder_permissions(
+    AwsAccountId,
+    FolderId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_group(aws_account_id, group_name, namespace)
@@ -2199,8 +4594,9 @@ update_folder_permissions(AwsAccountId, FolderId, params::AbstractDict{String}; 
 Changes a group description.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the group is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the group is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `group_name`: The name of the group that you want to update.
 - `namespace`: The namespace. Currently, you should set this to default.
 
@@ -2208,8 +4604,29 @@ Changes a group description.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description for the group that you want to update.
 """
-update_group(AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)"; aws_config=aws_config)
-update_group(AwsAccountId, GroupName, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)", params; aws_config=aws_config)
+function update_group(
+    AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)";
+        aws_config=aws_config,
+    )
+end
+function update_group(
+    AwsAccountId,
+    GroupName,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_iampolicy_assignment(assignment_name, aws_account_id, namespace)
@@ -2221,8 +4638,9 @@ included in Identities.
 
 # Arguments
 - `assignment_name`: The name of the assignment, also called a rule. This name must be
-  unique within an AWS account.
-- `aws_account_id`: The ID of the AWS account that contains the IAM policy assignment.
+  unique within an Amazon Web Services account;.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the IAM policy
+  assignment.
 - `namespace`: The namespace of the assignment.
 
 # Optional Parameters
@@ -2236,8 +4654,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyArn"`: The ARN for the IAM policy to apply to the QuickSight users and groups
   specified in this assignment.
 """
-update_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)"; aws_config=aws_config)
-update_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)", params; aws_config=aws_config)
+function update_iampolicy_assignment(
+    AssignmentName,
+    AwsAccountId,
+    Namespace;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)";
+        aws_config=aws_config,
+    )
+end
+function update_iampolicy_assignment(
+    AssignmentName,
+    AwsAccountId,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_template(aws_account_id, source_entity, template_id)
@@ -2246,16 +4688,16 @@ update_iampolicy_assignment(AssignmentName, AwsAccountId, Namespace, params::Abs
 Updates a template from an existing Amazon QuickSight analysis or another template.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the template that you're
-  updating.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the template
+  that you're updating.
 - `source_entity`: The entity that you are using as a source when you update the template.
   In SourceEntity, you specify the type of object you're using as source: SourceTemplate for
   a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name
   (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis,
-  specify the ARN of the source analysis. The SourceTemplate ARN can contain any AWS Account
-  and any QuickSight-supported AWS Region.  Use the DataSetReferences entity within
-  SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders
-  listed in the original. The schema in each dataset must match its placeholder.
+  specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web
+  Services account; and any QuickSight-supported Region;.  Use the DataSetReferences entity
+  within SourceTemplate or SourceAnalysis to list the replacement datasets for the
+  placeholders listed in the original. The schema in each dataset must match its placeholder.
 - `template_id`: The ID for the template.
 
 # Optional Parameters
@@ -2266,8 +4708,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version of the template maintains a description of the version in the VersionDescription
   field.
 """
-update_template(AwsAccountId, SourceEntity, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", Dict{String, Any}("SourceEntity"=>SourceEntity); aws_config=aws_config)
-update_template(AwsAccountId, SourceEntity, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceEntity"=>SourceEntity), params)); aws_config=aws_config)
+function update_template(
+    AwsAccountId,
+    SourceEntity,
+    TemplateId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
+        Dict{String,Any}("SourceEntity" => SourceEntity);
+        aws_config=aws_config,
+    )
+end
+function update_template(
+    AwsAccountId,
+    SourceEntity,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SourceEntity" => SourceEntity), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_template_alias(alias_name, aws_account_id, template_id, template_version_number)
@@ -2280,14 +4749,47 @@ Updates the template alias of a template.
   alias, you update the version that the alias points to. You can specify the latest version
   of the template by providing the keyword LATEST in the AliasName parameter. The keyword
   PUBLISHED doesn't apply to templates.
-- `aws_account_id`: The ID of the AWS account that contains the template alias that you're
-  updating.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the template
+  alias that you're updating.
 - `template_id`: The ID for the template.
 - `template_version_number`: The version number of the template.
 
 """
-update_template_alias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", Dict{String, Any}("TemplateVersionNumber"=>TemplateVersionNumber); aws_config=aws_config)
-update_template_alias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateVersionNumber"=>TemplateVersionNumber), params)); aws_config=aws_config)
+function update_template_alias(
+    AliasName,
+    AwsAccountId,
+    TemplateId,
+    TemplateVersionNumber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
+        Dict{String,Any}("TemplateVersionNumber" => TemplateVersionNumber);
+        aws_config=aws_config,
+    )
+end
+function update_template_alias(
+    AliasName,
+    AwsAccountId,
+    TemplateId,
+    TemplateVersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TemplateVersionNumber" => TemplateVersionNumber),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_template_permissions(aws_account_id, template_id)
@@ -2296,7 +4798,7 @@ update_template_alias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber
 Updates the resource permissions for a template.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the template.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the template.
 - `template_id`: The ID for the template.
 
 # Optional Parameters
@@ -2304,8 +4806,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GrantPermissions"`: A list of resource permissions to be granted on the template.
 - `"RevokePermissions"`: A list of resource permissions to be revoked from the template.
 """
-update_template_permissions(AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions"; aws_config=aws_config)
-update_template_permissions(AwsAccountId, TemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions", params; aws_config=aws_config)
+function update_template_permissions(
+    AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function update_template_permissions(
+    AwsAccountId,
+    TemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_theme(aws_account_id, base_theme_id, theme_id)
@@ -2314,9 +4836,10 @@ update_template_permissions(AwsAccountId, TemplateId, params::AbstractDict{Strin
 Updates a theme.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the theme that you're updating.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme that
+  you're updating.
 - `base_theme_id`: The theme ID, defined by Amazon QuickSight, that a custom theme inherits
-  from. All themes initially inherit from a default QuickSight theme.
+  from. All themes initially inherit from a default Amazon QuickSight theme.
 - `theme_id`: The ID for the theme.
 
 # Optional Parameters
@@ -2327,8 +4850,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time that you call UpdateTheme, you create a new version of the theme. Each version of the
   theme maintains a description of the version in VersionDescription.
 """
-update_theme(AwsAccountId, BaseThemeId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", Dict{String, Any}("BaseThemeId"=>BaseThemeId); aws_config=aws_config)
-update_theme(AwsAccountId, BaseThemeId, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/themes/$(ThemeId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaseThemeId"=>BaseThemeId), params)); aws_config=aws_config)
+function update_theme(
+    AwsAccountId, BaseThemeId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
+        Dict{String,Any}("BaseThemeId" => BaseThemeId);
+        aws_config=aws_config,
+    )
+end
+function update_theme(
+    AwsAccountId,
+    BaseThemeId,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("BaseThemeId" => BaseThemeId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_theme_alias(alias_name, aws_account_id, theme_id, theme_version_number)
@@ -2338,14 +4885,45 @@ Updates an alias of a theme.
 
 # Arguments
 - `alias_name`: The name of the theme alias that you want to update.
-- `aws_account_id`: The ID of the AWS account that contains the theme alias that you're
-  updating.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme
+  alias that you're updating.
 - `theme_id`: The ID for the theme.
 - `theme_version_number`: The version number of the theme that the alias should reference.
 
 """
-update_theme_alias(AliasName, AwsAccountId, ThemeId, ThemeVersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", Dict{String, Any}("ThemeVersionNumber"=>ThemeVersionNumber); aws_config=aws_config)
-update_theme_alias(AliasName, AwsAccountId, ThemeId, ThemeVersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThemeVersionNumber"=>ThemeVersionNumber), params)); aws_config=aws_config)
+function update_theme_alias(
+    AliasName,
+    AwsAccountId,
+    ThemeId,
+    ThemeVersionNumber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
+        Dict{String,Any}("ThemeVersionNumber" => ThemeVersionNumber);
+        aws_config=aws_config,
+    )
+end
+function update_theme_alias(
+    AliasName,
+    AwsAccountId,
+    ThemeId,
+    ThemeVersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/aliases/$(AliasName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ThemeVersionNumber" => ThemeVersionNumber), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_theme_permissions(aws_account_id, theme_id)
@@ -2365,7 +4943,7 @@ are user, owner, or no permissions:    User    \"quicksight:DescribeTheme\"
 specify no permissions, omit the permissions list.
 
 # Arguments
-- `aws_account_id`: The ID of the AWS account that contains the theme.
+- `aws_account_id`: The ID of the Amazon Web Services account; that contains the theme.
 - `theme_id`: The ID for the theme.
 
 # Optional Parameters
@@ -2373,8 +4951,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GrantPermissions"`: A list of resource permissions to be granted for the theme.
 - `"RevokePermissions"`: A list of resource permissions to be revoked from the theme.
 """
-update_theme_permissions(AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions"; aws_config=aws_config)
-update_theme_permissions(AwsAccountId, ThemeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions", params; aws_config=aws_config)
+function update_theme_permissions(
+    AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions";
+        aws_config=aws_config,
+    )
+end
+function update_theme_permissions(
+    AwsAccountId,
+    ThemeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/themes/$(ThemeId)/permissions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_user(aws_account_id, email, namespace, role, user_name)
@@ -2383,8 +4981,9 @@ update_theme_permissions(AwsAccountId, ThemeId, params::AbstractDict{String}; aw
 Updates an Amazon QuickSight user.
 
 # Arguments
-- `aws_account_id`: The ID for the AWS account that the user is in. Currently, you use the
-  ID for the AWS account that contains your Amazon QuickSight account.
+- `aws_account_id`: The ID for the Amazon Web Services account; that the user is in.
+  Currently, you use the ID for the Amazon Web Services account; that contains your Amazon
+  QuickSight account.
 - `email`: The email address of the user that you want to update.
 - `namespace`: The namespace. Currently, you should set this to default.
 - `role`: The Amazon QuickSight role of the user. The role can be one of the following
@@ -2411,8 +5010,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM
   policies. Therefore, they override the permissions typically granted by assigning
   QuickSight users to one of the default security cohorts in QuickSight (admin, author,
-  reader). This feature is available only to QuickSight Enterprise edition subscriptions that
-  use SAML 2.0-Based Federation for Single Sign-On (SSO).
+  reader). This feature is available only to QuickSight Enterprise edition subscriptions.
 - `"ExternalLoginFederationProviderType"`: The type of supported external login provider
   that provides identity to let a user federate into QuickSight with an associated AWS
   Identity and Access Management (IAM) role. The type of supported external login provider
@@ -2429,5 +5027,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in before a custom permissions profile was applied. This parameter defaults to NULL and it
   doesn't accept any other value.
 """
-update_user(AwsAccountId, Email, Namespace, Role, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", Dict{String, Any}("Email"=>Email, "Role"=>Role); aws_config=aws_config)
-update_user(AwsAccountId, Email, Namespace, Role, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "Role"=>Role), params)); aws_config=aws_config)
+function update_user(
+    AwsAccountId,
+    Email,
+    Namespace,
+    Role,
+    UserName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
+        Dict{String,Any}("Email" => Email, "Role" => Role);
+        aws_config=aws_config,
+    )
+end
+function update_user(
+    AwsAccountId,
+    Email,
+    Namespace,
+    Role,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Email" => Email, "Role" => Role), params)
+        );
+        aws_config=aws_config,
+    )
+end

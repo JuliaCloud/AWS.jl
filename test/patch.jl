@@ -17,7 +17,7 @@ headers = Pair[
     "x-amz-bucket-region" => "us-east-1",
     "Content-Type" => "application/xml",
     "Transfer-Encoding" => "chunked",
-    "Server" => "AmazonS3"
+    "Server" => "AmazonS3",
 ]
 
 body = """
@@ -42,7 +42,12 @@ body = """
     </ListBucketResult>
     """
 
-function _response(; version::VersionNumber=version, status::Int64=status, headers::Array=headers, body::String=body)
+function _response(;
+    version::VersionNumber=version,
+    status::Int64=status,
+    headers::Array=headers,
+    body::String=body,
+)
     response = HTTP.Messages.Response()
 
     response.version = version
@@ -53,10 +58,8 @@ function _response(; version::VersionNumber=version, status::Int64=status, heade
     return response
 end
 
-
-
 function _aws_http_request_patch(response::HTTP.Messages.Response=_response())
-    return @patch AWS._http_request(request::Request) = response
+    return @patch AWS._http_request(::AWS.AbstractBackend, request::Request) = response
 end
 
 _cred_file_patch = @patch function dot_aws_credentials_file()
@@ -74,38 +77,49 @@ _assume_role_patch = function (
     session_token="token",
     role_arn="arn:aws:sts:::assumed-role/role-name",
 )
-    @patch function AWS._http_request(request)
-        params = Dict(split.(split(request.content, '&'), '='))
-        creds = Dict(
-            "AccessKeyId" => access_key,
-            "SecretAccessKey" => secret_key,
-            "SessionToken" => session_token,
-            "Expiration" => string(now(UTC)),
-        )
-
-        result = Dict(
+    @patch function AWSServices.sts(op, params; aws_config)
+        return Dict(
             "$(op)Result" => Dict(
-                "Credentials" => creds,
-                "AssumedRoleUser" => Dict(
-                    "Arn" => role_arn * "/" * params["RoleSessionName"],
+                "Credentials" => Dict(
+                    "AccessKeyId" => access_key,
+                    "SecretAccessKey" => secret_key,
+                    "SessionToken" => session_token,
+                    "Expiration" => string(now(UTC)),
                 ),
+                "AssumedRoleUser" =>
+                    Dict("Arn" => "$(role_arn)/$(params["RoleSessionName"])"),
             ),
         )
-
-        return HTTP.Response(200, ["Content-Type" => "text/json", "charset" => "utf-8"], body=json(result))
     end
 end
 
 _github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
     if tree_obj == "master"
-        return Tree("test-sha", HTTP.URI(), [Dict("path"=>"apis", "sha"=>"apis-sha")], false)
+        return Tree(
+            "test-sha", HTTP.URI(), [Dict("path" => "apis", "sha" => "apis-sha")], false
+        )
     else
-        return Tree("test-sha", HTTP.URI(), [Dict("path"=>"test-2020-01-01.normal.json")], false)
+        return Tree(
+            "test-sha", HTTP.URI(), [Dict("path" => "test-2020-01-01.normal.json")], false
+        )
     end
 end
 
-_instance_metadata_timeout_patch = @patch function HTTP.request(method::String, url; kwargs...)
-    throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
+_instance_metadata_timeout_patch = @patch function HTTP.request(
+    method::String, url; kwargs...
+)
+    return throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
+end
+
+# This patch causes `HTTP.request` to return all of its keyword arguments
+# except `require_ssl_verification` and `response_stream`. This is used to
+# test which other options are being passed to `HTTP.Request` inside of
+# `_http_request`.
+_http_options_patch = @patch function HTTP.request(args...; kwargs...)
+    options = Dict(kwargs)
+    delete!(options, :require_ssl_verification)
+    delete!(options, :response_stream)
+    return options
 end
 
 end

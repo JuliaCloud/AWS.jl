@@ -22,8 +22,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTimestamp"`: The date and time to resume the pipeline. By default, the pipeline
   resumes from the last completed execution.
 """
-activate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ActivatePipeline", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
-activate_pipeline(pipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ActivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config)
+function activate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline(
+        "ActivatePipeline",
+        Dict{String,Any}("pipelineId" => pipelineId);
+        aws_config=aws_config,
+    )
+end
+function activate_pipeline(
+    pipelineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "ActivatePipeline",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     add_tags(pipeline_id, tags)
@@ -36,8 +54,29 @@ Adds or modifies tags for the specified pipeline.
 - `tags`: The tags to add, as key/value pairs.
 
 """
-add_tags(pipelineId, tags; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("AddTags", Dict{String, Any}("pipelineId"=>pipelineId, "tags"=>tags); aws_config=aws_config)
-add_tags(pipelineId, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tags"=>tags), params)); aws_config=aws_config)
+function add_tags(pipelineId, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline(
+        "AddTags",
+        Dict{String,Any}("pipelineId" => pipelineId, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function add_tags(
+    pipelineId,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "AddTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("pipelineId" => pipelineId, "tags" => tags), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_pipeline(name, unique_id)
@@ -66,8 +105,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access to pipelines. For more information, see Controlling User Access to Pipelines in the
   AWS Data Pipeline Developer Guide.
 """
-create_pipeline(name, uniqueId; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("CreatePipeline", Dict{String, Any}("name"=>name, "uniqueId"=>uniqueId); aws_config=aws_config)
-create_pipeline(name, uniqueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("CreatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "uniqueId"=>uniqueId), params)); aws_config=aws_config)
+function create_pipeline(name, uniqueId; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline(
+        "CreatePipeline",
+        Dict{String,Any}("name" => name, "uniqueId" => uniqueId);
+        aws_config=aws_config,
+    )
+end
+function create_pipeline(
+    name,
+    uniqueId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "CreatePipeline",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "uniqueId" => uniqueId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     deactivate_pipeline(pipeline_id)
@@ -87,8 +147,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which sets the state of any running objects to CANCELED. If this value is false, the
   pipeline is deactivated after all running objects finish.
 """
-deactivate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("DeactivatePipeline", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
-deactivate_pipeline(pipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("DeactivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config)
+function deactivate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline(
+        "DeactivatePipeline",
+        Dict{String,Any}("pipelineId" => pipelineId);
+        aws_config=aws_config,
+    )
+end
+function deactivate_pipeline(
+    pipelineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "DeactivatePipeline",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_pipeline(pipeline_id)
@@ -105,8 +183,26 @@ by SetStatus can be resumed.
 - `pipeline_id`: The ID of the pipeline.
 
 """
-delete_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("DeletePipeline", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
-delete_pipeline(pipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("DeletePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config)
+function delete_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline(
+        "DeletePipeline",
+        Dict{String,Any}("pipelineId" => pipelineId);
+        aws_config=aws_config,
+    )
+end
+function delete_pipeline(
+    pipelineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "DeletePipeline",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_objects(object_ids, pipeline_id)
@@ -128,8 +224,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value should be empty. As long as there are more results, continue to call DescribeObjects
   with the marker value from the previous call to retrieve the next set of results.
 """
-describe_objects(objectIds, pipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("DescribeObjects", Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId); aws_config=aws_config)
-describe_objects(objectIds, pipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("DescribeObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId), params)); aws_config=aws_config)
+function describe_objects(
+    objectIds, pipelineId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "DescribeObjects",
+        Dict{String,Any}("objectIds" => objectIds, "pipelineId" => pipelineId);
+        aws_config=aws_config,
+    )
+end
+function describe_objects(
+    objectIds,
+    pipelineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "DescribeObjects",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("objectIds" => objectIds, "pipelineId" => pipelineId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_pipelines(pipeline_ids)
@@ -147,8 +268,26 @@ full pipeline definition instead of metadata about the pipeline, call GetPipelin
   identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
 
 """
-describe_pipelines(pipelineIds; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("DescribePipelines", Dict{String, Any}("pipelineIds"=>pipelineIds); aws_config=aws_config)
-describe_pipelines(pipelineIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("DescribePipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineIds"=>pipelineIds), params)); aws_config=aws_config)
+function describe_pipelines(pipelineIds; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline(
+        "DescribePipelines",
+        Dict{String,Any}("pipelineIds" => pipelineIds);
+        aws_config=aws_config,
+    )
+end
+function describe_pipelines(
+    pipelineIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "DescribePipelines",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("pipelineIds" => pipelineIds), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     evaluate_expression(expression, object_id, pipeline_id)
@@ -163,8 +302,40 @@ object. For example, a task runner can evaluate SQL queries stored in Amazon S3.
 - `pipeline_id`: The ID of the pipeline.
 
 """
-evaluate_expression(expression, objectId, pipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("EvaluateExpression", Dict{String, Any}("expression"=>expression, "objectId"=>objectId, "pipelineId"=>pipelineId); aws_config=aws_config)
-evaluate_expression(expression, objectId, pipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("EvaluateExpression", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expression"=>expression, "objectId"=>objectId, "pipelineId"=>pipelineId), params)); aws_config=aws_config)
+function evaluate_expression(
+    expression, objectId, pipelineId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "EvaluateExpression",
+        Dict{String,Any}(
+            "expression" => expression, "objectId" => objectId, "pipelineId" => pipelineId
+        );
+        aws_config=aws_config,
+    )
+end
+function evaluate_expression(
+    expression,
+    objectId,
+    pipelineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "EvaluateExpression",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "expression" => expression,
+                    "objectId" => objectId,
+                    "pipelineId" => pipelineId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_pipeline_definition(pipeline_id)
@@ -182,8 +353,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   latest (default) to use the last definition saved to the pipeline or active to use the last
   definition that was activated.
 """
-get_pipeline_definition(pipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("GetPipelineDefinition", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
-get_pipeline_definition(pipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("GetPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), params)); aws_config=aws_config)
+function get_pipeline_definition(
+    pipelineId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "GetPipelineDefinition",
+        Dict{String,Any}("pipelineId" => pipelineId);
+        aws_config=aws_config,
+    )
+end
+function get_pipeline_definition(
+    pipelineId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "GetPipelineDefinition",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_pipelines()
@@ -197,8 +388,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value should be empty. As long as there are more results, continue to call ListPipelines
   with the marker value from the previous call to retrieve the next set of results.
 """
-list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ListPipelines"; aws_config=aws_config)
-list_pipelines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ListPipelines", params; aws_config=aws_config)
+function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline("ListPipelines"; aws_config=aws_config)
+end
+function list_pipelines(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline("ListPipelines", params; aws_config=aws_config)
+end
 
 """
     poll_for_task(worker_group)
@@ -232,8 +429,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline
   service charges are applied to your pipeline.
 """
-poll_for_task(workerGroup; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("PollForTask", Dict{String, Any}("workerGroup"=>workerGroup); aws_config=aws_config)
-poll_for_task(workerGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("PollForTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workerGroup"=>workerGroup), params)); aws_config=aws_config)
+function poll_for_task(workerGroup; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline(
+        "PollForTask", Dict{String,Any}("workerGroup" => workerGroup); aws_config=aws_config
+    )
+end
+function poll_for_task(
+    workerGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "PollForTask",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("workerGroup" => workerGroup), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_pipeline_definition(pipeline_id, pipeline_objects)
@@ -258,8 +471,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameterObjects"`: The parameter objects used with the pipeline.
 - `"parameterValues"`: The parameter values used with the pipeline.
 """
-put_pipeline_definition(pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("PutPipelineDefinition", Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects); aws_config=aws_config)
-put_pipeline_definition(pipelineId, pipelineObjects, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("PutPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), params)); aws_config=aws_config)
+function put_pipeline_definition(
+    pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "PutPipelineDefinition",
+        Dict{String,Any}("pipelineId" => pipelineId, "pipelineObjects" => pipelineObjects);
+        aws_config=aws_config,
+    )
+end
+function put_pipeline_definition(
+    pipelineId,
+    pipelineObjects,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "PutPipelineDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "pipelineId" => pipelineId, "pipelineObjects" => pipelineObjects
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     query_objects(pipeline_id, sphere)
@@ -285,8 +525,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   String fields in the object. These filters can be applied to components, instances, and
   attempts.
 """
-query_objects(pipelineId, sphere; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("QueryObjects", Dict{String, Any}("pipelineId"=>pipelineId, "sphere"=>sphere); aws_config=aws_config)
-query_objects(pipelineId, sphere, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("QueryObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "sphere"=>sphere), params)); aws_config=aws_config)
+function query_objects(
+    pipelineId, sphere; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "QueryObjects",
+        Dict{String,Any}("pipelineId" => pipelineId, "sphere" => sphere);
+        aws_config=aws_config,
+    )
+end
+function query_objects(
+    pipelineId,
+    sphere,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "QueryObjects",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("pipelineId" => pipelineId, "sphere" => sphere),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     remove_tags(pipeline_id, tag_keys)
@@ -299,8 +564,31 @@ Removes existing tags from the specified pipeline.
 - `tag_keys`: The keys of the tags to remove.
 
 """
-remove_tags(pipelineId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("RemoveTags", Dict{String, Any}("pipelineId"=>pipelineId, "tagKeys"=>tagKeys); aws_config=aws_config)
-remove_tags(pipelineId, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function remove_tags(pipelineId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline(
+        "RemoveTags",
+        Dict{String,Any}("pipelineId" => pipelineId, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function remove_tags(
+    pipelineId,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "RemoveTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("pipelineId" => pipelineId, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     report_task_progress(task_id)
@@ -325,8 +613,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"fields"`: Key-value pairs that define the properties of the ReportTaskProgressInput
   object.
 """
-report_task_progress(taskId; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ReportTaskProgress", Dict{String, Any}("taskId"=>taskId); aws_config=aws_config)
-report_task_progress(taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ReportTaskProgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), params)); aws_config=aws_config)
+function report_task_progress(taskId; aws_config::AbstractAWSConfig=global_aws_config())
+    return data_pipeline(
+        "ReportTaskProgress", Dict{String,Any}("taskId" => taskId); aws_config=aws_config
+    )
+end
+function report_task_progress(
+    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "ReportTaskProgress",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     report_task_runner_heartbeat(taskrunner_id)
@@ -352,8 +652,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can only specify a single value for workerGroup. There are no wildcard values permitted in
   workerGroup; the string must be an exact, case-sensitive, match.
 """
-report_task_runner_heartbeat(taskrunnerId; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ReportTaskRunnerHeartbeat", Dict{String, Any}("taskrunnerId"=>taskrunnerId); aws_config=aws_config)
-report_task_runner_heartbeat(taskrunnerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ReportTaskRunnerHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskrunnerId"=>taskrunnerId), params)); aws_config=aws_config)
+function report_task_runner_heartbeat(
+    taskrunnerId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "ReportTaskRunnerHeartbeat",
+        Dict{String,Any}("taskrunnerId" => taskrunnerId);
+        aws_config=aws_config,
+    )
+end
+function report_task_runner_heartbeat(
+    taskrunnerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "ReportTaskRunnerHeartbeat",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("taskrunnerId" => taskrunnerId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     set_status(object_ids, pipeline_id, status)
@@ -373,8 +693,38 @@ so returns InvalidRequestException.
   use PAUSE or RESUME. For instances, use TRY_CANCEL, RERUN, or MARK_FINISHED.
 
 """
-set_status(objectIds, pipelineId, status; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("SetStatus", Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId, "status"=>status); aws_config=aws_config)
-set_status(objectIds, pipelineId, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("SetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId, "status"=>status), params)); aws_config=aws_config)
+function set_status(
+    objectIds, pipelineId, status; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "SetStatus",
+        Dict{String,Any}(
+            "objectIds" => objectIds, "pipelineId" => pipelineId, "status" => status
+        );
+        aws_config=aws_config,
+    )
+end
+function set_status(
+    objectIds,
+    pipelineId,
+    status,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "SetStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "objectIds" => objectIds, "pipelineId" => pipelineId, "status" => status
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     set_task_status(task_id, task_status)
@@ -403,8 +753,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   trace associated with the error. This value is set on the physical attempt object. It is
   used to display error information to the user. The web service does not parse this value.
 """
-set_task_status(taskId, taskStatus; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("SetTaskStatus", Dict{String, Any}("taskId"=>taskId, "taskStatus"=>taskStatus); aws_config=aws_config)
-set_task_status(taskId, taskStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("SetTaskStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId, "taskStatus"=>taskStatus), params)); aws_config=aws_config)
+function set_task_status(
+    taskId, taskStatus; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "SetTaskStatus",
+        Dict{String,Any}("taskId" => taskId, "taskStatus" => taskStatus);
+        aws_config=aws_config,
+    )
+end
+function set_task_status(
+    taskId,
+    taskStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "SetTaskStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("taskId" => taskId, "taskStatus" => taskStatus),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     validate_pipeline_definition(pipeline_id, pipeline_objects)
@@ -423,5 +798,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameterObjects"`: The parameter objects used with the pipeline.
 - `"parameterValues"`: The parameter values used with the pipeline.
 """
-validate_pipeline_definition(pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ValidatePipelineDefinition", Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects); aws_config=aws_config)
-validate_pipeline_definition(pipelineId, pipelineObjects, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = data_pipeline("ValidatePipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), params)); aws_config=aws_config)
+function validate_pipeline_definition(
+    pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return data_pipeline(
+        "ValidatePipelineDefinition",
+        Dict{String,Any}("pipelineId" => pipelineId, "pipelineObjects" => pipelineObjects);
+        aws_config=aws_config,
+    )
+end
+function validate_pipeline_definition(
+    pipelineId,
+    pipelineObjects,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return data_pipeline(
+        "ValidatePipelineDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "pipelineId" => pipelineId, "pipelineObjects" => pipelineObjects
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

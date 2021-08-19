@@ -73,8 +73,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Reference.
 - `"PosixProfile"`:
 """
-create_access(ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateAccess", Dict{String, Any}("ExternalId"=>ExternalId, "Role"=>Role, "ServerId"=>ServerId); aws_config=aws_config)
-create_access(ExternalId, Role, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "Role"=>Role, "ServerId"=>ServerId), params)); aws_config=aws_config)
+function create_access(
+    ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "CreateAccess",
+        Dict{String,Any}(
+            "ExternalId" => ExternalId, "Role" => Role, "ServerId" => ServerId
+        );
+        aws_config=aws_config,
+    )
+end
+function create_access(
+    ExternalId,
+    Role,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "CreateAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExternalId" => ExternalId, "Role" => Role, "ServerId" => ServerId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_server()
@@ -160,8 +190,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   server.
 - `"Tags"`: Key-value pairs that can be used to group and search for servers.
 """
-create_server(; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateServer"; aws_config=aws_config)
-create_server(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateServer", params; aws_config=aws_config)
+function create_server(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer("CreateServer"; aws_config=aws_config)
+end
+function create_server(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer("CreateServer", params; aws_config=aws_config)
+end
 
 """
     create_user(role, server_id, user_name)
@@ -236,8 +272,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for users. Tags are
   metadata attached to users for any purpose.
 """
-create_user(Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateUser", Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-create_user(Role, ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config)
+function create_user(
+    Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "CreateUser",
+        Dict{String,Any}("Role" => Role, "ServerId" => ServerId, "UserName" => UserName);
+        aws_config=aws_config,
+    )
+end
+function create_user(
+    Role,
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "CreateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Role" => Role, "ServerId" => ServerId, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_access(external_id, server_id)
@@ -258,8 +322,33 @@ Allows you to delete the access specified in the ServerID and ExternalID paramet
 - `server_id`: A system-assigned unique identifier for a server that has this user assigned.
 
 """
-delete_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config)
-delete_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config)
+function delete_access(
+    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "DeleteAccess",
+        Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
+        aws_config=aws_config,
+    )
+end
+function delete_access(
+    ExternalId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DeleteAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_server(server_id)
@@ -272,8 +361,24 @@ from this operation.
 - `server_id`: A unique system-assigned identifier for a server instance.
 
 """
-delete_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-delete_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config)
+function delete_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "DeleteServer", Dict{String,Any}("ServerId" => ServerId); aws_config=aws_config
+    )
+end
+function delete_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DeleteServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_ssh_public_key(server_id, ssh_public_key_id, user_name)
@@ -288,8 +393,42 @@ Deletes a user's Secure Shell (SSH) public key. No response is returned from thi
 - `user_name`: A unique string that identifies a user whose public key is being deleted.
 
 """
-delete_ssh_public_key(ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteSshPublicKey", Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyId"=>SshPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
-delete_ssh_public_key(ServerId, SshPublicKeyId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyId"=>SshPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config)
+function delete_ssh_public_key(
+    ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "DeleteSshPublicKey",
+        Dict{String,Any}(
+            "ServerId" => ServerId,
+            "SshPublicKeyId" => SshPublicKeyId,
+            "UserName" => UserName,
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_ssh_public_key(
+    ServerId,
+    SshPublicKeyId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DeleteSshPublicKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ServerId" => ServerId,
+                    "SshPublicKeyId" => SshPublicKeyId,
+                    "UserName" => UserName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_user(server_id, user_name)
@@ -305,8 +444,31 @@ information is lost.
 - `user_name`: A unique string that identifies a user that is being deleted from a server.
 
 """
-delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-delete_user(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config)
+function delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "DeleteUser",
+        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
+        aws_config=aws_config,
+    )
+end
+function delete_user(
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DeleteUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_access(external_id, server_id)
@@ -331,8 +493,33 @@ was specified.
   assigned.
 
 """
-describe_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config)
-describe_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config)
+function describe_access(
+    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "DescribeAccess",
+        Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
+        aws_config=aws_config,
+    )
+end
+function describe_access(
+    ExternalId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DescribeAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_security_policy(security_policy_name)
@@ -347,8 +534,30 @@ information about security policies, see Working with security policies.
   server.
 
 """
-describe_security_policy(SecurityPolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeSecurityPolicy", Dict{String, Any}("SecurityPolicyName"=>SecurityPolicyName); aws_config=aws_config)
-describe_security_policy(SecurityPolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeSecurityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityPolicyName"=>SecurityPolicyName), params)); aws_config=aws_config)
+function describe_security_policy(
+    SecurityPolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "DescribeSecurityPolicy",
+        Dict{String,Any}("SecurityPolicyName" => SecurityPolicyName);
+        aws_config=aws_config,
+    )
+end
+function describe_security_policy(
+    SecurityPolicyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DescribeSecurityPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SecurityPolicyName" => SecurityPolicyName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_server(server_id)
@@ -362,8 +571,24 @@ EndpointType to VPC, the response will contain the EndpointDetails.
 - `server_id`: A system-assigned unique identifier for a server.
 
 """
-describe_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-describe_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config)
+function describe_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "DescribeServer", Dict{String,Any}("ServerId" => ServerId); aws_config=aws_config
+    )
+end
+function describe_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DescribeServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_user(server_id, user_name)
@@ -380,8 +605,33 @@ the user associated with the ServerId value that was specified.
   file transfer tasks.
 
 """
-describe_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-describe_user(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config)
+function describe_user(
+    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "DescribeUser",
+        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
+        aws_config=aws_config,
+    )
+end
+function describe_user(
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DescribeUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     import_ssh_public_key(server_id, ssh_public_key_body, user_name)
@@ -397,8 +647,42 @@ response returns the UserName value, the ServerId value, and the name of the Ssh
 - `user_name`: The name of the user account that is assigned to one or more servers.
 
 """
-import_ssh_public_key(ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ImportSshPublicKey", Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName); aws_config=aws_config)
-import_ssh_public_key(ServerId, SshPublicKeyBody, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ImportSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName), params)); aws_config=aws_config)
+function import_ssh_public_key(
+    ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "ImportSshPublicKey",
+        Dict{String,Any}(
+            "ServerId" => ServerId,
+            "SshPublicKeyBody" => SshPublicKeyBody,
+            "UserName" => UserName,
+        );
+        aws_config=aws_config,
+    )
+end
+function import_ssh_public_key(
+    ServerId,
+    SshPublicKeyBody,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "ImportSshPublicKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ServerId" => ServerId,
+                    "SshPublicKeyBody" => SshPublicKeyBody,
+                    "UserName" => UserName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_accesses(server_id)
@@ -417,8 +701,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional accesses.
 """
-list_accesses(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListAccesses", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-list_accesses(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListAccesses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config)
+function list_accesses(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "ListAccesses", Dict{String,Any}("ServerId" => ServerId); aws_config=aws_config
+    )
+end
+function list_accesses(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "ListAccesses",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_security_policies()
@@ -435,8 +735,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   command, a NextToken parameter is returned in the output. You can then pass the NextToken
   parameter in a subsequent command to continue listing additional security policies.
 """
-list_security_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListSecurityPolicies"; aws_config=aws_config)
-list_security_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListSecurityPolicies", params; aws_config=aws_config)
+function list_security_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer("ListSecurityPolicies"; aws_config=aws_config)
+end
+function list_security_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer("ListSecurityPolicies", params; aws_config=aws_config)
+end
 
 """
     list_servers()
@@ -453,8 +759,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass the NextToken parameter in
   a subsequent command to continue listing additional servers.
 """
-list_servers(; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListServers"; aws_config=aws_config)
-list_servers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListServers", params; aws_config=aws_config)
+function list_servers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer("ListServers"; aws_config=aws_config)
+end
+function list_servers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer("ListServers", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(arn)
@@ -476,8 +788,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation, a NextToken parameter is returned in the input. You can then pass in a
   subsequent command to the NextToken parameter to continue listing additional tags.
 """
-list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListTagsForResource", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-list_tags_for_resource(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "ListTagsForResource", Dict{String,Any}("Arn" => Arn); aws_config=aws_config
+    )
+end
+function list_tags_for_resource(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "ListTagsForResource",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_users(server_id)
@@ -498,8 +822,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned in the output. You can then pass in a subsequent command to the
   NextToken parameter to continue listing additional users.
 """
-list_users(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListUsers", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-list_users(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config)
+function list_users(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "ListUsers", Dict{String,Any}("ServerId" => ServerId); aws_config=aws_config
+    )
+end
+function list_users(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "ListUsers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_server(server_id)
@@ -515,8 +855,24 @@ indicate an error condition. No response is returned from this call.
 - `server_id`: A system-assigned unique identifier for a server that you start.
 
 """
-start_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("StartServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-start_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("StartServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config)
+function start_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "StartServer", Dict{String,Any}("ServerId" => ServerId); aws_config=aws_config
+    )
+end
+function start_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "StartServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_server(server_id)
@@ -535,8 +891,24 @@ this call.
 - `server_id`: A system-assigned unique identifier for a server that you stopped.
 
 """
-stop_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("StopServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-stop_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("StopServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config)
+function stop_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "StopServer", Dict{String,Any}("ServerId" => ServerId); aws_config=aws_config
+    )
+end
+function stop_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "StopServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(arn, tags)
@@ -553,8 +925,25 @@ this call.
   resources by type. You can attach this metadata to user accounts for any purpose.
 
 """
-tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("TagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(Arn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "TagResource", Dict{String,Any}("Arn" => Arn, "Tags" => Tags); aws_config=aws_config
+    )
+end
+function tag_resource(
+    Arn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Tags" => Tags), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     test_identity_provider(server_id, user_name)
@@ -579,8 +968,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceIp"`: The source IP address of the user account to be tested.
 - `"UserPassword"`: The password of the user account to be tested.
 """
-test_identity_provider(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("TestIdentityProvider", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-test_identity_provider(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("TestIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config)
+function test_identity_provider(
+    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "TestIdentityProvider",
+        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
+        aws_config=aws_config,
+    )
+end
+function test_identity_provider(
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "TestIdentityProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(arn, tag_keys)
@@ -598,8 +1012,27 @@ call.
   search for resources by type. This metadata can be attached to resources for any purpose.
 
 """
-untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UntagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(Arn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "UntagResource",
+        Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    Arn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_access(external_id, server_id)
@@ -667,8 +1100,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain a trust relationship that allows the server to access your resources when servicing
   your users' transfer requests.
 """
-update_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config)
-update_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config)
+function update_access(
+    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "UpdateAccess",
+        Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
+        aws_config=aws_config,
+    )
+end
+function update_access(
+    ExternalId,
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "UpdateAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_server(server_id)
@@ -743,8 +1201,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
 """
-update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-update_server(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config)
+function update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "UpdateServer", Dict{String,Any}("ServerId" => ServerId); aws_config=aws_config
+    )
+end
+function update_server(
+    ServerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "UpdateServer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_user(server_id, user_name)
@@ -813,5 +1287,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain a trust relationship that allows the server to access your resources when servicing
   your users' transfer requests.
 """
-update_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-update_user(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config)
+function update_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "UpdateUser",
+        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
+        aws_config=aws_config,
+    )
+end
+function update_user(
+    ServerId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "UpdateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

@@ -26,8 +26,41 @@ AllowCustomRoutingTraffic operation.
   routing endpoint.
 
 """
-add_custom_routing_endpoints(EndpointConfigurations, EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AddCustomRoutingEndpoints", Dict{String, Any}("EndpointConfigurations"=>EndpointConfigurations, "EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-add_custom_routing_endpoints(EndpointConfigurations, EndpointGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AddCustomRoutingEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigurations"=>EndpointConfigurations, "EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config)
+function add_custom_routing_endpoints(
+    EndpointConfigurations,
+    EndpointGroupArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "AddCustomRoutingEndpoints",
+        Dict{String,Any}(
+            "EndpointConfigurations" => EndpointConfigurations,
+            "EndpointGroupArn" => EndpointGroupArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function add_custom_routing_endpoints(
+    EndpointConfigurations,
+    EndpointGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "AddCustomRoutingEndpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointConfigurations" => EndpointConfigurations,
+                    "EndpointGroupArn" => EndpointGroupArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     advertise_byoip_cidr(cidr)
@@ -44,8 +77,20 @@ Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guid
   provisioned. You can't advertise only a portion of the provisioned range.
 
 """
-advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-advertise_byoip_cidr(Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config)
+function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator(
+        "AdvertiseByoipCidr", Dict{String,Any}("Cidr" => Cidr); aws_config=aws_config
+    )
+end
+function advertise_byoip_cidr(
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "AdvertiseByoipCidr",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     allow_custom_routing_traffic(endpoint_group_arn, endpoint_id)
@@ -81,8 +126,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationPorts"`: A list of specific Amazon EC2 instance ports (destination ports)
   that you want to allow to receive traffic.
 """
-allow_custom_routing_traffic(EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AllowCustomRoutingTraffic", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId); aws_config=aws_config)
-allow_custom_routing_traffic(EndpointGroupArn, EndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AllowCustomRoutingTraffic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId), params)); aws_config=aws_config)
+function allow_custom_routing_traffic(
+    EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "AllowCustomRoutingTraffic",
+        Dict{String,Any}(
+            "EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId
+        );
+        aws_config=aws_config,
+    )
+end
+function allow_custom_routing_traffic(
+    EndpointGroupArn,
+    EndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "AllowCustomRoutingTraffic",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_accelerator(idempotency_token, name)
@@ -120,8 +194,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Create tags for an accelerator. For more information, see Tagging in AWS Global
   Accelerator in the AWS Global Accelerator Developer Guide.
 """
-create_accelerator(IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateAccelerator", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name); aws_config=aws_config)
-create_accelerator(IdempotencyToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), params)); aws_config=aws_config)
+function create_accelerator(
+    IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "CreateAccelerator",
+        Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function create_accelerator(
+    IdempotencyToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateAccelerator",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_custom_routing_accelerator(idempotency_token, name)
@@ -162,8 +261,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Create tags for an accelerator. For more information, see Tagging in AWS Global
   Accelerator in the AWS Global Accelerator Developer Guide.
 """
-create_custom_routing_accelerator(IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingAccelerator", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name); aws_config=aws_config)
-create_custom_routing_accelerator(IdempotencyToken, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), params)); aws_config=aws_config)
+function create_custom_routing_accelerator(
+    IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "CreateCustomRoutingAccelerator",
+        Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function create_custom_routing_accelerator(
+    IdempotencyToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateCustomRoutingAccelerator",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_custom_routing_endpoint_group(destination_configurations, endpoint_group_region, idempotency_token, listener_arn)
@@ -183,8 +307,49 @@ endpoint group is a collection of endpoints in one AWS Region.
   endpoint.
 
 """
-create_custom_routing_endpoint_group(DestinationConfigurations, EndpointGroupRegion, IdempotencyToken, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingEndpointGroup", Dict{String, Any}("DestinationConfigurations"=>DestinationConfigurations, "EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn); aws_config=aws_config)
-create_custom_routing_endpoint_group(DestinationConfigurations, EndpointGroupRegion, IdempotencyToken, ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationConfigurations"=>DestinationConfigurations, "EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config)
+function create_custom_routing_endpoint_group(
+    DestinationConfigurations,
+    EndpointGroupRegion,
+    IdempotencyToken,
+    ListenerArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateCustomRoutingEndpointGroup",
+        Dict{String,Any}(
+            "DestinationConfigurations" => DestinationConfigurations,
+            "EndpointGroupRegion" => EndpointGroupRegion,
+            "IdempotencyToken" => IdempotencyToken,
+            "ListenerArn" => ListenerArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_custom_routing_endpoint_group(
+    DestinationConfigurations,
+    EndpointGroupRegion,
+    IdempotencyToken,
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateCustomRoutingEndpointGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationConfigurations" => DestinationConfigurations,
+                    "EndpointGroupRegion" => EndpointGroupRegion,
+                    "IdempotencyToken" => IdempotencyToken,
+                    "ListenerArn" => ListenerArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_custom_routing_listener(accelerator_arn, idempotency_token, port_ranges)
@@ -204,8 +369,45 @@ specify.
   endpoints for custom routing accelerators.
 
 """
-create_custom_routing_listener(AcceleratorArn, IdempotencyToken, PortRanges; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingListener", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges); aws_config=aws_config)
-create_custom_routing_listener(AcceleratorArn, IdempotencyToken, PortRanges, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges), params)); aws_config=aws_config)
+function create_custom_routing_listener(
+    AcceleratorArn,
+    IdempotencyToken,
+    PortRanges;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateCustomRoutingListener",
+        Dict{String,Any}(
+            "AcceleratorArn" => AcceleratorArn,
+            "IdempotencyToken" => IdempotencyToken,
+            "PortRanges" => PortRanges,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_custom_routing_listener(
+    AcceleratorArn,
+    IdempotencyToken,
+    PortRanges,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateCustomRoutingListener",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AcceleratorArn" => AcceleratorArn,
+                    "IdempotencyToken" => IdempotencyToken,
+                    "PortRanges" => PortRanges,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_endpoint_group(endpoint_group_region, idempotency_token, listener_arn)
@@ -249,8 +451,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied to the traffic that would otherwise have been routed to the Region based on optimal
   routing. The default value is 100.
 """
-create_endpoint_group(EndpointGroupRegion, IdempotencyToken, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateEndpointGroup", Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn); aws_config=aws_config)
-create_endpoint_group(EndpointGroupRegion, IdempotencyToken, ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), params)); aws_config=aws_config)
+function create_endpoint_group(
+    EndpointGroupRegion,
+    IdempotencyToken,
+    ListenerArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateEndpointGroup",
+        Dict{String,Any}(
+            "EndpointGroupRegion" => EndpointGroupRegion,
+            "IdempotencyToken" => IdempotencyToken,
+            "ListenerArn" => ListenerArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_endpoint_group(
+    EndpointGroupRegion,
+    IdempotencyToken,
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateEndpointGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointGroupRegion" => EndpointGroupRegion,
+                    "IdempotencyToken" => IdempotencyToken,
+                    "ListenerArn" => ListenerArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_listener(accelerator_arn, idempotency_token, port_ranges, protocol)
@@ -285,8 +524,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (client) IP address and destination IP address—to select the hash value. The default
   value is NONE.
 """
-create_listener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateListener", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol); aws_config=aws_config)
-create_listener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol), params)); aws_config=aws_config)
+function create_listener(
+    AcceleratorArn,
+    IdempotencyToken,
+    PortRanges,
+    Protocol;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateListener",
+        Dict{String,Any}(
+            "AcceleratorArn" => AcceleratorArn,
+            "IdempotencyToken" => IdempotencyToken,
+            "PortRanges" => PortRanges,
+            "Protocol" => Protocol,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_listener(
+    AcceleratorArn,
+    IdempotencyToken,
+    PortRanges,
+    Protocol,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateListener",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AcceleratorArn" => AcceleratorArn,
+                    "IdempotencyToken" => IdempotencyToken,
+                    "PortRanges" => PortRanges,
+                    "Protocol" => Protocol,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_accelerator(accelerator_arn)
@@ -310,8 +590,28 @@ Global Accelerator Developer Guide.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of an accelerator.
 
 """
-delete_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-delete_accelerator(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function delete_accelerator(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DeleteAccelerator",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function delete_accelerator(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DeleteAccelerator",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_custom_routing_accelerator(accelerator_arn)
@@ -335,8 +635,28 @@ Global Accelerator Developer Guide.
   delete.
 
 """
-delete_custom_routing_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-delete_custom_routing_accelerator(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function delete_custom_routing_accelerator(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DeleteCustomRoutingAccelerator",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function delete_custom_routing_accelerator(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DeleteCustomRoutingAccelerator",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_custom_routing_endpoint_group(endpoint_group_arn)
@@ -348,8 +668,30 @@ Delete an endpoint group from a listener for a custom routing accelerator.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to delete.
 
 """
-delete_custom_routing_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-delete_custom_routing_endpoint_group(EndpointGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config)
+function delete_custom_routing_endpoint_group(
+    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DeleteCustomRoutingEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+    )
+end
+function delete_custom_routing_endpoint_group(
+    EndpointGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DeleteCustomRoutingEndpointGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_custom_routing_listener(listener_arn)
@@ -361,8 +703,28 @@ Delete a listener for a custom routing accelerator.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to delete.
 
 """
-delete_custom_routing_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-delete_custom_routing_listener(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config)
+function delete_custom_routing_listener(
+    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DeleteCustomRoutingListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+    )
+end
+function delete_custom_routing_listener(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DeleteCustomRoutingListener",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_endpoint_group(endpoint_group_arn)
@@ -374,8 +736,30 @@ Delete an endpoint group from a listener.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to delete.
 
 """
-delete_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-delete_endpoint_group(EndpointGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config)
+function delete_endpoint_group(
+    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DeleteEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+    )
+end
+function delete_endpoint_group(
+    EndpointGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DeleteEndpointGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_listener(listener_arn)
@@ -387,8 +771,26 @@ Delete a listener from an accelerator.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 
 """
-delete_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-delete_listener(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config)
+function delete_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator(
+        "DeleteListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+    )
+end
+function delete_listener(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DeleteListener",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     deny_custom_routing_traffic(endpoint_group_arn, endpoint_id)
@@ -424,8 +826,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationPorts"`: A list of specific Amazon EC2 instance ports (destination ports) in
   a subnet endpoint that you want to prevent from receiving traffic.
 """
-deny_custom_routing_traffic(EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DenyCustomRoutingTraffic", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId); aws_config=aws_config)
-deny_custom_routing_traffic(EndpointGroupArn, EndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DenyCustomRoutingTraffic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId), params)); aws_config=aws_config)
+function deny_custom_routing_traffic(
+    EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DenyCustomRoutingTraffic",
+        Dict{String,Any}(
+            "EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId
+        );
+        aws_config=aws_config,
+    )
+end
+function deny_custom_routing_traffic(
+    EndpointGroupArn,
+    EndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DenyCustomRoutingTraffic",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     deprovision_byoip_cidr(cidr)
@@ -443,8 +874,20 @@ allocated from its address range.  For more information, see Bring Your Own IP A
   specified when you provisioned the address range.
 
 """
-deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-deprovision_byoip_cidr(Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config)
+function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator(
+        "DeprovisionByoipCidr", Dict{String,Any}("Cidr" => Cidr); aws_config=aws_config
+    )
+end
+function deprovision_byoip_cidr(
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DeprovisionByoipCidr",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_accelerator(accelerator_arn)
@@ -456,8 +899,28 @@ Describe an accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to describe.
 
 """
-describe_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-describe_accelerator(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function describe_accelerator(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DescribeAccelerator",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function describe_accelerator(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DescribeAccelerator",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_accelerator_attributes(accelerator_arn)
@@ -470,8 +933,28 @@ Describe the attributes of an accelerator.
   that you want to describe.
 
 """
-describe_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-describe_accelerator_attributes(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function describe_accelerator_attributes(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DescribeAcceleratorAttributes",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function describe_accelerator_attributes(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DescribeAcceleratorAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_custom_routing_accelerator(accelerator_arn)
@@ -483,8 +966,28 @@ Describe a custom routing accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to describe.
 
 """
-describe_custom_routing_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-describe_custom_routing_accelerator(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function describe_custom_routing_accelerator(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DescribeCustomRoutingAccelerator",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function describe_custom_routing_accelerator(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DescribeCustomRoutingAccelerator",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_custom_routing_accelerator_attributes(accelerator_arn)
@@ -497,8 +1000,28 @@ Describe the attributes of a custom routing accelerator.
   describe the attributes for.
 
 """
-describe_custom_routing_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-describe_custom_routing_accelerator_attributes(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function describe_custom_routing_accelerator_attributes(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DescribeCustomRoutingAcceleratorAttributes",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function describe_custom_routing_accelerator_attributes(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DescribeCustomRoutingAcceleratorAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_custom_routing_endpoint_group(endpoint_group_arn)
@@ -510,8 +1033,30 @@ Describe an endpoint group for a custom routing accelerator.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to describe.
 
 """
-describe_custom_routing_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-describe_custom_routing_endpoint_group(EndpointGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config)
+function describe_custom_routing_endpoint_group(
+    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DescribeCustomRoutingEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+    )
+end
+function describe_custom_routing_endpoint_group(
+    EndpointGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DescribeCustomRoutingEndpointGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_custom_routing_listener(listener_arn)
@@ -523,8 +1068,28 @@ The description of a listener for a custom routing accelerator.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to describe.
 
 """
-describe_custom_routing_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-describe_custom_routing_listener(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config)
+function describe_custom_routing_listener(
+    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DescribeCustomRoutingListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+    )
+end
+function describe_custom_routing_listener(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DescribeCustomRoutingListener",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_endpoint_group(endpoint_group_arn)
@@ -536,8 +1101,30 @@ Describe an endpoint group.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to describe.
 
 """
-describe_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-describe_endpoint_group(EndpointGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config)
+function describe_endpoint_group(
+    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DescribeEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+    )
+end
+function describe_endpoint_group(
+    EndpointGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DescribeEndpointGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_listener(listener_arn)
@@ -549,8 +1136,26 @@ Describe a listener.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to describe.
 
 """
-describe_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-describe_listener(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config)
+function describe_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator(
+        "DescribeListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+    )
+end
+function describe_listener(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DescribeListener",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_accelerators()
@@ -565,8 +1170,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_accelerators(; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListAccelerators"; aws_config=aws_config)
-list_accelerators(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListAccelerators", params; aws_config=aws_config)
+function list_accelerators(; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator("ListAccelerators"; aws_config=aws_config)
+end
+function list_accelerators(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator("ListAccelerators", params; aws_config=aws_config)
+end
 
 """
     list_byoip_cidrs()
@@ -581,8 +1192,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
 """
-list_byoip_cidrs(; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListByoipCidrs"; aws_config=aws_config)
-list_byoip_cidrs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListByoipCidrs", params; aws_config=aws_config)
+function list_byoip_cidrs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator("ListByoipCidrs"; aws_config=aws_config)
+end
+function list_byoip_cidrs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator("ListByoipCidrs", params; aws_config=aws_config)
+end
 
 """
     list_custom_routing_accelerators()
@@ -597,8 +1214,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_accelerators(; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingAccelerators"; aws_config=aws_config)
-list_custom_routing_accelerators(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingAccelerators", params; aws_config=aws_config)
+function list_custom_routing_accelerators(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator("ListCustomRoutingAccelerators"; aws_config=aws_config)
+end
+function list_custom_routing_accelerators(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListCustomRoutingAccelerators", params; aws_config=aws_config
+    )
+end
 
 """
     list_custom_routing_endpoint_groups(listener_arn)
@@ -618,8 +1245,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_endpoint_groups(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingEndpointGroups", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-list_custom_routing_endpoint_groups(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config)
+function list_custom_routing_endpoint_groups(
+    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListCustomRoutingEndpointGroups",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+    )
+end
+function list_custom_routing_endpoint_groups(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "ListCustomRoutingEndpointGroups",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_custom_routing_listeners(accelerator_arn)
@@ -638,8 +1285,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingListeners", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-list_custom_routing_listeners(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function list_custom_routing_listeners(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListCustomRoutingListeners",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function list_custom_routing_listeners(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "ListCustomRoutingListeners",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_custom_routing_port_mappings(accelerator_arn)
@@ -670,8 +1337,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_port_mappings(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappings", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-list_custom_routing_port_mappings(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function list_custom_routing_port_mappings(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListCustomRoutingPortMappings",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function list_custom_routing_port_mappings(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "ListCustomRoutingPortMappings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_custom_routing_port_mappings_by_destination(destination_address, endpoint_id)
@@ -695,8 +1382,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_port_mappings_by_destination(DestinationAddress, EndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappingsByDestination", Dict{String, Any}("DestinationAddress"=>DestinationAddress, "EndpointId"=>EndpointId); aws_config=aws_config)
-list_custom_routing_port_mappings_by_destination(DestinationAddress, EndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappingsByDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationAddress"=>DestinationAddress, "EndpointId"=>EndpointId), params)); aws_config=aws_config)
+function list_custom_routing_port_mappings_by_destination(
+    DestinationAddress, EndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListCustomRoutingPortMappingsByDestination",
+        Dict{String,Any}(
+            "DestinationAddress" => DestinationAddress, "EndpointId" => EndpointId
+        );
+        aws_config=aws_config,
+    )
+end
+function list_custom_routing_port_mappings_by_destination(
+    DestinationAddress,
+    EndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "ListCustomRoutingPortMappingsByDestination",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationAddress" => DestinationAddress, "EndpointId" => EndpointId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_endpoint_groups(listener_arn)
@@ -714,8 +1430,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_endpoint_groups(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListEndpointGroups", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-list_endpoint_groups(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config)
+function list_endpoint_groups(
+    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListEndpointGroups",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+    )
+end
+function list_endpoint_groups(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "ListEndpointGroups",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_listeners(accelerator_arn)
@@ -734,8 +1470,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListListeners", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-list_listeners(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function list_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator(
+        "ListListeners",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function list_listeners(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "ListListeners",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -749,8 +1503,28 @@ Accelerator in the AWS Global Accelerator Developer Guide.
   ARN uniquely identifies an accelerator.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     provision_byoip_cidr(cidr, cidr_authorization_context)
@@ -769,8 +1543,37 @@ see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer 
   bring the specified IP address range to Amazon using BYOIP.
 
 """
-provision_byoip_cidr(Cidr, CidrAuthorizationContext; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext); aws_config=aws_config)
-provision_byoip_cidr(Cidr, CidrAuthorizationContext, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext), params)); aws_config=aws_config)
+function provision_byoip_cidr(
+    Cidr, CidrAuthorizationContext; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ProvisionByoipCidr",
+        Dict{String,Any}(
+            "Cidr" => Cidr, "CidrAuthorizationContext" => CidrAuthorizationContext
+        );
+        aws_config=aws_config,
+    )
+end
+function provision_byoip_cidr(
+    Cidr,
+    CidrAuthorizationContext,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "ProvisionByoipCidr",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Cidr" => Cidr, "CidrAuthorizationContext" => CidrAuthorizationContext
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     remove_custom_routing_endpoints(endpoint_group_arn, endpoint_ids)
@@ -785,8 +1588,37 @@ Remove endpoints from a custom routing accelerator.
   are the virtual private cloud (VPC) subnet IDs.
 
 """
-remove_custom_routing_endpoints(EndpointGroupArn, EndpointIds; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("RemoveCustomRoutingEndpoints", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointIds"=>EndpointIds); aws_config=aws_config)
-remove_custom_routing_endpoints(EndpointGroupArn, EndpointIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("RemoveCustomRoutingEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointIds"=>EndpointIds), params)); aws_config=aws_config)
+function remove_custom_routing_endpoints(
+    EndpointGroupArn, EndpointIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "RemoveCustomRoutingEndpoints",
+        Dict{String,Any}(
+            "EndpointGroupArn" => EndpointGroupArn, "EndpointIds" => EndpointIds
+        );
+        aws_config=aws_config,
+    )
+end
+function remove_custom_routing_endpoints(
+    EndpointGroupArn,
+    EndpointIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "RemoveCustomRoutingEndpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointGroupArn" => EndpointGroupArn, "EndpointIds" => EndpointIds
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -802,8 +1634,31 @@ Accelerator in the AWS Global Accelerator Developer Guide.
   define.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -820,8 +1675,33 @@ Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
 - `tag_keys`: The tag key pairs that you want to remove from the specified resources.
 
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_accelerator(accelerator_arn)
@@ -844,8 +1724,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain only alphanumeric characters or hyphens (-), and must not begin or end with a
   hyphen.
 """
-update_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-update_accelerator(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function update_accelerator(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "UpdateAccelerator",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function update_accelerator(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "UpdateAccelerator",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_accelerator_attributes(accelerator_arn)
@@ -871,8 +1771,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the S3 bucket prefix, the log file bucket folder structure will include a double slash
   (//), like the following: s3-bucket_name//AWSLogs/aws_account_id
 """
-update_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-update_accelerator_attributes(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function update_accelerator_attributes(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "UpdateAcceleratorAttributes",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function update_accelerator_attributes(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "UpdateAcceleratorAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_custom_routing_accelerator(accelerator_arn)
@@ -893,8 +1813,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain only alphanumeric characters or hyphens (-), and must not begin or end with a
   hyphen.
 """
-update_custom_routing_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-update_custom_routing_accelerator(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function update_custom_routing_accelerator(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "UpdateCustomRoutingAccelerator",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function update_custom_routing_accelerator(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "UpdateCustomRoutingAccelerator",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_custom_routing_accelerator_attributes(accelerator_arn)
@@ -920,8 +1860,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the S3 bucket prefix, the log file bucket folder structure will include a double slash
   (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
 """
-update_custom_routing_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-update_custom_routing_accelerator_attributes(AcceleratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), params)); aws_config=aws_config)
+function update_custom_routing_accelerator_attributes(
+    AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "UpdateCustomRoutingAcceleratorAttributes",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+    )
+end
+function update_custom_routing_accelerator_attributes(
+    AcceleratorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "UpdateCustomRoutingAcceleratorAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_custom_routing_listener(listener_arn, port_ranges)
@@ -937,8 +1897,33 @@ Update a listener for a custom routing accelerator.
   endpoints for custom routing accelerators.
 
 """
-update_custom_routing_listener(ListenerArn, PortRanges; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingListener", Dict{String, Any}("ListenerArn"=>ListenerArn, "PortRanges"=>PortRanges); aws_config=aws_config)
-update_custom_routing_listener(ListenerArn, PortRanges, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn, "PortRanges"=>PortRanges), params)); aws_config=aws_config)
+function update_custom_routing_listener(
+    ListenerArn, PortRanges; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "UpdateCustomRoutingListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn, "PortRanges" => PortRanges);
+        aws_config=aws_config,
+    )
+end
+function update_custom_routing_listener(
+    ListenerArn,
+    PortRanges,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "UpdateCustomRoutingListener",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ListenerArn" => ListenerArn, "PortRanges" => PortRanges),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_endpoint_group(endpoint_group_arn)
@@ -978,8 +1963,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied to the traffic that would otherwise have been routed to the Region based on optimal
   routing. The default value is 100.
 """
-update_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-update_endpoint_group(EndpointGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), params)); aws_config=aws_config)
+function update_endpoint_group(
+    EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "UpdateEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+    )
+end
+function update_endpoint_group(
+    EndpointGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "UpdateEndpointGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_listener(listener_arn)
@@ -1010,8 +2017,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accelerator.
 - `"Protocol"`: The updated protocol for the connections from clients to the accelerator.
 """
-update_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-update_listener(ListenerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), params)); aws_config=aws_config)
+function update_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator(
+        "UpdateListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+    )
+end
+function update_listener(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "UpdateListener",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     withdraw_byoip_cidr(cidr)
@@ -1027,5 +2052,17 @@ Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
 - `cidr`: The address range, in CIDR notation.
 
 """
-withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-withdraw_byoip_cidr(Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), params)); aws_config=aws_config)
+function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator(
+        "WithdrawByoipCidr", Dict{String,Any}("Cidr" => Cidr); aws_config=aws_config
+    )
+end
+function withdraw_byoip_cidr(
+    Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "WithdrawByoipCidr",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cidr" => Cidr), params));
+        aws_config=aws_config,
+    )
+end

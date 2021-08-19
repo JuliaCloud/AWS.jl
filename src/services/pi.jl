@@ -60,8 +60,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Performance Insights chooses a value for you, with a goal of returning roughly 100-200 data
   points in the response.
 """
-describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = pi("DescribeDimensionKeys", Dict{String, Any}("EndTime"=>EndTime, "GroupBy"=>GroupBy, "Identifier"=>Identifier, "Metric"=>Metric, "ServiceType"=>ServiceType, "StartTime"=>StartTime); aws_config=aws_config)
-describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pi("DescribeDimensionKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "GroupBy"=>GroupBy, "Identifier"=>Identifier, "Metric"=>Metric, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config)
+function describe_dimension_keys(
+    EndTime,
+    GroupBy,
+    Identifier,
+    Metric,
+    ServiceType,
+    StartTime;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "DescribeDimensionKeys",
+        Dict{String,Any}(
+            "EndTime" => EndTime,
+            "GroupBy" => GroupBy,
+            "Identifier" => Identifier,
+            "Metric" => Metric,
+            "ServiceType" => ServiceType,
+            "StartTime" => StartTime,
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_dimension_keys(
+    EndTime,
+    GroupBy,
+    Identifier,
+    Metric,
+    ServiceType,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "DescribeDimensionKeys",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "GroupBy" => GroupBy,
+                    "Identifier" => Identifier,
+                    "Metric" => Metric,
+                    "ServiceType" => ServiceType,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_dimension_key_details(group, group_identifier, identifier, service_type)
@@ -92,8 +141,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter, Performance Insights returns all dimension data within the specified dimension
   group.
 """
-get_dimension_key_details(Group, GroupIdentifier, Identifier, ServiceType; aws_config::AbstractAWSConfig=global_aws_config()) = pi("GetDimensionKeyDetails", Dict{String, Any}("Group"=>Group, "GroupIdentifier"=>GroupIdentifier, "Identifier"=>Identifier, "ServiceType"=>ServiceType); aws_config=aws_config)
-get_dimension_key_details(Group, GroupIdentifier, Identifier, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pi("GetDimensionKeyDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "GroupIdentifier"=>GroupIdentifier, "Identifier"=>Identifier, "ServiceType"=>ServiceType), params)); aws_config=aws_config)
+function get_dimension_key_details(
+    Group,
+    GroupIdentifier,
+    Identifier,
+    ServiceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "GetDimensionKeyDetails",
+        Dict{String,Any}(
+            "Group" => Group,
+            "GroupIdentifier" => GroupIdentifier,
+            "Identifier" => Identifier,
+            "ServiceType" => ServiceType,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_dimension_key_details(
+    Group,
+    GroupIdentifier,
+    Identifier,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "GetDimensionKeyDetails",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Group" => Group,
+                    "GroupIdentifier" => GroupIdentifier,
+                    "Identifier" => Identifier,
+                    "ServiceType" => ServiceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_resource_metrics(end_time, identifier, metric_queries, service_type, start_time)
@@ -135,5 +225,50 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Performance Insights will choose a value for you, with a goal of returning roughly 100-200
   data points in the response.
 """
-get_resource_metrics(EndTime, Identifier, MetricQueries, ServiceType, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = pi("GetResourceMetrics", Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "MetricQueries"=>MetricQueries, "ServiceType"=>ServiceType, "StartTime"=>StartTime); aws_config=aws_config)
-get_resource_metrics(EndTime, Identifier, MetricQueries, ServiceType, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pi("GetResourceMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "MetricQueries"=>MetricQueries, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config)
+function get_resource_metrics(
+    EndTime,
+    Identifier,
+    MetricQueries,
+    ServiceType,
+    StartTime;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "GetResourceMetrics",
+        Dict{String,Any}(
+            "EndTime" => EndTime,
+            "Identifier" => Identifier,
+            "MetricQueries" => MetricQueries,
+            "ServiceType" => ServiceType,
+            "StartTime" => StartTime,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_resource_metrics(
+    EndTime,
+    Identifier,
+    MetricQueries,
+    ServiceType,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "GetResourceMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "Identifier" => Identifier,
+                    "MetricQueries" => MetricQueries,
+                    "ServiceType" => ServiceType,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

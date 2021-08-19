@@ -16,8 +16,33 @@ the findings.
 - `finding_arns`: The ARNs that specify the findings that you want to assign attributes to.
 
 """
-add_attributes_to_findings(attributes, findingArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("AddAttributesToFindings", Dict{String, Any}("attributes"=>attributes, "findingArns"=>findingArns); aws_config=aws_config)
-add_attributes_to_findings(attributes, findingArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("AddAttributesToFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes, "findingArns"=>findingArns), params)); aws_config=aws_config)
+function add_attributes_to_findings(
+    attributes, findingArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "AddAttributesToFindings",
+        Dict{String,Any}("attributes" => attributes, "findingArns" => findingArns);
+        aws_config=aws_config,
+    )
+end
+function add_attributes_to_findings(
+    attributes,
+    findingArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "AddAttributesToFindings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("attributes" => attributes, "findingArns" => findingArns),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_assessment_target(assessment_target_name)
@@ -41,8 +66,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the assessment target. If resourceGroupArn is not specified, all EC2 instances in the
   current AWS account and region are included in the assessment target.
 """
-create_assessment_target(assessmentTargetName; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("CreateAssessmentTarget", Dict{String, Any}("assessmentTargetName"=>assessmentTargetName); aws_config=aws_config)
-create_assessment_target(assessmentTargetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("CreateAssessmentTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetName"=>assessmentTargetName), params)); aws_config=aws_config)
+function create_assessment_target(
+    assessmentTargetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "CreateAssessmentTarget",
+        Dict{String,Any}("assessmentTargetName" => assessmentTargetName);
+        aws_config=aws_config,
+    )
+end
+function create_assessment_target(
+    assessmentTargetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "CreateAssessmentTarget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("assessmentTargetName" => assessmentTargetName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_assessment_template(assessment_target_arn, assessment_template_name, duration_in_seconds, rules_package_arns)
@@ -71,8 +120,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute is a key and value pair (an Attribute object). Within an assessment template,
   each key must be unique.
 """
-create_assessment_template(assessmentTargetArn, assessmentTemplateName, durationInSeconds, rulesPackageArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("CreateAssessmentTemplate", Dict{String, Any}("assessmentTargetArn"=>assessmentTargetArn, "assessmentTemplateName"=>assessmentTemplateName, "durationInSeconds"=>durationInSeconds, "rulesPackageArns"=>rulesPackageArns); aws_config=aws_config)
-create_assessment_template(assessmentTargetArn, assessmentTemplateName, durationInSeconds, rulesPackageArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("CreateAssessmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetArn"=>assessmentTargetArn, "assessmentTemplateName"=>assessmentTemplateName, "durationInSeconds"=>durationInSeconds, "rulesPackageArns"=>rulesPackageArns), params)); aws_config=aws_config)
+function create_assessment_template(
+    assessmentTargetArn,
+    assessmentTemplateName,
+    durationInSeconds,
+    rulesPackageArns;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "CreateAssessmentTemplate",
+        Dict{String,Any}(
+            "assessmentTargetArn" => assessmentTargetArn,
+            "assessmentTemplateName" => assessmentTemplateName,
+            "durationInSeconds" => durationInSeconds,
+            "rulesPackageArns" => rulesPackageArns,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_assessment_template(
+    assessmentTargetArn,
+    assessmentTemplateName,
+    durationInSeconds,
+    rulesPackageArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "CreateAssessmentTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "assessmentTargetArn" => assessmentTargetArn,
+                    "assessmentTemplateName" => assessmentTemplateName,
+                    "durationInSeconds" => durationInSeconds,
+                    "rulesPackageArns" => rulesPackageArns,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_exclusions_preview(assessment_template_arn)
@@ -87,8 +177,32 @@ detect before it runs the assessment.
   want to create an exclusions preview.
 
 """
-create_exclusions_preview(assessmentTemplateArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("CreateExclusionsPreview", Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn); aws_config=aws_config)
-create_exclusions_preview(assessmentTemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("CreateExclusionsPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn), params)); aws_config=aws_config)
+function create_exclusions_preview(
+    assessmentTemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "CreateExclusionsPreview",
+        Dict{String,Any}("assessmentTemplateArn" => assessmentTemplateArn);
+        aws_config=aws_config,
+    )
+end
+function create_exclusions_preview(
+    assessmentTemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "CreateExclusionsPreview",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("assessmentTemplateArn" => assessmentTemplateArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_resource_group(resource_group_tags)
@@ -105,8 +219,30 @@ For more information, see CreateAssessmentTarget.
   e3\"]}]'. For example,'[{\"key\":\"Name\",\"values\":[\"TestEC2Instance\"]}]'.
 
 """
-create_resource_group(resourceGroupTags; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("CreateResourceGroup", Dict{String, Any}("resourceGroupTags"=>resourceGroupTags); aws_config=aws_config)
-create_resource_group(resourceGroupTags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("CreateResourceGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceGroupTags"=>resourceGroupTags), params)); aws_config=aws_config)
+function create_resource_group(
+    resourceGroupTags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "CreateResourceGroup",
+        Dict{String,Any}("resourceGroupTags" => resourceGroupTags);
+        aws_config=aws_config,
+    )
+end
+function create_resource_group(
+    resourceGroupTags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "CreateResourceGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("resourceGroupTags" => resourceGroupTags), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_assessment_run(assessment_run_arn)
@@ -118,8 +254,30 @@ Deletes the assessment run that is specified by the ARN of the assessment run.
 - `assessment_run_arn`: The ARN that specifies the assessment run that you want to delete.
 
 """
-delete_assessment_run(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DeleteAssessmentRun", Dict{String, Any}("assessmentRunArn"=>assessmentRunArn); aws_config=aws_config)
-delete_assessment_run(assessmentRunArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DeleteAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config)
+function delete_assessment_run(
+    assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "DeleteAssessmentRun",
+        Dict{String,Any}("assessmentRunArn" => assessmentRunArn);
+        aws_config=aws_config,
+    )
+end
+function delete_assessment_run(
+    assessmentRunArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DeleteAssessmentRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("assessmentRunArn" => assessmentRunArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_assessment_target(assessment_target_arn)
@@ -132,8 +290,32 @@ Deletes the assessment target that is specified by the ARN of the assessment tar
   delete.
 
 """
-delete_assessment_target(assessmentTargetArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DeleteAssessmentTarget", Dict{String, Any}("assessmentTargetArn"=>assessmentTargetArn); aws_config=aws_config)
-delete_assessment_target(assessmentTargetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DeleteAssessmentTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetArn"=>assessmentTargetArn), params)); aws_config=aws_config)
+function delete_assessment_target(
+    assessmentTargetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "DeleteAssessmentTarget",
+        Dict{String,Any}("assessmentTargetArn" => assessmentTargetArn);
+        aws_config=aws_config,
+    )
+end
+function delete_assessment_target(
+    assessmentTargetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DeleteAssessmentTarget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("assessmentTargetArn" => assessmentTargetArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_assessment_template(assessment_template_arn)
@@ -146,8 +328,32 @@ Deletes the assessment template that is specified by the ARN of the assessment t
   to delete.
 
 """
-delete_assessment_template(assessmentTemplateArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DeleteAssessmentTemplate", Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn); aws_config=aws_config)
-delete_assessment_template(assessmentTemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DeleteAssessmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn), params)); aws_config=aws_config)
+function delete_assessment_template(
+    assessmentTemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "DeleteAssessmentTemplate",
+        Dict{String,Any}("assessmentTemplateArn" => assessmentTemplateArn);
+        aws_config=aws_config,
+    )
+end
+function delete_assessment_template(
+    assessmentTemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DeleteAssessmentTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("assessmentTemplateArn" => assessmentTemplateArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_assessment_runs(assessment_run_arns)
@@ -160,8 +366,30 @@ Describes the assessment runs that are specified by the ARNs of the assessment r
   describe.
 
 """
-describe_assessment_runs(assessmentRunArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeAssessmentRuns", Dict{String, Any}("assessmentRunArns"=>assessmentRunArns); aws_config=aws_config)
-describe_assessment_runs(assessmentRunArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeAssessmentRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArns"=>assessmentRunArns), params)); aws_config=aws_config)
+function describe_assessment_runs(
+    assessmentRunArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "DescribeAssessmentRuns",
+        Dict{String,Any}("assessmentRunArns" => assessmentRunArns);
+        aws_config=aws_config,
+    )
+end
+function describe_assessment_runs(
+    assessmentRunArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DescribeAssessmentRuns",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("assessmentRunArns" => assessmentRunArns), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_assessment_targets(assessment_target_arns)
@@ -174,8 +402,32 @@ Describes the assessment targets that are specified by the ARNs of the assessmen
   describe.
 
 """
-describe_assessment_targets(assessmentTargetArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeAssessmentTargets", Dict{String, Any}("assessmentTargetArns"=>assessmentTargetArns); aws_config=aws_config)
-describe_assessment_targets(assessmentTargetArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeAssessmentTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetArns"=>assessmentTargetArns), params)); aws_config=aws_config)
+function describe_assessment_targets(
+    assessmentTargetArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "DescribeAssessmentTargets",
+        Dict{String,Any}("assessmentTargetArns" => assessmentTargetArns);
+        aws_config=aws_config,
+    )
+end
+function describe_assessment_targets(
+    assessmentTargetArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DescribeAssessmentTargets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("assessmentTargetArns" => assessmentTargetArns),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_assessment_templates(assessment_template_arns)
@@ -188,8 +440,32 @@ templates.
 - `assessment_template_arns`:
 
 """
-describe_assessment_templates(assessmentTemplateArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeAssessmentTemplates", Dict{String, Any}("assessmentTemplateArns"=>assessmentTemplateArns); aws_config=aws_config)
-describe_assessment_templates(assessmentTemplateArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeAssessmentTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArns"=>assessmentTemplateArns), params)); aws_config=aws_config)
+function describe_assessment_templates(
+    assessmentTemplateArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "DescribeAssessmentTemplates",
+        Dict{String,Any}("assessmentTemplateArns" => assessmentTemplateArns);
+        aws_config=aws_config,
+    )
+end
+function describe_assessment_templates(
+    assessmentTemplateArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DescribeAssessmentTemplates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("assessmentTemplateArns" => assessmentTemplateArns),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_cross_account_access_role()
@@ -198,8 +474,16 @@ describe_assessment_templates(assessmentTemplateArns, params::AbstractDict{Strin
 Describes the IAM role that enables Amazon Inspector to access your AWS account.
 
 """
-describe_cross_account_access_role(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeCrossAccountAccessRole"; aws_config=aws_config)
-describe_cross_account_access_role(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeCrossAccountAccessRole", params; aws_config=aws_config)
+function describe_cross_account_access_role(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector("DescribeCrossAccountAccessRole"; aws_config=aws_config)
+end
+function describe_cross_account_access_role(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector("DescribeCrossAccountAccessRole", params; aws_config=aws_config)
+end
 
 """
     describe_exclusions(exclusion_arns)
@@ -215,8 +499,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"locale"`: The locale into which you want to translate the exclusion's title,
   description, and recommendation.
 """
-describe_exclusions(exclusionArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeExclusions", Dict{String, Any}("exclusionArns"=>exclusionArns); aws_config=aws_config)
-describe_exclusions(exclusionArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeExclusions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exclusionArns"=>exclusionArns), params)); aws_config=aws_config)
+function describe_exclusions(
+    exclusionArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "DescribeExclusions",
+        Dict{String,Any}("exclusionArns" => exclusionArns);
+        aws_config=aws_config,
+    )
+end
+function describe_exclusions(
+    exclusionArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DescribeExclusions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("exclusionArns" => exclusionArns), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_findings(finding_arns)
@@ -232,8 +536,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"locale"`: The locale into which you want to translate a finding description,
   recommendation, and the short description that identifies the finding.
 """
-describe_findings(findingArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeFindings", Dict{String, Any}("findingArns"=>findingArns); aws_config=aws_config)
-describe_findings(findingArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingArns"=>findingArns), params)); aws_config=aws_config)
+function describe_findings(findingArns; aws_config::AbstractAWSConfig=global_aws_config())
+    return inspector(
+        "DescribeFindings",
+        Dict{String,Any}("findingArns" => findingArns);
+        aws_config=aws_config,
+    )
+end
+function describe_findings(
+    findingArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DescribeFindings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("findingArns" => findingArns), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_resource_groups(resource_group_arns)
@@ -246,8 +568,30 @@ Describes the resource groups that are specified by the ARNs of the resource gro
   describe.
 
 """
-describe_resource_groups(resourceGroupArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeResourceGroups", Dict{String, Any}("resourceGroupArns"=>resourceGroupArns); aws_config=aws_config)
-describe_resource_groups(resourceGroupArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeResourceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceGroupArns"=>resourceGroupArns), params)); aws_config=aws_config)
+function describe_resource_groups(
+    resourceGroupArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "DescribeResourceGroups",
+        Dict{String,Any}("resourceGroupArns" => resourceGroupArns);
+        aws_config=aws_config,
+    )
+end
+function describe_resource_groups(
+    resourceGroupArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DescribeResourceGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("resourceGroupArns" => resourceGroupArns), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_rules_packages(rules_package_arns)
@@ -262,8 +606,30 @@ Describes the rules packages that are specified by the ARNs of the rules package
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"locale"`: The locale that you want to translate a rules package description into.
 """
-describe_rules_packages(rulesPackageArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeRulesPackages", Dict{String, Any}("rulesPackageArns"=>rulesPackageArns); aws_config=aws_config)
-describe_rules_packages(rulesPackageArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("DescribeRulesPackages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rulesPackageArns"=>rulesPackageArns), params)); aws_config=aws_config)
+function describe_rules_packages(
+    rulesPackageArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "DescribeRulesPackages",
+        Dict{String,Any}("rulesPackageArns" => rulesPackageArns);
+        aws_config=aws_config,
+    )
+end
+function describe_rules_packages(
+    rulesPackageArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "DescribeRulesPackages",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("rulesPackageArns" => rulesPackageArns), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_assessment_report(assessment_run_arn, report_file_format, report_type)
@@ -282,8 +648,45 @@ specified assessment run.
   information, see Assessment Reports.
 
 """
-get_assessment_report(assessmentRunArn, reportFileFormat, reportType; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("GetAssessmentReport", Dict{String, Any}("assessmentRunArn"=>assessmentRunArn, "reportFileFormat"=>reportFileFormat, "reportType"=>reportType); aws_config=aws_config)
-get_assessment_report(assessmentRunArn, reportFileFormat, reportType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("GetAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn, "reportFileFormat"=>reportFileFormat, "reportType"=>reportType), params)); aws_config=aws_config)
+function get_assessment_report(
+    assessmentRunArn,
+    reportFileFormat,
+    reportType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "GetAssessmentReport",
+        Dict{String,Any}(
+            "assessmentRunArn" => assessmentRunArn,
+            "reportFileFormat" => reportFileFormat,
+            "reportType" => reportType,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_assessment_report(
+    assessmentRunArn,
+    reportFileFormat,
+    reportType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "GetAssessmentReport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "assessmentRunArn" => assessmentRunArn,
+                    "reportFileFormat" => reportFileFormat,
+                    "reportType" => reportType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_exclusions_preview(assessment_template_arn, preview_token)
@@ -308,8 +711,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calls to the action fill nextToken in the request with the value of nextToken from the
   previous response to continue listing data.
 """
-get_exclusions_preview(assessmentTemplateArn, previewToken; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("GetExclusionsPreview", Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn, "previewToken"=>previewToken); aws_config=aws_config)
-get_exclusions_preview(assessmentTemplateArn, previewToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("GetExclusionsPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn, "previewToken"=>previewToken), params)); aws_config=aws_config)
+function get_exclusions_preview(
+    assessmentTemplateArn, previewToken; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "GetExclusionsPreview",
+        Dict{String,Any}(
+            "assessmentTemplateArn" => assessmentTemplateArn, "previewToken" => previewToken
+        );
+        aws_config=aws_config,
+    )
+end
+function get_exclusions_preview(
+    assessmentTemplateArn,
+    previewToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "GetExclusionsPreview",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "assessmentTemplateArn" => assessmentTemplateArn,
+                    "previewToken" => previewToken,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_telemetry_metadata(assessment_run_arn)
@@ -322,8 +755,30 @@ Information about the data that is collected for the specified assessment run.
   data that you want to obtain.
 
 """
-get_telemetry_metadata(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("GetTelemetryMetadata", Dict{String, Any}("assessmentRunArn"=>assessmentRunArn); aws_config=aws_config)
-get_telemetry_metadata(assessmentRunArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("GetTelemetryMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config)
+function get_telemetry_metadata(
+    assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "GetTelemetryMetadata",
+        Dict{String,Any}("assessmentRunArn" => assessmentRunArn);
+        aws_config=aws_config,
+    )
+end
+function get_telemetry_metadata(
+    assessmentRunArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "GetTelemetryMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("assessmentRunArn" => assessmentRunArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_assessment_run_agents(assessment_run_arn)
@@ -349,8 +804,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calls to the action fill nextToken in the request with the value of NextToken from the
   previous response to continue listing data.
 """
-list_assessment_run_agents(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListAssessmentRunAgents", Dict{String, Any}("assessmentRunArn"=>assessmentRunArn); aws_config=aws_config)
-list_assessment_run_agents(assessmentRunArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListAssessmentRunAgents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config)
+function list_assessment_run_agents(
+    assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "ListAssessmentRunAgents",
+        Dict{String,Any}("assessmentRunArn" => assessmentRunArn);
+        aws_config=aws_config,
+    )
+end
+function list_assessment_run_agents(
+    assessmentRunArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "ListAssessmentRunAgents",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("assessmentRunArn" => assessmentRunArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_assessment_runs()
@@ -374,8 +851,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the action fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-list_assessment_runs(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListAssessmentRuns"; aws_config=aws_config)
-list_assessment_runs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListAssessmentRuns", params; aws_config=aws_config)
+function list_assessment_runs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return inspector("ListAssessmentRuns"; aws_config=aws_config)
+end
+function list_assessment_runs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector("ListAssessmentRuns", params; aws_config=aws_config)
+end
 
 """
     list_assessment_targets()
@@ -397,8 +880,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the action fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-list_assessment_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListAssessmentTargets"; aws_config=aws_config)
-list_assessment_targets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListAssessmentTargets", params; aws_config=aws_config)
+function list_assessment_targets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return inspector("ListAssessmentTargets"; aws_config=aws_config)
+end
+function list_assessment_targets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector("ListAssessmentTargets", params; aws_config=aws_config)
+end
 
 """
     list_assessment_templates()
@@ -422,8 +911,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calls to the action fill nextToken in the request with the value of NextToken from the
   previous response to continue listing data.
 """
-list_assessment_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListAssessmentTemplates"; aws_config=aws_config)
-list_assessment_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListAssessmentTemplates", params; aws_config=aws_config)
+function list_assessment_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return inspector("ListAssessmentTemplates"; aws_config=aws_config)
+end
+function list_assessment_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector("ListAssessmentTemplates", params; aws_config=aws_config)
+end
 
 """
     list_event_subscriptions()
@@ -444,8 +939,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The ARN of the assessment template for which you want to list the
   existing event subscriptions.
 """
-list_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListEventSubscriptions"; aws_config=aws_config)
-list_event_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListEventSubscriptions", params; aws_config=aws_config)
+function list_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return inspector("ListEventSubscriptions"; aws_config=aws_config)
+end
+function list_event_subscriptions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector("ListEventSubscriptions", params; aws_config=aws_config)
+end
 
 """
     list_exclusions(assessment_run_arn)
@@ -466,8 +967,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the action fill nextToken in the request with the value of nextToken from the previous
   response to continue listing data.
 """
-list_exclusions(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListExclusions", Dict{String, Any}("assessmentRunArn"=>assessmentRunArn); aws_config=aws_config)
-list_exclusions(assessmentRunArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListExclusions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config)
+function list_exclusions(
+    assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "ListExclusions",
+        Dict{String,Any}("assessmentRunArn" => assessmentRunArn);
+        aws_config=aws_config,
+    )
+end
+function list_exclusions(
+    assessmentRunArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "ListExclusions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("assessmentRunArn" => assessmentRunArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_findings()
@@ -491,8 +1014,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action fill nextToken in the request with the value of NextToken from the previous response
   to continue listing data.
 """
-list_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListFindings"; aws_config=aws_config)
-list_findings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListFindings", params; aws_config=aws_config)
+function list_findings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return inspector("ListFindings"; aws_config=aws_config)
+end
+function list_findings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector("ListFindings", params; aws_config=aws_config)
+end
 
 """
     list_rules_packages()
@@ -509,8 +1038,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the action fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-list_rules_packages(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListRulesPackages"; aws_config=aws_config)
-list_rules_packages(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListRulesPackages", params; aws_config=aws_config)
+function list_rules_packages(; aws_config::AbstractAWSConfig=global_aws_config())
+    return inspector("ListRulesPackages"; aws_config=aws_config)
+end
+function list_rules_packages(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector("ListRulesPackages", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -523,8 +1058,28 @@ Lists all tags associated with an assessment template.
   list.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     preview_agents(preview_agents_arn)
@@ -545,8 +1100,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action fill nextToken in the request with the value of NextToken from the previous response
   to continue listing data.
 """
-preview_agents(previewAgentsArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("PreviewAgents", Dict{String, Any}("previewAgentsArn"=>previewAgentsArn); aws_config=aws_config)
-preview_agents(previewAgentsArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("PreviewAgents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("previewAgentsArn"=>previewAgentsArn), params)); aws_config=aws_config)
+function preview_agents(previewAgentsArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return inspector(
+        "PreviewAgents",
+        Dict{String,Any}("previewAgentsArn" => previewAgentsArn);
+        aws_config=aws_config,
+    )
+end
+function preview_agents(
+    previewAgentsArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "PreviewAgents",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("previewAgentsArn" => previewAgentsArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     register_cross_account_access_role(role_arn)
@@ -560,8 +1135,24 @@ perform security assessments.
   needed to perform security assessments.
 
 """
-register_cross_account_access_role(roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("RegisterCrossAccountAccessRole", Dict{String, Any}("roleArn"=>roleArn); aws_config=aws_config)
-register_cross_account_access_role(roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("RegisterCrossAccountAccessRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("roleArn"=>roleArn), params)); aws_config=aws_config)
+function register_cross_account_access_role(
+    roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "RegisterCrossAccountAccessRole",
+        Dict{String,Any}("roleArn" => roleArn);
+        aws_config=aws_config,
+    )
+end
+function register_cross_account_access_role(
+    roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "RegisterCrossAccountAccessRole",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("roleArn" => roleArn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     remove_attributes_from_findings(attribute_keys, finding_arns)
@@ -577,8 +1168,35 @@ ARNs of the findings where an attribute with the specified key exists.
   from.
 
 """
-remove_attributes_from_findings(attributeKeys, findingArns; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("RemoveAttributesFromFindings", Dict{String, Any}("attributeKeys"=>attributeKeys, "findingArns"=>findingArns); aws_config=aws_config)
-remove_attributes_from_findings(attributeKeys, findingArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("RemoveAttributesFromFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributeKeys"=>attributeKeys, "findingArns"=>findingArns), params)); aws_config=aws_config)
+function remove_attributes_from_findings(
+    attributeKeys, findingArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "RemoveAttributesFromFindings",
+        Dict{String,Any}("attributeKeys" => attributeKeys, "findingArns" => findingArns);
+        aws_config=aws_config,
+    )
+end
+function remove_attributes_from_findings(
+    attributeKeys,
+    findingArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "RemoveAttributesFromFindings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "attributeKeys" => attributeKeys, "findingArns" => findingArns
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     set_tags_for_resource(resource_arn)
@@ -595,8 +1213,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key and value pairs that you want to set to the assessment
   template.
 """
-set_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("SetTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-set_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("SetTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function set_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "SetTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function set_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "SetTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_assessment_run(assessment_template_arn)
@@ -615,8 +1253,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"assessmentRunName"`: You can specify the name for the assessment run. The name must be
   unique for the assessment template whose ARN is used to start the assessment run.
 """
-start_assessment_run(assessmentTemplateArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("StartAssessmentRun", Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn); aws_config=aws_config)
-start_assessment_run(assessmentTemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("StartAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTemplateArn"=>assessmentTemplateArn), params)); aws_config=aws_config)
+function start_assessment_run(
+    assessmentTemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "StartAssessmentRun",
+        Dict{String,Any}("assessmentTemplateArn" => assessmentTemplateArn);
+        aws_config=aws_config,
+    )
+end
+function start_assessment_run(
+    assessmentTemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "StartAssessmentRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("assessmentTemplateArn" => assessmentTemplateArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_assessment_run(assessment_run_arn)
@@ -634,8 +1296,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data and begins the results evaluation and the findings generation process. SKIP_EVALUATION
   cancels the assessment run immediately, after which no findings are generated.
 """
-stop_assessment_run(assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("StopAssessmentRun", Dict{String, Any}("assessmentRunArn"=>assessmentRunArn); aws_config=aws_config)
-stop_assessment_run(assessmentRunArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("StopAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentRunArn"=>assessmentRunArn), params)); aws_config=aws_config)
+function stop_assessment_run(
+    assessmentRunArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "StopAssessmentRun",
+        Dict{String,Any}("assessmentRunArn" => assessmentRunArn);
+        aws_config=aws_config,
+    )
+end
+function stop_assessment_run(
+    assessmentRunArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "StopAssessmentRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("assessmentRunArn" => assessmentRunArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     subscribe_to_event(event, resource_arn, topic_arn)
@@ -651,8 +1335,38 @@ a specified event to a specified SNS topic.
 - `topic_arn`: The ARN of the SNS topic to which the SNS notifications are sent.
 
 """
-subscribe_to_event(event, resourceArn, topicArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("SubscribeToEvent", Dict{String, Any}("event"=>event, "resourceArn"=>resourceArn, "topicArn"=>topicArn); aws_config=aws_config)
-subscribe_to_event(event, resourceArn, topicArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("SubscribeToEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("event"=>event, "resourceArn"=>resourceArn, "topicArn"=>topicArn), params)); aws_config=aws_config)
+function subscribe_to_event(
+    event, resourceArn, topicArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "SubscribeToEvent",
+        Dict{String,Any}(
+            "event" => event, "resourceArn" => resourceArn, "topicArn" => topicArn
+        );
+        aws_config=aws_config,
+    )
+end
+function subscribe_to_event(
+    event,
+    resourceArn,
+    topicArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "SubscribeToEvent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "event" => event, "resourceArn" => resourceArn, "topicArn" => topicArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     unsubscribe_from_event(event, resource_arn, topic_arn)
@@ -668,8 +1382,38 @@ about a specified event to a specified SNS topic.
 - `topic_arn`: The ARN of the SNS topic to which SNS notifications are sent.
 
 """
-unsubscribe_from_event(event, resourceArn, topicArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("UnsubscribeFromEvent", Dict{String, Any}("event"=>event, "resourceArn"=>resourceArn, "topicArn"=>topicArn); aws_config=aws_config)
-unsubscribe_from_event(event, resourceArn, topicArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("UnsubscribeFromEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("event"=>event, "resourceArn"=>resourceArn, "topicArn"=>topicArn), params)); aws_config=aws_config)
+function unsubscribe_from_event(
+    event, resourceArn, topicArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector(
+        "UnsubscribeFromEvent",
+        Dict{String,Any}(
+            "event" => event, "resourceArn" => resourceArn, "topicArn" => topicArn
+        );
+        aws_config=aws_config,
+    )
+end
+function unsubscribe_from_event(
+    event,
+    resourceArn,
+    topicArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "UnsubscribeFromEvent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "event" => event, "resourceArn" => resourceArn, "topicArn" => topicArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_assessment_target(assessment_target_arn, assessment_target_name)
@@ -688,5 +1432,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceGroupArn"`: The ARN of the resource group that is used to specify the new
   resource group to associate with the assessment target.
 """
-update_assessment_target(assessmentTargetArn, assessmentTargetName; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("UpdateAssessmentTarget", Dict{String, Any}("assessmentTargetArn"=>assessmentTargetArn, "assessmentTargetName"=>assessmentTargetName); aws_config=aws_config)
-update_assessment_target(assessmentTargetArn, assessmentTargetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = inspector("UpdateAssessmentTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentTargetArn"=>assessmentTargetArn, "assessmentTargetName"=>assessmentTargetName), params)); aws_config=aws_config)
+function update_assessment_target(
+    assessmentTargetArn,
+    assessmentTargetName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "UpdateAssessmentTarget",
+        Dict{String,Any}(
+            "assessmentTargetArn" => assessmentTargetArn,
+            "assessmentTargetName" => assessmentTargetName,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_assessment_target(
+    assessmentTargetArn,
+    assessmentTargetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector(
+        "UpdateAssessmentTarget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "assessmentTargetArn" => assessmentTargetArn,
+                    "assessmentTargetName" => assessmentTargetName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

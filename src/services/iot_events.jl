@@ -34,8 +34,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources in the AWS IoT Events Developer Guide. You can create up to 50 tags for one alarm
   model.
 """
-create_alarm_model(alarmModelName, alarmRule, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/alarm-models", Dict{String, Any}("alarmModelName"=>alarmModelName, "alarmRule"=>alarmRule, "roleArn"=>roleArn); aws_config=aws_config)
-create_alarm_model(alarmModelName, alarmRule, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/alarm-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmModelName"=>alarmModelName, "alarmRule"=>alarmRule, "roleArn"=>roleArn), params)); aws_config=aws_config)
+function create_alarm_model(
+    alarmModelName, alarmRule, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "POST",
+        "/alarm-models",
+        Dict{String,Any}(
+            "alarmModelName" => alarmModelName,
+            "alarmRule" => alarmRule,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_alarm_model(
+    alarmModelName,
+    alarmRule,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/alarm-models",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "alarmModelName" => alarmModelName,
+                    "alarmRule" => alarmRule,
+                    "roleArn" => roleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_detector_model(detector_model_definition, detector_model_name, role_arn)
@@ -61,8 +97,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   device associated with the input.
 - `"tags"`: Metadata that can be used to manage the detector model.
 """
-create_detector_model(detectorModelDefinition, detectorModelName, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/detector-models", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn); aws_config=aws_config)
-create_detector_model(detectorModelDefinition, detectorModelName, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/detector-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn), params)); aws_config=aws_config)
+function create_detector_model(
+    detectorModelDefinition,
+    detectorModelName,
+    roleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/detector-models",
+        Dict{String,Any}(
+            "detectorModelDefinition" => detectorModelDefinition,
+            "detectorModelName" => detectorModelName,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_detector_model(
+    detectorModelDefinition,
+    detectorModelName,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/detector-models",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "detectorModelDefinition" => detectorModelDefinition,
+                    "detectorModelName" => detectorModelName,
+                    "roleArn" => roleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_input(input_definition, input_name)
@@ -79,8 +154,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputDescription"`: A brief description of the input.
 - `"tags"`: Metadata that can be used to manage the input.
 """
-create_input(inputDefinition, inputName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/inputs", Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName); aws_config=aws_config)
-create_input(inputDefinition, inputName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName), params)); aws_config=aws_config)
+function create_input(
+    inputDefinition, inputName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "POST",
+        "/inputs",
+        Dict{String,Any}("inputDefinition" => inputDefinition, "inputName" => inputName);
+        aws_config=aws_config,
+    )
+end
+function create_input(
+    inputDefinition,
+    inputName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/inputs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inputDefinition" => inputDefinition, "inputName" => inputName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_alarm_model(alarm_model_name)
@@ -93,8 +197,20 @@ also deleted. This action can't be undone.
 - `alarm_model_name`: The name of the alarm model.
 
 """
-delete_alarm_model(alarmModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/alarm-models/$(alarmModelName)"; aws_config=aws_config)
-delete_alarm_model(alarmModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/alarm-models/$(alarmModelName)", params; aws_config=aws_config)
+function delete_alarm_model(
+    alarmModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events("DELETE", "/alarm-models/$(alarmModelName)"; aws_config=aws_config)
+end
+function delete_alarm_model(
+    alarmModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "DELETE", "/alarm-models/$(alarmModelName)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_detector_model(detector_model_name)
@@ -106,8 +222,22 @@ Deletes a detector model. Any active instances of the detector model are also de
 - `detector_model_name`: The name of the detector model to be deleted.
 
 """
-delete_detector_model(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/detector-models/$(detectorModelName)"; aws_config=aws_config)
-delete_detector_model(detectorModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/detector-models/$(detectorModelName)", params; aws_config=aws_config)
+function delete_detector_model(
+    detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "DELETE", "/detector-models/$(detectorModelName)"; aws_config=aws_config
+    )
+end
+function delete_detector_model(
+    detectorModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "DELETE", "/detector-models/$(detectorModelName)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_input(input_name)
@@ -119,8 +249,16 @@ Deletes an input.
 - `input_name`: The name of the input to delete.
 
 """
-delete_input(inputName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/inputs/$(inputName)"; aws_config=aws_config)
-delete_input(inputName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/inputs/$(inputName)", params; aws_config=aws_config)
+function delete_input(inputName; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_events("DELETE", "/inputs/$(inputName)"; aws_config=aws_config)
+end
+function delete_input(
+    inputName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events("DELETE", "/inputs/$(inputName)", params; aws_config=aws_config)
+end
 
 """
     describe_alarm_model(alarm_model_name)
@@ -136,8 +274,20 @@ alarmModelVersion parameter, the latest version is returned.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"version"`: The version of the alarm model.
 """
-describe_alarm_model(alarmModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/alarm-models/$(alarmModelName)"; aws_config=aws_config)
-describe_alarm_model(alarmModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/alarm-models/$(alarmModelName)", params; aws_config=aws_config)
+function describe_alarm_model(
+    alarmModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events("GET", "/alarm-models/$(alarmModelName)"; aws_config=aws_config)
+end
+function describe_alarm_model(
+    alarmModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "GET", "/alarm-models/$(alarmModelName)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_detector_model(detector_model_name)
@@ -153,8 +303,20 @@ the latest version is returned.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"version"`: The version of the detector model.
 """
-describe_detector_model(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)"; aws_config=aws_config)
-describe_detector_model(detectorModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)", params; aws_config=aws_config)
+function describe_detector_model(
+    detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events("GET", "/detector-models/$(detectorModelName)"; aws_config=aws_config)
+end
+function describe_detector_model(
+    detectorModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "GET", "/detector-models/$(detectorModelName)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_detector_model_analysis(analysis_id)
@@ -167,8 +329,22 @@ analyzing your detector model, you have up to 24 hours to retrieve the analysis 
 - `analysis_id`: The ID of the analysis result that you want to retrieve.
 
 """
-describe_detector_model_analysis(analysisId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/analysis/detector-models/$(analysisId)"; aws_config=aws_config)
-describe_detector_model_analysis(analysisId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/analysis/detector-models/$(analysisId)", params; aws_config=aws_config)
+function describe_detector_model_analysis(
+    analysisId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "GET", "/analysis/detector-models/$(analysisId)"; aws_config=aws_config
+    )
+end
+function describe_detector_model_analysis(
+    analysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "GET", "/analysis/detector-models/$(analysisId)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_input(input_name)
@@ -180,8 +356,16 @@ Describes an input.
 - `input_name`: The name of the input.
 
 """
-describe_input(inputName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs/$(inputName)"; aws_config=aws_config)
-describe_input(inputName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs/$(inputName)", params; aws_config=aws_config)
+function describe_input(inputName; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_events("GET", "/inputs/$(inputName)"; aws_config=aws_config)
+end
+function describe_input(
+    inputName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events("GET", "/inputs/$(inputName)", params; aws_config=aws_config)
+end
 
 """
     describe_logging_options()
@@ -190,8 +374,14 @@ describe_input(inputName, params::AbstractDict{String}; aws_config::AbstractAWSC
 Retrieves the current settings of the AWS IoT Events logging options.
 
 """
-describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/logging"; aws_config=aws_config)
-describe_logging_options(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/logging", params; aws_config=aws_config)
+function describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_events("GET", "/logging"; aws_config=aws_config)
+end
+function describe_logging_options(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events("GET", "/logging", params; aws_config=aws_config)
+end
 
 """
     get_detector_model_analysis_results(analysis_id)
@@ -208,8 +398,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
-get_detector_model_analysis_results(analysisId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/analysis/detector-models/$(analysisId)/results"; aws_config=aws_config)
-get_detector_model_analysis_results(analysisId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/analysis/detector-models/$(analysisId)/results", params; aws_config=aws_config)
+function get_detector_model_analysis_results(
+    analysisId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "GET", "/analysis/detector-models/$(analysisId)/results"; aws_config=aws_config
+    )
+end
+function get_detector_model_analysis_results(
+    analysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "GET",
+        "/analysis/detector-models/$(analysisId)/results",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_alarm_model_versions(alarm_model_name)
@@ -226,8 +433,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
-list_alarm_model_versions(alarmModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/alarm-models/$(alarmModelName)/versions"; aws_config=aws_config)
-list_alarm_model_versions(alarmModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/alarm-models/$(alarmModelName)/versions", params; aws_config=aws_config)
+function list_alarm_model_versions(
+    alarmModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "GET", "/alarm-models/$(alarmModelName)/versions"; aws_config=aws_config
+    )
+end
+function list_alarm_model_versions(
+    alarmModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "GET", "/alarm-models/$(alarmModelName)/versions", params; aws_config=aws_config
+    )
+end
 
 """
     list_alarm_models()
@@ -241,8 +462,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
-list_alarm_models(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/alarm-models"; aws_config=aws_config)
-list_alarm_models(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/alarm-models", params; aws_config=aws_config)
+function list_alarm_models(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_events("GET", "/alarm-models"; aws_config=aws_config)
+end
+function list_alarm_models(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events("GET", "/alarm-models", params; aws_config=aws_config)
+end
 
 """
     list_detector_model_versions(detector_model_name)
@@ -259,8 +486,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
-list_detector_model_versions(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)/versions"; aws_config=aws_config)
-list_detector_model_versions(detectorModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)/versions", params; aws_config=aws_config)
+function list_detector_model_versions(
+    detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "GET", "/detector-models/$(detectorModelName)/versions"; aws_config=aws_config
+    )
+end
+function list_detector_model_versions(
+    detectorModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "GET",
+        "/detector-models/$(detectorModelName)/versions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_detector_models()
@@ -274,8 +518,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
-list_detector_models(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models"; aws_config=aws_config)
-list_detector_models(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models", params; aws_config=aws_config)
+function list_detector_models(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_events("GET", "/detector-models"; aws_config=aws_config)
+end
+function list_detector_models(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events("GET", "/detector-models", params; aws_config=aws_config)
+end
 
 """
     list_input_routings(input_identifier)
@@ -291,8 +541,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:  The maximum number of results to be returned per request.
 - `"nextToken"`:  The token that you can use to return the next set of results.
 """
-list_input_routings(inputIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/input-routings", Dict{String, Any}("inputIdentifier"=>inputIdentifier); aws_config=aws_config)
-list_input_routings(inputIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/input-routings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputIdentifier"=>inputIdentifier), params)); aws_config=aws_config)
+function list_input_routings(
+    inputIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "POST",
+        "/input-routings",
+        Dict{String,Any}("inputIdentifier" => inputIdentifier);
+        aws_config=aws_config,
+    )
+end
+function list_input_routings(
+    inputIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/input-routings",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("inputIdentifier" => inputIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_inputs()
@@ -305,8 +579,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
-list_inputs(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs"; aws_config=aws_config)
-list_inputs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs", params; aws_config=aws_config)
+function list_inputs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_events("GET", "/inputs"; aws_config=aws_config)
+end
+function list_inputs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events("GET", "/inputs", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -318,8 +598,30 @@ Lists the tags (metadata) you have assigned to the resource.
 - `resource_arn`: The ARN of the resource.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "GET",
+        "/tags",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "GET",
+        "/tags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_logging_options(logging_options)
@@ -334,8 +636,30 @@ correct an invalid policy), it takes up to five minutes for that change to take 
 - `logging_options`: The new values of the AWS IoT Events logging options.
 
 """
-put_logging_options(loggingOptions; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("PUT", "/logging", Dict{String, Any}("loggingOptions"=>loggingOptions); aws_config=aws_config)
-put_logging_options(loggingOptions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("PUT", "/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptions"=>loggingOptions), params)); aws_config=aws_config)
+function put_logging_options(
+    loggingOptions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "PUT",
+        "/logging",
+        Dict{String,Any}("loggingOptions" => loggingOptions);
+        aws_config=aws_config,
+    )
+end
+function put_logging_options(
+    loggingOptions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "PUT",
+        "/logging",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("loggingOptions" => loggingOptions), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_detector_model_analysis(detector_model_definition)
@@ -348,8 +672,34 @@ detector model in the AWS IoT Events Developer Guide.
 - `detector_model_definition`:
 
 """
-start_detector_model_analysis(detectorModelDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/analysis/detector-models/", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition); aws_config=aws_config)
-start_detector_model_analysis(detectorModelDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/analysis/detector-models/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition), params)); aws_config=aws_config)
+function start_detector_model_analysis(
+    detectorModelDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "POST",
+        "/analysis/detector-models/",
+        Dict{String,Any}("detectorModelDefinition" => detectorModelDefinition);
+        aws_config=aws_config,
+    )
+end
+function start_detector_model_analysis(
+    detectorModelDefinition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/analysis/detector-models/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("detectorModelDefinition" => detectorModelDefinition),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -363,8 +713,33 @@ manage a resource.
 - `tags`: The new or modified tags for the resource.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_events(
+        "POST",
+        "/tags",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/tags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -377,8 +752,35 @@ Removes the given tags (metadata) from the resource.
 - `tag_keys`: A list of the keys of the tags to be removed from the resource.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "DELETE",
+        "/tags",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "DELETE",
+        "/tags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_alarm_model(alarm_model_name, alarm_rule, role_arn)
@@ -402,8 +804,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"alarmNotification"`: Contains information about one or more notification actions.
 - `"severity"`: A non-negative integer that reflects the severity level of the alarm.
 """
-update_alarm_model(alarmModelName, alarmRule, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/alarm-models/$(alarmModelName)", Dict{String, Any}("alarmRule"=>alarmRule, "roleArn"=>roleArn); aws_config=aws_config)
-update_alarm_model(alarmModelName, alarmRule, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/alarm-models/$(alarmModelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmRule"=>alarmRule, "roleArn"=>roleArn), params)); aws_config=aws_config)
+function update_alarm_model(
+    alarmModelName, alarmRule, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "POST",
+        "/alarm-models/$(alarmModelName)",
+        Dict{String,Any}("alarmRule" => alarmRule, "roleArn" => roleArn);
+        aws_config=aws_config,
+    )
+end
+function update_alarm_model(
+    alarmModelName,
+    alarmRule,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/alarm-models/$(alarmModelName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("alarmRule" => alarmRule, "roleArn" => roleArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_detector_model(detector_model_definition, detector_model_name, role_arn)
@@ -424,8 +854,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"evaluationMethod"`: Information about the order in which events are evaluated and how
   actions are executed.
 """
-update_detector_model(detectorModelDefinition, detectorModelName, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn); aws_config=aws_config)
-update_detector_model(detectorModelDefinition, detectorModelName, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn), params)); aws_config=aws_config)
+function update_detector_model(
+    detectorModelDefinition,
+    detectorModelName,
+    roleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/detector-models/$(detectorModelName)",
+        Dict{String,Any}(
+            "detectorModelDefinition" => detectorModelDefinition, "roleArn" => roleArn
+        );
+        aws_config=aws_config,
+    )
+end
+function update_detector_model(
+    detectorModelDefinition,
+    detectorModelName,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "POST",
+        "/detector-models/$(detectorModelName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "detectorModelDefinition" => detectorModelDefinition,
+                    "roleArn" => roleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_input(input_definition, input_name)
@@ -441,5 +907,30 @@ Updates an input.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"inputDescription"`: A brief description of the input.
 """
-update_input(inputDefinition, inputName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}("inputDefinition"=>inputDefinition); aws_config=aws_config)
-update_input(inputDefinition, inputName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition), params)); aws_config=aws_config)
+function update_input(
+    inputDefinition, inputName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_events(
+        "PUT",
+        "/inputs/$(inputName)",
+        Dict{String,Any}("inputDefinition" => inputDefinition);
+        aws_config=aws_config,
+    )
+end
+function update_input(
+    inputDefinition,
+    inputName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_events(
+        "PUT",
+        "/inputs/$(inputName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("inputDefinition" => inputDefinition), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

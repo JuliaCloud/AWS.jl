@@ -25,12 +25,12 @@ Base.show(io::IO, e::NoCredentials) = println(io, e.message)
 struct AWSException <: Exception
     code::String
     message::String
-    info::Union{XMLDictElement, Dict, String, Nothing}
+    info::Union{XMLDictElement,Dict,String,Nothing}
     cause::HTTP.StatusError
 end
 function Base.show(io::IO, e::AWSException)
     message = isempty(e.message) ? "" : (" -- " * e.message)
-    println(io, "AWSException: ", string(e.code, message, "\n", e.cause))
+    return println(io, "AWSException: ", string(e.code, message, "\n", e.cause))
 end
 
 http_message(e::HTTP.StatusError) = String(copy(e.response.body))
@@ -41,7 +41,7 @@ is_valid_xml_string(str) = startswith(str, '<')
 function AWSException(e::HTTP.StatusError)
     code = string(http_status(e))
     message = "AWSException"
-    info = Dict{String, Dict}()
+    info = Dict{String,Dict}()
 
     # Extract API error code from Lambda-style JSON error message...
     if endswith(content_type(e), "json")
@@ -52,7 +52,7 @@ function AWSException(e::HTTP.StatusError)
     if occursin(r"^application/x-amz-json-1\.[01]$", content_type(e))
         info = JSON.parse(http_message(e))
         if haskey(info, "__type")
-            code = rsplit(info["__type"], '#', limit=2)[end]
+            code = rsplit(info["__type"], '#'; limit=2)[end]
         end
     end
 
@@ -67,7 +67,7 @@ function AWSException(e::HTTP.StatusError)
     info = get(info, "Error", info)
 
     code = get(info, "Code", code)
-    
+
     # There are also times when the response back is (M|m)essage
     message = get(info, "Message", message)
     message = get(info, "message", message)

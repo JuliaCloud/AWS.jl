@@ -15,8 +15,31 @@ Cancels the specified task.
 - `quantum_task_arn`: The ARN of the task to cancel.
 
 """
-cancel_quantum_task(clientToken, quantumTaskArn; aws_config::AbstractAWSConfig=global_aws_config()) = braket("PUT", "/quantum-task/$(quantumTaskArn)/cancel", Dict{String, Any}("clientToken"=>clientToken); aws_config=aws_config)
-cancel_quantum_task(clientToken, quantumTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("PUT", "/quantum-task/$(quantumTaskArn)/cancel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken), params)); aws_config=aws_config)
+function cancel_quantum_task(
+    clientToken, quantumTaskArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return braket(
+        "PUT",
+        "/quantum-task/$(quantumTaskArn)/cancel",
+        Dict{String,Any}("clientToken" => clientToken);
+        aws_config=aws_config,
+    )
+end
+function cancel_quantum_task(
+    clientToken,
+    quantumTaskArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket(
+        "PUT",
+        "/quantum-task/$(quantumTaskArn)/cancel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_quantum_task(action, client_token, device_arn, output_s3_bucket, output_s3_key_prefix, shots)
@@ -38,8 +61,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deviceParameters"`: The parameters for the device to run the task on.
 - `"tags"`: Tags to be added to the quantum task you're creating.
 """
-create_quantum_task(action, clientToken, deviceArn, outputS3Bucket, outputS3KeyPrefix, shots; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/quantum-task", Dict{String, Any}("action"=>action, "clientToken"=>clientToken, "deviceArn"=>deviceArn, "outputS3Bucket"=>outputS3Bucket, "outputS3KeyPrefix"=>outputS3KeyPrefix, "shots"=>shots); aws_config=aws_config)
-create_quantum_task(action, clientToken, deviceArn, outputS3Bucket, outputS3KeyPrefix, shots, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/quantum-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "clientToken"=>clientToken, "deviceArn"=>deviceArn, "outputS3Bucket"=>outputS3Bucket, "outputS3KeyPrefix"=>outputS3KeyPrefix, "shots"=>shots), params)); aws_config=aws_config)
+function create_quantum_task(
+    action,
+    clientToken,
+    deviceArn,
+    outputS3Bucket,
+    outputS3KeyPrefix,
+    shots;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket(
+        "POST",
+        "/quantum-task",
+        Dict{String,Any}(
+            "action" => action,
+            "clientToken" => clientToken,
+            "deviceArn" => deviceArn,
+            "outputS3Bucket" => outputS3Bucket,
+            "outputS3KeyPrefix" => outputS3KeyPrefix,
+            "shots" => shots,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_quantum_task(
+    action,
+    clientToken,
+    deviceArn,
+    outputS3Bucket,
+    outputS3KeyPrefix,
+    shots,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket(
+        "POST",
+        "/quantum-task",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "action" => action,
+                    "clientToken" => clientToken,
+                    "deviceArn" => deviceArn,
+                    "outputS3Bucket" => outputS3Bucket,
+                    "outputS3KeyPrefix" => outputS3KeyPrefix,
+                    "shots" => shots,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_device(device_arn)
@@ -51,8 +125,16 @@ Retrieves the devices available in Amazon Braket.
 - `device_arn`: The ARN of the device to retrieve.
 
 """
-get_device(deviceArn; aws_config::AbstractAWSConfig=global_aws_config()) = braket("GET", "/device/$(deviceArn)"; aws_config=aws_config)
-get_device(deviceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("GET", "/device/$(deviceArn)", params; aws_config=aws_config)
+function get_device(deviceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return braket("GET", "/device/$(deviceArn)"; aws_config=aws_config)
+end
+function get_device(
+    deviceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket("GET", "/device/$(deviceArn)", params; aws_config=aws_config)
+end
 
 """
     get_quantum_task(quantum_task_arn)
@@ -64,8 +146,16 @@ Retrieves the specified quantum task.
 - `quantum_task_arn`: the ARN of the task to retrieve.
 
 """
-get_quantum_task(quantumTaskArn; aws_config::AbstractAWSConfig=global_aws_config()) = braket("GET", "/quantum-task/$(quantumTaskArn)"; aws_config=aws_config)
-get_quantum_task(quantumTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("GET", "/quantum-task/$(quantumTaskArn)", params; aws_config=aws_config)
+function get_quantum_task(quantumTaskArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return braket("GET", "/quantum-task/$(quantumTaskArn)"; aws_config=aws_config)
+end
+function get_quantum_task(
+    quantumTaskArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket("GET", "/quantum-task/$(quantumTaskArn)", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -77,8 +167,18 @@ Shows the tags associated with this resource.
 - `resource_arn`: Specify the resourceArn for the resource whose tags to display.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = braket("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return braket("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+end
 
 """
     search_devices(filters)
@@ -95,8 +195,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
   token returned from the previous request continue results where the previous request ended.
 """
-search_devices(filters; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/devices", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
-search_devices(filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config)
+function search_devices(filters; aws_config::AbstractAWSConfig=global_aws_config())
+    return braket(
+        "POST", "/devices", Dict{String,Any}("filters" => filters); aws_config=aws_config
+    )
+end
+function search_devices(
+    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return braket(
+        "POST",
+        "/devices",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     search_quantum_tasks(filters)
@@ -113,8 +226,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
   token returned from the previous request continue results where the previous request ended.
 """
-search_quantum_tasks(filters; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
-search_quantum_tasks(filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config)
+function search_quantum_tasks(filters; aws_config::AbstractAWSConfig=global_aws_config())
+    return braket(
+        "POST",
+        "/quantum-tasks",
+        Dict{String,Any}("filters" => filters);
+        aws_config=aws_config,
+    )
+end
+function search_quantum_tasks(
+    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return braket(
+        "POST",
+        "/quantum-tasks",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -127,8 +256,27 @@ Add a tag to the specified resource.
 - `tags`: Specify the tags to add to the resource.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return braket(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -141,5 +289,26 @@ Remove tags from a resource.
 - `tag_keys`: Specify the keys for the tags to remove from the resource.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = braket("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return braket(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return braket(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end

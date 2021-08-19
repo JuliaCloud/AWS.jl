@@ -20,8 +20,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"delete"`: When set to true, AWS IoT Secure Tunneling deletes the tunnel data
   immediately.
 """
-close_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws_config=aws_config)
-close_tunnel(tunnelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), params)); aws_config=aws_config)
+function close_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsecuretunneling(
+        "CloseTunnel", Dict{String,Any}("tunnelId" => tunnelId); aws_config=aws_config
+    )
+end
+function close_tunnel(
+    tunnelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsecuretunneling(
+        "CloseTunnel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("tunnelId" => tunnelId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_tunnel(tunnel_id)
@@ -33,8 +49,24 @@ Gets information about a tunnel identified by the unique tunnel id.
 - `tunnel_id`: The tunnel to describe.
 
 """
-describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws_config=aws_config)
-describe_tunnel(tunnelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), params)); aws_config=aws_config)
+function describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsecuretunneling(
+        "DescribeTunnel", Dict{String,Any}("tunnelId" => tunnelId); aws_config=aws_config
+    )
+end
+function describe_tunnel(
+    tunnelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsecuretunneling(
+        "DescribeTunnel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("tunnelId" => tunnelId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -46,8 +78,28 @@ Lists the tags for the specified resource.
 - `resource_arn`: The resource ARN.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsecuretunneling(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsecuretunneling(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tunnels()
@@ -62,8 +114,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to retrieve the next set of results.
 - `"thingName"`: The name of the IoT thing associated with the destination device.
 """
-list_tunnels(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTunnels"; aws_config=aws_config)
-list_tunnels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTunnels", params; aws_config=aws_config)
+function list_tunnels(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsecuretunneling("ListTunnels"; aws_config=aws_config)
+end
+function list_tunnels(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsecuretunneling("ListTunnels", params; aws_config=aws_config)
+end
 
 """
     open_tunnel()
@@ -79,8 +137,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of tag metadata.
 - `"timeoutConfig"`: Timeout configuration for a tunnel.
 """
-open_tunnel(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("OpenTunnel"; aws_config=aws_config)
-open_tunnel(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("OpenTunnel", params; aws_config=aws_config)
+function open_tunnel(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsecuretunneling("OpenTunnel"; aws_config=aws_config)
+end
+function open_tunnel(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsecuretunneling("OpenTunnel", params; aws_config=aws_config)
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -93,8 +157,31 @@ A resource tag.
 - `tags`: The tags for the resource.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotsecuretunneling(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsecuretunneling(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -107,5 +194,30 @@ Removes a tag from a resource.
 - `tag_keys`: The keys of the tags to remove.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotsecuretunneling(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotsecuretunneling(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

@@ -31,8 +31,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"transitEncryptionEnabled"`: Transit encryption flag when connecting to cache. This
   setting cannot be updated after creation.
 """
-create_api_cache(apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches", Dict{String, Any}("apiCachingBehavior"=>apiCachingBehavior, "ttl"=>ttl, "type"=>type); aws_config=aws_config)
-create_api_cache(apiCachingBehavior, apiId, ttl, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("apiCachingBehavior"=>apiCachingBehavior, "ttl"=>ttl, "type"=>type), params)); aws_config=aws_config)
+function create_api_cache(
+    apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/ApiCaches",
+        Dict{String,Any}(
+            "apiCachingBehavior" => apiCachingBehavior, "ttl" => ttl, "type" => type
+        );
+        aws_config=aws_config,
+    )
+end
+function create_api_cache(
+    apiCachingBehavior,
+    apiId,
+    ttl,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/ApiCaches",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "apiCachingBehavior" => apiCachingBehavior, "ttl" => ttl, "type" => type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_api_key(api_id)
@@ -50,8 +83,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   represented as seconds since the epoch, rounded down to the nearest hour. The default value
   for this parameter is 7 days from creation time. For more information, see .
 """
-create_api_key(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/apikeys"; aws_config=aws_config)
-create_api_key(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/apikeys", params; aws_config=aws_config)
+function create_api_key(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("POST", "/v1/apis/$(apiId)/apikeys"; aws_config=aws_config)
+end
+function create_api_key(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("POST", "/v1/apis/$(apiId)/apikeys", params; aws_config=aws_config)
+end
 
 """
     create_data_source(api_id, name, type)
@@ -70,13 +109,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dynamodbConfig"`: Amazon DynamoDB settings.
 - `"elasticsearchConfig"`: Amazon Elasticsearch Service settings.
 - `"httpConfig"`: HTTP endpoint settings.
-- `"lambdaConfig"`: AWS Lambda settings.
+- `"lambdaConfig"`: Amazon Web Services Lambda settings.
 - `"relationalDatabaseConfig"`: Relational database settings.
-- `"serviceRoleArn"`: The AWS IAM service role ARN for the data source. The system assumes
-  this role when accessing the data source.
+- `"serviceRoleArn"`: The Identity and Access Management service role ARN for the data
+  source. The system assumes this role when accessing the data source.
 """
-create_data_source(apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/datasources", Dict{String, Any}("name"=>name, "type"=>type); aws_config=aws_config)
-create_data_source(apiId, name, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/datasources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "type"=>type), params)); aws_config=aws_config)
+function create_data_source(
+    apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/datasources",
+        Dict{String,Any}("name" => name, "type" => type);
+        aws_config=aws_config,
+    )
+end
+function create_data_source(
+    apiId,
+    name,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/datasources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("name" => name, "type" => type), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_function(api_id, data_source_name, function_version, name)
@@ -100,8 +163,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"responseMappingTemplate"`: The Function response mapping template.
 - `"syncConfig"`:
 """
-create_function(apiId, dataSourceName, functionVersion, name; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/functions", Dict{String, Any}("dataSourceName"=>dataSourceName, "functionVersion"=>functionVersion, "name"=>name); aws_config=aws_config)
-create_function(apiId, dataSourceName, functionVersion, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSourceName"=>dataSourceName, "functionVersion"=>functionVersion, "name"=>name), params)); aws_config=aws_config)
+function create_function(
+    apiId,
+    dataSourceName,
+    functionVersion,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/functions",
+        Dict{String,Any}(
+            "dataSourceName" => dataSourceName,
+            "functionVersion" => functionVersion,
+            "name" => name,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_function(
+    apiId,
+    dataSourceName,
+    functionVersion,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/functions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "dataSourceName" => dataSourceName,
+                    "functionVersion" => functionVersion,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_graphql_api(authentication_type, name)
@@ -110,22 +214,52 @@ create_function(apiId, dataSourceName, functionVersion, name, params::AbstractDi
 Creates a GraphqlApi object.
 
 # Arguments
-- `authentication_type`: The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito
-  user pools.
+- `authentication_type`: The authentication type: API key, Identity and Access Management,
+  OIDC, or Amazon Cognito user pools.
 - `name`: A user-supplied name for the GraphqlApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"additionalAuthenticationProviders"`: A list of additional authentication providers for
   the GraphqlApi API.
+- `"lambdaAuthorizerConfig"`: Configuration for AWS Lambda function authorization.
 - `"logConfig"`: The Amazon CloudWatch Logs configuration.
 - `"openIDConnectConfig"`: The OpenID Connect configuration.
 - `"tags"`: A TagMap object.
 - `"userPoolConfig"`: The Amazon Cognito user pool configuration.
 - `"xrayEnabled"`: A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
 """
-create_graphql_api(authenticationType, name; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis", Dict{String, Any}("authenticationType"=>authenticationType, "name"=>name); aws_config=aws_config)
-create_graphql_api(authenticationType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authenticationType"=>authenticationType, "name"=>name), params)); aws_config=aws_config)
+function create_graphql_api(
+    authenticationType, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis",
+        Dict{String,Any}("authenticationType" => authenticationType, "name" => name);
+        aws_config=aws_config,
+    )
+end
+function create_graphql_api(
+    authenticationType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "authenticationType" => authenticationType, "name" => name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_resolver(api_id, field_name, type_name)
@@ -158,8 +292,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source.
 - `"syncConfig"`: The SyncConfig for a resolver attached to a versioned datasource.
 """
-create_resolver(apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)/resolvers", Dict{String, Any}("fieldName"=>fieldName); aws_config=aws_config)
-create_resolver(apiId, fieldName, typeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)/resolvers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fieldName"=>fieldName), params)); aws_config=aws_config)
+function create_resolver(
+    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/types/$(typeName)/resolvers",
+        Dict{String,Any}("fieldName" => fieldName);
+        aws_config=aws_config,
+    )
+end
+function create_resolver(
+    apiId,
+    fieldName,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/types/$(typeName)/resolvers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("fieldName" => fieldName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_type(api_id, definition, format)
@@ -174,8 +332,36 @@ Creates a Type object.
 - `format`: The type format: SDL or JSON.
 
 """
-create_type(apiId, definition, format; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/types", Dict{String, Any}("definition"=>definition, "format"=>format); aws_config=aws_config)
-create_type(apiId, definition, format, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/types", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition, "format"=>format), params)); aws_config=aws_config)
+function create_type(
+    apiId, definition, format; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/types",
+        Dict{String,Any}("definition" => definition, "format" => format);
+        aws_config=aws_config,
+    )
+end
+function create_type(
+    apiId,
+    definition,
+    format,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/types",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("definition" => definition, "format" => format),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_api_cache(api_id)
@@ -187,8 +373,14 @@ Deletes an ApiCache object.
 - `api_id`: The API ID.
 
 """
-delete_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/ApiCaches"; aws_config=aws_config)
-delete_api_cache(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/ApiCaches", params; aws_config=aws_config)
+function delete_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("DELETE", "/v1/apis/$(apiId)/ApiCaches"; aws_config=aws_config)
+end
+function delete_api_cache(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("DELETE", "/v1/apis/$(apiId)/ApiCaches", params; aws_config=aws_config)
+end
 
 """
     delete_api_key(api_id, id)
@@ -201,8 +393,19 @@ Deletes an API key.
 - `id`: The ID for the API key.
 
 """
-delete_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/apikeys/$(id)"; aws_config=aws_config)
-delete_api_key(apiId, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/apikeys/$(id)", params; aws_config=aws_config)
+function delete_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("DELETE", "/v1/apis/$(apiId)/apikeys/$(id)"; aws_config=aws_config)
+end
+function delete_api_key(
+    apiId,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "DELETE", "/v1/apis/$(apiId)/apikeys/$(id)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_data_source(api_id, name)
@@ -215,8 +418,19 @@ Deletes a DataSource object.
 - `name`: The name of the data source.
 
 """
-delete_data_source(apiId, name; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/datasources/$(name)"; aws_config=aws_config)
-delete_data_source(apiId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/datasources/$(name)", params; aws_config=aws_config)
+function delete_data_source(apiId, name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("DELETE", "/v1/apis/$(apiId)/datasources/$(name)"; aws_config=aws_config)
+end
+function delete_data_source(
+    apiId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "DELETE", "/v1/apis/$(apiId)/datasources/$(name)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_function(api_id, function_id)
@@ -229,8 +443,23 @@ Deletes a Function.
 - `function_id`: The Function ID.
 
 """
-delete_function(apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/functions/$(functionId)"; aws_config=aws_config)
-delete_function(apiId, functionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/functions/$(functionId)", params; aws_config=aws_config)
+function delete_function(
+    apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "DELETE", "/v1/apis/$(apiId)/functions/$(functionId)"; aws_config=aws_config
+    )
+end
+function delete_function(
+    apiId,
+    functionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "DELETE", "/v1/apis/$(apiId)/functions/$(functionId)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_graphql_api(api_id)
@@ -242,8 +471,14 @@ Deletes a GraphqlApi object.
 - `api_id`: The API ID.
 
 """
-delete_graphql_api(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)"; aws_config=aws_config)
-delete_graphql_api(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)", params; aws_config=aws_config)
+function delete_graphql_api(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("DELETE", "/v1/apis/$(apiId)"; aws_config=aws_config)
+end
+function delete_graphql_api(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("DELETE", "/v1/apis/$(apiId)", params; aws_config=aws_config)
+end
 
 """
     delete_resolver(api_id, field_name, type_name)
@@ -257,8 +492,29 @@ Deletes a Resolver object.
 - `type_name`: The name of the resolver type.
 
 """
-delete_resolver(apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)"; aws_config=aws_config)
-delete_resolver(apiId, fieldName, typeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)", params; aws_config=aws_config)
+function delete_resolver(
+    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "DELETE",
+        "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)";
+        aws_config=aws_config,
+    )
+end
+function delete_resolver(
+    apiId,
+    fieldName,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "DELETE",
+        "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_type(api_id, type_name)
@@ -271,8 +527,19 @@ Deletes a Type object.
 - `type_name`: The type name.
 
 """
-delete_type(apiId, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/types/$(typeName)"; aws_config=aws_config)
-delete_type(apiId, typeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/types/$(typeName)", params; aws_config=aws_config)
+function delete_type(apiId, typeName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("DELETE", "/v1/apis/$(apiId)/types/$(typeName)"; aws_config=aws_config)
+end
+function delete_type(
+    apiId,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "DELETE", "/v1/apis/$(apiId)/types/$(typeName)", params; aws_config=aws_config
+    )
+end
 
 """
     flush_api_cache(api_id)
@@ -284,8 +551,14 @@ Flushes an ApiCache object.
 - `api_id`: The API ID.
 
 """
-flush_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/FlushCache"; aws_config=aws_config)
-flush_api_cache(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/apis/$(apiId)/FlushCache", params; aws_config=aws_config)
+function flush_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("DELETE", "/v1/apis/$(apiId)/FlushCache"; aws_config=aws_config)
+end
+function flush_api_cache(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("DELETE", "/v1/apis/$(apiId)/FlushCache", params; aws_config=aws_config)
+end
 
 """
     get_api_cache(api_id)
@@ -297,8 +570,14 @@ Retrieves an ApiCache object.
 - `api_id`: The API ID.
 
 """
-get_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/ApiCaches"; aws_config=aws_config)
-get_api_cache(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/ApiCaches", params; aws_config=aws_config)
+function get_api_cache(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("GET", "/v1/apis/$(apiId)/ApiCaches"; aws_config=aws_config)
+end
+function get_api_cache(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("GET", "/v1/apis/$(apiId)/ApiCaches", params; aws_config=aws_config)
+end
 
 """
     get_data_source(api_id, name)
@@ -311,8 +590,19 @@ Retrieves a DataSource object.
 - `name`: The name of the data source.
 
 """
-get_data_source(apiId, name; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/datasources/$(name)"; aws_config=aws_config)
-get_data_source(apiId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/datasources/$(name)", params; aws_config=aws_config)
+function get_data_source(apiId, name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("GET", "/v1/apis/$(apiId)/datasources/$(name)"; aws_config=aws_config)
+end
+function get_data_source(
+    apiId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET", "/v1/apis/$(apiId)/datasources/$(name)", params; aws_config=aws_config
+    )
+end
 
 """
     get_function(api_id, function_id)
@@ -325,8 +615,21 @@ Get a Function.
 - `function_id`: The Function ID.
 
 """
-get_function(apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)"; aws_config=aws_config)
-get_function(apiId, functionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)", params; aws_config=aws_config)
+function get_function(apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "GET", "/v1/apis/$(apiId)/functions/$(functionId)"; aws_config=aws_config
+    )
+end
+function get_function(
+    apiId,
+    functionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET", "/v1/apis/$(apiId)/functions/$(functionId)", params; aws_config=aws_config
+    )
+end
 
 """
     get_graphql_api(api_id)
@@ -338,8 +641,14 @@ Retrieves a GraphqlApi object.
 - `api_id`: The API ID for the GraphQL API.
 
 """
-get_graphql_api(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)"; aws_config=aws_config)
-get_graphql_api(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)", params; aws_config=aws_config)
+function get_graphql_api(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("GET", "/v1/apis/$(apiId)"; aws_config=aws_config)
+end
+function get_graphql_api(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("GET", "/v1/apis/$(apiId)", params; aws_config=aws_config)
+end
 
 """
     get_introspection_schema(api_id, format)
@@ -356,8 +665,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeDirectives"`: A flag that specifies whether the schema introspection should
   contain directives.
 """
-get_introspection_schema(apiId, format; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/schema", Dict{String, Any}("format"=>format); aws_config=aws_config)
-get_introspection_schema(apiId, format, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/schema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("format"=>format), params)); aws_config=aws_config)
+function get_introspection_schema(
+    apiId, format; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/schema",
+        Dict{String,Any}("format" => format);
+        aws_config=aws_config,
+    )
+end
+function get_introspection_schema(
+    apiId,
+    format,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/schema",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("format" => format), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_resolver(api_id, field_name, type_name)
@@ -371,8 +701,29 @@ Retrieves a Resolver object.
 - `type_name`: The resolver type name.
 
 """
-get_resolver(apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)"; aws_config=aws_config)
-get_resolver(apiId, fieldName, typeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)", params; aws_config=aws_config)
+function get_resolver(
+    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)";
+        aws_config=aws_config,
+    )
+end
+function get_resolver(
+    apiId,
+    fieldName,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_schema_creation_status(api_id)
@@ -384,8 +735,16 @@ Retrieves the current status of a schema creation operation.
 - `api_id`: The API ID.
 
 """
-get_schema_creation_status(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/schemacreation"; aws_config=aws_config)
-get_schema_creation_status(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/schemacreation", params; aws_config=aws_config)
+function get_schema_creation_status(
+    apiId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("GET", "/v1/apis/$(apiId)/schemacreation"; aws_config=aws_config)
+end
+function get_schema_creation_status(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("GET", "/v1/apis/$(apiId)/schemacreation", params; aws_config=aws_config)
+end
 
 """
     get_type(api_id, format, type_name)
@@ -399,8 +758,30 @@ Retrieves a Type object.
 - `type_name`: The type name.
 
 """
-get_type(apiId, format, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)", Dict{String, Any}("format"=>format); aws_config=aws_config)
-get_type(apiId, format, typeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("format"=>format), params)); aws_config=aws_config)
+function get_type(
+    apiId, format, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/types/$(typeName)",
+        Dict{String,Any}("format" => format);
+        aws_config=aws_config,
+    )
+end
+function get_type(
+    apiId,
+    format,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/types/$(typeName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("format" => format), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_api_keys(api_id)
@@ -420,8 +801,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-list_api_keys(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/apikeys"; aws_config=aws_config)
-list_api_keys(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/apikeys", params; aws_config=aws_config)
+function list_api_keys(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("GET", "/v1/apis/$(apiId)/apikeys"; aws_config=aws_config)
+end
+function list_api_keys(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("GET", "/v1/apis/$(apiId)/apikeys", params; aws_config=aws_config)
+end
 
 """
     list_data_sources(api_id)
@@ -438,8 +825,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-list_data_sources(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/datasources"; aws_config=aws_config)
-list_data_sources(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/datasources", params; aws_config=aws_config)
+function list_data_sources(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("GET", "/v1/apis/$(apiId)/datasources"; aws_config=aws_config)
+end
+function list_data_sources(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("GET", "/v1/apis/$(apiId)/datasources", params; aws_config=aws_config)
+end
 
 """
     list_functions(api_id)
@@ -456,8 +849,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-list_functions(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions"; aws_config=aws_config)
-list_functions(apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions", params; aws_config=aws_config)
+function list_functions(apiId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("GET", "/v1/apis/$(apiId)/functions"; aws_config=aws_config)
+end
+function list_functions(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("GET", "/v1/apis/$(apiId)/functions", params; aws_config=aws_config)
+end
 
 """
     list_graphql_apis()
@@ -471,8 +870,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-list_graphql_apis(; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis"; aws_config=aws_config)
-list_graphql_apis(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis", params; aws_config=aws_config)
+function list_graphql_apis(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("GET", "/v1/apis"; aws_config=aws_config)
+end
+function list_graphql_apis(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("GET", "/v1/apis", params; aws_config=aws_config)
+end
 
 """
     list_resolvers(api_id, type_name)
@@ -490,8 +895,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-list_resolvers(apiId, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers"; aws_config=aws_config)
-list_resolvers(apiId, typeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers", params; aws_config=aws_config)
+function list_resolvers(apiId, typeName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers"; aws_config=aws_config
+    )
+end
+function list_resolvers(
+    apiId,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/types/$(typeName)/resolvers",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_resolvers_by_function(api_id, function_id)
@@ -509,8 +930,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which you can use to return the next set of items in the list.
 """
-list_resolvers_by_function(apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)/resolvers"; aws_config=aws_config)
-list_resolvers_by_function(apiId, functionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)/resolvers", params; aws_config=aws_config)
+function list_resolvers_by_function(
+    apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "GET", "/v1/apis/$(apiId)/functions/$(functionId)/resolvers"; aws_config=aws_config
+    )
+end
+function list_resolvers_by_function(
+    apiId,
+    functionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/functions/$(functionId)/resolvers",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -522,8 +961,18 @@ Lists the tags for a resource.
 - `resource_arn`: The GraphqlApi ARN.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync("GET", "/v1/tags/$(resourceArn)", params; aws_config=aws_config)
+end
 
 """
     list_types(api_id, format)
@@ -541,8 +990,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-list_types(apiId, format; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types", Dict{String, Any}("format"=>format); aws_config=aws_config)
-list_types(apiId, format, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("format"=>format), params)); aws_config=aws_config)
+function list_types(apiId, format; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/types",
+        Dict{String,Any}("format" => format);
+        aws_config=aws_config,
+    )
+end
+function list_types(
+    apiId,
+    format,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "GET",
+        "/v1/apis/$(apiId)/types",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("format" => format), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     start_schema_creation(api_id, definition)
@@ -556,8 +1024,31 @@ when it has completed.
 - `definition`: The schema definition, in GraphQL schema language format.
 
 """
-start_schema_creation(apiId, definition; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/schemacreation", Dict{String, Any}("definition"=>definition); aws_config=aws_config)
-start_schema_creation(apiId, definition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/schemacreation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition), params)); aws_config=aws_config)
+function start_schema_creation(
+    apiId, definition; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/schemacreation",
+        Dict{String,Any}("definition" => definition);
+        aws_config=aws_config,
+    )
+end
+function start_schema_creation(
+    apiId,
+    definition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/schemacreation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("definition" => definition), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -570,8 +1061,27 @@ Tags a resource with user-supplied tags.
 - `tags`: A TagMap object.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -584,8 +1094,29 @@ Untags a resource.
 - `tag_keys`: A list of TagKey objects.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_api_cache(api_caching_behavior, api_id, ttl, type)
@@ -608,8 +1139,41 @@ Updates the cache for the GraphQL API.
    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
 
 """
-update_api_cache(apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches/update", Dict{String, Any}("apiCachingBehavior"=>apiCachingBehavior, "ttl"=>ttl, "type"=>type); aws_config=aws_config)
-update_api_cache(apiCachingBehavior, apiId, ttl, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("apiCachingBehavior"=>apiCachingBehavior, "ttl"=>ttl, "type"=>type), params)); aws_config=aws_config)
+function update_api_cache(
+    apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/ApiCaches/update",
+        Dict{String,Any}(
+            "apiCachingBehavior" => apiCachingBehavior, "ttl" => ttl, "type" => type
+        );
+        aws_config=aws_config,
+    )
+end
+function update_api_cache(
+    apiCachingBehavior,
+    apiId,
+    ttl,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/ApiCaches/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "apiCachingBehavior" => apiCachingBehavior, "ttl" => ttl, "type" => type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_api_key(api_id, id)
@@ -627,8 +1191,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expires"`: The time from update time after which the API key expires. The date is
   represented as seconds since the epoch. For more information, see .
 """
-update_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/apikeys/$(id)"; aws_config=aws_config)
-update_api_key(apiId, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/apikeys/$(id)", params; aws_config=aws_config)
+function update_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync("POST", "/v1/apis/$(apiId)/apikeys/$(id)"; aws_config=aws_config)
+end
+function update_api_key(
+    apiId,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync("POST", "/v1/apis/$(apiId)/apikeys/$(id)", params; aws_config=aws_config)
+end
 
 """
     update_data_source(api_id, name, type)
@@ -647,12 +1220,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dynamodbConfig"`: The new Amazon DynamoDB configuration.
 - `"elasticsearchConfig"`: The new Elasticsearch Service configuration.
 - `"httpConfig"`: The new HTTP endpoint configuration.
-- `"lambdaConfig"`: The new AWS Lambda configuration.
+- `"lambdaConfig"`: The new Amazon Web Services Lambda configuration.
 - `"relationalDatabaseConfig"`: The new relational database configuration.
 - `"serviceRoleArn"`: The new service role ARN for the data source.
 """
-update_data_source(apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/datasources/$(name)", Dict{String, Any}("type"=>type); aws_config=aws_config)
-update_data_source(apiId, name, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/datasources/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), params)); aws_config=aws_config)
+function update_data_source(
+    apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/datasources/$(name)",
+        Dict{String,Any}("type" => type);
+        aws_config=aws_config,
+    )
+end
+function update_data_source(
+    apiId,
+    name,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/datasources/$(name)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_function(api_id, data_source_name, function_id, function_version, name)
@@ -676,8 +1271,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"responseMappingTemplate"`: The Function request mapping template.
 - `"syncConfig"`:
 """
-update_function(apiId, dataSourceName, functionId, functionVersion, name; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/functions/$(functionId)", Dict{String, Any}("dataSourceName"=>dataSourceName, "functionVersion"=>functionVersion, "name"=>name); aws_config=aws_config)
-update_function(apiId, dataSourceName, functionId, functionVersion, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/functions/$(functionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSourceName"=>dataSourceName, "functionVersion"=>functionVersion, "name"=>name), params)); aws_config=aws_config)
+function update_function(
+    apiId,
+    dataSourceName,
+    functionId,
+    functionVersion,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/functions/$(functionId)",
+        Dict{String,Any}(
+            "dataSourceName" => dataSourceName,
+            "functionVersion" => functionVersion,
+            "name" => name,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_function(
+    apiId,
+    dataSourceName,
+    functionId,
+    functionVersion,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/functions/$(functionId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "dataSourceName" => dataSourceName,
+                    "functionVersion" => functionVersion,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_graphql_api(api_id, name)
@@ -694,14 +1332,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"additionalAuthenticationProviders"`: A list of additional authentication providers for
   the GraphqlApi API.
 - `"authenticationType"`: The new authentication type for the GraphqlApi object.
+- `"lambdaAuthorizerConfig"`: Configuration for AWS Lambda function authorization.
 - `"logConfig"`: The Amazon CloudWatch Logs configuration for the GraphqlApi object.
 - `"openIDConnectConfig"`: The OpenID Connect configuration for the GraphqlApi object.
 - `"userPoolConfig"`: The new Amazon Cognito user pool configuration for the GraphqlApi
   object.
 - `"xrayEnabled"`: A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
 """
-update_graphql_api(apiId, name; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)", Dict{String, Any}("name"=>name); aws_config=aws_config)
-update_graphql_api(apiId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function update_graphql_api(apiId, name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appsync(
+        "POST", "/v1/apis/$(apiId)", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function update_graphql_api(
+    apiId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_resolver(api_id, field_name, type_name)
@@ -732,8 +1387,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"responseMappingTemplate"`: The new response mapping template.
 - `"syncConfig"`: The SyncConfig for a resolver attached to a versioned datasource.
 """
-update_resolver(apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)"; aws_config=aws_config)
-update_resolver(apiId, fieldName, typeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)", params; aws_config=aws_config)
+function update_resolver(
+    apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)";
+        aws_config=aws_config,
+    )
+end
+function update_resolver(
+    apiId,
+    fieldName,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_type(api_id, format, type_name)
@@ -750,5 +1426,27 @@ Updates a Type object.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"definition"`: The new definition.
 """
-update_type(apiId, format, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)", Dict{String, Any}("format"=>format); aws_config=aws_config)
-update_type(apiId, format, typeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("format"=>format), params)); aws_config=aws_config)
+function update_type(
+    apiId, format, typeName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/types/$(typeName)",
+        Dict{String,Any}("format" => format);
+        aws_config=aws_config,
+    )
+end
+function update_type(
+    apiId,
+    format,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v1/apis/$(apiId)/types/$(typeName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("format" => format), params));
+        aws_config=aws_config,
+    )
+end

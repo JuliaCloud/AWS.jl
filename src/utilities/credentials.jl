@@ -1,7 +1,14 @@
-_can_read_file(file_name::String) = return isfile(file_name) && try isreadable(open(file_name, "r")) catch e; false; end
+function _can_read_file(file_name::String)
+    return isfile(file_name) && try
+        isreadable(open(file_name, "r"))
+    catch e
+        false
+    end
+end
 _begins_with_ec2(file_name::String) = return uppercase(String(read(file_name, 3))) == "EC2"
-_ends_with_ec2(file_name::String) = return endswith(strip(uppercase(read(file_name, String))), "EC2")
-
+function _ends_with_ec2(file_name::String)
+    return endswith(strip(uppercase(read(file_name, String))), "EC2")
+end
 
 """
 Generate a valid role session name. Currently only ensures that the session name is
@@ -15,13 +22,11 @@ function _role_session_name(prefix, name, suffix)
     return String(take!(b))
 end
 
-
 """
 Get the value for `key` in the `ini` file for a given `profile`.
 """
 function _get_ini_value(
-    ini::Inifile, profile::AbstractString, key::AbstractString;
-    default_value=nothing
+    ini::Inifile, profile::AbstractString, key::AbstractString; default_value=nothing
 )
     value = get(ini, "profile $profile", key)
     value === :notfound && (value = get(ini, profile, key))
@@ -29,7 +34,6 @@ function _get_ini_value(
 
     return value
 end
-
 
 function _aws_profile_config(ini::Inifile, profile::AbstractString)
     if profile != "default"
@@ -40,7 +44,7 @@ function _aws_profile_config(ini::Inifile, profile::AbstractString)
 end
 
 function _aws_profile_config(ini::Inifile, profile::Nothing)
-    _aws_profile_config(ini, _aws_get_profile())
+    return _aws_profile_config(ini, _aws_get_profile())
 end
 
 function _aws_profile_config(config_file::AbstractString, profile)
@@ -51,7 +55,6 @@ end
 function _aws_profile_config(config_file::Nothing, profile)
     return _aws_profile_config(dot_aws_config_file(), profile)
 end
-
 
 """
 Retrieve the `AWSCredentials` for a given role from Security Token Services (STS).
@@ -67,7 +70,9 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
     end
 
     credentials === nothing && return nothing
-    config = AWSConfig(creds=credentials, region=aws_get_region(config=ini, profile=source_profile))
+    config = AWSConfig(;
+        creds=credentials, region=aws_get_region(; config=ini, profile=source_profile)
+    )
     params = LittleDict(
         "RoleArn" => role_arn,
         "RoleSessionName" => replace(role, r"[^\w+=,.@-]" => s"-")
@@ -79,7 +84,6 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
         params["TokenCode"] = read(token, String)
         Base.shred!(token)
     end
-
     # RoleSessionName Documentation
     # https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
     role = AWSServices.sts("AssumeRole", params; aws_config=config)
@@ -90,10 +94,9 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
         role_creds["AccessKeyId"],
         role_creds["SecretAccessKey"],
         role_creds["SessionToken"];
-        expiry=DateTime(rstrip(role_creds["Expiration"], 'Z'))
+        expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
     )
 end
-
 
 """
 Get `AWSCredentials` for the specified `profile` from the `inifile`. If targeting the
@@ -108,7 +111,6 @@ function _aws_get_credential_details(profile::AbstractString, ini::Inifile)
     return (access_key, secret_key, token)
 end
 
-
 """
 Get the default AWS profile
 """
@@ -120,7 +122,6 @@ function _aws_get_profile(; default="default")
     )
 end
 
-
 """
 Check if credentials will expire within 5 minutes
 """
@@ -128,14 +129,15 @@ function _will_expire(aws_creds::AWSCredentials)
     return aws_creds.expiry - now(UTC) <= Minute(5)
 end
 
-
 """
 Retrieve the EC2 meta data from the local AWS endpoint. Return the EC2 metadata request
 body, or `nothing` if not running on an EC2 instance.
 """
 function _ec2_metadata(metadata_endpoint::String)
     try
-        request = @mock HTTP.request("GET", "http://169.254.169.254/latest/meta-data/$metadata_endpoint")
+        request = @mock HTTP.request(
+            "GET", "http://169.254.169.254/latest/meta-data/$metadata_endpoint"
+        )
 
         return request === nothing ? nothing : String(request.body)
     catch e

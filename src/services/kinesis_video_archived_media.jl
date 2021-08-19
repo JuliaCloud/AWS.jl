@@ -39,8 +39,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to retrieve the media clip.  You must
   specify either the StreamName or the StreamARN.
 """
-get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/getClip", Dict{String, Any}("ClipFragmentSelector"=>ClipFragmentSelector); aws_config=aws_config)
-get_clip(ClipFragmentSelector, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/getClip", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClipFragmentSelector"=>ClipFragmentSelector), params)); aws_config=aws_config)
+function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws_config())
+    return kinesis_video_archived_media(
+        "POST",
+        "/getClip",
+        Dict{String,Any}("ClipFragmentSelector" => ClipFragmentSelector);
+        aws_config=aws_config,
+    )
+end
+function get_clip(
+    ClipFragmentSelector,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video_archived_media(
+        "POST",
+        "/getClip",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClipFragmentSelector" => ClipFragmentSelector),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_dashstreaming_session_url()
@@ -188,8 +212,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to retrieve the MPEG-DASH manifest URL.
   You must specify either the StreamName or the StreamARN.
 """
-get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/getDASHStreamingSessionURL"; aws_config=aws_config)
-get_dashstreaming_session_url(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/getDASHStreamingSessionURL", params; aws_config=aws_config)
+function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kinesis_video_archived_media(
+        "POST", "/getDASHStreamingSessionURL"; aws_config=aws_config
+    )
+end
+function get_dashstreaming_session_url(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video_archived_media(
+        "POST", "/getDASHStreamingSessionURL", params; aws_config=aws_config
+    )
+end
 
 """
     get_hlsstreaming_session_url()
@@ -371,8 +405,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to retrieve the HLS master playlist URL.
   You must specify either the StreamName or the StreamARN.
 """
-get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/getHLSStreamingSessionURL"; aws_config=aws_config)
-get_hlsstreaming_session_url(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/getHLSStreamingSessionURL", params; aws_config=aws_config)
+function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kinesis_video_archived_media(
+        "POST", "/getHLSStreamingSessionURL"; aws_config=aws_config
+    )
+end
+function get_hlsstreaming_session_url(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video_archived_media(
+        "POST", "/getHLSStreamingSessionURL", params; aws_config=aws_config
+    )
+end
 
 """
     get_media_for_fragment_list(fragments)
@@ -404,8 +448,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to retrieve fragment media. Specify
   either this parameter or the StreamARN parameter.
 """
-get_media_for_fragment_list(Fragments; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/getMediaForFragmentList", Dict{String, Any}("Fragments"=>Fragments); aws_config=aws_config)
-get_media_for_fragment_list(Fragments, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/getMediaForFragmentList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Fragments"=>Fragments), params)); aws_config=aws_config)
+function get_media_for_fragment_list(
+    Fragments; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video_archived_media(
+        "POST",
+        "/getMediaForFragmentList",
+        Dict{String,Any}("Fragments" => Fragments);
+        aws_config=aws_config,
+    )
+end
+function get_media_for_fragment_list(
+    Fragments,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video_archived_media(
+        "POST",
+        "/getMediaForFragmentList",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Fragments" => Fragments), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_fragments()
@@ -443,5 +509,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to retrieve a fragment list. Specify
   either this parameter or the StreamARN parameter.
 """
-list_fragments(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/listFragments"; aws_config=aws_config)
-list_fragments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_archived_media("POST", "/listFragments", params; aws_config=aws_config)
+function list_fragments(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kinesis_video_archived_media("POST", "/listFragments"; aws_config=aws_config)
+end
+function list_fragments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video_archived_media(
+        "POST", "/listFragments", params; aws_config=aws_config
+    )
+end

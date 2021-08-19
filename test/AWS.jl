@@ -16,7 +16,7 @@ end
 
 @testset "set global aws config" begin
     test_region = "test region"
-    expected = AWSConfig(region=test_region)
+    expected = AWSConfig(; region=test_region)
 
     try
         AWS.global_aws_config(expected)
@@ -29,15 +29,20 @@ end
 end
 
 @testset "set user agent" begin
+    old_user_agent = AWS.user_agent[]
     new_user_agent = "new user agent"
 
-    @test AWS.user_agent[] == "AWS.jl/1.0.0"
-    set_user_agent(new_user_agent)
-    @test AWS.user_agent[] == new_user_agent
+    try
+        @test AWS.user_agent[] == "AWS.jl/1.0.0"
+        set_user_agent(new_user_agent)
+        @test AWS.user_agent[] == new_user_agent
+    finally
+        set_user_agent(old_user_agent)
+    end
 end
 
 @testset "sign" begin
-    aws = AWS.AWSConfig()
+    aws = AWS.AWSConfig(; region="us-east-1")
 
     access_key = "access-key"
     secret_key = "ssh... it is a secret"
@@ -48,16 +53,15 @@ end
     time = DateTime(2020)
     date = Dates.format(time, dateformat"yyyymmdd")
 
-    request = Request(
+    request = Request(;
         service="s3",
         api_version="api_version",
         request_method="GET",
         headers=LittleDict(
-            "Host" => "s3.us-east-1.amazonaws.com",
-            "User-Agent" => "AWS.jl/1.0.0"
+            "Host" => "s3.us-east-1.amazonaws.com", "User-Agent" => "AWS.jl/1.0.0"
         ),
         resource="/test-resource",
-        url="https://s3.us-east-1.amazonaws.com/test-resource"
+        url="https://s3.us-east-1.amazonaws.com/test-resource",
     )
 
     @testset "sign v2" begin
@@ -71,13 +75,16 @@ end
         expected_signature_version = "SignatureVersion=2"
         expected_signature = "Signature=O0MLzMKpEcfVZeHy0tyxVAuZF%2BvrvbgIGgqbWtJLTQ0%3D"
 
-        expected_content = join([
-            expected_access_key,
-            expected_expires,
-            expected_signature_method,
-            expected_signature_version,
-            expected_signature
-        ], '&')
+        expected_content = join(
+            [
+                expected_access_key,
+                expected_expires,
+                expected_signature_method,
+                expected_signature_version,
+                expected_signature,
+            ],
+            '&',
+        )
 
         @test content == expected_content
     end
@@ -97,9 +104,12 @@ end
         authorization_header = split(headers["Authorization"], ' ')
         @test length(authorization_header) == 4
         @test authorization_header[1] == "AWS4-HMAC-SHA256"
-        @test authorization_header[2] == "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
-        @test authorization_header[3] == "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
-        @test authorization_header[4] == "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
+        @test authorization_header[2] ==
+              "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
+        @test authorization_header[3] ==
+              "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
+        @test authorization_header[4] ==
+              "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
     end
 end
 
@@ -114,11 +124,11 @@ end
     @testset "HEAD request method" begin
         expected_result_type = LittleDict
 
-        request = Request(
+        request = Request(;
             service="s3",
             api_version="api_version",
             request_method="HEAD",
-            url="https://s3.us-east-1.amazonaws.com/sample-bucket"
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
         )
 
         apply(Patches._aws_http_request_patch()) do
@@ -130,25 +140,25 @@ end
     end
 
     @testset "301 redirect" begin
-        request = Request(
+        request = Request(;
             service="s3",
             api_version="api_version",
             request_method="HEAD",
-            url="https://s3.us-east-1.amazonaws.com/sample-bucket"
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
         )
-        apply(Patches._aws_http_request_patch(Patches._response(;status=301))) do
+        apply(Patches._aws_http_request_patch(Patches._response(; status=301))) do
             @test_throws AWSException AWS.submit_request(aws, request)
         end
     end
 
     @testset "return stream" begin
-        request = Request(
+        request = Request(;
             service="s3",
             api_version="api_version",
             request_method="GET",
             return_stream=true,
             response_stream=Base.BufferStream(),
-            url="https://s3.us-east-1.amazonaws.com/sample-bucket"
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
         )
 
         apply(Patches._aws_http_request_patch()) do
@@ -159,12 +169,12 @@ end
     end
 
     @testset "return raw" begin
-        request = Request(
+        request = Request(;
             service="s3",
             api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            return_raw=true
+            return_raw=true,
         )
 
         @testset "body" begin
@@ -186,11 +196,11 @@ end
     end
 
     @testset "MIME" begin
-        request = Request(
+        request = Request(;
             service="s3",
             api_version="api_version",
             request_method="GET",
-            url="https://s3.us-east-1.amazonaws.com/sample-bucket"
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
         )
 
         @testset "empty" begin
@@ -198,17 +208,18 @@ end
                 expected_body = ""
                 expected_headers = Pair["Content-Type" => ""]
 
-                response = Patches._response(headers=expected_headers, body=expected_body)
+                response = Patches._response(; headers=expected_headers, body=expected_body)
                 apply(Patches._aws_http_request_patch(response)) do
-
                     @testset "body" begin
-                       result = AWS.submit_request(aws, request)
+                        result = AWS.submit_request(aws, request)
 
-                       @test String(result) == expected_body
+                        @test String(result) == expected_body
                     end
 
                     @testset "body and headers" begin
-                        body, headers = AWS.submit_request(aws, request; return_headers=true)
+                        body, headers = AWS.submit_request(
+                            aws, request; return_headers=true
+                        )
 
                         @test String(body) == expected_body
                         @test headers == expected_headers
@@ -217,12 +228,12 @@ end
             end
 
             @testset "text/xml" begin
-                expected_body_type = LittleDict{Union{Symbol, String}, Any}
+                expected_body_type = LittleDict{Union{Symbol,String},Any}
                 expected_body = _expected_body(Patches.body, expected_body_type)
-                expected_header_type = LittleDict{SubString{String}, SubString{String}}
+                expected_header_type = LittleDict{SubString{String},SubString{String}}
                 expected_headers = Pair["Content-Type" => "text/xml"]
 
-                response = Patches._response(headers=expected_headers)
+                response = Patches._response(; headers=expected_headers)
                 apply(Patches._aws_http_request_patch(response)) do
                     @testset "body" begin
                         result = AWS.submit_request(aws, request)
@@ -232,7 +243,9 @@ end
                     end
 
                     @testset "body and headers" begin
-                        body, headers = AWS.submit_request(aws, request; return_headers=true)
+                        body, headers = AWS.submit_request(
+                            aws, request; return_headers=true
+                        )
 
                         @test body == expected_body
                         @test body isa expected_body_type
@@ -245,18 +258,18 @@ end
         end
 
         @testset "xml" begin
-            request = Request(
+            request = Request(;
                 service="s3",
                 api_version="api_version",
                 request_method="GET",
                 url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             )
 
-            expected_body_type = LittleDict{Union{Symbol, String}, Any}
+            expected_body_type = LittleDict{Union{Symbol,String},Any}
             expected_body = _expected_body(Patches.body, expected_body_type)
             expected_headers = Pair["Content-Type" => "application/xml"]
 
-            response = Patches._response(headers=expected_headers)
+            response = Patches._response(; headers=expected_headers)
             apply(Patches._aws_http_request_patch(response)) do
                 @testset "body" begin
                     result = AWS.submit_request(aws, request)
@@ -272,8 +285,8 @@ end
                     @test body isa expected_body_type
 
                     @test headers == LittleDict(expected_headers)
-                    @test headers isa LittleDict{SubString{String}, SubString{String}}
-               end
+                    @test headers isa LittleDict{SubString{String},SubString{String}}
+                end
             end
         end
 
@@ -287,15 +300,15 @@ end
                     "NumberOfArchives" => 0,
                     "CreationDate" => "2020-06-22T03:14:41.754Z",
                     "VaultARN" => "arn:aws:glacier:us-east-1:000:vaults/test",
-                    "LastInventoryDate" => nothing
-                )]
+                    "LastInventoryDate" => nothing,
+                )],
             )
             json_body = JSON.json(body)
 
-            expected_body_type = LittleDict{String, Any}
-            expected_body = JSON.parse(json_body, dicttype=LittleDict)
+            expected_body_type = LittleDict{String,Any}
+            expected_body = JSON.parse(json_body; dicttype=LittleDict)
 
-            response = Patches._response(body=json_body, headers=json_headers)
+            response = Patches._response(; body=json_body, headers=json_headers)
             apply(Patches._aws_http_request_patch(response)) do
                 @testset "body" begin
                     result = AWS.submit_request(aws, request)
@@ -311,13 +324,13 @@ end
                     @test body isa expected_body_type
 
                     @test headers == LittleDict(json_headers)
-                    @test headers isa LittleDict{SubString{String}, SubString{String}}
+                    @test headers isa LittleDict{SubString{String},SubString{String}}
                 end
             end
         end
 
         @testset "Text" begin
-            request = Request(
+            request = Request(;
                 service="s3",
                 api_version="api_version",
                 request_method="GET",
@@ -326,9 +339,9 @@ end
 
             expected_headers = ["Content-Type" => "text/html"]
             expected_body = Patches.body
-            expected_header_type = LittleDict{SubString{String}, SubString{String}}
+            expected_header_type = LittleDict{SubString{String},SubString{String}}
 
-            response = Patches._response(headers=expected_headers)
+            response = Patches._response(; headers=expected_headers)
             apply(Patches._aws_http_request_patch(response)) do
                 @testset "body" begin
                     result = AWS.submit_request(aws, request)
@@ -351,12 +364,73 @@ end
     end
 end
 
+struct TestBackend <: AWS.AbstractBackend
+    param::Int
+end
+
+function AWS._http_request(backend::TestBackend, request)
+    return backend.param
+end
+
+@testset "HTTPBackend" begin
+    request = Request(;
+        service="s3",
+        api_version="api_version",
+        request_method="GET",
+        url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+        backend=AWS.HTTPBackend(),
+    )
+    apply(Patches._http_options_patch) do
+        # No default options
+        @test isempty(AWS._http_request(request.backend, request))
+
+        # We can pass HTTP options via the backend
+        custom_backend = AWS.HTTPBackend(Dict(:connection_limit => 5))
+        @test custom_backend isa AWS.AbstractBackend
+        @test AWS._http_request(custom_backend, request) == Dict(:connection_limit => 5)
+
+        # We can pass options per-request
+        request.http_options = Dict(:pipeline_limit => 20)
+        @test AWS._http_request(request.backend, request) == Dict(:pipeline_limit => 20)
+        @test AWS._http_request(custom_backend, request) ==
+              Dict(:pipeline_limit => 20, :connection_limit => 5)
+
+        # per-request options override backend options:
+        custom_backend = AWS.HTTPBackend(Dict(:pipeline_limit => 5))
+        @test AWS._http_request(custom_backend, request) == Dict(:pipeline_limit => 20)
+    end
+
+    request.backend = TestBackend(2)
+    @test AWS._http_request(request.backend, request) == 2
+
+    request = Request(;
+        service="s3",
+        api_version="api_version",
+        request_method="GET",
+        url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+        backend=TestBackend(4),
+    )
+    @test AWS._http_request(request.backend, request) == 4
+
+    # Let's test setting the default backend
+    prev_backend = AWS.DEFAULT_BACKEND[]
+    try
+        AWS.DEFAULT_BACKEND[] = TestBackend(3)
+        request = Request(;
+            service="s3",
+            api_version="api_version",
+            request_method="GET",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+        )
+        @test AWS._http_request(request.backend, request) == 3
+    finally
+        AWS.DEFAULT_BACKEND[] = prev_backend
+    end
+end
+
 @testset "_generate_rest_resource" begin
     request_uri = "/{Bucket}/{Key+}"
-    args = Dict{String, Any}(
-        "Bucket"=>"aws.jl-test",
-        "Key"=>"Test-Key"
-    )
+    args = Dict{String,Any}("Bucket" => "aws.jl-test", "Key" => "Test-Key")
 
     expected = "/$(args["Bucket"])/$(args["Key"])"
     result = AWS._generate_rest_resource(request_uri, args)
@@ -369,7 +443,7 @@ end
     config = AWSConfig()
     config.region = region
 
-    request = Request(
+    request = Request(;
         service="service",
         api_version="api_version",
         request_method="GET",
@@ -394,7 +468,6 @@ end
         @test result == expected_result
     end
 
-
     @testset "sdb -- us-east-1 region exception" begin
         endpoint = "sdb"
         request.service = endpoint
@@ -408,10 +481,16 @@ end
 
 @testset "_flatten_query" begin
     high_level_value = "high_level_value"
-    entry_1 = LittleDict("low_level_key_1"=>"low_level_value_1", "low_level_key_2"=>"low_level_value_2")
-    entry_2 = LittleDict("low_level_key_3"=>"low_level_value_3", "low_level_key_4"=>"low_level_value_4")
+    entry_1 = LittleDict(
+        "low_level_key_1" => "low_level_value_1", "low_level_key_2" => "low_level_value_2"
+    )
+    entry_2 = LittleDict(
+        "low_level_key_3" => "low_level_value_3", "low_level_key_4" => "low_level_value_4"
+    )
 
-    args = LittleDict("high_level_key"=>high_level_value, "high_level_array"=>[entry_1, entry_2])
+    args = LittleDict(
+        "high_level_key" => high_level_value, "high_level_array" => [entry_1, entry_2]
+    )
 
     @testset "non-special case suffix" begin
         service = "sts"
@@ -422,7 +501,7 @@ end
             "high_level_array.member.1.low_level_key_1" => "low_level_value_1",
             "high_level_array.member.1.low_level_key_2" => "low_level_value_2",
             "high_level_array.member.2.low_level_key_3" => "low_level_value_3",
-            "high_level_array.member.2.low_level_key_4" => "low_level_value_4"
+            "high_level_array.member.2.low_level_key_4" => "low_level_value_4",
         ]
 
         @test result == expected
@@ -437,7 +516,7 @@ end
             "high_level_array.1.low_level_key_1" => "low_level_value_1",
             "high_level_array.1.low_level_key_2" => "low_level_value_2",
             "high_level_array.2.low_level_key_3" => "low_level_value_3",
-            "high_level_array.2.low_level_key_4" => "low_level_value_4"
+            "high_level_array.2.low_level_key_4" => "low_level_value_4",
         ]
 
         @test result == expected
@@ -445,18 +524,18 @@ end
 end
 
 @testset "_clean_s3_uri" begin
-    uri = "/test-bucket/*)=('! +@,.txt?list-objects=v2"
-    expected_uri = "/test-bucket/%2A%29%3D%28%27%21%20%2B%40%2C.txt?list-objects=v2"
+    uri = "/test-bucket/*)=('! +@,:.txt?list-objects=v2"
+    expected_uri = "/test-bucket/%2A%29%3D%28%27%21%20%2B%40%2C%3A.txt?list-objects=v2"
     @test AWS._clean_s3_uri(uri) == expected_uri
 
     # make sure that other parts of the uri aren't changed by `_clean_s3_uri`
     for uri in (
-            "https://julialang.org",
-            "http://julialang.org",
-            "http://julialang.org:8080",
-            "/onlypath",
-            "/path?query=  +99",
-            "/anchor?query=yes#anchor1"
+        "https://julialang.org",
+        "http://julialang.org",
+        "http://julialang.org:8080",
+        "/onlypath",
+        "/path?query=  +99",
+        "/anchor?query=yes#anchor1",
     )
         @test AWS._clean_s3_uri(uri) == uri
     end
@@ -475,12 +554,19 @@ end
             return response["SecretString"]
         end
 
-        Secrets_Manager.create_secret(secret_name, LittleDict("SecretString" => secret_string, "ClientRequestToken" => string(uuid4())))
+        Secrets_Manager.create_secret(
+            secret_name,
+            LittleDict(
+                "SecretString" => secret_string, "ClientRequestToken" => string(uuid4())
+            ),
+        )
 
         try
             @test _get_secret_string(secret_name) == secret_string
         finally
-            Secrets_Manager.delete_secret(secret_name, LittleDict("ForceDeleteWithoutRecovery" => "true"))
+            Secrets_Manager.delete_secret(
+                secret_name, LittleDict("ForceDeleteWithoutRecovery" => "true")
+            )
         end
 
         @test_throws AWSException _get_secret_string(secret_name)
@@ -491,24 +577,31 @@ end
         secret_string = "sshhh it is a secret!"
 
         function _get_secret_string(secret_name)
-            response = AWSServices.secrets_manager("GetSecretValue", LittleDict("SecretId"=>secret_name))
+            response = AWSServices.secrets_manager(
+                "GetSecretValue", LittleDict("SecretId" => secret_name)
+            )
 
             return response["SecretString"]
         end
 
-        resp = AWSServices.secrets_manager("CreateSecret", LittleDict(
-            "Name"=>secret_name,
-            "SecretString"=>secret_string,
-            "ClientRequestToken"=>string(uuid4()),
-        ))
+        resp = AWSServices.secrets_manager(
+            "CreateSecret",
+            LittleDict(
+                "Name" => secret_name,
+                "SecretString" => secret_string,
+                "ClientRequestToken" => string(uuid4()),
+            ),
+        )
 
         try
             @test _get_secret_string(secret_name) == secret_string
         finally
-            AWSServices.secrets_manager("DeleteSecret", LittleDict(
-                "SecretId"=>secret_name,
-                "ForceDeleteWithoutRecovery"=>"true",
-            ))
+            AWSServices.secrets_manager(
+                "DeleteSecret",
+                LittleDict(
+                    "SecretId" => secret_name, "ForceDeleteWithoutRecovery" => "true"
+                ),
+            )
         end
 
         @test_throws AWSException _get_secret_string(secret_name)
@@ -527,8 +620,8 @@ end
                 LittleDict(
                     "Effect" => "Allow",
                     "Action" => ["s3:Get*", "s3:List*"],
-                    "Resource" => ["arn:aws:s3:::my-bucket/shared/*"]
-                )
+                    "Resource" => ["arn:aws:s3:::my-bucket/shared/*"],
+                ),
             ],
         )
         expected_policy_document = JSON.json(expected_policy_document)
@@ -551,29 +644,40 @@ end
         policy_arn = ""
         expected_policy_name = "aws-jl-test---" * _now_formatted()
         expected_policy_document = LittleDict(
-            "Version"=> "2012-10-17",
-            "Statement"=> [
+            "Version" => "2012-10-17",
+            "Statement" => [
                 LittleDict(
-                    "Effect"=>"Allow",
-                    "Action"=>["s3:Get*", "s3:List*"],
-                    "Resource"=> ["arn:aws:s3:::my-bucket/shared/*"]
-                )
+                    "Effect" => "Allow",
+                    "Action" => ["s3:Get*", "s3:List*"],
+                    "Resource" => ["arn:aws:s3:::my-bucket/shared/*"],
+                ),
             ],
         )
         expected_policy_document = JSON.json(expected_policy_document)
 
-        response = AWSServices.iam("CreatePolicy", LittleDict("PolicyName"=>expected_policy_name, "PolicyDocument"=>expected_policy_document))
+        response = AWSServices.iam(
+            "CreatePolicy",
+            LittleDict(
+                "PolicyName" => expected_policy_name,
+                "PolicyDocument" => expected_policy_document,
+            ),
+        )
         policy_arn = response["CreatePolicyResult"]["Policy"]["Arn"]
 
         try
-            response_policy_version = AWSServices.iam("GetPolicyVersion", LittleDict("PolicyArn"=>policy_arn, "VersionId"=>"v1"))
+            response_policy_version = AWSServices.iam(
+                "GetPolicyVersion",
+                LittleDict("PolicyArn" => policy_arn, "VersionId" => "v1"),
+            )
             response_document = response_policy_version["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
             @test HTTP.unescapeuri(response_document) == expected_policy_document
         finally
-            AWSServices.iam("DeletePolicy", LittleDict("PolicyArn"=>policy_arn))
+            AWSServices.iam("DeletePolicy", LittleDict("PolicyArn" => policy_arn))
         end
 
-        @test_throws AWSException AWSServices.iam("GetPolicy", LittleDict("PolicyArn" => policy_arn))
+        @test_throws AWSException AWSServices.iam(
+            "GetPolicy", LittleDict("PolicyArn" => policy_arn)
+        )
     end
 
     @testset "high-level sqs" begin
@@ -607,8 +711,7 @@ end
             response = SQS.delete_message_batch(
                 [
                     LittleDict(
-                        "Id"=>expected_message_id,
-                        "ReceiptHandle"=>receipt_handle,
+                        "Id" => expected_message_id, "ReceiptHandle" => receipt_handle
                     ),
                 ],
                 queue_url,
@@ -649,34 +752,36 @@ end
             # Change Message Visibility Batch Request
             expected_message_id = "aws-jl-test"
 
-            AWSServices.sqs("SendMessage", LittleDict(
-                    "QueueUrl" => queue_url,
-                    "MessageBody" => expected_message
-                )
+            AWSServices.sqs(
+                "SendMessage",
+                LittleDict("QueueUrl" => queue_url, "MessageBody" => expected_message),
             )
 
-            response = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl" => queue_url,))
+            response = AWSServices.sqs(
+                "ReceiveMessage", LittleDict("QueueUrl" => queue_url)
+            )
             receipt_handle = response["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
 
-            response = AWSServices.sqs("DeleteMessageBatch", LittleDict(
+            response = AWSServices.sqs(
+                "DeleteMessageBatch",
+                LittleDict(
                     "QueueUrl" => queue_url,
                     "DeleteMessageBatchRequestEntry" => [
                         LittleDict(
                             "Id" => expected_message_id,
                             "ReceiptHandle" => receipt_handle,
-                        )
-                    ]
-                )
+                        ),
+                    ],
+                ),
             )
 
             message_id = response["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
             @test message_id == expected_message_id
 
             # Send message
-            AWSServices.sqs("SendMessage", LittleDict(
-                    "QueueUrl" => queue_url,
-                    "MessageBody" => expected_message
-                )
+            AWSServices.sqs(
+                "SendMessage",
+                LittleDict("QueueUrl" => queue_url, "MessageBody" => expected_message),
             )
 
             # Receive Message
@@ -754,7 +859,7 @@ end
 
     @testset "low-level s3" begin
         bucket_name = "aws-jl-test---" * _now_formatted()
-        file_name = "*)=('! +@,.txt"  # Special characters which S3 allows
+        file_name = "*)=('! +@,:.txt"  # Special characters which S3 allows
 
         function _bucket_exists(bucket_name)
             try
@@ -818,7 +923,7 @@ end
         @service Glacier
 
         timestamp = _now_formatted()
-        vault_names = ["aws-jl-test-01---$timestamp", "aws-jl-test-02---$timestamp", ]
+        vault_names = ["aws-jl-test-01---$timestamp", "aws-jl-test-02---$timestamp"]
 
         # PUT
         for vault in vault_names
@@ -827,7 +932,7 @@ end
 
         try
             # POST
-            tags = Dict("Tags"=> LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
+            tags = Dict("Tags" => LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
 
             for vault in vault_names
                 Glacier.add_tags_to_vault("-", vault, tags)
@@ -862,7 +967,7 @@ end
 
     @testset "low-level glacier" begin
         timestamp = _now_formatted()
-        vault_names = ["aws-jl-test-01---$timestamp", "aws-jl-test-02---$timestamp", ]
+        vault_names = ["aws-jl-test-01---$timestamp", "aws-jl-test-02---$timestamp"]
 
         # PUT
         for vault in vault_names
@@ -871,7 +976,7 @@ end
 
         try
             # POST
-            tags = Dict("Tags"=> LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
+            tags = Dict("Tags" => LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
 
             for vault in vault_names
                 AWSServices.glacier("POST", "/-/vaults/$vault/tags?operation=add", tags)

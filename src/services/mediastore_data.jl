@@ -15,8 +15,14 @@ Deletes an object at the specified path.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
 """
-delete_object(Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)"; aws_config=aws_config)
-delete_object(Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)", params; aws_config=aws_config)
+function delete_object(Path; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediastore_data("DELETE", "/$(Path)"; aws_config=aws_config)
+end
+function delete_object(
+    Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediastore_data("DELETE", "/$(Path)", params; aws_config=aws_config)
+end
 
 """
     describe_object(path)
@@ -29,8 +35,14 @@ Gets the headers for an object at the specified path.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
 """
-describe_object(Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)"; aws_config=aws_config)
-describe_object(Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)", params; aws_config=aws_config)
+function describe_object(Path; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediastore_data("HEAD", "/$(Path)"; aws_config=aws_config)
+end
+function describe_object(
+    Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediastore_data("HEAD", "/$(Path)", params; aws_config=aws_config)
+end
 
 """
     get_object(path)
@@ -62,8 +74,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MediaStore ignores this header for partially uploaded objects that have streaming upload
   availability.
 """
-get_object(Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)"; aws_config=aws_config)
-get_object(Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)", params; aws_config=aws_config)
+function get_object(Path; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediastore_data("GET", "/$(Path)"; aws_config=aws_config)
+end
+function get_object(
+    Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediastore_data("GET", "/$(Path)", params; aws_config=aws_config)
+end
 
 """
     list_items()
@@ -87,8 +105,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Path"`: The path in the container from which to retrieve items. Format: &lt;folder
   name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
-list_items(; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/"; aws_config=aws_config)
-list_items(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/", params; aws_config=aws_config)
+function list_items(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediastore_data("GET", "/"; aws_config=aws_config)
+end
+function list_items(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediastore_data("GET", "/", params; aws_config=aws_config)
+end
 
 """
     put_object(body, path)
@@ -130,5 +154,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default value for this header is standard. To use this header, you must also set the HTTP
   Transfer-Encoding header to chunked.
 """
-put_object(Body, Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}("Body"=>Body); aws_config=aws_config)
-put_object(Body, Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), params)); aws_config=aws_config)
+function put_object(Body, Path; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediastore_data(
+        "PUT", "/$(Path)", Dict{String,Any}("Body" => Body); aws_config=aws_config
+    )
+end
+function put_object(
+    Body,
+    Path,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediastore_data(
+        "PUT",
+        "/$(Path)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Body" => Body), params));
+        aws_config=aws_config,
+    )
+end

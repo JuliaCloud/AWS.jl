@@ -25,16 +25,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To
   retrieve a list of all services, leave this blank.
 """
-describe_services(; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("DescribeServices"; aws_config=aws_config)
-describe_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("DescribeServices", params; aws_config=aws_config)
+function describe_services(; aws_config::AbstractAWSConfig=global_aws_config())
+    return pricing("DescribeServices"; aws_config=aws_config)
+end
+function describe_services(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pricing("DescribeServices", params; aws_config=aws_config)
+end
 
 """
     get_attribute_values(attribute_name, service_code)
     get_attribute_values(attribute_name, service_code, params::Dict{String,<:Any})
 
 Returns a list of attribute values. Attibutes are similar to the details in a Price List
-API offer file. For a list of available attributes, see Offer File Definitions in the AWS
-Billing and Cost Management User Guide.
+API offer file. For a list of available attributes, see Offer File Definitions in the
+Amazon Web Services Billing and Cost Management User Guide.
 
 # Arguments
 - `attribute_name`: The name of the attribute that you want to retrieve the values for,
@@ -48,8 +54,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that indicates the next set of results that you want
   to retrieve.
 """
-get_attribute_values(AttributeName, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetAttributeValues", Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode); aws_config=aws_config)
-get_attribute_values(AttributeName, ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetAttributeValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config)
+function get_attribute_values(
+    AttributeName, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pricing(
+        "GetAttributeValues",
+        Dict{String,Any}("AttributeName" => AttributeName, "ServiceCode" => ServiceCode);
+        aws_config=aws_config,
+    )
+end
+function get_attribute_values(
+    AttributeName,
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pricing(
+        "GetAttributeValues",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AttributeName" => AttributeName, "ServiceCode" => ServiceCode
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_products()
@@ -68,5 +101,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to retrieve.
 - `"ServiceCode"`: The code for the service whose products you want to retrieve.
 """
-get_products(; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetProducts"; aws_config=aws_config)
-get_products(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetProducts", params; aws_config=aws_config)
+function get_products(; aws_config::AbstractAWSConfig=global_aws_config())
+    return pricing("GetProducts"; aws_config=aws_config)
+end
+function get_products(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pricing("GetProducts", params; aws_config=aws_config)
+end

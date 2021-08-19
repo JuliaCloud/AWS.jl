@@ -16,8 +16,31 @@ associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI
 - `media_streams`: The media streams that you want to add to the flow.
 
 """
-add_flow_media_streams(flowArn, mediaStreams; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/mediaStreams", Dict{String, Any}("mediaStreams"=>mediaStreams); aws_config=aws_config)
-add_flow_media_streams(flowArn, mediaStreams, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/mediaStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mediaStreams"=>mediaStreams), params)); aws_config=aws_config)
+function add_flow_media_streams(
+    flowArn, mediaStreams; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/mediaStreams",
+        Dict{String,Any}("mediaStreams" => mediaStreams);
+        aws_config=aws_config,
+    )
+end
+function add_flow_media_streams(
+    flowArn,
+    mediaStreams,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/mediaStreams",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("mediaStreams" => mediaStreams), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     add_flow_outputs(flow_arn, outputs)
@@ -30,8 +53,29 @@ Adds outputs to an existing flow. You can create up to 50 outputs per flow.
 - `outputs`: A list of outputs that you want to add.
 
 """
-add_flow_outputs(flowArn, outputs; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/outputs", Dict{String, Any}("outputs"=>outputs); aws_config=aws_config)
-add_flow_outputs(flowArn, outputs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/outputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("outputs"=>outputs), params)); aws_config=aws_config)
+function add_flow_outputs(
+    flowArn, outputs; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/outputs",
+        Dict{String,Any}("outputs" => outputs);
+        aws_config=aws_config,
+    )
+end
+function add_flow_outputs(
+    flowArn,
+    outputs,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/outputs",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("outputs" => outputs), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     add_flow_sources(flow_arn, sources)
@@ -44,8 +88,29 @@ Adds Sources to flow
 - `sources`: A list of sources that you want to add.
 
 """
-add_flow_sources(flowArn, sources; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/source", Dict{String, Any}("sources"=>sources); aws_config=aws_config)
-add_flow_sources(flowArn, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/source", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sources"=>sources), params)); aws_config=aws_config)
+function add_flow_sources(
+    flowArn, sources; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/source",
+        Dict{String,Any}("sources" => sources);
+        aws_config=aws_config,
+    )
+end
+function add_flow_sources(
+    flowArn,
+    sources,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/source",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     add_flow_vpc_interfaces(flow_arn, vpc_interfaces)
@@ -58,8 +123,31 @@ Adds VPC interfaces to flow
 - `vpc_interfaces`: A list of VPC interfaces that you want to add.
 
 """
-add_flow_vpc_interfaces(flowArn, vpcInterfaces; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/vpcInterfaces", Dict{String, Any}("vpcInterfaces"=>vpcInterfaces); aws_config=aws_config)
-add_flow_vpc_interfaces(flowArn, vpcInterfaces, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/vpcInterfaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcInterfaces"=>vpcInterfaces), params)); aws_config=aws_config)
+function add_flow_vpc_interfaces(
+    flowArn, vpcInterfaces; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/vpcInterfaces",
+        Dict{String,Any}("vpcInterfaces" => vpcInterfaces);
+        aws_config=aws_config,
+    )
+end
+function add_flow_vpc_interfaces(
+    flowArn,
+    vpcInterfaces,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/vpcInterfaces",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("vpcInterfaces" => vpcInterfaces), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_flow(name)
@@ -84,8 +172,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sources"`:
 - `"vpcInterfaces"`: The VPC interfaces you want on the flow.
 """
-create_flow(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_flow(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function create_flow(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect(
+        "POST", "/v1/flows", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function create_flow(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_flow(flow_arn)
@@ -97,8 +198,14 @@ Deletes a flow. Before you can delete a flow, you must stop the flow.
 - `flow_arn`: The ARN of the flow that you want to delete.
 
 """
-delete_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)"; aws_config=aws_config)
-delete_flow(flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)", params; aws_config=aws_config)
+function delete_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("DELETE", "/v1/flows/$(flowArn)"; aws_config=aws_config)
+end
+function delete_flow(
+    flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("DELETE", "/v1/flows/$(flowArn)", params; aws_config=aws_config)
+end
 
 """
     describe_flow(flow_arn)
@@ -111,8 +218,14 @@ Zone, as well as details about the source, outputs, and entitlements.
 - `flow_arn`: The ARN of the flow that you want to describe.
 
 """
-describe_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/flows/$(flowArn)"; aws_config=aws_config)
-describe_flow(flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/flows/$(flowArn)", params; aws_config=aws_config)
+function describe_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("GET", "/v1/flows/$(flowArn)"; aws_config=aws_config)
+end
+function describe_flow(
+    flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("GET", "/v1/flows/$(flowArn)", params; aws_config=aws_config)
+end
 
 """
     describe_offering(offering_arn)
@@ -125,8 +238,18 @@ duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
 - `offering_arn`: The Amazon Resource Name (ARN) of the offering.
 
 """
-describe_offering(offeringArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/offerings/$(offeringArn)"; aws_config=aws_config)
-describe_offering(offeringArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/offerings/$(offeringArn)", params; aws_config=aws_config)
+function describe_offering(offeringArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("GET", "/v1/offerings/$(offeringArn)"; aws_config=aws_config)
+end
+function describe_offering(
+    offeringArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "GET", "/v1/offerings/$(offeringArn)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_reservation(reservation_arn)
@@ -140,8 +263,20 @@ reservation (such as price, duration, and outbound bandwidth).
 - `reservation_arn`: The Amazon Resource Name (ARN) of the reservation.
 
 """
-describe_reservation(reservationArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/reservations/$(reservationArn)"; aws_config=aws_config)
-describe_reservation(reservationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/reservations/$(reservationArn)", params; aws_config=aws_config)
+function describe_reservation(
+    reservationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("GET", "/v1/reservations/$(reservationArn)"; aws_config=aws_config)
+end
+function describe_reservation(
+    reservationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "GET", "/v1/reservations/$(reservationArn)", params; aws_config=aws_config
+    )
+end
 
 """
     grant_flow_entitlements(entitlements, flow_arn)
@@ -154,8 +289,31 @@ Grants entitlements to an existing flow.
 - `flow_arn`: The flow that you want to grant entitlements on.
 
 """
-grant_flow_entitlements(entitlements, flowArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/entitlements", Dict{String, Any}("entitlements"=>entitlements); aws_config=aws_config)
-grant_flow_entitlements(entitlements, flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/entitlements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entitlements"=>entitlements), params)); aws_config=aws_config)
+function grant_flow_entitlements(
+    entitlements, flowArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/entitlements",
+        Dict{String,Any}("entitlements" => entitlements);
+        aws_config=aws_config,
+    )
+end
+function grant_flow_entitlements(
+    entitlements,
+    flowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/flows/$(flowArn)/entitlements",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("entitlements" => entitlements), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_entitlements()
@@ -178,8 +336,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results, you can submit the ListEntitlements request a second time and specify the
   NextToken value.
 """
-list_entitlements(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/entitlements"; aws_config=aws_config)
-list_entitlements(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/entitlements", params; aws_config=aws_config)
+function list_entitlements(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("GET", "/v1/entitlements"; aws_config=aws_config)
+end
+function list_entitlements(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("GET", "/v1/entitlements", params; aws_config=aws_config)
+end
 
 """
     list_flows()
@@ -201,8 +365,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   first batch of results (up to 5) and a NextToken value. To see the next batch of results,
   you can submit the ListFlows request a second time and specify the NextToken value.
 """
-list_flows(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/flows"; aws_config=aws_config)
-list_flows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/flows", params; aws_config=aws_config)
+function list_flows(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("GET", "/v1/flows"; aws_config=aws_config)
+end
+function list_flows(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("GET", "/v1/flows", params; aws_config=aws_config)
+end
 
 """
     list_offerings()
@@ -227,8 +397,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, you can submit the ListOfferings request a second time and specify the NextToken
   value.
 """
-list_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/offerings"; aws_config=aws_config)
-list_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/offerings", params; aws_config=aws_config)
+function list_offerings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("GET", "/v1/offerings"; aws_config=aws_config)
+end
+function list_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("GET", "/v1/offerings", params; aws_config=aws_config)
+end
 
 """
     list_reservations()
@@ -251,8 +427,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results, you can submit the ListOfferings request a second time and specify the
   NextToken value.
 """
-list_reservations(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/reservations"; aws_config=aws_config)
-list_reservations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/reservations", params; aws_config=aws_config)
+function list_reservations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("GET", "/v1/reservations"; aws_config=aws_config)
+end
+function list_reservations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("GET", "/v1/reservations", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -265,8 +447,18 @@ List all tags on an AWS Elemental MediaConnect resource
   MediaConnect resource for which to list the tags.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+end
 
 """
     purchase_offering(offering_arn, reservation_name, start)
@@ -285,8 +477,36 @@ can't purchase another offering.
   characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
 
 """
-purchase_offering(offeringArn, reservationName, start; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/offerings/$(offeringArn)", Dict{String, Any}("reservationName"=>reservationName, "start"=>start); aws_config=aws_config)
-purchase_offering(offeringArn, reservationName, start, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/offerings/$(offeringArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reservationName"=>reservationName, "start"=>start), params)); aws_config=aws_config)
+function purchase_offering(
+    offeringArn, reservationName, start; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/offerings/$(offeringArn)",
+        Dict{String,Any}("reservationName" => reservationName, "start" => start);
+        aws_config=aws_config,
+    )
+end
+function purchase_offering(
+    offeringArn,
+    reservationName,
+    start,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/offerings/$(offeringArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("reservationName" => reservationName, "start" => start),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     remove_flow_media_stream(flow_arn, media_stream_name)
@@ -300,8 +520,28 @@ not associated with a source or output.
 - `media_stream_name`: The name of the media stream that you want to remove.
 
 """
-remove_flow_media_stream(flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)"; aws_config=aws_config)
-remove_flow_media_stream(flowArn, mediaStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)", params; aws_config=aws_config)
+function remove_flow_media_stream(
+    flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)";
+        aws_config=aws_config,
+    )
+end
+function remove_flow_media_stream(
+    flowArn,
+    mediaStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     remove_flow_output(flow_arn, output_arn)
@@ -317,8 +557,23 @@ automatically removes the associated output.
 - `output_arn`: The ARN of the output that you want to remove.
 
 """
-remove_flow_output(flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/outputs/$(outputArn)"; aws_config=aws_config)
-remove_flow_output(flowArn, outputArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/outputs/$(outputArn)", params; aws_config=aws_config)
+function remove_flow_output(
+    flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "DELETE", "/v1/flows/$(flowArn)/outputs/$(outputArn)"; aws_config=aws_config
+    )
+end
+function remove_flow_output(
+    flowArn,
+    outputArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "DELETE", "/v1/flows/$(flowArn)/outputs/$(outputArn)", params; aws_config=aws_config
+    )
+end
 
 """
     remove_flow_source(flow_arn, source_arn)
@@ -332,8 +587,23 @@ one source on the flow.
 - `source_arn`: The ARN of the source that you want to remove.
 
 """
-remove_flow_source(flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/source/$(sourceArn)"; aws_config=aws_config)
-remove_flow_source(flowArn, sourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/source/$(sourceArn)", params; aws_config=aws_config)
+function remove_flow_source(
+    flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "DELETE", "/v1/flows/$(flowArn)/source/$(sourceArn)"; aws_config=aws_config
+    )
+end
+function remove_flow_source(
+    flowArn,
+    sourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "DELETE", "/v1/flows/$(flowArn)/source/$(sourceArn)", params; aws_config=aws_config
+    )
+end
 
 """
     remove_flow_vpc_interface(flow_arn, vpc_interface_name)
@@ -349,8 +619,28 @@ no longer reference the VPC interface.
 - `vpc_interface_name`: The name of the VPC interface that you want to remove.
 
 """
-remove_flow_vpc_interface(flowArn, vpcInterfaceName; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)"; aws_config=aws_config)
-remove_flow_vpc_interface(flowArn, vpcInterfaceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)", params; aws_config=aws_config)
+function remove_flow_vpc_interface(
+    flowArn, vpcInterfaceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)";
+        aws_config=aws_config,
+    )
+end
+function remove_flow_vpc_interface(
+    flowArn,
+    vpcInterfaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     revoke_flow_entitlement(entitlement_arn, flow_arn)
@@ -364,8 +654,28 @@ unavailable to the subscriber and the associated output is removed.
 - `flow_arn`: The flow that you want to revoke an entitlement from.
 
 """
-revoke_flow_entitlement(entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)"; aws_config=aws_config)
-revoke_flow_entitlement(entitlementArn, flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)", params; aws_config=aws_config)
+function revoke_flow_entitlement(
+    entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)";
+        aws_config=aws_config,
+    )
+end
+function revoke_flow_entitlement(
+    entitlementArn,
+    flowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     start_flow(flow_arn)
@@ -377,8 +687,14 @@ Starts a flow.
 - `flow_arn`: The ARN of the flow that you want to start.
 
 """
-start_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/start/$(flowArn)"; aws_config=aws_config)
-start_flow(flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/start/$(flowArn)", params; aws_config=aws_config)
+function start_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("POST", "/v1/flows/start/$(flowArn)"; aws_config=aws_config)
+end
+function start_flow(
+    flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("POST", "/v1/flows/start/$(flowArn)", params; aws_config=aws_config)
+end
 
 """
     stop_flow(flow_arn)
@@ -390,8 +706,14 @@ Stops a flow.
 - `flow_arn`: The ARN of the flow that you want to stop.
 
 """
-stop_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/stop/$(flowArn)"; aws_config=aws_config)
-stop_flow(flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/stop/$(flowArn)", params; aws_config=aws_config)
+function stop_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("POST", "/v1/flows/stop/$(flowArn)"; aws_config=aws_config)
+end
+function stop_flow(
+    flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("POST", "/v1/flows/stop/$(flowArn)", params; aws_config=aws_config)
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -408,8 +730,27 @@ a resource is deleted, the tags associated with that resource are deleted as wel
   128 characters, and tag values can have a maximum length of 256 characters.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -423,8 +764,29 @@ Deletes specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_flow(flow_arn)
@@ -439,8 +801,14 @@ Updates flow
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"sourceFailoverConfig"`:
 """
-update_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)"; aws_config=aws_config)
-update_flow(flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)", params; aws_config=aws_config)
+function update_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconnect("PUT", "/v1/flows/$(flowArn)"; aws_config=aws_config)
+end
+function update_flow(
+    flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect("PUT", "/v1/flows/$(flowArn)", params; aws_config=aws_config)
+end
 
 """
     update_flow_entitlement(entitlement_arn, flow_arn)
@@ -468,8 +836,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   receiving accounts (subscribers) will be allowed to create their own flow using your
   content as the source.
 """
-update_flow_entitlement(entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)"; aws_config=aws_config)
-update_flow_entitlement(entitlementArn, flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)", params; aws_config=aws_config)
+function update_flow_entitlement(
+    entitlementArn, flowArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "PUT", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)"; aws_config=aws_config
+    )
+end
+function update_flow_entitlement(
+    entitlementArn,
+    flowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "PUT",
+        "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_flow_media_stream(flow_arn, media_stream_name)
@@ -491,8 +877,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"mediaStreamType"`: The type of media stream.
 - `"videoFormat"`: The resolution of the video.
 """
-update_flow_media_stream(flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)"; aws_config=aws_config)
-update_flow_media_stream(flowArn, mediaStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)", params; aws_config=aws_config)
+function update_flow_media_stream(
+    flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "PUT", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)"; aws_config=aws_config
+    )
+end
+function update_flow_media_stream(
+    flowArn,
+    mediaStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "PUT",
+        "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_flow_output(flow_arn, output_arn)
@@ -532,8 +936,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcInterfaceAttachment"`: The name of the VPC interface attachment to use for this
   output.
 """
-update_flow_output(flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/outputs/$(outputArn)"; aws_config=aws_config)
-update_flow_output(flowArn, outputArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/outputs/$(outputArn)", params; aws_config=aws_config)
+function update_flow_output(
+    flowArn, outputArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "PUT", "/v1/flows/$(flowArn)/outputs/$(outputArn)"; aws_config=aws_config
+    )
+end
+function update_flow_output(
+    flowArn,
+    outputArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "PUT", "/v1/flows/$(flowArn)/outputs/$(outputArn)", params; aws_config=aws_config
+    )
+end
 
 """
     update_flow_source(flow_arn, source_arn)
@@ -574,5 +993,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to your source. These IP addresses should be in the form of a Classless Inter-Domain
   Routing (CIDR) block; for example, 10.0.0.0/16.
 """
-update_flow_source(flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/source/$(sourceArn)"; aws_config=aws_config)
-update_flow_source(flowArn, sourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/source/$(sourceArn)", params; aws_config=aws_config)
+function update_flow_source(
+    flowArn, sourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "PUT", "/v1/flows/$(flowArn)/source/$(sourceArn)"; aws_config=aws_config
+    )
+end
+function update_flow_source(
+    flowArn,
+    sourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediaconnect(
+        "PUT", "/v1/flows/$(flowArn)/source/$(sourceArn)", params; aws_config=aws_config
+    )
+end

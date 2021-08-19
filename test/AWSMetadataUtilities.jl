@@ -42,7 +42,9 @@ end
     end
 
     @testset "multiple services - multiple versions" begin
-        result = _filter_latest_service_version([migration_hub_v1, migration_hub_v2, access_analyzer_v1, access_analyzer_v2])
+        result = _filter_latest_service_version([
+            migration_hub_v1, migration_hub_v2, access_analyzer_v1, access_analyzer_v2
+        ])
         @test result == [access_analyzer_v2, migration_hub_v2]
     end
 end
@@ -71,36 +73,43 @@ end
     services = JSON.parsefile(joinpath(@__DIR__, "resources/services.json"))
 
     @testset "rest-xml" begin
-        expected = "const s3 = AWS.RestXMLService(\"s3\", \"2006-03-01\")"
+        expected = "const s3 = AWS.RestXMLService(\"s3\", \"s3\", \"2006-03-01\")"
         response = _generate_low_level_definition(services["s3"])
 
         @test response == expected
     end
 
     @testset "rest-json" begin
-        expected = "const glacier = AWS.RestJSONService(\"glacier\", \"2012-06-01\", LittleDict(\"x-amz-glacier-version\" => \"2012-06-01\"))"
+        expected = "const glacier = AWS.RestJSONService(\"glacier\", \"glacier\", \"2012-06-01\", LittleDict(\"x-amz-glacier-version\" => \"2012-06-01\"))"
         response = _generate_low_level_definition(services["glacier"])
 
         @test response == expected
     end
 
     @testset "ec2 / query" begin
-        expected = "const ec2 = AWS.QueryService(\"ec2\", \"2016-11-15\")"
+        expected = "const ec2 = AWS.QueryService(\"ec2\", \"ec2\", \"2016-11-15\")"
         response = _generate_low_level_definition(services["ec2"])
 
         @test response == expected
     end
 
     @testset "json" begin
-        expected = "const budgets = AWS.JSONService(\"budgets\", \"2016-10-20\", \"1.1\", \"AWSBudgetServiceGateway\")"
+        expected = "const budgets = AWS.JSONService(\"budgets\", \"budgets\", \"2016-10-20\", \"1.1\", \"AWSBudgetServiceGateway\")"
         response = _generate_low_level_definition(services["budgets"])
 
         @test response == expected
     end
 
-    @testset "signingName preference" begin
-        expected = "const serviceid = AWS.RestXMLService(\"signingName\", \"2021-04-09\")"
-        response = _generate_low_level_definition(services["signingName"])
+    @testset "signingName matches endpointPrefix" begin
+        expected = "const serviceid = AWS.RestXMLService(\"signingName\", \"signingName\", \"2021-04-09\")"
+        response = _generate_low_level_definition(services["signingNameMatch"])
+
+        @test response == expected
+    end
+
+    @testset "signingName does not match endpointPrefix" begin
+        expected = "const serviceid = AWS.RestXMLService(\"signingName\", \"endpointPrefix\", \"2021-04-09\")"
+        response = _generate_low_level_definition(services["signingNameNonMatch"])
 
         @test response == expected
     end
@@ -117,7 +126,7 @@ end
         "endpointPrefix" => "endpoint",
         "apiVersion" => "api_version",
         "jsonVersion" => "json_version",
-        "targetPrefix" => "target"
+        "targetPrefix" => "target",
     )
 
     @testset "Invalid Protocol" begin
@@ -126,7 +135,7 @@ end
 
     @testset "rest-xml" begin
         service["protocol"] = "rest-xml"
-        expected_result = "const sample_service = AWS.RestXMLService(\"endpoint\", \"api_version\")"
+        expected_result = "const sample_service = AWS.RestXMLService(\"endpoint\", \"endpoint\", \"api_version\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
@@ -134,7 +143,7 @@ end
 
     @testset "rest-json" begin
         service["protocol"] = "rest-json"
-        expected_result = "const sample_service = AWS.RestJSONService(\"endpoint\", \"api_version\")"
+        expected_result = "const sample_service = AWS.RestJSONService(\"endpoint\", \"endpoint\", \"api_version\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
@@ -142,7 +151,7 @@ end
 
     @testset "json" begin
         service["protocol"] = "json"
-        expected_result = "const sample_service = AWS.JSONService(\"endpoint\", \"api_version\", \"json_version\", \"target\")"
+        expected_result = "const sample_service = AWS.JSONService(\"endpoint\", \"endpoint\", \"api_version\", \"json_version\", \"target\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
@@ -150,7 +159,7 @@ end
 
     @testset "query" begin
         service["protocol"] = "query"
-        expected_result = "const sample_service = AWS.QueryService(\"endpoint\", \"api_version\")"
+        expected_result = "const sample_service = AWS.QueryService(\"endpoint\", \"endpoint\", \"api_version\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
@@ -158,7 +167,7 @@ end
 
     @testset "ec2" begin
         service["protocol"] = "ec2"
-        expected_result = "const sample_service = AWS.QueryService(\"endpoint\", \"api_version\")"
+        expected_result = "const sample_service = AWS.QueryService(\"endpoint\", \"endpoint\", \"api_version\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
@@ -248,7 +257,10 @@ end
 
         required_params, optional_params = _get_function_parameters(input, shapes)
 
-        @test required_params == Dict("RequiredParam" => LittleDict("location" => "", "documentation" => "Required param"))
+        @test required_params == Dict(
+            "RequiredParam" =>
+                LittleDict("location" => "", "documentation" => "Required param"),
+        )
         @test isempty(optional_params)
     end
 
@@ -259,8 +271,10 @@ end
 
         @test isempty(required_params)
         @test optional_params == Dict(
-            "OptionalParam1" => Dict("documentation" => "Optional param 1", "idempotent" => false),
-            "OptionalParam2" => Dict("documentation" => "Optional param 2", "idempotent" => false)
+            "OptionalParam1" =>
+                Dict("documentation" => "Optional param 1", "idempotent" => false),
+            "OptionalParam2" =>
+                Dict("documentation" => "Optional param 2", "idempotent" => false),
         )
     end
 
@@ -270,12 +284,15 @@ end
         required_params, optional_params = _get_function_parameters(input, shapes)
 
         @test required_params == Dict(
-            "RequiredParam1" => LittleDict("location" => "", "documentation" => "Required param 1"),
-            "RequiredParam2" => LittleDict("location" => "", "documentation" => "Required param 2")
+            "RequiredParam1" =>
+                LittleDict("location" => "", "documentation" => "Required param 1"),
+            "RequiredParam2" =>
+                LittleDict("location" => "", "documentation" => "Required param 2"),
         )
 
         @test optional_params == Dict(
-            "OptionalParam" => Dict("documentation" => "Optional param", "idempotent" => false)
+            "OptionalParam" =>
+                Dict("documentation" => "Optional param", "idempotent" => false),
         )
     end
 
@@ -314,12 +331,7 @@ end
     sample_operation(RequiredParam1, RequiredParam2, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), params)); aws_config=aws_config)
     """
 
-    result = _generate_high_level_definitions(
-        service_name,
-        protocol,
-        operations,
-        shapes
-    )
+    result = _generate_high_level_definitions(service_name, protocol, operations, shapes)
 
     @test size(result)[1] == 1
 
@@ -337,8 +349,15 @@ end
     documentation = "Documentation for $name."
 
     @testset "locationless and non-idempotent" begin
-        required_params = Dict("RequiredParam" => Dict("location" => "", "documentation" => "This parameter is required."))
-        optional_params = Dict("OptionalParam" => Dict("idempotent" => false, "documentation" => "This parameter is optional."))
+        required_params = Dict(
+            "RequiredParam" =>
+                Dict("location" => "", "documentation" => "This parameter is required."),
+        )
+        optional_params = Dict(
+            "OptionalParam" => Dict(
+                "idempotent" => false, "documentation" => "This parameter is optional."
+            ),
+        )
 
         @testset "rest protocol" begin
             protocol = "rest-xml"
@@ -368,7 +387,7 @@ end
                 request_uri,
                 required_params,
                 optional_params,
-                documentation
+                documentation,
             )
 
             expected_result = _clean_high_level_definition(expected_result)
@@ -405,7 +424,7 @@ end
                 request_uri,
                 required_params,
                 optional_params,
-                documentation
+                documentation,
             )
 
             expected_result = _clean_high_level_definition(expected_result)
@@ -416,8 +435,16 @@ end
     end
 
     @testset "header location and idempotent" begin
-        required_params = Dict("RequiredParam" => Dict("location" => "header", "documentation" => "This parameter is required."))
-        optional_params = Dict("OptionalParam" => Dict("idempotent" => true, "documentation" => "This parameter is optional."))
+        required_params = Dict(
+            "RequiredParam" => Dict(
+                "location" => "header", "documentation" => "This parameter is required."
+            ),
+        )
+        optional_params = Dict(
+            "OptionalParam" => Dict(
+                "idempotent" => true, "documentation" => "This parameter is optional."
+            ),
+        )
 
         @testset "rest protocol" begin
             protocol = "rest-xml"
@@ -446,7 +473,7 @@ end
                 request_uri,
                 required_params,
                 optional_params,
-                documentation
+                documentation,
             )
 
             expected_result = _clean_high_level_definition(expected_result)
@@ -483,7 +510,7 @@ end
                 request_uri,
                 required_params,
                 optional_params,
-                documentation
+                documentation,
             )
 
             expected_result = _clean_high_level_definition(expected_result)
@@ -603,7 +630,7 @@ end
         @testset "has default `limit=92` argument" begin
             str = string(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
-                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
             @test _wraplines(str) == _wraplines(str, 92)
         end
@@ -611,7 +638,7 @@ end
         @testset "optional `delim` keyword" begin
             str = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
-                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
             @test _wraplines(str, 50; delim="\n  ") == """
                 - Lorem ipsum dolor sit amet, consectetur

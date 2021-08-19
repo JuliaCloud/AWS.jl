@@ -10,84 +10,208 @@ using AWS.UUIDs
 
 Attaches an IAM managed policy ARN to a permission set.  If the permission set is already
 referenced by one or more account assignments, you will need to call
-ProvisionPermissionSet  after this action to apply the corresponding IAM policy updates to
-all assigned accounts.
+ProvisionPermissionSet  after this operation. Calling ProvisionPermissionSet applies the
+corresponding IAM policy updates to all assigned accounts.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `managed_policy_arn`: The IAM managed policy ARN to be attached to a permission set.
 - `permission_set_arn`: The ARN of the PermissionSet that the managed policy should be
   attached to.
 
 """
-attach_managed_policy_to_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("AttachManagedPolicyToPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-attach_managed_policy_to_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("AttachManagedPolicyToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function attach_managed_policy_to_permission_set(
+    InstanceArn,
+    ManagedPolicyArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "AttachManagedPolicyToPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn,
+            "ManagedPolicyArn" => ManagedPolicyArn,
+            "PermissionSetArn" => PermissionSetArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function attach_managed_policy_to_permission_set(
+    InstanceArn,
+    ManagedPolicyArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "AttachManagedPolicyToPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "ManagedPolicyArn" => ManagedPolicyArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
     create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type, params::Dict{String,<:Any})
 
-Assigns access to a principal for a specified AWS account using a specified permission set.
- The term principal here refers to a user or group that is defined in AWS SSO.   As part of
-a successful CreateAccountAssignment call, the specified permission set will automatically
-be provisioned to the account in the form of an IAM policy attached to the SSO-created IAM
-role. If the permission set is subsequently updated, the corresponding IAM policies
-attached to roles in your accounts will not be updated automatically. In this case, you
-will need to call  ProvisionPermissionSet  to make these updates.
+Assigns access to a principal for a specified Amazon Web Services account using a specified
+permission set.  The term principal here refers to a user or group that is defined in
+Amazon Web Services SSO.   As part of a successful CreateAccountAssignment call, the
+specified permission set will automatically be provisioned to the account in the form of an
+IAM policy. That policy is attached to the SSO-created IAM role. If the permission set is
+subsequently updated, the corresponding IAM policies attached to roles in your accounts
+will not be updated automatically. In this case, you must call  ProvisionPermissionSet  to
+make these updates.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set that the admin wants to grant the
   principal access to.
-- `principal_id`: An identifier for an object in AWS SSO, such as a user or group.
-  PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
-  information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
+- `principal_id`: An identifier for an object in Amazon Web Services SSO, such as a user or
+  group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
+  information about PrincipalIds in Amazon Web Services SSO, see the Amazon Web Services SSO
+  Identity Store API Reference.
 - `principal_type`: The entity type for which the assignment will be created.
-- `target_id`: TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  example, 123456789012).
+- `target_id`: TargetID is an Amazon Web Services account identifier, typically a 10-12
+  digit string (For example, 123456789012).
 - `target_type`: The entity type for which the assignment will be created.
 
 """
-create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateAccountAssignment", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType); aws_config=aws_config)
-create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateAccountAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType), params)); aws_config=aws_config)
+function create_account_assignment(
+    InstanceArn,
+    PermissionSetArn,
+    PrincipalId,
+    PrincipalType,
+    TargetId,
+    TargetType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "CreateAccountAssignment",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn,
+            "PermissionSetArn" => PermissionSetArn,
+            "PrincipalId" => PrincipalId,
+            "PrincipalType" => PrincipalType,
+            "TargetId" => TargetId,
+            "TargetType" => TargetType,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_account_assignment(
+    InstanceArn,
+    PermissionSetArn,
+    PrincipalId,
+    PrincipalType,
+    TargetId,
+    TargetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "CreateAccountAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                    "TargetId" => TargetId,
+                    "TargetType" => TargetType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
     create_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn, params::Dict{String,<:Any})
 
-Enables the attributes-based access control (ABAC) feature for the specified AWS SSO
-instance. You can also specify new attributes to add to your ABAC configuration during the
-enabling process. For more information about ABAC, see Attribute-Based Access Control in
-the AWS SSO User Guide.
+Enables the attributes-based access control (ABAC) feature for the specified Amazon Web
+Services SSO instance. You can also specify new attributes to add to your ABAC
+configuration during the enabling process. For more information about ABAC, see
+Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
 
 # Arguments
-- `instance_access_control_attribute_configuration`: Specifies the AWS SSO identity store
-  attributes to add to your ABAC configuration. When using an external identity provider as
-  an identity source, you can pass attributes through the SAML assertion as an alternative to
-  configuring attributes from the AWS SSO identity store. If a SAML assertion passes any of
-  these attributes, AWS SSO will replace the attribute value with the value from the AWS SSO
-  identity store.
+- `instance_access_control_attribute_configuration`: Specifies the Amazon Web Services SSO
+  identity store attributes to add to your ABAC configuration. When using an external
+  identity provider as an identity source, you can pass attributes through the SAML
+  assertion. Doing so provides an alternative to configuring attributes from the Amazon Web
+  Services SSO identity store. If a SAML assertion passes any of these attributes, Amazon Web
+  Services SSO will replace the attribute value with the value from the Amazon Web Services
+  SSO identity store.
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
 
 """
-create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function create_instance_access_control_attribute_configuration(
+    InstanceAccessControlAttributeConfiguration,
+    InstanceArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "CreateInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            "InstanceAccessControlAttributeConfiguration" =>
+                InstanceAccessControlAttributeConfiguration,
+            "InstanceArn" => InstanceArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_instance_access_control_attribute_configuration(
+    InstanceAccessControlAttributeConfiguration,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "CreateInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceAccessControlAttributeConfiguration" =>
+                        InstanceAccessControlAttributeConfiguration,
+                    "InstanceArn" => InstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_permission_set(instance_arn, name)
     create_permission_set(instance_arn, name, params::Dict{String,<:Any})
 
 Creates a permission set within a specified SSO instance.  To grant users and groups access
-to AWS account resources, use  CreateAccountAssignment .
+to Amazon Web Services account resources, use  CreateAccountAssignment .
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `name`: The name of the PermissionSet.
 
 # Optional Parameters
@@ -99,31 +223,107 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ISO-8601 standard.
 - `"Tags"`: The tags to attach to the new PermissionSet.
 """
-create_permission_set(InstanceArn, Name; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreatePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name); aws_config=aws_config)
-create_permission_set(InstanceArn, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreatePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name), params)); aws_config=aws_config)
+function create_permission_set(
+    InstanceArn, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "CreatePermissionSet",
+        Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function create_permission_set(
+    InstanceArn,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "CreatePermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
     delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type, params::Dict{String,<:Any})
 
-Deletes a principal's access from a specified AWS account using a specified permission set.
+Deletes a principal's access from a specified Amazon Web Services account using a specified
+permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
-- `principal_id`: An identifier for an object in AWS SSO, such as a user or group.
-  PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
-  information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
+- `principal_id`: An identifier for an object in Amazon Web Services SSO, such as a user or
+  group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
+  information about PrincipalIds in Amazon Web Services SSO, see the Amazon Web Services SSO
+  Identity Store API Reference.
 - `principal_type`: The entity type for which the assignment will be deleted.
-- `target_id`: TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  example, 123456789012).
+- `target_id`: TargetID is an Amazon Web Services account identifier, typically a 10-12
+  digit string (For example, 123456789012).
 - `target_type`: The entity type for which the assignment will be deleted.
 
 """
-delete_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteAccountAssignment", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType); aws_config=aws_config)
-delete_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteAccountAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType), params)); aws_config=aws_config)
+function delete_account_assignment(
+    InstanceArn,
+    PermissionSetArn,
+    PrincipalId,
+    PrincipalType,
+    TargetId,
+    TargetType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteAccountAssignment",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn,
+            "PermissionSetArn" => PermissionSetArn,
+            "PrincipalId" => PrincipalId,
+            "PrincipalType" => PrincipalType,
+            "TargetId" => TargetId,
+            "TargetType" => TargetType,
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_account_assignment(
+    InstanceArn,
+    PermissionSetArn,
+    PrincipalId,
+    PrincipalType,
+    TargetId,
+    TargetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteAccountAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                    "TargetId" => TargetId,
+                    "TargetType" => TargetType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_inline_policy_from_permission_set(instance_arn, permission_set_arn)
@@ -133,30 +333,79 @@ Deletes the inline policy from a specified permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
 
 """
-delete_inline_policy_from_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInlinePolicyFromPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-delete_inline_policy_from_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInlinePolicyFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function delete_inline_policy_from_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "DeleteInlinePolicyFromPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_inline_policy_from_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteInlinePolicyFromPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_instance_access_control_attribute_configuration(instance_arn)
     delete_instance_access_control_attribute_configuration(instance_arn, params::Dict{String,<:Any})
 
-Disables the attributes-based access control (ABAC) feature for the specified AWS SSO
-instance and deletes all of the attribute mappings that have been configured. Once deleted,
-any attributes that are received from an identity source and any custom attributes you have
-previously configured will not be passed. For more information about ABAC, see
-Attribute-Based Access Control in the AWS SSO User Guide.
+Disables the attributes-based access control (ABAC) feature for the specified Amazon Web
+Services SSO instance and deletes all of the attribute mappings that have been configured.
+Once deleted, any attributes that are received from an identity source and any custom
+attributes you have previously configured will not be passed. For more information about
+ABAC, see Attribute-Based Access Control in the Amazon Web Services SSO User Guide.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
 
 """
-delete_instance_access_control_attribute_configuration(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-delete_instance_access_control_attribute_configuration(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function delete_instance_access_control_attribute_configuration(
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "DeleteInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+    )
+end
+function delete_instance_access_control_attribute_configuration(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_permission_set(instance_arn, permission_set_arn)
@@ -166,13 +415,42 @@ Deletes the specified permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set that should be deleted.
 
 """
-delete_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeletePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-delete_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeletePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function delete_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "DeletePermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeletePermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn)
@@ -184,12 +462,46 @@ Describes the status of the assignment creation request.
 - `account_assignment_creation_request_id`: The identifier that is used to track the
   request operation progress.
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 
 """
-describe_account_assignment_creation_status(AccountAssignmentCreationRequestId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentCreationStatus", Dict{String, Any}("AccountAssignmentCreationRequestId"=>AccountAssignmentCreationRequestId, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-describe_account_assignment_creation_status(AccountAssignmentCreationRequestId, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentCreationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAssignmentCreationRequestId"=>AccountAssignmentCreationRequestId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function describe_account_assignment_creation_status(
+    AccountAssignmentCreationRequestId,
+    InstanceArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeAccountAssignmentCreationStatus",
+        Dict{String,Any}(
+            "AccountAssignmentCreationRequestId" => AccountAssignmentCreationRequestId,
+            "InstanceArn" => InstanceArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_account_assignment_creation_status(
+    AccountAssignmentCreationRequestId,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeAccountAssignmentCreationStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountAssignmentCreationRequestId" =>
+                        AccountAssignmentCreationRequestId,
+                    "InstanceArn" => InstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_account_assignment_deletion_status(account_assignment_deletion_request_id, instance_arn)
@@ -201,28 +513,83 @@ Describes the status of the assignment deletion request.
 - `account_assignment_deletion_request_id`: The identifier that is used to track the
   request operation progress.
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 
 """
-describe_account_assignment_deletion_status(AccountAssignmentDeletionRequestId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentDeletionStatus", Dict{String, Any}("AccountAssignmentDeletionRequestId"=>AccountAssignmentDeletionRequestId, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-describe_account_assignment_deletion_status(AccountAssignmentDeletionRequestId, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAssignmentDeletionRequestId"=>AccountAssignmentDeletionRequestId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function describe_account_assignment_deletion_status(
+    AccountAssignmentDeletionRequestId,
+    InstanceArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeAccountAssignmentDeletionStatus",
+        Dict{String,Any}(
+            "AccountAssignmentDeletionRequestId" => AccountAssignmentDeletionRequestId,
+            "InstanceArn" => InstanceArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_account_assignment_deletion_status(
+    AccountAssignmentDeletionRequestId,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeAccountAssignmentDeletionStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountAssignmentDeletionRequestId" =>
+                        AccountAssignmentDeletionRequestId,
+                    "InstanceArn" => InstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_instance_access_control_attribute_configuration(instance_arn)
     describe_instance_access_control_attribute_configuration(instance_arn, params::Dict{String,<:Any})
 
-Returns the list of AWS SSO identity store attributes that have been configured to work
-with attributes-based access control (ABAC) for the specified AWS SSO instance. This will
-not return attributes configured and sent by an external identity provider. For more
-information about ABAC, see Attribute-Based Access Control in the AWS SSO User Guide.
+Returns the list of Amazon Web Services SSO identity store attributes that have been
+configured to work with attributes-based access control (ABAC) for the specified Amazon Web
+Services SSO instance. This will not return attributes configured and sent by an external
+identity provider. For more information about ABAC, see Attribute-Based Access Control in
+the Amazon Web Services SSO User Guide.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
 
 """
-describe_instance_access_control_attribute_configuration(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-describe_instance_access_control_attribute_configuration(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function describe_instance_access_control_attribute_configuration(
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "DescribeInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+    )
+end
+function describe_instance_access_control_attribute_configuration(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_permission_set(instance_arn, permission_set_arn)
@@ -232,13 +599,42 @@ Gets the details of the permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 """
-describe_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-describe_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function describe_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "DescribePermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribePermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_permission_set_provisioning_status(instance_arn, provision_permission_set_request_id)
@@ -248,14 +644,47 @@ Describes the status for the given permission set provisioning request.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `provision_permission_set_request_id`: The identifier that is provided by the
   ProvisionPermissionSet call to retrieve the current status of the provisioning workflow.
 
 """
-describe_permission_set_provisioning_status(InstanceArn, ProvisionPermissionSetRequestId; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSetProvisioningStatus", Dict{String, Any}("InstanceArn"=>InstanceArn, "ProvisionPermissionSetRequestId"=>ProvisionPermissionSetRequestId); aws_config=aws_config)
-describe_permission_set_provisioning_status(InstanceArn, ProvisionPermissionSetRequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSetProvisioningStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ProvisionPermissionSetRequestId"=>ProvisionPermissionSetRequestId), params)); aws_config=aws_config)
+function describe_permission_set_provisioning_status(
+    InstanceArn,
+    ProvisionPermissionSetRequestId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribePermissionSetProvisioningStatus",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn,
+            "ProvisionPermissionSetRequestId" => ProvisionPermissionSetRequestId,
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_permission_set_provisioning_status(
+    InstanceArn,
+    ProvisionPermissionSetRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribePermissionSetProvisioningStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "ProvisionPermissionSetRequestId" => ProvisionPermissionSetRequestId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
@@ -265,15 +694,52 @@ Detaches the attached IAM managed policy ARN from the specified permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `managed_policy_arn`: The IAM managed policy ARN to be attached to a permission set.
 - `permission_set_arn`: The ARN of the PermissionSet from which the policy should be
   detached.
 
 """
-detach_managed_policy_from_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DetachManagedPolicyFromPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-detach_managed_policy_from_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DetachManagedPolicyFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function detach_managed_policy_from_permission_set(
+    InstanceArn,
+    ManagedPolicyArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DetachManagedPolicyFromPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn,
+            "ManagedPolicyArn" => ManagedPolicyArn,
+            "PermissionSetArn" => PermissionSetArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function detach_managed_policy_from_permission_set(
+    InstanceArn,
+    ManagedPolicyArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DetachManagedPolicyFromPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "ManagedPolicyArn" => ManagedPolicyArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_inline_policy_for_permission_set(instance_arn, permission_set_arn)
@@ -283,25 +749,54 @@ Obtains the inline policy assigned to the permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 """
-get_inline_policy_for_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("GetInlinePolicyForPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-get_inline_policy_for_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("GetInlinePolicyForPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function get_inline_policy_for_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "GetInlinePolicyForPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+    )
+end
+function get_inline_policy_for_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "GetInlinePolicyForPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_account_assignment_creation_status(instance_arn)
     list_account_assignment_creation_status(instance_arn, params::Dict{String,<:Any})
 
-Lists the status of the AWS account assignment creation requests for a specified SSO
-instance.
+Lists the status of the Amazon Web Services account assignment creation requests for a
+specified SSO instance.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -310,20 +805,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_account_assignment_creation_status(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentCreationStatus", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_account_assignment_creation_status(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentCreationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function list_account_assignment_creation_status(
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListAccountAssignmentCreationStatus",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+    )
+end
+function list_account_assignment_creation_status(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListAccountAssignmentCreationStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_account_assignment_deletion_status(instance_arn)
     list_account_assignment_deletion_status(instance_arn, params::Dict{String,<:Any})
 
-Lists the status of the AWS account assignment deletion requests for a specified SSO
-instance.
+Lists the status of the Amazon Web Services account assignment deletion requests for a
+specified SSO instance.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -332,20 +847,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_account_assignment_deletion_status(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentDeletionStatus", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_account_assignment_deletion_status(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function list_account_assignment_deletion_status(
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListAccountAssignmentDeletionStatus",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+    )
+end
+function list_account_assignment_deletion_status(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListAccountAssignmentDeletionStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_account_assignments(account_id, instance_arn, permission_set_arn)
     list_account_assignments(account_id, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists the assignee of the specified AWS account with the specified permission set.
+Lists the assignee of the specified Amazon Web Services account with the specified
+permission set.
 
 # Arguments
-- `account_id`: The identifier of the AWS account from which to list the assignments.
+- `account_id`: The identifier of the Amazon Web Services account from which to list the
+  assignments.
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set from which to list assignments.
 
 # Optional Parameters
@@ -354,31 +891,99 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_account_assignments(AccountId, InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignments", Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-list_account_assignments(AccountId, InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function list_account_assignments(
+    AccountId,
+    InstanceArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListAccountAssignments",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "InstanceArn" => InstanceArn,
+            "PermissionSetArn" => PermissionSetArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function list_account_assignments(
+    AccountId,
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListAccountAssignments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn)
     list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists all the AWS accounts where the specified permission set is provisioned.
+Lists all the Amazon Web Services accounts where the specified permission set is
+provisioned.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
-- `permission_set_arn`: The ARN of the PermissionSet from which the associated AWS accounts
-  will be listed.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
+- `permission_set_arn`: The ARN of the PermissionSet from which the associated Amazon Web
+  Services accounts will be listed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of results to display for the PermissionSet.
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
-- `"ProvisioningStatus"`: The permission set provisioning status for an AWS account.
+- `"ProvisioningStatus"`: The permission set provisioning status for an Amazon Web Services
+  account.
 """
-list_accounts_for_provisioned_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountsForProvisionedPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-list_accounts_for_provisioned_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountsForProvisionedPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function list_accounts_for_provisioned_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListAccountsForProvisionedPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+    )
+end
+function list_accounts_for_provisioned_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListAccountsForProvisionedPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_instances()
@@ -392,8 +997,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListInstances"; aws_config=aws_config)
-list_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListInstances", params; aws_config=aws_config)
+function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+    return sso_admin("ListInstances"; aws_config=aws_config)
+end
+function list_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin("ListInstances", params; aws_config=aws_config)
+end
 
 """
     list_managed_policies_in_permission_set(instance_arn, permission_set_arn)
@@ -403,8 +1014,8 @@ Lists the IAM managed policy that is attached to a specified permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the PermissionSet whose managed policies will be listed.
 
 # Optional Parameters
@@ -413,8 +1024,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_managed_policies_in_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListManagedPoliciesInPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-list_managed_policies_in_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListManagedPoliciesInPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function list_managed_policies_in_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListManagedPoliciesInPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+    )
+end
+function list_managed_policies_in_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListManagedPoliciesInPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_permission_set_provisioning_status(instance_arn)
@@ -424,8 +1064,8 @@ Lists the status of the permission set provisioning requests for a specified SSO
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -434,8 +1074,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_permission_set_provisioning_status(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetProvisioningStatus", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_permission_set_provisioning_status(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetProvisioningStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function list_permission_set_provisioning_status(
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListPermissionSetProvisioningStatus",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+    )
+end
+function list_permission_set_provisioning_status(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListPermissionSetProvisioningStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_permission_sets(instance_arn)
@@ -445,8 +1105,8 @@ Lists the PermissionSets in an SSO instance.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -454,20 +1114,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_permission_sets(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSets", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_permission_sets(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function list_permission_sets(
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListPermissionSets",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+    )
+end
+function list_permission_sets(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListPermissionSets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_permission_sets_provisioned_to_account(account_id, instance_arn)
     list_permission_sets_provisioned_to_account(account_id, instance_arn, params::Dict{String,<:Any})
 
-Lists all the permission sets that are provisioned to a specified AWS account.
+Lists all the permission sets that are provisioned to a specified Amazon Web Services
+account.
 
 # Arguments
-- `account_id`: The identifier of the AWS account from which to list the assignments.
+- `account_id`: The identifier of the Amazon Web Services account from which to list the
+  assignments.
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -476,8 +1158,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 - `"ProvisioningStatus"`: The status object for the permission set provisioning operation.
 """
-list_permission_sets_provisioned_to_account(AccountId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetsProvisionedToAccount", Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_permission_sets_provisioned_to_account(AccountId, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetsProvisionedToAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function list_permission_sets_provisioned_to_account(
+    AccountId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListPermissionSetsProvisionedToAccount",
+        Dict{String,Any}("AccountId" => AccountId, "InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+    )
+end
+function list_permission_sets_provisioned_to_account(
+    AccountId,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListPermissionSetsProvisionedToAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "InstanceArn" => InstanceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(instance_arn, resource_arn)
@@ -487,8 +1194,8 @@ Lists the tags that are attached to a specified resource.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 
 # Optional Parameters
@@ -496,8 +1203,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-list_tags_for_resource(InstanceArn, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListTagsForResource", Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(InstanceArn, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    InstanceArn, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListTagsForResource",
+        Dict{String,Any}("InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    InstanceArn,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     provision_permission_set(instance_arn, permission_set_arn, target_type)
@@ -507,18 +1241,55 @@ The process by which a specified permission set is provisioned to the specified 
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 - `target_type`: The entity type for which the assignment will be created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TargetId"`: TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  example, 123456789012).
+- `"TargetId"`: TargetID is an Amazon Web Services account identifier, typically a 10-12
+  digit string (For example, 123456789012).
 """
-provision_permission_set(InstanceArn, PermissionSetArn, TargetType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ProvisionPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "TargetType"=>TargetType); aws_config=aws_config)
-provision_permission_set(InstanceArn, PermissionSetArn, TargetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ProvisionPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "TargetType"=>TargetType), params)); aws_config=aws_config)
+function provision_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    TargetType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ProvisionPermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn,
+            "PermissionSetArn" => PermissionSetArn,
+            "TargetType" => TargetType,
+        );
+        aws_config=aws_config,
+    )
+end
+function provision_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    TargetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ProvisionPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                    "TargetType" => TargetType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn)
@@ -532,13 +1303,50 @@ all assigned accounts.
 # Arguments
 - `inline_policy`: The IAM inline policy to attach to a PermissionSet.
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 """
-put_inline_policy_to_permission_set(InlinePolicy, InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("PutInlinePolicyToPermissionSet", Dict{String, Any}("InlinePolicy"=>InlinePolicy, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-put_inline_policy_to_permission_set(InlinePolicy, InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("PutInlinePolicyToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InlinePolicy"=>InlinePolicy, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function put_inline_policy_to_permission_set(
+    InlinePolicy,
+    InstanceArn,
+    PermissionSetArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "PutInlinePolicyToPermissionSet",
+        Dict{String,Any}(
+            "InlinePolicy" => InlinePolicy,
+            "InstanceArn" => InstanceArn,
+            "PermissionSetArn" => PermissionSetArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function put_inline_policy_to_permission_set(
+    InlinePolicy,
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "PutInlinePolicyToPermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InlinePolicy" => InlinePolicy,
+                    "InstanceArn" => InstanceArn,
+                    "PermissionSetArn" => PermissionSetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(instance_arn, resource_arn, tags)
@@ -548,14 +1356,46 @@ Associates a set of tags with a specified resource.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 - `tags`: A set of key-value pairs that are used to manage the resource.
 
 """
-tag_resource(InstanceArn, ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("TagResource", Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(InstanceArn, ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(
+    InstanceArn, ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "TagResource",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn, "Tags" => Tags
+        );
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    InstanceArn,
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "ResourceArn" => ResourceArn,
+                    "Tags" => Tags,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(instance_arn, resource_arn, tag_keys)
@@ -565,26 +1405,59 @@ Disassociates a set of tags from a specified resource.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 - `tag_keys`: The keys of tags that are attached to the resource.
 
 """
-untag_resource(InstanceArn, ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UntagResource", Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(InstanceArn, ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    InstanceArn, ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "UntagResource",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn, "TagKeys" => TagKeys
+        );
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    InstanceArn,
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "ResourceArn" => ResourceArn,
+                    "TagKeys" => TagKeys,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
     update_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn, params::Dict{String,<:Any})
 
-Updates the AWS SSO identity store attributes to use with the AWS SSO instance for
-attributes-based access control (ABAC). When using an external identity provider as an
-identity source, you can pass attributes through the SAML assertion as an alternative to
-configuring attributes from the AWS SSO identity store. If a SAML assertion passes any of
-these attributes, AWS SSO will replace the attribute value with the value from the AWS SSO
-identity store. For more information about ABAC, see Attribute-Based Access Control in the
-AWS SSO User Guide.
+Updates the Amazon Web Services SSO identity store attributes that you can use with the
+Amazon Web Services SSO instance for attributes-based access control (ABAC). When using an
+external identity provider as an identity source, you can pass attributes through the SAML
+assertion as an alternative to configuring attributes from the Amazon Web Services SSO
+identity store. If a SAML assertion passes any of these attributes, Amazon Web Services SSO
+replaces the attribute value with the value from the Amazon Web Services SSO identity
+store. For more information about ABAC, see Attribute-Based Access Control in the Amazon
+Web Services SSO User Guide.
 
 # Arguments
 - `instance_access_control_attribute_configuration`: Updates the attributes for your ABAC
@@ -592,8 +1465,43 @@ AWS SSO User Guide.
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
 
 """
-update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+function update_instance_access_control_attribute_configuration(
+    InstanceAccessControlAttributeConfiguration,
+    InstanceArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "UpdateInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            "InstanceAccessControlAttributeConfiguration" =>
+                InstanceAccessControlAttributeConfiguration,
+            "InstanceArn" => InstanceArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_instance_access_control_attribute_configuration(
+    InstanceAccessControlAttributeConfiguration,
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "UpdateInstanceAccessControlAttributeConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceAccessControlAttributeConfiguration" =>
+                        InstanceAccessControlAttributeConfiguration,
+                    "InstanceArn" => InstanceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_permission_set(instance_arn, permission_set_arn)
@@ -603,8 +1511,8 @@ Updates an existing permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the SSO instance under which the operation will be executed.
-  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service
-  Namespaces in the AWS General Reference.
+  For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+  Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 # Optional Parameters
@@ -615,5 +1523,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SessionDuration"`: The length of time that the application user sessions are valid for
   in the ISO-8601 standard.
 """
-update_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdatePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-update_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdatePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+function update_permission_set(
+    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "UpdatePermissionSet",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+        );
+        aws_config=aws_config,
+    )
+end
+function update_permission_set(
+    InstanceArn,
+    PermissionSetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "UpdatePermissionSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

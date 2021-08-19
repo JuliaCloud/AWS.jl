@@ -20,8 +20,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token ensuring that the action is called only once with the specified
   details.
 """
-create_replication_set(regions; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createReplicationSet", Dict{String, Any}("regions"=>regions, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_replication_set(regions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createReplicationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regions"=>regions, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_replication_set(regions; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "POST",
+        "/createReplicationSet",
+        Dict{String,Any}("regions" => regions, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function create_replication_set(
+    regions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/createReplicationSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("regions" => regions, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_response_plan(incident_template, name)
@@ -46,12 +68,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an incident.
 - `"tags"`: A list of tags that you are adding to the response plan.
 """
-create_response_plan(incidentTemplate, name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createResponsePlan", Dict{String, Any}("incidentTemplate"=>incidentTemplate, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_response_plan(incidentTemplate, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("incidentTemplate"=>incidentTemplate, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_response_plan(
+    incidentTemplate, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/createResponsePlan",
+        Dict{String,Any}(
+            "incidentTemplate" => incidentTemplate,
+            "name" => name,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_response_plan(
+    incidentTemplate,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/createResponsePlan",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "incidentTemplate" => incidentTemplate,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
-    create_timeline_event(client_token, event_data, event_time, event_type, incident_record_arn)
-    create_timeline_event(client_token, event_data, event_time, event_type, incident_record_arn, params::Dict{String,<:Any})
+    create_timeline_event(event_data, event_time, event_type, incident_record_arn)
+    create_timeline_event(event_data, event_time, event_type, incident_record_arn, params::Dict{String,<:Any})
 
 Creates a custom timeline event on the incident details page of an incident record.
 Timeline events are automatically created by Incident Manager, marking key moment during an
@@ -59,17 +116,65 @@ incident. You can create custom timeline events to mark important events that ar
 automatically detected by Incident Manager.
 
 # Arguments
-- `client_token`: A token ensuring that the action is called only once with the specified
-  details.
-- `event_data`: A short description of the event.
+- `event_data`: A valid JSON string. There is no other schema imposed. A short description
+  of the event.
 - `event_time`: The time that the event occurred.
 - `event_type`: The type of the event. You can create timeline events of type Custom Event.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record you are
   adding the event to.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token ensuring that the action is called only once with the specified
+  details.
 """
-create_timeline_event(clientToken, eventData, eventTime, eventType, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createTimelineEvent", Dict{String, Any}("clientToken"=>clientToken, "eventData"=>eventData, "eventTime"=>eventTime, "eventType"=>eventType, "incidentRecordArn"=>incidentRecordArn); aws_config=aws_config)
-create_timeline_event(clientToken, eventData, eventTime, eventType, incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "eventData"=>eventData, "eventTime"=>eventTime, "eventType"=>eventType, "incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config)
+function create_timeline_event(
+    eventData,
+    eventTime,
+    eventType,
+    incidentRecordArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/createTimelineEvent",
+        Dict{String,Any}(
+            "eventData" => eventData,
+            "eventTime" => eventTime,
+            "eventType" => eventType,
+            "incidentRecordArn" => incidentRecordArn,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_timeline_event(
+    eventData,
+    eventTime,
+    eventType,
+    incidentRecordArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/createTimelineEvent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "eventData" => eventData,
+                    "eventTime" => eventTime,
+                    "eventType" => eventType,
+                    "incidentRecordArn" => incidentRecordArn,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_incident_record(arn)
@@ -81,8 +186,24 @@ Delete an incident record from Incident Manager.
 - `arn`: The Amazon Resource Name (ARN) of the incident record you are deleting.
 
 """
-delete_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteIncidentRecord", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_incident_record(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteIncidentRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+function delete_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "POST",
+        "/deleteIncidentRecord",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+    )
+end
+function delete_incident_record(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/deleteIncidentRecord",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_replication_set(arn)
@@ -95,8 +216,24 @@ Incident Manager data.
 - `arn`: The Amazon Resource Name (ARN) of the replication set you're deleting.
 
 """
-delete_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteReplicationSet", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_replication_set(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteReplicationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+function delete_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "POST",
+        "/deleteReplicationSet",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+    )
+end
+function delete_replication_set(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/deleteReplicationSet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_resource_policy(policy_id, resource_arn)
@@ -111,8 +248,35 @@ Manager resource.
   from.
 
 """
-delete_resource_policy(policyId, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteResourcePolicy", Dict{String, Any}("policyId"=>policyId, "resourceArn"=>resourceArn); aws_config=aws_config)
-delete_resource_policy(policyId, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyId"=>policyId, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function delete_resource_policy(
+    policyId, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/deleteResourcePolicy",
+        Dict{String,Any}("policyId" => policyId, "resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function delete_resource_policy(
+    policyId,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/deleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("policyId" => policyId, "resourceArn" => resourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_response_plan(arn)
@@ -125,8 +289,21 @@ alarms and EventBridge events from creating an incident with this response plan.
 - `arn`: The Amazon Resource Name (ARN) of the response plan.
 
 """
-delete_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteResponsePlan", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_response_plan(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+function delete_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "POST", "/deleteResponsePlan", Dict{String,Any}("arn" => arn); aws_config=aws_config
+    )
+end
+function delete_response_plan(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/deleteResponsePlan",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_timeline_event(event_id, incident_record_arn)
@@ -141,8 +318,37 @@ Deletes a timeline event from an incident.
   part of.
 
 """
-delete_timeline_event(eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteTimelineEvent", Dict{String, Any}("eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn); aws_config=aws_config)
-delete_timeline_event(eventId, incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/deleteTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config)
+function delete_timeline_event(
+    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/deleteTimelineEvent",
+        Dict{String,Any}("eventId" => eventId, "incidentRecordArn" => incidentRecordArn);
+        aws_config=aws_config,
+    )
+end
+function delete_timeline_event(
+    eventId,
+    incidentRecordArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/deleteTimelineEvent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "eventId" => eventId, "incidentRecordArn" => incidentRecordArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_incident_record(arn)
@@ -154,8 +360,21 @@ Returns the details of the specified incident record.
 - `arn`: The Amazon Resource Name (ARN) of the incident record.
 
 """
-get_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/getIncidentRecord", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_incident_record(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/getIncidentRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+function get_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "GET", "/getIncidentRecord", Dict{String,Any}("arn" => arn); aws_config=aws_config
+    )
+end
+function get_incident_record(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "GET",
+        "/getIncidentRecord",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_replication_set(arn)
@@ -167,8 +386,21 @@ Retrieve your Incident Manager replication set.
 - `arn`: The Amazon Resource Name (ARN) of the replication set you want to retrieve.
 
 """
-get_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/getReplicationSet", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_replication_set(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/getReplicationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+function get_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "GET", "/getReplicationSet", Dict{String,Any}("arn" => arn); aws_config=aws_config
+    )
+end
+function get_replication_set(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "GET",
+        "/getReplicationSet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_resource_policies(resource_arn)
@@ -185,8 +417,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of resource policies to display per page of results.
 - `"nextToken"`: The pagination token to continue to the next page of results.
 """
-get_resource_policies(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/getResourcePolicies", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-get_resource_policies(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/getResourcePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function get_resource_policies(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/getResourcePolicies",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function get_resource_policies(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/getResourcePolicies",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_response_plan(arn)
@@ -198,8 +452,21 @@ Retrieves the details of the specified response plan.
 - `arn`: The Amazon Resource Name (ARN) of the response plan.
 
 """
-get_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/getResponsePlan", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_response_plan(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/getResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+function get_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "GET", "/getResponsePlan", Dict{String,Any}("arn" => arn); aws_config=aws_config
+    )
+end
+function get_response_plan(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "GET",
+        "/getResponsePlan",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_timeline_event(event_id, incident_record_arn)
@@ -214,8 +481,37 @@ Retrieves a timeline event based on its ID and incident record.
   event is part of.
 
 """
-get_timeline_event(eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/getTimelineEvent", Dict{String, Any}("eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn); aws_config=aws_config)
-get_timeline_event(eventId, incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/getTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config)
+function get_timeline_event(
+    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "GET",
+        "/getTimelineEvent",
+        Dict{String,Any}("eventId" => eventId, "incidentRecordArn" => incidentRecordArn);
+        aws_config=aws_config,
+    )
+end
+function get_timeline_event(
+    eventId,
+    incidentRecordArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "GET",
+        "/getTimelineEvent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "eventId" => eventId, "incidentRecordArn" => incidentRecordArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_incident_records()
@@ -231,8 +527,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token to continue to the next page of results.
 """
-list_incident_records(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listIncidentRecords"; aws_config=aws_config)
-list_incident_records(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listIncidentRecords", params; aws_config=aws_config)
+function list_incident_records(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents("POST", "/listIncidentRecords"; aws_config=aws_config)
+end
+function list_incident_records(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents("POST", "/listIncidentRecords", params; aws_config=aws_config)
+end
 
 """
     list_related_items(incident_record_arn)
@@ -249,8 +551,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of related items per page.
 - `"nextToken"`: The pagination token to continue to the next page of results.
 """
-list_related_items(incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listRelatedItems", Dict{String, Any}("incidentRecordArn"=>incidentRecordArn); aws_config=aws_config)
-list_related_items(incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listRelatedItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config)
+function list_related_items(
+    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/listRelatedItems",
+        Dict{String,Any}("incidentRecordArn" => incidentRecordArn);
+        aws_config=aws_config,
+    )
+end
+function list_related_items(
+    incidentRecordArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/listRelatedItems",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("incidentRecordArn" => incidentRecordArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_replication_sets()
@@ -263,8 +589,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token to continue to the next page of results.
 """
-list_replication_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listReplicationSets"; aws_config=aws_config)
-list_replication_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listReplicationSets", params; aws_config=aws_config)
+function list_replication_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents("POST", "/listReplicationSets"; aws_config=aws_config)
+end
+function list_replication_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents("POST", "/listReplicationSets", params; aws_config=aws_config)
+end
 
 """
     list_response_plans()
@@ -277,8 +609,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of response plans per page.
 - `"nextToken"`: The pagination token to continue to the next page of results.
 """
-list_response_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listResponsePlans"; aws_config=aws_config)
-list_response_plans(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listResponsePlans", params; aws_config=aws_config)
+function list_response_plans(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents("POST", "/listResponsePlans"; aws_config=aws_config)
+end
+function list_response_plans(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents("POST", "/listResponsePlans", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -290,8 +628,18 @@ Lists the tags that are attached to the specified response plan.
 - `resource_arn`: The Amazon Resource Name (ARN) of the response plan.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+end
 
 """
     list_timeline_events(incident_record_arn)
@@ -313,8 +661,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: Sorts the order of timeline events by the value specified in the sortBy
   field.
 """
-list_timeline_events(incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listTimelineEvents", Dict{String, Any}("incidentRecordArn"=>incidentRecordArn); aws_config=aws_config)
-list_timeline_events(incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/listTimelineEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config)
+function list_timeline_events(
+    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/listTimelineEvents",
+        Dict{String,Any}("incidentRecordArn" => incidentRecordArn);
+        aws_config=aws_config,
+    )
+end
+function list_timeline_events(
+    incidentRecordArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/listTimelineEvents",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("incidentRecordArn" => incidentRecordArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_resource_policy(policy, resource_arn)
@@ -328,8 +700,35 @@ Adds a resource policy to the specified response plan.
   resource policy to.
 
 """
-put_resource_policy(policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/putResourcePolicy", Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn); aws_config=aws_config)
-put_resource_policy(policy, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/putResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function put_resource_policy(
+    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/putResourcePolicy",
+        Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function put_resource_policy(
+    policy,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/putResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_incident(response_plan_arn)
@@ -358,8 +757,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided by the response plan.
 - `"triggerDetails"`: Details of what created the incident record in Incident Manager.
 """
-start_incident(responsePlanArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/startIncident", Dict{String, Any}("responsePlanArn"=>responsePlanArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
-start_incident(responsePlanArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/startIncident", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("responsePlanArn"=>responsePlanArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function start_incident(responsePlanArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "POST",
+        "/startIncident",
+        Dict{String,Any}(
+            "responsePlanArn" => responsePlanArn, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+    )
+end
+function start_incident(
+    responsePlanArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/startIncident",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "responsePlanArn" => responsePlanArn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -373,8 +800,27 @@ Adds a tag to a response plan.
 - `tags`: A list of tags that you are adding to the response plan.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -388,8 +834,29 @@ Removes a tag from a resource.
 - `tag_keys`: The name of the tag you're removing from the response plan.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_deletion_protection(arn, deletion_protected)
@@ -408,8 +875,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token ensuring that the action is called only once with the specified
   details.
 """
-update_deletion_protection(arn, deletionProtected; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateDeletionProtection", Dict{String, Any}("arn"=>arn, "deletionProtected"=>deletionProtected, "clientToken"=>string(uuid4())); aws_config=aws_config)
-update_deletion_protection(arn, deletionProtected, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateDeletionProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "deletionProtected"=>deletionProtected, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function update_deletion_protection(
+    arn, deletionProtected; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/updateDeletionProtection",
+        Dict{String,Any}(
+            "arn" => arn,
+            "deletionProtected" => deletionProtected,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function update_deletion_protection(
+    arn,
+    deletionProtected,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/updateDeletionProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "arn" => arn,
+                    "deletionProtected" => deletionProtected,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_incident_record(arn)
@@ -434,16 +936,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     3 - Medium impact, the application is providing reduced service to customers.    4 - Low
   impact, customer might aren't impacted by the problem yet.    5 - No impact, customers
   aren't currently impacted but urgent action is needed to avoid impact.
-- `"notificationTargets"`: The SNS targets that AWS Chatbot uses to notify the chat channel
-  of updates to an incident. You can also make updates to the incident through the chat
-  channel using the SNS topics.  Using multiple SNS topics creates redundancy in the case
-  that a Region is down during the incident.
+- `"notificationTargets"`: The SNS targets that are notified when updates are made to an
+  incident. Using multiple SNS topics creates redundancy in the case that a Region is down
+  during the incident.
 - `"status"`: The status of the incident. An incident can be Open or Resolved.
 - `"summary"`: The summary describes what has happened during the incident.
 - `"title"`: The title of the incident is a brief and easily recognizable.
 """
-update_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateIncidentRecord", Dict{String, Any}("arn"=>arn, "clientToken"=>string(uuid4())); aws_config=aws_config)
-update_incident_record(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateIncidentRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function update_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "POST",
+        "/updateIncidentRecord",
+        Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function update_incident_record(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/updateIncidentRecord",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_related_items(incident_record_arn, related_items_update)
@@ -461,8 +984,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token ensuring that the action is called only once with the specified
   details.
 """
-update_related_items(incidentRecordArn, relatedItemsUpdate; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateRelatedItems", Dict{String, Any}("incidentRecordArn"=>incidentRecordArn, "relatedItemsUpdate"=>relatedItemsUpdate, "clientToken"=>string(uuid4())); aws_config=aws_config)
-update_related_items(incidentRecordArn, relatedItemsUpdate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateRelatedItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("incidentRecordArn"=>incidentRecordArn, "relatedItemsUpdate"=>relatedItemsUpdate, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function update_related_items(
+    incidentRecordArn, relatedItemsUpdate; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/updateRelatedItems",
+        Dict{String,Any}(
+            "incidentRecordArn" => incidentRecordArn,
+            "relatedItemsUpdate" => relatedItemsUpdate,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function update_related_items(
+    incidentRecordArn,
+    relatedItemsUpdate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/updateRelatedItems",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "incidentRecordArn" => incidentRecordArn,
+                    "relatedItemsUpdate" => relatedItemsUpdate,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_replication_set(actions, arn)
@@ -479,8 +1037,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token ensuring that the action is called only once with the specified
   details.
 """
-update_replication_set(actions, arn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateReplicationSet", Dict{String, Any}("actions"=>actions, "arn"=>arn, "clientToken"=>string(uuid4())); aws_config=aws_config)
-update_replication_set(actions, arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateReplicationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actions"=>actions, "arn"=>arn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function update_replication_set(
+    actions, arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/updateReplicationSet",
+        Dict{String,Any}(
+            "actions" => actions, "arn" => arn, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+    )
+end
+function update_replication_set(
+    actions,
+    arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/updateReplicationSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "actions" => actions, "arn" => arn, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_response_plan(arn)
@@ -495,6 +1084,7 @@ Updates the specified response plan.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"actions"`: The actions that this response plan takes at the beginning of an incident.
 - `"chatChannel"`: The AWS Chatbot chat channel used for collaboration during an incident.
+  Use the empty structure to remove the chat channel from the response plan.
 - `"clientToken"`: A token ensuring that the action is called only once with the specified
   details.
 - `"displayName"`: The long format name of the response plan. Can't contain spaces.
@@ -504,24 +1094,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"incidentTemplateImpact"`: Defines the impact to the customers. Providing an impact
   overwrites the impact provided by a response plan.  Possible impacts:     5 - Severe impact
      4 - High impact    3 - Medium impact    2 - Low impact    1 - No impact
-- `"incidentTemplateNotificationTargets"`: The SNS targets that AWS Chatbot uses to notify
-  the chat channels and perform actions on the incident record.
+- `"incidentTemplateNotificationTargets"`: The SNS targets that are notified when updates
+  are made to an incident.
 - `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains
   what has happened, what's currently happening, and next steps.
 - `"incidentTemplateTitle"`: The short format name of the incident. Can't contain spaces.
 """
-update_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateResponsePlan", Dict{String, Any}("arn"=>arn, "clientToken"=>string(uuid4())); aws_config=aws_config)
-update_response_plan(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function update_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_incidents(
+        "POST",
+        "/updateResponsePlan",
+        Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function update_response_plan(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/updateResponsePlan",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
-    update_timeline_event(client_token, event_id, incident_record_arn)
-    update_timeline_event(client_token, event_id, incident_record_arn, params::Dict{String,<:Any})
+    update_timeline_event(event_id, incident_record_arn)
+    update_timeline_event(event_id, incident_record_arn, params::Dict{String,<:Any})
 
 Updates a timeline event. You can update events of type Custom Event.
 
 # Arguments
-- `client_token`: A token ensuring that the action is called only once with the specified
-  details.
 - `event_id`: The ID of the event you are updating. You can find this by using
   ListTimelineEvents.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident that the timeline
@@ -529,9 +1139,46 @@ Updates a timeline event. You can update events of type Custom Event.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token ensuring that the action is called only once with the specified
+  details.
 - `"eventData"`: A short description of the event.
 - `"eventTime"`: The time that the event occurred.
 - `"eventType"`: The type of the event. You can update events of type Custom Event.
 """
-update_timeline_event(clientToken, eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateTimelineEvent", Dict{String, Any}("clientToken"=>clientToken, "eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn); aws_config=aws_config)
-update_timeline_event(clientToken, eventId, incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config)
+function update_timeline_event(
+    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/updateTimelineEvent",
+        Dict{String,Any}(
+            "eventId" => eventId,
+            "incidentRecordArn" => incidentRecordArn,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function update_timeline_event(
+    eventId,
+    incidentRecordArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/updateTimelineEvent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "eventId" => eventId,
+                    "incidentRecordArn" => incidentRecordArn,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

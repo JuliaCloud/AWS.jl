@@ -10,9 +10,9 @@ using AWS.UUIDs
 
 Creates a new capacity provider. Capacity providers are associated with an Amazon ECS
 cluster and are used in capacity provider strategies to facilitate cluster auto scaling.
-Only capacity providers using an Auto Scaling group can be created. Amazon ECS tasks on AWS
+Only capacity providers using an Auto Scaling group can be created. Amazon ECS tasks on
 Fargate use the FARGATE and FARGATE_SPOT capacity providers which are already created and
-available to all accounts in Regions supported by AWS Fargate.
+available to all accounts in Regions supported by Fargate.
 
 # Arguments
 - `auto_scaling_group_provider`: The details of the Auto Scaling group for the capacity
@@ -33,11 +33,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
   the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do
   not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either
-  keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values
-  with this prefix. Tags with this prefix do not count against your tags per resource limit.
+  keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag
+  keys or values with this prefix. Tags with this prefix do not count against your tags per
+  resource limit.
 """
-create_capacity_provider(autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCapacityProvider", Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name); aws_config=aws_config)
-create_capacity_provider(autoScalingGroupProvider, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), params)); aws_config=aws_config)
+function create_capacity_provider(
+    autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "CreateCapacityProvider",
+        Dict{String,Any}(
+            "autoScalingGroupProvider" => autoScalingGroupProvider, "name" => name
+        );
+        aws_config=aws_config,
+    )
+end
+function create_capacity_provider(
+    autoScalingGroupProvider,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "CreateCapacityProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "autoScalingGroupProvider" => autoScalingGroupProvider, "name" => name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cluster()
@@ -47,10 +77,10 @@ Creates a new Amazon ECS cluster. By default, your account receives a default cl
 you launch your first container instance. However, you can create your own cluster with a
 unique name with the CreateCluster action.  When you call the CreateCluster API operation,
 Amazon ECS attempts to create the Amazon ECS service-linked role for your account so that
-required resources in other AWS services can be managed on your behalf. However, if the IAM
-user that makes the call does not have permissions to create the service-linked role, it is
-not created. For more information, see Using Service-Linked Roles for Amazon ECS in the
-Amazon Elastic Container Service Developer Guide.
+required resources in other Amazon Web Services services can be managed on your behalf.
+However, if the IAM user that makes the call does not have permissions to create the
+service-linked role, it is not created. For more information, see Using Service-Linked
+Roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -60,19 +90,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   capacity provider strategy when calling the CreateService or RunTask actions. If specifying
   a capacity provider that uses an Auto Scaling group, the capacity provider must already be
   created and not already associated with another cluster. New Auto Scaling group capacity
-  providers can be created with the CreateCapacityProvider API operation. To use a AWS
-  Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers.
-  The AWS Fargate capacity providers are available to all accounts and only need to be
-  associated with a cluster to be used. The PutClusterCapacityProviders API operation is used
-  to update the list of available capacity providers for a cluster after the cluster is
-  created.
+  providers can be created with the CreateCapacityProvider API operation. To use a Fargate
+  capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The
+  Fargate capacity providers are available to all accounts and only need to be associated
+  with a cluster to be used. The PutClusterCapacityProviders API operation is used to update
+  the list of available capacity providers for a cluster after the cluster is created.
 - `"clusterName"`: The name of your cluster. If you do not specify a name for your cluster,
   you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers,
   underscores, and hyphens are allowed.
 - `"configuration"`: The execute command configuration for the cluster.
 - `"defaultCapacityProviderStrategy"`: The capacity provider strategy to set as the default
   for the cluster. When a default capacity provider strategy is set for a cluster, when
-  calling the RunTask or CreateService APIs wtih no capacity provider strategy or launch type
+  calling the RunTask or CreateService APIs with no capacity provider strategy or launch type
   specified, the default capacity provider strategy for the cluster is used. If a default
   capacity provider strategy is not defined for a cluster during creation, it can be defined
   later with the PutClusterCapacityProviders API operation.
@@ -89,11 +118,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
   the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do
   not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either
-  keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values
-  with this prefix. Tags with this prefix do not count against your tags per resource limit.
+  keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag
+  keys or values with this prefix. Tags with this prefix do not count against your tags per
+  resource limit.
 """
-create_cluster(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCluster"; aws_config=aws_config)
-create_cluster(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCluster", params; aws_config=aws_config)
+function create_cluster(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("CreateCluster"; aws_config=aws_config)
+end
+function create_cluster(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("CreateCluster", params; aws_config=aws_config)
+end
 
 """
     create_service(service_name)
@@ -180,7 +216,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"capacityProviderStrategy"`: The capacity provider strategy to use for the service. If a
   capacityProviderStrategy is specified, the launchType parameter must be omitted. If no
   capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy
-  for the cluster is used.
+  for the cluster is used. A capacity provider strategy may contain a maximum of 6 capacity
+  providers.
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 32 ASCII characters are allowed.
 - `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster on which to
@@ -209,14 +246,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from marking tasks as unhealthy and stopping them before they have time to come up.
 - `"launchType"`: The infrastructure on which to run your service. For more information,
   see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide. The
-  FARGATE launch type runs your tasks on AWS Fargate On-Demand infrastructure.  Fargate Spot
+  FARGATE launch type runs your tasks on Fargate On-Demand infrastructure.  Fargate Spot
   infrastructure is available for use but a capacity provider strategy must be used. For more
-  information, see AWS Fargate capacity providers in the Amazon ECS User Guide for AWS
-  Fargate.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to your
-  cluster. The EXTERNAL launch type runs your tasks on your on-premise server or virtual
-  machine (VM) capacity registered to your cluster. A service can use either a launch type or
-  a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy
-  parameter must be omitted.
+  information, see Fargate capacity providers in the Amazon ECS User Guide for Fargate.  The
+  EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The
+  EXTERNAL launch type runs your tasks on your on-premise server or virtual machine (VM)
+  capacity registered to your cluster. A service can use either a launch type or a capacity
+  provider strategy. If a launchType is specified, the capacityProviderStrategy parameter
+  must be omitted.
 - `"loadBalancers"`: A load balancer object representing the load balancers to use with
   your service. For more information, see Service Load Balancing in the Amazon Elastic
   Container Service Developer Guide. If the service is using the rolling update (ECS)
@@ -226,31 +263,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see Using service-linked roles for Amazon ECS in the Amazon Elastic
   Container Service Developer Guide. If the service is using the CODE_DEPLOY deployment
   controller, the service is required to use either an Application Load Balancer or Network
-  Load Balancer. When creating an AWS CodeDeploy deployment group, you specify two target
-  groups (referred to as a targetGroupPair). During a deployment, AWS CodeDeploy determines
-  which task set in your service has the status PRIMARY and associates one target group with
-  it, and then associates the other target group with the replacement task set. The load
-  balancer can also have up to two listeners: a required listener for production traffic and
-  an optional listener that allows you perform validation tests with Lambda functions before
-  routing production traffic to it. After you create a service using the ECS deployment
-  controller, the load balancer name or target group ARN, container name, and container port
-  specified in the service definition are immutable. If you are using the CODE_DEPLOY
-  deployment controller, these values can be changed when updating the service. For
-  Application Load Balancers and Network Load Balancers, this object must contain the load
-  balancer target group ARN, the container name (as it appears in a container definition),
-  and the container port to access from the load balancer. The load balancer name parameter
-  must be omitted. When a task from this service is placed on a container instance, the
-  container instance and port combination is registered as a target in the target group
-  specified here. For Classic Load Balancers, this object must contain the load balancer
-  name, the container name (as it appears in a container definition), and the container port
-  to access from the load balancer. The target group ARN parameter must be omitted. When a
-  task from this service is placed on a container instance, the container instance is
-  registered with the load balancer specified here. Services with tasks that use the awsvpc
-  network mode (for example, those with the Fargate launch type) only support Application
-  Load Balancers and Network Load Balancers. Classic Load Balancers are not supported. Also,
-  when you create any target groups for these services, you must choose ip as the target
-  type, not instance, because tasks that use the awsvpc network mode are associated with an
-  elastic network interface, not an Amazon EC2 instance.
+  Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups
+  (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task
+  set in your service has the status PRIMARY and associates one target group with it, and
+  then associates the other target group with the replacement task set. The load balancer can
+  also have up to two listeners: a required listener for production traffic and an optional
+  listener that allows you perform validation tests with Lambda functions before routing
+  production traffic to it. After you create a service using the ECS deployment controller,
+  the load balancer name or target group ARN, container name, and container port specified in
+  the service definition are immutable. If you are using the CODE_DEPLOY deployment
+  controller, these values can be changed when updating the service. For Application Load
+  Balancers and Network Load Balancers, this object must contain the load balancer target
+  group ARN, the container name (as it appears in a container definition), and the container
+  port to access from the load balancer. The load balancer name parameter must be omitted.
+  When a task from this service is placed on a container instance, the container instance and
+  port combination is registered as a target in the target group specified here. For Classic
+  Load Balancers, this object must contain the load balancer name, the container name (as it
+  appears in a container definition), and the container port to access from the load
+  balancer. The target group ARN parameter must be omitted. When a task from this service is
+  placed on a container instance, the container instance is registered with the load balancer
+  specified here. Services with tasks that use the awsvpc network mode (for example, those
+  with the Fargate launch type) only support Application Load Balancers and Network Load
+  Balancers. Classic Load Balancers are not supported. Also, when you create any target
+  groups for these services, you must choose ip as the target type, not instance, because
+  tasks that use the awsvpc network mode are associated with an elastic network interface,
+  not an Amazon EC2 instance.
 - `"networkConfiguration"`: The network configuration for the service. This parameter is
   required for task definitions that use the awsvpc network mode to receive their own elastic
   network interface, and it is not supported for other network modes. For more information,
@@ -259,10 +296,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your service. You can specify a maximum of 10 constraints per task (this limit includes
   constraints in the task definition and those specified at runtime).
 - `"placementStrategy"`: The placement strategy objects to use for tasks in your service.
-  You can specify a maximum of five strategy rules per service.
+  You can specify a maximum of 5 strategy rules per service.
 - `"platformVersion"`: The platform version that your tasks in the service are running on.
   A platform version is specified only for tasks using the Fargate launch type. If one isn't
-  specified, the LATEST platform version is used by default. For more information, see AWS
+  specified, the LATEST platform version is used by default. For more information, see
   Fargate platform versions in the Amazon Elastic Container Service Developer Guide.
 - `"propagateTags"`: Specifies whether to propagate the tags from the task definition or
   the service to the tasks in the service. If no value is specified, the tags are not
@@ -310,16 +347,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   may have restrictions on allowed characters. Generally allowed characters are: letters,
   numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
    Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase
-  combination of such as a prefix for either keys or values as it is reserved for AWS use.
-  You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not
-  count against your tags per resource limit.
+  combination of such as a prefix for either keys or values as it is reserved for Amazon Web
+  Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this
+  prefix do not count against your tags per resource limit.
 - `"taskDefinition"`: The family and revision (family:revision) or full ARN of the task
   definition to run in your service. If a revision is not specified, the latest ACTIVE
   revision is used. A task definition must be specified if the service is using either the
   ECS or CODE_DEPLOY deployment controllers.
 """
-create_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateService", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
-create_service(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config)
+function create_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "CreateService",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function create_service(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "CreateService",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_task_set(cluster, service, task_definition)
@@ -348,16 +403,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider
   that uses an Auto Scaling group, the capacity provider must already be created. New
   capacity providers can be created with the CreateCapacityProvider API operation. To use a
-  AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity
-  providers. The AWS Fargate capacity providers are available to all accounts and only need
-  to be associated with a cluster to be used. The PutClusterCapacityProviders API operation
-  is used to update the list of available capacity providers for a cluster after the cluster
-  is created.
+  Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers.
+  The Fargate capacity providers are available to all accounts and only need to be associated
+  with a cluster to be used. The PutClusterCapacityProviders API operation is used to update
+  the list of available capacity providers for a cluster after the cluster is created.
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 32 ASCII characters are allowed.
 - `"externalId"`: An optional non-unique tag that identifies this task set in external
   systems. If the task set is associated with a service discovery registry, the tasks in this
-  task set will have the ECS_TASK_SET_EXTERNAL_ID AWS Cloud Map attribute set to the provided
+  task set will have the ECS_TASK_SET_EXTERNAL_ID Cloud Map attribute set to the provided
   value.
 - `"launchType"`: The launch type that new tasks in the task set will use. For more
   information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer
@@ -383,12 +437,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   may have restrictions on allowed characters. Generally allowed characters are: letters,
   numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
    Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase
-  combination of such as a prefix for either keys or values as it is reserved for AWS use.
-  You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not
-  count against your tags per resource limit.
+  combination of such as a prefix for either keys or values as it is reserved for Amazon Web
+  Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this
+  prefix do not count against your tags per resource limit.
 """
-create_task_set(cluster, service, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateTaskSet", Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition); aws_config=aws_config)
-create_task_set(cluster, service, taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+function create_task_set(
+    cluster, service, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "CreateTaskSet",
+        Dict{String,Any}(
+            "cluster" => cluster, "service" => service, "taskDefinition" => taskDefinition
+        );
+        aws_config=aws_config,
+    )
+end
+function create_task_set(
+    cluster,
+    service,
+    taskDefinition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "CreateTaskSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "cluster" => cluster,
+                    "service" => service,
+                    "taskDefinition" => taskDefinition,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_account_setting(name)
@@ -413,8 +499,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   these settings. If this field is omitted, the setting is changed only for the authenticated
   user.
 """
-delete_account_setting(name; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAccountSetting", Dict{String, Any}("name"=>name); aws_config=aws_config)
-delete_account_setting(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function delete_account_setting(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "DeleteAccountSetting", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function delete_account_setting(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DeleteAccountSetting",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_attributes(attributes)
@@ -434,8 +532,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the resource to delete attributes. If you do not specify a cluster, the default
   cluster is assumed.
 """
-delete_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAttributes", Dict{String, Any}("attributes"=>attributes); aws_config=aws_config)
-delete_attributes(attributes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), params)); aws_config=aws_config)
+function delete_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "DeleteAttributes",
+        Dict{String,Any}("attributes" => attributes);
+        aws_config=aws_config,
+    )
+end
+function delete_attributes(
+    attributes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DeleteAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("attributes" => attributes), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_capacity_provider(capacity_provider)
@@ -458,8 +574,30 @@ PutClusterCapacityProviders or delete the cluster.
   provider to delete.
 
 """
-delete_capacity_provider(capacityProvider; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCapacityProvider", Dict{String, Any}("capacityProvider"=>capacityProvider); aws_config=aws_config)
-delete_capacity_provider(capacityProvider, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProvider"=>capacityProvider), params)); aws_config=aws_config)
+function delete_capacity_provider(
+    capacityProvider; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DeleteCapacityProvider",
+        Dict{String,Any}("capacityProvider" => capacityProvider);
+        aws_config=aws_config,
+    )
+end
+function delete_capacity_provider(
+    capacityProvider,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DeleteCapacityProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("capacityProvider" => capacityProvider), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cluster(cluster)
@@ -476,8 +614,20 @@ ListContainerInstances and deregister them with DeregisterContainerInstance.
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster to delete.
 
 """
-delete_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCluster", Dict{String, Any}("cluster"=>cluster); aws_config=aws_config)
-delete_cluster(cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), params)); aws_config=aws_config)
+function delete_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "DeleteCluster", Dict{String,Any}("cluster" => cluster); aws_config=aws_config
+    )
+end
+function delete_cluster(
+    cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DeleteCluster",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cluster" => cluster), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_service(service)
@@ -508,8 +658,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   zero tasks. It is only necessary to use this if the service is using the REPLICA scheduling
   strategy.
 """
-delete_service(service; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteService", Dict{String, Any}("service"=>service); aws_config=aws_config)
-delete_service(service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), params)); aws_config=aws_config)
+function delete_service(service; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "DeleteService", Dict{String,Any}("service" => service); aws_config=aws_config
+    )
+end
+function delete_service(
+    service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DeleteService",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("service" => service), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_task_set(cluster, service, task_set)
@@ -531,8 +693,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"force"`: If true, this allows you to delete a task set even if it hasn't been scaled
   down to zero.
 """
-delete_task_set(cluster, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteTaskSet", Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet); aws_config=aws_config)
-delete_task_set(cluster, service, taskSet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet), params)); aws_config=aws_config)
+function delete_task_set(
+    cluster, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DeleteTaskSet",
+        Dict{String,Any}("cluster" => cluster, "service" => service, "taskSet" => taskSet);
+        aws_config=aws_config,
+    )
+end
+function delete_task_set(
+    cluster,
+    service,
+    taskSet,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DeleteTaskSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "cluster" => cluster, "service" => service, "taskSet" => taskSet
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     deregister_container_instance(container_instance)
@@ -552,7 +742,7 @@ deregistered when terminated).
 # Arguments
 - `container_instance`: The container instance ID or full ARN of the container instance to
   deregister. The ARN contains the arn:aws:ecs namespace, followed by the Region of the
-  container instance, the AWS account ID of the container instance owner, the
+  container instance, the Amazon Web Services account ID of the container instance owner, the
   container-instance namespace, and then the container instance ID. For example,
   arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
 
@@ -571,8 +761,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Application Load Balancer target group are deregistered. They begin connection draining
   according to the settings on the load balancer or target group.
 """
-deregister_container_instance(containerInstance; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterContainerInstance", Dict{String, Any}("containerInstance"=>containerInstance); aws_config=aws_config)
-deregister_container_instance(containerInstance, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterContainerInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), params)); aws_config=aws_config)
+function deregister_container_instance(
+    containerInstance; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DeregisterContainerInstance",
+        Dict{String,Any}("containerInstance" => containerInstance);
+        aws_config=aws_config,
+    )
+end
+function deregister_container_instance(
+    containerInstance,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DeregisterContainerInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("containerInstance" => containerInstance), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     deregister_task_definition(task_definition)
@@ -595,8 +807,28 @@ the lifecycle of any associated tasks and services.
   (ARN) of the task definition to deregister. You must specify a revision.
 
 """
-deregister_task_definition(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterTaskDefinition", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
-deregister_task_definition(taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+function deregister_task_definition(
+    taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DeregisterTaskDefinition",
+        Dict{String,Any}("taskDefinition" => taskDefinition);
+        aws_config=aws_config,
+    )
+end
+function deregister_task_definition(
+    taskDefinition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DeregisterTaskDefinition",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("taskDefinition" => taskDefinition), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_capacity_providers()
@@ -624,8 +856,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the nextToken value.  This token should be treated as an opaque identifier that is
   only used to retrieve the next items in a list and not for other programmatic purposes.
 """
-describe_capacity_providers(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeCapacityProviders"; aws_config=aws_config)
-describe_capacity_providers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeCapacityProviders", params; aws_config=aws_config)
+function describe_capacity_providers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("DescribeCapacityProviders"; aws_config=aws_config)
+end
+function describe_capacity_providers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("DescribeCapacityProviders", params; aws_config=aws_config)
+end
 
 """
     describe_clusters()
@@ -641,11 +879,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. If this field is omitted, this information isn't included. If ATTACHMENTS is
   specified, the attachments for the container instances or tasks within the cluster are
   included. If SETTINGS is specified, the settings for the cluster are included. If
-  STATISTICS is specified, the task and service count is included, separated by launch type.
-  If TAGS is specified, the metadata tags associated with the cluster are included.
+  CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS
+  is specified, the task and service count is included, separated by launch type. If TAGS is
+  specified, the metadata tags associated with the cluster are included.
 """
-describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeClusters"; aws_config=aws_config)
-describe_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeClusters", params; aws_config=aws_config)
+function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("DescribeClusters"; aws_config=aws_config)
+end
+function describe_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("DescribeClusters", params; aws_config=aws_config)
+end
 
 """
     describe_container_instances(container_instances)
@@ -668,8 +913,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. If TAGS is specified, the tags are included in the response. If this field is
   omitted, tags are not included in the response.
 """
-describe_container_instances(containerInstances; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeContainerInstances", Dict{String, Any}("containerInstances"=>containerInstances); aws_config=aws_config)
-describe_container_instances(containerInstances, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeContainerInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances), params)); aws_config=aws_config)
+function describe_container_instances(
+    containerInstances; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DescribeContainerInstances",
+        Dict{String,Any}("containerInstances" => containerInstances);
+        aws_config=aws_config,
+    )
+end
+function describe_container_instances(
+    containerInstances,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DescribeContainerInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("containerInstances" => containerInstances), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_services(services)
@@ -691,8 +958,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is specified, the tags are included in the response. If this field is omitted, tags are not
   included in the response.
 """
-describe_services(services; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeServices", Dict{String, Any}("services"=>services); aws_config=aws_config)
-describe_services(services, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("services"=>services), params)); aws_config=aws_config)
+function describe_services(services; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "DescribeServices", Dict{String,Any}("services" => services); aws_config=aws_config
+    )
+end
+function describe_services(
+    services,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DescribeServices",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("services" => services), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_task_definition(task_definition)
@@ -714,8 +997,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is specified, the tags are included in the response. If this field is omitted, tags are not
   included in the response.
 """
-describe_task_definition(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskDefinition", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
-describe_task_definition(taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+function describe_task_definition(
+    taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DescribeTaskDefinition",
+        Dict{String,Any}("taskDefinition" => taskDefinition);
+        aws_config=aws_config,
+    )
+end
+function describe_task_definition(
+    taskDefinition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DescribeTaskDefinition",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("taskDefinition" => taskDefinition), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_task_sets(cluster, service)
@@ -738,8 +1041,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response.
 - `"taskSets"`: The ID or full Amazon Resource Name (ARN) of task sets to describe.
 """
-describe_task_sets(cluster, service; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskSets", Dict{String, Any}("cluster"=>cluster, "service"=>service); aws_config=aws_config)
-describe_task_sets(cluster, service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service), params)); aws_config=aws_config)
+function describe_task_sets(
+    cluster, service; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DescribeTaskSets",
+        Dict{String,Any}("cluster" => cluster, "service" => service);
+        aws_config=aws_config,
+    )
+end
+function describe_task_sets(
+    cluster,
+    service,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "DescribeTaskSets",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("cluster" => cluster, "service" => service), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_tasks(tasks)
@@ -760,8 +1086,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the tags are included in the response. If this field is omitted, tags are not
   included in the response.
 """
-describe_tasks(tasks; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTasks", Dict{String, Any}("tasks"=>tasks); aws_config=aws_config)
-describe_tasks(tasks, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tasks"=>tasks), params)); aws_config=aws_config)
+function describe_tasks(tasks; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("DescribeTasks", Dict{String,Any}("tasks" => tasks); aws_config=aws_config)
+end
+function describe_tasks(
+    tasks, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "DescribeTasks",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tasks" => tasks), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     discover_poll_endpoint()
@@ -776,12 +1112,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the container instance belongs.
 - `"containerInstance"`: The container instance ID or full ARN of the container instance.
   The ARN contains the arn:aws:ecs namespace, followed by the Region of the container
-  instance, the AWS account ID of the container instance owner, the container-instance
-  namespace, and then the container instance ID. For example,
+  instance, the Amazon Web Services account ID of the container instance owner, the
+  container-instance namespace, and then the container instance ID. For example,
   arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
 """
-discover_poll_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint"; aws_config=aws_config)
-discover_poll_endpoint(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint", params; aws_config=aws_config)
+function discover_poll_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("DiscoverPollEndpoint"; aws_config=aws_config)
+end
+function discover_poll_endpoint(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("DiscoverPollEndpoint", params; aws_config=aws_config)
+end
 
 """
     execute_command(command, interactive, task)
@@ -801,8 +1143,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"container"`: The name of the container to execute the command on. A container name only
   needs to be specified for tasks containing multiple containers.
 """
-execute_command(command, interactive, task; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ExecuteCommand", Dict{String, Any}("command"=>command, "interactive"=>interactive, "task"=>task); aws_config=aws_config)
-execute_command(command, interactive, task, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ExecuteCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("command"=>command, "interactive"=>interactive, "task"=>task), params)); aws_config=aws_config)
+function execute_command(
+    command, interactive, task; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "ExecuteCommand",
+        Dict{String,Any}(
+            "command" => command, "interactive" => interactive, "task" => task
+        );
+        aws_config=aws_config,
+    )
+end
+function execute_command(
+    command,
+    interactive,
+    task,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "ExecuteCommand",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "command" => command, "interactive" => interactive, "task" => task
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_account_settings()
@@ -836,8 +1208,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"value"`: The value of the account settings with which to filter results. You must also
   specify an account setting name to use this parameter.
 """
-list_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAccountSettings"; aws_config=aws_config)
-list_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAccountSettings", params; aws_config=aws_config)
+function list_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("ListAccountSettings"; aws_config=aws_config)
+end
+function list_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("ListAccountSettings", params; aws_config=aws_config)
+end
 
 """
     list_attributes(target_type)
@@ -872,8 +1250,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This token should be treated as an opaque identifier that is only used to retrieve the next
   items in a list and not for other programmatic purposes.
 """
-list_attributes(targetType; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAttributes", Dict{String, Any}("targetType"=>targetType); aws_config=aws_config)
-list_attributes(targetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetType"=>targetType), params)); aws_config=aws_config)
+function list_attributes(targetType; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "ListAttributes",
+        Dict{String,Any}("targetType" => targetType);
+        aws_config=aws_config,
+    )
+end
+function list_attributes(
+    targetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "ListAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("targetType" => targetType), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_clusters()
@@ -895,8 +1291,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This token should be treated as an opaque identifier that is only used to retrieve the next
   items in a list and not for other programmatic purposes.
 """
-list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListClusters"; aws_config=aws_config)
-list_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListClusters", params; aws_config=aws_config)
+function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("ListClusters"; aws_config=aws_config)
+end
+function list_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("ListClusters", params; aws_config=aws_config)
+end
 
 """
     list_container_instances()
@@ -932,8 +1334,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DRAINING using UpdateContainerInstancesState. If you do not specify this parameter, the
   default is to include container instances set to all states other than INACTIVE.
 """
-list_container_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListContainerInstances"; aws_config=aws_config)
-list_container_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListContainerInstances", params; aws_config=aws_config)
+function list_container_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("ListContainerInstances"; aws_config=aws_config)
+end
+function list_container_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("ListContainerInstances", params; aws_config=aws_config)
+end
 
 """
     list_services()
@@ -962,8 +1370,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schedulingStrategy"`: The scheduling strategy to use when filtering the ListServices
   results.
 """
-list_services(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListServices"; aws_config=aws_config)
-list_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListServices", params; aws_config=aws_config)
+function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("ListServices"; aws_config=aws_config)
+end
+function list_services(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("ListServices", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -977,8 +1391,28 @@ List the tags for an Amazon ECS resource.
   definitions, clusters, and container instances.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_task_definition_families()
@@ -1015,8 +1449,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned. If you paginate the resulting output, be sure to keep the status value constant
   in each subsequent request.
 """
-list_task_definition_families(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitionFamilies"; aws_config=aws_config)
-list_task_definition_families(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitionFamilies", params; aws_config=aws_config)
+function list_task_definition_families(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("ListTaskDefinitionFamilies"; aws_config=aws_config)
+end
+function list_task_definition_families(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("ListTaskDefinitionFamilies", params; aws_config=aws_config)
+end
 
 """
     list_task_definitions()
@@ -1054,8 +1494,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service still references them. If you paginate the resulting output, be sure to keep the
   status value constant in each subsequent request.
 """
-list_task_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitions"; aws_config=aws_config)
-list_task_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitions", params; aws_config=aws_config)
+function list_task_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("ListTaskDefinitions"; aws_config=aws_config)
+end
+function list_task_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("ListTaskDefinitions", params; aws_config=aws_config)
+end
 
 """
     list_tasks()
@@ -1101,8 +1547,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startedBy"`: The startedBy value with which to filter the task results. Specifying a
   startedBy value limits the results to tasks that were started with that value.
 """
-list_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTasks"; aws_config=aws_config)
-list_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTasks", params; aws_config=aws_config)
+function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("ListTasks"; aws_config=aws_config)
+end
+function list_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("ListTasks", params; aws_config=aws_config)
+end
 
 """
     put_account_setting(name, value)
@@ -1150,8 +1602,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user.  Federated users assume the account setting of the root user and can't have explicit
   account settings set for them.
 """
-put_account_setting(name, value; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSetting", Dict{String, Any}("name"=>name, "value"=>value); aws_config=aws_config)
-put_account_setting(name, value, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), params)); aws_config=aws_config)
+function put_account_setting(name, value; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "PutAccountSetting",
+        Dict{String,Any}("name" => name, "value" => value);
+        aws_config=aws_config,
+    )
+end
+function put_account_setting(
+    name,
+    value,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "PutAccountSetting",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("name" => name, "value" => value), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_account_setting_default(name, value)
@@ -1172,8 +1643,29 @@ setting has been specified. Account settings are set on a per-Region basis.
   enabled and disabled.
 
 """
-put_account_setting_default(name, value; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSettingDefault", Dict{String, Any}("name"=>name, "value"=>value); aws_config=aws_config)
-put_account_setting_default(name, value, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSettingDefault", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), params)); aws_config=aws_config)
+function put_account_setting_default(
+    name, value; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "PutAccountSettingDefault",
+        Dict{String,Any}("name" => name, "value" => value);
+        aws_config=aws_config,
+    )
+end
+function put_account_setting_default(
+    name,
+    value,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "PutAccountSettingDefault",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("name" => name, "value" => value), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_attributes(attributes)
@@ -1194,8 +1686,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the resource to apply attributes. If you do not specify a cluster, the default
   cluster is assumed.
 """
-put_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAttributes", Dict{String, Any}("attributes"=>attributes); aws_config=aws_config)
-put_attributes(attributes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), params)); aws_config=aws_config)
+function put_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "PutAttributes", Dict{String,Any}("attributes" => attributes); aws_config=aws_config
+    )
+end
+function put_attributes(
+    attributes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "PutAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("attributes" => attributes), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_cluster_capacity_providers(capacity_providers, cluster, default_capacity_provider_strategy)
@@ -1217,9 +1725,9 @@ cluster, however you may specify an empty array ([]) to bypass defining a defaul
 - `capacity_providers`: The name of one or more capacity providers to associate with the
   cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity
   provider must already be created. New capacity providers can be created with the
-  CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify
-  either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers
-  are available to all accounts and only need to be associated with a cluster to be used.
+  CreateCapacityProvider API operation. To use a Fargate capacity provider, specify either
+  the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are
+  available to all accounts and only need to be associated with a cluster to be used.
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster to modify the
   capacity provider settings for. If you do not specify a cluster, the default cluster is
   assumed.
@@ -1233,13 +1741,50 @@ cluster, however you may specify an empty array ([]) to bypass defining a defaul
   Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a
   capacity provider that uses an Auto Scaling group, the capacity provider must already be
   created. New capacity providers can be created with the CreateCapacityProvider API
-  operation. To use a AWS Fargate capacity provider, specify either the FARGATE or
-  FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all
-  accounts and only need to be associated with a cluster to be used.
+  operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT
+  capacity providers. The Fargate capacity providers are available to all accounts and only
+  need to be associated with a cluster to be used.
 
 """
-put_cluster_capacity_providers(capacityProviders, cluster, defaultCapacityProviderStrategy; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutClusterCapacityProviders", Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy); aws_config=aws_config)
-put_cluster_capacity_providers(capacityProviders, cluster, defaultCapacityProviderStrategy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutClusterCapacityProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy), params)); aws_config=aws_config)
+function put_cluster_capacity_providers(
+    capacityProviders,
+    cluster,
+    defaultCapacityProviderStrategy;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "PutClusterCapacityProviders",
+        Dict{String,Any}(
+            "capacityProviders" => capacityProviders,
+            "cluster" => cluster,
+            "defaultCapacityProviderStrategy" => defaultCapacityProviderStrategy,
+        );
+        aws_config=aws_config,
+    )
+end
+function put_cluster_capacity_providers(
+    capacityProviders,
+    cluster,
+    defaultCapacityProviderStrategy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "PutClusterCapacityProviders",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "capacityProviders" => capacityProviders,
+                    "cluster" => cluster,
+                    "defaultCapacityProviderStrategy" => defaultCapacityProviderStrategy,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     register_container_instance()
@@ -1275,15 +1820,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters. Generally allowed characters are: letters, numbers, and spaces representable in
   UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are
   case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a
-  prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete
-  tag keys or values with this prefix. Tags with this prefix do not count against your tags
-  per resource limit.
+  prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot
+  edit or delete tag keys or values with this prefix. Tags with this prefix do not count
+  against your tags per resource limit.
 - `"totalResources"`: The resources available on the instance.
 - `"versionInfo"`: The version information for the Amazon ECS container agent and Docker
   daemon running on the container instance.
 """
-register_container_instance(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterContainerInstance"; aws_config=aws_config)
-register_container_instance(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterContainerInstance", params; aws_config=aws_config)
+function register_container_instance(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("RegisterContainerInstance"; aws_config=aws_config)
+end
+function register_container_instance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("RegisterContainerInstance", params; aws_config=aws_config)
+end
 
 """
     register_task_definition(container_definitions, family)
@@ -1294,13 +1845,13 @@ Optionally, you can add data volumes to your containers with the volumes paramet
 more information about task definition parameters and defaults, see Amazon ECS Task
 Definitions in the Amazon Elastic Container Service Developer Guide. You can specify an IAM
 role for your task with the taskRoleArn parameter. When you specify an IAM role for a task,
-its containers can then use the latest versions of the AWS CLI or SDKs to make API requests
-to the AWS services that are specified in the IAM policy associated with the role. For more
-information, see IAM Roles for Tasks in the Amazon Elastic Container Service Developer
-Guide. You can specify a Docker networking mode for the containers in your task definition
-with the networkMode parameter. The available network modes correspond to those described
-in Network settings in the Docker run reference. If you specify the awsvpc network mode,
-the task is allocated an elastic network interface, and you must specify a
+its containers can then use the latest versions of the CLI or SDKs to make API requests to
+the Amazon Web Services services that are specified in the IAM policy associated with the
+role. For more information, see IAM Roles for Tasks in the Amazon Elastic Container Service
+Developer Guide. You can specify a Docker networking mode for the containers in your task
+definition with the networkMode parameter. The available network modes correspond to those
+described in Network settings in the Docker run reference. If you specify the awsvpc
+network mode, the task is allocated an elastic network interface, and you must specify a
 NetworkConfiguration when you create a service or run a task with the task definition. For
 more information, see Task Networking in the Amazon Elastic Container Service Developer
 Guide.
@@ -1333,14 +1884,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   
 - `"ephemeralStorage"`: The amount of ephemeral storage to allocate for the task. This
   parameter is used to expand the total amount of ephemeral storage available, beyond the
-  default amount, for tasks hosted on AWS Fargate. For more information, see Fargate task
-  storage in the Amazon ECS User Guide for AWS Fargate.  This parameter is only supported for
-  tasks hosted on AWS Fargate using platform version 1.4.0 or later.
+  default amount, for tasks hosted on Fargate. For more information, see Fargate task storage
+  in the Amazon ECS User Guide for Fargate.  This parameter is only supported for tasks
+  hosted on Fargate using platform version 1.4.0 or later.
 - `"executionRoleArn"`: The Amazon Resource Name (ARN) of the task execution role that
-  grants the Amazon ECS container agent permission to make AWS API calls on your behalf. The
-  task execution IAM role is required depending on the requirements of your task. For more
-  information, see Amazon ECS task execution IAM role in the Amazon Elastic Container Service
-  Developer Guide.
+  grants the Amazon ECS container agent permission to make Amazon Web Services API calls on
+  your behalf. The task execution IAM role is required depending on the requirements of your
+  task. For more information, see Amazon ECS task execution IAM role in the Amazon Elastic
+  Container Service Developer Guide.
 - `"inferenceAccelerators"`: The Elastic Inference accelerators to use for the containers
   in the task.
 - `"ipcMode"`: The IPC resource namespace to use for the containers in the task. The valid
@@ -1359,7 +1910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace
   related systemControls are not supported.   For tasks that use the task IPC mode, IPC
   namespace related systemControls will apply to all containers within a task.    This
-  parameter is not supported for Windows containers or tasks run on AWS Fargate.
+  parameter is not supported for Windows containers or tasks run on Fargate.
 - `"memory"`: The amount of memory (in MiB) used by the task. It can be expressed as an
   integer using MiB, for example 1024, or as a string using GB, for example 1GB or 1 GB, in a
   task definition. String values are converted to an integer indicating the MiB when the task
@@ -1377,28 +1928,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"networkMode"`: The Docker networking mode to use for the containers in the task. The
   valid values are none, bridge, awsvpc, and host. If no network mode is specified, the
   default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required.
-  For Amazon ECS tasks on Amazon EC2 instances, any network mode can be used. If the network
-  mode is set to none, you cannot specify port mappings in your container definitions, and
-  the tasks containers do not have external connectivity. The host and awsvpc network modes
-  offer the highest networking performance for containers because they use the EC2 network
-  stack instead of the virtualized network stack provided by the bridge mode. With the host
-  and awsvpc network modes, exposed container ports are mapped directly to the corresponding
-  host port (for the host network mode) or the attached elastic network interface port (for
-  the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.
-  When using the host network mode, you should not run containers using the root user (UID
-  0). It is considered best practice to use a non-root user.  If the network mode is awsvpc,
-  the task is allocated an elastic network interface, and you must specify a
+  For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For
+  Amazon ECS tasks on Amazon EC2 Windows instances, &lt;default&gt; or awsvpc can be used. If
+  the network mode is set to none, you cannot specify port mappings in your container
+  definitions, and the tasks containers do not have external connectivity. The host and
+  awsvpc network modes offer the highest networking performance for containers because they
+  use the EC2 network stack instead of the virtualized network stack provided by the bridge
+  mode. With the host and awsvpc network modes, exposed container ports are mapped directly
+  to the corresponding host port (for the host network mode) or the attached elastic network
+  interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host
+  port mappings.   When using the host network mode, you should not run containers using the
+  root user (UID 0). It is considered best practice to use a non-root user.  If the network
+  mode is awsvpc, the task is allocated an elastic network interface, and you must specify a
   NetworkConfiguration value when you create a service or run a task with the task
   definition. For more information, see Task Networking in the Amazon Elastic Container
-  Service Developer Guide.  Currently, only Amazon ECS-optimized AMIs, other Amazon Linux
-  variants with the ecs-init package, or AWS Fargate infrastructure support the awsvpc
-  network mode.   If the network mode is host, you cannot run multiple instantiations of the
-  same task on a single container instance when port mappings are used. Docker for Windows
-  uses different network modes than Docker for Linux. When you register a task definition
-  with Windows containers, you must not specify a network mode. If you use the console to
-  register a task definition with Windows containers, you must choose the &lt;default&gt;
-  network mode object.  For more information, see Network settings in the Docker run
-  reference.
+  Service Developer Guide. If the network mode is host, you cannot run multiple
+  instantiations of the same task on a single container instance when port mappings are used.
+  For more information, see Network settings in the Docker run reference.
 - `"pidMode"`: The process namespace to use for the containers in the task. The valid
   values are host or task. If host is specified, then all containers within the tasks that
   specified the host PID mode on the same container instance share the same process namespace
@@ -1407,7 +1953,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   private namespace. For more information, see PID settings in the Docker run reference. If
   the host PID mode is used, be aware that there is a heightened risk of undesired process
   namespace expose. For more information, see Docker security.  This parameter is not
-  supported for Windows containers or tasks run on AWS Fargate.
+  supported for Windows containers or tasks run on Fargate.
 - `"placementConstraints"`: An array of placement constraint objects to use for the task.
   You can specify a maximum of 10 constraints per task (this limit includes constraints in
   the task definition and those specified at runtime).
@@ -1432,8 +1978,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
   the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do
   not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either
-  keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values
-  with this prefix. Tags with this prefix do not count against your tags per resource limit.
+  keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag
+  keys or values with this prefix. Tags with this prefix do not count against your tags per
+  resource limit.
 - `"taskRoleArn"`: The short name or full Amazon Resource Name (ARN) of the IAM role that
   containers in this task can assume. All containers in this task are granted the permissions
   that are specified in this role. For more information, see IAM Roles for Tasks in the
@@ -1441,8 +1988,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"volumes"`: A list of volume definitions in JSON format that containers in your task may
   use.
 """
-register_task_definition(containerDefinitions, family; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterTaskDefinition", Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family); aws_config=aws_config)
-register_task_definition(containerDefinitions, family, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family), params)); aws_config=aws_config)
+function register_task_definition(
+    containerDefinitions, family; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "RegisterTaskDefinition",
+        Dict{String,Any}(
+            "containerDefinitions" => containerDefinitions, "family" => family
+        );
+        aws_config=aws_config,
+    )
+end
+function register_task_definition(
+    containerDefinitions,
+    family,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "RegisterTaskDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "containerDefinitions" => containerDefinitions, "family" => family
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     run_task(task_definition)
@@ -1476,7 +2052,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"capacityProviderStrategy"`: The capacity provider strategy to use for the task. If a
   capacityProviderStrategy is specified, the launchType parameter must be omitted. If no
   capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy
-  for the cluster is used.
+  for the cluster is used. When you use cluster auto scaling, you must specify
+  capacityProviderStrategy and not launchType.  A capacity provider strategy may contain a
+  maximum of 6 capacity providers.
 - `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster on which to
   run your task. If you do not specify a cluster, the default cluster is assumed.
 - `"count"`: The number of instantiations of the specified task to place on your cluster.
@@ -1491,41 +2069,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the family name of the task definition (for example, family:my-family-name).
 - `"launchType"`: The infrastructure on which to run your standalone task. For more
   information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer
-  Guide. The FARGATE launch type runs your tasks on AWS Fargate On-Demand infrastructure.
+  Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure.
   Fargate Spot infrastructure is available for use but a capacity provider strategy must be
-  used. For more information, see AWS Fargate capacity providers in the Amazon ECS User Guide
-  for AWS Fargate.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to
-  your cluster. The EXTERNAL launch type runs your tasks on your on-premise server or virtual
+  used. For more information, see Fargate capacity providers in the Amazon ECS User Guide for
+  Fargate.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to your
+  cluster. The EXTERNAL launch type runs your tasks on your on-premise server or virtual
   machine (VM) capacity registered to your cluster. A task can use either a launch type or a
   capacity provider strategy. If a launchType is specified, the capacityProviderStrategy
-  parameter must be omitted.
+  parameter must be omitted. When you use cluster auto scaling, you must specify
+  capacityProviderStrategy and not launchType.
 - `"networkConfiguration"`: The network configuration for the task. This parameter is
   required for task definitions that use the awsvpc network mode to receive their own elastic
   network interface, and it is not supported for other network modes. For more information,
-  see Task Networking in the Amazon Elastic Container Service Developer Guide.
+  see Task networking in the Amazon Elastic Container Service Developer Guide.
 - `"overrides"`: A list of container overrides in JSON format that specify the name of a
   container in the specified task definition and the overrides it should receive. You can
   override the default command for a container (that is specified in the task definition or
   Docker image) with a command override. You can also override existing environment variables
   (that are specified in the task definition or Docker image) on a container or add new
-  environment variables to it with an environment override.  A total of 8192 characters are
+  environment variables to it with an environment override. A total of 8192 characters are
   allowed for overrides. This limit includes the JSON formatting characters of the override
   structure.
 - `"placementConstraints"`: An array of placement constraint objects to use for the task.
   You can specify up to 10 constraints per task (including constraints in the task definition
   and those specified at runtime).
 - `"placementStrategy"`: The placement strategy objects to use for the task. You can
-  specify a maximum of five strategy rules per task.
-- `"platformVersion"`: The platform version the task should run. A platform version is only
-  specified for tasks using the Fargate launch type. If one is not specified, the LATEST
-  platform version is used by default. For more information, see AWS Fargate Platform
-  Versions in the Amazon Elastic Container Service Developer Guide.
+  specify a maximum of 5 strategy rules per task.
+- `"platformVersion"`: The platform version the task should use. A platform version is only
+  specified for tasks hosted on Fargate. If one is not specified, the LATEST platform version
+  is used by default. For more information, see Fargate platform versions in the Amazon
+  Elastic Container Service Developer Guide.
 - `"propagateTags"`: Specifies whether to propagate the tags from the task definition to
   the task. If no value is specified, the tags are not propagated. Tags can only be
   propagated to the task during task creation. To add tags to a task after task creation, use
   the TagResource API action.  An error will be received if you specify the SERVICE option
   when running a task.
-- `"referenceId"`: The reference ID to use for the task.
+- `"referenceId"`: The reference ID to use for the task. The reference ID can have a
+  maximum length of 1024 characters.
 - `"startedBy"`: An optional tag specified when a task is started. For example, if you
   automatically trigger a task to run a batch process job, you could apply a unique
   identifier for that job to your task with the startedBy parameter. You can then identify
@@ -1543,11 +2123,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
   the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do
   not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either
-  keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values
-  with this prefix. Tags with this prefix do not count against your tags per resource limit.
+  keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag
+  keys or values with this prefix. Tags with this prefix do not count against your tags per
+  resource limit.
 """
-run_task(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RunTask", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
-run_task(taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RunTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+function run_task(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "RunTask",
+        Dict{String,Any}("taskDefinition" => taskDefinition);
+        aws_config=aws_config,
+    )
+end
+function run_task(
+    taskDefinition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "RunTask",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("taskDefinition" => taskDefinition), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_task(container_instances, task_definition)
@@ -1605,11 +2204,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
   the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do
   not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either
-  keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values
-  with this prefix. Tags with this prefix do not count against your tags per resource limit.
+  keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag
+  keys or values with this prefix. Tags with this prefix do not count against your tags per
+  resource limit.
 """
-start_task(containerInstances, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StartTask", Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition); aws_config=aws_config)
-start_task(containerInstances, taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StartTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+function start_task(
+    containerInstances, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "StartTask",
+        Dict{String,Any}(
+            "containerInstances" => containerInstances, "taskDefinition" => taskDefinition
+        );
+        aws_config=aws_config,
+    )
+end
+function start_task(
+    containerInstances,
+    taskDefinition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "StartTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "containerInstances" => containerInstances,
+                    "taskDefinition" => taskDefinition,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_task(task)
@@ -1636,8 +2266,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task here, and the message appears in subsequent DescribeTasks API operations on this task.
   Up to 255 characters are allowed in this message.
 """
-stop_task(task; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StopTask", Dict{String, Any}("task"=>task); aws_config=aws_config)
-stop_task(task, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StopTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("task"=>task), params)); aws_config=aws_config)
+function stop_task(task; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("StopTask", Dict{String,Any}("task" => task); aws_config=aws_config)
+end
+function stop_task(
+    task, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "StopTask",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("task" => task), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     submit_attachment_state_changes(attachments)
@@ -1654,8 +2294,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cluster"`: The short name or full ARN of the cluster that hosts the container instance
   the attachment belongs to.
 """
-submit_attachment_state_changes(attachments; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitAttachmentStateChanges", Dict{String, Any}("attachments"=>attachments); aws_config=aws_config)
-submit_attachment_state_changes(attachments, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitAttachmentStateChanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), params)); aws_config=aws_config)
+function submit_attachment_state_changes(
+    attachments; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "SubmitAttachmentStateChanges",
+        Dict{String,Any}("attachments" => attachments);
+        aws_config=aws_config,
+    )
+end
+function submit_attachment_state_changes(
+    attachments,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "SubmitAttachmentStateChanges",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("attachments" => attachments), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     submit_container_state_change()
@@ -1676,8 +2336,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"task"`: The task ID or full Amazon Resource Name (ARN) of the task that hosts the
   container.
 """
-submit_container_state_change(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitContainerStateChange"; aws_config=aws_config)
-submit_container_state_change(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitContainerStateChange", params; aws_config=aws_config)
+function submit_container_state_change(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("SubmitContainerStateChange"; aws_config=aws_config)
+end
+function submit_container_state_change(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("SubmitContainerStateChange", params; aws_config=aws_config)
+end
 
 """
     submit_task_state_change()
@@ -1700,8 +2366,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the state change request.
 - `"task"`: The task ID or full ARN of the task in the state change request.
 """
-submit_task_state_change(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitTaskStateChange"; aws_config=aws_config)
-submit_task_state_change(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitTaskStateChange", params; aws_config=aws_config)
+function submit_task_state_change(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs("SubmitTaskStateChange"; aws_config=aws_config)
+end
+function submit_task_state_change(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs("SubmitTaskStateChange", params; aws_config=aws_config)
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1724,12 +2396,36 @@ a resource is deleted, the tags associated with that resource are deleted as wel
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
   the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do
   not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either
-  keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values
-  with this prefix. Tags with this prefix do not count against your tags per resource limit.
+  keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag
+  keys or values with this prefix. Tags with this prefix do not count against your tags per
+  resource limit.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1744,8 +2440,33 @@ Deletes specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_capacity_provider(auto_scaling_group_provider, name)
@@ -1759,8 +2480,37 @@ Modifies the parameters for a capacity provider.
 - `name`: The name of the capacity provider to update.
 
 """
-update_capacity_provider(autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name); aws_config=aws_config)
-update_capacity_provider(autoScalingGroupProvider, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), params)); aws_config=aws_config)
+function update_capacity_provider(
+    autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UpdateCapacityProvider",
+        Dict{String,Any}(
+            "autoScalingGroupProvider" => autoScalingGroupProvider, "name" => name
+        );
+        aws_config=aws_config,
+    )
+end
+function update_capacity_provider(
+    autoScalingGroupProvider,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "UpdateCapacityProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "autoScalingGroupProvider" => autoScalingGroupProvider, "name" => name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_cluster(cluster)
@@ -1776,8 +2526,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configuration"`: The execute command configuration for the cluster.
 - `"settings"`: The cluster settings for your cluster.
 """
-update_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCluster", Dict{String, Any}("cluster"=>cluster); aws_config=aws_config)
-update_cluster(cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), params)); aws_config=aws_config)
+function update_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "UpdateCluster", Dict{String,Any}("cluster" => cluster); aws_config=aws_config
+    )
+end
+function update_cluster(
+    cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UpdateCluster",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cluster" => cluster), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_cluster_settings(cluster, settings)
@@ -1792,8 +2554,33 @@ Modifies the settings to use for a cluster.
   the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
 
 """
-update_cluster_settings(cluster, settings; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateClusterSettings", Dict{String, Any}("cluster"=>cluster, "settings"=>settings); aws_config=aws_config)
-update_cluster_settings(cluster, settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateClusterSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "settings"=>settings), params)); aws_config=aws_config)
+function update_cluster_settings(
+    cluster, settings; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UpdateClusterSettings",
+        Dict{String,Any}("cluster" => cluster, "settings" => settings);
+        aws_config=aws_config,
+    )
+end
+function update_cluster_settings(
+    cluster,
+    settings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "UpdateClusterSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("cluster" => cluster, "settings" => settings),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_container_agent(container_instance)
@@ -1822,8 +2609,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   container instance is running on. If you do not specify a cluster, the default cluster is
   assumed.
 """
-update_container_agent(containerInstance; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerAgent", Dict{String, Any}("containerInstance"=>containerInstance); aws_config=aws_config)
-update_container_agent(containerInstance, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), params)); aws_config=aws_config)
+function update_container_agent(
+    containerInstance; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UpdateContainerAgent",
+        Dict{String,Any}("containerInstance" => containerInstance);
+        aws_config=aws_config,
+    )
+end
+function update_container_agent(
+    containerInstance,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "UpdateContainerAgent",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("containerInstance" => containerInstance), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_container_instances_state(container_instances, status)
@@ -1875,8 +2684,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the container instance to update. If you do not specify a cluster, the default cluster is
   assumed.
 """
-update_container_instances_state(containerInstances, status; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerInstancesState", Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status); aws_config=aws_config)
-update_container_instances_state(containerInstances, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerInstancesState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status), params)); aws_config=aws_config)
+function update_container_instances_state(
+    containerInstances, status; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UpdateContainerInstancesState",
+        Dict{String,Any}("containerInstances" => containerInstances, "status" => status);
+        aws_config=aws_config,
+    )
+end
+function update_container_instances_state(
+    containerInstances,
+    status,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "UpdateContainerInstancesState",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "containerInstances" => containerInstances, "status" => status
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_service(service)
@@ -1892,17 +2728,17 @@ or task definition used can be updated. For services using the blue/green (CODE_
 deployment controller, only the desired count, deployment configuration, task placement
 constraints and strategies, and health check grace period can be updated using this API. If
 the network configuration, platform version, or task definition need to be updated, a new
-AWS CodeDeploy deployment should be created. For more information, see CreateDeployment in
-the AWS CodeDeploy API Reference. For services using an external deployment controller, you
-can update only the desired count, task placement constraints and strategies, and health
-check grace period using this API. If the launch type, load balancer, network
-configuration, platform version, or task definition need to be updated, you should create a
-new task set. For more information, see CreateTaskSet. You can add to or subtract from the
-number of instantiations of a task definition in a service by specifying the cluster that
-the service is running in and a new desiredCount parameter. If you have updated the Docker
-image of your application, you can create a new task definition with that image and deploy
-it to your service. The service scheduler uses the minimum healthy percent and maximum
-percent parameters (in the service's deployment configuration) to determine the deployment
+CodeDeploy deployment should be created. For more information, see CreateDeployment in the
+CodeDeploy API Reference. For services using an external deployment controller, you can
+update only the desired count, task placement constraints and strategies, and health check
+grace period using this API. If the launch type, load balancer, network configuration,
+platform version, or task definition need to be updated, you should create a new task set.
+For more information, see CreateTaskSet. You can add to or subtract from the number of
+instantiations of a task definition in a service by specifying the cluster that the service
+is running in and a new desiredCount parameter. If you have updated the Docker image of
+your application, you can create a new task definition with that image and deploy it to
+your service. The service scheduler uses the minimum healthy percent and maximum percent
+parameters (in the service's deployment configuration) to determine the deployment
 strategy.  If your updated Docker image uses the same tag as what is in the existing task
 definition for your service (for example, my_image:latest), you do not need to create a new
 revision of your task definition. You can update the service using the forceNewDeployment
@@ -1962,8 +2798,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If
   specifying a capacity provider that uses an Auto Scaling group, the capacity provider must
   already be created. New capacity providers can be created with the CreateCapacityProvider
-  API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or
-  FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all
+  API operation. To use a Fargate capacity provider, specify either the FARGATE or
+  FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all
   accounts and only need to be associated with a cluster to be used. The
   PutClusterCapacityProviders API operation is used to update the list of available capacity
   providers for a cluster after the cluster is created.
@@ -2005,7 +2841,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"platformVersion"`: The platform version on which your tasks in the service are running.
   A platform version is only specified for tasks using the Fargate launch type. If a platform
   version is not specified, the LATEST platform version is used by default. For more
-  information, see AWS Fargate Platform Versions in the Amazon Elastic Container Service
+  information, see Fargate Platform Versions in the Amazon Elastic Container Service
   Developer Guide.
 - `"taskDefinition"`: The family and revision (family:revision) or full ARN of the task
   definition to run in your service. If a revision is not specified, the latest ACTIVE
@@ -2013,8 +2849,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task with the new version of the task definition and then stops an old task after the new
   version is running.
 """
-update_service(service; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateService", Dict{String, Any}("service"=>service); aws_config=aws_config)
-update_service(service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), params)); aws_config=aws_config)
+function update_service(service; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecs(
+        "UpdateService", Dict{String,Any}("service" => service); aws_config=aws_config
+    )
+end
+function update_service(
+    service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UpdateService",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("service" => service), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_service_primary_task_set(cluster, primary_task_set, service)
@@ -2034,8 +2882,40 @@ Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Gu
   set exists in.
 
 """
-update_service_primary_task_set(cluster, primaryTaskSet, service; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service); aws_config=aws_config)
-update_service_primary_task_set(cluster, primaryTaskSet, service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service), params)); aws_config=aws_config)
+function update_service_primary_task_set(
+    cluster, primaryTaskSet, service; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UpdateServicePrimaryTaskSet",
+        Dict{String,Any}(
+            "cluster" => cluster, "primaryTaskSet" => primaryTaskSet, "service" => service
+        );
+        aws_config=aws_config,
+    )
+end
+function update_service_primary_task_set(
+    cluster,
+    primaryTaskSet,
+    service,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "UpdateServicePrimaryTaskSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "cluster" => cluster,
+                    "primaryTaskSet" => primaryTaskSet,
+                    "service" => service,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_task_set(cluster, scale, service, task_set)
@@ -2055,5 +2935,42 @@ Service Developer Guide.
 - `task_set`: The short name or full Amazon Resource Name (ARN) of the task set to update.
 
 """
-update_task_set(cluster, scale, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateTaskSet", Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet); aws_config=aws_config)
-update_task_set(cluster, scale, service, taskSet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet), params)); aws_config=aws_config)
+function update_task_set(
+    cluster, scale, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecs(
+        "UpdateTaskSet",
+        Dict{String,Any}(
+            "cluster" => cluster,
+            "scale" => scale,
+            "service" => service,
+            "taskSet" => taskSet,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_task_set(
+    cluster,
+    scale,
+    service,
+    taskSet,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecs(
+        "UpdateTaskSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "cluster" => cluster,
+                    "scale" => scale,
+                    "service" => service,
+                    "taskSet" => taskSet,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

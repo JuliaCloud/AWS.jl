@@ -30,8 +30,26 @@ results of relevant APIs for only 30 days. After that, it's deleted.
   letters or digits.
 
 """
-accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AcceptHandshake", Dict{String, Any}("HandshakeId"=>HandshakeId); aws_config=aws_config)
-accept_handshake(HandshakeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AcceptHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config)
+function accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "AcceptHandshake",
+        Dict{String,Any}("HandshakeId" => HandshakeId);
+        aws_config=aws_config,
+    )
+end
+function accept_handshake(
+    HandshakeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "AcceptHandshake",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HandshakeId" => HandshakeId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     attach_policy(policy_id, target_id)
@@ -59,8 +77,33 @@ only from the organization's management account.
   letters or digits.
 
 """
-attach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AttachPolicy", Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId); aws_config=aws_config)
-attach_policy(PolicyId, TargetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AttachPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId), params)); aws_config=aws_config)
+function attach_policy(
+    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "AttachPolicy",
+        Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId);
+        aws_config=aws_config,
+    )
+end
+function attach_policy(
+    PolicyId,
+    TargetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "AttachPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     cancel_handshake(handshake_id)
@@ -79,8 +122,26 @@ that, it's deleted.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CancelHandshake", Dict{String, Any}("HandshakeId"=>HandshakeId); aws_config=aws_config)
-cancel_handshake(HandshakeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CancelHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config)
+function cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "CancelHandshake",
+        Dict{String,Any}("HandshakeId" => HandshakeId);
+        aws_config=aws_config,
+    )
+end
+function cancel_handshake(
+    HandshakeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "CancelHandshake",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HandshakeId" => HandshakeId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_account(account_name, email)
@@ -162,8 +223,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invalid or if you exceed the allowed number of tags for an account, then the entire request
   fails and the account is not created.
 """
-create_account(AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateAccount", Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email); aws_config=aws_config)
-create_account(AccountName, Email, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email), params)); aws_config=aws_config)
+function create_account(
+    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "CreateAccount",
+        Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
+        aws_config=aws_config,
+    )
+end
+function create_account(
+    AccountName,
+    Email,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "CreateAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountName" => AccountName, "Email" => Email),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_gov_cloud_account(account_name, email)
@@ -273,8 +359,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invalid or if you exceed the allowed number of tags for an account, then the entire request
   fails and the account is not created.
 """
-create_gov_cloud_account(AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateGovCloudAccount", Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email); aws_config=aws_config)
-create_gov_cloud_account(AccountName, Email, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateGovCloudAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email), params)); aws_config=aws_config)
+function create_gov_cloud_account(
+    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "CreateGovCloudAccount",
+        Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
+        aws_config=aws_config,
+    )
+end
+function create_gov_cloud_account(
+    AccountName,
+    Email,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "CreateGovCloudAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountName" => AccountName, "Email" => Email),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_organization()
@@ -303,8 +414,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the organization. For more information, see All features in the AWS Organizations User
   Guide.
 """
-create_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganization"; aws_config=aws_config)
-create_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganization", params; aws_config=aws_config)
+function create_organization(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("CreateOrganization"; aws_config=aws_config)
+end
+function create_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("CreateOrganization", params; aws_config=aws_config)
+end
 
 """
     create_organizational_unit(name, parent_id)
@@ -337,8 +454,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invalid or if you exceed the allowed number of tags for an OU, then the entire request
   fails and the OU is not created.
 """
-create_organizational_unit(Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganizationalUnit", Dict{String, Any}("Name"=>Name, "ParentId"=>ParentId); aws_config=aws_config)
-create_organizational_unit(Name, ParentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ParentId"=>ParentId), params)); aws_config=aws_config)
+function create_organizational_unit(
+    Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "CreateOrganizationalUnit",
+        Dict{String,Any}("Name" => Name, "ParentId" => ParentId);
+        aws_config=aws_config,
+    )
+end
+function create_organizational_unit(
+    Name,
+    ParentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "CreateOrganizationalUnit",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "ParentId" => ParentId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_policy(content, description, name, type)
@@ -368,8 +508,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invalid or if you exceed the allowed number of tags for a policy, then the entire request
   fails and the policy is not created.
 """
-create_policy(Content, Description, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreatePolicy", Dict{String, Any}("Content"=>Content, "Description"=>Description, "Name"=>Name, "Type"=>Type); aws_config=aws_config)
-create_policy(Content, Description, Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Description"=>Description, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
+function create_policy(
+    Content, Description, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "CreatePolicy",
+        Dict{String,Any}(
+            "Content" => Content,
+            "Description" => Description,
+            "Name" => Name,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_policy(
+    Content,
+    Description,
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "CreatePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Content" => Content,
+                    "Description" => Description,
+                    "Name" => Name,
+                    "Type" => Type,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     decline_handshake(handshake_id)
@@ -388,8 +565,26 @@ relevant APIs for only 30 days. After that, it's deleted.
   ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeclineHandshake", Dict{String, Any}("HandshakeId"=>HandshakeId); aws_config=aws_config)
-decline_handshake(HandshakeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeclineHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config)
+function decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "DeclineHandshake",
+        Dict{String,Any}("HandshakeId" => HandshakeId);
+        aws_config=aws_config,
+    )
+end
+function decline_handshake(
+    HandshakeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DeclineHandshake",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HandshakeId" => HandshakeId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_organization()
@@ -399,8 +594,14 @@ Deletes the organization. You can delete an organization only by using credentia
 management account. The organization must be empty of member accounts.
 
 """
-delete_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganization"; aws_config=aws_config)
-delete_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganization", params; aws_config=aws_config)
+function delete_organization(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("DeleteOrganization"; aws_config=aws_config)
+end
+function delete_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("DeleteOrganization", params; aws_config=aws_config)
+end
 
 """
     delete_organizational_unit(organizational_unit_id)
@@ -418,8 +619,32 @@ only from the organization's management account.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 """
-delete_organizational_unit(OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganizationalUnit", Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId); aws_config=aws_config)
-delete_organizational_unit(OrganizationalUnitId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), params)); aws_config=aws_config)
+function delete_organizational_unit(
+    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DeleteOrganizationalUnit",
+        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
+        aws_config=aws_config,
+    )
+end
+function delete_organizational_unit(
+    OrganizationalUnitId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DeleteOrganizationalUnit",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_policy(policy_id)
@@ -436,8 +661,24 @@ operation can be called only from the organization's management account.
   letters, digits, or the underscore character (_).
 
 """
-delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeletePolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-delete_policy(PolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
+function delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "DeletePolicy", Dict{String,Any}("PolicyId" => PolicyId); aws_config=aws_config
+    )
+end
+function delete_policy(
+    PolicyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DeletePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     deregister_delegated_administrator(account_id, service_principal)
@@ -463,8 +704,35 @@ management account.
   Organizations read action permissions.
 
 """
-deregister_delegated_administrator(AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeregisterDelegatedAdministrator", Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal); aws_config=aws_config)
-deregister_delegated_administrator(AccountId, ServicePrincipal, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeregisterDelegatedAdministrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config)
+function deregister_delegated_administrator(
+    AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DeregisterDelegatedAdministrator",
+        Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
+        aws_config=aws_config,
+    )
+end
+function deregister_delegated_administrator(
+    AccountId,
+    ServicePrincipal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DeregisterDelegatedAdministrator",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_account(account_id)
@@ -480,8 +748,24 @@ is a delegated administrator for an AWS service.
   regex pattern for an account ID string requires exactly 12 digits.
 
 """
-describe_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeAccount", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
-describe_account(AccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config)
+function describe_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "DescribeAccount", Dict{String,Any}("AccountId" => AccountId); aws_config=aws_config
+    )
+end
+function describe_account(
+    AccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DescribeAccount",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_create_account_status(create_account_request_id)
@@ -499,8 +783,32 @@ account that is a delegated administrator for an AWS service.
   lowercase letters or digits.
 
 """
-describe_create_account_status(CreateAccountRequestId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeCreateAccountStatus", Dict{String, Any}("CreateAccountRequestId"=>CreateAccountRequestId); aws_config=aws_config)
-describe_create_account_status(CreateAccountRequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeCreateAccountStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateAccountRequestId"=>CreateAccountRequestId), params)); aws_config=aws_config)
+function describe_create_account_status(
+    CreateAccountRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DescribeCreateAccountStatus",
+        Dict{String,Any}("CreateAccountRequestId" => CreateAccountRequestId);
+        aws_config=aws_config,
+    )
+end
+function describe_create_account_status(
+    CreateAccountRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DescribeCreateAccountStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CreateAccountRequestId" => CreateAccountRequestId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_effective_policy(policy_type)
@@ -525,8 +833,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account that you want details about. Specifying an organization root or organizational unit
   (OU) as the target is not supported.
 """
-describe_effective_policy(PolicyType; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeEffectivePolicy", Dict{String, Any}("PolicyType"=>PolicyType); aws_config=aws_config)
-describe_effective_policy(PolicyType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeEffectivePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType), params)); aws_config=aws_config)
+function describe_effective_policy(
+    PolicyType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DescribeEffectivePolicy",
+        Dict{String,Any}("PolicyType" => PolicyType);
+        aws_config=aws_config,
+    )
+end
+function describe_effective_policy(
+    PolicyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DescribeEffectivePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyType" => PolicyType), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_handshake(handshake_id)
@@ -545,8 +873,26 @@ operation can be called from any account in the organization.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeHandshake", Dict{String, Any}("HandshakeId"=>HandshakeId); aws_config=aws_config)
-describe_handshake(HandshakeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config)
+function describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "DescribeHandshake",
+        Dict{String,Any}("HandshakeId" => HandshakeId);
+        aws_config=aws_config,
+    )
+end
+function describe_handshake(
+    HandshakeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DescribeHandshake",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HandshakeId" => HandshakeId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_organization()
@@ -559,8 +905,14 @@ with DisablePolicyType. Use ListRoots to see the status of policy types for a sp
 root.
 
 """
-describe_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganization"; aws_config=aws_config)
-describe_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganization", params; aws_config=aws_config)
+function describe_organization(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("DescribeOrganization"; aws_config=aws_config)
+end
+function describe_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("DescribeOrganization", params; aws_config=aws_config)
+end
 
 """
     describe_organizational_unit(organizational_unit_id)
@@ -578,8 +930,32 @@ administrator for an AWS service.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 """
-describe_organizational_unit(OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganizationalUnit", Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId); aws_config=aws_config)
-describe_organizational_unit(OrganizationalUnitId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), params)); aws_config=aws_config)
+function describe_organizational_unit(
+    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DescribeOrganizationalUnit",
+        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
+        aws_config=aws_config,
+    )
+end
+function describe_organizational_unit(
+    OrganizationalUnitId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DescribeOrganizationalUnit",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_policy(policy_id)
@@ -596,8 +972,24 @@ for an AWS service.
   letters, digits, or the underscore character (_).
 
 """
-describe_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribePolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-describe_policy(PolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
+function describe_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "DescribePolicy", Dict{String,Any}("PolicyId" => PolicyId); aws_config=aws_config
+    )
+end
+function describe_policy(
+    PolicyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DescribePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     detach_policy(policy_id, target_id)
@@ -631,8 +1023,33 @@ only from the organization's management account.
   letters or digits.
 
 """
-detach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DetachPolicy", Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId); aws_config=aws_config)
-detach_policy(PolicyId, TargetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DetachPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId), params)); aws_config=aws_config)
+function detach_policy(
+    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DetachPolicy",
+        Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId);
+        aws_config=aws_config,
+    )
+end
+function detach_policy(
+    PolicyId,
+    TargetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DetachPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disable_awsservice_access(service_principal)
@@ -679,8 +1096,30 @@ This operation can be called only from the organization's management account.
    service-abbreviation.amazonaws.com.
 
 """
-disable_awsservice_access(ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisableAWSServiceAccess", Dict{String, Any}("ServicePrincipal"=>ServicePrincipal); aws_config=aws_config)
-disable_awsservice_access(ServicePrincipal, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisableAWSServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config)
+function disable_awsservice_access(
+    ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DisableAWSServiceAccess",
+        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
+        aws_config=aws_config,
+    )
+end
+function disable_awsservice_access(
+    ServicePrincipal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DisableAWSServiceAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ServicePrincipal" => ServicePrincipal), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disable_policy_type(policy_type, root_id)
@@ -707,8 +1146,33 @@ DescribeOrganization.
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
-disable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisablePolicyType", Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId); aws_config=aws_config)
-disable_policy_type(PolicyType, RootId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisablePolicyType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId), params)); aws_config=aws_config)
+function disable_policy_type(
+    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "DisablePolicyType",
+        Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId);
+        aws_config=aws_config,
+    )
+end
+function disable_policy_type(
+    PolicyType,
+    RootId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "DisablePolicyType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     enable_all_features()
@@ -736,8 +1200,14 @@ account administrators are aware of this. This operation can be called only from
 organization's management account.
 
 """
-enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAllFeatures"; aws_config=aws_config)
-enable_all_features(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAllFeatures", params; aws_config=aws_config)
+function enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("EnableAllFeatures"; aws_config=aws_config)
+end
+function enable_all_features(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("EnableAllFeatures", params; aws_config=aws_config)
+end
 
 """
     enable_awsservice_access(service_principal)
@@ -763,8 +1233,30 @@ organization's management account and only if the organization has enabled all f
   service-abbreviation.amazonaws.com.
 
 """
-enable_awsservice_access(ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAWSServiceAccess", Dict{String, Any}("ServicePrincipal"=>ServicePrincipal); aws_config=aws_config)
-enable_awsservice_access(ServicePrincipal, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAWSServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config)
+function enable_awsservice_access(
+    ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "EnableAWSServiceAccess",
+        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
+        aws_config=aws_config,
+    )
+end
+function enable_awsservice_access(
+    ServicePrincipal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "EnableAWSServiceAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ServicePrincipal" => ServicePrincipal), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     enable_policy_type(policy_type, root_id)
@@ -788,8 +1280,33 @@ available policy types in the organization, use DescribeOrganization.
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
-enable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnablePolicyType", Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId); aws_config=aws_config)
-enable_policy_type(PolicyType, RootId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnablePolicyType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId), params)); aws_config=aws_config)
+function enable_policy_type(
+    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "EnablePolicyType",
+        Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId);
+        aws_config=aws_config,
+    )
+end
+function enable_policy_type(
+    PolicyType,
+    RootId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "EnablePolicyType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     invite_account_to_organization(target)
@@ -836,8 +1353,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceed the allowed number of tags for an account, then the entire request fails and
   invitations are not sent.
 """
-invite_account_to_organization(Target; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("InviteAccountToOrganization", Dict{String, Any}("Target"=>Target); aws_config=aws_config)
-invite_account_to_organization(Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("InviteAccountToOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), params)); aws_config=aws_config)
+function invite_account_to_organization(
+    Target; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "InviteAccountToOrganization",
+        Dict{String,Any}("Target" => Target);
+        aws_config=aws_config,
+    )
+end
+function invite_account_to_organization(
+    Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "InviteAccountToOrganization",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Target" => Target), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     leave_organization()
@@ -873,8 +1406,14 @@ removed from its organization. If you get an error that indicates that a wait pe
 required, then try again in a few days.
 
 """
-leave_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("LeaveOrganization"; aws_config=aws_config)
-leave_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("LeaveOrganization", params; aws_config=aws_config)
+function leave_organization(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("LeaveOrganization"; aws_config=aws_config)
+end
+function leave_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("LeaveOrganization", params; aws_config=aws_config)
+end
 
 """
     list_accounts()
@@ -904,8 +1443,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccounts"; aws_config=aws_config)
-list_accounts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccounts", params; aws_config=aws_config)
+function list_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("ListAccounts"; aws_config=aws_config)
+end
+function list_accounts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("ListAccounts", params; aws_config=aws_config)
+end
 
 """
     list_accounts_for_parent(parent_id)
@@ -941,8 +1486,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_accounts_for_parent(ParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccountsForParent", Dict{String, Any}("ParentId"=>ParentId); aws_config=aws_config)
-list_accounts_for_parent(ParentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccountsForParent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentId"=>ParentId), params)); aws_config=aws_config)
+function list_accounts_for_parent(
+    ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListAccountsForParent",
+        Dict{String,Any}("ParentId" => ParentId);
+        aws_config=aws_config,
+    )
+end
+function list_accounts_for_parent(
+    ParentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "ListAccountsForParent",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ParentId" => ParentId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_awsservice_access_for_organization()
@@ -972,8 +1537,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_awsservice_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAWSServiceAccessForOrganization"; aws_config=aws_config)
-list_awsservice_access_for_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAWSServiceAccessForOrganization", params; aws_config=aws_config)
+function list_awsservice_access_for_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("ListAWSServiceAccessForOrganization"; aws_config=aws_config)
+end
+function list_awsservice_access_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListAWSServiceAccessForOrganization", params; aws_config=aws_config
+    )
+end
 
 """
     list_children(child_type, parent_id)
@@ -1012,8 +1587,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_children(ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListChildren", Dict{String, Any}("ChildType"=>ChildType, "ParentId"=>ParentId); aws_config=aws_config)
-list_children(ChildType, ParentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListChildren", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildType"=>ChildType, "ParentId"=>ParentId), params)); aws_config=aws_config)
+function list_children(
+    ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListChildren",
+        Dict{String,Any}("ChildType" => ChildType, "ParentId" => ParentId);
+        aws_config=aws_config,
+    )
+end
+function list_children(
+    ChildType,
+    ParentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "ListChildren",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ChildType" => ChildType, "ParentId" => ParentId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_create_account_status()
@@ -1044,8 +1644,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"States"`: A list of one or more states that you want included in the response. If this
   parameter isn't present, all requests are included in the response.
 """
-list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListCreateAccountStatus"; aws_config=aws_config)
-list_create_account_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListCreateAccountStatus", params; aws_config=aws_config)
+function list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("ListCreateAccountStatus"; aws_config=aws_config)
+end
+function list_create_account_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("ListCreateAccountStatus", params; aws_config=aws_config)
+end
 
 """
     list_delegated_administrators()
@@ -1074,8 +1680,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a service principal, the operation lists all delegated administrators for all
   services in your organization.
 """
-list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedAdministrators"; aws_config=aws_config)
-list_delegated_administrators(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedAdministrators", params; aws_config=aws_config)
+function list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("ListDelegatedAdministrators"; aws_config=aws_config)
+end
+function list_delegated_administrators(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("ListDelegatedAdministrators", params; aws_config=aws_config)
+end
 
 """
     list_delegated_services_for_account(account_id)
@@ -1104,8 +1716,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_delegated_services_for_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedServicesForAccount", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
-list_delegated_services_for_account(AccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedServicesForAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config)
+function list_delegated_services_for_account(
+    AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListDelegatedServicesForAccount",
+        Dict{String,Any}("AccountId" => AccountId);
+        aws_config=aws_config,
+    )
+end
+function list_delegated_services_for_account(
+    AccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "ListDelegatedServicesForAccount",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_handshakes_for_account()
@@ -1141,8 +1773,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForAccount"; aws_config=aws_config)
-list_handshakes_for_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForAccount", params; aws_config=aws_config)
+function list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("ListHandshakesForAccount"; aws_config=aws_config)
+end
+function list_handshakes_for_account(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("ListHandshakesForAccount", params; aws_config=aws_config)
+end
 
 """
     list_handshakes_for_organization()
@@ -1181,8 +1819,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_handshakes_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForOrganization"; aws_config=aws_config)
-list_handshakes_for_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForOrganization", params; aws_config=aws_config)
+function list_handshakes_for_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("ListHandshakesForOrganization"; aws_config=aws_config)
+end
+function list_handshakes_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("ListHandshakesForOrganization", params; aws_config=aws_config)
+end
 
 """
     list_organizational_units_for_parent(parent_id)
@@ -1218,8 +1864,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_organizational_units_for_parent(ParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListOrganizationalUnitsForParent", Dict{String, Any}("ParentId"=>ParentId); aws_config=aws_config)
-list_organizational_units_for_parent(ParentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListOrganizationalUnitsForParent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentId"=>ParentId), params)); aws_config=aws_config)
+function list_organizational_units_for_parent(
+    ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListOrganizationalUnitsForParent",
+        Dict{String,Any}("ParentId" => ParentId);
+        aws_config=aws_config,
+    )
+end
+function list_organizational_units_for_parent(
+    ParentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "ListOrganizationalUnitsForParent",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ParentId" => ParentId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_parents(child_id)
@@ -1258,8 +1924,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListParents", Dict{String, Any}("ChildId"=>ChildId); aws_config=aws_config)
-list_parents(ChildId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListParents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildId"=>ChildId), params)); aws_config=aws_config)
+function list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "ListParents", Dict{String,Any}("ChildId" => ChildId); aws_config=aws_config
+    )
+end
+function list_parents(
+    ChildId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListParents",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ChildId" => ChildId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_policies(filter)
@@ -1292,8 +1970,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPolicies", Dict{String, Any}("Filter"=>Filter); aws_config=aws_config)
-list_policies(Filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter), params)); aws_config=aws_config)
+function list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "ListPolicies", Dict{String,Any}("Filter" => Filter); aws_config=aws_config
+    )
+end
+function list_policies(
+    Filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListPolicies",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filter" => Filter), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_policies_for_target(filter, target_id)
@@ -1335,8 +2025,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_policies_for_target(Filter, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPoliciesForTarget", Dict{String, Any}("Filter"=>Filter, "TargetId"=>TargetId); aws_config=aws_config)
-list_policies_for_target(Filter, TargetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPoliciesForTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "TargetId"=>TargetId), params)); aws_config=aws_config)
+function list_policies_for_target(
+    Filter, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListPoliciesForTarget",
+        Dict{String,Any}("Filter" => Filter, "TargetId" => TargetId);
+        aws_config=aws_config,
+    )
+end
+function list_policies_for_target(
+    Filter,
+    TargetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "ListPoliciesForTarget",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Filter" => Filter, "TargetId" => TargetId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_roots()
@@ -1368,8 +2081,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_roots(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListRoots"; aws_config=aws_config)
-list_roots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListRoots", params; aws_config=aws_config)
+function list_roots(; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations("ListRoots"; aws_config=aws_config)
+end
+function list_roots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations("ListRoots", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_id)
@@ -1396,8 +2115,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_tags_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTagsForResource", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-list_tags_for_resource(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceId" => ResourceId);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_targets_for_policy(policy_id)
@@ -1431,8 +2170,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-list_targets_for_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTargetsForPolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-list_targets_for_policy(PolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTargetsForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
+function list_targets_for_policy(
+    PolicyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "ListTargetsForPolicy",
+        Dict{String,Any}("PolicyId" => PolicyId);
+        aws_config=aws_config,
+    )
+end
+function list_targets_for_policy(
+    PolicyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "ListTargetsForPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     move_account(account_id, destination_parent_id, source_parent_id)
@@ -1461,8 +2220,45 @@ organization's management account.
   lowercase letters or digits.
 
 """
-move_account(AccountId, DestinationParentId, SourceParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("MoveAccount", Dict{String, Any}("AccountId"=>AccountId, "DestinationParentId"=>DestinationParentId, "SourceParentId"=>SourceParentId); aws_config=aws_config)
-move_account(AccountId, DestinationParentId, SourceParentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("MoveAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "DestinationParentId"=>DestinationParentId, "SourceParentId"=>SourceParentId), params)); aws_config=aws_config)
+function move_account(
+    AccountId,
+    DestinationParentId,
+    SourceParentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "MoveAccount",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "DestinationParentId" => DestinationParentId,
+            "SourceParentId" => SourceParentId,
+        );
+        aws_config=aws_config,
+    )
+end
+function move_account(
+    AccountId,
+    DestinationParentId,
+    SourceParentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "MoveAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "DestinationParentId" => DestinationParentId,
+                    "SourceParentId" => SourceParentId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     register_delegated_administrator(account_id, service_principal)
@@ -1483,8 +2279,35 @@ This operation can be called only from the organization's management account.
   the member account a delegated administrator.
 
 """
-register_delegated_administrator(AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RegisterDelegatedAdministrator", Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal); aws_config=aws_config)
-register_delegated_administrator(AccountId, ServicePrincipal, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RegisterDelegatedAdministrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config)
+function register_delegated_administrator(
+    AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "RegisterDelegatedAdministrator",
+        Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
+        aws_config=aws_config,
+    )
+end
+function register_delegated_administrator(
+    AccountId,
+    ServicePrincipal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "RegisterDelegatedAdministrator",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     remove_account_from_organization(account_id)
@@ -1519,8 +2342,28 @@ outside of an organization do not support tags.
   digits.
 
 """
-remove_account_from_organization(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RemoveAccountFromOrganization", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
-remove_account_from_organization(AccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RemoveAccountFromOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config)
+function remove_account_from_organization(
+    AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "RemoveAccountFromOrganization",
+        Dict{String,Any}("AccountId" => AccountId);
+        aws_config=aws_config,
+    )
+end
+function remove_account_from_organization(
+    AccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "RemoveAccountFromOrganization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_id, tags)
@@ -1544,8 +2387,29 @@ organization's management account.
   request fails and the account is not created.
 
 """
-tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("TagResource", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceId, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "TagResource",
+        Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceId,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_id, tag_keys)
@@ -1566,8 +2430,33 @@ organization's management account.
 - `tag_keys`: The list of keys for tags to remove from the specified resource.
 
 """
-untag_resource(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UntagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceId, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "UntagResource",
+        Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceId,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_organizational_unit(organizational_unit_id)
@@ -1590,8 +2479,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to validate this parameter is a string of any of the characters in the ASCII character
   range.
 """
-update_organizational_unit(OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdateOrganizationalUnit", Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId); aws_config=aws_config)
-update_organizational_unit(OrganizationalUnitId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdateOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), params)); aws_config=aws_config)
+function update_organizational_unit(
+    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return organizations(
+        "UpdateOrganizationalUnit",
+        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
+        aws_config=aws_config,
+    )
+end
+function update_organizational_unit(
+    OrganizationalUnitId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "UpdateOrganizationalUnit",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_policy(policy_id)
@@ -1615,5 +2528,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: If provided, the new name for the policy. The regex pattern that is used to
   validate this parameter is a string of any of the characters in the ASCII character range.
 """
-update_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdatePolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-update_policy(PolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
+function update_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
+    return organizations(
+        "UpdatePolicy", Dict{String,Any}("PolicyId" => PolicyId); aws_config=aws_config
+    )
+end
+function update_policy(
+    PolicyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return organizations(
+        "UpdatePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
+        );
+        aws_config=aws_config,
+    )
+end

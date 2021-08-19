@@ -15,8 +15,20 @@ operation will return a ResourceNotFoundException.
 - `human_loop_name`: The name of the human loop that you want to delete.
 
 """
-delete_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("DELETE", "/human-loops/$(HumanLoopName)"; aws_config=aws_config)
-delete_human_loop(HumanLoopName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("DELETE", "/human-loops/$(HumanLoopName)", params; aws_config=aws_config)
+function delete_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker_a2i_runtime(
+        "DELETE", "/human-loops/$(HumanLoopName)"; aws_config=aws_config
+    )
+end
+function delete_human_loop(
+    HumanLoopName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker_a2i_runtime(
+        "DELETE", "/human-loops/$(HumanLoopName)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_human_loop(human_loop_name)
@@ -29,8 +41,22 @@ operation will return a ResourceNotFoundException error.
 - `human_loop_name`: The name of the human loop that you want information about.
 
 """
-describe_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops/$(HumanLoopName)"; aws_config=aws_config)
-describe_human_loop(HumanLoopName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops/$(HumanLoopName)", params; aws_config=aws_config)
+function describe_human_loop(
+    HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker_a2i_runtime(
+        "GET", "/human-loops/$(HumanLoopName)"; aws_config=aws_config
+    )
+end
+function describe_human_loop(
+    HumanLoopName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker_a2i_runtime(
+        "GET", "/human-loops/$(HumanLoopName)", params; aws_config=aws_config
+    )
+end
 
 """
     list_human_loops(flow_definition_arn)
@@ -55,8 +81,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: Optional. The order for displaying results. Valid values: Ascending and
   Descending.
 """
-list_human_loops(FlowDefinitionArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops", Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn); aws_config=aws_config)
-list_human_loops(FlowDefinitionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn), params)); aws_config=aws_config)
+function list_human_loops(
+    FlowDefinitionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker_a2i_runtime(
+        "GET",
+        "/human-loops",
+        Dict{String,Any}("FlowDefinitionArn" => FlowDefinitionArn);
+        aws_config=aws_config,
+    )
+end
+function list_human_loops(
+    FlowDefinitionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker_a2i_runtime(
+        "GET",
+        "/human-loops",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("FlowDefinitionArn" => FlowDefinitionArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_human_loop(flow_definition_arn, human_loop_input, human_loop_name)
@@ -75,8 +125,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataAttributes"`: Attributes of the specified data. Use DataAttributes to specify if
   your data is free of personally identifiable information and/or free of adult content.
 """
-start_human_loop(FlowDefinitionArn, HumanLoopInput, HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops", Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn, "HumanLoopInput"=>HumanLoopInput, "HumanLoopName"=>HumanLoopName); aws_config=aws_config)
-start_human_loop(FlowDefinitionArn, HumanLoopInput, HumanLoopName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn, "HumanLoopInput"=>HumanLoopInput, "HumanLoopName"=>HumanLoopName), params)); aws_config=aws_config)
+function start_human_loop(
+    FlowDefinitionArn,
+    HumanLoopInput,
+    HumanLoopName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker_a2i_runtime(
+        "POST",
+        "/human-loops",
+        Dict{String,Any}(
+            "FlowDefinitionArn" => FlowDefinitionArn,
+            "HumanLoopInput" => HumanLoopInput,
+            "HumanLoopName" => HumanLoopName,
+        );
+        aws_config=aws_config,
+    )
+end
+function start_human_loop(
+    FlowDefinitionArn,
+    HumanLoopInput,
+    HumanLoopName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker_a2i_runtime(
+        "POST",
+        "/human-loops",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FlowDefinitionArn" => FlowDefinitionArn,
+                    "HumanLoopInput" => HumanLoopInput,
+                    "HumanLoopName" => HumanLoopName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_human_loop(human_loop_name)
@@ -88,5 +177,25 @@ Stops the specified human loop.
 - `human_loop_name`: The name of the human loop that you want to stop.
 
 """
-stop_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops/stop", Dict{String, Any}("HumanLoopName"=>HumanLoopName); aws_config=aws_config)
-stop_human_loop(HumanLoopName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanLoopName"=>HumanLoopName), params)); aws_config=aws_config)
+function stop_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker_a2i_runtime(
+        "POST",
+        "/human-loops/stop",
+        Dict{String,Any}("HumanLoopName" => HumanLoopName);
+        aws_config=aws_config,
+    )
+end
+function stop_human_loop(
+    HumanLoopName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker_a2i_runtime(
+        "POST",
+        "/human-loops/stop",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HumanLoopName" => HumanLoopName), params)
+        );
+        aws_config=aws_config,
+    )
+end

@@ -15,8 +15,31 @@ Associate a lens to a workload.
 - `workload_id`:
 
 """
-associate_lenses(LensAliases, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/associateLenses", Dict{String, Any}("LensAliases"=>LensAliases); aws_config=aws_config)
-associate_lenses(LensAliases, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/associateLenses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LensAliases"=>LensAliases), params)); aws_config=aws_config)
+function associate_lenses(
+    LensAliases, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/associateLenses",
+        Dict{String,Any}("LensAliases" => LensAliases);
+        aws_config=aws_config,
+    )
+end
+function associate_lenses(
+    LensAliases,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/associateLenses",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LensAliases" => LensAliases), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_milestone(client_request_token, milestone_name, workload_id)
@@ -30,8 +53,44 @@ Create a milestone for an existing workload.
 - `workload_id`:
 
 """
-create_milestone(ClientRequestToken, MilestoneName, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/milestones", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "MilestoneName"=>MilestoneName); aws_config=aws_config)
-create_milestone(ClientRequestToken, MilestoneName, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/milestones", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "MilestoneName"=>MilestoneName), params)); aws_config=aws_config)
+function create_milestone(
+    ClientRequestToken,
+    MilestoneName,
+    WorkloadId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/workloads/$(WorkloadId)/milestones",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken, "MilestoneName" => MilestoneName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_milestone(
+    ClientRequestToken,
+    MilestoneName,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/workloads/$(WorkloadId)/milestones",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "MilestoneName" => MilestoneName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_workload(client_request_token, description, environment, lenses, review_owner, workload_name)
@@ -61,8 +120,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PillarPriorities"`:
 - `"Tags"`: The tags to be associated with the workload.
 """
-create_workload(ClientRequestToken, Description, Environment, Lenses, ReviewOwner, WorkloadName; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloads", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Description"=>Description, "Environment"=>Environment, "Lenses"=>Lenses, "ReviewOwner"=>ReviewOwner, "WorkloadName"=>WorkloadName); aws_config=aws_config)
-create_workload(ClientRequestToken, Description, Environment, Lenses, ReviewOwner, WorkloadName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloads", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Description"=>Description, "Environment"=>Environment, "Lenses"=>Lenses, "ReviewOwner"=>ReviewOwner, "WorkloadName"=>WorkloadName), params)); aws_config=aws_config)
+function create_workload(
+    ClientRequestToken,
+    Description,
+    Environment,
+    Lenses,
+    ReviewOwner,
+    WorkloadName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/workloads",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken,
+            "Description" => Description,
+            "Environment" => Environment,
+            "Lenses" => Lenses,
+            "ReviewOwner" => ReviewOwner,
+            "WorkloadName" => WorkloadName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_workload(
+    ClientRequestToken,
+    Description,
+    Environment,
+    Lenses,
+    ReviewOwner,
+    WorkloadName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/workloads",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "Description" => Description,
+                    "Environment" => Environment,
+                    "Lenses" => Lenses,
+                    "ReviewOwner" => ReviewOwner,
+                    "WorkloadName" => WorkloadName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_workload_share(client_request_token, permission_type, shared_with, workload_id)
@@ -80,8 +190,49 @@ Well-Architected Tool User Guide.
 - `workload_id`:
 
 """
-create_workload_share(ClientRequestToken, PermissionType, SharedWith, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/shares", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "PermissionType"=>PermissionType, "SharedWith"=>SharedWith); aws_config=aws_config)
-create_workload_share(ClientRequestToken, PermissionType, SharedWith, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/shares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "PermissionType"=>PermissionType, "SharedWith"=>SharedWith), params)); aws_config=aws_config)
+function create_workload_share(
+    ClientRequestToken,
+    PermissionType,
+    SharedWith,
+    WorkloadId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/workloads/$(WorkloadId)/shares",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken,
+            "PermissionType" => PermissionType,
+            "SharedWith" => SharedWith,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_workload_share(
+    ClientRequestToken,
+    PermissionType,
+    SharedWith,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/workloads/$(WorkloadId)/shares",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "PermissionType" => PermissionType,
+                    "SharedWith" => SharedWith,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_workload(client_request_token, workload_id)
@@ -94,8 +245,33 @@ Delete an existing workload.
 - `workload_id`:
 
 """
-delete_workload(ClientRequestToken, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("DELETE", "/workloads/$(WorkloadId)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config)
-delete_workload(ClientRequestToken, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("DELETE", "/workloads/$(WorkloadId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config)
+function delete_workload(
+    ClientRequestToken, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "DELETE",
+        "/workloads/$(WorkloadId)",
+        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
+        aws_config=aws_config,
+    )
+end
+function delete_workload(
+    ClientRequestToken,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/workloads/$(WorkloadId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_workload_share(client_request_token, share_id, workload_id)
@@ -109,8 +285,37 @@ Delete a workload share.
 - `workload_id`:
 
 """
-delete_workload_share(ClientRequestToken, ShareId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("DELETE", "/workloads/$(WorkloadId)/shares/$(ShareId)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config)
-delete_workload_share(ClientRequestToken, ShareId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("DELETE", "/workloads/$(WorkloadId)/shares/$(ShareId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config)
+function delete_workload_share(
+    ClientRequestToken,
+    ShareId,
+    WorkloadId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/workloads/$(WorkloadId)/shares/$(ShareId)",
+        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
+        aws_config=aws_config,
+    )
+end
+function delete_workload_share(
+    ClientRequestToken,
+    ShareId,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/workloads/$(WorkloadId)/shares/$(ShareId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_lenses(lens_aliases, workload_id)
@@ -124,14 +329,37 @@ Disassociate a lens from a workload.  The AWS Well-Architected Framework lens
 - `workload_id`:
 
 """
-disassociate_lenses(LensAliases, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/disassociateLenses", Dict{String, Any}("LensAliases"=>LensAliases); aws_config=aws_config)
-disassociate_lenses(LensAliases, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/disassociateLenses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LensAliases"=>LensAliases), params)); aws_config=aws_config)
+function disassociate_lenses(
+    LensAliases, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/disassociateLenses",
+        Dict{String,Any}("LensAliases" => LensAliases);
+        aws_config=aws_config,
+    )
+end
+function disassociate_lenses(
+    LensAliases,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/disassociateLenses",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LensAliases" => LensAliases), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_answer(lens_alias, question_id, workload_id)
     get_answer(lens_alias, question_id, workload_id, params::Dict{String,<:Any})
 
-Get lens review.
+Get the answer to a specific question in a workload review.
 
 # Arguments
 - `lens_alias`:
@@ -142,8 +370,29 @@ Get lens review.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MilestoneNumber"`:
 """
-get_answer(LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)"; aws_config=aws_config)
-get_answer(LensAlias, QuestionId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)", params; aws_config=aws_config)
+function get_answer(
+    LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
+        aws_config=aws_config,
+    )
+end
+function get_answer(
+    LensAlias,
+    QuestionId,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_lens_review(lens_alias, workload_id)
@@ -159,8 +408,26 @@ Get lens review.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MilestoneNumber"`:
 """
-get_lens_review(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)"; aws_config=aws_config)
-get_lens_review(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)", params; aws_config=aws_config)
+function get_lens_review(
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)"; aws_config=aws_config
+    )
+end
+function get_lens_review(
+    LensAlias,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_lens_review_report(lens_alias, workload_id)
@@ -176,8 +443,28 @@ Get lens review report.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MilestoneNumber"`:
 """
-get_lens_review_report(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report"; aws_config=aws_config)
-get_lens_review_report(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report", params; aws_config=aws_config)
+function get_lens_review_report(
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report";
+        aws_config=aws_config,
+    )
+end
+function get_lens_review_report(
+    LensAlias,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_lens_version_difference(base_lens_version, lens_alias)
@@ -190,8 +477,33 @@ Get lens version differences.
 - `lens_alias`:
 
 """
-get_lens_version_difference(BaseLensVersion, LensAlias; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)/versionDifference", Dict{String, Any}("BaseLensVersion"=>BaseLensVersion); aws_config=aws_config)
-get_lens_version_difference(BaseLensVersion, LensAlias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)/versionDifference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaseLensVersion"=>BaseLensVersion), params)); aws_config=aws_config)
+function get_lens_version_difference(
+    BaseLensVersion, LensAlias; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/lenses/$(LensAlias)/versionDifference",
+        Dict{String,Any}("BaseLensVersion" => BaseLensVersion);
+        aws_config=aws_config,
+    )
+end
+function get_lens_version_difference(
+    BaseLensVersion,
+    LensAlias,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/lenses/$(LensAlias)/versionDifference",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("BaseLensVersion" => BaseLensVersion), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_milestone(milestone_number, workload_id)
@@ -204,8 +516,28 @@ Get a milestone for an existing workload.
 - `workload_id`:
 
 """
-get_milestone(MilestoneNumber, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)"; aws_config=aws_config)
-get_milestone(MilestoneNumber, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)", params; aws_config=aws_config)
+function get_milestone(
+    MilestoneNumber, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)";
+        aws_config=aws_config,
+    )
+end
+function get_milestone(
+    MilestoneNumber,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_workload(workload_id)
@@ -217,8 +549,16 @@ Get an existing workload.
 - `workload_id`:
 
 """
-get_workload(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)"; aws_config=aws_config)
-get_workload(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)", params; aws_config=aws_config)
+function get_workload(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected("GET", "/workloads/$(WorkloadId)"; aws_config=aws_config)
+end
+function get_workload(
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected("GET", "/workloads/$(WorkloadId)", params; aws_config=aws_config)
+end
 
 """
     list_answers(lens_alias, workload_id)
@@ -237,8 +577,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"PillarId"`:
 """
-list_answers(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers"; aws_config=aws_config)
-list_answers(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers", params; aws_config=aws_config)
+function list_answers(
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers";
+        aws_config=aws_config,
+    )
+end
+function list_answers(
+    LensAlias,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_lens_review_improvements(lens_alias, workload_id)
@@ -257,8 +617,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"PillarId"`:
 """
-list_lens_review_improvements(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements"; aws_config=aws_config)
-list_lens_review_improvements(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements", params; aws_config=aws_config)
+function list_lens_review_improvements(
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements";
+        aws_config=aws_config,
+    )
+end
+function list_lens_review_improvements(
+    LensAlias,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_lens_reviews(workload_id)
@@ -275,8 +655,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MilestoneNumber"`:
 - `"NextToken"`:
 """
-list_lens_reviews(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews"; aws_config=aws_config)
-list_lens_reviews(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews", params; aws_config=aws_config)
+function list_lens_reviews(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET", "/workloads/$(WorkloadId)/lensReviews"; aws_config=aws_config
+    )
+end
+function list_lens_reviews(
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET", "/workloads/$(WorkloadId)/lensReviews", params; aws_config=aws_config
+    )
+end
 
 """
     list_lenses()
@@ -289,8 +681,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-list_lenses(; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/lenses"; aws_config=aws_config)
-list_lenses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/lenses", params; aws_config=aws_config)
+function list_lenses(; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected("GET", "/lenses"; aws_config=aws_config)
+end
+function list_lenses(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected("GET", "/lenses", params; aws_config=aws_config)
+end
 
 """
     list_milestones(workload_id)
@@ -306,8 +704,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-list_milestones(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/milestonesSummaries"; aws_config=aws_config)
-list_milestones(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/milestonesSummaries", params; aws_config=aws_config)
+function list_milestones(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "POST", "/workloads/$(WorkloadId)/milestonesSummaries"; aws_config=aws_config
+    )
+end
+function list_milestones(
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/workloads/$(WorkloadId)/milestonesSummaries",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_notifications()
@@ -321,8 +734,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"WorkloadId"`:
 """
-list_notifications(; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/notifications"; aws_config=aws_config)
-list_notifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/notifications", params; aws_config=aws_config)
+function list_notifications(; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected("POST", "/notifications"; aws_config=aws_config)
+end
+function list_notifications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected("POST", "/notifications", params; aws_config=aws_config)
+end
 
 """
     list_share_invitations()
@@ -336,8 +755,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"WorkloadNamePrefix"`:
 """
-list_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/shareInvitations"; aws_config=aws_config)
-list_share_invitations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/shareInvitations", params; aws_config=aws_config)
+function list_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected("GET", "/shareInvitations"; aws_config=aws_config)
+end
+function list_share_invitations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected("GET", "/shareInvitations", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(workload_arn)
@@ -349,8 +774,18 @@ List the tags for a resource.
 - `workload_arn`:
 
 """
-list_tags_for_resource(WorkloadArn; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/tags/$(WorkloadArn)"; aws_config=aws_config)
-list_tags_for_resource(WorkloadArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/tags/$(WorkloadArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    WorkloadArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected("GET", "/tags/$(WorkloadArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    WorkloadArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected("GET", "/tags/$(WorkloadArn)", params; aws_config=aws_config)
+end
 
 """
     list_workload_shares(workload_id)
@@ -367,8 +802,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"SharedWithPrefix"`: The AWS account ID or IAM role with which the workload is shared.
 """
-list_workload_shares(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/shares"; aws_config=aws_config)
-list_workload_shares(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/shares", params; aws_config=aws_config)
+function list_workload_shares(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected("GET", "/workloads/$(WorkloadId)/shares"; aws_config=aws_config)
+end
+function list_workload_shares(
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET", "/workloads/$(WorkloadId)/shares", params; aws_config=aws_config
+    )
+end
 
 """
     list_workloads()
@@ -382,8 +827,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"WorkloadNamePrefix"`:
 """
-list_workloads(; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloadsSummaries"; aws_config=aws_config)
-list_workloads(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloadsSummaries", params; aws_config=aws_config)
+function list_workloads(; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected("POST", "/workloadsSummaries"; aws_config=aws_config)
+end
+function list_workloads(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected("POST", "/workloadsSummaries", params; aws_config=aws_config)
+end
 
 """
     tag_resource(tags, workload_arn)
@@ -396,22 +847,64 @@ Adds one or more tags to the specified resource.
 - `workload_arn`:
 
 """
-tag_resource(Tags, WorkloadArn; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/tags/$(WorkloadArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(Tags, WorkloadArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/tags/$(WorkloadArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(Tags, WorkloadArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "POST",
+        "/tags/$(WorkloadArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    Tags,
+    WorkloadArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/tags/$(WorkloadArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(workload_arn, tag_keys)
     untag_resource(workload_arn, tag_keys, params::Dict{String,<:Any})
 
-Deletes specified tags from a resource.
+Deletes specified tags from a resource. To specify multiple tags, use separate tagKeys
+parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
 
 # Arguments
 - `workload_arn`:
-- `tag_keys`: The keys of the tags to be removed.
+- `tag_keys`: A list of tag keys. Existing tags of the resource whose keys are members of
+  this list are removed from the resource.
 
 """
-untag_resource(WorkloadArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("DELETE", "/tags/$(WorkloadArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(WorkloadArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("DELETE", "/tags/$(WorkloadArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    WorkloadArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "DELETE",
+        "/tags/$(WorkloadArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    WorkloadArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/tags/$(WorkloadArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_answer(lens_alias, question_id, workload_id)
@@ -426,12 +919,36 @@ Update the answer to a specific question in a workload review.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ChoiceUpdates"`: A list of choices to update on a question in your workload. The String
+  key corresponds to the choice ID to be updated.
 - `"IsApplicable"`:
 - `"Notes"`:
+- `"Reason"`: The reason why a question is not applicable to your workload.
 - `"SelectedChoices"`:
 """
-update_answer(LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)"; aws_config=aws_config)
-update_answer(LensAlias, QuestionId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)", params; aws_config=aws_config)
+function update_answer(
+    LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
+        aws_config=aws_config,
+    )
+end
+function update_answer(
+    LensAlias,
+    QuestionId,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_lens_review(lens_alias, workload_id)
@@ -448,8 +965,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LensNotes"`:
 - `"PillarNotes"`:
 """
-update_lens_review(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)"; aws_config=aws_config)
-update_lens_review(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)", params; aws_config=aws_config)
+function update_lens_review(
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)"; aws_config=aws_config
+    )
+end
+function update_lens_review(
+    LensAlias,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_share_invitation(share_invitation_action, share_invitation_id)
@@ -462,8 +997,37 @@ Update a workload invitation.
 - `share_invitation_id`: The ID assigned to the share invitation.
 
 """
-update_share_invitation(ShareInvitationAction, ShareInvitationId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/shareInvitations/$(ShareInvitationId)", Dict{String, Any}("ShareInvitationAction"=>ShareInvitationAction); aws_config=aws_config)
-update_share_invitation(ShareInvitationAction, ShareInvitationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/shareInvitations/$(ShareInvitationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShareInvitationAction"=>ShareInvitationAction), params)); aws_config=aws_config)
+function update_share_invitation(
+    ShareInvitationAction,
+    ShareInvitationId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/shareInvitations/$(ShareInvitationId)",
+        Dict{String,Any}("ShareInvitationAction" => ShareInvitationAction);
+        aws_config=aws_config,
+    )
+end
+function update_share_invitation(
+    ShareInvitationAction,
+    ShareInvitationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/shareInvitations/$(ShareInvitationId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ShareInvitationAction" => ShareInvitationAction),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_workload(workload_id)
@@ -494,8 +1058,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReviewOwner"`:
 - `"WorkloadName"`:
 """
-update_workload(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)"; aws_config=aws_config)
-update_workload(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)", params; aws_config=aws_config)
+function update_workload(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected("PATCH", "/workloads/$(WorkloadId)"; aws_config=aws_config)
+end
+function update_workload(
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH", "/workloads/$(WorkloadId)", params; aws_config=aws_config
+    )
+end
 
 """
     update_workload_share(permission_type, share_id, workload_id)
@@ -509,8 +1083,32 @@ Update a workload share.
 - `workload_id`:
 
 """
-update_workload_share(PermissionType, ShareId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/shares/$(ShareId)", Dict{String, Any}("PermissionType"=>PermissionType); aws_config=aws_config)
-update_workload_share(PermissionType, ShareId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/shares/$(ShareId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionType"=>PermissionType), params)); aws_config=aws_config)
+function update_workload_share(
+    PermissionType, ShareId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/shares/$(ShareId)",
+        Dict{String,Any}("PermissionType" => PermissionType);
+        aws_config=aws_config,
+    )
+end
+function update_workload_share(
+    PermissionType,
+    ShareId,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/shares/$(ShareId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PermissionType" => PermissionType), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     upgrade_lens_review(lens_alias, milestone_name, workload_id)
@@ -527,5 +1125,29 @@ Upgrade lens review.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
-upgrade_lens_review(LensAlias, MilestoneName, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PUT", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade", Dict{String, Any}("MilestoneName"=>MilestoneName); aws_config=aws_config)
-upgrade_lens_review(LensAlias, MilestoneName, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PUT", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MilestoneName"=>MilestoneName), params)); aws_config=aws_config)
+function upgrade_lens_review(
+    LensAlias, MilestoneName, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PUT",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade",
+        Dict{String,Any}("MilestoneName" => MilestoneName);
+        aws_config=aws_config,
+    )
+end
+function upgrade_lens_review(
+    LensAlias,
+    MilestoneName,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PUT",
+        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("MilestoneName" => MilestoneName), params)
+        );
+        aws_config=aws_config,
+    )
+end

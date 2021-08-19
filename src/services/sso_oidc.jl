@@ -33,8 +33,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scope"`: The list of scopes that is defined by the client. Upon authorization, this
   list is used to restrict permissions when granting an access token.
 """
-create_token(clientId, clientSecret, deviceCode, grantType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/token", Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType); aws_config=aws_config)
-create_token(clientId, clientSecret, deviceCode, grantType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType), params)); aws_config=aws_config)
+function create_token(
+    clientId,
+    clientSecret,
+    deviceCode,
+    grantType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_oidc(
+        "POST",
+        "/token",
+        Dict{String,Any}(
+            "clientId" => clientId,
+            "clientSecret" => clientSecret,
+            "deviceCode" => deviceCode,
+            "grantType" => grantType,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_token(
+    clientId,
+    clientSecret,
+    deviceCode,
+    grantType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_oidc(
+        "POST",
+        "/token",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientId" => clientId,
+                    "clientSecret" => clientSecret,
+                    "deviceCode" => deviceCode,
+                    "grantType" => grantType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     register_client(client_name, client_type)
@@ -53,8 +96,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scopes"`: The list of scopes that are defined by the client. Upon authorization, this
   list is used to restrict permissions when granting an access token.
 """
-register_client(clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/client/register", Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType); aws_config=aws_config)
-register_client(clientName, clientType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/client/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType), params)); aws_config=aws_config)
+function register_client(
+    clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_oidc(
+        "POST",
+        "/client/register",
+        Dict{String,Any}("clientName" => clientName, "clientType" => clientType);
+        aws_config=aws_config,
+    )
+end
+function register_client(
+    clientName,
+    clientType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_oidc(
+        "POST",
+        "/client/register",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("clientName" => clientName, "clientType" => clientType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_device_authorization(client_id, client_secret, start_url)
@@ -72,5 +142,39 @@ authorization service.
   User Portal in the AWS Single Sign-On User Guide.
 
 """
-start_device_authorization(clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/device_authorization", Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl); aws_config=aws_config)
-start_device_authorization(clientId, clientSecret, startUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/device_authorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl), params)); aws_config=aws_config)
+function start_device_authorization(
+    clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_oidc(
+        "POST",
+        "/device_authorization",
+        Dict{String,Any}(
+            "clientId" => clientId, "clientSecret" => clientSecret, "startUrl" => startUrl
+        );
+        aws_config=aws_config,
+    )
+end
+function start_device_authorization(
+    clientId,
+    clientSecret,
+    startUrl,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_oidc(
+        "POST",
+        "/device_authorization",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientId" => clientId,
+                    "clientSecret" => clientSecret,
+                    "startUrl" => startUrl,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

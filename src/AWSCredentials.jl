@@ -7,26 +7,27 @@ using Mocking
 using ..AWSExceptions
 
 export AWSCredentials,
-       aws_account_number,
-       aws_get_region,
-       aws_get_role_details,
-       aws_user_arn,
-       check_credentials,
-       dot_aws_config,
-       dot_aws_credentials,
-       dot_aws_credentials_file,
-       dot_aws_config_file,
-       ec2_instance_credentials,
-       ecs_instance_credentials,
-       env_var_credentials,
-       localhost_is_ec2,
-       localhost_maybe_ec2,
-       localhost_is_lambda,
-       credentials_from_webtoken
+    aws_account_number,
+    aws_get_region,
+    aws_get_role_details,
+    aws_user_arn,
+    check_credentials,
+    dot_aws_config,
+    dot_aws_credentials,
+    dot_aws_credentials_file,
+    dot_aws_config_file,
+    ec2_instance_credentials,
+    ecs_instance_credentials,
+    env_var_credentials,
+    localhost_is_ec2,
+    localhost_maybe_ec2,
+    localhost_is_lambda,
+    credentials_from_webtoken
 
-localhost_maybe_ec2() = localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
+function localhost_maybe_ec2()
+    return localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
+end
 localhost_is_lambda() = haskey(ENV, "LAMBDA_TASK_ROOT")
-
 
 """
     AWSCredentials
@@ -65,7 +66,7 @@ mutable struct AWSCredentials
     user_arn::String
     account_number::String
     expiry::DateTime
-    renew::Union{Function, Nothing}  # Function which can be used to refresh credentials
+    renew::Union{Function,Nothing}  # Function which can be used to refresh credentials
 
     function AWSCredentials(
         access_key_id,
@@ -76,7 +77,9 @@ mutable struct AWSCredentials
         expiry=typemax(DateTime),
         renew=nothing,
     )
-        return new(access_key_id, secret_key, token, user_arn, account_number, expiry, renew)
+        return new(
+            access_key_id, secret_key, token, user_arn, account_number, expiry, renew
+        )
     end
 end
 
@@ -139,7 +142,8 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
 end
 
 function Base.show(io::IO, c::AWSCredentials)
-    print(io,
+    return print(
+        io,
         c.user_arn,
         isempty(c.user_arn) ? "" : " ",
         "(",
@@ -150,7 +154,7 @@ function Base.show(io::IO, c::AWSCredentials)
         isempty(c.token) ? "" : ", $(c.token[1:3])...",
         ", ",
         c.expiry,
-        ")"
+        ")",
     )
 end
 
@@ -159,7 +163,6 @@ function Base.copyto!(dest::AWSCredentials, src::AWSCredentials)
         setfield!(dest, f, getfield(src, f))
     end
 end
-
 
 """
     check_credentials(
@@ -197,7 +200,6 @@ function check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false)
 end
 check_credentials(aws_creds::Nothing) = aws_creds
 
-
 """
     ec2_instance_metadata(path::AbstractString) -> Union{String, Nothing}
 
@@ -210,7 +212,7 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
 - `path`: The URI path to used to specify that metadata to return
 """
 function ec2_instance_metadata(path::AbstractString)
-    uri = HTTP.URI(scheme="http", host="169.254.169.254", path=path)
+    uri = HTTP.URI(; scheme="http", host="169.254.169.254", path=path)
     request = try
         @mock HTTP.request("GET", uri; connect_timeout=1)
     catch e
@@ -224,7 +226,6 @@ function ec2_instance_metadata(path::AbstractString)
     return request !== nothing ? String(request.body) : nothing
 end
 
-
 """
     ec2_instance_region() -> Union{String, Nothing}
 
@@ -232,7 +233,6 @@ Determine the AWS region of the machine executing this code if running inside of
 instance, otherwise `nothing` is returned.
 """
 ec2_instance_region() = ec2_instance_metadata("/latest/meta-data/placement/region")
-
 
 """
     ec2_instance_credentials(profile::AbstractString) -> AWSCredentials
@@ -281,15 +281,13 @@ function ec2_instance_credentials(profile::AbstractString)
             "-" * Dates.format(@mock(now(UTC)), dateformat"yyyymmdd\THHMMSS\Z"),
         )
     end
-    params = Dict{String, Any}("RoleArn" => role_arn, "RoleSessionName" => role_session)
+    params = Dict{String,Any}("RoleArn" => role_arn, "RoleSessionName" => role_session)
     duration = _get_ini_value(ini, profile, "duration_seconds")
     if duration !== nothing
         params["DurationSeconds"] = parse(Int, duration)
     end
-    resp = AWSServices.sts(
-        "AssumeRole",
-        params;
-        aws_config=AWSConfig(creds=instance_profile_creds),
+    resp = @mock AWSServices.sts(
+        "AssumeRole", params; aws_config=AWSConfig(; creds=instance_profile_creds)
     )
     role_creds = resp["AssumeRoleResult"]["Credentials"]
     role_user = resp["AssumeRoleResult"]["AssumedRoleUser"]
@@ -297,12 +295,11 @@ function ec2_instance_credentials(profile::AbstractString)
         role_creds["AccessKeyId"],
         role_creds["SecretAccessKey"],
         role_creds["SessionToken"],
-        role_user["Arn"],
+        role_user["Arn"];
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
         renew=() -> ec2_instance_credentials(profile),
     )
 end
-
 
 """
     ecs_instance_credentials() -> Union{AWSCredential, Nothing}
@@ -340,10 +337,9 @@ function ecs_instance_credentials()
         new_creds["Token"],
         new_creds["RoleArn"];
         expiry=expiry,
-        renew=ecs_instance_credentials
+        renew=ecs_instance_credentials,
     )
 end
-
 
 """
     env_var_credentials() -> Union{AWSCredential, Nothing}
@@ -358,13 +354,12 @@ function env_var_credentials()
             ENV["AWS_SECRET_ACCESS_KEY"],
             get(ENV, "AWS_SESSION_TOKEN", ""),
             get(ENV, "AWS_USER_ARN", "");
-            renew=env_var_credentials
+            renew=env_var_credentials,
         )
     end
 
     return nothing
 end
-
 
 """
     dot_aws_credentials(profile=nothing) -> Union{AWSCredential, Nothing}
@@ -395,7 +390,6 @@ function dot_aws_credentials_file()
         joinpath(homedir(), ".aws", "credentials")
     end
 end
-
 
 """
     dot_aws_config(profile=nothing) -> Union{AWSCredential, Nothing}
@@ -429,7 +423,6 @@ function dot_aws_config_file()
         joinpath(homedir(), ".aws", "config")
     end
 end
-
 
 """
     localhost_is_ec2() -> Bool
@@ -493,7 +486,6 @@ function localhost_is_ec2()
     return false
 end
 
-
 """
     credentials_from_webtoken()
 
@@ -519,14 +511,14 @@ function credentials_from_webtoken()
         )
     end
 
-    resp = AWSServices.sts(
+    resp = @mock AWSServices.sts(
         "AssumeRoleWithWebIdentity",
         Dict(
             "RoleArn" => role_arn,
             "RoleSessionName" => role_session,  # Required by AssumeRoleWithWebIdentity
             "WebIdentityToken" => web_identity,
         );
-        aws_config=AWSConfig(creds=nothing)
+        aws_config=AWSConfig(; creds=nothing),
     )
 
     role_creds = resp["AssumeRoleWithWebIdentityResult"]["Credentials"]
@@ -538,10 +530,9 @@ function credentials_from_webtoken()
         role_creds["SessionToken"],
         assumed_role_user["Arn"];
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
-        renew=credentials_from_webtoken
+        renew=credentials_from_webtoken,
     )
 end
-
 
 """
     aws_get_region(; profile=nothing, config=nothing, default="$DEFAULT_REGION")
@@ -570,8 +561,9 @@ function aws_get_region(; profile=nothing, config=nothing, default=DEFAULT_REGIO
     )
 end
 
-@deprecate aws_get_region(profile::AbstractString, ini::Inifile) aws_get_region(; profile=profile, config=ini)
-
+@deprecate aws_get_region(profile::AbstractString, ini::Inifile) aws_get_region(;
+    profile=profile, config=ini
+)
 
 """
     aws_get_role_details(profile::AbstractString, ini::Inifile) -> Tuple

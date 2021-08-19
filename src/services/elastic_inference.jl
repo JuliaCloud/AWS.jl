@@ -22,8 +22,30 @@ given region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"acceleratorTypes"`:  The list of accelerator types to describe.
 """
-describe_accelerator_offerings(locationType; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("POST", "/describe-accelerator-offerings", Dict{String, Any}("locationType"=>locationType); aws_config=aws_config)
-describe_accelerator_offerings(locationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("POST", "/describe-accelerator-offerings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("locationType"=>locationType), params)); aws_config=aws_config)
+function describe_accelerator_offerings(
+    locationType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elastic_inference(
+        "POST",
+        "/describe-accelerator-offerings",
+        Dict{String,Any}("locationType" => locationType);
+        aws_config=aws_config,
+    )
+end
+function describe_accelerator_offerings(
+    locationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elastic_inference(
+        "POST",
+        "/describe-accelerator-offerings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("locationType" => locationType), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_accelerator_types()
@@ -33,8 +55,16 @@ describe_accelerator_offerings(locationType, params::AbstractDict{String}; aws_c
 characteristics, such as memory and throughput.
 
 """
-describe_accelerator_types(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("GET", "/describe-accelerator-types"; aws_config=aws_config)
-describe_accelerator_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("GET", "/describe-accelerator-types", params; aws_config=aws_config)
+function describe_accelerator_types(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elastic_inference("GET", "/describe-accelerator-types"; aws_config=aws_config)
+end
+function describe_accelerator_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elastic_inference(
+        "GET", "/describe-accelerator-types", params; aws_config=aws_config
+    )
+end
 
 """
     describe_accelerators()
@@ -56,8 +86,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  A token to specify where to start paginating. This is the NextToken from
   a previously truncated response.
 """
-describe_accelerators(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("POST", "/describe-accelerators"; aws_config=aws_config)
-describe_accelerators(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("POST", "/describe-accelerators", params; aws_config=aws_config)
+function describe_accelerators(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elastic_inference("POST", "/describe-accelerators"; aws_config=aws_config)
+end
+function describe_accelerators(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elastic_inference(
+        "POST", "/describe-accelerators", params; aws_config=aws_config
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -69,8 +107,18 @@ describe_accelerators(params::AbstractDict{String}; aws_config::AbstractAWSConfi
 - `resource_arn`:  The ARN of the Elastic Inference Accelerator to list the tags for.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elastic_inference("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elastic_inference("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -83,8 +131,27 @@ list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::Ab
 - `tags`:  The tags to add to the Elastic Inference Accelerator.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return elastic_inference(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elastic_inference(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -97,5 +164,26 @@ tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::Abstra
 - `tag_keys`:  The list of tags to remove from the Elastic Inference Accelerator.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elastic_inference(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elastic_inference(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end

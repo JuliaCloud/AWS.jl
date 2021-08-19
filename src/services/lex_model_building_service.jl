@@ -27,8 +27,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new
   version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
-create_bot_version(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/bots/$(name)/versions"; aws_config=aws_config)
-create_bot_version(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/bots/$(name)/versions", params; aws_config=aws_config)
+function create_bot_version(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "POST", "/bots/$(name)/versions"; aws_config=aws_config
+    )
+end
+function create_bot_version(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "POST", "/bots/$(name)/versions", params; aws_config=aws_config
+    )
+end
 
 """
     create_intent_version(name)
@@ -55,8 +65,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   publish a new version. If you don't specify a checksum, Amazon Lex publishes the LATEST
   version.
 """
-create_intent_version(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/intents/$(name)/versions"; aws_config=aws_config)
-create_intent_version(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/intents/$(name)/versions", params; aws_config=aws_config)
+function create_intent_version(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "POST", "/intents/$(name)/versions"; aws_config=aws_config
+    )
+end
+function create_intent_version(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "POST", "/intents/$(name)/versions", params; aws_config=aws_config
+    )
+end
 
 """
     create_slot_type_version(name)
@@ -82,8 +102,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new
   version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
-create_slot_type_version(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/slottypes/$(name)/versions"; aws_config=aws_config)
-create_slot_type_version(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/slottypes/$(name)/versions", params; aws_config=aws_config)
+function create_slot_type_version(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "POST", "/slottypes/$(name)/versions"; aws_config=aws_config
+    )
+end
+function create_slot_type_version(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "POST", "/slottypes/$(name)/versions", params; aws_config=aws_config
+    )
+end
 
 """
     delete_bot(name)
@@ -105,8 +135,16 @@ lex:DeleteBot action.
 - `name`: The name of the bot. The name is case sensitive.
 
 """
-delete_bot(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)"; aws_config=aws_config)
-delete_bot(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)", params; aws_config=aws_config)
+function delete_bot(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("DELETE", "/bots/$(name)"; aws_config=aws_config)
+end
+function delete_bot(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE", "/bots/$(name)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_bot_alias(bot_name, name)
@@ -124,8 +162,21 @@ again, delete the referring association until the DeleteBotAlias operation is su
 - `name`: The name of the alias to delete. The name is case sensitive.
 
 """
-delete_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)"; aws_config=aws_config)
-delete_bot_alias(botName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config)
+function delete_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "DELETE", "/bots/$(botName)/aliases/$(name)"; aws_config=aws_config
+    )
+end
+function delete_bot_alias(
+    botName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_bot_channel_association(alias_name, bot_name, name)
@@ -141,8 +192,29 @@ requires permission for the lex:DeleteBotChannelAssociation action.
 - `name`: The name of the association. The name is case sensitive.
 
 """
-delete_bot_channel_association(aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)"; aws_config=aws_config)
-delete_bot_channel_association(aliasName, botName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", params; aws_config=aws_config)
+function delete_bot_channel_association(
+    aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)";
+        aws_config=aws_config,
+    )
+end
+function delete_bot_channel_association(
+    aliasName,
+    botName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_bot_version(name, version)
@@ -157,8 +229,23 @@ operation.  This operation requires permissions for the lex:DeleteBotVersion act
   bot. To delete the LATEST version, use the DeleteBot operation.
 
 """
-delete_bot_version(name, version; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)"; aws_config=aws_config)
-delete_bot_version(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)", params; aws_config=aws_config)
+function delete_bot_version(
+    name, version; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE", "/bots/$(name)/versions/$(version)"; aws_config=aws_config
+    )
+end
+function delete_bot_version(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE", "/bots/$(name)/versions/$(version)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_intent(name)
@@ -178,8 +265,16 @@ This operation requires permission for the lex:DeleteIntent action.
 - `name`: The name of the intent. The name is case sensitive.
 
 """
-delete_intent(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)"; aws_config=aws_config)
-delete_intent(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)", params; aws_config=aws_config)
+function delete_intent(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("DELETE", "/intents/$(name)"; aws_config=aws_config)
+end
+function delete_intent(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE", "/intents/$(name)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_intent_version(name, version)
@@ -195,8 +290,23 @@ lex:DeleteIntentVersion action.
   the intent. To delete the LATEST version, use the DeleteIntent operation.
 
 """
-delete_intent_version(name, version; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)"; aws_config=aws_config)
-delete_intent_version(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config)
+function delete_intent_version(
+    name, version; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE", "/intents/$(name)/versions/$(version)"; aws_config=aws_config
+    )
+end
+function delete_intent_version(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_slot_type(name)
@@ -217,8 +327,16 @@ lex:DeleteSlotType action.
 - `name`: The name of the slot type. The name is case sensitive.
 
 """
-delete_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)"; aws_config=aws_config)
-delete_slot_type(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)", params; aws_config=aws_config)
+function delete_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("DELETE", "/slottypes/$(name)"; aws_config=aws_config)
+end
+function delete_slot_type(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE", "/slottypes/$(name)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_slot_type_version(name, version)
@@ -234,8 +352,23 @@ lex:DeleteSlotTypeVersion action.
   of the slot type. To delete the LATEST version, use the DeleteSlotType operation.
 
 """
-delete_slot_type_version(name, version; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)"; aws_config=aws_config)
-delete_slot_type_version(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)", params; aws_config=aws_config)
+function delete_slot_type_version(
+    name, version; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE", "/slottypes/$(name)/version/$(version)"; aws_config=aws_config
+    )
+end
+function delete_slot_type_version(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE", "/slottypes/$(name)/version/$(version)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_utterances(bot_name, user_id)
@@ -257,8 +390,23 @@ permissions for the lex:DeleteUtterances action.
   utterance.
 
 """
-delete_utterances(botName, userId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)"; aws_config=aws_config)
-delete_utterances(botName, userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)", params; aws_config=aws_config)
+function delete_utterances(
+    botName, userId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE", "/bots/$(botName)/utterances/$(userId)"; aws_config=aws_config
+    )
+end
+function delete_utterances(
+    botName,
+    userId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE", "/bots/$(botName)/utterances/$(userId)", params; aws_config=aws_config
+    )
+end
 
 """
     get_bot(name, versionoralias)
@@ -272,8 +420,21 @@ version or alias.   This operation requires permissions for the lex:GetBot actio
 - `versionoralias`: The version or alias of the bot.
 
 """
-get_bot(name, versionoralias; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)"; aws_config=aws_config)
-get_bot(name, versionoralias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)", params; aws_config=aws_config)
+function get_bot(name, versionoralias; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/bots/$(name)/versions/$(versionoralias)"; aws_config=aws_config
+    )
+end
+function get_bot(
+    name,
+    versionoralias,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET", "/bots/$(name)/versions/$(versionoralias)", params; aws_config=aws_config
+    )
+end
 
 """
     get_bot_alias(bot_name, name)
@@ -287,8 +448,21 @@ versioning-aliases. This operation requires permissions for the lex:GetBotAlias 
 - `name`: The name of the bot alias. The name is case sensitive.
 
 """
-get_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)"; aws_config=aws_config)
-get_bot_alias(botName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config)
+function get_bot_alias(botName, name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/bots/$(botName)/aliases/$(name)"; aws_config=aws_config
+    )
+end
+function get_bot_alias(
+    botName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET", "/bots/$(botName)/aliases/$(name)", params; aws_config=aws_config
+    )
+end
 
 """
     get_bot_aliases(bot_name)
@@ -311,8 +485,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch
   the next page of aliases, specify the pagination token in the next request.
 """
-get_bot_aliases(botName; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/"; aws_config=aws_config)
-get_bot_aliases(botName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/", params; aws_config=aws_config)
+function get_bot_aliases(botName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/bots/$(botName)/aliases/"; aws_config=aws_config
+    )
+end
+function get_bot_aliases(
+    botName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/bots/$(botName)/aliases/", params; aws_config=aws_config
+    )
+end
 
 """
     get_bot_channel_association(alias_name, bot_name, name)
@@ -329,8 +513,29 @@ platform. This operation requires permissions for the lex:GetBotChannelAssociati
   sensitive.
 
 """
-get_bot_channel_association(aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)"; aws_config=aws_config)
-get_bot_channel_association(aliasName, botName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", params; aws_config=aws_config)
+function get_bot_channel_association(
+    aliasName, botName, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)";
+        aws_config=aws_config,
+    )
+end
+function get_bot_channel_association(
+    aliasName,
+    botName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_bot_channel_associations(alias_name, bot_name)
@@ -357,8 +562,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to this call is truncated, Amazon Lex returns a pagination token in the response.
   To fetch the next page of associations, specify the pagination token in the next request.
 """
-get_bot_channel_associations(aliasName, botName; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/"; aws_config=aws_config)
-get_bot_channel_associations(aliasName, botName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/", params; aws_config=aws_config)
+function get_bot_channel_associations(
+    aliasName, botName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/bots/$(botName)/aliases/$(aliasName)/channels/"; aws_config=aws_config
+    )
+end
+function get_bot_channel_associations(
+    aliasName,
+    botName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botName)/aliases/$(aliasName)/channels/",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_bot_versions(name)
@@ -382,8 +605,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to this call is truncated, Amazon Lex returns a pagination token in the response.
   To fetch the next page of versions, specify the pagination token in the next request.
 """
-get_bot_versions(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/"; aws_config=aws_config)
-get_bot_versions(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/", params; aws_config=aws_config)
+function get_bot_versions(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/bots/$(name)/versions/"; aws_config=aws_config
+    )
+end
+function get_bot_versions(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/bots/$(name)/versions/", params; aws_config=aws_config
+    )
+end
 
 """
     get_bots()
@@ -405,8 +638,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the
   next page of bots, specify the pagination token in the next request.
 """
-get_bots(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/"; aws_config=aws_config)
-get_bots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/", params; aws_config=aws_config)
+function get_bots(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("GET", "/bots/"; aws_config=aws_config)
+end
+function get_bots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service("GET", "/bots/", params; aws_config=aws_config)
+end
 
 """
     get_builtin_intent(signature)
@@ -420,8 +659,20 @@ lex:GetBuiltinIntent action.
   intent, see Standard Built-in Intents in the Alexa Skills Kit.
 
 """
-get_builtin_intent(signature; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/$(signature)"; aws_config=aws_config)
-get_builtin_intent(signature, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/$(signature)", params; aws_config=aws_config)
+function get_builtin_intent(signature; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/builtins/intents/$(signature)"; aws_config=aws_config
+    )
+end
+function get_builtin_intent(
+    signature,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET", "/builtins/intents/$(signature)", params; aws_config=aws_config
+    )
+end
 
 """
     get_builtin_intents()
@@ -443,8 +694,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   matches both \"xyzabc\" and \"abcxyz.\" To find the signature for an intent, see Standard
   Built-in Intents in the Alexa Skills Kit.
 """
-get_builtin_intents(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/"; aws_config=aws_config)
-get_builtin_intents(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/", params; aws_config=aws_config)
+function get_builtin_intents(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("GET", "/builtins/intents/"; aws_config=aws_config)
+end
+function get_builtin_intents(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/builtins/intents/", params; aws_config=aws_config
+    )
+end
 
 """
     get_builtin_slot_types()
@@ -467,8 +726,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be returned if any part of its signature matches the substring. For example, \"xyz\"
   matches both \"xyzabc\" and \"abcxyz.\"
 """
-get_builtin_slot_types(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/slottypes/"; aws_config=aws_config)
-get_builtin_slot_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/slottypes/", params; aws_config=aws_config)
+function get_builtin_slot_types(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("GET", "/builtins/slottypes/"; aws_config=aws_config)
+end
+function get_builtin_slot_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/builtins/slottypes/", params; aws_config=aws_config
+    )
+end
 
 """
     get_export(export_type, name, resource_type, version)
@@ -483,8 +750,51 @@ Exports the contents of a Amazon Lex resource in a specified format.
 - `version`: The version of the bot to export.
 
 """
-get_export(exportType, name, resourceType, version; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/exports/", Dict{String, Any}("exportType"=>exportType, "name"=>name, "resourceType"=>resourceType, "version"=>version); aws_config=aws_config)
-get_export(exportType, name, resourceType, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/exports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportType"=>exportType, "name"=>name, "resourceType"=>resourceType, "version"=>version), params)); aws_config=aws_config)
+function get_export(
+    exportType,
+    name,
+    resourceType,
+    version;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/exports/",
+        Dict{String,Any}(
+            "exportType" => exportType,
+            "name" => name,
+            "resourceType" => resourceType,
+            "version" => version,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_export(
+    exportType,
+    name,
+    resourceType,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/exports/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "exportType" => exportType,
+                    "name" => name,
+                    "resourceType" => resourceType,
+                    "version" => version,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_import(import_id)
@@ -496,8 +806,18 @@ Gets information about an import job started with the StartImport operation.
 - `import_id`: The identifier of the import job information to return.
 
 """
-get_import(importId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/imports/$(importId)"; aws_config=aws_config)
-get_import(importId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/imports/$(importId)", params; aws_config=aws_config)
+function get_import(importId; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("GET", "/imports/$(importId)"; aws_config=aws_config)
+end
+function get_import(
+    importId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET", "/imports/$(importId)", params; aws_config=aws_config
+    )
+end
 
 """
     get_intent(name, version)
@@ -511,8 +831,21 @@ intent version.   This operation requires permissions to perform the lex:GetInte
 - `version`: The version of the intent.
 
 """
-get_intent(name, version; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/$(version)"; aws_config=aws_config)
-get_intent(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config)
+function get_intent(name, version; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/intents/$(name)/versions/$(version)"; aws_config=aws_config
+    )
+end
+function get_intent(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET", "/intents/$(name)/versions/$(version)", params; aws_config=aws_config
+    )
+end
 
 """
     get_intent_versions(name)
@@ -536,8 +869,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to this call is truncated, Amazon Lex returns a pagination token in the response.
   To fetch the next page of versions, specify the pagination token in the next request.
 """
-get_intent_versions(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/"; aws_config=aws_config)
-get_intent_versions(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/", params; aws_config=aws_config)
+function get_intent_versions(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/intents/$(name)/versions/"; aws_config=aws_config
+    )
+end
+function get_intent_versions(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/intents/$(name)/versions/", params; aws_config=aws_config
+    )
+end
 
 """
     get_intents()
@@ -559,8 +902,72 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to this API call is truncated, Amazon Lex returns a pagination token in the response. To
   fetch the next page of intents, specify the pagination token in the next request.
 """
-get_intents(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/"; aws_config=aws_config)
-get_intents(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/", params; aws_config=aws_config)
+function get_intents(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("GET", "/intents/"; aws_config=aws_config)
+end
+function get_intents(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service("GET", "/intents/", params; aws_config=aws_config)
+end
+
+"""
+    get_migration(migration_id)
+    get_migration(migration_id, params::Dict{String,<:Any})
+
+Provides details about an ongoing or complete migration from an Amazon Lex V1 bot to an
+Amazon Lex V2 bot. Use this operation to view the migration alerts and warnings related to
+the migration.
+
+# Arguments
+- `migration_id`: The unique identifier of the migration to view. The migrationID is
+  returned by the operation.
+
+"""
+function get_migration(migrationId; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/migrations/$(migrationId)"; aws_config=aws_config
+    )
+end
+function get_migration(
+    migrationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET", "/migrations/$(migrationId)", params; aws_config=aws_config
+    )
+end
+
+"""
+    get_migrations()
+    get_migrations(params::Dict{String,<:Any})
+
+Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of migrations to return in the response. The default
+  is 10.
+- `"migrationStatusEquals"`: Filters the list to contain only migrations in the specified
+  state.
+- `"nextToken"`: A pagination token that fetches the next page of migrations. If the
+  response to this operation is truncated, Amazon Lex returns a pagination token in the
+  response. To fetch the next page of migrations, specify the pagination token in the request.
+- `"sortByAttribute"`: The field to sort the list of migrations by. You can sort by the
+  Amazon Lex V1 bot name or the date and time that the migration was started.
+- `"sortByOrder"`: The order so sort the list.
+- `"v1BotNameContains"`: Filters the list to contain only bots whose name contains the
+  specified string. The string is matched anywhere in bot name.
+"""
+function get_migrations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("GET", "/migrations"; aws_config=aws_config)
+end
+function get_migrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service("GET", "/migrations", params; aws_config=aws_config)
+end
 
 """
     get_slot_type(name, version)
@@ -575,8 +982,21 @@ for the lex:GetSlotType action.
 - `version`: The version of the slot type.
 
 """
-get_slot_type(name, version; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)"; aws_config=aws_config)
-get_slot_type(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)", params; aws_config=aws_config)
+function get_slot_type(name, version; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/slottypes/$(name)/versions/$(version)"; aws_config=aws_config
+    )
+end
+function get_slot_type(
+    name,
+    version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET", "/slottypes/$(name)/versions/$(version)", params; aws_config=aws_config
+    )
+end
 
 """
     get_slot_type_versions(name)
@@ -601,8 +1021,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To fetch the next page of versions, specify the pagination token in the next
   request.
 """
-get_slot_type_versions(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/"; aws_config=aws_config)
-get_slot_type_versions(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/", params; aws_config=aws_config)
+function get_slot_type_versions(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "GET", "/slottypes/$(name)/versions/"; aws_config=aws_config
+    )
+end
+function get_slot_type_versions(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "GET", "/slottypes/$(name)/versions/", params; aws_config=aws_config
+    )
+end
 
 """
     get_slot_types()
@@ -625,8 +1055,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To fetch next page of slot types, specify the pagination token in the next
   request.
 """
-get_slot_types(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/"; aws_config=aws_config)
-get_slot_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/", params; aws_config=aws_config)
+function get_slot_types(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service("GET", "/slottypes/"; aws_config=aws_config)
+end
+function get_slot_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service("GET", "/slottypes/", params; aws_config=aws_config)
+end
 
 """
     get_utterances_view(bot_versions, botname, status_type)
@@ -644,9 +1080,10 @@ performance across the two versions.  Utterance statistics are generated once a 
 is available for the last 15 days. You can request information for up to 5 versions of your
 bot in each request. Amazon Lex returns the most frequent utterances received by the bot in
 the last 15 days. The response contains information about a maximum of 100 utterances for
-each version. If you set childDirected field to true when you created your bot, or if you
-opted out of participating in improving Amazon Lex, utterances are not available. This
-operation requires permissions for the lex:GetUtterancesView action.
+each version. If you set childDirected field to true when you created your bot, if you are
+using slot obfuscation with one or more slots, or if you opted out of participating in
+improving Amazon Lex, utterances are not available. This operation requires permissions for
+the lex:GetUtterancesView action.
 
 # Arguments
 - `bot_versions`: An array of bot versions for which utterance information should be
@@ -656,8 +1093,38 @@ operation requires permissions for the lex:GetUtterancesView action.
   return utterances that were not recognized, use Missed.
 
 """
-get_utterances_view(bot_versions, botname, status_type; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation", Dict{String, Any}("bot_versions"=>bot_versions, "status_type"=>status_type); aws_config=aws_config)
-get_utterances_view(bot_versions, botname, status_type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bot_versions"=>bot_versions, "status_type"=>status_type), params)); aws_config=aws_config)
+function get_utterances_view(
+    bot_versions, botname, status_type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botname)/utterances?view=aggregation",
+        Dict{String,Any}("bot_versions" => bot_versions, "status_type" => status_type);
+        aws_config=aws_config,
+    )
+end
+function get_utterances_view(
+    bot_versions,
+    botname,
+    status_type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET",
+        "/bots/$(botname)/utterances?view=aggregation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "bot_versions" => bot_versions, "status_type" => status_type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -670,8 +1137,20 @@ channels can have tags associated with them.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to get a list of tags for.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "GET", "/tags/$(resourceArn)", params; aws_config=aws_config
+    )
+end
 
 """
     put_bot(child_directed, locale, name)
@@ -805,8 +1284,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the bot. For more information, see Voices in Amazon Polly in the Amazon Polly Developer
   Guide.
 """
-put_bot(childDirected, locale, name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST", Dict{String, Any}("childDirected"=>childDirected, "locale"=>locale); aws_config=aws_config)
-put_bot(childDirected, locale, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childDirected"=>childDirected, "locale"=>locale), params)); aws_config=aws_config)
+function put_bot(
+    childDirected, locale, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "PUT",
+        "/bots/$(name)/versions/$LATEST",
+        Dict{String,Any}("childDirected" => childDirected, "locale" => locale);
+        aws_config=aws_config,
+    )
+end
+function put_bot(
+    childDirected,
+    locale,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "PUT",
+        "/bots/$(name)/versions/$LATEST",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("childDirected" => childDirected, "locale" => locale),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_bot_alias(bot_name, bot_version, name)
@@ -836,8 +1343,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an alias, you can't use the PutBotAlias operation to update the tags on a bot alias. To
   update tags, use the TagResource operation.
 """
-put_bot_alias(botName, botVersion, name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)", Dict{String, Any}("botVersion"=>botVersion); aws_config=aws_config)
-put_bot_alias(botName, botVersion, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botVersion"=>botVersion), params)); aws_config=aws_config)
+function put_bot_alias(
+    botName, botVersion, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "PUT",
+        "/bots/$(botName)/aliases/$(name)",
+        Dict{String,Any}("botVersion" => botVersion);
+        aws_config=aws_config,
+    )
+end
+function put_bot_alias(
+    botName,
+    botVersion,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "PUT",
+        "/bots/$(botName)/aliases/$(name)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("botVersion" => botVersion), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_intent(name)
@@ -938,8 +1469,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"slots"`: An array of intent slots. At runtime, Amazon Lex elicits required slot values
   from the user using prompts defined in the slots. For more information, see how-it-works.
 """
-put_intent(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST"; aws_config=aws_config)
-put_intent(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST", params; aws_config=aws_config)
+function put_intent(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "PUT", "/intents/$(name)/versions/$LATEST"; aws_config=aws_config
+    )
+end
+function put_intent(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "PUT", "/intents/$(name)/versions/$LATEST", params; aws_config=aws_config
+    )
+end
 
 """
     put_slot_type(name)
@@ -997,8 +1538,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   null is returned.   If you don't specify the valueSelectionStrategy, the default is
   ORIGINAL_VALUE.
 """
-put_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST"; aws_config=aws_config)
-put_slot_type(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST", params; aws_config=aws_config)
+function put_slot_type(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "PUT", "/slottypes/$(name)/versions/$LATEST"; aws_config=aws_config
+    )
+end
+function put_slot_type(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "PUT", "/slottypes/$(name)/versions/$LATEST", params; aws_config=aws_config
+    )
+end
 
 """
     start_import(merge_strategy, payload, resource_type)
@@ -1026,8 +1577,118 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to add to the imported bot. You can only add tags when you
   import a bot, you can't add tags to an intent or slot type.
 """
-start_import(mergeStrategy, payload, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/imports/", Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType); aws_config=aws_config)
-start_import(mergeStrategy, payload, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/imports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType), params)); aws_config=aws_config)
+function start_import(
+    mergeStrategy, payload, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "POST",
+        "/imports/",
+        Dict{String,Any}(
+            "mergeStrategy" => mergeStrategy,
+            "payload" => payload,
+            "resourceType" => resourceType,
+        );
+        aws_config=aws_config,
+    )
+end
+function start_import(
+    mergeStrategy,
+    payload,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "POST",
+        "/imports/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "mergeStrategy" => mergeStrategy,
+                    "payload" => payload,
+                    "resourceType" => resourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    start_migration(migration_strategy, v1_bot_name, v1_bot_version, v2_bot_name, v2_bot_role)
+    start_migration(migration_strategy, v1_bot_name, v1_bot_version, v2_bot_name, v2_bot_role, params::Dict{String,<:Any})
+
+Starts migrating a bot from Amazon Lex V1 to Amazon Lex V2. Migrate your bot when you want
+to take advantage of the new features of Amazon Lex V2. For more information, see Migrating
+a bot in the Amazon Lex developer guide.
+
+# Arguments
+- `migration_strategy`: The strategy used to conduct the migration.    CREATE_NEW - Creates
+  a new Amazon Lex V2 bot and migrates the Amazon Lex V1 bot to the new bot.
+  UPDATE_EXISTING - Overwrites the existing Amazon Lex V2 bot metadata and the locale being
+  migrated. It doesn't change any other locales in the Amazon Lex V2 bot. If the locale
+  doesn't exist, a new locale is created in the Amazon Lex V2 bot.
+- `v1_bot_name`: The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
+- `v1_bot_version`: The version of the bot to migrate to Amazon Lex V2. You can migrate the
+  LATEST version as well as any numbered version.
+- `v2_bot_name`: The name of the Amazon Lex V2 bot that you are migrating the Amazon Lex V1
+  bot to.    If the Amazon Lex V2 bot doesn't exist, you must use the CREATE_NEW migration
+  strategy.   If the Amazon Lex V2 bot exists, you must use the UPDATE_EXISTING migration
+  strategy to change the contents of the Amazon Lex V2 bot.
+- `v2_bot_role`: The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+
+"""
+function start_migration(
+    migrationStrategy,
+    v1BotName,
+    v1BotVersion,
+    v2BotName,
+    v2BotRole;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "POST",
+        "/migrations",
+        Dict{String,Any}(
+            "migrationStrategy" => migrationStrategy,
+            "v1BotName" => v1BotName,
+            "v1BotVersion" => v1BotVersion,
+            "v2BotName" => v2BotName,
+            "v2BotRole" => v2BotRole,
+        );
+        aws_config=aws_config,
+    )
+end
+function start_migration(
+    migrationStrategy,
+    v1BotName,
+    v1BotVersion,
+    v2BotName,
+    v2BotRole,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "POST",
+        "/migrations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "migrationStrategy" => migrationStrategy,
+                    "v1BotName" => v1BotName,
+                    "v1BotVersion" => v1BotVersion,
+                    "v2BotName" => v2BotName,
+                    "v2BotRole" => v2BotRole,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -1043,8 +1704,27 @@ existing value is replaced with the new value.
   existing value is replaced with the new value.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_model_building_service(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1058,5 +1738,26 @@ Removes tags from a bot, bot alias or bot channel.
   on the resource, it is ignored.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_model_building_service(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end

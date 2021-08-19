@@ -39,8 +39,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to apply to this notification rule. Key names cannot start with
   \"aws\".
 """
-create_notification_rule(DetailType, EventTypeIds, Name, Resource, Targets; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/createNotificationRule", Dict{String, Any}("DetailType"=>DetailType, "EventTypeIds"=>EventTypeIds, "Name"=>Name, "Resource"=>Resource, "Targets"=>Targets, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_notification_rule(DetailType, EventTypeIds, Name, Resource, Targets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/createNotificationRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DetailType"=>DetailType, "EventTypeIds"=>EventTypeIds, "Name"=>Name, "Resource"=>Resource, "Targets"=>Targets, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_notification_rule(
+    DetailType,
+    EventTypeIds,
+    Name,
+    Resource,
+    Targets;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar_notifications(
+        "POST",
+        "/createNotificationRule",
+        Dict{String,Any}(
+            "DetailType" => DetailType,
+            "EventTypeIds" => EventTypeIds,
+            "Name" => Name,
+            "Resource" => Resource,
+            "Targets" => Targets,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_notification_rule(
+    DetailType,
+    EventTypeIds,
+    Name,
+    Resource,
+    Targets,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar_notifications(
+        "POST",
+        "/createNotificationRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DetailType" => DetailType,
+                    "EventTypeIds" => EventTypeIds,
+                    "Name" => Name,
+                    "Resource" => Resource,
+                    "Targets" => Targets,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_notification_rule(arn)
@@ -52,8 +101,24 @@ Deletes a notification rule for a resource.
 - `arn`: The Amazon Resource Name (ARN) of the notification rule you want to delete.
 
 """
-delete_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/deleteNotificationRule", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-delete_notification_rule(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/deleteNotificationRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+function delete_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications(
+        "POST",
+        "/deleteNotificationRule",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+    )
+end
+function delete_notification_rule(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar_notifications(
+        "POST",
+        "/deleteNotificationRule",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_target(target_address)
@@ -70,8 +135,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this SNS topic. The default value is FALSE. If set to TRUE, all associations between that
   target and every notification rule in your AWS account are deleted.
 """
-delete_target(TargetAddress; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/deleteTarget", Dict{String, Any}("TargetAddress"=>TargetAddress); aws_config=aws_config)
-delete_target(TargetAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/deleteTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetAddress"=>TargetAddress), params)); aws_config=aws_config)
+function delete_target(TargetAddress; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications(
+        "POST",
+        "/deleteTarget",
+        Dict{String,Any}("TargetAddress" => TargetAddress);
+        aws_config=aws_config,
+    )
+end
+function delete_target(
+    TargetAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar_notifications(
+        "POST",
+        "/deleteTarget",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TargetAddress" => TargetAddress), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_notification_rule(arn)
@@ -83,8 +168,24 @@ Returns information about a specified notification rule.
 - `arn`: The Amazon Resource Name (ARN) of the notification rule.
 
 """
-describe_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/describeNotificationRule", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-describe_notification_rule(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/describeNotificationRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+function describe_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications(
+        "POST",
+        "/describeNotificationRule",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+    )
+end
+function describe_notification_rule(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar_notifications(
+        "POST",
+        "/describeNotificationRule",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_event_types()
@@ -100,8 +201,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-list_event_types(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listEventTypes"; aws_config=aws_config)
-list_event_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listEventTypes", params; aws_config=aws_config)
+function list_event_types(; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications("POST", "/listEventTypes"; aws_config=aws_config)
+end
+function list_event_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar_notifications("POST", "/listEventTypes", params; aws_config=aws_config)
+end
 
 """
     list_notification_rules()
@@ -120,8 +227,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-list_notification_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listNotificationRules"; aws_config=aws_config)
-list_notification_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listNotificationRules", params; aws_config=aws_config)
+function list_notification_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications("POST", "/listNotificationRules"; aws_config=aws_config)
+end
+function list_notification_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar_notifications(
+        "POST", "/listNotificationRules", params; aws_config=aws_config
+    )
+end
 
 """
     list_tags_for_resource(arn)
@@ -133,8 +248,24 @@ Returns a list of the tags associated with a notification rule.
 - `arn`: The Amazon Resource Name (ARN) for the notification rule.
 
 """
-list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listTagsForResource", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-list_tags_for_resource(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications(
+        "POST",
+        "/listTagsForResource",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar_notifications(
+        "POST",
+        "/listTagsForResource",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_targets()
@@ -153,8 +284,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-list_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listTargets"; aws_config=aws_config)
-list_targets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listTargets", params; aws_config=aws_config)
+function list_targets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications("POST", "/listTargets"; aws_config=aws_config)
+end
+function list_targets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar_notifications("POST", "/listTargets", params; aws_config=aws_config)
+end
 
 """
     subscribe(arn, target)
@@ -173,8 +310,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: An enumeration token that, when provided in a request, returns
   the next batch of the results.
 """
-subscribe(Arn, Target; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/subscribe", Dict{String, Any}("Arn"=>Arn, "Target"=>Target); aws_config=aws_config)
-subscribe(Arn, Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/subscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Target"=>Target), params)); aws_config=aws_config)
+function subscribe(Arn, Target; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications(
+        "POST",
+        "/subscribe",
+        Dict{String,Any}("Arn" => Arn, "Target" => Target);
+        aws_config=aws_config,
+    )
+end
+function subscribe(
+    Arn,
+    Target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar_notifications(
+        "POST",
+        "/subscribe",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Target" => Target), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(arn, tags)
@@ -188,8 +346,29 @@ Associates a set of provided tags with a notification rule.
   \"aws\".
 
 """
-tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/tagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(Arn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/tagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications(
+        "POST",
+        "/tagResource",
+        Dict{String,Any}("Arn" => Arn, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    Arn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar_notifications(
+        "POST",
+        "/tagResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Tags" => Tags), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     unsubscribe(arn, target_address)
@@ -204,8 +383,33 @@ rule are triggered.
 - `target_address`: The ARN of the SNS topic to unsubscribe from the notification rule.
 
 """
-unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/unsubscribe", Dict{String, Any}("Arn"=>Arn, "TargetAddress"=>TargetAddress); aws_config=aws_config)
-unsubscribe(Arn, TargetAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/unsubscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TargetAddress"=>TargetAddress), params)); aws_config=aws_config)
+function unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications(
+        "POST",
+        "/unsubscribe",
+        Dict{String,Any}("Arn" => Arn, "TargetAddress" => TargetAddress);
+        aws_config=aws_config,
+    )
+end
+function unsubscribe(
+    Arn,
+    TargetAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar_notifications(
+        "POST",
+        "/unsubscribe",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Arn" => Arn, "TargetAddress" => TargetAddress),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(arn, tag_keys)
@@ -219,8 +423,29 @@ Removes the association between one or more provided tags and a notification rul
 - `tag_keys`: The key names of the tags to remove.
 
 """
-untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/untagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(Arn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/untagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications(
+        "POST",
+        "/untagResource",
+        Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    Arn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar_notifications(
+        "POST",
+        "/untagResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_notification_rule(arn)
@@ -246,5 +471,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Targets"`: The address and type of the targets to receive notifications from this
   notification rule.
 """
-update_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/updateNotificationRule", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-update_notification_rule(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/updateNotificationRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+function update_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar_notifications(
+        "POST",
+        "/updateNotificationRule",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+    )
+end
+function update_notification_rule(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar_notifications(
+        "POST",
+        "/updateNotificationRule",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+    )
+end

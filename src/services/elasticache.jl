@@ -33,8 +33,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-add_tags_to_resource(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("AddTagsToResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws_config=aws_config)
-add_tags_to_resource(ResourceName, Tag, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config)
+function add_tags_to_resource(
+    ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "AddTagsToResource",
+        Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag);
+        aws_config=aws_config,
+    )
+end
+function add_tags_to_resource(
+    ResourceName,
+    Tag,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "AddTagsToResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     authorize_cache_security_group_ingress(cache_security_group_name, ec2_security_group_name, ec2_security_group_owner_id)
@@ -54,8 +79,45 @@ an ElastiCache cluster in another region.
   valid AWS account number for this parameter.
 
 """
-authorize_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("AuthorizeCacheSecurityGroupIngress", Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId); aws_config=aws_config)
-authorize_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("AuthorizeCacheSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId), params)); aws_config=aws_config)
+function authorize_cache_security_group_ingress(
+    CacheSecurityGroupName,
+    EC2SecurityGroupName,
+    EC2SecurityGroupOwnerId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "AuthorizeCacheSecurityGroupIngress",
+        Dict{String,Any}(
+            "CacheSecurityGroupName" => CacheSecurityGroupName,
+            "EC2SecurityGroupName" => EC2SecurityGroupName,
+            "EC2SecurityGroupOwnerId" => EC2SecurityGroupOwnerId,
+        );
+        aws_config=aws_config,
+    )
+end
+function authorize_cache_security_group_ingress(
+    CacheSecurityGroupName,
+    EC2SecurityGroupName,
+    EC2SecurityGroupOwnerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "AuthorizeCacheSecurityGroupIngress",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CacheSecurityGroupName" => CacheSecurityGroupName,
+                    "EC2SecurityGroupName" => EC2SecurityGroupName,
+                    "EC2SecurityGroupOwnerId" => EC2SecurityGroupOwnerId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_apply_update_action(service_update_name)
@@ -72,8 +134,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CacheClusterIds"`: The cache cluster IDs
 - `"ReplicationGroupIds"`: The replication group IDs
 """
-batch_apply_update_action(ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("BatchApplyUpdateAction", Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName); aws_config=aws_config)
-batch_apply_update_action(ServiceUpdateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("BatchApplyUpdateAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName), params)); aws_config=aws_config)
+function batch_apply_update_action(
+    ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "BatchApplyUpdateAction",
+        Dict{String,Any}("ServiceUpdateName" => ServiceUpdateName);
+        aws_config=aws_config,
+    )
+end
+function batch_apply_update_action(
+    ServiceUpdateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "BatchApplyUpdateAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ServiceUpdateName" => ServiceUpdateName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_stop_update_action(service_update_name)
@@ -90,8 +174,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CacheClusterIds"`: The cache cluster IDs
 - `"ReplicationGroupIds"`: The replication group IDs
 """
-batch_stop_update_action(ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("BatchStopUpdateAction", Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName); aws_config=aws_config)
-batch_stop_update_action(ServiceUpdateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("BatchStopUpdateAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName), params)); aws_config=aws_config)
+function batch_stop_update_action(
+    ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "BatchStopUpdateAction",
+        Dict{String,Any}("ServiceUpdateName" => ServiceUpdateName);
+        aws_config=aws_config,
+    )
+end
+function batch_stop_update_action(
+    ServiceUpdateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "BatchStopUpdateAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ServiceUpdateName" => ServiceUpdateName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     complete_migration(replication_group_id)
@@ -108,8 +214,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recommended to use this option only to abort the migration and not recommended when
   application wants to continue migration to ElastiCache.
 """
-complete_migration(ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CompleteMigration", Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
-complete_migration(ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CompleteMigration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
+function complete_migration(
+    ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "CompleteMigration",
+        Dict{String,Any}("ReplicationGroupId" => ReplicationGroupId);
+        aws_config=aws_config,
+    )
+end
+function complete_migration(
+    ReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CompleteMigration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationGroupId" => ReplicationGroupId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     copy_snapshot(source_snapshot_name, target_snapshot_name)
@@ -162,8 +290,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon
   ElastiCache User Guide.
 """
-copy_snapshot(SourceSnapshotName, TargetSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CopySnapshot", Dict{String, Any}("SourceSnapshotName"=>SourceSnapshotName, "TargetSnapshotName"=>TargetSnapshotName); aws_config=aws_config)
-copy_snapshot(SourceSnapshotName, TargetSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceSnapshotName"=>SourceSnapshotName, "TargetSnapshotName"=>TargetSnapshotName), params)); aws_config=aws_config)
+function copy_snapshot(
+    SourceSnapshotName,
+    TargetSnapshotName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CopySnapshot",
+        Dict{String,Any}(
+            "SourceSnapshotName" => SourceSnapshotName,
+            "TargetSnapshotName" => TargetSnapshotName,
+        );
+        aws_config=aws_config,
+    )
+end
+function copy_snapshot(
+    SourceSnapshotName,
+    TargetSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CopySnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SourceSnapshotName" => SourceSnapshotName,
+                    "TargetSnapshotName" => TargetSnapshotName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cache_cluster(cache_cluster_id)
@@ -301,8 +462,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is only valid if the Engine parameter is redis.
 - `"Tags"`: A list of tags to be added to this resource.
 """
-create_cache_cluster(CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheCluster", Dict{String, Any}("CacheClusterId"=>CacheClusterId); aws_config=aws_config)
-create_cache_cluster(CacheClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), params)); aws_config=aws_config)
+function create_cache_cluster(
+    CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "CreateCacheCluster",
+        Dict{String,Any}("CacheClusterId" => CacheClusterId);
+        aws_config=aws_config,
+    )
+end
+function create_cache_cluster(
+    CacheClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateCacheCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CacheClusterId" => CacheClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cache_parameter_group(cache_parameter_group_family, cache_parameter_group_name, description)
@@ -329,8 +510,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-create_cache_parameter_group(CacheParameterGroupFamily, CacheParameterGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheParameterGroup", Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily, "CacheParameterGroupName"=>CacheParameterGroupName, "Description"=>Description); aws_config=aws_config)
-create_cache_parameter_group(CacheParameterGroupFamily, CacheParameterGroupName, Description, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily, "CacheParameterGroupName"=>CacheParameterGroupName, "Description"=>Description), params)); aws_config=aws_config)
+function create_cache_parameter_group(
+    CacheParameterGroupFamily,
+    CacheParameterGroupName,
+    Description;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateCacheParameterGroup",
+        Dict{String,Any}(
+            "CacheParameterGroupFamily" => CacheParameterGroupFamily,
+            "CacheParameterGroupName" => CacheParameterGroupName,
+            "Description" => Description,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cache_parameter_group(
+    CacheParameterGroupFamily,
+    CacheParameterGroupName,
+    Description,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateCacheParameterGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CacheParameterGroupFamily" => CacheParameterGroupFamily,
+                    "CacheParameterGroupName" => CacheParameterGroupName,
+                    "Description" => Description,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cache_security_group(cache_security_group_name, description)
@@ -352,8 +570,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-create_cache_security_group(CacheSecurityGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheSecurityGroup", Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "Description"=>Description); aws_config=aws_config)
-create_cache_security_group(CacheSecurityGroupName, Description, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "Description"=>Description), params)); aws_config=aws_config)
+function create_cache_security_group(
+    CacheSecurityGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "CreateCacheSecurityGroup",
+        Dict{String,Any}(
+            "CacheSecurityGroupName" => CacheSecurityGroupName, "Description" => Description
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cache_security_group(
+    CacheSecurityGroupName,
+    Description,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateCacheSecurityGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CacheSecurityGroupName" => CacheSecurityGroupName,
+                    "Description" => Description,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cache_subnet_group(cache_subnet_group_description, cache_subnet_group_name, subnet_identifier)
@@ -375,8 +623,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-create_cache_subnet_group(CacheSubnetGroupDescription, CacheSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheSubnetGroup", Dict{String, Any}("CacheSubnetGroupDescription"=>CacheSubnetGroupDescription, "CacheSubnetGroupName"=>CacheSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
-create_cache_subnet_group(CacheSubnetGroupDescription, CacheSubnetGroupName, SubnetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupDescription"=>CacheSubnetGroupDescription, "CacheSubnetGroupName"=>CacheSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
+function create_cache_subnet_group(
+    CacheSubnetGroupDescription,
+    CacheSubnetGroupName,
+    SubnetIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateCacheSubnetGroup",
+        Dict{String,Any}(
+            "CacheSubnetGroupDescription" => CacheSubnetGroupDescription,
+            "CacheSubnetGroupName" => CacheSubnetGroupName,
+            "SubnetIdentifier" => SubnetIdentifier,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cache_subnet_group(
+    CacheSubnetGroupDescription,
+    CacheSubnetGroupName,
+    SubnetIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateCacheSubnetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CacheSubnetGroupDescription" => CacheSubnetGroupDescription,
+                    "CacheSubnetGroupName" => CacheSubnetGroupName,
+                    "SubnetIdentifier" => SubnetIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_global_replication_group(global_replication_group_id_suffix, primary_replication_group_id)
@@ -405,8 +690,41 @@ and will replicate updates to the secondary cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"GlobalReplicationGroupDescription"`: Provides details of the Global datastore
 """
-create_global_replication_group(GlobalReplicationGroupIdSuffix, PrimaryReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupIdSuffix"=>GlobalReplicationGroupIdSuffix, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId); aws_config=aws_config)
-create_global_replication_group(GlobalReplicationGroupIdSuffix, PrimaryReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupIdSuffix"=>GlobalReplicationGroupIdSuffix, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId), params)); aws_config=aws_config)
+function create_global_replication_group(
+    GlobalReplicationGroupIdSuffix,
+    PrimaryReplicationGroupId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateGlobalReplicationGroup",
+        Dict{String,Any}(
+            "GlobalReplicationGroupIdSuffix" => GlobalReplicationGroupIdSuffix,
+            "PrimaryReplicationGroupId" => PrimaryReplicationGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_global_replication_group(
+    GlobalReplicationGroupIdSuffix,
+    PrimaryReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateGlobalReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalReplicationGroupIdSuffix" => GlobalReplicationGroupIdSuffix,
+                    "PrimaryReplicationGroupId" => PrimaryReplicationGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_replication_group(replication_group_description, replication_group_id)
@@ -599,8 +917,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
 - `"UserGroupIds"`: The user group to associate with the replication group.
 """
-create_replication_group(ReplicationGroupDescription, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateReplicationGroup", Dict{String, Any}("ReplicationGroupDescription"=>ReplicationGroupDescription, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
-create_replication_group(ReplicationGroupDescription, ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupDescription"=>ReplicationGroupDescription, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
+function create_replication_group(
+    ReplicationGroupDescription,
+    ReplicationGroupId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateReplicationGroup",
+        Dict{String,Any}(
+            "ReplicationGroupDescription" => ReplicationGroupDescription,
+            "ReplicationGroupId" => ReplicationGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_replication_group(
+    ReplicationGroupDescription,
+    ReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationGroupDescription" => ReplicationGroupDescription,
+                    "ReplicationGroupId" => ReplicationGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_snapshot(snapshot_name)
@@ -622,8 +973,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-create_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateSnapshot", Dict{String, Any}("SnapshotName"=>SnapshotName); aws_config=aws_config)
-create_snapshot(SnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotName"=>SnapshotName), params)); aws_config=aws_config)
+function create_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache(
+        "CreateSnapshot",
+        Dict{String,Any}("SnapshotName" => SnapshotName);
+        aws_config=aws_config,
+    )
+end
+function create_snapshot(
+    SnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateSnapshot",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotName" => SnapshotName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_user(access_string, engine, user_id, user_name)
@@ -646,8 +1015,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-create_user(AccessString, Engine, UserId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateUser", Dict{String, Any}("AccessString"=>AccessString, "Engine"=>Engine, "UserId"=>UserId, "UserName"=>UserName); aws_config=aws_config)
-create_user(AccessString, Engine, UserId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessString"=>AccessString, "Engine"=>Engine, "UserId"=>UserId, "UserName"=>UserName), params)); aws_config=aws_config)
+function create_user(
+    AccessString,
+    Engine,
+    UserId,
+    UserName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateUser",
+        Dict{String,Any}(
+            "AccessString" => AccessString,
+            "Engine" => Engine,
+            "UserId" => UserId,
+            "UserName" => UserName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_user(
+    AccessString,
+    Engine,
+    UserId,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccessString" => AccessString,
+                    "Engine" => Engine,
+                    "UserId" => UserId,
+                    "UserName" => UserName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_user_group(engine, user_group_id)
@@ -666,8 +1076,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key must be accompanied by a tag value, although null is accepted.
 - `"UserIds"`: The list of user IDs that belong to the user group.
 """
-create_user_group(Engine, UserGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateUserGroup", Dict{String, Any}("Engine"=>Engine, "UserGroupId"=>UserGroupId); aws_config=aws_config)
-create_user_group(Engine, UserGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateUserGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "UserGroupId"=>UserGroupId), params)); aws_config=aws_config)
+function create_user_group(
+    Engine, UserGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "CreateUserGroup",
+        Dict{String,Any}("Engine" => Engine, "UserGroupId" => UserGroupId);
+        aws_config=aws_config,
+    )
+end
+function create_user_group(
+    Engine,
+    UserGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "CreateUserGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Engine" => Engine, "UserGroupId" => UserGroupId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     decrease_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count)
@@ -695,8 +1130,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ElastiCache for Redis will attempt to retain all node groups listed by
   GlobalNodeGroupsToRetain from the cluster.
 """
-decrease_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DecreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount); aws_config=aws_config)
-decrease_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DecreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount), params)); aws_config=aws_config)
+function decrease_node_groups_in_global_replication_group(
+    ApplyImmediately,
+    GlobalReplicationGroupId,
+    NodeGroupCount;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DecreaseNodeGroupsInGlobalReplicationGroup",
+        Dict{String,Any}(
+            "ApplyImmediately" => ApplyImmediately,
+            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+            "NodeGroupCount" => NodeGroupCount,
+        );
+        aws_config=aws_config,
+    )
+end
+function decrease_node_groups_in_global_replication_group(
+    ApplyImmediately,
+    GlobalReplicationGroupId,
+    NodeGroupCount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DecreaseNodeGroupsInGlobalReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplyImmediately" => ApplyImmediately,
+                    "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+                    "NodeGroupCount" => NodeGroupCount,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     decrease_replica_count(apply_immediately, replication_group_id)
@@ -729,8 +1201,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplicasToRemove"`: A list of the node ids to remove from the replication group or node
   group (shard).
 """
-decrease_replica_count(ApplyImmediately, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DecreaseReplicaCount", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
-decrease_replica_count(ApplyImmediately, ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DecreaseReplicaCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
+function decrease_replica_count(
+    ApplyImmediately, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "DecreaseReplicaCount",
+        Dict{String,Any}(
+            "ApplyImmediately" => ApplyImmediately,
+            "ReplicationGroupId" => ReplicationGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function decrease_replica_count(
+    ApplyImmediately,
+    ReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DecreaseReplicaCount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplyImmediately" => ApplyImmediately,
+                    "ReplicationGroupId" => ReplicationGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cache_cluster(cache_cluster_id)
@@ -755,8 +1258,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then
   deletes the cluster immediately afterward.
 """
-delete_cache_cluster(CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteCacheCluster", Dict{String, Any}("CacheClusterId"=>CacheClusterId); aws_config=aws_config)
-delete_cache_cluster(CacheClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), params)); aws_config=aws_config)
+function delete_cache_cluster(
+    CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "DeleteCacheCluster",
+        Dict{String,Any}("CacheClusterId" => CacheClusterId);
+        aws_config=aws_config,
+    )
+end
+function delete_cache_cluster(
+    CacheClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DeleteCacheCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CacheClusterId" => CacheClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cache_parameter_group(cache_parameter_group_name)
@@ -771,8 +1294,32 @@ groups in your account.
   specified cache security group must not be associated with any clusters.
 
 """
-delete_cache_parameter_group(CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteCacheParameterGroup", Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName); aws_config=aws_config)
-delete_cache_parameter_group(CacheParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName), params)); aws_config=aws_config)
+function delete_cache_parameter_group(
+    CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "DeleteCacheParameterGroup",
+        Dict{String,Any}("CacheParameterGroupName" => CacheParameterGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_cache_parameter_group(
+    CacheParameterGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DeleteCacheParameterGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CacheParameterGroupName" => CacheParameterGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cache_security_group(cache_security_group_name)
@@ -786,8 +1333,32 @@ associated with any clusters.
   delete the default security group.
 
 """
-delete_cache_security_group(CacheSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteCacheSecurityGroup", Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName); aws_config=aws_config)
-delete_cache_security_group(CacheSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteCacheSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName), params)); aws_config=aws_config)
+function delete_cache_security_group(
+    CacheSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "DeleteCacheSecurityGroup",
+        Dict{String,Any}("CacheSecurityGroupName" => CacheSecurityGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_cache_security_group(
+    CacheSecurityGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DeleteCacheSecurityGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CacheSecurityGroupName" => CacheSecurityGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cache_subnet_group(cache_subnet_group_name)
@@ -801,8 +1372,32 @@ is associated with any clusters.
   Must contain no more than 255 alphanumeric characters or hyphens.
 
 """
-delete_cache_subnet_group(CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteCacheSubnetGroup", Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName); aws_config=aws_config)
-delete_cache_subnet_group(CacheSubnetGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName), params)); aws_config=aws_config)
+function delete_cache_subnet_group(
+    CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "DeleteCacheSubnetGroup",
+        Dict{String,Any}("CacheSubnetGroupName" => CacheSubnetGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_cache_subnet_group(
+    CacheSubnetGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DeleteCacheSubnetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CacheSubnetGroupName" => CacheSubnetGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_global_replication_group(global_replication_group_id, retain_primary_replication_group)
@@ -826,8 +1421,41 @@ this operation.
   standalone replication group.
 
 """
-delete_global_replication_group(GlobalReplicationGroupId, RetainPrimaryReplicationGroup; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "RetainPrimaryReplicationGroup"=>RetainPrimaryReplicationGroup); aws_config=aws_config)
-delete_global_replication_group(GlobalReplicationGroupId, RetainPrimaryReplicationGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "RetainPrimaryReplicationGroup"=>RetainPrimaryReplicationGroup), params)); aws_config=aws_config)
+function delete_global_replication_group(
+    GlobalReplicationGroupId,
+    RetainPrimaryReplicationGroup;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DeleteGlobalReplicationGroup",
+        Dict{String,Any}(
+            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+            "RetainPrimaryReplicationGroup" => RetainPrimaryReplicationGroup,
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_global_replication_group(
+    GlobalReplicationGroupId,
+    RetainPrimaryReplicationGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DeleteGlobalReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+                    "RetainPrimaryReplicationGroup" => RetainPrimaryReplicationGroup,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_replication_group(replication_group_id)
@@ -854,8 +1482,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetainPrimaryCluster"`: If set to true, all of the read replicas are deleted, but the
   primary node is retained.
 """
-delete_replication_group(ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteReplicationGroup", Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
-delete_replication_group(ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
+function delete_replication_group(
+    ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "DeleteReplicationGroup",
+        Dict{String,Any}("ReplicationGroupId" => ReplicationGroupId);
+        aws_config=aws_config,
+    )
+end
+function delete_replication_group(
+    ReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DeleteReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationGroupId" => ReplicationGroupId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_snapshot(snapshot_name)
@@ -869,8 +1519,26 @@ operation.  This operation is valid for Redis only.
 - `snapshot_name`: The name of the snapshot to be deleted.
 
 """
-delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteSnapshot", Dict{String, Any}("SnapshotName"=>SnapshotName); aws_config=aws_config)
-delete_snapshot(SnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotName"=>SnapshotName), params)); aws_config=aws_config)
+function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache(
+        "DeleteSnapshot",
+        Dict{String,Any}("SnapshotName" => SnapshotName);
+        aws_config=aws_config,
+    )
+end
+function delete_snapshot(
+    SnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DeleteSnapshot",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SnapshotName" => SnapshotName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_user(user_id)
@@ -884,8 +1552,20 @@ Using Role Based Access Control (RBAC).
 - `user_id`: The ID of the user.
 
 """
-delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteUser", Dict{String, Any}("UserId"=>UserId); aws_config=aws_config)
-delete_user(UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId), params)); aws_config=aws_config)
+function delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache(
+        "DeleteUser", Dict{String,Any}("UserId" => UserId); aws_config=aws_config
+    )
+end
+function delete_user(
+    UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "DeleteUser",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("UserId" => UserId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_user_group(user_group_id)
@@ -899,8 +1579,26 @@ see Using Role Based Access Control (RBAC).
 - `user_group_id`: The ID of the user group.
 
 """
-delete_user_group(UserGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteUserGroup", Dict{String, Any}("UserGroupId"=>UserGroupId); aws_config=aws_config)
-delete_user_group(UserGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DeleteUserGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserGroupId"=>UserGroupId), params)); aws_config=aws_config)
+function delete_user_group(UserGroupId; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache(
+        "DeleteUserGroup",
+        Dict{String,Any}("UserGroupId" => UserGroupId);
+        aws_config=aws_config,
+    )
+end
+function delete_user_group(
+    UserGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DeleteUserGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("UserGroupId" => UserGroupId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_cache_clusters()
@@ -936,8 +1634,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShowCacheNodeInfo"`: An optional flag that can be included in the DescribeCacheCluster
   request to retrieve information about the individual cache nodes.
 """
-describe_cache_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheClusters"; aws_config=aws_config)
-describe_cache_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheClusters", params; aws_config=aws_config)
+function describe_cache_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeCacheClusters"; aws_config=aws_config)
+end
+function describe_cache_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeCacheClusters", params; aws_config=aws_config)
+end
 
 """
     describe_cache_engine_versions()
@@ -963,8 +1667,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxRecords value, a marker is included in the response so that the
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-describe_cache_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheEngineVersions"; aws_config=aws_config)
-describe_cache_engine_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheEngineVersions", params; aws_config=aws_config)
+function describe_cache_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeCacheEngineVersions"; aws_config=aws_config)
+end
+function describe_cache_engine_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeCacheEngineVersions", params; aws_config=aws_config)
+end
 
 """
     describe_cache_parameter_groups()
@@ -984,8 +1694,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxRecords value, a marker is included in the response so that the
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-describe_cache_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheParameterGroups"; aws_config=aws_config)
-describe_cache_parameter_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheParameterGroups", params; aws_config=aws_config)
+function describe_cache_parameter_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeCacheParameterGroups"; aws_config=aws_config)
+end
+function describe_cache_parameter_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeCacheParameterGroups", params; aws_config=aws_config)
+end
 
 """
     describe_cache_parameters(cache_parameter_group_name)
@@ -1007,8 +1725,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 - `"Source"`: The parameter types to return. Valid values: user | system | engine-default
 """
-describe_cache_parameters(CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheParameters", Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName); aws_config=aws_config)
-describe_cache_parameters(CacheParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName), params)); aws_config=aws_config)
+function describe_cache_parameters(
+    CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "DescribeCacheParameters",
+        Dict{String,Any}("CacheParameterGroupName" => CacheParameterGroupName);
+        aws_config=aws_config,
+    )
+end
+function describe_cache_parameters(
+    CacheParameterGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DescribeCacheParameters",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CacheParameterGroupName" => CacheParameterGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_cache_security_groups()
@@ -1028,8 +1770,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxRecords value, a marker is included in the response so that the
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-describe_cache_security_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheSecurityGroups"; aws_config=aws_config)
-describe_cache_security_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheSecurityGroups", params; aws_config=aws_config)
+function describe_cache_security_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeCacheSecurityGroups"; aws_config=aws_config)
+end
+function describe_cache_security_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeCacheSecurityGroups", params; aws_config=aws_config)
+end
 
 """
     describe_cache_subnet_groups()
@@ -1049,8 +1797,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxRecords value, a marker is included in the response so that the
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-describe_cache_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheSubnetGroups"; aws_config=aws_config)
-describe_cache_subnet_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeCacheSubnetGroups", params; aws_config=aws_config)
+function describe_cache_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeCacheSubnetGroups"; aws_config=aws_config)
+end
+function describe_cache_subnet_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeCacheSubnetGroups", params; aws_config=aws_config)
+end
 
 """
     describe_engine_default_parameters(cache_parameter_group_family)
@@ -1072,8 +1826,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxRecords value, a marker is included in the response so that the
   remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-describe_engine_default_parameters(CacheParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeEngineDefaultParameters", Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily); aws_config=aws_config)
-describe_engine_default_parameters(CacheParameterGroupFamily, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeEngineDefaultParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily), params)); aws_config=aws_config)
+function describe_engine_default_parameters(
+    CacheParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "DescribeEngineDefaultParameters",
+        Dict{String,Any}("CacheParameterGroupFamily" => CacheParameterGroupFamily);
+        aws_config=aws_config,
+    )
+end
+function describe_engine_default_parameters(
+    CacheParameterGroupFamily,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DescribeEngineDefaultParameters",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CacheParameterGroupFamily" => CacheParameterGroupFamily),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_events()
@@ -1103,8 +1881,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
 """
-describe_events(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeEvents"; aws_config=aws_config)
-describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeEvents", params; aws_config=aws_config)
+function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeEvents"; aws_config=aws_config)
+end
+function describe_events(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeEvents", params; aws_config=aws_config)
+end
 
 """
     describe_global_replication_groups()
@@ -1124,8 +1908,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results can be retrieved.
 - `"ShowMemberInfo"`: Returns the list of members that comprise the Global datastore.
 """
-describe_global_replication_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeGlobalReplicationGroups"; aws_config=aws_config)
-describe_global_replication_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeGlobalReplicationGroups", params; aws_config=aws_config)
+function describe_global_replication_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeGlobalReplicationGroups"; aws_config=aws_config)
+end
+function describe_global_replication_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeGlobalReplicationGroups", params; aws_config=aws_config)
+end
 
 """
     describe_replication_groups()
@@ -1147,8 +1939,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is not case sensitive. If you do not specify this parameter, information about
   all replication groups is returned.
 """
-describe_replication_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeReplicationGroups"; aws_config=aws_config)
-describe_replication_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeReplicationGroups", params; aws_config=aws_config)
+function describe_replication_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeReplicationGroups"; aws_config=aws_config)
+end
+function describe_replication_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeReplicationGroups", params; aws_config=aws_config)
+end
 
 """
     describe_reserved_cache_nodes()
@@ -1209,8 +2007,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReservedCacheNodesOfferingId"`: The offering identifier filter value. Use this
   parameter to show only purchased reservations matching the specified offering identifier.
 """
-describe_reserved_cache_nodes(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeReservedCacheNodes"; aws_config=aws_config)
-describe_reserved_cache_nodes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeReservedCacheNodes", params; aws_config=aws_config)
+function describe_reserved_cache_nodes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeReservedCacheNodes"; aws_config=aws_config)
+end
+function describe_reserved_cache_nodes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeReservedCacheNodes", params; aws_config=aws_config)
+end
 
 """
     describe_reserved_cache_nodes_offerings()
@@ -1268,8 +2072,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to show only the available offering that matches the specified reservation
   identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
 """
-describe_reserved_cache_nodes_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeReservedCacheNodesOfferings"; aws_config=aws_config)
-describe_reserved_cache_nodes_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeReservedCacheNodesOfferings", params; aws_config=aws_config)
+function describe_reserved_cache_nodes_offerings(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeReservedCacheNodesOfferings"; aws_config=aws_config)
+end
+function describe_reserved_cache_nodes_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeReservedCacheNodesOfferings", params; aws_config=aws_config)
+end
 
 """
     describe_service_updates()
@@ -1286,8 +2098,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceUpdateName"`: The unique ID of the service update
 - `"ServiceUpdateStatus"`: The status of the service update
 """
-describe_service_updates(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeServiceUpdates"; aws_config=aws_config)
-describe_service_updates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeServiceUpdates", params; aws_config=aws_config)
+function describe_service_updates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeServiceUpdates"; aws_config=aws_config)
+end
+function describe_service_updates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeServiceUpdates", params; aws_config=aws_config)
+end
 
 """
     describe_snapshots()
@@ -1318,8 +2136,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created by ElastiCache. If set to user the output shows snapshots that were manually
   created. If omitted, the output shows both automatically and manually created snapshots.
 """
-describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeSnapshots"; aws_config=aws_config)
-describe_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeSnapshots", params; aws_config=aws_config)
+function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeSnapshots"; aws_config=aws_config)
+end
+function describe_snapshots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeSnapshots", params; aws_config=aws_config)
+end
 
 """
     describe_update_actions()
@@ -1344,8 +2168,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response
 - `"UpdateActionStatus"`: The status of the update action.
 """
-describe_update_actions(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeUpdateActions"; aws_config=aws_config)
-describe_update_actions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeUpdateActions", params; aws_config=aws_config)
+function describe_update_actions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeUpdateActions"; aws_config=aws_config)
+end
+function describe_update_actions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeUpdateActions", params; aws_config=aws_config)
+end
 
 """
     describe_user_groups()
@@ -1363,8 +2193,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results can be retrieved.
 - `"UserGroupId"`: The ID of the user group.
 """
-describe_user_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeUserGroups"; aws_config=aws_config)
-describe_user_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeUserGroups", params; aws_config=aws_config)
+function describe_user_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeUserGroups"; aws_config=aws_config)
+end
+function describe_user_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeUserGroups", params; aws_config=aws_config)
+end
 
 """
     describe_users()
@@ -1384,8 +2220,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results can be retrieved.
 - `"UserId"`: The ID of the user.
 """
-describe_users(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeUsers"; aws_config=aws_config)
-describe_users(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeUsers", params; aws_config=aws_config)
+function describe_users(; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache("DescribeUsers"; aws_config=aws_config)
+end
+function describe_users(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("DescribeUsers", params; aws_config=aws_config)
+end
 
 """
     disassociate_global_replication_group(global_replication_group_id, replication_group_id, replication_group_region)
@@ -1403,8 +2245,45 @@ as a standalone cluster in that AWS region.
   the Global datastore
 
 """
-disassociate_global_replication_group(GlobalReplicationGroupId, ReplicationGroupId, ReplicationGroupRegion; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DisassociateGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "ReplicationGroupId"=>ReplicationGroupId, "ReplicationGroupRegion"=>ReplicationGroupRegion); aws_config=aws_config)
-disassociate_global_replication_group(GlobalReplicationGroupId, ReplicationGroupId, ReplicationGroupRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DisassociateGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "ReplicationGroupId"=>ReplicationGroupId, "ReplicationGroupRegion"=>ReplicationGroupRegion), params)); aws_config=aws_config)
+function disassociate_global_replication_group(
+    GlobalReplicationGroupId,
+    ReplicationGroupId,
+    ReplicationGroupRegion;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DisassociateGlobalReplicationGroup",
+        Dict{String,Any}(
+            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+            "ReplicationGroupId" => ReplicationGroupId,
+            "ReplicationGroupRegion" => ReplicationGroupRegion,
+        );
+        aws_config=aws_config,
+    )
+end
+function disassociate_global_replication_group(
+    GlobalReplicationGroupId,
+    ReplicationGroupId,
+    ReplicationGroupRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "DisassociateGlobalReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+                    "ReplicationGroupId" => ReplicationGroupId,
+                    "ReplicationGroupRegion" => ReplicationGroupRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     failover_global_replication_group(global_replication_group_id, primary_region, primary_replication_group_id)
@@ -1419,8 +2298,45 @@ region will become primary, and all other clusters will become secondary.
 - `primary_replication_group_id`: The name of the primary replication group
 
 """
-failover_global_replication_group(GlobalReplicationGroupId, PrimaryRegion, PrimaryReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("FailoverGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "PrimaryRegion"=>PrimaryRegion, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId); aws_config=aws_config)
-failover_global_replication_group(GlobalReplicationGroupId, PrimaryRegion, PrimaryReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("FailoverGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "PrimaryRegion"=>PrimaryRegion, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId), params)); aws_config=aws_config)
+function failover_global_replication_group(
+    GlobalReplicationGroupId,
+    PrimaryRegion,
+    PrimaryReplicationGroupId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "FailoverGlobalReplicationGroup",
+        Dict{String,Any}(
+            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+            "PrimaryRegion" => PrimaryRegion,
+            "PrimaryReplicationGroupId" => PrimaryReplicationGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function failover_global_replication_group(
+    GlobalReplicationGroupId,
+    PrimaryRegion,
+    PrimaryReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "FailoverGlobalReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+                    "PrimaryRegion" => PrimaryRegion,
+                    "PrimaryReplicationGroupId" => PrimaryReplicationGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     increase_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count)
@@ -1439,8 +2355,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RegionalConfigurations"`: Describes the replication group IDs, the AWS regions where
   they are stored and the shard configuration for each that comprise the Global datastore
 """
-increase_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("IncreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount); aws_config=aws_config)
-increase_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("IncreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount), params)); aws_config=aws_config)
+function increase_node_groups_in_global_replication_group(
+    ApplyImmediately,
+    GlobalReplicationGroupId,
+    NodeGroupCount;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "IncreaseNodeGroupsInGlobalReplicationGroup",
+        Dict{String,Any}(
+            "ApplyImmediately" => ApplyImmediately,
+            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+            "NodeGroupCount" => NodeGroupCount,
+        );
+        aws_config=aws_config,
+    )
+end
+function increase_node_groups_in_global_replication_group(
+    ApplyImmediately,
+    GlobalReplicationGroupId,
+    NodeGroupCount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "IncreaseNodeGroupsInGlobalReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplyImmediately" => ApplyImmediately,
+                    "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+                    "NodeGroupCount" => NodeGroupCount,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     increase_replica_count(apply_immediately, replication_group_id)
@@ -1467,8 +2420,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has
   three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
 """
-increase_replica_count(ApplyImmediately, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("IncreaseReplicaCount", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
-increase_replica_count(ApplyImmediately, ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("IncreaseReplicaCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
+function increase_replica_count(
+    ApplyImmediately, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "IncreaseReplicaCount",
+        Dict{String,Any}(
+            "ApplyImmediately" => ApplyImmediately,
+            "ReplicationGroupId" => ReplicationGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function increase_replica_count(
+    ApplyImmediately,
+    ReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "IncreaseReplicaCount",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplyImmediately" => ApplyImmediately,
+                    "ReplicationGroupId" => ReplicationGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_allowed_node_type_modifications()
@@ -1491,8 +2475,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scale up to.  You must provide a value for either the CacheClusterId or the
   ReplicationGroupId.
 """
-list_allowed_node_type_modifications(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ListAllowedNodeTypeModifications"; aws_config=aws_config)
-list_allowed_node_type_modifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ListAllowedNodeTypeModifications", params; aws_config=aws_config)
+function list_allowed_node_type_modifications(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("ListAllowedNodeTypeModifications"; aws_config=aws_config)
+end
+function list_allowed_node_type_modifications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache("ListAllowedNodeTypeModifications", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_name)
@@ -1512,8 +2504,28 @@ available state, ListTagsForResource returns an error.
   ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
 
 """
-list_tags_for_resource(ResourceName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ListTagsForResource", Dict{String, Any}("ResourceName"=>ResourceName); aws_config=aws_config)
-list_tags_for_resource(ResourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceName" => ResourceName);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceName" => ResourceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cache_cluster(cache_cluster_id)
@@ -1641,8 +2653,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotWindow"`: The daily time range (in UTC) during which ElastiCache begins taking
   a daily snapshot of your cluster.
 """
-modify_cache_cluster(CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyCacheCluster", Dict{String, Any}("CacheClusterId"=>CacheClusterId); aws_config=aws_config)
-modify_cache_cluster(CacheClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), params)); aws_config=aws_config)
+function modify_cache_cluster(
+    CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "ModifyCacheCluster",
+        Dict{String,Any}("CacheClusterId" => CacheClusterId);
+        aws_config=aws_config,
+    )
+end
+function modify_cache_cluster(
+    CacheClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyCacheCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CacheClusterId" => CacheClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cache_parameter_group(cache_parameter_group_name, parameter_name_value)
@@ -1663,8 +2695,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You must supply at least one parameter name and value; subsequent arguments are optional. A
   maximum of 20 parameters may be modified per request.
 """
-modify_cache_parameter_group(CacheParameterGroupName, ParameterNameValue; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyCacheParameterGroup", Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName, "ParameterNameValue"=>ParameterNameValue); aws_config=aws_config)
-modify_cache_parameter_group(CacheParameterGroupName, ParameterNameValue, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName, "ParameterNameValue"=>ParameterNameValue), params)); aws_config=aws_config)
+function modify_cache_parameter_group(
+    CacheParameterGroupName,
+    ParameterNameValue;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyCacheParameterGroup",
+        Dict{String,Any}(
+            "CacheParameterGroupName" => CacheParameterGroupName,
+            "ParameterNameValue" => ParameterNameValue,
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_cache_parameter_group(
+    CacheParameterGroupName,
+    ParameterNameValue,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyCacheParameterGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CacheParameterGroupName" => CacheParameterGroupName,
+                    "ParameterNameValue" => ParameterNameValue,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cache_subnet_group(cache_subnet_group_name)
@@ -1682,8 +2747,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CacheSubnetGroupDescription"`: A description of the cache subnet group.
 - `"SubnetIds"`: The EC2 subnet IDs for the cache subnet group.
 """
-modify_cache_subnet_group(CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyCacheSubnetGroup", Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName); aws_config=aws_config)
-modify_cache_subnet_group(CacheSubnetGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName), params)); aws_config=aws_config)
+function modify_cache_subnet_group(
+    CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "ModifyCacheSubnetGroup",
+        Dict{String,Any}("CacheSubnetGroupName" => CacheSubnetGroupName);
+        aws_config=aws_config,
+    )
+end
+function modify_cache_subnet_group(
+    CacheSubnetGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyCacheSubnetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CacheSubnetGroupName" => CacheSubnetGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_global_replication_group(apply_immediately, global_replication_group_id)
@@ -1709,8 +2798,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Global datastore.
 - `"GlobalReplicationGroupDescription"`: A description of the Global datastore
 """
-modify_global_replication_group(ApplyImmediately, GlobalReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId); aws_config=aws_config)
-modify_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId), params)); aws_config=aws_config)
+function modify_global_replication_group(
+    ApplyImmediately,
+    GlobalReplicationGroupId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyGlobalReplicationGroup",
+        Dict{String,Any}(
+            "ApplyImmediately" => ApplyImmediately,
+            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_global_replication_group(
+    ApplyImmediately,
+    GlobalReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyGlobalReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplyImmediately" => ApplyImmediately,
+                    "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_replication_group(replication_group_id)
@@ -1801,8 +2923,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserGroupIdsToRemove"`: The user group to remove, meaning the users in the group no
   longer can access the replication group.
 """
-modify_replication_group(ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroup", Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
-modify_replication_group(ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
+function modify_replication_group(
+    ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "ModifyReplicationGroup",
+        Dict{String,Any}("ReplicationGroupId" => ReplicationGroupId);
+        aws_config=aws_config,
+    )
+end
+function modify_replication_group(
+    ReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationGroupId" => ReplicationGroupId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_replication_group_shard_configuration(apply_immediately, node_group_count, replication_group_id)
@@ -1837,8 +2981,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   zones for you. You can specify this parameter only if the value of NodeGroupCount is
   greater than the current number of node groups (shards).
 """
-modify_replication_group_shard_configuration(ApplyImmediately, NodeGroupCount, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroupShardConfiguration", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "NodeGroupCount"=>NodeGroupCount, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
-modify_replication_group_shard_configuration(ApplyImmediately, NodeGroupCount, ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroupShardConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "NodeGroupCount"=>NodeGroupCount, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
+function modify_replication_group_shard_configuration(
+    ApplyImmediately,
+    NodeGroupCount,
+    ReplicationGroupId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyReplicationGroupShardConfiguration",
+        Dict{String,Any}(
+            "ApplyImmediately" => ApplyImmediately,
+            "NodeGroupCount" => NodeGroupCount,
+            "ReplicationGroupId" => ReplicationGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_replication_group_shard_configuration(
+    ApplyImmediately,
+    NodeGroupCount,
+    ReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyReplicationGroupShardConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplyImmediately" => ApplyImmediately,
+                    "NodeGroupCount" => NodeGroupCount,
+                    "ReplicationGroupId" => ReplicationGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_user(user_id)
@@ -1856,8 +3037,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NoPasswordRequired"`: Indicates no password is required for the user.
 - `"Passwords"`: The passwords belonging to the user. You are allowed up to two.
 """
-modify_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyUser", Dict{String, Any}("UserId"=>UserId); aws_config=aws_config)
-modify_user(UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId), params)); aws_config=aws_config)
+function modify_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache(
+        "ModifyUser", Dict{String,Any}("UserId" => UserId); aws_config=aws_config
+    )
+end
+function modify_user(
+    UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "ModifyUser",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("UserId" => UserId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_user_group(user_group_id)
@@ -1873,8 +3066,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserIdsToAdd"`: The list of user IDs to add to the user group.
 - `"UserIdsToRemove"`: The list of user IDs to remove from the user group.
 """
-modify_user_group(UserGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyUserGroup", Dict{String, Any}("UserGroupId"=>UserGroupId); aws_config=aws_config)
-modify_user_group(UserGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyUserGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserGroupId"=>UserGroupId), params)); aws_config=aws_config)
+function modify_user_group(UserGroupId; aws_config::AbstractAWSConfig=global_aws_config())
+    return elasticache(
+        "ModifyUserGroup",
+        Dict{String,Any}("UserGroupId" => UserGroupId);
+        aws_config=aws_config,
+    )
+end
+function modify_user_group(
+    UserGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ModifyUserGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("UserGroupId" => UserGroupId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     purchase_reserved_cache_nodes_offering(reserved_cache_nodes_offering_id)
@@ -1898,8 +3109,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("PurchaseReservedCacheNodesOffering", Dict{String, Any}("ReservedCacheNodesOfferingId"=>ReservedCacheNodesOfferingId); aws_config=aws_config)
-purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("PurchaseReservedCacheNodesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedCacheNodesOfferingId"=>ReservedCacheNodesOfferingId), params)); aws_config=aws_config)
+function purchase_reserved_cache_nodes_offering(
+    ReservedCacheNodesOfferingId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "PurchaseReservedCacheNodesOffering",
+        Dict{String,Any}("ReservedCacheNodesOfferingId" => ReservedCacheNodesOfferingId);
+        aws_config=aws_config,
+    )
+end
+function purchase_reserved_cache_nodes_offering(
+    ReservedCacheNodesOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "PurchaseReservedCacheNodesOffering",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReservedCacheNodesOfferingId" => ReservedCacheNodesOfferingId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     rebalance_slots_in_global_replication_group(apply_immediately, global_replication_group_id)
@@ -1912,8 +3149,41 @@ Redistribute slots to ensure uniform distribution across existing shards in the 
 - `global_replication_group_id`: The name of the Global datastore
 
 """
-rebalance_slots_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("RebalanceSlotsInGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId); aws_config=aws_config)
-rebalance_slots_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("RebalanceSlotsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId), params)); aws_config=aws_config)
+function rebalance_slots_in_global_replication_group(
+    ApplyImmediately,
+    GlobalReplicationGroupId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "RebalanceSlotsInGlobalReplicationGroup",
+        Dict{String,Any}(
+            "ApplyImmediately" => ApplyImmediately,
+            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function rebalance_slots_in_global_replication_group(
+    ApplyImmediately,
+    GlobalReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "RebalanceSlotsInGlobalReplicationGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplyImmediately" => ApplyImmediately,
+                    "GlobalReplicationGroupId" => GlobalReplicationGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reboot_cache_cluster(cache_cluster_id, cache_node_id)
@@ -1942,8 +3212,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node
   IDs.
 """
-reboot_cache_cluster(CacheClusterId, CacheNodeId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("RebootCacheCluster", Dict{String, Any}("CacheClusterId"=>CacheClusterId, "CacheNodeId"=>CacheNodeId); aws_config=aws_config)
-reboot_cache_cluster(CacheClusterId, CacheNodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("RebootCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId, "CacheNodeId"=>CacheNodeId), params)); aws_config=aws_config)
+function reboot_cache_cluster(
+    CacheClusterId, CacheNodeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "RebootCacheCluster",
+        Dict{String,Any}("CacheClusterId" => CacheClusterId, "CacheNodeId" => CacheNodeId);
+        aws_config=aws_config,
+    )
+end
+function reboot_cache_cluster(
+    CacheClusterId,
+    CacheNodeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "RebootCacheCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CacheClusterId" => CacheClusterId, "CacheNodeId" => CacheNodeId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     remove_tags_from_resource(resource_name, tag_keys)
@@ -1964,8 +3261,33 @@ nodes in the replication group. For more information, see Resource-level permiss
   resource.
 
 """
-remove_tags_from_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("RemoveTagsFromResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws_config=aws_config)
-remove_tags_from_resource(ResourceName, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function remove_tags_from_resource(
+    ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "RemoveTagsFromResource",
+        Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function remove_tags_from_resource(
+    ResourceName,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "RemoveTagsFromResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reset_cache_parameter_group(cache_parameter_group_name)
@@ -1988,8 +3310,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   their default values. If false, only the parameters listed by ParameterNameValues are reset
   to their default values. Valid values: true | false
 """
-reset_cache_parameter_group(CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ResetCacheParameterGroup", Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName); aws_config=aws_config)
-reset_cache_parameter_group(CacheParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ResetCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName), params)); aws_config=aws_config)
+function reset_cache_parameter_group(
+    CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "ResetCacheParameterGroup",
+        Dict{String,Any}("CacheParameterGroupName" => CacheParameterGroupName);
+        aws_config=aws_config,
+    )
+end
+function reset_cache_parameter_group(
+    CacheParameterGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "ResetCacheParameterGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CacheParameterGroupName" => CacheParameterGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     revoke_cache_security_group_ingress(cache_security_group_name, ec2_security_group_name, ec2_security_group_owner_id)
@@ -2007,8 +3353,45 @@ Amazon EC2 security group that had been previously authorized.
   valid AWS account number for this parameter.
 
 """
-revoke_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("RevokeCacheSecurityGroupIngress", Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId); aws_config=aws_config)
-revoke_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("RevokeCacheSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId), params)); aws_config=aws_config)
+function revoke_cache_security_group_ingress(
+    CacheSecurityGroupName,
+    EC2SecurityGroupName,
+    EC2SecurityGroupOwnerId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "RevokeCacheSecurityGroupIngress",
+        Dict{String,Any}(
+            "CacheSecurityGroupName" => CacheSecurityGroupName,
+            "EC2SecurityGroupName" => EC2SecurityGroupName,
+            "EC2SecurityGroupOwnerId" => EC2SecurityGroupOwnerId,
+        );
+        aws_config=aws_config,
+    )
+end
+function revoke_cache_security_group_ingress(
+    CacheSecurityGroupName,
+    EC2SecurityGroupName,
+    EC2SecurityGroupOwnerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "RevokeCacheSecurityGroupIngress",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CacheSecurityGroupName" => CacheSecurityGroupName,
+                    "EC2SecurityGroupName" => EC2SecurityGroupName,
+                    "EC2SecurityGroupOwnerId" => EC2SecurityGroupOwnerId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_migration(customer_node_endpoint_list, replication_group_id)
@@ -2022,8 +3405,41 @@ Start the migration of data.
 - `replication_group_id`: The ID of the replication group to which data should be migrated.
 
 """
-start_migration(CustomerNodeEndpointList, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("StartMigration", Dict{String, Any}("CustomerNodeEndpointList"=>CustomerNodeEndpointList, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
-start_migration(CustomerNodeEndpointList, ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("StartMigration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerNodeEndpointList"=>CustomerNodeEndpointList, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
+function start_migration(
+    CustomerNodeEndpointList,
+    ReplicationGroupId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "StartMigration",
+        Dict{String,Any}(
+            "CustomerNodeEndpointList" => CustomerNodeEndpointList,
+            "ReplicationGroupId" => ReplicationGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function start_migration(
+    CustomerNodeEndpointList,
+    ReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "StartMigration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CustomerNodeEndpointList" => CustomerNodeEndpointList,
+                    "ReplicationGroupId" => ReplicationGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     test_failover(node_group_id, replication_group_id)
@@ -2057,5 +3473,34 @@ ElastiCache User Guide.
   automatic failover is being tested by this operation.
 
 """
-test_failover(NodeGroupId, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("TestFailover", Dict{String, Any}("NodeGroupId"=>NodeGroupId, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
-test_failover(NodeGroupId, ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("TestFailover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeGroupId"=>NodeGroupId, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
+function test_failover(
+    NodeGroupId, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticache(
+        "TestFailover",
+        Dict{String,Any}(
+            "NodeGroupId" => NodeGroupId, "ReplicationGroupId" => ReplicationGroupId
+        );
+        aws_config=aws_config,
+    )
+end
+function test_failover(
+    NodeGroupId,
+    ReplicationGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticache(
+        "TestFailover",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NodeGroupId" => NodeGroupId, "ReplicationGroupId" => ReplicationGroupId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

@@ -33,5 +33,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartDate"`: The start date for the forecast. Specify the date using this format:
   yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
-query_forecast(Filters, ForecastArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecastquery("QueryForecast", Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn); aws_config=aws_config)
-query_forecast(Filters, ForecastArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecastquery("QueryForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn), params)); aws_config=aws_config)
+function query_forecast(
+    Filters, ForecastArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return forecastquery(
+        "QueryForecast",
+        Dict{String,Any}("Filters" => Filters, "ForecastArn" => ForecastArn);
+        aws_config=aws_config,
+    )
+end
+function query_forecast(
+    Filters,
+    ForecastArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return forecastquery(
+        "QueryForecast",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Filters" => Filters, "ForecastArn" => ForecastArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

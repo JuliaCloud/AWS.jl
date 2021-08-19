@@ -19,8 +19,41 @@ Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the con
   GetReservedNodeExchangeOfferings
 
 """
-accept_reserved_node_exchange(ReservedNodeId, TargetReservedNodeOfferingId; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AcceptReservedNodeExchange", Dict{String, Any}("ReservedNodeId"=>ReservedNodeId, "TargetReservedNodeOfferingId"=>TargetReservedNodeOfferingId); aws_config=aws_config)
-accept_reserved_node_exchange(ReservedNodeId, TargetReservedNodeOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AcceptReservedNodeExchange", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedNodeId"=>ReservedNodeId, "TargetReservedNodeOfferingId"=>TargetReservedNodeOfferingId), params)); aws_config=aws_config)
+function accept_reserved_node_exchange(
+    ReservedNodeId,
+    TargetReservedNodeOfferingId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "AcceptReservedNodeExchange",
+        Dict{String,Any}(
+            "ReservedNodeId" => ReservedNodeId,
+            "TargetReservedNodeOfferingId" => TargetReservedNodeOfferingId,
+        );
+        aws_config=aws_config,
+    )
+end
+function accept_reserved_node_exchange(
+    ReservedNodeId,
+    TargetReservedNodeOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "AcceptReservedNodeExchange",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReservedNodeId" => ReservedNodeId,
+                    "TargetReservedNodeOfferingId" => TargetReservedNodeOfferingId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     add_partner(account_id, cluster_identifier, database_name, partner_name)
@@ -31,15 +64,98 @@ updates for the specified database. To complete the integration, you also set up
 integration on the partner website.
 
 # Arguments
-- `account_id`: The AWS account ID that owns the cluster.
+- `account_id`: The Amazon Web Services account ID that owns the cluster.
 - `cluster_identifier`: The cluster identifier of the cluster that receives data from the
   partner.
 - `database_name`: The name of the database that receives data from the partner.
 - `partner_name`: The name of the partner that is authorized to send data.
 
 """
-add_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AddPartner", Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName); aws_config=aws_config)
-add_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AddPartner", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName), params)); aws_config=aws_config)
+function add_partner(
+    AccountId,
+    ClusterIdentifier,
+    DatabaseName,
+    PartnerName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "AddPartner",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ClusterIdentifier" => ClusterIdentifier,
+            "DatabaseName" => DatabaseName,
+            "PartnerName" => PartnerName,
+        );
+        aws_config=aws_config,
+    )
+end
+function add_partner(
+    AccountId,
+    ClusterIdentifier,
+    DatabaseName,
+    PartnerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "AddPartner",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "DatabaseName" => DatabaseName,
+                    "PartnerName" => PartnerName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    associate_data_share_consumer(data_share_arn)
+    associate_data_share_consumer(data_share_arn, params::Dict{String,<:Any})
+
+From a datashare consumer account, associates a datashare with the account
+(AssociateEntireAccount) or the specified namespace (ConsumerArn). If you make this
+association, the consumer can consume the datashare.
+
+# Arguments
+- `data_share_arn`: The Amazon Resource Name (ARN) of the datashare that the consumer is to
+  use with the account or the namespace.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AssociateEntireAccount"`: A value that specifies whether the datashare is associated
+  with the entire account.
+- `"ConsumerArn"`: The Amazon Resource Name (ARN) of the consumer that is associated with
+  the datashare.
+"""
+function associate_data_share_consumer(
+    DataShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "AssociateDataShareConsumer",
+        Dict{String,Any}("DataShareArn" => DataShareArn);
+        aws_config=aws_config,
+    )
+end
+function associate_data_share_consumer(
+    DataShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "AssociateDataShareConsumer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DataShareArn" => DataShareArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     authorize_cluster_security_group_ingress(cluster_security_group_name)
@@ -51,13 +167,13 @@ instance, you can authorize inbound access to either a Classless Interdomain Rou
 (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as many
 as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an
 Amazon EC2 security group, specify EC2SecurityGroupName and EC2SecurityGroupOwnerId. The
-Amazon EC2 security group and Amazon Redshift cluster must be in the same AWS Region.  If
-you authorize access to a CIDR/IP address range, specify CIDRIP. For an overview of CIDR
-blocks, see the Wikipedia article on Classless Inter-Domain Routing.  You must also
-associate the security group with a cluster so that clients running on these IP addresses
-or the EC2 instance are authorized to connect to the cluster. For information about
-managing security groups, go to Working with Security Groups in the Amazon Redshift Cluster
-Management Guide.
+Amazon EC2 security group and Amazon Redshift cluster must be in the same Amazon Web
+Services Region.  If you authorize access to a CIDR/IP address range, specify CIDRIP. For
+an overview of CIDR blocks, see the Wikipedia article on Classless Inter-Domain Routing.
+You must also associate the security group with a cluster so that clients running on these
+IP addresses or the EC2 instance are authorized to connect to the cluster. For information
+about managing security groups, go to Working with Security Groups in the Amazon Redshift
+Cluster Management Guide.
 
 # Arguments
 - `cluster_security_group_name`: The name of the security group to which the ingress rule
@@ -68,12 +184,84 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CIDRIP"`: The IP range to be added the Amazon Redshift security group.
 - `"EC2SecurityGroupName"`: The EC2 security group to be added the Amazon Redshift security
   group.
-- `"EC2SecurityGroupOwnerId"`: The AWS account number of the owner of the security group
-  specified by the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable
-  value.  Example: 111122223333
+- `"EC2SecurityGroupOwnerId"`: The Amazon Web Services account number of the owner of the
+  security group specified by the EC2SecurityGroupName parameter. The Amazon Web Services
+  Access Key ID is not an acceptable value.  Example: 111122223333
 """
-authorize_cluster_security_group_ingress(ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeClusterSecurityGroupIngress", Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName); aws_config=aws_config)
-authorize_cluster_security_group_ingress(ClusterSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeClusterSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config)
+function authorize_cluster_security_group_ingress(
+    ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "AuthorizeClusterSecurityGroupIngress",
+        Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
+        aws_config=aws_config,
+    )
+end
+function authorize_cluster_security_group_ingress(
+    ClusterSecurityGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "AuthorizeClusterSecurityGroupIngress",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    authorize_data_share(consumer_identifier, data_share_arn)
+    authorize_data_share(consumer_identifier, data_share_arn, params::Dict{String,<:Any})
+
+From a data producer account, authorizes the sharing of a datashare with one or more
+consumer accounts. To authorize a datashare for a data consumer, the producer account must
+have the correct access privileges.
+
+# Arguments
+- `consumer_identifier`: The identifier of the data consumer that is authorized to access
+  the datashare. This identifier is an AWS account ID.
+- `data_share_arn`: The Amazon Resource Name (ARN) of the datashare that producers are to
+  authorize sharing for.
+
+"""
+function authorize_data_share(
+    ConsumerIdentifier, DataShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "AuthorizeDataShare",
+        Dict{String,Any}(
+            "ConsumerIdentifier" => ConsumerIdentifier, "DataShareArn" => DataShareArn
+        );
+        aws_config=aws_config,
+    )
+end
+function authorize_data_share(
+    ConsumerIdentifier,
+    DataShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "AuthorizeDataShare",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConsumerIdentifier" => ConsumerIdentifier,
+                    "DataShareArn" => DataShareArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     authorize_endpoint_access(account)
@@ -82,28 +270,44 @@ authorize_cluster_security_group_ingress(ClusterSecurityGroupName, params::Abstr
 Grants access to a cluster.
 
 # Arguments
-- `account`: The AWS account ID to grant access to.
+- `account`: The Amazon Web Services account ID to grant access to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClusterIdentifier"`: The cluster identifier of the cluster to grant access to.
 - `"VpcIds"`: The virtual private cloud (VPC) identifiers to grant access to.
 """
-authorize_endpoint_access(Account; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeEndpointAccess", Dict{String, Any}("Account"=>Account); aws_config=aws_config)
-authorize_endpoint_access(Account, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account), params)); aws_config=aws_config)
+function authorize_endpoint_access(
+    Account; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "AuthorizeEndpointAccess",
+        Dict{String,Any}("Account" => Account);
+        aws_config=aws_config,
+    )
+end
+function authorize_endpoint_access(
+    Account, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "AuthorizeEndpointAccess",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     authorize_snapshot_access(account_with_restore_access, snapshot_identifier)
     authorize_snapshot_access(account_with_restore_access, snapshot_identifier, params::Dict{String,<:Any})
 
-Authorizes the specified AWS customer account to restore the specified snapshot.  For more
-information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon
-Redshift Cluster Management Guide.
+Authorizes the specified Amazon Web Services account to restore the specified snapshot.
+For more information about working with snapshots, go to Amazon Redshift Snapshots in the
+Amazon Redshift Cluster Management Guide.
 
 # Arguments
-- `account_with_restore_access`: The identifier of the AWS customer account authorized to
-  restore the specified snapshot. To share a snapshot with AWS support, specify
-  amazon-redshift-support.
+- `account_with_restore_access`: The identifier of the Amazon Web Services account
+  authorized to restore the specified snapshot. To share a snapshot with Amazon Web Services
+  Support, specify amazon-redshift-support.
 - `snapshot_identifier`: The identifier of the snapshot the account is authorized to
   restore.
 
@@ -113,8 +317,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from. This parameter is required if your IAM user has a policy containing a snapshot
   resource element that specifies anything other than * for the cluster name.
 """
-authorize_snapshot_access(AccountWithRestoreAccess, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeSnapshotAccess", Dict{String, Any}("AccountWithRestoreAccess"=>AccountWithRestoreAccess, "SnapshotIdentifier"=>SnapshotIdentifier); aws_config=aws_config)
-authorize_snapshot_access(AccountWithRestoreAccess, SnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeSnapshotAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountWithRestoreAccess"=>AccountWithRestoreAccess, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
+function authorize_snapshot_access(
+    AccountWithRestoreAccess,
+    SnapshotIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "AuthorizeSnapshotAccess",
+        Dict{String,Any}(
+            "AccountWithRestoreAccess" => AccountWithRestoreAccess,
+            "SnapshotIdentifier" => SnapshotIdentifier,
+        );
+        aws_config=aws_config,
+    )
+end
+function authorize_snapshot_access(
+    AccountWithRestoreAccess,
+    SnapshotIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "AuthorizeSnapshotAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountWithRestoreAccess" => AccountWithRestoreAccess,
+                    "SnapshotIdentifier" => SnapshotIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_delete_cluster_snapshots(delete_cluster_snapshot_message)
@@ -130,8 +367,34 @@ Deletes a set of cluster snapshots.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Identifiers"`: A list of identifiers for the snapshots that you want to delete.
 """
-batch_delete_cluster_snapshots(DeleteClusterSnapshotMessage; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("BatchDeleteClusterSnapshots", Dict{String, Any}("DeleteClusterSnapshotMessage"=>DeleteClusterSnapshotMessage); aws_config=aws_config)
-batch_delete_cluster_snapshots(DeleteClusterSnapshotMessage, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("BatchDeleteClusterSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteClusterSnapshotMessage"=>DeleteClusterSnapshotMessage), params)); aws_config=aws_config)
+function batch_delete_cluster_snapshots(
+    DeleteClusterSnapshotMessage; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "BatchDeleteClusterSnapshots",
+        Dict{String,Any}("DeleteClusterSnapshotMessage" => DeleteClusterSnapshotMessage);
+        aws_config=aws_config,
+    )
+end
+function batch_delete_cluster_snapshots(
+    DeleteClusterSnapshotMessage,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "BatchDeleteClusterSnapshots",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeleteClusterSnapshotMessage" => DeleteClusterSnapshotMessage
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_modify_cluster_snapshots(string)
@@ -154,8 +417,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the snapshots, use the force option.
 - `"SnapshotIdentifierList"`: A list of snapshot identifiers you want to modify.
 """
-batch_modify_cluster_snapshots(String; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("BatchModifyClusterSnapshots", Dict{String, Any}("String"=>String); aws_config=aws_config)
-batch_modify_cluster_snapshots(String, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("BatchModifyClusterSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("String"=>String), params)); aws_config=aws_config)
+function batch_modify_cluster_snapshots(
+    String; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "BatchModifyClusterSnapshots",
+        Dict{String,Any}("String" => String);
+        aws_config=aws_config,
+    )
+end
+function batch_modify_cluster_snapshots(
+    String, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "BatchModifyClusterSnapshots",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("String" => String), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     cancel_resize(cluster_identifier)
@@ -168,8 +447,28 @@ Cancels a resize operation for a cluster.
   resize operation for.
 
 """
-cancel_resize(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CancelResize", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-cancel_resize(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CancelResize", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function cancel_resize(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift(
+        "CancelResize",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function cancel_resize(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CancelResize",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     copy_cluster_snapshot(source_snapshot_identifier, target_snapshot_identifier)
@@ -190,8 +489,8 @@ Management Guide.
 - `target_snapshot_identifier`: The identifier given to the new manual snapshot.
   Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric
   characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or
-  contain two consecutive hyphens.   Must be unique for the AWS account that is making the
-  request.
+  contain two consecutive hyphens.   Must be unique for the Amazon Web Services account that
+  is making the request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -203,8 +502,89 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshot resource element that specifies anything other than * for the cluster name.
   Constraints:   Must be the identifier for a valid cluster.
 """
-copy_cluster_snapshot(SourceSnapshotIdentifier, TargetSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CopyClusterSnapshot", Dict{String, Any}("SourceSnapshotIdentifier"=>SourceSnapshotIdentifier, "TargetSnapshotIdentifier"=>TargetSnapshotIdentifier); aws_config=aws_config)
-copy_cluster_snapshot(SourceSnapshotIdentifier, TargetSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CopyClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceSnapshotIdentifier"=>SourceSnapshotIdentifier, "TargetSnapshotIdentifier"=>TargetSnapshotIdentifier), params)); aws_config=aws_config)
+function copy_cluster_snapshot(
+    SourceSnapshotIdentifier,
+    TargetSnapshotIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CopyClusterSnapshot",
+        Dict{String,Any}(
+            "SourceSnapshotIdentifier" => SourceSnapshotIdentifier,
+            "TargetSnapshotIdentifier" => TargetSnapshotIdentifier,
+        );
+        aws_config=aws_config,
+    )
+end
+function copy_cluster_snapshot(
+    SourceSnapshotIdentifier,
+    TargetSnapshotIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CopyClusterSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SourceSnapshotIdentifier" => SourceSnapshotIdentifier,
+                    "TargetSnapshotIdentifier" => TargetSnapshotIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    create_authentication_profile(authentication_profile_content, authentication_profile_name)
+    create_authentication_profile(authentication_profile_content, authentication_profile_name, params::Dict{String,<:Any})
+
+Creates an authentication profile with the specified parameters.
+
+# Arguments
+- `authentication_profile_content`: The content of the authentication profile in JSON
+  format. The maximum length of the JSON string is determined by a quota for your account.
+- `authentication_profile_name`: The name of the authentication profile to be created.
+
+"""
+function create_authentication_profile(
+    AuthenticationProfileContent,
+    AuthenticationProfileName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateAuthenticationProfile",
+        Dict{String,Any}(
+            "AuthenticationProfileContent" => AuthenticationProfileContent,
+            "AuthenticationProfileName" => AuthenticationProfileName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_authentication_profile(
+    AuthenticationProfileContent,
+    AuthenticationProfileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateAuthenticationProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationProfileContent" => AuthenticationProfileContent,
+                    "AuthenticationProfileName" => AuthenticationProfileName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cluster(cluster_identifier, master_user_password, master_username, node_type)
@@ -222,14 +602,14 @@ Redshift Cluster Management Guide.
   The identifier also appears in the Amazon Redshift console. Constraints:   Must contain
   from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.
     First character must be a letter.   Cannot end with a hyphen or contain two consecutive
-  hyphens.   Must be unique for all clusters within an AWS account.   Example:
-  myexamplecluster
-- `master_user_password`: The password associated with the master user account for the
+  hyphens.   Must be unique for all clusters within an Amazon Web Services account.
+  Example: myexamplecluster
+- `master_user_password`: The password associated with the admin user account for the
   cluster that is being created. Constraints:   Must be between 8 and 64 characters in
   length.   Must contain at least one uppercase letter.   Must contain at least one lowercase
   letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to
   126) except ' (single quote), \" (double quote), , /, @, or space.
-- `master_username`: The user name associated with the master user account for the cluster
+- `master_username`: The user name associated with the admin user account for the cluster
   that is being created. Constraints:   Must be 1 - 128 alphanumeric characters. The user
   name can't be PUBLIC.   First character must be a letter.   Cannot be a reserved word. A
   list of reserved words can be found in Reserved Words in the Amazon Redshift Database
@@ -249,9 +629,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is running on your cluster. Default: true
 - `"AquaConfigurationStatus"`: The value represents how the cluster is configured to use
   AQUA (Advanced Query Accelerator) when it is created. Possible values include the
-  following.   enabled - Use AQUA if it is available for the current AWS Region and Amazon
-  Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines
-  whether to use AQUA.
+  following.   enabled - Use AQUA if it is available for the current Amazon Web Services
+  Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon
+  Redshift determines whether to use AQUA.
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
   are disabled, you can still create manual snapshots when you want with
@@ -303,12 +683,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
 - `"HsmConfigurationIdentifier"`: Specifies the name of the HSM configuration that contains
   the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
-- `"IamRoles"`: A list of AWS Identity and Access Management (IAM) roles that can be used
-  by the cluster to access other AWS services. You must supply the IAM roles in their Amazon
-  Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A
-  cluster can have up to 10 IAM roles associated with it at any time.
-- `"KmsKeyId"`: The AWS Key Management Service (KMS) key ID of the encryption key that you
-  want to use to encrypt data in the cluster.
+- `"IamRoles"`: A list of Identity and Access Management (IAM) roles that can be used by
+  the cluster to access other Amazon Web Services services. You must supply the IAM roles in
+  their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single
+  request. A cluster can have up to 10 IAM roles associated with it at any time.
+- `"KmsKeyId"`: The Key Management Service (KMS) key ID of the encryption key that you want
+  to use to encrypt data in the cluster.
 - `"MaintenanceTrackName"`: An optional parameter for the name of the maintenance track for
   the cluster. If you don't provide a maintenance track name, the cluster is assigned to the
   current track.
@@ -340,8 +720,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with the cluster. Default: The default VPC security group is associated with the
   cluster.
 """
-create_cluster(ClusterIdentifier, MasterUserPassword, MasterUsername, NodeType; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateCluster", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername, "NodeType"=>NodeType); aws_config=aws_config)
-create_cluster(ClusterIdentifier, MasterUserPassword, MasterUsername, NodeType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername, "NodeType"=>NodeType), params)); aws_config=aws_config)
+function create_cluster(
+    ClusterIdentifier,
+    MasterUserPassword,
+    MasterUsername,
+    NodeType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateCluster",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "MasterUserPassword" => MasterUserPassword,
+            "MasterUsername" => MasterUsername,
+            "NodeType" => NodeType,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cluster(
+    ClusterIdentifier,
+    MasterUserPassword,
+    MasterUsername,
+    NodeType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "MasterUserPassword" => MasterUserPassword,
+                    "MasterUsername" => MasterUsername,
+                    "NodeType" => NodeType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cluster_parameter_group(description, parameter_group_family, parameter_group_name)
@@ -361,21 +782,58 @@ in the Amazon Redshift Cluster Management Guide.
   parameter group applies. The cluster engine version determines the set of parameters. To
   get a list of valid parameter group family names, you can call
   DescribeClusterParameterGroups. By default, Amazon Redshift returns a list of all the
-  parameter groups that are owned by your AWS account, including the default parameter groups
-  for each Amazon Redshift engine version. The parameter group family names associated with
-  the default parameter groups provide you the valid values. For example, a valid family name
-  is \"redshift-1.0\".
+  parameter groups that are owned by your Amazon Web Services account, including the default
+  parameter groups for each Amazon Redshift engine version. The parameter group family names
+  associated with the default parameter groups provide you the valid values. For example, a
+  valid family name is \"redshift-1.0\".
 - `parameter_group_name`: The name of the cluster parameter group. Constraints:   Must be 1
   to 255 alphanumeric characters or hyphens   First character must be a letter.   Cannot end
-  with a hyphen or contain two consecutive hyphens.   Must be unique withing your AWS
-  account.    This value is stored as a lower-case string.
+  with a hyphen or contain two consecutive hyphens.   Must be unique withing your Amazon Web
+  Services account.    This value is stored as a lower-case string.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A list of tag instances.
 """
-create_cluster_parameter_group(Description, ParameterGroupFamily, ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterParameterGroup", Dict{String, Any}("Description"=>Description, "ParameterGroupFamily"=>ParameterGroupFamily, "ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
-create_cluster_parameter_group(Description, ParameterGroupFamily, ParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "ParameterGroupFamily"=>ParameterGroupFamily, "ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config)
+function create_cluster_parameter_group(
+    Description,
+    ParameterGroupFamily,
+    ParameterGroupName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateClusterParameterGroup",
+        Dict{String,Any}(
+            "Description" => Description,
+            "ParameterGroupFamily" => ParameterGroupFamily,
+            "ParameterGroupName" => ParameterGroupName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cluster_parameter_group(
+    Description,
+    ParameterGroupFamily,
+    ParameterGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateClusterParameterGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Description" => Description,
+                    "ParameterGroupFamily" => ParameterGroupFamily,
+                    "ParameterGroupName" => ParameterGroupName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cluster_security_group(cluster_security_group_name, description)
@@ -389,15 +847,46 @@ Cluster Security Groups in the Amazon Redshift Cluster Management Guide.
 - `cluster_security_group_name`: The name for the security group. Amazon Redshift stores
   the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric
   characters or hyphens.   Must not be \"Default\".   Must be unique for all security groups
-  that are created by your AWS account.   Example: examplesecuritygroup
+  that are created by your Amazon Web Services account.   Example: examplesecuritygroup
 - `description`: A description for the security group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A list of tag instances.
 """
-create_cluster_security_group(ClusterSecurityGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterSecurityGroup", Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName, "Description"=>Description); aws_config=aws_config)
-create_cluster_security_group(ClusterSecurityGroupName, Description, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName, "Description"=>Description), params)); aws_config=aws_config)
+function create_cluster_security_group(
+    ClusterSecurityGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "CreateClusterSecurityGroup",
+        Dict{String,Any}(
+            "ClusterSecurityGroupName" => ClusterSecurityGroupName,
+            "Description" => Description,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cluster_security_group(
+    ClusterSecurityGroupName,
+    Description,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateClusterSecurityGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterSecurityGroupName" => ClusterSecurityGroupName,
+                    "Description" => Description,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cluster_snapshot(cluster_identifier, snapshot_identifier)
@@ -410,10 +899,10 @@ in the Amazon Redshift Cluster Management Guide.
 # Arguments
 - `cluster_identifier`: The cluster identifier for which you want a snapshot.
 - `snapshot_identifier`: A unique identifier for the snapshot that you are requesting. This
-  identifier must be unique for all snapshots within the AWS account. Constraints:   Cannot
-  be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens
-  First character must be a letter   Cannot end with a hyphen or contain two consecutive
-  hyphens   Example: my-snapshot-id
+  identifier must be unique for all snapshots within the Amazon Web Services account.
+  Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric
+  characters or hyphens   First character must be a letter   Cannot end with a hyphen or
+  contain two consecutive hyphens   Example: my-snapshot-id
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -422,8 +911,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   -1 or an integer between 1 and 3,653. The default value is -1.
 - `"Tags"`: A list of tag instances.
 """
-create_cluster_snapshot(ClusterIdentifier, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterSnapshot", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "SnapshotIdentifier"=>SnapshotIdentifier); aws_config=aws_config)
-create_cluster_snapshot(ClusterIdentifier, SnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
+function create_cluster_snapshot(
+    ClusterIdentifier, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "CreateClusterSnapshot",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "SnapshotIdentifier" => SnapshotIdentifier,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cluster_snapshot(
+    ClusterIdentifier,
+    SnapshotIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateClusterSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "SnapshotIdentifier" => SnapshotIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cluster_subnet_group(cluster_subnet_group_name, description, subnet_identifier)
@@ -438,7 +958,7 @@ Groups in the Amazon Redshift Cluster Management Guide.
 - `cluster_subnet_group_name`: The name for the subnet group. Amazon Redshift stores the
   value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric
   characters or hyphens.   Must not be \"Default\".   Must be unique for all subnet groups
-  that are created by your AWS account.   Example: examplesubnetgroup
+  that are created by your Amazon Web Services account.   Example: examplesubnetgroup
 - `description`: A description for the subnet group.
 - `subnet_identifier`: An array of VPC subnet IDs. A maximum of 20 subnets can be modified
   in a single request.
@@ -449,8 +969,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   single request.
 - `"Tags"`: A list of tag instances.
 """
-create_cluster_subnet_group(ClusterSubnetGroupName, Description, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterSubnetGroup", Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName, "Description"=>Description, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
-create_cluster_subnet_group(ClusterSubnetGroupName, Description, SubnetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName, "Description"=>Description, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
+function create_cluster_subnet_group(
+    ClusterSubnetGroupName,
+    Description,
+    SubnetIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateClusterSubnetGroup",
+        Dict{String,Any}(
+            "ClusterSubnetGroupName" => ClusterSubnetGroupName,
+            "Description" => Description,
+            "SubnetIdentifier" => SubnetIdentifier,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cluster_subnet_group(
+    ClusterSubnetGroupName,
+    Description,
+    SubnetIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateClusterSubnetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterSubnetGroupName" => ClusterSubnetGroupName,
+                    "Description" => Description,
+                    "SubnetIdentifier" => SubnetIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_endpoint_access(endpoint_name, subnet_group_name)
@@ -468,13 +1025,42 @@ Creates a Redshift-managed VPC endpoint.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClusterIdentifier"`: The cluster identifier of the cluster to access.
-- `"ResourceOwner"`: The AWS account ID of the owner of the cluster. This is only required
-  if the cluster is in another AWS account.
+- `"ResourceOwner"`: The Amazon Web Services account ID of the owner of the cluster. This
+  is only required if the cluster is in another Amazon Web Services account.
 - `"VpcSecurityGroupIds"`: The security group that defines the ports, protocols, and
   sources for inbound traffic that you are authorizing into your endpoint.
 """
-create_endpoint_access(EndpointName, SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateEndpointAccess", Dict{String, Any}("EndpointName"=>EndpointName, "SubnetGroupName"=>SubnetGroupName); aws_config=aws_config)
-create_endpoint_access(EndpointName, SubnetGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName, "SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config)
+function create_endpoint_access(
+    EndpointName, SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "CreateEndpointAccess",
+        Dict{String,Any}(
+            "EndpointName" => EndpointName, "SubnetGroupName" => SubnetGroupName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_endpoint_access(
+    EndpointName,
+    SubnetGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateEndpointAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointName" => EndpointName, "SubnetGroupName" => SubnetGroupName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_event_subscription(sns_topic_arn, subscription_name)
@@ -493,10 +1079,10 @@ and Backup categories for the specified clusters. If you specify both the source
 source IDs, such as source type = cluster and source identifier = my-cluster-1,
 notifications will be sent for all the cluster events for my-cluster-1. If you specify a
 source type but do not specify a source identifier, you will receive notice of the events
-for the objects of that type in your AWS account. If you do not specify either the
-SourceType nor the SourceIdentifier, you will be notified of events generated from all
-Amazon Redshift sources belonging to your AWS account. You must specify a source type if
-you specify a source ID.
+for the objects of that type in your Amazon Web Services account. If you do not specify
+either the SourceType nor the SourceIdentifier, you will be notified of events generated
+from all Amazon Redshift sources belonging to your Amazon Web Services account. You must
+specify a source type if you specify a source ID.
 
 # Arguments
 - `sns_topic_arn`: The Amazon Resource Name (ARN) of the Amazon SNS topic used to transmit
@@ -512,7 +1098,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Enabled"`: A boolean value; set to true to activate the subscription, and set to false
   to create the subscription but not activate it.
 - `"EventCategories"`: Specifies the Amazon Redshift event categories to be published by
-  the event notification subscription. Values: configuration, management, monitoring, security
+  the event notification subscription. Values: configuration, management, monitoring,
+  security, pending
 - `"Severity"`: Specifies the Amazon Redshift event severity to be published by the event
   notification subscription. Values: ERROR, INFO
 - `"SourceIds"`: A list of one or more identifiers of Amazon Redshift source objects. All
@@ -523,13 +1110,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceType"`: The type of source that will be generating the events. For example, if
   you want to be notified of events generated by a cluster, you would set this parameter to
   cluster. If this value is not specified, events are returned for all Amazon Redshift
-  objects in your AWS account. You must specify a source type in order to specify source IDs.
-  Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot,
-  and scheduled-action.
+  objects in your Amazon Web Services account. You must specify a source type in order to
+  specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group,
+  cluster-snapshot, and scheduled-action.
 - `"Tags"`: A list of tag instances.
 """
-create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-create_event_subscription(SnsTopicArn, SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+function create_event_subscription(
+    SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "CreateEventSubscription",
+        Dict{String,Any}(
+            "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_event_subscription(
+    SnsTopicArn,
+    SubscriptionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateEventSubscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_hsm_client_certificate(hsm_client_certificate_identifier)
@@ -552,8 +1168,36 @@ Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A list of tag instances.
 """
-create_hsm_client_certificate(HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateHsmClientCertificate", Dict{String, Any}("HsmClientCertificateIdentifier"=>HsmClientCertificateIdentifier); aws_config=aws_config)
-create_hsm_client_certificate(HsmClientCertificateIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateHsmClientCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmClientCertificateIdentifier"=>HsmClientCertificateIdentifier), params)); aws_config=aws_config)
+function create_hsm_client_certificate(
+    HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "CreateHsmClientCertificate",
+        Dict{String,Any}(
+            "HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier
+        );
+        aws_config=aws_config,
+    )
+end
+function create_hsm_client_certificate(
+    HsmClientCertificateIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateHsmClientCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_hsm_configuration(description, hsm_configuration_identifier, hsm_ip_address, hsm_partition_name, hsm_partition_password, hsm_server_public_certificate)
@@ -583,8 +1227,57 @@ Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A list of tag instances.
 """
-create_hsm_configuration(Description, HsmConfigurationIdentifier, HsmIpAddress, HsmPartitionName, HsmPartitionPassword, HsmServerPublicCertificate; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateHsmConfiguration", Dict{String, Any}("Description"=>Description, "HsmConfigurationIdentifier"=>HsmConfigurationIdentifier, "HsmIpAddress"=>HsmIpAddress, "HsmPartitionName"=>HsmPartitionName, "HsmPartitionPassword"=>HsmPartitionPassword, "HsmServerPublicCertificate"=>HsmServerPublicCertificate); aws_config=aws_config)
-create_hsm_configuration(Description, HsmConfigurationIdentifier, HsmIpAddress, HsmPartitionName, HsmPartitionPassword, HsmServerPublicCertificate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateHsmConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "HsmConfigurationIdentifier"=>HsmConfigurationIdentifier, "HsmIpAddress"=>HsmIpAddress, "HsmPartitionName"=>HsmPartitionName, "HsmPartitionPassword"=>HsmPartitionPassword, "HsmServerPublicCertificate"=>HsmServerPublicCertificate), params)); aws_config=aws_config)
+function create_hsm_configuration(
+    Description,
+    HsmConfigurationIdentifier,
+    HsmIpAddress,
+    HsmPartitionName,
+    HsmPartitionPassword,
+    HsmServerPublicCertificate;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateHsmConfiguration",
+        Dict{String,Any}(
+            "Description" => Description,
+            "HsmConfigurationIdentifier" => HsmConfigurationIdentifier,
+            "HsmIpAddress" => HsmIpAddress,
+            "HsmPartitionName" => HsmPartitionName,
+            "HsmPartitionPassword" => HsmPartitionPassword,
+            "HsmServerPublicCertificate" => HsmServerPublicCertificate,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_hsm_configuration(
+    Description,
+    HsmConfigurationIdentifier,
+    HsmIpAddress,
+    HsmPartitionName,
+    HsmPartitionPassword,
+    HsmServerPublicCertificate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateHsmConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Description" => Description,
+                    "HsmConfigurationIdentifier" => HsmConfigurationIdentifier,
+                    "HsmIpAddress" => HsmIpAddress,
+                    "HsmPartitionName" => HsmPartitionName,
+                    "HsmPartitionPassword" => HsmPartitionPassword,
+                    "HsmServerPublicCertificate" => HsmServerPublicCertificate,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_scheduled_action(iam_role, schedule, scheduled_action_name, target_action)
@@ -615,24 +1308,65 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduled action does not trigger. For more information about this parameter, see
   ScheduledAction.
 """
-create_scheduled_action(IamRole, Schedule, ScheduledActionName, TargetAction; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateScheduledAction", Dict{String, Any}("IamRole"=>IamRole, "Schedule"=>Schedule, "ScheduledActionName"=>ScheduledActionName, "TargetAction"=>TargetAction); aws_config=aws_config)
-create_scheduled_action(IamRole, Schedule, ScheduledActionName, TargetAction, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRole"=>IamRole, "Schedule"=>Schedule, "ScheduledActionName"=>ScheduledActionName, "TargetAction"=>TargetAction), params)); aws_config=aws_config)
+function create_scheduled_action(
+    IamRole,
+    Schedule,
+    ScheduledActionName,
+    TargetAction;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateScheduledAction",
+        Dict{String,Any}(
+            "IamRole" => IamRole,
+            "Schedule" => Schedule,
+            "ScheduledActionName" => ScheduledActionName,
+            "TargetAction" => TargetAction,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_scheduled_action(
+    IamRole,
+    Schedule,
+    ScheduledActionName,
+    TargetAction,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateScheduledAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IamRole" => IamRole,
+                    "Schedule" => Schedule,
+                    "ScheduledActionName" => ScheduledActionName,
+                    "TargetAction" => TargetAction,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_snapshot_copy_grant(snapshot_copy_grant_name)
     create_snapshot_copy_grant(snapshot_copy_grant_name, params::Dict{String,<:Any})
 
 Creates a snapshot copy grant that permits Amazon Redshift to use a customer master key
-(CMK) from AWS Key Management Service (AWS KMS) to encrypt copied snapshots in a
-destination region.  For more information about managing snapshot copy grants, go to Amazon
-Redshift Database Encryption in the Amazon Redshift Cluster Management Guide.
+(CMK) from Key Management Service (KMS) to encrypt copied snapshots in a destination
+region.  For more information about managing snapshot copy grants, go to Amazon Redshift
+Database Encryption in the Amazon Redshift Cluster Management Guide.
 
 # Arguments
 - `snapshot_copy_grant_name`: The name of the snapshot copy grant. This name must be unique
-  in the region for the AWS account. Constraints:   Must contain from 1 to 63 alphanumeric
-  characters or hyphens.   Alphabetic characters must be lowercase.   First character must be
-  a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique
-  for all clusters within an AWS account.
+  in the region for the Amazon Web Services account. Constraints:   Must contain from 1 to 63
+  alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First
+  character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
+   Must be unique for all clusters within an Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -640,8 +1374,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Redshift permission. If no key is specified, the default key is used.
 - `"Tags"`: A list of tag instances.
 """
-create_snapshot_copy_grant(SnapshotCopyGrantName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateSnapshotCopyGrant", Dict{String, Any}("SnapshotCopyGrantName"=>SnapshotCopyGrantName); aws_config=aws_config)
-create_snapshot_copy_grant(SnapshotCopyGrantName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateSnapshotCopyGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotCopyGrantName"=>SnapshotCopyGrantName), params)); aws_config=aws_config)
+function create_snapshot_copy_grant(
+    SnapshotCopyGrantName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "CreateSnapshotCopyGrant",
+        Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName);
+        aws_config=aws_config,
+    )
+end
+function create_snapshot_copy_grant(
+    SnapshotCopyGrantName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateSnapshotCopyGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_snapshot_schedule()
@@ -661,8 +1419,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters are allowed for the identifier.
 - `"Tags"`: An optional set of tags you can use to search for the schedule.
 """
-create_snapshot_schedule(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateSnapshotSchedule"; aws_config=aws_config)
-create_snapshot_schedule(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateSnapshotSchedule", params; aws_config=aws_config)
+function create_snapshot_schedule(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("CreateSnapshotSchedule"; aws_config=aws_config)
+end
+function create_snapshot_schedule(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("CreateSnapshotSchedule", params; aws_config=aws_config)
+end
 
 """
     create_tags(resource_name, tag)
@@ -690,8 +1454,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple tags with a space. For example, --tags \"Key\"=\"owner\",\"Value\"=\"admin\"
   \"Key\"=\"environment\",\"Value\"=\"test\" \"Key\"=\"version\",\"Value\"=\"1.0\".
 """
-create_tags(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateTags", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws_config=aws_config)
-create_tags(ResourceName, Tag, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config)
+function create_tags(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift(
+        "CreateTags",
+        Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag);
+        aws_config=aws_config,
+    )
+end
+function create_tags(
+    ResourceName,
+    Tag,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_usage_limit(amount, cluster_identifier, feature_type, limit_type)
@@ -717,8 +1504,132 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default is monthly.
 - `"Tags"`: A list of tag instances.
 """
-create_usage_limit(Amount, ClusterIdentifier, FeatureType, LimitType; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateUsageLimit", Dict{String, Any}("Amount"=>Amount, "ClusterIdentifier"=>ClusterIdentifier, "FeatureType"=>FeatureType, "LimitType"=>LimitType); aws_config=aws_config)
-create_usage_limit(Amount, ClusterIdentifier, FeatureType, LimitType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateUsageLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Amount"=>Amount, "ClusterIdentifier"=>ClusterIdentifier, "FeatureType"=>FeatureType, "LimitType"=>LimitType), params)); aws_config=aws_config)
+function create_usage_limit(
+    Amount,
+    ClusterIdentifier,
+    FeatureType,
+    LimitType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateUsageLimit",
+        Dict{String,Any}(
+            "Amount" => Amount,
+            "ClusterIdentifier" => ClusterIdentifier,
+            "FeatureType" => FeatureType,
+            "LimitType" => LimitType,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_usage_limit(
+    Amount,
+    ClusterIdentifier,
+    FeatureType,
+    LimitType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateUsageLimit",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Amount" => Amount,
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "FeatureType" => FeatureType,
+                    "LimitType" => LimitType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    deauthorize_data_share(consumer_identifier, data_share_arn)
+    deauthorize_data_share(consumer_identifier, data_share_arn, params::Dict{String,<:Any})
+
+From the producer account, removes authorization from the specified datashare.
+
+# Arguments
+- `consumer_identifier`: The identifier of the data consumer that is to have authorization
+  removed from the datashare. This identifier is an AWS account ID.
+- `data_share_arn`: The Amazon Resource Name (ARN) of the datashare to remove authorization
+  from.
+
+"""
+function deauthorize_data_share(
+    ConsumerIdentifier, DataShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeauthorizeDataShare",
+        Dict{String,Any}(
+            "ConsumerIdentifier" => ConsumerIdentifier, "DataShareArn" => DataShareArn
+        );
+        aws_config=aws_config,
+    )
+end
+function deauthorize_data_share(
+    ConsumerIdentifier,
+    DataShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeauthorizeDataShare",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConsumerIdentifier" => ConsumerIdentifier,
+                    "DataShareArn" => DataShareArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    delete_authentication_profile(authentication_profile_name)
+    delete_authentication_profile(authentication_profile_name, params::Dict{String,<:Any})
+
+Deletes an authentication profile.
+
+# Arguments
+- `authentication_profile_name`: The name of the authentication profile to delete.
+
+"""
+function delete_authentication_profile(
+    AuthenticationProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteAuthenticationProfile",
+        Dict{String,Any}("AuthenticationProfileName" => AuthenticationProfileName);
+        aws_config=aws_config,
+    )
+end
+function delete_authentication_profile(
+    AuthenticationProfileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteAuthenticationProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AuthenticationProfileName" => AuthenticationProfileName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cluster(cluster_identifier)
@@ -759,8 +1670,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The FinalClusterSnapshotIdentifier parameter must be specified if SkipFinalClusterSnapshot
   is false.  Default: false
 """
-delete_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteCluster", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-delete_cluster(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function delete_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteCluster",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function delete_cluster(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cluster_parameter_group(parameter_group_name)
@@ -775,8 +1708,30 @@ if it is associated with a cluster.
   parameter group.
 
 """
-delete_cluster_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
-delete_cluster_parameter_group(ParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config)
+function delete_cluster_parameter_group(
+    ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteClusterParameterGroup",
+        Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_cluster_parameter_group(
+    ParameterGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteClusterParameterGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cluster_security_group(cluster_security_group_name)
@@ -791,8 +1746,32 @@ in the Amazon Redshift Cluster Management Guide.
 - `cluster_security_group_name`: The name of the cluster security group to be deleted.
 
 """
-delete_cluster_security_group(ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterSecurityGroup", Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName); aws_config=aws_config)
-delete_cluster_security_group(ClusterSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config)
+function delete_cluster_security_group(
+    ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteClusterSecurityGroup",
+        Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_cluster_security_group(
+    ClusterSecurityGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteClusterSecurityGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cluster_snapshot(snapshot_identifier)
@@ -817,8 +1796,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshot resource element that specifies anything other than * for the cluster name.
   Constraints: Must be the name of valid cluster.
 """
-delete_cluster_snapshot(SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterSnapshot", Dict{String, Any}("SnapshotIdentifier"=>SnapshotIdentifier); aws_config=aws_config)
-delete_cluster_snapshot(SnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
+function delete_cluster_snapshot(
+    SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteClusterSnapshot",
+        Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier);
+        aws_config=aws_config,
+    )
+end
+function delete_cluster_snapshot(
+    SnapshotIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteClusterSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cluster_subnet_group(cluster_subnet_group_name)
@@ -830,8 +1831,32 @@ Deletes the specified cluster subnet group.
 - `cluster_subnet_group_name`: The name of the cluster subnet group name to be deleted.
 
 """
-delete_cluster_subnet_group(ClusterSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterSubnetGroup", Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName); aws_config=aws_config)
-delete_cluster_subnet_group(ClusterSubnetGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName), params)); aws_config=aws_config)
+function delete_cluster_subnet_group(
+    ClusterSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteClusterSubnetGroup",
+        Dict{String,Any}("ClusterSubnetGroupName" => ClusterSubnetGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_cluster_subnet_group(
+    ClusterSubnetGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteClusterSubnetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterSubnetGroupName" => ClusterSubnetGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_endpoint_access(endpoint_name)
@@ -843,8 +1868,28 @@ Deletes a Redshift-managed VPC endpoint.
 - `endpoint_name`: The Redshift-managed VPC endpoint to delete.
 
 """
-delete_endpoint_access(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteEndpointAccess", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
-delete_endpoint_access(EndpointName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
+function delete_endpoint_access(
+    EndpointName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteEndpointAccess",
+        Dict{String,Any}("EndpointName" => EndpointName);
+        aws_config=aws_config,
+    )
+end
+function delete_endpoint_access(
+    EndpointName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteEndpointAccess",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EndpointName" => EndpointName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_event_subscription(subscription_name)
@@ -857,8 +1902,30 @@ Deletes an Amazon Redshift event notification subscription.
   be deleted.
 
 """
-delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-delete_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+function delete_event_subscription(
+    SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteEventSubscription",
+        Dict{String,Any}("SubscriptionName" => SubscriptionName);
+        aws_config=aws_config,
+    )
+end
+function delete_event_subscription(
+    SubscriptionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteEventSubscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_hsm_client_certificate(hsm_client_certificate_identifier)
@@ -871,8 +1938,36 @@ Deletes the specified HSM client certificate.
   deleted.
 
 """
-delete_hsm_client_certificate(HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteHsmClientCertificate", Dict{String, Any}("HsmClientCertificateIdentifier"=>HsmClientCertificateIdentifier); aws_config=aws_config)
-delete_hsm_client_certificate(HsmClientCertificateIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteHsmClientCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmClientCertificateIdentifier"=>HsmClientCertificateIdentifier), params)); aws_config=aws_config)
+function delete_hsm_client_certificate(
+    HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteHsmClientCertificate",
+        Dict{String,Any}(
+            "HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_hsm_client_certificate(
+    HsmClientCertificateIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteHsmClientCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_hsm_configuration(hsm_configuration_identifier)
@@ -885,8 +1980,34 @@ Deletes the specified Amazon Redshift HSM configuration.
   to be deleted.
 
 """
-delete_hsm_configuration(HsmConfigurationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteHsmConfiguration", Dict{String, Any}("HsmConfigurationIdentifier"=>HsmConfigurationIdentifier); aws_config=aws_config)
-delete_hsm_configuration(HsmConfigurationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteHsmConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmConfigurationIdentifier"=>HsmConfigurationIdentifier), params)); aws_config=aws_config)
+function delete_hsm_configuration(
+    HsmConfigurationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteHsmConfiguration",
+        Dict{String,Any}("HsmConfigurationIdentifier" => HsmConfigurationIdentifier);
+        aws_config=aws_config,
+    )
+end
+function delete_hsm_configuration(
+    HsmConfigurationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteHsmConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HsmConfigurationIdentifier" => HsmConfigurationIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_partner(account_id, cluster_identifier, database_name, partner_name)
@@ -896,15 +2017,56 @@ Deletes a partner integration from a cluster. Data can still flow to the cluster
 integration is deleted at the partner's website.
 
 # Arguments
-- `account_id`: The AWS account ID that owns the cluster.
+- `account_id`: The Amazon Web Services account ID that owns the cluster.
 - `cluster_identifier`: The cluster identifier of the cluster that receives data from the
   partner.
 - `database_name`: The name of the database that receives data from the partner.
 - `partner_name`: The name of the partner that is authorized to send data.
 
 """
-delete_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeletePartner", Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName); aws_config=aws_config)
-delete_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeletePartner", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName), params)); aws_config=aws_config)
+function delete_partner(
+    AccountId,
+    ClusterIdentifier,
+    DatabaseName,
+    PartnerName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeletePartner",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ClusterIdentifier" => ClusterIdentifier,
+            "DatabaseName" => DatabaseName,
+            "PartnerName" => PartnerName,
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_partner(
+    AccountId,
+    ClusterIdentifier,
+    DatabaseName,
+    PartnerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeletePartner",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "DatabaseName" => DatabaseName,
+                    "PartnerName" => PartnerName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_scheduled_action(scheduled_action_name)
@@ -916,8 +2078,32 @@ Deletes a scheduled action.
 - `scheduled_action_name`: The name of the scheduled action to delete.
 
 """
-delete_scheduled_action(ScheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteScheduledAction", Dict{String, Any}("ScheduledActionName"=>ScheduledActionName); aws_config=aws_config)
-delete_scheduled_action(ScheduledActionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduledActionName"=>ScheduledActionName), params)); aws_config=aws_config)
+function delete_scheduled_action(
+    ScheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteScheduledAction",
+        Dict{String,Any}("ScheduledActionName" => ScheduledActionName);
+        aws_config=aws_config,
+    )
+end
+function delete_scheduled_action(
+    ScheduledActionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteScheduledAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ScheduledActionName" => ScheduledActionName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_snapshot_copy_grant(snapshot_copy_grant_name)
@@ -929,8 +2115,32 @@ Deletes the specified snapshot copy grant.
 - `snapshot_copy_grant_name`: The name of the snapshot copy grant to delete.
 
 """
-delete_snapshot_copy_grant(SnapshotCopyGrantName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteSnapshotCopyGrant", Dict{String, Any}("SnapshotCopyGrantName"=>SnapshotCopyGrantName); aws_config=aws_config)
-delete_snapshot_copy_grant(SnapshotCopyGrantName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteSnapshotCopyGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotCopyGrantName"=>SnapshotCopyGrantName), params)); aws_config=aws_config)
+function delete_snapshot_copy_grant(
+    SnapshotCopyGrantName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteSnapshotCopyGrant",
+        Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName);
+        aws_config=aws_config,
+    )
+end
+function delete_snapshot_copy_grant(
+    SnapshotCopyGrantName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteSnapshotCopyGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_snapshot_schedule(schedule_identifier)
@@ -942,8 +2152,30 @@ Deletes a snapshot schedule.
 - `schedule_identifier`: A unique identifier of the snapshot schedule to delete.
 
 """
-delete_snapshot_schedule(ScheduleIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteSnapshotSchedule", Dict{String, Any}("ScheduleIdentifier"=>ScheduleIdentifier); aws_config=aws_config)
-delete_snapshot_schedule(ScheduleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleIdentifier"=>ScheduleIdentifier), params)); aws_config=aws_config)
+function delete_snapshot_schedule(
+    ScheduleIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteSnapshotSchedule",
+        Dict{String,Any}("ScheduleIdentifier" => ScheduleIdentifier);
+        aws_config=aws_config,
+    )
+end
+function delete_snapshot_schedule(
+    ScheduleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteSnapshotSchedule",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ScheduleIdentifier" => ScheduleIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_tags(resource_name, tag_key)
@@ -961,8 +2193,33 @@ to delete the tag or tags.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TagKeys"`: The tag key that you want to delete.
 """
-delete_tags(ResourceName, TagKey; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteTags", Dict{String, Any}("ResourceName"=>ResourceName, "TagKey"=>TagKey); aws_config=aws_config)
-delete_tags(ResourceName, TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKey"=>TagKey), params)); aws_config=aws_config)
+function delete_tags(
+    ResourceName, TagKey; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteTags",
+        Dict{String,Any}("ResourceName" => ResourceName, "TagKey" => TagKey);
+        aws_config=aws_config,
+    )
+end
+function delete_tags(
+    ResourceName,
+    TagKey,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceName" => ResourceName, "TagKey" => TagKey),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_usage_limit(usage_limit_id)
@@ -974,8 +2231,26 @@ Deletes a usage limit from a cluster.
 - `usage_limit_id`: The identifier of the usage limit to delete.
 
 """
-delete_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteUsageLimit", Dict{String, Any}("UsageLimitId"=>UsageLimitId); aws_config=aws_config)
-delete_usage_limit(UsageLimitId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteUsageLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UsageLimitId"=>UsageLimitId), params)); aws_config=aws_config)
+function delete_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift(
+        "DeleteUsageLimit",
+        Dict{String,Any}("UsageLimitId" => UsageLimitId);
+        aws_config=aws_config,
+    )
+end
+function delete_usage_limit(
+    UsageLimitId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteUsageLimit",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("UsageLimitId" => UsageLimitId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_account_attributes()
@@ -987,8 +2262,36 @@ Returns a list of attributes attached to an account
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AttributeNames"`: A list of attribute names.
 """
-describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeAccountAttributes"; aws_config=aws_config)
-describe_account_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeAccountAttributes", params; aws_config=aws_config)
+function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeAccountAttributes"; aws_config=aws_config)
+end
+function describe_account_attributes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeAccountAttributes", params; aws_config=aws_config)
+end
+
+"""
+    describe_authentication_profiles()
+    describe_authentication_profiles(params::Dict{String,<:Any})
+
+Describes an authentication profile.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthenticationProfileName"`: The name of the authentication profile to describe. If not
+  specified then all authentication profiles owned by the account are listed.
+"""
+function describe_authentication_profiles(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeAuthenticationProfiles"; aws_config=aws_config)
+end
+function describe_authentication_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeAuthenticationProfiles", params; aws_config=aws_config)
+end
 
 """
     describe_cluster_db_revisions()
@@ -1013,8 +2316,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   records by providing the returned marker value in the marker parameter and retrying the
   request.  Default: 100 Constraints: minimum 20, maximum 100.
 """
-describe_cluster_db_revisions(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterDbRevisions"; aws_config=aws_config)
-describe_cluster_db_revisions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterDbRevisions", params; aws_config=aws_config)
+function describe_cluster_db_revisions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeClusterDbRevisions"; aws_config=aws_config)
+end
+function describe_cluster_db_revisions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusterDbRevisions", params; aws_config=aws_config)
+end
 
 """
     describe_cluster_parameter_groups()
@@ -1037,9 +2346,9 @@ values associated with them.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterParameterGroups request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1059,8 +2368,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you specify both of these tag values in the request, Amazon Redshift returns a response
   with the parameter groups that have either or both of these tag values associated with them.
 """
-describe_cluster_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterParameterGroups"; aws_config=aws_config)
-describe_cluster_parameter_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterParameterGroups", params; aws_config=aws_config)
+function describe_cluster_parameter_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusterParameterGroups"; aws_config=aws_config)
+end
+function describe_cluster_parameter_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusterParameterGroups", params; aws_config=aws_config)
+end
 
 """
     describe_cluster_parameters(parameter_group_name)
@@ -1082,9 +2399,9 @@ Redshift Cluster Management Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterParameters request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1095,8 +2412,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the same as the default parameter group.  Default: All parameter types returned. Valid
   Values: user | engine-default
 """
-describe_cluster_parameters(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterParameters", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
-describe_cluster_parameters(ParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config)
+function describe_cluster_parameters(
+    ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeClusterParameters",
+        Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
+        aws_config=aws_config,
+    )
+end
+function describe_cluster_parameters(
+    ParameterGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DescribeClusterParameters",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_cluster_security_groups()
@@ -1120,10 +2459,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClusterSecurityGroupName parameter, but not both.   Example: securitygroup1
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterSecurityGroups request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.  Constraints: You can specify either the
-  ClusterSecurityGroupName parameter or the Marker parameter, but not both.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.  Constraints: You can
+  specify either the ClusterSecurityGroupName parameter or the Marker parameter, but not
+  both.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1140,8 +2480,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you specify both of these tag values in the request, Amazon Redshift returns a response
   with the security groups that have either or both of these tag values associated with them.
 """
-describe_cluster_security_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterSecurityGroups"; aws_config=aws_config)
-describe_cluster_security_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterSecurityGroups", params; aws_config=aws_config)
+function describe_cluster_security_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusterSecurityGroups"; aws_config=aws_config)
+end
+function describe_cluster_security_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusterSecurityGroups", params; aws_config=aws_config)
+end
 
 """
     describe_cluster_snapshots()
@@ -1149,15 +2497,15 @@ describe_cluster_security_groups(params::AbstractDict{String}; aws_config::Abstr
 
 Returns one or more snapshot objects, which contain metadata about your cluster snapshots.
 By default, this operation returns information about all snapshots of all clusters that are
-owned by you AWS customer account. No information is returned for snapshots owned by
-inactive AWS customer accounts. If you specify both tag keys and tag values in the same
-request, Amazon Redshift returns all snapshots that match any combination of the specified
-keys and values. For example, if you have owner and environment for tag keys, and admin and
-test for tag values, all snapshots that have any combination of those values are returned.
-Only snapshots that you own are returned in the response; shared snapshots are not returned
-with the tag key and tag value request parameters. If both tag keys and values are omitted
-from the request, snapshots are returned regardless of whether they have tag keys or values
-associated with them.
+owned by your Amazon Web Services account. No information is returned for snapshots owned
+by inactive Amazon Web Services accounts. If you specify both tag keys and tag values in
+the same request, Amazon Redshift returns all snapshots that match any combination of the
+specified keys and values. For example, if you have owner and environment for tag keys, and
+admin and test for tag values, all snapshots that have any combination of those values are
+returned. Only snapshots that you own are returned in the response; shared snapshots are
+not returned with the tag key and tag value request parameters. If both tag keys and values
+are omitted from the request, snapshots are returned regardless of whether they have tag
+keys or values associated with them.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1177,18 +2525,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterSnapshots request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
   retrying the command with the returned marker value.  Default: 100  Constraints: minimum
   20, maximum 100.
-- `"OwnerAccount"`: The AWS customer account used to create or copy the snapshot. Use this
-  field to filter the results to snapshots owned by a particular account. To describe
-  snapshots you own, either specify your AWS customer account, or do not specify the
-  parameter.
+- `"OwnerAccount"`: The Amazon Web Services account used to create or copy the snapshot.
+  Use this field to filter the results to snapshots owned by a particular account. To
+  describe snapshots you own, either specify your Amazon Web Services account, or do not
+  specify the parameter.
 - `"SnapshotIdentifier"`: The snapshot identifier of the snapshot about which to return
   information.
 - `"SnapshotType"`: The type of snapshots for which you are requesting information. By
@@ -1208,8 +2556,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both of these tag values in the request, Amazon Redshift returns a response with the
   snapshots that have either or both of these tag values associated with them.
 """
-describe_cluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterSnapshots"; aws_config=aws_config)
-describe_cluster_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterSnapshots", params; aws_config=aws_config)
+function describe_cluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeClusterSnapshots"; aws_config=aws_config)
+end
+function describe_cluster_snapshots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusterSnapshots", params; aws_config=aws_config)
+end
 
 """
     describe_cluster_subnet_groups()
@@ -1217,12 +2571,13 @@ describe_cluster_snapshots(params::AbstractDict{String}; aws_config::AbstractAWS
 
 Returns one or more cluster subnet group objects, which contain metadata about your cluster
 subnet groups. By default, this operation returns information about all cluster subnet
-groups that are defined in you AWS account. If you specify both tag keys and tag values in
-the same request, Amazon Redshift returns all subnet groups that match any combination of
-the specified keys and values. For example, if you have owner and environment for tag keys,
-and admin and test for tag values, all subnet groups that have any combination of those
-values are returned. If both tag keys and values are omitted from the request, subnet
-groups are returned regardless of whether they have tag keys or values associated with them.
+groups that are defined in your Amazon Web Services account. If you specify both tag keys
+and tag values in the same request, Amazon Redshift returns all subnet groups that match
+any combination of the specified keys and values. For example, if you have owner and
+environment for tag keys, and admin and test for tag values, all subnet groups that have
+any combination of those values are returned. If both tag keys and values are omitted from
+the request, subnet groups are returned regardless of whether they have tag keys or values
+associated with them.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1230,9 +2585,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requested.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterSubnetGroups request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1249,8 +2604,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you specify both of these tag values in the request, Amazon Redshift returns a response
   with the subnet groups that have either or both of these tag values associated with them.
 """
-describe_cluster_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterSubnetGroups"; aws_config=aws_config)
-describe_cluster_subnet_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterSubnetGroups", params; aws_config=aws_config)
+function describe_cluster_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeClusterSubnetGroups"; aws_config=aws_config)
+end
+function describe_cluster_subnet_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusterSubnetGroups", params; aws_config=aws_config)
+end
 
 """
     describe_cluster_tracks()
@@ -1268,8 +2629,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: An integer value for the maximum number of maintenance tracks to return.
 """
-describe_cluster_tracks(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterTracks"; aws_config=aws_config)
-describe_cluster_tracks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterTracks", params; aws_config=aws_config)
+function describe_cluster_tracks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeClusterTracks"; aws_config=aws_config)
+end
+function describe_cluster_tracks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusterTracks", params; aws_config=aws_config)
+end
 
 """
     describe_cluster_versions()
@@ -1288,17 +2655,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClusterVersion"`: The specific cluster version to return. Example: 1.0
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterVersions request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
   retrying the command with the returned marker value.  Default: 100  Constraints: minimum
   20, maximum 100.
 """
-describe_cluster_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterVersions"; aws_config=aws_config)
-describe_cluster_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusterVersions", params; aws_config=aws_config)
+function describe_cluster_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeClusterVersions"; aws_config=aws_config)
+end
+function describe_cluster_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusterVersions", params; aws_config=aws_config)
+end
 
 """
     describe_clusters()
@@ -1322,9 +2695,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an account are returned.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusters request exceed the value specified
-  in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve
-  the next set of response records by providing the returned marker value in the Marker
-  parameter and retrying the request.  Constraints: You can specify either the
+  in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You
+  can retrieve the next set of response records by providing the returned marker value in the
+  Marker parameter and retrying the request.  Constraints: You can specify either the
   ClusterIdentifier parameter or the Marker parameter, but not both.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
@@ -1342,8 +2715,111 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   these tag values in the request, Amazon Redshift returns a response with the clusters that
   have either or both of these tag values associated with them.
 """
-describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusters"; aws_config=aws_config)
-describe_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeClusters", params; aws_config=aws_config)
+function describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeClusters"; aws_config=aws_config)
+end
+function describe_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeClusters", params; aws_config=aws_config)
+end
+
+"""
+    describe_data_shares()
+    describe_data_shares(params::Dict{String,<:Any})
+
+Shows the status of any inbound or outbound datashares available in the specified account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataShareArn"`: The identifier of the datashare to describe details of.
+- `"Marker"`: An optional parameter that specifies the starting point to return a set of
+  response records. When the results of a DescribeDataShares request exceed the value
+  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
+  retrieve the next set of response records by providing the returned marker value in the
+  Marker parameter and retrying the request.
+- `"MaxRecords"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+"""
+function describe_data_shares(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeDataShares"; aws_config=aws_config)
+end
+function describe_data_shares(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeDataShares", params; aws_config=aws_config)
+end
+
+"""
+    describe_data_shares_for_consumer()
+    describe_data_shares_for_consumer(params::Dict{String,<:Any})
+
+Returns a list of datashares where the account identifier being called is a consumer
+account identifier.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConsumerArn"`: The Amazon Resource Name (ARN) of the consumer that returns in the list
+  of datashares.
+- `"Marker"`: An optional parameter that specifies the starting point to return a set of
+  response records. When the results of a DescribeDataSharesForConsumer request exceed the
+  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
+  can retrieve the next set of response records by providing the returned marker value in the
+  Marker parameter and retrying the request.
+- `"MaxRecords"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+- `"Status"`: An identifier giving the status of a datashare in the consumer cluster. If
+  this field is specified, Amazon Redshift returns the list of datashares that have the
+  specified status.
+"""
+function describe_data_shares_for_consumer(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeDataSharesForConsumer"; aws_config=aws_config)
+end
+function describe_data_shares_for_consumer(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeDataSharesForConsumer", params; aws_config=aws_config)
+end
+
+"""
+    describe_data_shares_for_producer()
+    describe_data_shares_for_producer(params::Dict{String,<:Any})
+
+Returns a list of datashares when the account identifier being called is a producer account
+identifier.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: An optional parameter that specifies the starting point to return a set of
+  response records. When the results of a DescribeDataSharesForProducer request exceed the
+  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
+  can retrieve the next set of response records by providing the returned marker value in the
+  Marker parameter and retrying the request.
+- `"MaxRecords"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+- `"ProducerArn"`: The Amazon Resource Name (ARN) of the producer that returns in the list
+  of datashares.
+- `"Status"`: An identifier giving the status of a datashare in the producer. If this field
+  is specified, Amazon Redshift returns the list of datashares that have the specified status.
+"""
+function describe_data_shares_for_producer(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeDataSharesForProducer"; aws_config=aws_config)
+end
+function describe_data_shares_for_producer(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeDataSharesForProducer", params; aws_config=aws_config)
+end
 
 """
     describe_default_cluster_parameters(parameter_group_family)
@@ -1360,17 +2836,41 @@ in the Amazon Redshift Cluster Management Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeDefaultClusterParameters request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
   retrying the command with the returned marker value.  Default: 100  Constraints: minimum
   20, maximum 100.
 """
-describe_default_cluster_parameters(ParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeDefaultClusterParameters", Dict{String, Any}("ParameterGroupFamily"=>ParameterGroupFamily); aws_config=aws_config)
-describe_default_cluster_parameters(ParameterGroupFamily, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupFamily"=>ParameterGroupFamily), params)); aws_config=aws_config)
+function describe_default_cluster_parameters(
+    ParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeDefaultClusterParameters",
+        Dict{String,Any}("ParameterGroupFamily" => ParameterGroupFamily);
+        aws_config=aws_config,
+    )
+end
+function describe_default_cluster_parameters(
+    ParameterGroupFamily,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DescribeDefaultClusterParameters",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ParameterGroupFamily" => ParameterGroupFamily),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_endpoint_access()
@@ -1388,11 +2888,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a pagination token called a Marker is included
   in the response so that the remaining results can be retrieved.
-- `"ResourceOwner"`: The AWS account ID of the owner of the cluster.
+- `"ResourceOwner"`: The Amazon Web Services account ID of the owner of the cluster.
 - `"VpcId"`: The virtual private cloud (VPC) identifier with access to the cluster.
 """
-describe_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAccess"; aws_config=aws_config)
-describe_endpoint_access(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAccess", params; aws_config=aws_config)
+function describe_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeEndpointAccess"; aws_config=aws_config)
+end
+function describe_endpoint_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeEndpointAccess", params; aws_config=aws_config)
+end
 
 """
     describe_endpoint_authorization()
@@ -1402,8 +2908,8 @@ Describes an endpoint authorization.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Account"`: The AWS account ID of either the cluster owner (grantor) or grantee. If
-  Grantee parameter is true, then the Account value is of the grantor.
+- `"Account"`: The AAmazon Web Services account ID of either the cluster owner (grantor) or
+  grantee. If Grantee parameter is true, then the Account value is of the grantor.
 - `"ClusterIdentifier"`: The cluster identifier of the cluster to access.
 - `"Grantee"`: Indicates whether to check authorization from a grantor or grantee point of
   view. If true, Amazon Redshift returns endpoint authorizations that you've been granted. If
@@ -1416,8 +2922,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxRecords value, a pagination token called a Marker is included
   in the response so that the remaining results can be retrieved.
 """
-describe_endpoint_authorization(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAuthorization"; aws_config=aws_config)
-describe_endpoint_authorization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAuthorization", params; aws_config=aws_config)
+function describe_endpoint_authorization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeEndpointAuthorization"; aws_config=aws_config)
+end
+function describe_endpoint_authorization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeEndpointAuthorization", params; aws_config=aws_config)
+end
 
 """
     describe_event_categories()
@@ -1433,8 +2947,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   described event categories apply. Valid values: cluster, cluster-snapshot,
   cluster-parameter-group, cluster-security-group, and scheduled-action.
 """
-describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEventCategories"; aws_config=aws_config)
-describe_event_categories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEventCategories", params; aws_config=aws_config)
+function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeEventCategories"; aws_config=aws_config)
+end
+function describe_event_categories(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeEventCategories", params; aws_config=aws_config)
+end
 
 """
     describe_event_subscriptions()
@@ -1453,9 +2973,9 @@ returned regardless of whether they have tag keys or values associated with them
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeEventSubscriptions request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1475,8 +2995,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response with the subscriptions that have either or both of these tag values associated
   with them.
 """
-describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEventSubscriptions"; aws_config=aws_config)
-describe_event_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEventSubscriptions", params; aws_config=aws_config)
+function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeEventSubscriptions"; aws_config=aws_config)
+end
+function describe_event_subscriptions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeEventSubscriptions", params; aws_config=aws_config)
+end
 
 """
     describe_events()
@@ -1497,9 +3023,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example: 2009-07-08T18:00Z
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeEvents request exceed the value specified
-  in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve
-  the next set of response records by providing the returned marker value in the Marker
-  parameter and retrying the request.
+  in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You
+  can retrieve the next set of response records by providing the returned marker value in the
+  Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1522,32 +3048,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.
   Example: 2009-07-08T18:00Z
 """
-describe_events(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEvents"; aws_config=aws_config)
-describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEvents", params; aws_config=aws_config)
+function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeEvents"; aws_config=aws_config)
+end
+function describe_events(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeEvents", params; aws_config=aws_config)
+end
 
 """
     describe_hsm_client_certificates()
     describe_hsm_client_certificates(params::Dict{String,<:Any})
 
 Returns information about the specified HSM client certificate. If no certificate ID is
-specified, returns information about all the HSM certificates owned by your AWS customer
-account. If you specify both tag keys and tag values in the same request, Amazon Redshift
-returns all HSM client certificates that match any combination of the specified keys and
-values. For example, if you have owner and environment for tag keys, and admin and test for
-tag values, all HSM client certificates that have any combination of those values are
-returned. If both tag keys and values are omitted from the request, HSM client certificates
-are returned regardless of whether they have tag keys or values associated with them.
+specified, returns information about all the HSM certificates owned by your Amazon Web
+Services account. If you specify both tag keys and tag values in the same request, Amazon
+Redshift returns all HSM client certificates that match any combination of the specified
+keys and values. For example, if you have owner and environment for tag keys, and admin and
+test for tag values, all HSM client certificates that have any combination of those values
+are returned. If both tag keys and values are omitted from the request, HSM client
+certificates are returned regardless of whether they have tag keys or values associated
+with them.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HsmClientCertificateIdentifier"`: The identifier of a specific HSM client certificate
   for which you want information. If no identifier is specified, information is returned for
-  all HSM client certificates owned by your AWS customer account.
+  all HSM client certificates owned by your Amazon Web Services account.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeHsmClientCertificates request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1565,8 +3098,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response with the HSM client certificates that have either or both of these tag values
   associated with them.
 """
-describe_hsm_client_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeHsmClientCertificates"; aws_config=aws_config)
-describe_hsm_client_certificates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeHsmClientCertificates", params; aws_config=aws_config)
+function describe_hsm_client_certificates(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeHsmClientCertificates"; aws_config=aws_config)
+end
+function describe_hsm_client_certificates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeHsmClientCertificates", params; aws_config=aws_config)
+end
 
 """
     describe_hsm_configurations()
@@ -1574,8 +3115,8 @@ describe_hsm_client_certificates(params::AbstractDict{String}; aws_config::Abstr
 
 Returns information about the specified Amazon Redshift HSM configuration. If no
 configuration ID is specified, returns information about all the HSM configurations owned
-by your AWS customer account. If you specify both tag keys and tag values in the same
-request, Amazon Redshift returns all HSM connections that match any combination of the
+by your Amazon Web Services account. If you specify both tag keys and tag values in the
+same request, Amazon Redshift returns all HSM connections that match any combination of the
 specified keys and values. For example, if you have owner and environment for tag keys, and
 admin and test for tag values, all HSM connections that have any combination of those
 values are returned. If both tag keys and values are omitted from the request, HSM
@@ -1586,12 +3127,12 @@ them.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HsmConfigurationIdentifier"`: The identifier of a specific Amazon Redshift HSM
   configuration to be described. If no identifier is specified, information is returned for
-  all HSM configurations owned by your AWS customer account.
+  all HSM configurations owned by your Amazon Web Services account.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeHsmConfigurations request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1609,8 +3150,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the HSM configurations that have either or both of these tag values associated with
   them.
 """
-describe_hsm_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeHsmConfigurations"; aws_config=aws_config)
-describe_hsm_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeHsmConfigurations", params; aws_config=aws_config)
+function describe_hsm_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeHsmConfigurations"; aws_config=aws_config)
+end
+function describe_hsm_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeHsmConfigurations", params; aws_config=aws_config)
+end
 
 """
     describe_logging_status(cluster_identifier)
@@ -1624,8 +3171,30 @@ the specified Amazon Redshift cluster.
   Example: examplecluster
 
 """
-describe_logging_status(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeLoggingStatus", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-describe_logging_status(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeLoggingStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function describe_logging_status(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeLoggingStatus",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function describe_logging_status(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DescribeLoggingStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_node_configuration_options(action_type)
@@ -1648,21 +3217,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: A set of name, operator, and value items to filter the results.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeNodeConfigurationOptions request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
   retrying the command with the returned marker value.  Default: 500  Constraints: minimum
   100, maximum 500.
-- `"OwnerAccount"`: The AWS customer account used to create or copy the snapshot. Required
-  if you are restoring a snapshot you do not own, optional if you own the snapshot.
+- `"OwnerAccount"`: The Amazon Web Services account used to create or copy the snapshot.
+  Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
 - `"SnapshotIdentifier"`: The identifier of the snapshot to evaluate for possible node
   configurations.
 """
-describe_node_configuration_options(ActionType; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeNodeConfigurationOptions", Dict{String, Any}("ActionType"=>ActionType); aws_config=aws_config)
-describe_node_configuration_options(ActionType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeNodeConfigurationOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionType"=>ActionType), params)); aws_config=aws_config)
+function describe_node_configuration_options(
+    ActionType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeNodeConfigurationOptions",
+        Dict{String,Any}("ActionType" => ActionType);
+        aws_config=aws_config,
+    )
+end
+function describe_node_configuration_options(
+    ActionType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DescribeNodeConfigurationOptions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ActionType" => ActionType), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_orderable_cluster_options()
@@ -1670,11 +3259,11 @@ describe_node_configuration_options(ActionType, params::AbstractDict{String}; aw
 
 Returns a list of orderable cluster options. Before you create a new cluster you can use
 this operation to find what options are available, such as the EC2 Availability Zones (AZ)
-in the specific AWS Region that you can specify, and the node types you can request. The
-node types differ by available storage, memory, CPU and price. With the cost involved you
-might want to obtain a list of cluster options in the specific region and specify values
-when creating a cluster. For more information about managing clusters, go to Amazon
-Redshift Clusters in the Amazon Redshift Cluster Management Guide.
+in the specific Amazon Web Services Region that you can specify, and the node types you can
+request. The node types differ by available storage, memory, CPU and price. With the cost
+involved you might want to obtain a list of cluster options in the specific region and
+specify values when creating a cluster. For more information about managing clusters, go to
+Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1683,9 +3272,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Must be one of the version returned from DescribeClusterVersions.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeOrderableClusterOptions request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1694,8 +3283,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NodeType"`: The node type filter value. Specify this parameter to show only the
   available offerings matching the specified node type.
 """
-describe_orderable_cluster_options(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeOrderableClusterOptions"; aws_config=aws_config)
-describe_orderable_cluster_options(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeOrderableClusterOptions", params; aws_config=aws_config)
+function describe_orderable_cluster_options(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeOrderableClusterOptions"; aws_config=aws_config)
+end
+function describe_orderable_cluster_options(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeOrderableClusterOptions", params; aws_config=aws_config)
+end
 
 """
     describe_partners(account_id, cluster_identifier)
@@ -1704,7 +3301,7 @@ describe_orderable_cluster_options(params::AbstractDict{String}; aws_config::Abs
 Returns information about the partner integrations defined for a cluster.
 
 # Arguments
-- `account_id`: The AWS account ID that owns the cluster.
+- `account_id`: The Amazon Web Services account ID that owns the cluster.
 - `cluster_identifier`: The cluster identifier of the cluster whose partner integration is
   being described.
 
@@ -1715,8 +3312,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PartnerName"`: The name of the partner that is being described. If partner name is not
   specified, then all partner integrations are described.
 """
-describe_partners(AccountId, ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribePartners", Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-describe_partners(AccountId, ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribePartners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function describe_partners(
+    AccountId, ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribePartners",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ClusterIdentifier" => ClusterIdentifier
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_partners(
+    AccountId,
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DescribePartners",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId, "ClusterIdentifier" => ClusterIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_reserved_node_offerings()
@@ -1734,9 +3360,9 @@ Nodes in the Amazon Redshift Cluster Management Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeReservedNodeOfferings request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1744,8 +3370,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   20, maximum 100.
 - `"ReservedNodeOfferingId"`: The unique identifier for the offering.
 """
-describe_reserved_node_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeReservedNodeOfferings"; aws_config=aws_config)
-describe_reserved_node_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeReservedNodeOfferings", params; aws_config=aws_config)
+function describe_reserved_node_offerings(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeReservedNodeOfferings"; aws_config=aws_config)
+end
+function describe_reserved_node_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeReservedNodeOfferings", params; aws_config=aws_config)
+end
 
 """
     describe_reserved_nodes()
@@ -1757,9 +3391,9 @@ Returns the descriptions of the reserved nodes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeReservedNodes request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1767,8 +3401,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   20, maximum 100.
 - `"ReservedNodeId"`: Identifier for the node reservation.
 """
-describe_reserved_nodes(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeReservedNodes"; aws_config=aws_config)
-describe_reserved_nodes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeReservedNodes", params; aws_config=aws_config)
+function describe_reserved_nodes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeReservedNodes"; aws_config=aws_config)
+end
+function describe_reserved_nodes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeReservedNodes", params; aws_config=aws_config)
+end
 
 """
     describe_resize(cluster_identifier)
@@ -1783,11 +3423,33 @@ and specifying a different number or type of nodes for the cluster.
 # Arguments
 - `cluster_identifier`: The unique identifier of a cluster whose resize progress you are
   requesting. This parameter is case-sensitive. By default, resize operations for all
-  clusters defined for an AWS account are returned.
+  clusters defined for an Amazon Web Services account are returned.
 
 """
-describe_resize(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeResize", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-describe_resize(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeResize", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function describe_resize(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeResize",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function describe_resize(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DescribeResize",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_scheduled_actions()
@@ -1804,9 +3466,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: List of scheduled action filters.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeScheduledActions request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1817,25 +3479,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduled actions that have invocations after this time are retrieved.
 - `"TargetActionType"`: The type of the scheduled actions to retrieve.
 """
-describe_scheduled_actions(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeScheduledActions"; aws_config=aws_config)
-describe_scheduled_actions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeScheduledActions", params; aws_config=aws_config)
+function describe_scheduled_actions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeScheduledActions"; aws_config=aws_config)
+end
+function describe_scheduled_actions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeScheduledActions", params; aws_config=aws_config)
+end
 
 """
     describe_snapshot_copy_grants()
     describe_snapshot_copy_grants(params::Dict{String,<:Any})
 
-Returns a list of snapshot copy grants owned by the AWS account in the destination region.
-For more information about managing snapshot copy grants, go to Amazon Redshift Database
-Encryption in the Amazon Redshift Cluster Management Guide.
+Returns a list of snapshot copy grants owned by the Amazon Web Services account in the
+destination region.  For more information about managing snapshot copy grants, go to Amazon
+Redshift Database Encryption in the Amazon Redshift Cluster Management Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeSnapshotCopyGrant request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.  Constraints: You can specify either the
-  SnapshotCopyGrantName parameter or the Marker parameter, but not both.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.  Constraints: You can
+  specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1853,8 +3521,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the request, Amazon Redshift returns a response with all resources that have either or
   both of these tag values associated with them.
 """
-describe_snapshot_copy_grants(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeSnapshotCopyGrants"; aws_config=aws_config)
-describe_snapshot_copy_grants(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeSnapshotCopyGrants", params; aws_config=aws_config)
+function describe_snapshot_copy_grants(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeSnapshotCopyGrants"; aws_config=aws_config)
+end
+function describe_snapshot_copy_grants(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeSnapshotCopyGrants", params; aws_config=aws_config)
+end
 
 """
     describe_snapshot_schedules()
@@ -1879,8 +3553,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagKeys"`: The key value for a snapshot schedule tag.
 - `"TagValues"`: The value corresponding to the key of the snapshot schedule tag.
 """
-describe_snapshot_schedules(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeSnapshotSchedules"; aws_config=aws_config)
-describe_snapshot_schedules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeSnapshotSchedules", params; aws_config=aws_config)
+function describe_snapshot_schedules(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeSnapshotSchedules"; aws_config=aws_config)
+end
+function describe_snapshot_schedules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeSnapshotSchedules", params; aws_config=aws_config)
+end
 
 """
     describe_storage()
@@ -1889,8 +3569,14 @@ describe_snapshot_schedules(params::AbstractDict{String}; aws_config::AbstractAW
 Returns account level backups storage size and provisional storage.
 
 """
-describe_storage(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeStorage"; aws_config=aws_config)
-describe_storage(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeStorage", params; aws_config=aws_config)
+function describe_storage(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeStorage"; aws_config=aws_config)
+end
+function describe_storage(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeStorage", params; aws_config=aws_config)
+end
 
 """
     describe_table_restore_status()
@@ -1916,8 +3602,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for. If you don't specify a TableRestoreRequestId value, then DescribeTableRestoreStatus
   returns the status of all in-progress table restore requests.
 """
-describe_table_restore_status(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeTableRestoreStatus"; aws_config=aws_config)
-describe_table_restore_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeTableRestoreStatus", params; aws_config=aws_config)
+function describe_table_restore_status(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeTableRestoreStatus"; aws_config=aws_config)
+end
+function describe_table_restore_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeTableRestoreStatus", params; aws_config=aws_config)
+end
 
 """
     describe_tags()
@@ -1966,8 +3658,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the request, Amazon Redshift returns a response with all resources that have either or
   both of these tag values associated with them.
 """
-describe_tags(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeTags"; aws_config=aws_config)
-describe_tags(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeTags", params; aws_config=aws_config)
+function describe_tags(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeTags"; aws_config=aws_config)
+end
+function describe_tags(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeTags", params; aws_config=aws_config)
+end
 
 """
     describe_usage_limits()
@@ -1989,9 +3687,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FeatureType"`: The feature type for which you want to describe usage limits.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeUsageLimits request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -2010,8 +3708,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   them.
 - `"UsageLimitId"`: The identifier of the usage limit to describe.
 """
-describe_usage_limits(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeUsageLimits"; aws_config=aws_config)
-describe_usage_limits(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeUsageLimits", params; aws_config=aws_config)
+function describe_usage_limits(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("DescribeUsageLimits"; aws_config=aws_config)
+end
+function describe_usage_limits(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("DescribeUsageLimits", params; aws_config=aws_config)
+end
 
 """
     disable_logging(cluster_identifier)
@@ -2025,8 +3729,30 @@ Amazon Redshift cluster.
   Example: examplecluster
 
 """
-disable_logging(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DisableLogging", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-disable_logging(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DisableLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function disable_logging(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DisableLogging",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function disable_logging(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DisableLogging",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disable_snapshot_copy(cluster_identifier)
@@ -2034,8 +3760,8 @@ disable_logging(ClusterIdentifier, params::AbstractDict{String}; aws_config::Abs
 
 Disables the automatic copying of snapshots from one region to another region for a
 specified cluster. If your cluster and its snapshots are encrypted using a customer master
-key (CMK) from AWS KMS, use DeleteSnapshotCopyGrant to delete the grant that grants Amazon
-Redshift permission to the CMK in the destination region.
+key (CMK) from Key Management Service, use DeleteSnapshotCopyGrant to delete the grant that
+grants Amazon Redshift permission to the CMK in the destination region.
 
 # Arguments
 - `cluster_identifier`: The unique identifier of the source cluster that you want to
@@ -2043,8 +3769,70 @@ Redshift permission to the CMK in the destination region.
   of an existing cluster that has cross-region snapshot copy enabled.
 
 """
-disable_snapshot_copy(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DisableSnapshotCopy", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-disable_snapshot_copy(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DisableSnapshotCopy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function disable_snapshot_copy(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DisableSnapshotCopy",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function disable_snapshot_copy(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DisableSnapshotCopy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    disassociate_data_share_consumer(data_share_arn)
+    disassociate_data_share_consumer(data_share_arn, params::Dict{String,<:Any})
+
+From a consumer account, remove association for the specified datashare.
+
+# Arguments
+- `data_share_arn`: The Amazon Resource Name (ARN) of the datashare to remove association
+  for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConsumerArn"`: The Amazon Resource Name (ARN) of the consumer that association for the
+  datashare is removed from.
+- `"DisassociateEntireAccount"`: A value that specifies whether association for the
+  datashare is removed from the entire account.
+"""
+function disassociate_data_share_consumer(
+    DataShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DisassociateDataShareConsumer",
+        Dict{String,Any}("DataShareArn" => DataShareArn);
+        aws_config=aws_config,
+    )
+end
+function disassociate_data_share_consumer(
+    DataShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DisassociateDataShareConsumer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DataShareArn" => DataShareArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     enable_logging(bucket_name, cluster_identifier)
@@ -2067,8 +3855,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   backslash (), or control characters. The hexadecimal codes for invalid characters are:
   x00 to x20   x22   x27   x5c   x7f or larger
 """
-enable_logging(BucketName, ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("EnableLogging", Dict{String, Any}("BucketName"=>BucketName, "ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-enable_logging(BucketName, ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("EnableLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketName"=>BucketName, "ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function enable_logging(
+    BucketName, ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "EnableLogging",
+        Dict{String,Any}(
+            "BucketName" => BucketName, "ClusterIdentifier" => ClusterIdentifier
+        );
+        aws_config=aws_config,
+    )
+end
+function enable_logging(
+    BucketName,
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "EnableLogging",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BucketName" => BucketName, "ClusterIdentifier" => ClusterIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     enable_snapshot_copy(cluster_identifier, destination_region)
@@ -2081,24 +3898,55 @@ cluster.
 - `cluster_identifier`: The unique identifier of the source cluster to copy snapshots from.
   Constraints: Must be the valid name of an existing cluster that does not already have
   cross-region snapshot copy enabled.
-- `destination_region`: The destination AWS Region that you want to copy snapshots to.
-  Constraints: Must be the name of a valid AWS Region. For more information, see Regions and
-  Endpoints in the Amazon Web Services General Reference.
+- `destination_region`: The destination Amazon Web Services Region that you want to copy
+  snapshots to. Constraints: Must be the name of a valid Amazon Web Services Region. For more
+  information, see Regions and Endpoints in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ManualSnapshotRetentionPeriod"`: The number of days to retain newly copied snapshots in
-  the destination AWS Region after they are copied from the source AWS Region. If the value
-  is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an
-  integer between 1 and 3,653.
+  the destination Amazon Web Services Region after they are copied from the source Amazon Web
+  Services Region. If the value is -1, the manual snapshot is retained indefinitely.  The
+  value must be either -1 or an integer between 1 and 3,653.
 - `"RetentionPeriod"`: The number of days to retain automated snapshots in the destination
   region after they are copied from the source region. Default: 7. Constraints: Must be at
   least 1 and no more than 35.
 - `"SnapshotCopyGrantName"`: The name of the snapshot copy grant to use when snapshots of
-  an AWS KMS-encrypted cluster are copied to the destination region.
+  an Amazon Web Services KMS-encrypted cluster are copied to the destination region.
 """
-enable_snapshot_copy(ClusterIdentifier, DestinationRegion; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("EnableSnapshotCopy", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "DestinationRegion"=>DestinationRegion); aws_config=aws_config)
-enable_snapshot_copy(ClusterIdentifier, DestinationRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("EnableSnapshotCopy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "DestinationRegion"=>DestinationRegion), params)); aws_config=aws_config)
+function enable_snapshot_copy(
+    ClusterIdentifier, DestinationRegion; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "EnableSnapshotCopy",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "DestinationRegion" => DestinationRegion,
+        );
+        aws_config=aws_config,
+    )
+end
+function enable_snapshot_copy(
+    ClusterIdentifier,
+    DestinationRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "EnableSnapshotCopy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "DestinationRegion" => DestinationRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_cluster_credentials(cluster_identifier, db_user)
@@ -2111,7 +3959,7 @@ or more database user groups that the user will join at log on. By default, the 
 credentials expire in 900 seconds. You can optionally specify a duration between 900
 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see Using IAM
 Authentication to Generate Database User Credentials in the Amazon Redshift Cluster
-Management Guide. The AWS Identity and Access Management (IAM)user or role that executes
+Management Guide. The Identity and Access Management (IAM) user or role that runs
 GetClusterCredentials must have an IAM policy attached that allows access to all necessary
 actions and resources. For more information about permissions, see Resource Policies for
 GetClusterCredentials in the Amazon Redshift Cluster Management Guide. If the DbGroups
@@ -2159,8 +4007,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DurationSeconds"`: The number of seconds until the returned temporary password expires.
   Constraint: minimum 900, maximum 3600. Default: 900
 """
-get_cluster_credentials(ClusterIdentifier, DbUser; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("GetClusterCredentials", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "DbUser"=>DbUser); aws_config=aws_config)
-get_cluster_credentials(ClusterIdentifier, DbUser, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("GetClusterCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "DbUser"=>DbUser), params)); aws_config=aws_config)
+function get_cluster_credentials(
+    ClusterIdentifier, DbUser; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "GetClusterCredentials",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier, "DbUser" => DbUser);
+        aws_config=aws_config,
+    )
+end
+function get_cluster_credentials(
+    ClusterIdentifier,
+    DbUser,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "GetClusterCredentials",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier, "DbUser" => DbUser
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_reserved_node_exchange_offerings(reserved_node_id)
@@ -2180,8 +4055,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxRecords"`: An integer setting the maximum number of ReservedNodeOfferings to
   retrieve.
 """
-get_reserved_node_exchange_offerings(ReservedNodeId; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("GetReservedNodeExchangeOfferings", Dict{String, Any}("ReservedNodeId"=>ReservedNodeId); aws_config=aws_config)
-get_reserved_node_exchange_offerings(ReservedNodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("GetReservedNodeExchangeOfferings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedNodeId"=>ReservedNodeId), params)); aws_config=aws_config)
+function get_reserved_node_exchange_offerings(
+    ReservedNodeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "GetReservedNodeExchangeOfferings",
+        Dict{String,Any}("ReservedNodeId" => ReservedNodeId);
+        aws_config=aws_config,
+    )
+end
+function get_reserved_node_exchange_offerings(
+    ReservedNodeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "GetReservedNodeExchangeOfferings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ReservedNodeId" => ReservedNodeId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_aqua_configuration(cluster_identifier)
@@ -2195,12 +4090,82 @@ Modifies whether a cluster can use AQUA (Advanced Query Accelerator).
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AquaConfigurationStatus"`: The new value of AQUA configuration status. Possible values
-  include the following.   enabled - Use AQUA if it is available for the current AWS Region
-  and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift
-  determines whether to use AQUA.
+  include the following.   enabled - Use AQUA if it is available for the current Amazon Web
+  Services Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto -
+  Amazon Redshift determines whether to use AQUA.
 """
-modify_aqua_configuration(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyAquaConfiguration", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-modify_aqua_configuration(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyAquaConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function modify_aqua_configuration(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyAquaConfiguration",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function modify_aqua_configuration(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyAquaConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    modify_authentication_profile(authentication_profile_content, authentication_profile_name)
+    modify_authentication_profile(authentication_profile_content, authentication_profile_name, params::Dict{String,<:Any})
+
+Modifies an authentication profile.
+
+# Arguments
+- `authentication_profile_content`: The new content of the authentication profile in JSON
+  format. The maximum length of the JSON string is determined by a quota for your account.
+- `authentication_profile_name`: The name of the authentication profile to replace.
+
+"""
+function modify_authentication_profile(
+    AuthenticationProfileContent,
+    AuthenticationProfileName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyAuthenticationProfile",
+        Dict{String,Any}(
+            "AuthenticationProfileContent" => AuthenticationProfileContent,
+            "AuthenticationProfileName" => AuthenticationProfileName,
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_authentication_profile(
+    AuthenticationProfileContent,
+    AuthenticationProfileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyAuthenticationProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationProfileContent" => AuthenticationProfileContent,
+                    "AuthenticationProfileName" => AuthenticationProfileName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cluster(cluster_identifier)
@@ -2209,11 +4174,11 @@ modify_aqua_configuration(ClusterIdentifier, params::AbstractDict{String}; aws_c
 Modifies the settings for a cluster. You can also change node type and the number of nodes
 to scale up or down the cluster. When resizing a cluster, you must specify both the number
 of nodes and the node type even if one of the parameters does not change. You can add
-another security or parameter group, or change the master user password. Resetting a
-cluster password or modifying the security groups associated with a cluster do not need a
-reboot. However, modifying a parameter group requires a reboot for parameters to take
-effect. For more information about managing clusters, go to Amazon Redshift Clusters in the
-Amazon Redshift Cluster Management Guide.
+another security or parameter group, or change the admin user password. Resetting a cluster
+password or modifying the security groups associated with a cluster do not need a reboot.
+However, modifying a parameter group requires a reboot for parameters to take effect. For
+more information about managing clusters, go to Amazon Redshift Clusters in the Amazon
+Redshift Cluster Management Guide.
 
 # Arguments
 - `cluster_identifier`: The unique identifier of the cluster to be modified. Example:
@@ -2273,8 +4238,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
 - `"HsmConfigurationIdentifier"`: Specifies the name of the HSM configuration that contains
   the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
-- `"KmsKeyId"`: The AWS Key Management Service (KMS) key ID of the encryption key that you
-  want to use to encrypt data in the cluster.
+- `"KmsKeyId"`: The Key Management Service (KMS) key ID of the encryption key that you want
+  to use to encrypt data in the cluster.
 - `"MaintenanceTrackName"`: The name for the maintenance track that you want to assign for
   the cluster. This name change is asynchronous. The new track name stays in the
   PendingModifiedValues for the cluster until the next maintenance window. When the
@@ -2285,12 +4250,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indefinitely. This value doesn't retroactively change the retention periods of existing
   manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The
   default value is -1.
-- `"MasterUserPassword"`: The new password for the cluster master user. This change is
+- `"MasterUserPassword"`: The new password for the cluster admin user. This change is
   asynchronously applied as soon as possible. Between the time of the request and the
   completion of the request, the MasterUserPassword element exists in the
   PendingModifiedValues element of the operation response.   Operations never return the
-  password, so this operation provides a way to regain access to the master user account for
-  a cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be
+  password, so this operation provides a way to regain access to the admin user account for a
+  cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be
   between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must
   contain at least one lowercase letter.   Must contain one number.   Can be any printable
   ASCII character (ASCII code 33 to 126) except ' (single quote), \" (double quote), , /, @,
@@ -2298,7 +4263,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NewClusterIdentifier"`: The new identifier for the cluster. Constraints:   Must contain
   from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.
     First character must be a letter.   Cannot end with a hyphen or contain two consecutive
-  hyphens.   Must be unique for all clusters within an AWS account.   Example: examplecluster
+  hyphens.   Must be unique for all clusters within an Amazon Web Services account.
+  Example: examplecluster
 - `"NodeType"`: The new node type of the cluster. If you specify a new node type, you must
   also specify the number of nodes parameter.  For more information about resizing clusters,
   go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide.
@@ -2322,8 +4288,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSecurityGroupIds"`: A list of virtual private cloud (VPC) security groups to be
   associated with the cluster. This change is asynchronously applied as soon as possible.
 """
-modify_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyCluster", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-modify_cluster(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function modify_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyCluster",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function modify_cluster(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cluster_db_revision(cluster_identifier, revision_target)
@@ -2339,16 +4327,46 @@ the database running in a cluster.
   from the response to the DescribeClusterDbRevisions request.
 
 """
-modify_cluster_db_revision(ClusterIdentifier, RevisionTarget; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterDbRevision", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "RevisionTarget"=>RevisionTarget); aws_config=aws_config)
-modify_cluster_db_revision(ClusterIdentifier, RevisionTarget, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterDbRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "RevisionTarget"=>RevisionTarget), params)); aws_config=aws_config)
+function modify_cluster_db_revision(
+    ClusterIdentifier, RevisionTarget; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyClusterDbRevision",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier, "RevisionTarget" => RevisionTarget
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_cluster_db_revision(
+    ClusterIdentifier,
+    RevisionTarget,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyClusterDbRevision",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "RevisionTarget" => RevisionTarget,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cluster_iam_roles(cluster_identifier)
     modify_cluster_iam_roles(cluster_identifier, params::Dict{String,<:Any})
 
-Modifies the list of AWS Identity and Access Management (IAM) roles that can be used by the
-cluster to access other AWS services. A cluster can have up to 10 IAM roles associated at
-any time.
+Modifies the list of Identity and Access Management (IAM) roles that can be used by the
+cluster to access other Amazon Web Services services. A cluster can have up to 10 IAM roles
+associated at any time.
 
 # Arguments
 - `cluster_identifier`: The unique identifier of the cluster for which you want to
@@ -2362,8 +4380,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveIamRoles"`: Zero or more IAM roles in ARN format to disassociate from the
   cluster. You can disassociate up to 10 IAM roles from a single cluster in a single request.
 """
-modify_cluster_iam_roles(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterIamRoles", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-modify_cluster_iam_roles(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterIamRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function modify_cluster_iam_roles(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyClusterIamRoles",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function modify_cluster_iam_roles(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyClusterIamRoles",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cluster_maintenance(cluster_identifier)
@@ -2387,16 +4427,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeferMaintenanceStartTime"`: A timestamp indicating the start time for the deferred
   maintenance window.
 """
-modify_cluster_maintenance(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterMaintenance", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-modify_cluster_maintenance(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function modify_cluster_maintenance(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyClusterMaintenance",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function modify_cluster_maintenance(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyClusterMaintenance",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cluster_parameter_group(parameter, parameter_group_name)
     modify_cluster_parameter_group(parameter, parameter_group_name, params::Dict{String,<:Any})
 
-Modifies the parameters of a parameter group.  For more information about parameters and
-parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster
-Management Guide.
+Modifies the parameters of a parameter group. For the parameters parameter, it can't
+contain ASCII characters.  For more information about parameters and parameter groups, go
+to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
 
 # Arguments
 - `parameter`: An array of parameters to be modified. A maximum of 20 parameters can be
@@ -2414,8 +4476,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   optional. For the workload management (WLM) configuration, you must supply all the
   name-value pairs in the wlm_json_configuration parameter.
 """
-modify_cluster_parameter_group(Parameter, ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterParameterGroup", Dict{String, Any}("Parameter"=>Parameter, "ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
-modify_cluster_parameter_group(Parameter, ParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Parameter"=>Parameter, "ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config)
+function modify_cluster_parameter_group(
+    Parameter, ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyClusterParameterGroup",
+        Dict{String,Any}(
+            "Parameter" => Parameter, "ParameterGroupName" => ParameterGroupName
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_cluster_parameter_group(
+    Parameter,
+    ParameterGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyClusterParameterGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Parameter" => Parameter, "ParameterGroupName" => ParameterGroupName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cluster_snapshot(snapshot_identifier)
@@ -2436,8 +4527,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   falls outside of the new retention period, you can specify the force option to immediately
   delete the snapshot. The value must be either -1 or an integer between 1 and 3,653.
 """
-modify_cluster_snapshot(SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterSnapshot", Dict{String, Any}("SnapshotIdentifier"=>SnapshotIdentifier); aws_config=aws_config)
-modify_cluster_snapshot(SnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
+function modify_cluster_snapshot(
+    SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyClusterSnapshot",
+        Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier);
+        aws_config=aws_config,
+    )
+end
+function modify_cluster_snapshot(
+    SnapshotIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyClusterSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cluster_snapshot_schedule(cluster_identifier)
@@ -2456,8 +4569,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduleIdentifier"`: A unique alphanumeric identifier for the schedule that you want
   to associate with the cluster.
 """
-modify_cluster_snapshot_schedule(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterSnapshotSchedule", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-modify_cluster_snapshot_schedule(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function modify_cluster_snapshot_schedule(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyClusterSnapshotSchedule",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function modify_cluster_snapshot_schedule(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyClusterSnapshotSchedule",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_cluster_subnet_group(cluster_subnet_group_name, subnet_identifier)
@@ -2477,8 +4612,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubnetIds"`: An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a
   single request.
 """
-modify_cluster_subnet_group(ClusterSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterSubnetGroup", Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
-modify_cluster_subnet_group(ClusterSubnetGroupName, SubnetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
+function modify_cluster_subnet_group(
+    ClusterSubnetGroupName,
+    SubnetIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyClusterSubnetGroup",
+        Dict{String,Any}(
+            "ClusterSubnetGroupName" => ClusterSubnetGroupName,
+            "SubnetIdentifier" => SubnetIdentifier,
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_cluster_subnet_group(
+    ClusterSubnetGroupName,
+    SubnetIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyClusterSubnetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterSubnetGroupName" => ClusterSubnetGroupName,
+                    "SubnetIdentifier" => SubnetIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_endpoint_access(endpoint_name)
@@ -2494,8 +4662,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSecurityGroupIds"`: The complete list of VPC security groups associated with the
   endpoint after the endpoint is modified.
 """
-modify_endpoint_access(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyEndpointAccess", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
-modify_endpoint_access(EndpointName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
+function modify_endpoint_access(
+    EndpointName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyEndpointAccess",
+        Dict{String,Any}("EndpointName" => EndpointName);
+        aws_config=aws_config,
+    )
+end
+function modify_endpoint_access(
+    EndpointName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyEndpointAccess",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EndpointName" => EndpointName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_event_subscription(subscription_name)
@@ -2512,7 +4700,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Enabled"`: A Boolean value indicating if the subscription is enabled. true indicates
   the subscription is enabled
 - `"EventCategories"`: Specifies the Amazon Redshift event categories to be published by
-  the event notification subscription. Values: configuration, management, monitoring, security
+  the event notification subscription. Values: configuration, management, monitoring,
+  security, pending
 - `"Severity"`: Specifies the Amazon Redshift event severity to be published by the event
   notification subscription. Values: ERROR, INFO
 - `"SnsTopicArn"`: The Amazon Resource Name (ARN) of the SNS topic to be used by the event
@@ -2525,12 +4714,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceType"`: The type of source that will be generating the events. For example, if
   you want to be notified of events generated by a cluster, you would set this parameter to
   cluster. If this value is not specified, events are returned for all Amazon Redshift
-  objects in your AWS account. You must specify a source type in order to specify source IDs.
-  Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot,
-  and scheduled-action.
+  objects in your Amazon Web Services account. You must specify a source type in order to
+  specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group,
+  cluster-snapshot, and scheduled-action.
 """
-modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-modify_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+function modify_event_subscription(
+    SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyEventSubscription",
+        Dict{String,Any}("SubscriptionName" => SubscriptionName);
+        aws_config=aws_config,
+    )
+end
+function modify_event_subscription(
+    SubscriptionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyEventSubscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_scheduled_action(scheduled_action_name)
@@ -2557,43 +4768,99 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetAction"`: A modified JSON format of the scheduled action. For more information
   about this parameter, see ScheduledAction.
 """
-modify_scheduled_action(ScheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyScheduledAction", Dict{String, Any}("ScheduledActionName"=>ScheduledActionName); aws_config=aws_config)
-modify_scheduled_action(ScheduledActionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduledActionName"=>ScheduledActionName), params)); aws_config=aws_config)
+function modify_scheduled_action(
+    ScheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyScheduledAction",
+        Dict{String,Any}("ScheduledActionName" => ScheduledActionName);
+        aws_config=aws_config,
+    )
+end
+function modify_scheduled_action(
+    ScheduledActionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyScheduledAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ScheduledActionName" => ScheduledActionName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_snapshot_copy_retention_period(cluster_identifier, retention_period)
     modify_snapshot_copy_retention_period(cluster_identifier, retention_period, params::Dict{String,<:Any})
 
-Modifies the number of days to retain snapshots in the destination AWS Region after they
-are copied from the source AWS Region. By default, this operation only changes the
-retention period of copied automated snapshots. The retention periods for both new and
-existing copied automated snapshots are updated with the new retention period. You can set
-the manual option to change only the retention periods of copied manual snapshots. If you
-set this option, only newly copied manual snapshots have the new retention period.
+Modifies the number of days to retain snapshots in the destination Amazon Web Services
+Region after they are copied from the source Amazon Web Services Region. By default, this
+operation only changes the retention period of copied automated snapshots. The retention
+periods for both new and existing copied automated snapshots are updated with the new
+retention period. You can set the manual option to change only the retention periods of
+copied manual snapshots. If you set this option, only newly copied manual snapshots have
+the new retention period.
 
 # Arguments
 - `cluster_identifier`: The unique identifier of the cluster for which you want to change
   the retention period for either automated or manual snapshots that are copied to a
-  destination AWS Region. Constraints: Must be the valid name of an existing cluster that has
-  cross-region snapshot copy enabled.
+  destination Amazon Web Services Region. Constraints: Must be the valid name of an existing
+  cluster that has cross-region snapshot copy enabled.
 - `retention_period`: The number of days to retain automated snapshots in the destination
-  AWS Region after they are copied from the source AWS Region. By default, this only changes
-  the retention period of copied automated snapshots.  If you decrease the retention period
-  for automated snapshots that are copied to a destination AWS Region, Amazon Redshift
-  deletes any existing automated snapshots that were copied to the destination AWS Region and
-  that fall outside of the new retention period. Constraints: Must be at least 1 and no more
-  than 35 for automated snapshots.  If you specify the manual option, only newly copied
-  manual snapshots will have the new retention period.  If you specify the value of -1 newly
-  copied manual snapshots are retained indefinitely. Constraints: The number of days must be
-  either -1 or an integer between 1 and 3,653 for manual snapshots.
+  Amazon Web Services Region after they are copied from the source Amazon Web Services
+  Region. By default, this only changes the retention period of copied automated snapshots.
+  If you decrease the retention period for automated snapshots that are copied to a
+  destination Amazon Web Services Region, Amazon Redshift deletes any existing automated
+  snapshots that were copied to the destination Amazon Web Services Region and that fall
+  outside of the new retention period. Constraints: Must be at least 1 and no more than 35
+  for automated snapshots.  If you specify the manual option, only newly copied manual
+  snapshots will have the new retention period.  If you specify the value of -1 newly copied
+  manual snapshots are retained indefinitely. Constraints: The number of days must be either
+  -1 or an integer between 1 and 3,653 for manual snapshots.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Manual"`: Indicates whether to apply the snapshot retention period to newly copied
   manual snapshots instead of automated snapshots.
 """
-modify_snapshot_copy_retention_period(ClusterIdentifier, RetentionPeriod; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifySnapshotCopyRetentionPeriod", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "RetentionPeriod"=>RetentionPeriod); aws_config=aws_config)
-modify_snapshot_copy_retention_period(ClusterIdentifier, RetentionPeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifySnapshotCopyRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "RetentionPeriod"=>RetentionPeriod), params)); aws_config=aws_config)
+function modify_snapshot_copy_retention_period(
+    ClusterIdentifier, RetentionPeriod; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifySnapshotCopyRetentionPeriod",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier, "RetentionPeriod" => RetentionPeriod
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_snapshot_copy_retention_period(
+    ClusterIdentifier,
+    RetentionPeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifySnapshotCopyRetentionPeriod",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "RetentionPeriod" => RetentionPeriod,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_snapshot_schedule(schedule_definition, schedule_identifier)
@@ -2612,8 +4879,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduleDefinitions"`: An updated list of schedule definitions. A schedule definition
   is made up of schedule expressions, for example, \"cron(30 12 *)\" or \"rate(12 hours)\".
 """
-modify_snapshot_schedule(ScheduleDefinition, ScheduleIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifySnapshotSchedule", Dict{String, Any}("ScheduleDefinition"=>ScheduleDefinition, "ScheduleIdentifier"=>ScheduleIdentifier); aws_config=aws_config)
-modify_snapshot_schedule(ScheduleDefinition, ScheduleIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifySnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleDefinition"=>ScheduleDefinition, "ScheduleIdentifier"=>ScheduleIdentifier), params)); aws_config=aws_config)
+function modify_snapshot_schedule(
+    ScheduleDefinition,
+    ScheduleIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifySnapshotSchedule",
+        Dict{String,Any}(
+            "ScheduleDefinition" => ScheduleDefinition,
+            "ScheduleIdentifier" => ScheduleIdentifier,
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_snapshot_schedule(
+    ScheduleDefinition,
+    ScheduleIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifySnapshotSchedule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ScheduleDefinition" => ScheduleDefinition,
+                    "ScheduleIdentifier" => ScheduleIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_usage_limit(usage_limit_id)
@@ -2632,8 +4932,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BreachAction"`: The new action that Amazon Redshift takes when the limit is reached.
   For more information about this parameter, see UsageLimit.
 """
-modify_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyUsageLimit", Dict{String, Any}("UsageLimitId"=>UsageLimitId); aws_config=aws_config)
-modify_usage_limit(UsageLimitId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyUsageLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UsageLimitId"=>UsageLimitId), params)); aws_config=aws_config)
+function modify_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift(
+        "ModifyUsageLimit",
+        Dict{String,Any}("UsageLimitId" => UsageLimitId);
+        aws_config=aws_config,
+    )
+end
+function modify_usage_limit(
+    UsageLimitId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyUsageLimit",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("UsageLimitId" => UsageLimitId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     pause_cluster(cluster_identifier)
@@ -2645,8 +4963,28 @@ Pauses a cluster.
 - `cluster_identifier`: The identifier of the cluster to be paused.
 
 """
-pause_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("PauseCluster", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-pause_cluster(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("PauseCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function pause_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift(
+        "PauseCluster",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function pause_cluster(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "PauseCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     purchase_reserved_node_offering(reserved_node_offering_id)
@@ -2667,8 +5005,32 @@ Reserved Nodes in the Amazon Redshift Cluster Management Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NodeCount"`: The number of reserved nodes that you want to purchase. Default: 1
 """
-purchase_reserved_node_offering(ReservedNodeOfferingId; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("PurchaseReservedNodeOffering", Dict{String, Any}("ReservedNodeOfferingId"=>ReservedNodeOfferingId); aws_config=aws_config)
-purchase_reserved_node_offering(ReservedNodeOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("PurchaseReservedNodeOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedNodeOfferingId"=>ReservedNodeOfferingId), params)); aws_config=aws_config)
+function purchase_reserved_node_offering(
+    ReservedNodeOfferingId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "PurchaseReservedNodeOffering",
+        Dict{String,Any}("ReservedNodeOfferingId" => ReservedNodeOfferingId);
+        aws_config=aws_config,
+    )
+end
+function purchase_reserved_node_offering(
+    ReservedNodeOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "PurchaseReservedNodeOffering",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReservedNodeOfferingId" => ReservedNodeOfferingId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reboot_cluster(cluster_identifier)
@@ -2684,8 +5046,61 @@ to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
 - `cluster_identifier`: The cluster identifier.
 
 """
-reboot_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RebootCluster", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-reboot_cluster(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RebootCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function reboot_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "RebootCluster",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function reboot_cluster(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "RebootCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    reject_data_share(data_share_arn)
+    reject_data_share(data_share_arn, params::Dict{String,<:Any})
+
+From the consumer account, rejects the specified datashare.
+
+# Arguments
+- `data_share_arn`: The Amazon Resource Name (ARN) of the datashare to reject.
+
+"""
+function reject_data_share(DataShareArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift(
+        "RejectDataShare",
+        Dict{String,Any}("DataShareArn" => DataShareArn);
+        aws_config=aws_config,
+    )
+end
+function reject_data_share(
+    DataShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "RejectDataShare",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DataShareArn" => DataShareArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reset_cluster_parameter_group(parameter_group_name)
@@ -2707,8 +5122,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResetAllParameters"`: If true, all parameters in the specified parameter group will be
   reset to their default values.  Default: true
 """
-reset_cluster_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ResetClusterParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
-reset_cluster_parameter_group(ParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ResetClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config)
+function reset_cluster_parameter_group(
+    ParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ResetClusterParameterGroup",
+        Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
+        aws_config=aws_config,
+    )
+end
+function reset_cluster_parameter_group(
+    ParameterGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ResetClusterParameterGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     resize_cluster(cluster_identifier)
@@ -2737,8 +5174,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NumberOfNodes"`: The new number of nodes for the cluster. If not specified, the
   cluster's current number of nodes is used.
 """
-resize_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ResizeCluster", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-resize_cluster(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ResizeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function resize_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ResizeCluster",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function resize_cluster(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ResizeCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     restore_from_cluster_snapshot(cluster_identifier, snapshot_identifier)
@@ -2760,7 +5219,7 @@ Management Guide.
   the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.
    Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end
   with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within
-  an AWS account.
+  an Amazon Web Services account.
 - `snapshot_identifier`: The name of the snapshot from which to create the new cluster.
   This parameter isn't case sensitive. Example: my-snapshot-id
 
@@ -2772,9 +5231,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   true
 - `"AquaConfigurationStatus"`: The value represents how the cluster is configured to use
   AQUA (Advanced Query Accelerator) after the cluster is restored. Possible values include
-  the following.   enabled - Use AQUA if it is available for the current AWS Region and
-  Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift
-  determines whether to use AQUA.
+  the following.   enabled - Use AQUA if it is available for the current Amazon Web Services
+  Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon
+  Redshift determines whether to use AQUA.
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
   are disabled, you can still create manual snapshots when you want with
@@ -2806,12 +5265,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
 - `"HsmConfigurationIdentifier"`: Specifies the name of the HSM configuration that contains
   the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
-- `"IamRoles"`: A list of AWS Identity and Access Management (IAM) roles that can be used
-  by the cluster to access other AWS services. You must supply the IAM roles in their Amazon
-  Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A
-  cluster can have up to 10 IAM roles associated at any time.
-- `"KmsKeyId"`: The AWS Key Management Service (KMS) key ID of the encryption key that you
-  want to use to encrypt data in the cluster that you restore from a shared snapshot.
+- `"IamRoles"`: A list of Identity and Access Management (IAM) roles that can be used by
+  the cluster to access other Amazon Web Services services. You must supply the IAM roles in
+  their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single
+  request. A cluster can have up to 10 IAM roles associated at any time.
+- `"KmsKeyId"`: The Key Management Service (KMS) key ID of the encryption key that you want
+  to use to encrypt data in the cluster that you restore from a shared snapshot.
 - `"MaintenanceTrackName"`: The name of the maintenance track for the restored cluster.
   When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the
   cluster. The snapshot might be on a different track than the cluster that was the source
@@ -2833,8 +5292,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster. For more information about node types, see  About Clusters and Nodes in the Amazon
   Redshift Cluster Management Guide.
 - `"NumberOfNodes"`: The number of nodes specified when provisioning the restored cluster.
-- `"OwnerAccount"`: The AWS customer account used to create or copy the snapshot. Required
-  if you are restoring a snapshot you do not own, optional if you own the snapshot.
+- `"OwnerAccount"`: The Amazon Web Services account used to create or copy the snapshot.
+  Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
 - `"Port"`: The port number on which the cluster accepts connections. Default: The same
   port as the original cluster. Constraints: Must be between 1115 and 65535.
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which automated
@@ -2852,8 +5311,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with the cluster. Default: The default VPC security group is associated with the
   cluster. VPC security groups only apply to clusters in VPCs.
 """
-restore_from_cluster_snapshot(ClusterIdentifier, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RestoreFromClusterSnapshot", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "SnapshotIdentifier"=>SnapshotIdentifier); aws_config=aws_config)
-restore_from_cluster_snapshot(ClusterIdentifier, SnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RestoreFromClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
+function restore_from_cluster_snapshot(
+    ClusterIdentifier, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "RestoreFromClusterSnapshot",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "SnapshotIdentifier" => SnapshotIdentifier,
+        );
+        aws_config=aws_config,
+    )
+end
+function restore_from_cluster_snapshot(
+    ClusterIdentifier,
+    SnapshotIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "RestoreFromClusterSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "SnapshotIdentifier" => SnapshotIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     restore_table_from_cluster_snapshot(cluster_identifier, new_table_name, snapshot_identifier, source_database_name, source_table_name)
@@ -2891,8 +5381,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetDatabaseName"`: The name of the database to restore the table to.
 - `"TargetSchemaName"`: The name of the schema to restore the table to.
 """
-restore_table_from_cluster_snapshot(ClusterIdentifier, NewTableName, SnapshotIdentifier, SourceDatabaseName, SourceTableName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RestoreTableFromClusterSnapshot", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "NewTableName"=>NewTableName, "SnapshotIdentifier"=>SnapshotIdentifier, "SourceDatabaseName"=>SourceDatabaseName, "SourceTableName"=>SourceTableName); aws_config=aws_config)
-restore_table_from_cluster_snapshot(ClusterIdentifier, NewTableName, SnapshotIdentifier, SourceDatabaseName, SourceTableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RestoreTableFromClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "NewTableName"=>NewTableName, "SnapshotIdentifier"=>SnapshotIdentifier, "SourceDatabaseName"=>SourceDatabaseName, "SourceTableName"=>SourceTableName), params)); aws_config=aws_config)
+function restore_table_from_cluster_snapshot(
+    ClusterIdentifier,
+    NewTableName,
+    SnapshotIdentifier,
+    SourceDatabaseName,
+    SourceTableName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "RestoreTableFromClusterSnapshot",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "NewTableName" => NewTableName,
+            "SnapshotIdentifier" => SnapshotIdentifier,
+            "SourceDatabaseName" => SourceDatabaseName,
+            "SourceTableName" => SourceTableName,
+        );
+        aws_config=aws_config,
+    )
+end
+function restore_table_from_cluster_snapshot(
+    ClusterIdentifier,
+    NewTableName,
+    SnapshotIdentifier,
+    SourceDatabaseName,
+    SourceTableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "RestoreTableFromClusterSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "NewTableName" => NewTableName,
+                    "SnapshotIdentifier" => SnapshotIdentifier,
+                    "SourceDatabaseName" => SourceDatabaseName,
+                    "SourceTableName" => SourceTableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     resume_cluster(cluster_identifier)
@@ -2904,8 +5439,30 @@ Resumes a paused cluster.
 - `cluster_identifier`: The identifier of the cluster to be resumed.
 
 """
-resume_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ResumeCluster", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-resume_cluster(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ResumeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function resume_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ResumeCluster",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function resume_cluster(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ResumeCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     revoke_cluster_security_group_ingress(cluster_security_group_name)
@@ -2928,13 +5485,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EC2SecurityGroupName"`: The name of the EC2 Security Group whose access is to be
   revoked. If EC2SecurityGroupName is specified, EC2SecurityGroupOwnerId must also be
   provided and CIDRIP cannot be provided.
-- `"EC2SecurityGroupOwnerId"`: The AWS account number of the owner of the security group
-  specified in the EC2SecurityGroupName parameter. The AWS access key ID is not an acceptable
-  value. If EC2SecurityGroupOwnerId is specified, EC2SecurityGroupName must also be provided.
-  and CIDRIP cannot be provided.  Example: 111122223333
+- `"EC2SecurityGroupOwnerId"`: The Amazon Web Services account number of the owner of the
+  security group specified in the EC2SecurityGroupName parameter. The Amazon Web Services
+  access key ID is not an acceptable value. If EC2SecurityGroupOwnerId is specified,
+  EC2SecurityGroupName must also be provided. and CIDRIP cannot be provided.  Example:
+  111122223333
 """
-revoke_cluster_security_group_ingress(ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeClusterSecurityGroupIngress", Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName); aws_config=aws_config)
-revoke_cluster_security_group_ingress(ClusterSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeClusterSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config)
+function revoke_cluster_security_group_ingress(
+    ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "RevokeClusterSecurityGroupIngress",
+        Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
+        aws_config=aws_config,
+    )
+end
+function revoke_cluster_security_group_ingress(
+    ClusterSecurityGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "RevokeClusterSecurityGroupIngress",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     revoke_endpoint_access()
@@ -2944,27 +5526,33 @@ Revokes access to a cluster.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Account"`: The AWS account ID whose access is to be revoked.
+- `"Account"`: The Amazon Web Services account ID whose access is to be revoked.
 - `"ClusterIdentifier"`: The cluster to revoke access from.
 - `"Force"`: Indicates whether to force the revoke action. If true, the Redshift-managed
   VPC endpoints associated with the endpoint authorization are also deleted.
 - `"VpcIds"`: The virtual private cloud (VPC) identifiers for which access is to be revoked.
 """
-revoke_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeEndpointAccess"; aws_config=aws_config)
-revoke_endpoint_access(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeEndpointAccess", params; aws_config=aws_config)
+function revoke_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift("RevokeEndpointAccess"; aws_config=aws_config)
+end
+function revoke_endpoint_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift("RevokeEndpointAccess", params; aws_config=aws_config)
+end
 
 """
     revoke_snapshot_access(account_with_restore_access, snapshot_identifier)
     revoke_snapshot_access(account_with_restore_access, snapshot_identifier, params::Dict{String,<:Any})
 
-Removes the ability of the specified AWS customer account to restore the specified
+Removes the ability of the specified Amazon Web Services account to restore the specified
 snapshot. If the account is currently restoring the snapshot, the restore will run to
 completion.  For more information about working with snapshots, go to Amazon Redshift
 Snapshots in the Amazon Redshift Cluster Management Guide.
 
 # Arguments
-- `account_with_restore_access`: The identifier of the AWS customer account that can no
-  longer restore the specified snapshot.
+- `account_with_restore_access`: The identifier of the Amazon Web Services account that can
+  no longer restore the specified snapshot.
 - `snapshot_identifier`: The identifier of the snapshot that the account can no longer
   access.
 
@@ -2974,8 +5562,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from. This parameter is required if your IAM user has a policy containing a snapshot
   resource element that specifies anything other than * for the cluster name.
 """
-revoke_snapshot_access(AccountWithRestoreAccess, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeSnapshotAccess", Dict{String, Any}("AccountWithRestoreAccess"=>AccountWithRestoreAccess, "SnapshotIdentifier"=>SnapshotIdentifier); aws_config=aws_config)
-revoke_snapshot_access(AccountWithRestoreAccess, SnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeSnapshotAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountWithRestoreAccess"=>AccountWithRestoreAccess, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
+function revoke_snapshot_access(
+    AccountWithRestoreAccess,
+    SnapshotIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "RevokeSnapshotAccess",
+        Dict{String,Any}(
+            "AccountWithRestoreAccess" => AccountWithRestoreAccess,
+            "SnapshotIdentifier" => SnapshotIdentifier,
+        );
+        aws_config=aws_config,
+    )
+end
+function revoke_snapshot_access(
+    AccountWithRestoreAccess,
+    SnapshotIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "RevokeSnapshotAccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountWithRestoreAccess" => AccountWithRestoreAccess,
+                    "SnapshotIdentifier" => SnapshotIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     rotate_encryption_key(cluster_identifier)
@@ -2989,8 +5610,30 @@ Rotates the encryption keys for a cluster.
   enabled.
 
 """
-rotate_encryption_key(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RotateEncryptionKey", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-rotate_encryption_key(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RotateEncryptionKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+function rotate_encryption_key(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "RotateEncryptionKey",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+    )
+end
+function rotate_encryption_key(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "RotateEncryptionKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_partner_status(account_id, cluster_identifier, database_name, partner_name, status)
@@ -2999,7 +5642,7 @@ rotate_encryption_key(ClusterIdentifier, params::AbstractDict{String}; aws_confi
 Updates the status of a partner integration.
 
 # Arguments
-- `account_id`: The AWS account ID that owns the cluster.
+- `account_id`: The Amazon Web Services account ID that owns the cluster.
 - `cluster_identifier`: The cluster identifier of the cluster whose partner integration
   status is being updated.
 - `database_name`: The name of the database whose partner integration status is being
@@ -3011,5 +5654,50 @@ Updates the status of a partner integration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"StatusMessage"`: The status message provided by the partner.
 """
-update_partner_status(AccountId, ClusterIdentifier, DatabaseName, PartnerName, Status; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("UpdatePartnerStatus", Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName, "Status"=>Status); aws_config=aws_config)
-update_partner_status(AccountId, ClusterIdentifier, DatabaseName, PartnerName, Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("UpdatePartnerStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName, "Status"=>Status), params)); aws_config=aws_config)
+function update_partner_status(
+    AccountId,
+    ClusterIdentifier,
+    DatabaseName,
+    PartnerName,
+    Status;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "UpdatePartnerStatus",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ClusterIdentifier" => ClusterIdentifier,
+            "DatabaseName" => DatabaseName,
+            "PartnerName" => PartnerName,
+            "Status" => Status,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_partner_status(
+    AccountId,
+    ClusterIdentifier,
+    DatabaseName,
+    PartnerName,
+    Status,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "UpdatePartnerStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "DatabaseName" => DatabaseName,
+                    "PartnerName" => PartnerName,
+                    "Status" => Status,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

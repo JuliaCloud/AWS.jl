@@ -14,8 +14,26 @@ Allocates a static IP address.
 - `static_ip_name`: The name of the static IP address.
 
 """
-allocate_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AllocateStaticIp", Dict{String, Any}("staticIpName"=>staticIpName); aws_config=aws_config)
-allocate_static_ip(staticIpName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AllocateStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config)
+function allocate_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "AllocateStaticIp",
+        Dict{String,Any}("staticIpName" => staticIpName);
+        aws_config=aws_config,
+    )
+end
+function allocate_static_ip(
+    staticIpName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "AllocateStaticIp",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("staticIpName" => staticIpName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     attach_certificate_to_distribution(certificate_name, distribution_name)
@@ -43,8 +61,38 @@ Region.
   specify.
 
 """
-attach_certificate_to_distribution(certificateName, distributionName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachCertificateToDistribution", Dict{String, Any}("certificateName"=>certificateName, "distributionName"=>distributionName); aws_config=aws_config)
-attach_certificate_to_distribution(certificateName, distributionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachCertificateToDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "distributionName"=>distributionName), params)); aws_config=aws_config)
+function attach_certificate_to_distribution(
+    certificateName, distributionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "AttachCertificateToDistribution",
+        Dict{String,Any}(
+            "certificateName" => certificateName, "distributionName" => distributionName
+        );
+        aws_config=aws_config,
+    )
+end
+function attach_certificate_to_distribution(
+    certificateName,
+    distributionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "AttachCertificateToDistribution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateName" => certificateName,
+                    "distributionName" => distributionName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     attach_disk(disk_name, disk_path, instance_name)
@@ -53,7 +101,7 @@ attach_certificate_to_distribution(certificateName, distributionName, params::Ab
 Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to
 the instance with the specified disk name. The attach disk operation supports tag-based
 access control via resource tags applied to the resource identified by disk name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `disk_name`: The unique Lightsail disk name (e.g., my-disk).
@@ -62,8 +110,40 @@ information, see the Lightsail Dev Guide.
   disk.
 
 """
-attach_disk(diskName, diskPath, instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachDisk", Dict{String, Any}("diskName"=>diskName, "diskPath"=>diskPath, "instanceName"=>instanceName); aws_config=aws_config)
-attach_disk(diskName, diskPath, instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName, "diskPath"=>diskPath, "instanceName"=>instanceName), params)); aws_config=aws_config)
+function attach_disk(
+    diskName, diskPath, instanceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "AttachDisk",
+        Dict{String,Any}(
+            "diskName" => diskName, "diskPath" => diskPath, "instanceName" => instanceName
+        );
+        aws_config=aws_config,
+    )
+end
+function attach_disk(
+    diskName,
+    diskPath,
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "AttachDisk",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "diskName" => diskName,
+                    "diskPath" => diskPath,
+                    "instanceName" => instanceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     attach_instances_to_load_balancer(instance_names, load_balancer_name)
@@ -73,7 +153,7 @@ Attaches one or more Lightsail instances to a load balancer. After some time, th
 are attached to the load balancer and the health check status is available. The attach
 instances to load balancer operation supports tag-based access control via resource tags
 applied to the resource identified by load balancer name. For more information, see the
-Lightsail Dev Guide.
+Lightsail Developer Guide.
 
 # Arguments
 - `instance_names`: An array of strings representing the instance name(s) you want to
@@ -84,8 +164,37 @@ Lightsail Dev Guide.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-attach_instances_to_load_balancer(instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachInstancesToLoadBalancer", Dict{String, Any}("instanceNames"=>instanceNames, "loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-attach_instances_to_load_balancer(instanceNames, loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachInstancesToLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function attach_instances_to_load_balancer(
+    instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "AttachInstancesToLoadBalancer",
+        Dict{String,Any}(
+            "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+    )
+end
+function attach_instances_to_load_balancer(
+    instanceNames,
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "AttachInstancesToLoadBalancer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     attach_load_balancer_tls_certificate(certificate_name, load_balancer_name)
@@ -98,7 +207,7 @@ rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificat
 with the non-attached certificate, and it will replace the existing one and become the
 attached certificate. The AttachLoadBalancerTlsCertificate operation supports tag-based
 access control via resource tags applied to the resource identified by load balancer name.
-For more information, see the Lightsail Dev Guide.
+For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `certificate_name`: The name of your SSL/TLS certificate.
@@ -106,8 +215,38 @@ For more information, see the Lightsail Dev Guide.
   SSL/TLS certificate.
 
 """
-attach_load_balancer_tls_certificate(certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachLoadBalancerTlsCertificate", Dict{String, Any}("certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-attach_load_balancer_tls_certificate(certificateName, loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachLoadBalancerTlsCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function attach_load_balancer_tls_certificate(
+    certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "AttachLoadBalancerTlsCertificate",
+        Dict{String,Any}(
+            "certificateName" => certificateName, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+    )
+end
+function attach_load_balancer_tls_certificate(
+    certificateName,
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "AttachLoadBalancerTlsCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateName" => certificateName,
+                    "loadBalancerName" => loadBalancerName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     attach_static_ip(instance_name, static_ip_name)
@@ -120,8 +259,35 @@ Attaches a static IP address to a specific Amazon Lightsail instance.
 - `static_ip_name`: The name of the static IP.
 
 """
-attach_static_ip(instanceName, staticIpName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachStaticIp", Dict{String, Any}("instanceName"=>instanceName, "staticIpName"=>staticIpName); aws_config=aws_config)
-attach_static_ip(instanceName, staticIpName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("AttachStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "staticIpName"=>staticIpName), params)); aws_config=aws_config)
+function attach_static_ip(
+    instanceName, staticIpName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "AttachStaticIp",
+        Dict{String,Any}("instanceName" => instanceName, "staticIpName" => staticIpName);
+        aws_config=aws_config,
+    )
+end
+function attach_static_ip(
+    instanceName,
+    staticIpName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "AttachStaticIp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "instanceName" => instanceName, "staticIpName" => staticIpName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     close_instance_public_ports(instance_name, port_info)
@@ -129,15 +295,40 @@ attach_static_ip(instanceName, staticIpName, params::AbstractDict{String}; aws_c
 
 Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action
 supports tag-based access control via resource tags applied to the resource identified by
-instanceName. For more information, see the Lightsail Dev Guide.
+instanceName. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance for which to close ports.
 - `port_info`: An object to describe the ports to close for the specified instance.
 
 """
-close_instance_public_ports(instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CloseInstancePublicPorts", Dict{String, Any}("instanceName"=>instanceName, "portInfo"=>portInfo); aws_config=aws_config)
-close_instance_public_ports(instanceName, portInfo, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CloseInstancePublicPorts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "portInfo"=>portInfo), params)); aws_config=aws_config)
+function close_instance_public_ports(
+    instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CloseInstancePublicPorts",
+        Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo);
+        aws_config=aws_config,
+    )
+end
+function close_instance_public_ports(
+    instanceName,
+    portInfo,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CloseInstancePublicPorts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     copy_snapshot(source_region, target_snapshot_name)
@@ -164,11 +355,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   together with the use latest restorable auto snapshot parameter. The restore date and use
   latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter
   only when copying an automatic snapshot as a manual snapshot. For more information, see the
-  Lightsail Dev Guide.
+  Amazon Lightsail Developer Guide.
 - `"sourceResourceName"`: The name of the source instance or disk from which the source
   automatic snapshot was created. Constraint:   Define this parameter only when copying an
-  automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.
-  
+  automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail
+  Developer Guide.
 - `"sourceSnapshotName"`: The name of the source manual snapshot to copy. Constraint:
   Define this parameter only when copying a manual snapshot as another manual snapshot.
 - `"useLatestRestorableAutoSnapshot"`: A Boolean value to indicate whether to use the
@@ -176,10 +367,136 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    This parameter cannot be defined together with the restore date parameter. The use latest
   restorable auto snapshot and restore date parameters are mutually exclusive.   Define this
   parameter only when copying an automatic snapshot as a manual snapshot. For more
-  information, see the Lightsail Dev Guide.
+  information, see the Amazon Lightsail Developer Guide.
 """
-copy_snapshot(sourceRegion, targetSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CopySnapshot", Dict{String, Any}("sourceRegion"=>sourceRegion, "targetSnapshotName"=>targetSnapshotName); aws_config=aws_config)
-copy_snapshot(sourceRegion, targetSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceRegion"=>sourceRegion, "targetSnapshotName"=>targetSnapshotName), params)); aws_config=aws_config)
+function copy_snapshot(
+    sourceRegion, targetSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CopySnapshot",
+        Dict{String,Any}(
+            "sourceRegion" => sourceRegion, "targetSnapshotName" => targetSnapshotName
+        );
+        aws_config=aws_config,
+    )
+end
+function copy_snapshot(
+    sourceRegion,
+    targetSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CopySnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "sourceRegion" => sourceRegion,
+                    "targetSnapshotName" => targetSnapshotName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    create_bucket(bucket_name, bundle_id)
+    create_bucket(bucket_name, bundle_id, params::Dict{String,<:Any})
+
+Creates an Amazon Lightsail bucket. A bucket is a cloud storage resource available in the
+Lightsail object storage service. Use buckets to store objects such as data and its
+descriptive metadata. For more information about buckets, see Buckets in Amazon Lightsail
+in the Amazon Lightsail Developer Guide.
+
+# Arguments
+- `bucket_name`: The name for the bucket. For more information about bucket names, see
+  Bucket naming rules in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+- `bundle_id`: The ID of the bundle to use for the bucket. A bucket bundle specifies the
+  monthly cost, storage space, and data transfer quota for a bucket. Use the GetBucketBundles
+  action to get a list of bundle IDs that you can specify. Use the UpdateBucketBundle action
+  to change the bundle after the bucket is created.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enableObjectVersioning"`: A Boolean value that indicates whether to enable versioning
+  of objects in the bucket. For more information about versioning, see Enabling and
+  suspending object versioning in a bucket in Amazon Lightsail in the Amazon Lightsail
+  Developer Guide.
+- `"tags"`: The tag keys and optional values to add to the bucket during creation. Use the
+  TagResource action to tag the bucket after it's created.
+"""
+function create_bucket(
+    bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateBucket",
+        Dict{String,Any}("bucketName" => bucketName, "bundleId" => bundleId);
+        aws_config=aws_config,
+    )
+end
+function create_bucket(
+    bucketName,
+    bundleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateBucket",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("bucketName" => bucketName, "bundleId" => bundleId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    create_bucket_access_key(bucket_name)
+    create_bucket_access_key(bucket_name, params::Dict{String,<:Any})
+
+Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of
+an access key ID and corresponding secret access key. Access keys grant full programmatic
+access to the specified bucket and its objects. You can have a maximum of two access keys
+per bucket. Use the GetBucketAccessKeys action to get a list of current access keys for a
+specific bucket. For more information about access keys, see Creating access keys for a
+bucket in Amazon Lightsail in the Amazon Lightsail Developer Guide.  The secretAccessKey
+value is returned only in response to the CreateBucketAccessKey action. You can get a
+secret access key only when you first create an access key; you cannot get the secret
+access key later. If you lose the secret access key, you must create a new access key.
+
+# Arguments
+- `bucket_name`: The name of the bucket that the new access key will belong to, and grant
+  access to.
+
+"""
+function create_bucket_access_key(
+    bucketName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateBucketAccessKey",
+        Dict{String,Any}("bucketName" => bucketName);
+        aws_config=aws_config,
+    )
+end
+function create_bucket_access_key(
+    bucketName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateBucketAccessKey",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("bucketName" => bucketName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_certificate(certificate_name, domain_name)
@@ -207,8 +524,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the certificate during create. Use
   the TagResource action to tag a resource after it's created.
 """
-create_certificate(certificateName, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateCertificate", Dict{String, Any}("certificateName"=>certificateName, "domainName"=>domainName); aws_config=aws_config)
-create_certificate(certificateName, domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "domainName"=>domainName), params)); aws_config=aws_config)
+function create_certificate(
+    certificateName, domainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateCertificate",
+        Dict{String,Any}("certificateName" => certificateName, "domainName" => domainName);
+        aws_config=aws_config,
+    )
+end
+function create_certificate(
+    certificateName,
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateName" => certificateName, "domainName" => domainName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cloud_formation_stack(instances)
@@ -227,8 +571,28 @@ stack operation again with the same export snapshot record.
   invalid parameter error if you pass more than one instance entry in this array.
 
 """
-create_cloud_formation_stack(instances; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateCloudFormationStack", Dict{String, Any}("instances"=>instances); aws_config=aws_config)
-create_cloud_formation_stack(instances, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateCloudFormationStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instances"=>instances), params)); aws_config=aws_config)
+function create_cloud_formation_stack(
+    instances; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateCloudFormationStack",
+        Dict{String,Any}("instances" => instances);
+        aws_config=aws_config,
+    )
+end
+function create_cloud_formation_stack(
+    instances,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateCloudFormationStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instances" => instances), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_contact_method(contact_endpoint, protocol)
@@ -257,8 +621,35 @@ countries/regions. For more information, see Notifications in Amazon Lightsail.
   notifications in Amazon Lightsail, see Notifications in Amazon Lightsail.
 
 """
-create_contact_method(contactEndpoint, protocol; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContactMethod", Dict{String, Any}("contactEndpoint"=>contactEndpoint, "protocol"=>protocol); aws_config=aws_config)
-create_contact_method(contactEndpoint, protocol, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContactMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contactEndpoint"=>contactEndpoint, "protocol"=>protocol), params)); aws_config=aws_config)
+function create_contact_method(
+    contactEndpoint, protocol; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateContactMethod",
+        Dict{String,Any}("contactEndpoint" => contactEndpoint, "protocol" => protocol);
+        aws_config=aws_config,
+    )
+end
+function create_contact_method(
+    contactEndpoint,
+    protocol,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateContactMethod",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "contactEndpoint" => contactEndpoint, "protocol" => protocol
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_container_service(power, scale, service_name)
@@ -311,11 +702,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with your container service. Use the CreateCertificate action to create a certificate for
   the public domain names you want to use with your container service.  You can specify
   public domain names using a string to array map as shown in the example later on this page.
-- `"tags"`: The tag keys and optional values for the container service. For more
-  information about tags in Lightsail, see the Lightsail Dev Guide.
+- `"tags"`: The tag keys and optional values to add to the certificate during create. Use
+  the TagResource action to tag a resource after it's created. For more information about
+  tags in Lightsail, see the Amazon Lightsail Developer Guide.
 """
-create_container_service(power, scale, serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContainerService", Dict{String, Any}("power"=>power, "scale"=>scale, "serviceName"=>serviceName); aws_config=aws_config)
-create_container_service(power, scale, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("power"=>power, "scale"=>scale, "serviceName"=>serviceName), params)); aws_config=aws_config)
+function create_container_service(
+    power, scale, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateContainerService",
+        Dict{String,Any}("power" => power, "scale" => scale, "serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function create_container_service(
+    power,
+    scale,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateContainerService",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "power" => power, "scale" => scale, "serviceName" => serviceName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_container_service_deployment(service_name)
@@ -328,7 +748,8 @@ also specifies the container that will serve as the public endpoint of the deplo
 its settings, such as the HTTP or HTTPS port to use, and the health check configuration.
 You can deploy containers to your container service using container images from a public
 registry like Docker Hub, or from your local machine. For more information, see Creating
-container images for your Amazon Lightsail container services in the Lightsail Dev Guide.
+container images for your Amazon Lightsail container services in the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `service_name`: The name of the container service for which to create the deployment.
@@ -340,8 +761,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"publicEndpoint"`: An object that describes the settings of the public endpoint for the
   container service.
 """
-create_container_service_deployment(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContainerServiceDeployment", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
-create_container_service_deployment(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContainerServiceDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config)
+function create_container_service_deployment(
+    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateContainerServiceDeployment",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function create_container_service_deployment(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateContainerServiceDeployment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_container_service_registry_login()
@@ -360,11 +801,19 @@ account, use the RegisterContainerImage action to register the pushed images to 
 Lightsail container service.  This action is not required if you install and use the
 Lightsail Control (lightsailctl) plugin to push container images to your Lightsail
 container service. For more information, see Pushing and managing container images on your
-Amazon Lightsail container services in the Lightsail Dev Guide.
+Amazon Lightsail container services in the Amazon Lightsail Developer Guide.
 
 """
-create_container_service_registry_login(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContainerServiceRegistryLogin"; aws_config=aws_config)
-create_container_service_registry_login(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContainerServiceRegistryLogin", params; aws_config=aws_config)
+function create_container_service_registry_login(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("CreateContainerServiceRegistryLogin"; aws_config=aws_config)
+end
+function create_container_service_registry_login(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("CreateContainerServiceRegistryLogin", params; aws_config=aws_config)
+end
 
 """
     create_disk(availability_zone, disk_name, size_in_gb)
@@ -372,7 +821,8 @@ create_container_service_registry_login(params::AbstractDict{String}; aws_config
 
 Creates a block storage disk that can be attached to an Amazon Lightsail instance in the
 same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based
-access control via request tags. For more information, see the Lightsail Dev Guide.
+access control via request tags. For more information, see the Amazon Lightsail Developer
+Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone where you want to create the disk (e.g.,
@@ -388,8 +838,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-create_disk(availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDisk", Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb); aws_config=aws_config)
-create_disk(availabilityZone, diskName, sizeInGb, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb), params)); aws_config=aws_config)
+function create_disk(
+    availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateDisk",
+        Dict{String,Any}(
+            "availabilityZone" => availabilityZone,
+            "diskName" => diskName,
+            "sizeInGb" => sizeInGb,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_disk(
+    availabilityZone,
+    diskName,
+    sizeInGb,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateDisk",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "availabilityZone" => availabilityZone,
+                    "diskName" => diskName,
+                    "sizeInGb" => sizeInGb,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_disk_from_snapshot(availability_zone, disk_name, size_in_gb)
@@ -399,7 +883,7 @@ Creates a block storage disk from a manual or automatic snapshot of a disk. The 
 disk can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g.,
 us-east-2a). The create disk from snapshot operation supports tag-based access control via
 request tags and resource tags applied to the resource identified by disk snapshot name.
-For more information, see the Lightsail Dev Guide.
+For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone where you want to create the disk (e.g.,
@@ -422,22 +906,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   together with the use latest restorable auto snapshot parameter. The restore date and use
   latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter
   only when creating a new disk from an automatic snapshot. For more information, see the
-  Lightsail Dev Guide.
+  Amazon Lightsail Developer Guide.
 - `"sourceDiskName"`: The name of the source disk from which the source automatic snapshot
   was created. Constraints:   This parameter cannot be defined together with the disk
   snapshot name parameter. The source disk name and disk snapshot name parameters are
   mutually exclusive.   Define this parameter only when creating a new disk from an automatic
-  snapshot. For more information, see the Lightsail Dev Guide.
+  snapshot. For more information, see the Amazon Lightsail Developer Guide.
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 - `"useLatestRestorableAutoSnapshot"`: A Boolean value to indicate whether to use the
   latest available automatic snapshot. Constraints:   This parameter cannot be defined
   together with the restore date parameter. The use latest restorable auto snapshot and
   restore date parameters are mutually exclusive.   Define this parameter only when creating
-  a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+  a new disk from an automatic snapshot. For more information, see the Amazon Lightsail
+  Developer Guide.
 """
-create_disk_from_snapshot(availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDiskFromSnapshot", Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb); aws_config=aws_config)
-create_disk_from_snapshot(availabilityZone, diskName, sizeInGb, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDiskFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb), params)); aws_config=aws_config)
+function create_disk_from_snapshot(
+    availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateDiskFromSnapshot",
+        Dict{String,Any}(
+            "availabilityZone" => availabilityZone,
+            "diskName" => diskName,
+            "sizeInGb" => sizeInGb,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_disk_from_snapshot(
+    availabilityZone,
+    diskName,
+    sizeInGb,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateDiskFromSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "availabilityZone" => availabilityZone,
+                    "diskName" => diskName,
+                    "sizeInGb" => sizeInGb,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_disk_snapshot(disk_snapshot_name)
@@ -460,7 +979,8 @@ just define the instance name parameter when issuing the snapshot command, and a
 of the defined instance's system volume will be created. After the snapshot is available,
 you can create a block storage disk from the snapshot and attach it to a running instance
 to access the data on the disk. The create disk snapshot operation supports tag-based
-access control via request tags. For more information, see the Lightsail Dev Guide.
+access control via request tags. For more information, see the Amazon Lightsail Developer
+Guide.
 
 # Arguments
 - `disk_snapshot_name`: The name of the destination disk snapshot (e.g., my-disk-snapshot)
@@ -478,8 +998,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-create_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDiskSnapshot", Dict{String, Any}("diskSnapshotName"=>diskSnapshotName); aws_config=aws_config)
-create_disk_snapshot(diskSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDiskSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskSnapshotName"=>diskSnapshotName), params)); aws_config=aws_config)
+function create_disk_snapshot(
+    diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateDiskSnapshot",
+        Dict{String,Any}("diskSnapshotName" => diskSnapshotName);
+        aws_config=aws_config,
+    )
+end
+function create_disk_snapshot(
+    diskSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateDiskSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("diskSnapshotName" => diskSnapshotName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_distribution(bundle_id, default_cache_behavior, distribution_name, origin)
@@ -513,8 +1055,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the distribution during create. Use
   the TagResource action to tag a resource after it's created.
 """
-create_distribution(bundleId, defaultCacheBehavior, distributionName, origin; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDistribution", Dict{String, Any}("bundleId"=>bundleId, "defaultCacheBehavior"=>defaultCacheBehavior, "distributionName"=>distributionName, "origin"=>origin); aws_config=aws_config)
-create_distribution(bundleId, defaultCacheBehavior, distributionName, origin, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bundleId"=>bundleId, "defaultCacheBehavior"=>defaultCacheBehavior, "distributionName"=>distributionName, "origin"=>origin), params)); aws_config=aws_config)
+function create_distribution(
+    bundleId,
+    defaultCacheBehavior,
+    distributionName,
+    origin;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateDistribution",
+        Dict{String,Any}(
+            "bundleId" => bundleId,
+            "defaultCacheBehavior" => defaultCacheBehavior,
+            "distributionName" => distributionName,
+            "origin" => origin,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_distribution(
+    bundleId,
+    defaultCacheBehavior,
+    distributionName,
+    origin,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateDistribution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "bundleId" => bundleId,
+                    "defaultCacheBehavior" => defaultCacheBehavior,
+                    "distributionName" => distributionName,
+                    "origin" => origin,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_domain(domain_name)
@@ -522,7 +1105,7 @@ create_distribution(bundleId, defaultCacheBehavior, distributionName, origin, pa
 
 Creates a domain resource for the specified domain (e.g., example.com). The create domain
 operation supports tag-based access control via request tags. For more information, see the
-Lightsail Dev Guide.
+Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_name`: The domain name to manage (e.g., example.com).  You cannot register a new
@@ -535,8 +1118,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-create_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDomain", Dict{String, Any}("domainName"=>domainName); aws_config=aws_config)
-create_domain(domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config)
+function create_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "CreateDomain", Dict{String,Any}("domainName" => domainName); aws_config=aws_config
+    )
+end
+function create_domain(
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateDomain",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_domain_entry(domain_entry, domain_name)
@@ -546,7 +1145,7 @@ Creates one of the following domain name system (DNS) records in a domain DNS zo
 (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority
 (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports
 tag-based access control via resource tags applied to the resource identified by domain
-name. For more information, see the Lightsail Dev Guide.
+name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_entry`: An array of key-value pairs containing information about the domain entry
@@ -555,8 +1154,33 @@ name. For more information, see the Lightsail Dev Guide.
   domain entry.
 
 """
-create_domain_entry(domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDomainEntry", Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName); aws_config=aws_config)
-create_domain_entry(domainEntry, domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDomainEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName), params)); aws_config=aws_config)
+function create_domain_entry(
+    domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateDomainEntry",
+        Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName);
+        aws_config=aws_config,
+    )
+end
+function create_domain_entry(
+    domainEntry,
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateDomainEntry",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_instance_snapshot(instance_name, instance_snapshot_name)
@@ -565,7 +1189,7 @@ create_domain_entry(domainEntry, domainName, params::AbstractDict{String}; aws_c
 Creates a snapshot of a specific virtual private server, or instance. You can use a
 snapshot to create a new instance that is based on that snapshot. The create instance
 snapshot operation supports tag-based access control via request tags. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The Lightsail instance on which to base your snapshot.
@@ -576,16 +1200,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-create_instance_snapshot(instanceName, instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstanceSnapshot", Dict{String, Any}("instanceName"=>instanceName, "instanceSnapshotName"=>instanceSnapshotName); aws_config=aws_config)
-create_instance_snapshot(instanceName, instanceSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstanceSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "instanceSnapshotName"=>instanceSnapshotName), params)); aws_config=aws_config)
+function create_instance_snapshot(
+    instanceName, instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateInstanceSnapshot",
+        Dict{String,Any}(
+            "instanceName" => instanceName, "instanceSnapshotName" => instanceSnapshotName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_instance_snapshot(
+    instanceName,
+    instanceSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateInstanceSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "instanceName" => instanceName,
+                    "instanceSnapshotName" => instanceSnapshotName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_instances(availability_zone, blueprint_id, bundle_id, instance_names)
     create_instances(availability_zone, blueprint_id, bundle_id, instance_names, params::Dict{String,<:Any})
 
 Creates one or more Amazon Lightsail instances. The create instances operation supports
-tag-based access control via request tags. For more information, see the Lightsail Dev
-Guide.
+tag-based access control via request tags. For more information, see the Lightsail
+Developer Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone in which to create your instance. Use the
@@ -618,10 +1272,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user data. For example, you might want to run apt-get -y update.  Depending on the machine
   image you choose, the command to get software on your instance varies. Amazon Linux and
   CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list,
-  see the Dev Guide.
+  see the Amazon Lightsail Developer Guide.
 """
-create_instances(availabilityZone, blueprintId, bundleId, instanceNames; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstances", Dict{String, Any}("availabilityZone"=>availabilityZone, "blueprintId"=>blueprintId, "bundleId"=>bundleId, "instanceNames"=>instanceNames); aws_config=aws_config)
-create_instances(availabilityZone, blueprintId, bundleId, instanceNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "blueprintId"=>blueprintId, "bundleId"=>bundleId, "instanceNames"=>instanceNames), params)); aws_config=aws_config)
+function create_instances(
+    availabilityZone,
+    blueprintId,
+    bundleId,
+    instanceNames;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateInstances",
+        Dict{String,Any}(
+            "availabilityZone" => availabilityZone,
+            "blueprintId" => blueprintId,
+            "bundleId" => bundleId,
+            "instanceNames" => instanceNames,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_instances(
+    availabilityZone,
+    blueprintId,
+    bundleId,
+    instanceNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "availabilityZone" => availabilityZone,
+                    "blueprintId" => blueprintId,
+                    "bundleId" => bundleId,
+                    "instanceNames" => instanceNames,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_instances_from_snapshot(availability_zone, bundle_id, instance_names)
@@ -630,7 +1325,7 @@ create_instances(availabilityZone, blueprintId, bundleId, instanceNames, params:
 Creates one or more new instances from a manual or automatic snapshot of an instance. The
 create instances from snapshot operation supports tag-based access control via request tags
 and resource tags applied to the resource identified by instance snapshot name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone where you want to create your instances. Use
@@ -659,34 +1354,73 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   together with the use latest restorable auto snapshot parameter. The restore date and use
   latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter
   only when creating a new instance from an automatic snapshot. For more information, see the
-  Lightsail Dev Guide.
+  Amazon Lightsail Developer Guide.
 - `"sourceInstanceName"`: The name of the source instance from which the source automatic
   snapshot was created. Constraints:   This parameter cannot be defined together with the
   instance snapshot name parameter. The source instance name and instance snapshot name
   parameters are mutually exclusive.   Define this parameter only when creating a new
-  instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+  instance from an automatic snapshot. For more information, see the Amazon Lightsail
+  Developer Guide.
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 - `"useLatestRestorableAutoSnapshot"`: A Boolean value to indicate whether to use the
   latest available automatic snapshot. Constraints:   This parameter cannot be defined
   together with the restore date parameter. The use latest restorable auto snapshot and
   restore date parameters are mutually exclusive.   Define this parameter only when creating
-  a new instance from an automatic snapshot. For more information, see the Lightsail Dev
-  Guide.
+  a new instance from an automatic snapshot. For more information, see the Amazon Lightsail
+  Developer Guide.
 - `"userData"`: You can create a launch script that configures a server with additional
   user data. For example, apt-get -y update.  Depending on the machine image you choose, the
   command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian
-  and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide.
+  and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Amazon Lightsail
+  Developer Guide.
 """
-create_instances_from_snapshot(availabilityZone, bundleId, instanceNames; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstancesFromSnapshot", Dict{String, Any}("availabilityZone"=>availabilityZone, "bundleId"=>bundleId, "instanceNames"=>instanceNames); aws_config=aws_config)
-create_instances_from_snapshot(availabilityZone, bundleId, instanceNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstancesFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "bundleId"=>bundleId, "instanceNames"=>instanceNames), params)); aws_config=aws_config)
+function create_instances_from_snapshot(
+    availabilityZone,
+    bundleId,
+    instanceNames;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateInstancesFromSnapshot",
+        Dict{String,Any}(
+            "availabilityZone" => availabilityZone,
+            "bundleId" => bundleId,
+            "instanceNames" => instanceNames,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_instances_from_snapshot(
+    availabilityZone,
+    bundleId,
+    instanceNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateInstancesFromSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "availabilityZone" => availabilityZone,
+                    "bundleId" => bundleId,
+                    "instanceNames" => instanceNames,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_key_pair(key_pair_name)
     create_key_pair(key_pair_name, params::Dict{String,<:Any})
 
 Creates an SSH key pair. The create key pair operation supports tag-based access control
-via request tags. For more information, see the Lightsail Dev Guide.
+via request tags. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `key_pair_name`: The name for your new key pair.
@@ -696,8 +1430,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-create_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateKeyPair", Dict{String, Any}("keyPairName"=>keyPairName); aws_config=aws_config)
-create_key_pair(keyPairName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName), params)); aws_config=aws_config)
+function create_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "CreateKeyPair",
+        Dict{String,Any}("keyPairName" => keyPairName);
+        aws_config=aws_config,
+    )
+end
+function create_key_pair(
+    keyPairName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateKeyPair",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("keyPairName" => keyPairName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_load_balancer(instance_port, load_balancer_name)
@@ -708,8 +1460,8 @@ your application, see Configure your Lightsail instances for load balancing. You
 up to 5 load balancers per AWS Region in your account. When you create a load balancer, you
 can specify a unique name and port settings. To change additional load balancer settings,
 use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports
-tag-based access control via request tags. For more information, see the Lightsail Dev
-Guide.
+tag-based access control via request tags. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `instance_port`: The instance port where you're creating your load balancer.
@@ -734,8 +1486,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-create_load_balancer(instancePort, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateLoadBalancer", Dict{String, Any}("instancePort"=>instancePort, "loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-create_load_balancer(instancePort, loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instancePort"=>instancePort, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function create_load_balancer(
+    instancePort, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateLoadBalancer",
+        Dict{String,Any}(
+            "instancePort" => instancePort, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_load_balancer(
+    instancePort,
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateLoadBalancer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "instancePort" => instancePort, "loadBalancerName" => loadBalancerName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_load_balancer_tls_certificate(certificate_domain_name, certificate_name, load_balancer_name)
@@ -745,7 +1526,7 @@ Creates an SSL/TLS certificate for an Amazon Lightsail load balancer. TLS is jus
 updated, more secure version of Secure Socket Layer (SSL). The
 CreateLoadBalancerTlsCertificate operation supports tag-based access control via resource
 tags applied to the resource identified by load balancer name. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `certificate_domain_name`: The domain name (e.g., example.com) for your SSL/TLS
@@ -766,16 +1547,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-create_load_balancer_tls_certificate(certificateDomainName, certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateLoadBalancerTlsCertificate", Dict{String, Any}("certificateDomainName"=>certificateDomainName, "certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-create_load_balancer_tls_certificate(certificateDomainName, certificateName, loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateLoadBalancerTlsCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateDomainName"=>certificateDomainName, "certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function create_load_balancer_tls_certificate(
+    certificateDomainName,
+    certificateName,
+    loadBalancerName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateLoadBalancerTlsCertificate",
+        Dict{String,Any}(
+            "certificateDomainName" => certificateDomainName,
+            "certificateName" => certificateName,
+            "loadBalancerName" => loadBalancerName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_load_balancer_tls_certificate(
+    certificateDomainName,
+    certificateName,
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateLoadBalancerTlsCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateDomainName" => certificateDomainName,
+                    "certificateName" => certificateName,
+                    "loadBalancerName" => loadBalancerName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_relational_database(master_database_name, master_username, relational_database_blueprint_id, relational_database_bundle_id, relational_database_name)
     create_relational_database(master_database_name, master_username, relational_database_blueprint_id, relational_database_bundle_id, relational_database_name, params::Dict{String,<:Any})
 
 Creates a new database in Amazon Lightsail. The create relational database operation
-supports tag-based access control via request tags. For more information, see the Lightsail
-Dev Guide.
+supports tag-based access control via request tags. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `master_database_name`: The meaning of this parameter differs according to the database
@@ -842,8 +1660,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-create_relational_database(masterDatabaseName, masterUsername, relationalDatabaseBlueprintId, relationalDatabaseBundleId, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateRelationalDatabase", Dict{String, Any}("masterDatabaseName"=>masterDatabaseName, "masterUsername"=>masterUsername, "relationalDatabaseBlueprintId"=>relationalDatabaseBlueprintId, "relationalDatabaseBundleId"=>relationalDatabaseBundleId, "relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-create_relational_database(masterDatabaseName, masterUsername, relationalDatabaseBlueprintId, relationalDatabaseBundleId, relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("masterDatabaseName"=>masterDatabaseName, "masterUsername"=>masterUsername, "relationalDatabaseBlueprintId"=>relationalDatabaseBlueprintId, "relationalDatabaseBundleId"=>relationalDatabaseBundleId, "relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function create_relational_database(
+    masterDatabaseName,
+    masterUsername,
+    relationalDatabaseBlueprintId,
+    relationalDatabaseBundleId,
+    relationalDatabaseName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateRelationalDatabase",
+        Dict{String,Any}(
+            "masterDatabaseName" => masterDatabaseName,
+            "masterUsername" => masterUsername,
+            "relationalDatabaseBlueprintId" => relationalDatabaseBlueprintId,
+            "relationalDatabaseBundleId" => relationalDatabaseBundleId,
+            "relationalDatabaseName" => relationalDatabaseName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_relational_database(
+    masterDatabaseName,
+    masterUsername,
+    relationalDatabaseBlueprintId,
+    relationalDatabaseBundleId,
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateRelationalDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "masterDatabaseName" => masterDatabaseName,
+                    "masterUsername" => masterUsername,
+                    "relationalDatabaseBlueprintId" => relationalDatabaseBlueprintId,
+                    "relationalDatabaseBundleId" => relationalDatabaseBundleId,
+                    "relationalDatabaseName" => relationalDatabaseName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_relational_database_from_snapshot(relational_database_name)
@@ -854,7 +1717,8 @@ create a new database from a snapshot in if something goes wrong with your origi
 database, or to change it to a different plan, such as a high availability or standard
 plan. The create relational database from snapshot operation supports tag-based access
 control via request tags and resource tags applied to the resource identified by
-relationalDatabaseSnapshotName. For more information, see the Lightsail Dev Guide.
+relationalDatabaseSnapshotName. For more information, see the Amazon Lightsail Developer
+Guide.
 
 # Arguments
 - `relational_database_name`: The name to use for your new Lightsail database resource.
@@ -889,8 +1753,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   backup time. A value of true restores from the latest backup time.  Default: false
   Constraints: Cannot be specified if the restore time parameter is provided.
 """
-create_relational_database_from_snapshot(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateRelationalDatabaseFromSnapshot", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-create_relational_database_from_snapshot(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateRelationalDatabaseFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function create_relational_database_from_snapshot(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateRelationalDatabaseFromSnapshot",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function create_relational_database_from_snapshot(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateRelationalDatabaseFromSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_relational_database_snapshot(relational_database_name, relational_database_snapshot_name)
@@ -899,7 +1787,7 @@ create_relational_database_from_snapshot(relationalDatabaseName, params::Abstrac
 Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups,
 to make copies of a database, and to save data before deleting a database. The create
 relational database snapshot operation supports tag-based access control via request tags.
-For more information, see the Lightsail Dev Guide.
+For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of the database on which to base your new snapshot.
@@ -912,8 +1800,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
-create_relational_database_snapshot(relationalDatabaseName, relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateRelationalDatabaseSnapshot", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName, "relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName); aws_config=aws_config)
-create_relational_database_snapshot(relationalDatabaseName, relationalDatabaseSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateRelationalDatabaseSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName, "relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName), params)); aws_config=aws_config)
+function create_relational_database_snapshot(
+    relationalDatabaseName,
+    relationalDatabaseSnapshotName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateRelationalDatabaseSnapshot",
+        Dict{String,Any}(
+            "relationalDatabaseName" => relationalDatabaseName,
+            "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_relational_database_snapshot(
+    relationalDatabaseName,
+    relationalDatabaseSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateRelationalDatabaseSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "relationalDatabaseName" => relationalDatabaseName,
+                    "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_alarm(alarm_name)
@@ -928,15 +1849,31 @@ Amazon Lightsail.
 - `alarm_name`: The name of the alarm to delete.
 
 """
-delete_alarm(alarmName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteAlarm", Dict{String, Any}("alarmName"=>alarmName); aws_config=aws_config)
-delete_alarm(alarmName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmName"=>alarmName), params)); aws_config=aws_config)
+function delete_alarm(alarmName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "DeleteAlarm", Dict{String,Any}("alarmName" => alarmName); aws_config=aws_config
+    )
+end
+function delete_alarm(
+    alarmName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteAlarm",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("alarmName" => alarmName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_auto_snapshot(date, resource_name)
     delete_auto_snapshot(date, resource_name, params::Dict{String,<:Any})
 
-Deletes an automatic snapshot of an instance or disk. For more information, see the
-Lightsail Dev Guide.
+Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `date`: The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get
@@ -945,8 +1882,115 @@ Lightsail Dev Guide.
   automatic snapshot.
 
 """
-delete_auto_snapshot(date, resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteAutoSnapshot", Dict{String, Any}("date"=>date, "resourceName"=>resourceName); aws_config=aws_config)
-delete_auto_snapshot(date, resourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteAutoSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("date"=>date, "resourceName"=>resourceName), params)); aws_config=aws_config)
+function delete_auto_snapshot(
+    date, resourceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteAutoSnapshot",
+        Dict{String,Any}("date" => date, "resourceName" => resourceName);
+        aws_config=aws_config,
+    )
+end
+function delete_auto_snapshot(
+    date,
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteAutoSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("date" => date, "resourceName" => resourceName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    delete_bucket(bucket_name)
+    delete_bucket(bucket_name, params::Dict{String,<:Any})
+
+Deletes a Amazon Lightsail bucket.  When you delete your bucket, the bucket name is
+released and can be reused for a new bucket in your account or another AWS account.
+
+# Arguments
+- `bucket_name`: The name of the bucket to delete. Use the GetBuckets action to get a list
+  of bucket names that you can specify.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"forceDelete"`: A Boolean value that indicates whether to force delete the bucket. You
+  must force delete the bucket if it has one of the following conditions:   The bucket is the
+  origin of a distribution.   The bucket has instances that were granted access to it using
+  the SetResourceAccessForBucket action.   The bucket has objects.   The bucket has access
+  keys.    Force deleting a bucket might impact other resources that rely on the bucket, such
+  as instances, distributions, or software that use the issued access keys.
+"""
+function delete_bucket(bucketName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "DeleteBucket", Dict{String,Any}("bucketName" => bucketName); aws_config=aws_config
+    )
+end
+function delete_bucket(
+    bucketName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteBucket",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("bucketName" => bucketName), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    delete_bucket_access_key(access_key_id, bucket_name)
+    delete_bucket_access_key(access_key_id, bucket_name, params::Dict{String,<:Any})
+
+Deletes an access key for the specified Amazon Lightsail bucket. We recommend that you
+delete an access key if the secret access key is compromised. For more information about
+access keys, see Creating access keys for a bucket in Amazon Lightsail in the Amazon
+Lightsail Developer Guide.
+
+# Arguments
+- `access_key_id`: The ID of the access key to delete. Use the GetBucketAccessKeys action
+  to get a list of access key IDs that you can specify.
+- `bucket_name`: The name of the bucket that the access key belongs to.
+
+"""
+function delete_bucket_access_key(
+    accessKeyId, bucketName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteBucketAccessKey",
+        Dict{String,Any}("accessKeyId" => accessKeyId, "bucketName" => bucketName);
+        aws_config=aws_config,
+    )
+end
+function delete_bucket_access_key(
+    accessKeyId,
+    bucketName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteBucketAccessKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("accessKeyId" => accessKeyId, "bucketName" => bucketName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_certificate(certificate_name)
@@ -962,8 +2006,30 @@ distribution.
   to get a list of certificate names that you can specify.
 
 """
-delete_certificate(certificateName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteCertificate", Dict{String, Any}("certificateName"=>certificateName); aws_config=aws_config)
-delete_certificate(certificateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName), params)); aws_config=aws_config)
+function delete_certificate(
+    certificateName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteCertificate",
+        Dict{String,Any}("certificateName" => certificateName);
+        aws_config=aws_config,
+    )
+end
+function delete_certificate(
+    certificateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("certificateName" => certificateName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_contact_method(protocol)
@@ -981,8 +2047,26 @@ information, see Notifications in Amazon Lightsail.
   DeleteContactMethod actions to delete each protocol.
 
 """
-delete_contact_method(protocol; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteContactMethod", Dict{String, Any}("protocol"=>protocol); aws_config=aws_config)
-delete_contact_method(protocol, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteContactMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("protocol"=>protocol), params)); aws_config=aws_config)
+function delete_contact_method(protocol; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "DeleteContactMethod",
+        Dict{String,Any}("protocol" => protocol);
+        aws_config=aws_config,
+    )
+end
+function delete_contact_method(
+    protocol,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteContactMethod",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("protocol" => protocol), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_container_image(image, service_name)
@@ -1001,8 +2085,33 @@ Deletes a container image that is registered to your Amazon Lightsail container 
   container image.
 
 """
-delete_container_image(image, serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteContainerImage", Dict{String, Any}("image"=>image, "serviceName"=>serviceName); aws_config=aws_config)
-delete_container_image(image, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteContainerImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("image"=>image, "serviceName"=>serviceName), params)); aws_config=aws_config)
+function delete_container_image(
+    image, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteContainerImage",
+        Dict{String,Any}("image" => image, "serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function delete_container_image(
+    image,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteContainerImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("image" => image, "serviceName" => serviceName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_container_service(service_name)
@@ -1014,8 +2123,28 @@ Deletes your Amazon Lightsail container service.
 - `service_name`: The name of the container service to delete.
 
 """
-delete_container_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteContainerService", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
-delete_container_service(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config)
+function delete_container_service(
+    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteContainerService",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function delete_container_service(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteContainerService",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_disk(disk_name)
@@ -1024,8 +2153,8 @@ delete_container_service(serviceName, params::AbstractDict{String}; aws_config::
 Deletes the specified block storage disk. The disk must be in the available state (not
 attached to a Lightsail instance).  The disk may remain in the deleting state for several
 minutes.  The delete disk operation supports tag-based access control via resource tags
-applied to the resource identified by disk name. For more information, see the Lightsail
-Dev Guide.
+applied to the resource identified by disk name. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `disk_name`: The unique name of the disk you want to delete (e.g., my-disk).
@@ -1035,8 +2164,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete the enabled add-ons
   for the disk.
 """
-delete_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDisk", Dict{String, Any}("diskName"=>diskName); aws_config=aws_config)
-delete_disk(diskName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName), params)); aws_config=aws_config)
+function delete_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "DeleteDisk", Dict{String,Any}("diskName" => diskName); aws_config=aws_config
+    )
+end
+function delete_disk(
+    diskName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteDisk",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("diskName" => diskName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_disk_snapshot(disk_snapshot_name)
@@ -1049,15 +2194,37 @@ needed for any other snapshot is removed. So regardless of which prior snapshots
 deleted, all active snapshots will have access to all the information needed to restore the
 disk. The delete disk snapshot operation supports tag-based access control via resource
 tags applied to the resource identified by disk snapshot name. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `disk_snapshot_name`: The name of the disk snapshot you want to delete (e.g.,
   my-disk-snapshot).
 
 """
-delete_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDiskSnapshot", Dict{String, Any}("diskSnapshotName"=>diskSnapshotName); aws_config=aws_config)
-delete_disk_snapshot(diskSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDiskSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskSnapshotName"=>diskSnapshotName), params)); aws_config=aws_config)
+function delete_disk_snapshot(
+    diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteDiskSnapshot",
+        Dict{String,Any}("diskSnapshotName" => diskSnapshotName);
+        aws_config=aws_config,
+    )
+end
+function delete_disk_snapshot(
+    diskSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteDiskSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("diskSnapshotName" => diskSnapshotName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_distribution()
@@ -1070,8 +2237,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"distributionName"`: The name of the distribution to delete. Use the GetDistributions
   action to get a list of distribution names that you can specify.
 """
-delete_distribution(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDistribution"; aws_config=aws_config)
-delete_distribution(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDistribution", params; aws_config=aws_config)
+function delete_distribution(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("DeleteDistribution"; aws_config=aws_config)
+end
+function delete_distribution(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("DeleteDistribution", params; aws_config=aws_config)
+end
 
 """
     delete_domain(domain_name)
@@ -1079,14 +2252,30 @@ delete_distribution(params::AbstractDict{String}; aws_config::AbstractAWSConfig=
 
 Deletes the specified domain recordset and all of its domain records. The delete domain
 operation supports tag-based access control via resource tags applied to the resource
-identified by domain name. For more information, see the Lightsail Dev Guide.
+identified by domain name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_name`: The specific domain name to delete.
 
 """
-delete_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDomain", Dict{String, Any}("domainName"=>domainName); aws_config=aws_config)
-delete_domain(domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config)
+function delete_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "DeleteDomain", Dict{String,Any}("domainName" => domainName); aws_config=aws_config
+    )
+end
+function delete_domain(
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteDomain",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_domain_entry(domain_entry, domain_name)
@@ -1094,7 +2283,7 @@ delete_domain(domainName, params::AbstractDict{String}; aws_config::AbstractAWSC
 
 Deletes a specific domain entry. The delete domain entry operation supports tag-based
 access control via resource tags applied to the resource identified by domain name. For
-more information, see the Lightsail Dev Guide.
+more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_entry`: An array of key-value pairs containing information about your domain
@@ -1102,8 +2291,33 @@ more information, see the Lightsail Dev Guide.
 - `domain_name`: The name of the domain entry to delete.
 
 """
-delete_domain_entry(domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDomainEntry", Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName); aws_config=aws_config)
-delete_domain_entry(domainEntry, domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteDomainEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName), params)); aws_config=aws_config)
+function delete_domain_entry(
+    domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteDomainEntry",
+        Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName);
+        aws_config=aws_config,
+    )
+end
+function delete_domain_entry(
+    domainEntry,
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteDomainEntry",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_instance(instance_name)
@@ -1111,7 +2325,7 @@ delete_domain_entry(domainEntry, domainName, params::AbstractDict{String}; aws_c
 
 Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based
 access control via resource tags applied to the resource identified by instance name. For
-more information, see the Lightsail Dev Guide.
+more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance to delete.
@@ -1121,8 +2335,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete the enabled add-ons
   for the disk.
 """
-delete_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-delete_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config)
+function delete_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "DeleteInstance",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+    )
+end
+function delete_instance(
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_instance_snapshot(instance_snapshot_name)
@@ -1130,15 +2362,39 @@ delete_instance(instanceName, params::AbstractDict{String}; aws_config::Abstract
 
 Deletes a specific snapshot of a virtual private server (or instance). The delete instance
 snapshot operation supports tag-based access control via resource tags applied to the
-resource identified by instance snapshot name. For more information, see the Lightsail Dev
-Guide.
+resource identified by instance snapshot name. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `instance_snapshot_name`: The name of the snapshot to delete.
 
 """
-delete_instance_snapshot(instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteInstanceSnapshot", Dict{String, Any}("instanceSnapshotName"=>instanceSnapshotName); aws_config=aws_config)
-delete_instance_snapshot(instanceSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteInstanceSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceSnapshotName"=>instanceSnapshotName), params)); aws_config=aws_config)
+function delete_instance_snapshot(
+    instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteInstanceSnapshot",
+        Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName);
+        aws_config=aws_config,
+    )
+end
+function delete_instance_snapshot(
+    instanceSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteInstanceSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_key_pair(key_pair_name)
@@ -1146,14 +2402,32 @@ delete_instance_snapshot(instanceSnapshotName, params::AbstractDict{String}; aws
 
 Deletes a specific SSH key pair. The delete key pair operation supports tag-based access
 control via resource tags applied to the resource identified by key pair name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `key_pair_name`: The name of the key pair to delete.
 
 """
-delete_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteKeyPair", Dict{String, Any}("keyPairName"=>keyPairName); aws_config=aws_config)
-delete_key_pair(keyPairName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName), params)); aws_config=aws_config)
+function delete_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "DeleteKeyPair",
+        Dict{String,Any}("keyPairName" => keyPairName);
+        aws_config=aws_config,
+    )
+end
+function delete_key_pair(
+    keyPairName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteKeyPair",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("keyPairName" => keyPairName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_known_host_keys(instance_name)
@@ -1172,8 +2446,28 @@ client.
   certificate.
 
 """
-delete_known_host_keys(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteKnownHostKeys", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-delete_known_host_keys(instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteKnownHostKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config)
+function delete_known_host_keys(
+    instanceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteKnownHostKeys",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+    )
+end
+function delete_known_host_keys(
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteKnownHostKeys",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_load_balancer(load_balancer_name)
@@ -1183,14 +2477,36 @@ Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. O
 load balancer is deleted, you will need to create a new load balancer, create a new
 certificate, and verify domain ownership again. The delete load balancer operation supports
 tag-based access control via resource tags applied to the resource identified by load
-balancer name. For more information, see the Lightsail Dev Guide.
+balancer name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `load_balancer_name`: The name of the load balancer you want to delete.
 
 """
-delete_load_balancer(loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteLoadBalancer", Dict{String, Any}("loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-delete_load_balancer(loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function delete_load_balancer(
+    loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteLoadBalancer",
+        Dict{String,Any}("loadBalancerName" => loadBalancerName);
+        aws_config=aws_config,
+    )
+end
+function delete_load_balancer(
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteLoadBalancer",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("loadBalancerName" => loadBalancerName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_load_balancer_tls_certificate(certificate_name, load_balancer_name)
@@ -1199,7 +2515,7 @@ delete_load_balancer(loadBalancerName, params::AbstractDict{String}; aws_config:
 Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The
 DeleteLoadBalancerTlsCertificate operation supports tag-based access control via resource
 tags applied to the resource identified by load balancer name. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `certificate_name`: The SSL/TLS certificate name.
@@ -1212,8 +2528,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   force parameter is required when the primary SSL/TLS certificate is in use by an instance
   attached to the load balancer.
 """
-delete_load_balancer_tls_certificate(certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteLoadBalancerTlsCertificate", Dict{String, Any}("certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-delete_load_balancer_tls_certificate(certificateName, loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteLoadBalancerTlsCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateName"=>certificateName, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function delete_load_balancer_tls_certificate(
+    certificateName, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteLoadBalancerTlsCertificate",
+        Dict{String,Any}(
+            "certificateName" => certificateName, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_load_balancer_tls_certificate(
+    certificateName,
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteLoadBalancerTlsCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateName" => certificateName,
+                    "loadBalancerName" => loadBalancerName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_relational_database(relational_database_name)
@@ -1221,7 +2567,7 @@ delete_load_balancer_tls_certificate(certificateName, loadBalancerName, params::
 
 Deletes a database in Amazon Lightsail. The delete relational database operation supports
 tag-based access control via resource tags applied to the resource identified by
-relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of the database that you are deleting.
@@ -1239,8 +2585,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the final relational database snapshot name parameter if the skip final snapshot
   parameter is false. Default: false
 """
-delete_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteRelationalDatabase", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-delete_relational_database(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function delete_relational_database(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function delete_relational_database(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteRelationalDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_relational_database_snapshot(relational_database_snapshot_name)
@@ -1248,15 +2618,44 @@ delete_relational_database(relationalDatabaseName, params::AbstractDict{String};
 
 Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot
 operation supports tag-based access control via resource tags applied to the resource
-identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+identified by relationalDatabaseName. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `relational_database_snapshot_name`: The name of the database snapshot that you are
   deleting.
 
 """
-delete_relational_database_snapshot(relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteRelationalDatabaseSnapshot", Dict{String, Any}("relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName); aws_config=aws_config)
-delete_relational_database_snapshot(relationalDatabaseSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteRelationalDatabaseSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName), params)); aws_config=aws_config)
+function delete_relational_database_snapshot(
+    relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DeleteRelationalDatabaseSnapshot",
+        Dict{String,Any}(
+            "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_relational_database_snapshot(
+    relationalDatabaseSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DeleteRelationalDatabaseSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     detach_certificate_from_distribution(distribution_name)
@@ -1271,8 +2670,30 @@ for all of the domains that are associated with the certificate.
   Use the GetDistributions action to get a list of distribution names that you can specify.
 
 """
-detach_certificate_from_distribution(distributionName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DetachCertificateFromDistribution", Dict{String, Any}("distributionName"=>distributionName); aws_config=aws_config)
-detach_certificate_from_distribution(distributionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DetachCertificateFromDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionName"=>distributionName), params)); aws_config=aws_config)
+function detach_certificate_from_distribution(
+    distributionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DetachCertificateFromDistribution",
+        Dict{String,Any}("distributionName" => distributionName);
+        aws_config=aws_config,
+    )
+end
+function detach_certificate_from_distribution(
+    distributionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DetachCertificateFromDistribution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("distributionName" => distributionName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     detach_disk(disk_name)
@@ -1282,15 +2703,31 @@ Detaches a stopped block storage disk from a Lightsail instance. Make sure to un
 file systems on the device within your operating system before stopping the instance and
 detaching the disk. The detach disk operation supports tag-based access control via
 resource tags applied to the resource identified by disk name. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `disk_name`: The unique name of the disk you want to detach from your instance (e.g.,
   my-disk).
 
 """
-detach_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DetachDisk", Dict{String, Any}("diskName"=>diskName); aws_config=aws_config)
-detach_disk(diskName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DetachDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName), params)); aws_config=aws_config)
+function detach_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "DetachDisk", Dict{String,Any}("diskName" => diskName); aws_config=aws_config
+    )
+end
+function detach_disk(
+    diskName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DetachDisk",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("diskName" => diskName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     detach_instances_from_load_balancer(instance_names, load_balancer_name)
@@ -1300,7 +2737,7 @@ Detaches the specified instances from a Lightsail load balancer. This operation 
 the instances are no longer needed before they are detached from the load balancer. The
 detach instances from load balancer operation supports tag-based access control via
 resource tags applied to the resource identified by load balancer name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_names`: An array of strings containing the names of the instances you want to
@@ -1308,8 +2745,37 @@ information, see the Lightsail Dev Guide.
 - `load_balancer_name`: The name of the Lightsail load balancer.
 
 """
-detach_instances_from_load_balancer(instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DetachInstancesFromLoadBalancer", Dict{String, Any}("instanceNames"=>instanceNames, "loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-detach_instances_from_load_balancer(instanceNames, loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DetachInstancesFromLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function detach_instances_from_load_balancer(
+    instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DetachInstancesFromLoadBalancer",
+        Dict{String,Any}(
+            "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+    )
+end
+function detach_instances_from_load_balancer(
+    instanceNames,
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DetachInstancesFromLoadBalancer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     detach_static_ip(static_ip_name)
@@ -1321,23 +2787,66 @@ Detaches a static IP from the Amazon Lightsail instance to which it is attached.
 - `static_ip_name`: The name of the static IP to detach from the instance.
 
 """
-detach_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DetachStaticIp", Dict{String, Any}("staticIpName"=>staticIpName); aws_config=aws_config)
-detach_static_ip(staticIpName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DetachStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config)
+function detach_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "DetachStaticIp",
+        Dict{String,Any}("staticIpName" => staticIpName);
+        aws_config=aws_config,
+    )
+end
+function detach_static_ip(
+    staticIpName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DetachStaticIp",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("staticIpName" => staticIpName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disable_add_on(add_on_type, resource_name)
     disable_add_on(add_on_type, resource_name, params::Dict{String,<:Any})
 
-Disables an add-on for an Amazon Lightsail resource. For more information, see the
-Lightsail Dev Guide.
+Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `add_on_type`: The add-on type to disable.
 - `resource_name`: The name of the source resource for which to disable the add-on.
 
 """
-disable_add_on(addOnType, resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DisableAddOn", Dict{String, Any}("addOnType"=>addOnType, "resourceName"=>resourceName); aws_config=aws_config)
-disable_add_on(addOnType, resourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DisableAddOn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addOnType"=>addOnType, "resourceName"=>resourceName), params)); aws_config=aws_config)
+function disable_add_on(
+    addOnType, resourceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "DisableAddOn",
+        Dict{String,Any}("addOnType" => addOnType, "resourceName" => resourceName);
+        aws_config=aws_config,
+    )
+end
+function disable_add_on(
+    addOnType,
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "DisableAddOn",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("addOnType" => addOnType, "resourceName" => resourceName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     download_default_key_pair()
@@ -1346,23 +2855,56 @@ disable_add_on(addOnType, resourceName, params::AbstractDict{String}; aws_config
 Downloads the default SSH key pair from the user's account.
 
 """
-download_default_key_pair(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DownloadDefaultKeyPair"; aws_config=aws_config)
-download_default_key_pair(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DownloadDefaultKeyPair", params; aws_config=aws_config)
+function download_default_key_pair(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("DownloadDefaultKeyPair"; aws_config=aws_config)
+end
+function download_default_key_pair(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("DownloadDefaultKeyPair", params; aws_config=aws_config)
+end
 
 """
     enable_add_on(add_on_request, resource_name)
     enable_add_on(add_on_request, resource_name, params::Dict{String,<:Any})
 
 Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `add_on_request`: An array of strings representing the add-on to enable or modify.
 - `resource_name`: The name of the source resource for which to enable or modify the add-on.
 
 """
-enable_add_on(addOnRequest, resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("EnableAddOn", Dict{String, Any}("addOnRequest"=>addOnRequest, "resourceName"=>resourceName); aws_config=aws_config)
-enable_add_on(addOnRequest, resourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("EnableAddOn", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addOnRequest"=>addOnRequest, "resourceName"=>resourceName), params)); aws_config=aws_config)
+function enable_add_on(
+    addOnRequest, resourceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "EnableAddOn",
+        Dict{String,Any}("addOnRequest" => addOnRequest, "resourceName" => resourceName);
+        aws_config=aws_config,
+    )
+end
+function enable_add_on(
+    addOnRequest,
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "EnableAddOn",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "addOnRequest" => addOnRequest, "resourceName" => resourceName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     export_snapshot(source_snapshot_name)
@@ -1376,17 +2918,39 @@ instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volum
 disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the
 same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot.  The export
 snapshot operation supports tag-based access control via resource tags applied to the
-resource identified by source snapshot name. For more information, see the Lightsail Dev
-Guide.  Use the get instance snapshots or get disk snapshots operations to get a list of
-snapshots that you can export to Amazon EC2.
+resource identified by source snapshot name. For more information, see the Amazon Lightsail
+Developer Guide.  Use the get instance snapshots or get disk snapshots operations to get a
+list of snapshots that you can export to Amazon EC2.
 
 # Arguments
 - `source_snapshot_name`: The name of the instance or disk snapshot to be exported to
   Amazon EC2.
 
 """
-export_snapshot(sourceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("ExportSnapshot", Dict{String, Any}("sourceSnapshotName"=>sourceSnapshotName); aws_config=aws_config)
-export_snapshot(sourceSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("ExportSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceSnapshotName"=>sourceSnapshotName), params)); aws_config=aws_config)
+function export_snapshot(
+    sourceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "ExportSnapshot",
+        Dict{String,Any}("sourceSnapshotName" => sourceSnapshotName);
+        aws_config=aws_config,
+    )
+end
+function export_snapshot(
+    sourceSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "ExportSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("sourceSnapshotName" => sourceSnapshotName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_active_names()
@@ -1401,8 +2965,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_active_names(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetActiveNames"; aws_config=aws_config)
-get_active_names(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetActiveNames", params; aws_config=aws_config)
+function get_active_names(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetActiveNames"; aws_config=aws_config)
+end
+function get_active_names(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetActiveNames", params; aws_config=aws_config)
+end
 
 """
     get_alarms()
@@ -1427,23 +2997,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_alarms(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetAlarms"; aws_config=aws_config)
-get_alarms(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetAlarms", params; aws_config=aws_config)
+function get_alarms(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetAlarms"; aws_config=aws_config)
+end
+function get_alarms(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetAlarms", params; aws_config=aws_config)
+end
 
 """
     get_auto_snapshots(resource_name)
     get_auto_snapshots(resource_name, params::Dict{String,<:Any})
 
 Returns the available automatic snapshots for an instance or disk. For more information,
-see the Lightsail Dev Guide.
+see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `resource_name`: The name of the source instance or disk from which to get automatic
   snapshot information.
 
 """
-get_auto_snapshots(resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetAutoSnapshots", Dict{String, Any}("resourceName"=>resourceName); aws_config=aws_config)
-get_auto_snapshots(resourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetAutoSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config)
+function get_auto_snapshots(resourceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "GetAutoSnapshots",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+    )
+end
+function get_auto_snapshots(
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetAutoSnapshots",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_blueprints()
@@ -1466,8 +3060,198 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_blueprints(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBlueprints"; aws_config=aws_config)
-get_blueprints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBlueprints", params; aws_config=aws_config)
+function get_blueprints(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetBlueprints"; aws_config=aws_config)
+end
+function get_blueprints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetBlueprints", params; aws_config=aws_config)
+end
+
+"""
+    get_bucket_access_keys(bucket_name)
+    get_bucket_access_keys(bucket_name, params::Dict{String,<:Any})
+
+Returns the existing access key IDs for the specified Amazon Lightsail bucket.  This action
+does not return the secret access key value of an access key. You can get a secret access
+key only when you create it from the response of the CreateBucketAccessKey action. If you
+lose the secret access key, you must create a new access key.
+
+# Arguments
+- `bucket_name`: The name of the bucket for which to return access keys.
+
+"""
+function get_bucket_access_keys(
+    bucketName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetBucketAccessKeys",
+        Dict{String,Any}("bucketName" => bucketName);
+        aws_config=aws_config,
+    )
+end
+function get_bucket_access_keys(
+    bucketName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetBucketAccessKeys",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("bucketName" => bucketName), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    get_bucket_bundles()
+    get_bucket_bundles(params::Dict{String,<:Any})
+
+Returns the bundles that you can apply to a Amazon Lightsail bucket. The bucket bundle
+specifies the monthly cost, storage quota, and data transfer quota for a bucket. Use the
+UpdateBucketBundle action to update the bundle for a bucket.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"includeInactive"`: A Boolean value that indicates whether to include inactive
+  (unavailable) bundles in the response.
+"""
+function get_bucket_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetBucketBundles"; aws_config=aws_config)
+end
+function get_bucket_bundles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetBucketBundles", params; aws_config=aws_config)
+end
+
+"""
+    get_bucket_metric_data(bucket_name, end_time, metric_name, period, start_time, statistics, unit)
+    get_bucket_metric_data(bucket_name, end_time, metric_name, period, start_time, statistics, unit, params::Dict{String,<:Any})
+
+Returns the data points of a specific metric for an Amazon Lightsail bucket. Metrics report
+the utilization of a bucket. View and collect metric data regularly to monitor the number
+of objects stored in a bucket (including object versions) and the storage space used by
+those objects.
+
+# Arguments
+- `bucket_name`: The name of the bucket for which to get metric data.
+- `end_time`: The timestamp indicating the latest data to be returned.
+- `metric_name`: The metric for which you want to return information. Valid bucket metric
+  names are listed below, along with the most useful statistics to include in your request,
+  and the published unit value.  These bucket metrics are reported once per day.
+  BucketSizeBytes  - The amount of data in bytes stored in a bucket. This value is calculated
+  by summing the size of all objects in the bucket (including object versions), including the
+  size of all parts for all incomplete multipart uploads to the bucket. Statistics: The most
+  useful statistic is Maximum. Unit: The published unit is Bytes.     NumberOfObjects  - The
+  total number of objects stored in a bucket. This value is calculated by counting all
+  objects in the bucket (including object versions) and the total number of parts for all
+  incomplete multipart uploads to the bucket. Statistics: The most useful statistic is
+  Average. Unit: The published unit is Count.
+- `period`: The granularity, in seconds, of the returned data points.  Bucket storage
+  metrics are reported once per day. Therefore, you should specify a period of 86400 seconds,
+  which is the number of seconds in a day.
+- `start_time`: The timestamp indicating the earliest data to be returned.
+- `statistics`: The statistic for the metric. The following statistics are available:
+  Minimum - The lowest value observed during the specified period. Use this value to
+  determine low volumes of activity for your application.    Maximum - The highest value
+  observed during the specified period. Use this value to determine high volumes of activity
+  for your application.    Sum - The sum of all values submitted for the matching metric. You
+  can use this statistic to determine the total volume of a metric.    Average - The value of
+  Sum / SampleCount during the specified period. By comparing this statistic with the Minimum
+  and Maximum values, you can determine the full scope of a metric and how close the average
+  use is to the Minimum and Maximum values. This comparison helps you to know when to
+  increase or decrease your resources.    SampleCount - The count, or number, of data points
+  used for the statistical calculation.
+- `unit`: The unit for the metric data request. Valid units depend on the metric data being
+  requested. For the valid units with each available metric, see the metricName parameter.
+
+"""
+function get_bucket_metric_data(
+    bucketName,
+    endTime,
+    metricName,
+    period,
+    startTime,
+    statistics,
+    unit;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetBucketMetricData",
+        Dict{String,Any}(
+            "bucketName" => bucketName,
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "period" => period,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_bucket_metric_data(
+    bucketName,
+    endTime,
+    metricName,
+    period,
+    startTime,
+    statistics,
+    unit,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetBucketMetricData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "bucketName" => bucketName,
+                    "endTime" => endTime,
+                    "metricName" => metricName,
+                    "period" => period,
+                    "startTime" => startTime,
+                    "statistics" => statistics,
+                    "unit" => unit,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    get_buckets()
+    get_buckets(params::Dict{String,<:Any})
+
+Returns information about one or more Amazon Lightsail buckets. For more information about
+buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide..
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"bucketName"`: The name of the bucket for which to return information. When omitted, the
+  response includes all of your buckets in the AWS Region where the request is made.
+- `"includeConnectedResources"`: A Boolean value that indicates whether to include
+  Lightsail instances that were given access to the bucket using the
+  SetResourceAccessForBucket action.
+- `"pageToken"`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetBuckets request. If your results are paginated, the
+  response will return a next page token that you can specify as the page token in a
+  subsequent request.
+"""
+function get_buckets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetBuckets"; aws_config=aws_config)
+end
+function get_buckets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetBuckets", params; aws_config=aws_config)
+end
 
 """
     get_bundles()
@@ -1485,8 +3269,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_bundles(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBundles"; aws_config=aws_config)
-get_bundles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBundles", params; aws_config=aws_config)
+function get_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetBundles"; aws_config=aws_config)
+end
+function get_bundles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetBundles", params; aws_config=aws_config)
+end
 
 """
     get_certificates()
@@ -1510,8 +3300,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the certificates in the response. When omitted, the response includes only the certificate
   names, Amazon Resource Names (ARNs), domain names, and tags.
 """
-get_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetCertificates"; aws_config=aws_config)
-get_certificates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetCertificates", params; aws_config=aws_config)
+function get_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetCertificates"; aws_config=aws_config)
+end
+function get_certificates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetCertificates", params; aws_config=aws_config)
+end
 
 """
     get_cloud_formation_stack_records()
@@ -1528,8 +3324,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_cloud_formation_stack_records(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetCloudFormationStackRecords"; aws_config=aws_config)
-get_cloud_formation_stack_records(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetCloudFormationStackRecords", params; aws_config=aws_config)
+function get_cloud_formation_stack_records(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetCloudFormationStackRecords"; aws_config=aws_config)
+end
+function get_cloud_formation_stack_records(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetCloudFormationStackRecords", params; aws_config=aws_config)
+end
 
 """
     get_contact_methods()
@@ -1548,8 +3352,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   messaging). Specify a protocol in your request to return information about a specific
   contact method protocol.
 """
-get_contact_methods(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContactMethods"; aws_config=aws_config)
-get_contact_methods(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContactMethods", params; aws_config=aws_config)
+function get_contact_methods(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetContactMethods"; aws_config=aws_config)
+end
+function get_contact_methods(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetContactMethods", params; aws_config=aws_config)
+end
 
 """
     get_container_apimetadata()
@@ -1559,8 +3369,14 @@ Returns information about Amazon Lightsail containers, such as the current versi
 Lightsail Control (lightsailctl) plugin.
 
 """
-get_container_apimetadata(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerAPIMetadata"; aws_config=aws_config)
-get_container_apimetadata(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerAPIMetadata", params; aws_config=aws_config)
+function get_container_apimetadata(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetContainerAPIMetadata"; aws_config=aws_config)
+end
+function get_container_apimetadata(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetContainerAPIMetadata", params; aws_config=aws_config)
+end
 
 """
     get_container_images(service_name)
@@ -1576,8 +3392,28 @@ part of this action. Those images are not registered to your Lightsail container
   container images.
 
 """
-get_container_images(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerImages", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
-get_container_images(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config)
+function get_container_images(
+    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetContainerImages",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function get_container_images(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetContainerImages",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_container_log(container_name, service_name)
@@ -1619,8 +3455,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   1538424000 as the start time.   You can convert a human-friendly time to Unix time format
   using a converter like Epoch converter.
 """
-get_container_log(containerName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerLog", Dict{String, Any}("containerName"=>containerName, "serviceName"=>serviceName); aws_config=aws_config)
-get_container_log(containerName, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerLog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerName"=>containerName, "serviceName"=>serviceName), params)); aws_config=aws_config)
+function get_container_log(
+    containerName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetContainerLog",
+        Dict{String,Any}("containerName" => containerName, "serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function get_container_log(
+    containerName,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetContainerLog",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "containerName" => containerName, "serviceName" => serviceName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_container_service_deployments(service_name)
@@ -1637,8 +3500,28 @@ endpoints and quotas in the AWS General Reference.
 - `service_name`: The name of the container service for which to return deployments.
 
 """
-get_container_service_deployments(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerServiceDeployments", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
-get_container_service_deployments(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerServiceDeployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config)
+function get_container_service_deployments(
+    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetContainerServiceDeployments",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function get_container_service_deployments(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetContainerServiceDeployments",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_container_service_metric_data(end_time, metric_name, period, service_name, start_time, statistics)
@@ -1678,8 +3561,57 @@ to maintain the reliability, availability, and performance of your resources.
   points used for the statistical calculation.
 
 """
-get_container_service_metric_data(endTime, metricName, period, serviceName, startTime, statistics; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerServiceMetricData", Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "serviceName"=>serviceName, "startTime"=>startTime, "statistics"=>statistics); aws_config=aws_config)
-get_container_service_metric_data(endTime, metricName, period, serviceName, startTime, statistics, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerServiceMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "serviceName"=>serviceName, "startTime"=>startTime, "statistics"=>statistics), params)); aws_config=aws_config)
+function get_container_service_metric_data(
+    endTime,
+    metricName,
+    period,
+    serviceName,
+    startTime,
+    statistics;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetContainerServiceMetricData",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "period" => period,
+            "serviceName" => serviceName,
+            "startTime" => startTime,
+            "statistics" => statistics,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_container_service_metric_data(
+    endTime,
+    metricName,
+    period,
+    serviceName,
+    startTime,
+    statistics,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetContainerServiceMetricData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "metricName" => metricName,
+                    "period" => period,
+                    "serviceName" => serviceName,
+                    "startTime" => startTime,
+                    "statistics" => statistics,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_container_service_powers()
@@ -1690,8 +3622,14 @@ services. The power specifies the amount of memory, the number of vCPUs, and the
 of the container service.
 
 """
-get_container_service_powers(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerServicePowers"; aws_config=aws_config)
-get_container_service_powers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerServicePowers", params; aws_config=aws_config)
+function get_container_service_powers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetContainerServicePowers"; aws_config=aws_config)
+end
+function get_container_service_powers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetContainerServicePowers", params; aws_config=aws_config)
+end
 
 """
     get_container_services()
@@ -1705,8 +3643,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   omitted, the response includes all of your container services in the AWS Region where the
   request is made.
 """
-get_container_services(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerServices"; aws_config=aws_config)
-get_container_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetContainerServices", params; aws_config=aws_config)
+function get_container_services(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetContainerServices"; aws_config=aws_config)
+end
+function get_container_services(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetContainerServices", params; aws_config=aws_config)
+end
 
 """
     get_disk(disk_name)
@@ -1718,8 +3662,24 @@ Returns information about a specific block storage disk.
 - `disk_name`: The name of the disk (e.g., my-disk).
 
 """
-get_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDisk", Dict{String, Any}("diskName"=>diskName); aws_config=aws_config)
-get_disk(diskName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDisk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskName"=>diskName), params)); aws_config=aws_config)
+function get_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "GetDisk", Dict{String,Any}("diskName" => diskName); aws_config=aws_config
+    )
+end
+function get_disk(
+    diskName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetDisk",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("diskName" => diskName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_disk_snapshot(disk_snapshot_name)
@@ -1731,8 +3691,30 @@ Returns information about a specific block storage disk snapshot.
 - `disk_snapshot_name`: The name of the disk snapshot (e.g., my-disk-snapshot).
 
 """
-get_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDiskSnapshot", Dict{String, Any}("diskSnapshotName"=>diskSnapshotName); aws_config=aws_config)
-get_disk_snapshot(diskSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDiskSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("diskSnapshotName"=>diskSnapshotName), params)); aws_config=aws_config)
+function get_disk_snapshot(
+    diskSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetDiskSnapshot",
+        Dict{String,Any}("diskSnapshotName" => diskSnapshotName);
+        aws_config=aws_config,
+    )
+end
+function get_disk_snapshot(
+    diskSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetDiskSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("diskSnapshotName" => diskSnapshotName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_disk_snapshots()
@@ -1747,8 +3729,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_disk_snapshots(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDiskSnapshots"; aws_config=aws_config)
-get_disk_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDiskSnapshots", params; aws_config=aws_config)
+function get_disk_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetDiskSnapshots"; aws_config=aws_config)
+end
+function get_disk_snapshots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetDiskSnapshots", params; aws_config=aws_config)
+end
 
 """
     get_disks()
@@ -1763,20 +3751,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_disks(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDisks"; aws_config=aws_config)
-get_disks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDisks", params; aws_config=aws_config)
+function get_disks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetDisks"; aws_config=aws_config)
+end
+function get_disks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetDisks", params; aws_config=aws_config)
+end
 
 """
     get_distribution_bundles()
     get_distribution_bundles(params::Dict{String,<:Any})
 
-Returns the list bundles that can be applied to you Amazon Lightsail content delivery
-network (CDN) distributions. A distribution bundle specifies the monthly network transfer
-quota and monthly cost of your dsitribution.
+Returns the bundles that can be applied to your Amazon Lightsail content delivery network
+(CDN) distributions. A distribution bundle specifies the monthly network transfer quota and
+monthly cost of your dsitribution.
 
 """
-get_distribution_bundles(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDistributionBundles"; aws_config=aws_config)
-get_distribution_bundles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDistributionBundles", params; aws_config=aws_config)
+function get_distribution_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetDistributionBundles"; aws_config=aws_config)
+end
+function get_distribution_bundles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetDistributionBundles", params; aws_config=aws_config)
+end
 
 """
     get_distribution_latest_cache_reset()
@@ -1792,8 +3792,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you can specify. When omitted, the response includes the latest cache reset timestamp
   of all your distributions.
 """
-get_distribution_latest_cache_reset(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDistributionLatestCacheReset"; aws_config=aws_config)
-get_distribution_latest_cache_reset(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDistributionLatestCacheReset", params; aws_config=aws_config)
+function get_distribution_latest_cache_reset(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetDistributionLatestCacheReset"; aws_config=aws_config)
+end
+function get_distribution_latest_cache_reset(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetDistributionLatestCacheReset", params; aws_config=aws_config)
+end
 
 """
     get_distribution_metric_data(distribution_name, end_time, metric_name, period, start_time, statistics, unit)
@@ -1854,8 +3862,61 @@ reliability, availability, and performance of your resources.
   requested. For the valid units with each available metric, see the metricName parameter.
 
 """
-get_distribution_metric_data(distributionName, endTime, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDistributionMetricData", Dict{String, Any}("distributionName"=>distributionName, "endTime"=>endTime, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit); aws_config=aws_config)
-get_distribution_metric_data(distributionName, endTime, metricName, period, startTime, statistics, unit, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDistributionMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionName"=>distributionName, "endTime"=>endTime, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config)
+function get_distribution_metric_data(
+    distributionName,
+    endTime,
+    metricName,
+    period,
+    startTime,
+    statistics,
+    unit;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetDistributionMetricData",
+        Dict{String,Any}(
+            "distributionName" => distributionName,
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "period" => period,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_distribution_metric_data(
+    distributionName,
+    endTime,
+    metricName,
+    period,
+    startTime,
+    statistics,
+    unit,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetDistributionMetricData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "distributionName" => distributionName,
+                    "endTime" => endTime,
+                    "metricName" => metricName,
+                    "period" => period,
+                    "startTime" => startTime,
+                    "statistics" => statistics,
+                    "unit" => unit,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_distributions()
@@ -1866,8 +3927,7 @@ Returns information about one or more of your Amazon Lightsail content delivery 
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"distributionName"`: The name of the distribution for which to return information. Use
-  the GetDistributions action to get a list of distribution names that you can specify. When
+- `"distributionName"`: The name of the distribution for which to return information. When
   omitted, the response includes all of your distributions in the AWS Region where the
   request is made.
 - `"pageToken"`: The token to advance to the next page of results from your request. To get
@@ -1875,8 +3935,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_distributions(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDistributions"; aws_config=aws_config)
-get_distributions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDistributions", params; aws_config=aws_config)
+function get_distributions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetDistributions"; aws_config=aws_config)
+end
+function get_distributions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetDistributions", params; aws_config=aws_config)
+end
 
 """
     get_domain(domain_name)
@@ -1888,8 +3954,24 @@ Returns information about a specific domain recordset.
 - `domain_name`: The domain name for which your want to return information about.
 
 """
-get_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDomain", Dict{String, Any}("domainName"=>domainName); aws_config=aws_config)
-get_domain(domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config)
+function get_domain(domainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "GetDomain", Dict{String,Any}("domainName" => domainName); aws_config=aws_config
+    )
+end
+function get_domain(
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetDomain",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_domains()
@@ -1904,16 +3986,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDomains"; aws_config=aws_config)
-get_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDomains", params; aws_config=aws_config)
+function get_domains(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetDomains"; aws_config=aws_config)
+end
+function get_domains(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetDomains", params; aws_config=aws_config)
+end
 
 """
     get_export_snapshot_records()
     get_export_snapshot_records(params::Dict{String,<:Any})
 
-Returns the export snapshot record created as a result of the export snapshot operation. An
-export snapshot record can be used to create a new Amazon EC2 instance and its related
-resources with the create cloud formation stack operation.
+Returns all export snapshot records created as a result of the export snapshot operation.
+An export snapshot record can be used to create a new Amazon EC2 instance and its related
+resources with the CreateCloudFormationStack action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1922,8 +4010,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_export_snapshot_records(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetExportSnapshotRecords"; aws_config=aws_config)
-get_export_snapshot_records(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetExportSnapshotRecords", params; aws_config=aws_config)
+function get_export_snapshot_records(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetExportSnapshotRecords"; aws_config=aws_config)
+end
+function get_export_snapshot_records(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetExportSnapshotRecords", params; aws_config=aws_config)
+end
 
 """
     get_instance(instance_name)
@@ -1936,8 +4030,26 @@ server.
 - `instance_name`: The name of the instance.
 
 """
-get_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-get_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config)
+function get_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "GetInstance",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+    )
+end
+function get_instance(
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_instance_access_details(instance_name)
@@ -1946,7 +4058,7 @@ get_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractAWS
 Returns temporary SSH keys you can use to connect to a specific virtual private server, or
 instance. The get instance access details operation supports tag-based access control via
 resource tags applied to the resource identified by instance name. For more information,
-see the Lightsail Dev Guide.
+see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance to access.
@@ -1955,8 +4067,28 @@ see the Lightsail Dev Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"protocol"`: The protocol to use to connect to your instance. Defaults to ssh.
 """
-get_instance_access_details(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceAccessDetails", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-get_instance_access_details(instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceAccessDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config)
+function get_instance_access_details(
+    instanceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetInstanceAccessDetails",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+    )
+end
+function get_instance_access_details(
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetInstanceAccessDetails",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_instance_metric_data(end_time, instance_name, metric_name, period, start_time, statistics, unit)
@@ -2034,8 +4166,61 @@ availability, and performance of your resources.
   parameter.
 
 """
-get_instance_metric_data(endTime, instanceName, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceMetricData", Dict{String, Any}("endTime"=>endTime, "instanceName"=>instanceName, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit); aws_config=aws_config)
-get_instance_metric_data(endTime, instanceName, metricName, period, startTime, statistics, unit, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "instanceName"=>instanceName, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config)
+function get_instance_metric_data(
+    endTime,
+    instanceName,
+    metricName,
+    period,
+    startTime,
+    statistics,
+    unit;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetInstanceMetricData",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "instanceName" => instanceName,
+            "metricName" => metricName,
+            "period" => period,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_instance_metric_data(
+    endTime,
+    instanceName,
+    metricName,
+    period,
+    startTime,
+    statistics,
+    unit,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetInstanceMetricData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "instanceName" => instanceName,
+                    "metricName" => metricName,
+                    "period" => period,
+                    "startTime" => startTime,
+                    "statistics" => statistics,
+                    "unit" => unit,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_instance_port_states(instance_name)
@@ -2048,8 +4233,28 @@ allowed to connect to the instance through the ports, and the protocol.
 - `instance_name`: The name of the instance for which to return firewall port states.
 
 """
-get_instance_port_states(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstancePortStates", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-get_instance_port_states(instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstancePortStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config)
+function get_instance_port_states(
+    instanceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetInstancePortStates",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+    )
+end
+function get_instance_port_states(
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetInstancePortStates",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_instance_snapshot(instance_snapshot_name)
@@ -2062,8 +4267,32 @@ Returns information about a specific instance snapshot.
   information.
 
 """
-get_instance_snapshot(instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceSnapshot", Dict{String, Any}("instanceSnapshotName"=>instanceSnapshotName); aws_config=aws_config)
-get_instance_snapshot(instanceSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceSnapshotName"=>instanceSnapshotName), params)); aws_config=aws_config)
+function get_instance_snapshot(
+    instanceSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetInstanceSnapshot",
+        Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName);
+        aws_config=aws_config,
+    )
+end
+function get_instance_snapshot(
+    instanceSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetInstanceSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_instance_snapshots()
@@ -2078,8 +4307,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_instance_snapshots(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceSnapshots"; aws_config=aws_config)
-get_instance_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceSnapshots", params; aws_config=aws_config)
+function get_instance_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetInstanceSnapshots"; aws_config=aws_config)
+end
+function get_instance_snapshots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetInstanceSnapshots", params; aws_config=aws_config)
+end
 
 """
     get_instance_state(instance_name)
@@ -2091,8 +4326,26 @@ Returns the state of a specific instance. Works on one instance at a time.
 - `instance_name`: The name of the instance to get state information about.
 
 """
-get_instance_state(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceState", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-get_instance_state(instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstanceState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config)
+function get_instance_state(instanceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "GetInstanceState",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+    )
+end
+function get_instance_state(
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetInstanceState",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_instances()
@@ -2107,8 +4360,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstances"; aws_config=aws_config)
-get_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetInstances", params; aws_config=aws_config)
+function get_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetInstances"; aws_config=aws_config)
+end
+function get_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetInstances", params; aws_config=aws_config)
+end
 
 """
     get_key_pair(key_pair_name)
@@ -2120,8 +4379,24 @@ Returns information about a specific key pair.
 - `key_pair_name`: The name of the key pair for which you are requesting information.
 
 """
-get_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetKeyPair", Dict{String, Any}("keyPairName"=>keyPairName); aws_config=aws_config)
-get_key_pair(keyPairName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName), params)); aws_config=aws_config)
+function get_key_pair(keyPairName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "GetKeyPair", Dict{String,Any}("keyPairName" => keyPairName); aws_config=aws_config
+    )
+end
+function get_key_pair(
+    keyPairName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetKeyPair",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("keyPairName" => keyPairName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_key_pairs()
@@ -2136,8 +4411,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetKeyPairs"; aws_config=aws_config)
-get_key_pairs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetKeyPairs", params; aws_config=aws_config)
+function get_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetKeyPairs"; aws_config=aws_config)
+end
+function get_key_pairs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetKeyPairs", params; aws_config=aws_config)
+end
 
 """
     get_load_balancer(load_balancer_name)
@@ -2149,8 +4430,30 @@ Returns information about the specified Lightsail load balancer.
 - `load_balancer_name`: The name of the load balancer.
 
 """
-get_load_balancer(loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetLoadBalancer", Dict{String, Any}("loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-get_load_balancer(loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function get_load_balancer(
+    loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetLoadBalancer",
+        Dict{String,Any}("loadBalancerName" => loadBalancerName);
+        aws_config=aws_config,
+    )
+end
+function get_load_balancer(
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetLoadBalancer",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("loadBalancerName" => loadBalancerName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_load_balancer_metric_data(end_time, load_balancer_name, metric_name, period, start_time, statistics, unit)
@@ -2226,8 +4529,61 @@ your resources.
   requested. For the valid units with each available metric, see the metricName parameter.
 
 """
-get_load_balancer_metric_data(endTime, loadBalancerName, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetLoadBalancerMetricData", Dict{String, Any}("endTime"=>endTime, "loadBalancerName"=>loadBalancerName, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit); aws_config=aws_config)
-get_load_balancer_metric_data(endTime, loadBalancerName, metricName, period, startTime, statistics, unit, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetLoadBalancerMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "loadBalancerName"=>loadBalancerName, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config)
+function get_load_balancer_metric_data(
+    endTime,
+    loadBalancerName,
+    metricName,
+    period,
+    startTime,
+    statistics,
+    unit;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetLoadBalancerMetricData",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "loadBalancerName" => loadBalancerName,
+            "metricName" => metricName,
+            "period" => period,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_load_balancer_metric_data(
+    endTime,
+    loadBalancerName,
+    metricName,
+    period,
+    startTime,
+    statistics,
+    unit,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetLoadBalancerMetricData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "loadBalancerName" => loadBalancerName,
+                    "metricName" => metricName,
+                    "period" => period,
+                    "startTime" => startTime,
+                    "statistics" => statistics,
+                    "unit" => unit,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_load_balancer_tls_certificates(load_balancer_name)
@@ -2243,8 +4599,30 @@ One is active and the other is inactive.
   certificate.
 
 """
-get_load_balancer_tls_certificates(loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetLoadBalancerTlsCertificates", Dict{String, Any}("loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-get_load_balancer_tls_certificates(loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetLoadBalancerTlsCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function get_load_balancer_tls_certificates(
+    loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetLoadBalancerTlsCertificates",
+        Dict{String,Any}("loadBalancerName" => loadBalancerName);
+        aws_config=aws_config,
+    )
+end
+function get_load_balancer_tls_certificates(
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetLoadBalancerTlsCertificates",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("loadBalancerName" => loadBalancerName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_load_balancers()
@@ -2259,8 +4637,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetLoadBalancers"; aws_config=aws_config)
-get_load_balancers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetLoadBalancers", params; aws_config=aws_config)
+function get_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetLoadBalancers"; aws_config=aws_config)
+end
+function get_load_balancers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetLoadBalancers", params; aws_config=aws_config)
+end
 
 """
     get_operation(operation_id)
@@ -2273,8 +4657,26 @@ create an instance, allocate a static IP, attach a static IP, and so on.
 - `operation_id`: A GUID used to identify the operation.
 
 """
-get_operation(operationId; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetOperation", Dict{String, Any}("operationId"=>operationId); aws_config=aws_config)
-get_operation(operationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("operationId"=>operationId), params)); aws_config=aws_config)
+function get_operation(operationId; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "GetOperation",
+        Dict{String,Any}("operationId" => operationId);
+        aws_config=aws_config,
+    )
+end
+function get_operation(
+    operationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetOperation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("operationId" => operationId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_operations()
@@ -2291,8 +4693,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_operations(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetOperations"; aws_config=aws_config)
-get_operations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetOperations", params; aws_config=aws_config)
+function get_operations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetOperations"; aws_config=aws_config)
+end
+function get_operations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetOperations", params; aws_config=aws_config)
+end
 
 """
     get_operations_for_resource(resource_name)
@@ -2310,8 +4718,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_operations_for_resource(resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetOperationsForResource", Dict{String, Any}("resourceName"=>resourceName); aws_config=aws_config)
-get_operations_for_resource(resourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetOperationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), params)); aws_config=aws_config)
+function get_operations_for_resource(
+    resourceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetOperationsForResource",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+    )
+end
+function get_operations_for_resource(
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetOperationsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_regions()
@@ -2329,8 +4757,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also include Availability Zones for databases in your get regions request. Availability
   Zones are indicated with a letter (e.g., us-east-2a).
 """
-get_regions(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRegions"; aws_config=aws_config)
-get_regions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRegions", params; aws_config=aws_config)
+function get_regions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetRegions"; aws_config=aws_config)
+end
+function get_regions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetRegions", params; aws_config=aws_config)
+end
 
 """
     get_relational_database(relational_database_name)
@@ -2342,8 +4776,32 @@ Returns information about a specific database in Amazon Lightsail.
 - `relational_database_name`: The name of the database that you are looking up.
 
 """
-get_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabase", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-get_relational_database(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function get_relational_database(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function get_relational_database(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetRelationalDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_relational_database_blueprints()
@@ -2360,8 +4818,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_relational_database_blueprints(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseBlueprints"; aws_config=aws_config)
-get_relational_database_blueprints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseBlueprints", params; aws_config=aws_config)
+function get_relational_database_blueprints(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetRelationalDatabaseBlueprints"; aws_config=aws_config)
+end
+function get_relational_database_blueprints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetRelationalDatabaseBlueprints", params; aws_config=aws_config)
+end
 
 """
     get_relational_database_bundles()
@@ -2378,8 +4844,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_relational_database_bundles(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseBundles"; aws_config=aws_config)
-get_relational_database_bundles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseBundles", params; aws_config=aws_config)
+function get_relational_database_bundles(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetRelationalDatabaseBundles"; aws_config=aws_config)
+end
+function get_relational_database_bundles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetRelationalDatabaseBundles", params; aws_config=aws_config)
+end
 
 """
     get_relational_database_events(relational_database_name)
@@ -2400,8 +4874,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_relational_database_events(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseEvents", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-get_relational_database_events(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function get_relational_database_events(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetRelationalDatabaseEvents",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function get_relational_database_events(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetRelationalDatabaseEvents",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_relational_database_log_events(log_stream_name, relational_database_name)
@@ -2433,8 +4931,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input
   1538424000 as the start time.
 """
-get_relational_database_log_events(logStreamName, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseLogEvents", Dict{String, Any}("logStreamName"=>logStreamName, "relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-get_relational_database_log_events(logStreamName, relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logStreamName"=>logStreamName, "relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function get_relational_database_log_events(
+    logStreamName, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetRelationalDatabaseLogEvents",
+        Dict{String,Any}(
+            "logStreamName" => logStreamName,
+            "relationalDatabaseName" => relationalDatabaseName,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_relational_database_log_events(
+    logStreamName,
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetRelationalDatabaseLogEvents",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logStreamName" => logStreamName,
+                    "relationalDatabaseName" => relationalDatabaseName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_relational_database_log_streams(relational_database_name)
@@ -2446,8 +4975,32 @@ Returns a list of available log streams for a specific database in Amazon Lights
 - `relational_database_name`: The name of your database for which to get log streams.
 
 """
-get_relational_database_log_streams(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseLogStreams", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-get_relational_database_log_streams(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseLogStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function get_relational_database_log_streams(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetRelationalDatabaseLogStreams",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function get_relational_database_log_streams(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetRelationalDatabaseLogStreams",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_relational_database_master_user_password(relational_database_name)
@@ -2469,8 +5022,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   newest version of the password that will rotate to CURRENT. After the PENDING password
   rotates to CURRENT, the PENDING password is no longer available. Default: CURRENT
 """
-get_relational_database_master_user_password(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseMasterUserPassword", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-get_relational_database_master_user_password(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseMasterUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function get_relational_database_master_user_password(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetRelationalDatabaseMasterUserPassword",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function get_relational_database_master_user_password(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetRelationalDatabaseMasterUserPassword",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_relational_database_metric_data(end_time, metric_name, period, relational_database_name, start_time, statistics, unit)
@@ -2526,8 +5103,61 @@ performance of your resources.
   requested. For the valid units with each available metric, see the metricName parameter.
 
 """
-get_relational_database_metric_data(endTime, metricName, period, relationalDatabaseName, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseMetricData", Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "relationalDatabaseName"=>relationalDatabaseName, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit); aws_config=aws_config)
-get_relational_database_metric_data(endTime, metricName, period, relationalDatabaseName, startTime, statistics, unit, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "relationalDatabaseName"=>relationalDatabaseName, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config)
+function get_relational_database_metric_data(
+    endTime,
+    metricName,
+    period,
+    relationalDatabaseName,
+    startTime,
+    statistics,
+    unit;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetRelationalDatabaseMetricData",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "period" => period,
+            "relationalDatabaseName" => relationalDatabaseName,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_relational_database_metric_data(
+    endTime,
+    metricName,
+    period,
+    relationalDatabaseName,
+    startTime,
+    statistics,
+    unit,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetRelationalDatabaseMetricData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "metricName" => metricName,
+                    "period" => period,
+                    "relationalDatabaseName" => relationalDatabaseName,
+                    "startTime" => startTime,
+                    "statistics" => statistics,
+                    "unit" => unit,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_relational_database_parameters(relational_database_name)
@@ -2549,8 +5179,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_relational_database_parameters(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseParameters", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-get_relational_database_parameters(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function get_relational_database_parameters(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetRelationalDatabaseParameters",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function get_relational_database_parameters(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetRelationalDatabaseParameters",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_relational_database_snapshot(relational_database_snapshot_name)
@@ -2563,8 +5217,36 @@ Returns information about a specific database snapshot in Amazon Lightsail.
   information.
 
 """
-get_relational_database_snapshot(relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseSnapshot", Dict{String, Any}("relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName); aws_config=aws_config)
-get_relational_database_snapshot(relationalDatabaseSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseSnapshotName"=>relationalDatabaseSnapshotName), params)); aws_config=aws_config)
+function get_relational_database_snapshot(
+    relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetRelationalDatabaseSnapshot",
+        Dict{String,Any}(
+            "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName
+        );
+        aws_config=aws_config,
+    )
+end
+function get_relational_database_snapshot(
+    relationalDatabaseSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetRelationalDatabaseSnapshot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_relational_database_snapshots()
@@ -2579,8 +5261,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_relational_database_snapshots(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseSnapshots"; aws_config=aws_config)
-get_relational_database_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabaseSnapshots", params; aws_config=aws_config)
+function get_relational_database_snapshots(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetRelationalDatabaseSnapshots"; aws_config=aws_config)
+end
+function get_relational_database_snapshots(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetRelationalDatabaseSnapshots", params; aws_config=aws_config)
+end
 
 """
     get_relational_databases()
@@ -2595,8 +5285,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_relational_databases(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabases"; aws_config=aws_config)
-get_relational_databases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetRelationalDatabases", params; aws_config=aws_config)
+function get_relational_databases(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetRelationalDatabases"; aws_config=aws_config)
+end
+function get_relational_databases(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetRelationalDatabases", params; aws_config=aws_config)
+end
 
 """
     get_static_ip(static_ip_name)
@@ -2608,8 +5304,26 @@ Returns information about an Amazon Lightsail static IP.
 - `static_ip_name`: The name of the static IP in Lightsail.
 
 """
-get_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetStaticIp", Dict{String, Any}("staticIpName"=>staticIpName); aws_config=aws_config)
-get_static_ip(staticIpName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config)
+function get_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "GetStaticIp",
+        Dict{String,Any}("staticIpName" => staticIpName);
+        aws_config=aws_config,
+    )
+end
+function get_static_ip(
+    staticIpName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetStaticIp",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("staticIpName" => staticIpName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_static_ips()
@@ -2624,8 +5338,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will return a next page token that you can specify as the page token in a
   subsequent request.
 """
-get_static_ips(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetStaticIps"; aws_config=aws_config)
-get_static_ips(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetStaticIps", params; aws_config=aws_config)
+function get_static_ips(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("GetStaticIps"; aws_config=aws_config)
+end
+function get_static_ips(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("GetStaticIps", params; aws_config=aws_config)
+end
 
 """
     import_key_pair(key_pair_name, public_key_base64)
@@ -2638,8 +5358,37 @@ Imports a public SSH key from a specific key pair.
 - `public_key_base64`: A base64-encoded public key of the ssh-rsa type.
 
 """
-import_key_pair(keyPairName, publicKeyBase64; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("ImportKeyPair", Dict{String, Any}("keyPairName"=>keyPairName, "publicKeyBase64"=>publicKeyBase64); aws_config=aws_config)
-import_key_pair(keyPairName, publicKeyBase64, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("ImportKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyPairName"=>keyPairName, "publicKeyBase64"=>publicKeyBase64), params)); aws_config=aws_config)
+function import_key_pair(
+    keyPairName, publicKeyBase64; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "ImportKeyPair",
+        Dict{String,Any}(
+            "keyPairName" => keyPairName, "publicKeyBase64" => publicKeyBase64
+        );
+        aws_config=aws_config,
+    )
+end
+function import_key_pair(
+    keyPairName,
+    publicKeyBase64,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "ImportKeyPair",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "keyPairName" => keyPairName, "publicKeyBase64" => publicKeyBase64
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     is_vpc_peered()
@@ -2648,8 +5397,14 @@ import_key_pair(keyPairName, publicKeyBase64, params::AbstractDict{String}; aws_
 Returns a Boolean value indicating whether your Lightsail VPC is peered.
 
 """
-is_vpc_peered(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("IsVpcPeered"; aws_config=aws_config)
-is_vpc_peered(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("IsVpcPeered", params; aws_config=aws_config)
+function is_vpc_peered(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("IsVpcPeered"; aws_config=aws_config)
+end
+function is_vpc_peered(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("IsVpcPeered", params; aws_config=aws_config)
+end
 
 """
     open_instance_public_ports(instance_name, port_info)
@@ -2658,26 +5413,57 @@ is_vpc_peered(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global
 Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses
 allowed to connect to the instance through the ports, and the protocol. The
 OpenInstancePublicPorts action supports tag-based access control via resource tags applied
-to the resource identified by instanceName. For more information, see the Lightsail Dev
-Guide.
+to the resource identified by instanceName. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance for which to open ports.
 - `port_info`: An object to describe the ports to open for the specified instance.
 
 """
-open_instance_public_ports(instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("OpenInstancePublicPorts", Dict{String, Any}("instanceName"=>instanceName, "portInfo"=>portInfo); aws_config=aws_config)
-open_instance_public_ports(instanceName, portInfo, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("OpenInstancePublicPorts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "portInfo"=>portInfo), params)); aws_config=aws_config)
+function open_instance_public_ports(
+    instanceName, portInfo; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "OpenInstancePublicPorts",
+        Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo);
+        aws_config=aws_config,
+    )
+end
+function open_instance_public_ports(
+    instanceName,
+    portInfo,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "OpenInstancePublicPorts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     peer_vpc()
     peer_vpc(params::Dict{String,<:Any})
 
-Tries to peer the Lightsail VPC with the user's default VPC.
+Peers the Lightsail VPC with the user's default VPC.
 
 """
-peer_vpc(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("PeerVpc"; aws_config=aws_config)
-peer_vpc(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("PeerVpc", params; aws_config=aws_config)
+function peer_vpc(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("PeerVpc"; aws_config=aws_config)
+end
+function peer_vpc(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("PeerVpc", params; aws_config=aws_config)
+end
 
 """
     put_alarm(alarm_name, comparison_operator, evaluation_periods, metric_name, monitored_resource_name, threshold)
@@ -2757,8 +5543,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   missing - Missing data is treated as missing.   If treatMissingData is not specified, the
   default behavior of missing is used.
 """
-put_alarm(alarmName, comparisonOperator, evaluationPeriods, metricName, monitoredResourceName, threshold; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("PutAlarm", Dict{String, Any}("alarmName"=>alarmName, "comparisonOperator"=>comparisonOperator, "evaluationPeriods"=>evaluationPeriods, "metricName"=>metricName, "monitoredResourceName"=>monitoredResourceName, "threshold"=>threshold); aws_config=aws_config)
-put_alarm(alarmName, comparisonOperator, evaluationPeriods, metricName, monitoredResourceName, threshold, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("PutAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmName"=>alarmName, "comparisonOperator"=>comparisonOperator, "evaluationPeriods"=>evaluationPeriods, "metricName"=>metricName, "monitoredResourceName"=>monitoredResourceName, "threshold"=>threshold), params)); aws_config=aws_config)
+function put_alarm(
+    alarmName,
+    comparisonOperator,
+    evaluationPeriods,
+    metricName,
+    monitoredResourceName,
+    threshold;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "PutAlarm",
+        Dict{String,Any}(
+            "alarmName" => alarmName,
+            "comparisonOperator" => comparisonOperator,
+            "evaluationPeriods" => evaluationPeriods,
+            "metricName" => metricName,
+            "monitoredResourceName" => monitoredResourceName,
+            "threshold" => threshold,
+        );
+        aws_config=aws_config,
+    )
+end
+function put_alarm(
+    alarmName,
+    comparisonOperator,
+    evaluationPeriods,
+    metricName,
+    monitoredResourceName,
+    threshold,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "PutAlarm",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "alarmName" => alarmName,
+                    "comparisonOperator" => comparisonOperator,
+                    "evaluationPeriods" => evaluationPeriods,
+                    "metricName" => metricName,
+                    "monitoredResourceName" => monitoredResourceName,
+                    "threshold" => threshold,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_instance_public_ports(instance_name, port_infos)
@@ -2770,8 +5605,8 @@ closes all currently open ports that are not included in the request. Include al
 ports and the protocols you want to open in your PutInstancePublicPortsrequest. Or use the
 OpenInstancePublicPorts action to open ports without closing currently open ports. The
 PutInstancePublicPorts action supports tag-based access control via resource tags applied
-to the resource identified by instanceName. For more information, see the Lightsail Dev
-Guide.
+to the resource identified by instanceName. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance for which to open ports.
@@ -2779,8 +5614,33 @@ Guide.
   instance.
 
 """
-put_instance_public_ports(instanceName, portInfos; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("PutInstancePublicPorts", Dict{String, Any}("instanceName"=>instanceName, "portInfos"=>portInfos); aws_config=aws_config)
-put_instance_public_ports(instanceName, portInfos, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("PutInstancePublicPorts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName, "portInfos"=>portInfos), params)); aws_config=aws_config)
+function put_instance_public_ports(
+    instanceName, portInfos; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "PutInstancePublicPorts",
+        Dict{String,Any}("instanceName" => instanceName, "portInfos" => portInfos);
+        aws_config=aws_config,
+    )
+end
+function put_instance_public_ports(
+    instanceName,
+    portInfos,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "PutInstancePublicPorts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("instanceName" => instanceName, "portInfos" => portInfos),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reboot_instance(instance_name)
@@ -2788,14 +5648,32 @@ put_instance_public_ports(instanceName, portInfos, params::AbstractDict{String};
 
 Restarts a specific instance. The reboot instance operation supports tag-based access
 control via resource tags applied to the resource identified by instance name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance to reboot.
 
 """
-reboot_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("RebootInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-reboot_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("RebootInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config)
+function reboot_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "RebootInstance",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+    )
+end
+function reboot_instance(
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "RebootInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reboot_relational_database(relational_database_name)
@@ -2803,14 +5681,38 @@ reboot_instance(instanceName, params::AbstractDict{String}; aws_config::Abstract
 
 Restarts a specific database in Amazon Lightsail. The reboot relational database operation
 supports tag-based access control via resource tags applied to the resource identified by
-relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of your database to reboot.
 
 """
-reboot_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("RebootRelationalDatabase", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-reboot_relational_database(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("RebootRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function reboot_relational_database(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "RebootRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function reboot_relational_database(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "RebootRelationalDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     register_container_image(digest, label, service_name)
@@ -2819,8 +5721,8 @@ reboot_relational_database(relationalDatabaseName, params::AbstractDict{String};
 Registers a container image to your Amazon Lightsail container service.  This action is not
 required if you install and use the Lightsail Control (lightsailctl) plugin to push
 container images to your Lightsail container service. For more information, see Pushing and
-managing container images on your Amazon Lightsail container services in the Lightsail Dev
-Guide.
+managing container images on your Amazon Lightsail container services in the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `digest`: The digest of the container image to be registered.
@@ -2839,8 +5741,38 @@ Guide.
 - `service_name`: The name of the container service for which to register a container image.
 
 """
-register_container_image(digest, label, serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("RegisterContainerImage", Dict{String, Any}("digest"=>digest, "label"=>label, "serviceName"=>serviceName); aws_config=aws_config)
-register_container_image(digest, label, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("RegisterContainerImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("digest"=>digest, "label"=>label, "serviceName"=>serviceName), params)); aws_config=aws_config)
+function register_container_image(
+    digest, label, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "RegisterContainerImage",
+        Dict{String,Any}(
+            "digest" => digest, "label" => label, "serviceName" => serviceName
+        );
+        aws_config=aws_config,
+    )
+end
+function register_container_image(
+    digest,
+    label,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "RegisterContainerImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "digest" => digest, "label" => label, "serviceName" => serviceName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     release_static_ip(static_ip_name)
@@ -2852,8 +5784,26 @@ Deletes a specific static IP from your account.
 - `static_ip_name`: The name of the static IP to delete.
 
 """
-release_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("ReleaseStaticIp", Dict{String, Any}("staticIpName"=>staticIpName); aws_config=aws_config)
-release_static_ip(staticIpName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("ReleaseStaticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("staticIpName"=>staticIpName), params)); aws_config=aws_config)
+function release_static_ip(staticIpName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "ReleaseStaticIp",
+        Dict{String,Any}("staticIpName" => staticIpName);
+        aws_config=aws_config,
+    )
+end
+function release_static_ip(
+    staticIpName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "ReleaseStaticIp",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("staticIpName" => staticIpName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reset_distribution_cache()
@@ -2868,8 +5818,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"distributionName"`: The name of the distribution for which to reset cache. Use the
   GetDistributions action to get a list of distribution names that you can specify.
 """
-reset_distribution_cache(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("ResetDistributionCache"; aws_config=aws_config)
-reset_distribution_cache(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("ResetDistributionCache", params; aws_config=aws_config)
+function reset_distribution_cache(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("ResetDistributionCache"; aws_config=aws_config)
+end
+function reset_distribution_cache(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("ResetDistributionCache", params; aws_config=aws_config)
+end
 
 """
     send_contact_method_verification(protocol)
@@ -2890,8 +5846,28 @@ verified, and confirmed as valid.
 - `protocol`: The protocol to verify, such as Email or SMS (text messaging).
 
 """
-send_contact_method_verification(protocol; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("SendContactMethodVerification", Dict{String, Any}("protocol"=>protocol); aws_config=aws_config)
-send_contact_method_verification(protocol, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("SendContactMethodVerification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("protocol"=>protocol), params)); aws_config=aws_config)
+function send_contact_method_verification(
+    protocol; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "SendContactMethodVerification",
+        Dict{String,Any}("protocol" => protocol);
+        aws_config=aws_config,
+    )
+end
+function send_contact_method_verification(
+    protocol,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "SendContactMethodVerification",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("protocol" => protocol), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     set_ip_address_type(ip_address_type, resource_name, resource_type)
@@ -2911,8 +5887,98 @@ Alternately, you can use this action to disable dual-stack, and enable IPv4 only
   distributions.
 
 """
-set_ip_address_type(ipAddressType, resourceName, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("SetIpAddressType", Dict{String, Any}("ipAddressType"=>ipAddressType, "resourceName"=>resourceName, "resourceType"=>resourceType); aws_config=aws_config)
-set_ip_address_type(ipAddressType, resourceName, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipAddressType"=>ipAddressType, "resourceName"=>resourceName, "resourceType"=>resourceType), params)); aws_config=aws_config)
+function set_ip_address_type(
+    ipAddressType,
+    resourceName,
+    resourceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "SetIpAddressType",
+        Dict{String,Any}(
+            "ipAddressType" => ipAddressType,
+            "resourceName" => resourceName,
+            "resourceType" => resourceType,
+        );
+        aws_config=aws_config,
+    )
+end
+function set_ip_address_type(
+    ipAddressType,
+    resourceName,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "SetIpAddressType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ipAddressType" => ipAddressType,
+                    "resourceName" => resourceName,
+                    "resourceType" => resourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    set_resource_access_for_bucket(access, bucket_name, resource_name)
+    set_resource_access_for_bucket(access, bucket_name, resource_name, params::Dict{String,<:Any})
+
+Sets the Amazon Lightsail resources that can access the specified Lightsail bucket.
+Lightsail buckets currently support setting access for Lightsail instances in the same AWS
+Region.
+
+# Arguments
+- `access`: The access setting. The following access settings are available:    allow -
+  Allows access to the bucket and its objects.    deny - Denies access to the bucket and its
+  objects. Use this setting to remove access for a resource previously set to allow.
+- `bucket_name`: The name of the bucket for which to set access to another Lightsail
+  resource.
+- `resource_name`: The name of the Lightsail instance for which to set bucket access. The
+  instance must be in a running or stopped state.
+
+"""
+function set_resource_access_for_bucket(
+    access, bucketName, resourceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "SetResourceAccessForBucket",
+        Dict{String,Any}(
+            "access" => access, "bucketName" => bucketName, "resourceName" => resourceName
+        );
+        aws_config=aws_config,
+    )
+end
+function set_resource_access_for_bucket(
+    access,
+    bucketName,
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "SetResourceAccessForBucket",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "access" => access,
+                    "bucketName" => bucketName,
+                    "resourceName" => resourceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_instance(instance_name)
@@ -2922,16 +5988,34 @@ Starts a specific Amazon Lightsail instance from a stopped state. To restart an 
 use the reboot instance operation.  When you start a stopped instance, Lightsail assigns a
 new public IP address to the instance. To use the same IP address after stopping and
 starting an instance, create a static IP address and attach it to the instance. For more
-information, see the Lightsail Dev Guide.  The start instance operation supports tag-based
-access control via resource tags applied to the resource identified by instance name. For
-more information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.  The start instance operation
+supports tag-based access control via resource tags applied to the resource identified by
+instance name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance (a virtual private server) to start.
 
 """
-start_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("StartInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-start_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("StartInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config)
+function start_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "StartInstance",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+    )
+end
+function start_instance(
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "StartInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_relational_database(relational_database_name)
@@ -2940,14 +6024,38 @@ start_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractA
 Starts a specific database from a stopped state in Amazon Lightsail. To restart a database,
 use the reboot relational database operation. The start relational database operation
 supports tag-based access control via resource tags applied to the resource identified by
-relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of your database to start.
 
 """
-start_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("StartRelationalDatabase", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-start_relational_database(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("StartRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function start_relational_database(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "StartRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function start_relational_database(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "StartRelationalDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_instance(instance_name)
@@ -2956,9 +6064,10 @@ start_relational_database(relationalDatabaseName, params::AbstractDict{String}; 
 Stops a specific Amazon Lightsail instance that is currently running.  When you start a
 stopped instance, Lightsail assigns a new public IP address to the instance. To use the
 same IP address after stopping and starting an instance, create a static IP address and
-attach it to the instance. For more information, see the Lightsail Dev Guide.  The stop
-instance operation supports tag-based access control via resource tags applied to the
-resource identified by instance name. For more information, see the Lightsail Dev Guide.
+attach it to the instance. For more information, see the Amazon Lightsail Developer Guide.
+The stop instance operation supports tag-based access control via resource tags applied to
+the resource identified by instance name. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance (a virtual private server) to stop.
@@ -2970,8 +6079,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   state. In any other state, your instance should stop normally without adding this parameter
   to your API request.
 """
-stop_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("StopInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-stop_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("StopInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), params)); aws_config=aws_config)
+function stop_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "StopInstance",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+    )
+end
+function stop_instance(
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "StopInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("instanceName" => instanceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_relational_database(relational_database_name)
@@ -2979,8 +6106,8 @@ stop_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractAW
 
 Stops a specific database that is currently running in Amazon Lightsail. The stop
 relational database operation supports tag-based access control via resource tags applied
-to the resource identified by relationalDatabaseName. For more information, see the
-Lightsail Dev Guide.
+to the resource identified by relationalDatabaseName. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of your database to stop.
@@ -2990,8 +6117,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"relationalDatabaseSnapshotName"`: The name of your new database snapshot to be created
   before stopping your database.
 """
-stop_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("StopRelationalDatabase", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-stop_relational_database(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("StopRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function stop_relational_database(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "StopRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function stop_relational_database(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "StopRelationalDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_name, tags)
@@ -2999,10 +6150,10 @@ stop_relational_database(relationalDatabaseName, params::AbstractDict{String}; a
 
 Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a
 maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be
-unique per resource. For more information about tags, see the Lightsail Dev Guide. The tag
-resource operation supports tag-based access control via request tags and resource tags
-applied to the resource identified by resource name. For more information, see the
-Lightsail Dev Guide.
+unique per resource. For more information about tags, see the Amazon Lightsail Developer
+Guide. The tag resource operation supports tag-based access control via request tags and
+resource tags applied to the resource identified by resource name. For more information,
+see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `resource_name`: The name of the resource to which you are adding tags.
@@ -3013,8 +6164,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The Amazon Resource Name (ARN) of the resource to which you want to add
   a tag.
 """
-tag_resource(resourceName, tags; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("TagResource", Dict{String, Any}("resourceName"=>resourceName, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceName, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName, "tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceName, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "TagResource",
+        Dict{String,Any}("resourceName" => resourceName, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceName,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceName" => resourceName, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     test_alarm(alarm_name, state)
@@ -3036,18 +6210,45 @@ Lightsail console. For more information, see Alarms in Amazon Lightsail.
   threshold.
 
 """
-test_alarm(alarmName, state; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("TestAlarm", Dict{String, Any}("alarmName"=>alarmName, "state"=>state); aws_config=aws_config)
-test_alarm(alarmName, state, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("TestAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("alarmName"=>alarmName, "state"=>state), params)); aws_config=aws_config)
+function test_alarm(alarmName, state; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "TestAlarm",
+        Dict{String,Any}("alarmName" => alarmName, "state" => state);
+        aws_config=aws_config,
+    )
+end
+function test_alarm(
+    alarmName,
+    state,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "TestAlarm",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("alarmName" => alarmName, "state" => state), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     unpeer_vpc()
     unpeer_vpc(params::Dict{String,<:Any})
 
-Attempts to unpeer the Lightsail VPC from the user's default VPC.
+Unpeers the Lightsail VPC from the user's default VPC.
 
 """
-unpeer_vpc(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UnpeerVpc"; aws_config=aws_config)
-unpeer_vpc(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UnpeerVpc", params; aws_config=aws_config)
+function unpeer_vpc(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("UnpeerVpc"; aws_config=aws_config)
+end
+function unpeer_vpc(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("UnpeerVpc", params; aws_config=aws_config)
+end
 
 """
     untag_resource(resource_name, tag_keys)
@@ -3056,7 +6257,7 @@ unpeer_vpc(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aw
 Deletes the specified set of tag keys and their values from the specified Amazon Lightsail
 resource. The untag resource operation supports tag-based access control via request tags
 and resource tags applied to the resource identified by resource name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `resource_name`: The name of the resource from which you are removing a tag.
@@ -3067,8 +6268,125 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The Amazon Resource Name (ARN) of the resource from which you want to
   remove a tag.
 """
-untag_resource(resourceName, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UntagResource", Dict{String, Any}("resourceName"=>resourceName, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceName, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceName, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "UntagResource",
+        Dict{String,Any}("resourceName" => resourceName, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceName,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceName" => resourceName, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    update_bucket(bucket_name)
+    update_bucket(bucket_name, params::Dict{String,<:Any})
+
+Updates an existing Amazon Lightsail bucket. Use this action to update the configuration of
+an existing bucket, such as versioning, public accessibility, and the AWS accounts that can
+access the bucket.
+
+# Arguments
+- `bucket_name`: The name of the bucket to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accessRules"`: An object that sets the public accessibility of objects in the specified
+  bucket.
+- `"readonlyAccessAccounts"`: An array of strings to specify the AWS account IDs that can
+  access the bucket. You can give a maximum of 10 AWS accounts access to a bucket.
+- `"versioning"`: Specifies whether to enable or suspend versioning of objects in the
+  bucket. The following options can be specified:    Enabled - Enables versioning of objects
+  in the specified bucket.    Suspended - Suspends versioning of objects in the specified
+  bucket. Existing object versions are retained.
+"""
+function update_bucket(bucketName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "UpdateBucket", Dict{String,Any}("bucketName" => bucketName); aws_config=aws_config
+    )
+end
+function update_bucket(
+    bucketName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UpdateBucket",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("bucketName" => bucketName), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    update_bucket_bundle(bucket_name, bundle_id)
+    update_bucket_bundle(bucket_name, bundle_id, params::Dict{String,<:Any})
+
+Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket. A bucket
+bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. You
+can update a bucket's bundle only one time within a monthly AWS billing cycle. To determine
+if you can update a bucket's bundle, use the GetBuckets action. The ableToUpdateBundle
+parameter in the response will indicate whether you can currently update a bucket's bundle.
+Update a bucket's bundle if it's consistently going over its storage space or data transfer
+quota, or if a bucket's usage is consistently in the lower range of its storage space or
+data transfer quota. Due to the unpredictable usage fluctuations that a bucket might
+experience, we strongly recommend that you update a bucket's bundle only as a long-term
+strategy, instead of as a short-term, monthly cost-cutting measure. Choose a bucket bundle
+that will provide the bucket with ample storage space and data transfer for a long time to
+come.
+
+# Arguments
+- `bucket_name`: The name of the bucket for which to update the bundle.
+- `bundle_id`: The ID of the new bundle to apply to the bucket. Use the GetBucketBundles
+  action to get a list of bundle IDs that you can specify.
+
+"""
+function update_bucket_bundle(
+    bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "UpdateBucketBundle",
+        Dict{String,Any}("bucketName" => bucketName, "bundleId" => bundleId);
+        aws_config=aws_config,
+    )
+end
+function update_bucket_bundle(
+    bucketName,
+    bundleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UpdateBucketBundle",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("bucketName" => bucketName, "bundleId" => bundleId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_container_service(service_name)
@@ -3103,15 +6421,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configured capacity. To determine the monthly price of your container service, multiply the
   base price of the power with the scale (the number of nodes) of the service.
 """
-update_container_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateContainerService", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
-update_container_service(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config)
+function update_container_service(
+    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "UpdateContainerService",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function update_container_service(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UpdateContainerService",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_distribution(distribution_name)
     update_distribution(distribution_name, params::Dict{String,<:Any})
 
 Updates an existing Amazon Lightsail content delivery network (CDN) distribution. Use this
-action to update the configuration of your existing distribution
+action to update the configuration of your existing distribution.
 
 # Arguments
 - `distribution_name`: The name of the distribution to update. Use the GetDistributions
@@ -3131,8 +6469,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Lightsail instance or load balancer. The distribution pulls, caches, and serves content
   from the origin.
 """
-update_distribution(distributionName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateDistribution", Dict{String, Any}("distributionName"=>distributionName); aws_config=aws_config)
-update_distribution(distributionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateDistribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionName"=>distributionName), params)); aws_config=aws_config)
+function update_distribution(
+    distributionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "UpdateDistribution",
+        Dict{String,Any}("distributionName" => distributionName);
+        aws_config=aws_config,
+    )
+end
+function update_distribution(
+    distributionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UpdateDistribution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("distributionName" => distributionName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_distribution_bundle()
@@ -3154,8 +6514,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"distributionName"`: The name of the distribution for which to update the bundle. Use
   the GetDistributions action to get a list of distribution names that you can specify.
 """
-update_distribution_bundle(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateDistributionBundle"; aws_config=aws_config)
-update_distribution_bundle(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateDistributionBundle", params; aws_config=aws_config)
+function update_distribution_bundle(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail("UpdateDistributionBundle"; aws_config=aws_config)
+end
+function update_distribution_bundle(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail("UpdateDistributionBundle", params; aws_config=aws_config)
+end
 
 """
     update_domain_entry(domain_entry, domain_name)
@@ -3163,15 +6529,40 @@ update_distribution_bundle(params::AbstractDict{String}; aws_config::AbstractAWS
 
 Updates a domain recordset after it is created. The update domain entry operation supports
 tag-based access control via resource tags applied to the resource identified by domain
-name. For more information, see the Lightsail Dev Guide.
+name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_entry`: An array of key-value pairs containing information about the domain entry.
 - `domain_name`: The name of the domain recordset to update.
 
 """
-update_domain_entry(domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateDomainEntry", Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName); aws_config=aws_config)
-update_domain_entry(domainEntry, domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateDomainEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainEntry"=>domainEntry, "domainName"=>domainName), params)); aws_config=aws_config)
+function update_domain_entry(
+    domainEntry, domainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "UpdateDomainEntry",
+        Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName);
+        aws_config=aws_config,
+    )
+end
+function update_domain_entry(
+    domainEntry,
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UpdateDomainEntry",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_load_balancer_attribute(attribute_name, attribute_value, load_balancer_name)
@@ -3180,7 +6571,7 @@ update_domain_entry(domainEntry, domainName, params::AbstractDict{String}; aws_c
 Updates the specified attribute for a load balancer. You can only update one attribute at a
 time. The update load balancer attribute operation supports tag-based access control via
 resource tags applied to the resource identified by load balancer name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `attribute_name`: The name of the attribute you want to update. Valid values are below.
@@ -3189,8 +6580,45 @@ information, see the Lightsail Dev Guide.
   my-load-balancer.
 
 """
-update_load_balancer_attribute(attributeName, attributeValue, loadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateLoadBalancerAttribute", Dict{String, Any}("attributeName"=>attributeName, "attributeValue"=>attributeValue, "loadBalancerName"=>loadBalancerName); aws_config=aws_config)
-update_load_balancer_attribute(attributeName, attributeValue, loadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateLoadBalancerAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributeName"=>attributeName, "attributeValue"=>attributeValue, "loadBalancerName"=>loadBalancerName), params)); aws_config=aws_config)
+function update_load_balancer_attribute(
+    attributeName,
+    attributeValue,
+    loadBalancerName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UpdateLoadBalancerAttribute",
+        Dict{String,Any}(
+            "attributeName" => attributeName,
+            "attributeValue" => attributeValue,
+            "loadBalancerName" => loadBalancerName,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_load_balancer_attribute(
+    attributeName,
+    attributeValue,
+    loadBalancerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UpdateLoadBalancerAttribute",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "attributeName" => attributeName,
+                    "attributeValue" => attributeValue,
+                    "loadBalancerName" => loadBalancerName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_relational_database(relational_database_name)
@@ -3200,7 +6628,8 @@ Allows the update of one or more attributes of a database in Amazon Lightsail. U
 applied immediately, or in cases where the updates could result in an outage, are applied
 during the database's predefined maintenance window. The update relational database
 operation supports tag-based access control via resource tags applied to the resource
-identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+identified by relationalDatabaseName. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of your Lightsail database resource to update.
@@ -3241,8 +6670,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   strong password generated by Lightsail. Use the get relational database master user
   password operation to get the new password.
 """
-update_relational_database(relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateRelationalDatabase", Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-update_relational_database(relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function update_relational_database(
+    relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "UpdateRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+    )
+end
+function update_relational_database(
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UpdateRelationalDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_relational_database_parameters(parameters, relational_database_name)
@@ -3255,13 +6708,43 @@ dynamic or pending-reboot. Parameters marked with a dynamic apply type are appli
 immediately. Parameters marked with a pending-reboot apply type are applied only after the
 database is rebooted using the reboot relational database operation. The update relational
 database parameters operation supports tag-based access control via resource tags applied
-to the resource identified by relationalDatabaseName. For more information, see the
-Lightsail Dev Guide.
+to the resource identified by relationalDatabaseName. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `parameters`: The database parameters to update.
 - `relational_database_name`: The name of your database for which to update parameters.
 
 """
-update_relational_database_parameters(parameters, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateRelationalDatabaseParameters", Dict{String, Any}("parameters"=>parameters, "relationalDatabaseName"=>relationalDatabaseName); aws_config=aws_config)
-update_relational_database_parameters(parameters, relationalDatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateRelationalDatabaseParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("parameters"=>parameters, "relationalDatabaseName"=>relationalDatabaseName), params)); aws_config=aws_config)
+function update_relational_database_parameters(
+    parameters, relationalDatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "UpdateRelationalDatabaseParameters",
+        Dict{String,Any}(
+            "parameters" => parameters, "relationalDatabaseName" => relationalDatabaseName
+        );
+        aws_config=aws_config,
+    )
+end
+function update_relational_database_parameters(
+    parameters,
+    relationalDatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "UpdateRelationalDatabaseParameters",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "parameters" => parameters,
+                    "relationalDatabaseName" => relationalDatabaseName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
