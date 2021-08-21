@@ -13,7 +13,7 @@ categorize and track all your ElastiCache resources, with the exception of globa
 replication group. When you add or remove tags on replication groups, those actions will be
 replicated to all nodes in the replication group. For more information, see Resource-level
 permissions.  For example, you can use cost-allocation tags to your ElastiCache resources,
-AWS generates a cost allocation report as a comma-separated value (CSV) file with your
+Amazon generates a cost allocation report as a comma-separated value (CSV) file with your
 usage and costs aggregated by your tags. You can apply tags that represent business
 categories (such as cost centers, application names, or owners) to organize your costs
 across multiple services. For more information, see Using Cost Allocation Tags in Amazon
@@ -24,7 +24,7 @@ ElastiCache in the ElastiCache User Guide.
   be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or
   arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are
   cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and
-  AWS Service Namespaces.
+  Amazon Service Namespaces.
 - `tag`: A list of tags to be added to this resource. A tag is a key-value pair. A tag key
   must be accompanied by a tag value, although null is accepted.
 
@@ -74,9 +74,9 @@ an ElastiCache cluster in another region.
 - `cache_security_group_name`: The cache security group that allows network ingress.
 - `ec2_security_group_name`: The Amazon EC2 security group to be authorized for ingress to
   the cache security group.
-- `ec2_security_group_owner_id`: The AWS account number of the Amazon EC2 security group
-  owner. Note that this is not the same thing as an AWS access key ID - you must provide a
-  valid AWS account number for this parameter.
+- `ec2_security_group_owner_id`: The Amazon account number of the Amazon EC2 security group
+  owner. Note that this is not the same thing as an Amazon access key ID - you must provide a
+  valid Amazon account number for this parameter.
 
 """
 function authorize_cache_security_group_ingress(
@@ -678,11 +678,11 @@ and will replicate updates to the secondary cluster.
 # Arguments
 - `global_replication_group_id_suffix`: The suffix name of a Global datastore. Amazon
   ElastiCache automatically applies a prefix to the Global datastore ID when it is created.
-  Each AWS Region has its own prefix. For instance, a Global datastore ID created in the
+  Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the
   US-West-1 region will begin with \"dsdfu\" along with the suffix name you provide. The
   suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global
-  datastore name across multiple regions.  For a full list of AWS Regions and their
-  respective Global datastore iD prefixes, see Using the AWS CLI with Global datastores .
+  datastore name across multiple regions.  For a full list of Amazon Regions and their
+  respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .
 - `primary_replication_group_id`: The name of the primary cluster that accepts writes and
   will replicate updates to the secondary cluster.
 
@@ -746,7 +746,7 @@ no replicas). Make sure there are enough available IP addresses to accommodate t
 increase. Common pitfalls include the subnets in the subnet group have too small a CIDR
 range or the subnets are shared and heavily used by other clusters. For more information,
 see Creating a Subnet Group. For versions below 5.0.6, the limit is 250 per cluster. To
-request a limit increase, see AWS Service Limits and choose the limit type Nodes per
+request a limit increase, see Amazon Service Limits and choose the limit type Nodes per
 cluster per instance type.  When a Redis (cluster mode disabled) replication group has been
 successfully created, you can add one or more read replicas to it, up to a total of 5 read
 replicas. If you need to increase or decrease the number of node groups (console: shards),
@@ -2235,14 +2235,14 @@ end
 
 Remove a secondary cluster from the Global datastore using the Global datastore name. The
 secondary cluster will no longer receive updates from the primary cluster, but will remain
-as a standalone cluster in that AWS region.
+as a standalone cluster in that Amazon region.
 
 # Arguments
 - `global_replication_group_id`: The name of the Global datastore
 - `replication_group_id`: The name of the secondary cluster you wish to remove from the
   Global datastore
-- `replication_group_region`: The AWS region of secondary cluster you wish to remove from
-  the Global datastore
+- `replication_group_region`: The Amazon region of secondary cluster you wish to remove
+  from the Global datastore
 
 """
 function disassociate_global_replication_group(
@@ -2294,7 +2294,7 @@ region will become primary, and all other clusters will become secondary.
 
 # Arguments
 - `global_replication_group_id`: The name of the Global datastore
-- `primary_region`: The AWS region of the primary cluster of the Global datastore
+- `primary_region`: The Amazon region of the primary cluster of the Global datastore
 - `primary_replication_group_id`: The name of the primary replication group
 
 """
@@ -2352,7 +2352,7 @@ Increase the number of node groups in the Global datastore
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RegionalConfigurations"`: Describes the replication group IDs, the AWS regions where
+- `"RegionalConfigurations"`: Describes the replication group IDs, the Amazon regions where
   they are stored and the shard configuration for each that comprise the Global datastore
 """
 function increase_node_groups_in_global_replication_group(
@@ -2501,7 +2501,7 @@ available state, ListTagsForResource returns an error.
 - `resource_name`: The Amazon Resource Name (ARN) of the resource for which you want the
   list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or
   arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about
-  ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+  ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
 
 """
 function list_tags_for_resource(
@@ -2883,8 +2883,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want to use an earlier engine version, you must delete the existing replication group and
   create it anew with the earlier engine version.
 - `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
-- `"MultiAZEnabled"`: A list of tags to be added to this resource. A tag is a key-value
-  pair. A tag key must be accompanied by a tag value, although null is accepted.
+- `"MultiAZEnabled"`: A flag to indicate MultiAZ is enabled.
 - `"NodeGroupId"`: Deprecated. This parameter is not used.
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to which
   notifications are sent.  The Amazon SNS topic owner must be same as the replication group
@@ -3256,7 +3255,7 @@ nodes in the replication group. For more information, see Resource-level permiss
 - `resource_name`: The Amazon Resource Name (ARN) of the resource from which you want the
   tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or
   arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about
-  ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+  ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.
 - `tag_keys`: A list of TagKeys identifying the tags you want removed from the named
   resource.
 
@@ -3348,9 +3347,9 @@ Amazon EC2 security group that had been previously authorized.
 - `cache_security_group_name`: The name of the cache security group to revoke ingress from.
 - `ec2_security_group_name`: The name of the Amazon EC2 security group to revoke access
   from.
-- `ec2_security_group_owner_id`: The AWS account number of the Amazon EC2 security group
-  owner. Note that this is not the same thing as an AWS access key ID - you must provide a
-  valid AWS account number for this parameter.
+- `ec2_security_group_owner_id`: The Amazon account number of the Amazon EC2 security group
+  owner. Note that this is not the same thing as an Amazon access key ID - you must provide a
+  valid Amazon account number for this parameter.
 
 """
 function revoke_cache_security_group_ingress(
@@ -3448,22 +3447,22 @@ end
 Represents the input of a TestFailover operation which test automatic failover on a
 specified node group (called shard in the console) in a replication group (called cluster
 in the console).  Note the following    A customer can use this operation to test automatic
-failover on up to 5 shards (called node groups in the ElastiCache API and AWS CLI) in any
-rolling 24-hour period.   If calling this operation on shards in different clusters (called
-replication groups in the API and CLI), the calls can be made concurrently.     If calling
-this operation multiple times on different shards in the same Redis (cluster mode enabled)
-replication group, the first node replacement must complete before a subsequent call can be
-made.   To determine whether the node replacement is complete you can check Events using
-the Amazon ElastiCache console, the AWS CLI, or the ElastiCache API. Look for the following
-automatic failover related events, listed here in order of occurrance:   Replication group
-message: Test Failover API called for node group &lt;node-group-id&gt;    Cache cluster
-message: Failover from primary node &lt;primary-node-id&gt; to replica node &lt;node-id&gt;
-completed    Replication group message: Failover from primary node &lt;primary-node-id&gt;
-to replica node &lt;node-id&gt; completed    Cache cluster message: Recovering cache nodes
-&lt;node-id&gt;    Cache cluster message: Finished recovery for cache nodes &lt;node-id&gt;
-   For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide
- DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the
-ElastiCache User Guide.
+failover on up to 5 shards (called node groups in the ElastiCache API and Amazon CLI) in
+any rolling 24-hour period.   If calling this operation on shards in different clusters
+(called replication groups in the API and CLI), the calls can be made concurrently.     If
+calling this operation multiple times on different shards in the same Redis (cluster mode
+enabled) replication group, the first node replacement must complete before a subsequent
+call can be made.   To determine whether the node replacement is complete you can check
+Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look
+for the following automatic failover related events, listed here in order of occurrance:
+Replication group message: Test Failover API called for node group &lt;node-group-id&gt;
+Cache cluster message: Failover from primary node &lt;primary-node-id&gt; to replica node
+&lt;node-id&gt; completed    Replication group message: Failover from primary node
+&lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed    Cache cluster message:
+Recovering cache nodes &lt;node-id&gt;    Cache cluster message: Finished recovery for
+cache nodes &lt;node-id&gt;    For more information see:    Viewing ElastiCache Events in
+the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also
+see, Testing Multi-AZ  in the ElastiCache User Guide.
 
 # Arguments
 - `node_group_id`: The name of the node group (called shard in the console) in this

@@ -8,19 +8,19 @@ using AWS.UUIDs
     create_connector_profile(connection_mode, connector_profile_config, connector_profile_name, connector_type)
     create_connector_profile(connection_mode, connector_profile_config, connector_profile_name, connector_type, params::Dict{String,<:Any})
 
- Creates a new connector profile associated with your AWS account. There is a soft quota of
-100 connector profiles per AWS account. If you need more connector profiles than this quota
-allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow
-support channel.
+ Creates a new connector profile associated with your Amazon Web Services account. There is
+a soft quota of 100 connector profiles per Amazon Web Services account. If you need more
+connector profiles than this quota allows, you can submit a request to the Amazon AppFlow
+team through the Amazon AppFlow support channel.
 
 # Arguments
 - `connection_mode`:  Indicates the connection mode and specifies whether it is public or
-  private. Private flows use AWS PrivateLink to route data over AWS infrastructure without
-  exposing it to the public internet.
+  private. Private flows use Amazon Web Services PrivateLink to route data over Amazon Web
+  Services infrastructure without exposing it to the public internet.
 - `connector_profile_config`:  Defines the connector-specific configuration and
   credentials.
 - `connector_profile_name`:  The name of the connector profile. The name is unique for each
-  ConnectorProfile in your AWS account.
+  ConnectorProfile in your Amazon Web Services account.
 - `connector_type`:  The type of connector, such as Salesforce, Amplitude, and so on.
 
 # Optional Parameters
@@ -253,7 +253,7 @@ data model for each entity.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"connectorProfileName"`:  The name of the connector profile. The name is unique for each
-  ConnectorProfile in the AWS account.
+  ConnectorProfile in the Amazon Web Services account.
 - `"connectorType"`:  The type of connector application, such as Salesforce, Amplitude, and
   so on.
 """
@@ -298,7 +298,7 @@ paginated form. If there is no match, this operation returns an empty list.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"connectorProfileNames"`:  The name of the connector profile. The name is unique for
-  each ConnectorProfile in the AWS account.
+  each ConnectorProfile in the Amazon Web Services account.
 - `"connectorType"`:  The type of connector, such as Salesforce, Amplitude, and so on.
 - `"maxResults"`:  Specifies the maximum number of items that should be returned in the
   result set. The default for maxResults is 20 (for all paginated API operations).
@@ -423,7 +423,8 @@ Incident entity.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"connectorProfileName"`:  The name of the connector profile. The name is unique for each
-  ConnectorProfile in the AWS account, and is used to query the downstream connector.
+  ConnectorProfile in the Amazon Web Services account, and is used to query the downstream
+  connector.
 - `"connectorType"`:  The type of connector, such as Salesforce, Amplitude, and so on.
 - `"entitiesPath"`:  This optional parameter is specific to connector implementation. Some
   connectors support multiple levels or categories of entities. You can find out the list of
@@ -634,7 +635,7 @@ end
 - `connector_profile_config`:  Defines the connector-specific profile configuration and
   credentials.
 - `connector_profile_name`:  The name of the connector profile and is unique for each
-  ConnectorProfile in the AWS Account.
+  ConnectorProfile in the Amazon Web Services account.
 
 """
 function update_connector_profile(
@@ -680,8 +681,8 @@ function update_connector_profile(
 end
 
 """
-    update_flow(destination_flow_config_list, flow_name, tasks, trigger_config)
-    update_flow(destination_flow_config_list, flow_name, tasks, trigger_config, params::Dict{String,<:Any})
+    update_flow(destination_flow_config_list, flow_name, source_flow_config, tasks, trigger_config)
+    update_flow(destination_flow_config_list, flow_name, source_flow_config, tasks, trigger_config, params::Dict{String,<:Any})
 
  Updates an existing flow.
 
@@ -690,6 +691,7 @@ end
   transfers data to the destination connector.
 - `flow_name`:  The specified name of the flow. Spaces are not allowed. Use underscores (_)
   or hyphens (-) only.
+- `source_flow_config`:
 - `tasks`:  A list of tasks that Amazon AppFlow performs while transferring the data in the
   flow run.
 - `trigger_config`:  The trigger settings that determine how and when the flow runs.
@@ -697,11 +699,11 @@ end
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`:  A description of the flow.
-- `"sourceFlowConfig"`:
 """
 function update_flow(
     destinationFlowConfigList,
     flowName,
+    sourceFlowConfig,
     tasks,
     triggerConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -712,6 +714,7 @@ function update_flow(
         Dict{String,Any}(
             "destinationFlowConfigList" => destinationFlowConfigList,
             "flowName" => flowName,
+            "sourceFlowConfig" => sourceFlowConfig,
             "tasks" => tasks,
             "triggerConfig" => triggerConfig,
         );
@@ -721,6 +724,7 @@ end
 function update_flow(
     destinationFlowConfigList,
     flowName,
+    sourceFlowConfig,
     tasks,
     triggerConfig,
     params::AbstractDict{String};
@@ -735,6 +739,7 @@ function update_flow(
                 Dict{String,Any}(
                     "destinationFlowConfigList" => destinationFlowConfigList,
                     "flowName" => flowName,
+                    "sourceFlowConfig" => sourceFlowConfig,
                     "tasks" => tasks,
                     "triggerConfig" => triggerConfig,
                 ),

@@ -1571,6 +1571,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A unique identifier for the request. If you do not set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the job.
+- `"Tags"`: Tags to be associated with the document classification job. A tag is a
+  key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
+  tag with \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  department.
 - `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
@@ -1648,6 +1652,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A unique identifier for the request. If you do not set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: An identifier for the job.
+- `"Tags"`: Tags to be associated with the dominant language detection job. A tag is a
+  key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
+  tag with \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  department.
 - `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
@@ -1731,6 +1739,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   entity recognizer to be used by the StartEntitiesDetectionJob. This ARN is optional and is
   only used for a custom entity recognition job.
 - `"JobName"`: The identifier of the job.
+- `"Tags"`: Tags to be associated with the entities detection job. A tag is a key-value
+  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
+  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  department.
 - `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
@@ -1806,6 +1818,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: An unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the events detection job.
+- `"Tags"`: Tags to be associated with the events detection job. A tag is a key-value pair
+  that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
+  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  department.
 """
 function start_events_detection_job(
     DataAccessRoleArn,
@@ -1880,6 +1896,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the job.
+- `"Tags"`: Tags to be associated with the key phrases detection job. A tag is a key-value
+  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
+  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  department.
 - `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
@@ -1960,6 +1980,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RedactionConfig"`: Provides configuration parameters for PII entity redaction. This
   parameter is required if you set the Mode parameter to ONLY_REDACTION. In that case, you
   must provide a RedactionConfig definition that includes the PiiEntityTypes parameter.
+- `"Tags"`: Tags to be associated with the PII entities detection job. A tag is a key-value
+  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
+  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  department.
 """
 function start_pii_entities_detection_job(
     DataAccessRoleArn,
@@ -2034,6 +2058,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the job.
+- `"Tags"`: Tags to be associated with the sentiment detection job. A tag is a key-value
+  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
+  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  department.
 - `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
@@ -2114,6 +2142,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the job.
 - `"NumberOfTopics"`: The number of topics to detect.
+- `"Tags"`: Tags to be associated with the topics detection job. A tag is a key-value pair
+  that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
+  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  department.
 - `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the

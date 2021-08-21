@@ -48,12 +48,13 @@ scaling policy in the Application Auto Scaling User Guide.
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
-  task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target
-  capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The
-  instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired
+  task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
+  instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The
+  target capacity of a Spot Fleet request.    appstream:fleet:DesiredCapacity - The desired
   capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned
   read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned
   write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned
@@ -72,9 +73,13 @@ scaling policy in the Application Auto Scaling User Guide.
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 """
 function delete_scaling_policy(
@@ -161,12 +166,13 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
-  task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target
-  capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The
-  instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired
+  task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
+  instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The
+  target capacity of a Spot Fleet request.    appstream:fleet:DesiredCapacity - The desired
   capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned
   read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned
   write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned
@@ -185,10 +191,14 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
 - `scheduled_action_name`: The name of the scheduled action.
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 """
 function delete_scheduled_action(
@@ -277,13 +287,14 @@ with it.
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
-  ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
   elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
-     appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+     ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
+  appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
   dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
   dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.
   dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global
@@ -302,9 +313,13 @@ with it.
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 """
 function deregister_scalable_target(
@@ -355,8 +370,9 @@ Gets information about the scalable targets in the specified namespace. You can 
 results using ResourceIds and ScalableDimension.
 
 # Arguments
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -398,14 +414,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `"ScalableDimension"`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property. If you
   specify a scalable dimension, you must also specify a resource ID.
   ecs:service:DesiredCount - The desired task count of an ECS service.
-  ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
   elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
-     appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+     ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
+  appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
   dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
   dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.
   dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global
@@ -424,7 +441,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
 """
 function describe_scalable_targets(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -460,8 +480,9 @@ from the previous six weeks. You can filter the results using ResourceId and
 ScalableDimension.
 
 # Arguments
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -503,13 +524,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
-  ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet
-  request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
-  Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream
+  ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
+  Instance Group.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot
+  Fleet request.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream
   2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a
   DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a
   DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a
@@ -528,7 +550,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
 """
 function describe_scaling_activities(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -565,8 +590,9 @@ For more information, see Target tracking scaling policies and Step scaling poli
 Application Auto Scaling User Guide.
 
 # Arguments
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -609,13 +635,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
-  ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet
-  request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
-  Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream
+  ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
+  Instance Group.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot
+  Fleet request.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream
   2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a
   DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a
   DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a
@@ -634,7 +661,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
 """
 function describe_scaling_policies(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -671,8 +701,9 @@ ScheduledActionNames parameters. For more information, see Scheduled scaling and
 scheduled scaling in the Application Auto Scaling User Guide.
 
 # Arguments
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -714,13 +745,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
-  ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet
-  request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
-  Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream
+  ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
+  Instance Group.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot
+  Fleet request.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream
   2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a
   DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a
   DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a
@@ -739,7 +771,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
 function describe_scheduled_actions(
@@ -827,12 +862,13 @@ scaling policies that were specified for the scalable target are deleted.
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
-  task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target
-  capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The
-  instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired
+  task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
+  instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The
+  target capacity of a Spot Fleet request.    appstream:fleet:DesiredCapacity - The desired
   capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned
   read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned
   write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned
@@ -851,17 +887,22 @@ scaling policies that were specified for the scalable target are deleted.
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PolicyType"`: The policy type. This parameter is required if you are creating a scaling
   policy. The following policy types are supported:   TargetTrackingScaling—Not supported
   for Amazon EMR  StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon
-  Keyspaces (for Apache Cassandra), or Amazon MSK. For more information, see Target tracking
-  scaling policies and Step scaling policies in the Application Auto Scaling User Guide.
+  Keyspaces (for Apache Cassandra), Amazon MSK, or Amazon ElastiCache for Redis. For more
+  information, see Target tracking scaling policies and Step scaling policies in the
+  Application Auto Scaling User Guide.
 - `"StepScalingPolicyConfiguration"`: A step scaling policy. This parameter is required if
   you are creating a policy and the policy type is StepScaling.
 - `"TargetTrackingScalingPolicyConfiguration"`: A target tracking scaling policy. Includes
@@ -961,12 +1002,13 @@ scheduled actions that were specified for the scalable target are deleted.
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
-  task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target
-  capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The
-  instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired
+  task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
+  instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The
+  target capacity of a Spot Fleet request.    appstream:fleet:DesiredCapacity - The desired
   capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned
   read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned
   write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned
@@ -985,11 +1027,15 @@ scheduled actions that were specified for the scalable target are deleted.
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
 - `scheduled_action_name`: The name of the scheduled action. This name must be unique among
   all other scheduled actions on the specified scalable target.
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1110,13 +1156,14 @@ changed by this update request.
   keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
-  2e31-5.
+  2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
+  the unique identifier is the replication group name. Example: replication-group/mycluster.
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
-  ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
   elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
-     appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+     ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
+  appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
   dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
   dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.
   dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global
@@ -1135,9 +1182,13 @@ changed by this update request.
      cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
-  (in GiB) for brokers in an Amazon MSK cluster.
-- `service_namespace`: The namespace of the AWS service that provides the resource. For a
-  resource provided by your own application or service, use custom-resource instead.
+  (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
+  - The number of node groups for an Amazon ElastiCache replication group.
+  elasticache:replication-group:Replicas - The number of replicas per node group for an
+  Amazon ElastiCache replication group.
+- `service_namespace`: The namespace of the Amazon Web Services service that provides the
+  resource. For a resource provided by your own application or service, use custom-resource
+  instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

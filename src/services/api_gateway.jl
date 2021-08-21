@@ -328,6 +328,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"endpointConfiguration"`: The endpoint configuration of this DomainName showing the
   endpoint types of the domain name.
 - `"mutualTlsAuthentication"`:
+- `"ownershipVerificationCertificateArn"`: The ARN of the public certificate issued by ACM
+  to validate ownership of your custom domain. Only required when configuring mutual TLS and
+  using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
 - `"regionalCertificateArn"`: The reference to an AWS-managed certificate that will be used
   by regional endpoint for this domain name. AWS Certificate Manager is the only supported
   source.

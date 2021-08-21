@@ -407,6 +407,9 @@ const mediastore = AWS.JSONService(
 )
 const mediastore_data = AWS.RestJSONService("mediastore", "data.mediastore", "2017-09-01")
 const mediatailor = AWS.RestJSONService("mediatailor", "api.mediatailor", "2018-04-23")
+const memorydb = AWS.JSONService(
+    "memorydb", "memory-db", "2021-01-01", "1.1", "AmazonMemoryDB"
+)
 const mgn = AWS.RestJSONService("mgn", "mgn", "2020-02-26")
 const migration_hub = AWS.JSONService("mgh", "mgh", "2017-05-31", "1.1", "AWSMigrationHub")
 const migrationhub_config = AWS.JSONService(

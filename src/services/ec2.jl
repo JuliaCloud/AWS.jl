@@ -2322,7 +2322,8 @@ type and try again. For more information about increasing your instance limits, 
 EC2 Service Quotas in the Amazon EC2 User Guide.
 
 # Arguments
-- `instance_count`: The number of instances for which to reserve capacity.
+- `instance_count`: The number of instances for which to reserve capacity. Valid range: 1 -
+  1000
 - `instance_platform`: The type of operating system for which to reserve capacity.
 - `instance_type`: The instance type for which to reserve capacity. For more information,
   see Instance types in the Amazon EC2 User Guide.
@@ -3296,20 +3297,22 @@ end
     create_key_pair(key_name)
     create_key_pair(key_name, params::Dict{String,<:Any})
 
-Creates a 2048-bit RSA key pair with the specified name. Amazon EC2 stores the public key
-and displays the private key for you to save to a file. The private key is returned as an
-unencrypted PEM encoded PKCS#1 private key. If a key with the specified name already
-exists, Amazon EC2 returns an error. You can have up to five thousand key pairs per Region.
-The key pair returned to you is available only in the Region in which you create it. If you
-prefer, you can create your own key pair using a third-party tool and upload it to any
-Region using ImportKeyPair. For more information, see Key Pairs in the Amazon Elastic
-Compute Cloud User Guide.
+Creates an ED25519 or 2048-bit RSA key pair with the specified name. Amazon EC2 stores the
+public key and displays the private key for you to save to a file. The private key is
+returned as an unencrypted PEM encoded PKCS#1 private key. If a key with the specified name
+already exists, Amazon EC2 returns an error. The key pair returned to you is available only
+in the Amazon Web Services Region in which you create it. If you prefer, you can create
+your own key pair using a third-party tool and upload it to any Region using ImportKeyPair.
+You can have up to 5,000 key pairs per Amazon Web Services Region. For more information,
+see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `key_name`: A unique name for the key pair. Constraints: Up to 255 ASCII characters
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"KeyType"`: The type of key pair. Note that ED25519 keys are not supported for Windows
+  instances, EC2 Instance Connect, and EC2 Serial Console. Default: rsa
 - `"TagSpecification"`: The tags to apply to the new key pair.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -4338,8 +4341,8 @@ end
     create_security_group(group_description, group_name, params::Dict{String,<:Any})
 
 Creates a security group. A security group acts as a virtual firewall for your instance to
-control inbound and outbound traffic. For more information, see Amazon EC2 Security Groups
-in the Amazon Elastic Compute Cloud User Guide and Security Groups for Your VPC in the
+control inbound and outbound traffic. For more information, see Amazon EC2 security groups
+in the Amazon Elastic Compute Cloud User Guide and Security groups for your VPC in the
 Amazon Virtual Private Cloud User Guide. When you create a security group, you specify a
 friendly name of your choice. You can have a security group for use in EC2-Classic with the
 same name as a security group for use in a VPC. However, you can't have two security groups
@@ -10422,15 +10425,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the
   instance type supports Elastic Fabric Adapter (EFA) (true | false).
   network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or
-  required (required | supported | unsupported).    network-info.ipv4-addresses-per-interface
-  - The maximum number of private IPv4 addresses per network interface.
-  network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses
-  per network interface.    network-info.ipv6-supported - Indicates whether the instance type
-  supports IPv6 (true | false).    network-info.maximum-network-interfaces - The maximum
-  number of network interfaces per instance.    network-info.network-performance - The
-  network performance (for example, \"25 Gigabit\").    processor-info.supported-architecture
-  - The CPU architecture (arm64 | i386 | x86_64).
-  processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.
+  required (required | supported | unsupported).
+  network-info.encryption-in-transit-supported - Indicates whether the instance type
+  automatically encrypts in-transit traffic between instances.
+  network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses
+  per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of
+  private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates
+  whether the instance type supports IPv6 (true | false).
+  network-info.maximum-network-interfaces - The maximum number of network interfaces per
+  instance.    network-info.network-performance - The network performance (for example, \"25
+  Gigabit\").    processor-info.supported-architecture - The CPU architecture (arm64 | i386 |
+  x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.
   supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type -
   The root device type (ebs | instance-store).    supported-usage-class - The usage class
   (on-demand | spot).    supported-virtualization-type - The virtualization type (hvm |
@@ -10679,7 +10684,7 @@ end
     describe_key_pairs(params::Dict{String,<:Any})
 
 Describes the specified key pairs or all of your key pairs. For more information about key
-pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
+pairs, see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -11969,8 +11974,8 @@ end
 
 Describes the specified security groups or all of your security groups. A security group is
 for use with instances either in the EC2-Classic platform or in a specific VPC. For more
-information, see Amazon EC2 Security Groups in the Amazon Elastic Compute Cloud User Guide
-and Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
+information, see Amazon EC2 security groups in the Amazon Elastic Compute Cloud User Guide
+and Security groups for your VPC in the Amazon Virtual Private Cloud User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -15149,7 +15154,7 @@ VM directly from an Amazon Machine Image (AMI) in the VM Import/Export User Guid
 - `disk_image_format`: The disk image format.
 - `image_id`: The ID of the image.
 - `s3_export_location`: Information about the destination Amazon S3 bucket. The bucket must
-  exist and grant WRITE and READ_ACP permissions to the AWS account
+  exist and grant WRITE and READ_ACP permissions to the Amazon Web Services account
   vm-import-export@amazon.com.
 
 # Optional Parameters
@@ -16364,39 +16369,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Encrypted"`: Specifies whether the destination AMI of the imported image should be
-  encrypted. The default CMK for EBS is used unless you specify a non-default AWS Key
-  Management Service (AWS KMS) CMK using KmsKeyId. For more information, see Amazon EBS
-  Encryption in the Amazon Elastic Compute Cloud User Guide.
+  encrypted. The default KMS key for EBS is used unless you specify a non-default KMS key
+  using KmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic
+  Compute Cloud User Guide.
 - `"Hypervisor"`: The target hypervisor platform. Valid values: xen
-- `"KmsKeyId"`: An identifier for the symmetric AWS Key Management Service (AWS KMS)
-  customer master key (CMK) to use when creating the encrypted AMI. This parameter is only
-  required if you want to use a non-default CMK; if this parameter is not specified, the
-  default CMK for EBS is used. If a KmsKeyId is specified, the Encrypted flag must also be
-  set.  The CMK identifier may be provided in any of the following formats:    Key ID   Key
-  alias. The alias ARN contains the arn:aws:kms namespace, followed by the Region of the CMK,
-  the AWS account ID of the CMK owner, the alias namespace, and then the CMK alias. For
-  example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   ARN using key ID. The ID
-  ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account
-  ID of the CMK owner, the key namespace, and then the CMK ID. For example,
+- `"KmsKeyId"`: An identifier for the symmetric KMS key to use when creating the encrypted
+  AMI. This parameter is only required if you want to use a non-default KMS key; if this
+  parameter is not specified, the default KMS key for EBS is used. If a KmsKeyId is
+  specified, the Encrypted flag must also be set.  The KMS key identifier may be provided in
+  any of the following formats:    Key ID   Key alias. The alias ARN contains the arn:aws:kms
+  namespace, followed by the Region of the key, the Amazon Web Services account ID of the key
+  owner, the alias namespace, and then the key alias. For example,
+  arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   ARN using key ID. The ID ARN
+  contains the arn:aws:kms namespace, followed by the Region of the key, the Amazon Web
+  Services account ID of the key owner, the key namespace, and then the key ID. For example,
   arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.   ARN using
   key alias. The alias ARN contains the arn:aws:kms namespace, followed by the Region of the
-  CMK, the AWS account ID of the CMK owner, the alias namespace, and then the CMK alias. For
-  example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.    AWS parses KmsKeyId
-  asynchronously, meaning that the action you call may appear to complete even though you
-  provided an invalid identifier. This action will eventually report failure.  The specified
-  CMK must exist in the Region that the AMI is being copied to. Amazon EBS does not support
-  asymmetric CMKs.
+  key, the Amazon Web Services account ID of the key owner, the alias namespace, and then the
+  key alias. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.    Amazon
+  Web Services parses KmsKeyId asynchronously, meaning that the action you call may appear to
+  complete even though you provided an invalid identifier. This action will eventually report
+  failure.  The specified KMS key must exist in the Region that the AMI is being copied to.
+  Amazon EBS does not support asymmetric KMS keys.
 - `"LicenseSpecifications"`: The ARNs of the license configurations.
 - `"LicenseType"`: The license type to be used for the Amazon Machine Image (AMI) after
   importing. By default, we detect the source-system operating system (OS) and apply the
-  appropriate license. Specify AWS to replace the source-system license with an AWS license,
-  if appropriate. Specify BYOL to retain the source-system license, if appropriate. To use
-  BYOL, you must have existing licenses with rights to use these licenses in a third party
-  cloud, such as AWS. For more information, see Prerequisites in the VM Import/Export User
-  Guide.
+  appropriate license. Specify AWS to replace the source-system license with an Amazon Web
+  Services license, if appropriate. Specify BYOL to retain the source-system license, if
+  appropriate. To use BYOL, you must have existing licenses with rights to use these licenses
+  in a third party cloud, such as Amazon Web Services. For more information, see
+  Prerequisites in the VM Import/Export User Guide.
 - `"Platform"`: The operating system of the virtual machine. Valid values: Windows | Linux
 - `"RoleName"`: The name of the role to use when not using the default role, 'vmimport'.
 - `"TagSpecification"`: The tags to apply to the import image task during creation.
+- `"UsageOperation"`: The usage operation value. For more information, see AMI billing
+  information fields in the Amazon Elastic Compute Cloud User Guide.
 """
 function import_image(; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2("ImportImage"; aws_config=aws_config)
@@ -16413,7 +16420,7 @@ end
 
 Creates an import instance task using metadata from the specified disk image. This API
 action supports only single-volume VMs. To import multi-volume VMs, use ImportImage
-instead. This API action is not supported by the AWS Command Line Interface (AWS CLI). For
+instead. This API action is not supported by the Command Line Interface (CLI). For
 information about using the Amazon EC2 CLI, which is deprecated, see Importing a VM to
 Amazon EC2 in the Amazon EC2 CLI Reference PDF file. For information about the import
 manifest referenced by this API action, see VM Import Manifest.
@@ -16453,12 +16460,13 @@ end
     import_key_pair(key_name, public_key_material)
     import_key_pair(key_name, public_key_material, params::Dict{String,<:Any})
 
-Imports the public key from an RSA key pair that you created with a third-party tool.
-Compare this with CreateKeyPair, in which Amazon Web Services creates the key pair and
-gives the keys to you (Amazon Web Services keeps a copy of the public key). With
+Imports the public key from an RSA or ED25519 key pair that you created with a third-party
+tool. Compare this with CreateKeyPair, in which Amazon Web Services creates the key pair
+and gives the keys to you (Amazon Web Services keeps a copy of the public key). With
 ImportKeyPair, you create the key pair and give Amazon Web Services just the public key.
 The private key is never transferred between you and Amazon Web Services. For more
-information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
+information about key pairs, see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud
+User Guide.
 
 # Arguments
 - `key_name`: A unique name for the key pair.
@@ -16519,27 +16527,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Encrypted"`: Specifies whether the destination snapshot of the imported image should be
-  encrypted. The default CMK for EBS is used unless you specify a non-default AWS Key
-  Management Service (AWS KMS) CMK using KmsKeyId. For more information, see Amazon EBS
-  Encryption in the Amazon Elastic Compute Cloud User Guide.
-- `"KmsKeyId"`: An identifier for the symmetric AWS Key Management Service (AWS KMS)
-  customer master key (CMK) to use when creating the encrypted snapshot. This parameter is
-  only required if you want to use a non-default CMK; if this parameter is not specified, the
-  default CMK for EBS is used. If a KmsKeyId is specified, the Encrypted flag must also be
-  set.  The CMK identifier may be provided in any of the following formats:    Key ID   Key
-  alias. The alias ARN contains the arn:aws:kms namespace, followed by the Region of the CMK,
-  the AWS account ID of the CMK owner, the alias namespace, and then the CMK alias. For
-  example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   ARN using key ID. The ID
-  ARN contains the arn:aws:kms namespace, followed by the Region of the CMK, the AWS account
-  ID of the CMK owner, the key namespace, and then the CMK ID. For example,
+  encrypted. The default KMS key for EBS is used unless you specify a non-default KMS key
+  using KmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic
+  Compute Cloud User Guide.
+- `"KmsKeyId"`: An identifier for the symmetric KMS key to use when creating the encrypted
+  snapshot. This parameter is only required if you want to use a non-default KMS key; if this
+  parameter is not specified, the default KMS key for EBS is used. If a KmsKeyId is
+  specified, the Encrypted flag must also be set.  The KMS key identifier may be provided in
+  any of the following formats:    Key ID   Key alias. The alias ARN contains the arn:aws:kms
+  namespace, followed by the Region of the key, the Amazon Web Services account ID of the key
+  owner, the alias namespace, and then the key alias. For example,
+  arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   ARN using key ID. The ID ARN
+  contains the arn:aws:kms namespace, followed by the Region of the key, the Amazon Web
+  Services account ID of the key owner, the key namespace, and then the key ID. For example,
   arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.   ARN using
   key alias. The alias ARN contains the arn:aws:kms namespace, followed by the Region of the
-  CMK, the AWS account ID of the CMK owner, the alias namespace, and then the CMK alias. For
-  example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.    AWS parses KmsKeyId
-  asynchronously, meaning that the action you call may appear to complete even though you
-  provided an invalid identifier. This action will eventually report failure.  The specified
-  CMK must exist in the Region that the snapshot is being copied to. Amazon EBS does not
-  support asymmetric CMKs.
+  key, the Amazon Web Services account ID of the key owner, the alias namespace, and then the
+  key alias. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.    Amazon
+  Web Services parses KmsKeyId asynchronously, meaning that the action you call may appear to
+  complete even though you provided an invalid identifier. This action will eventually report
+  failure.  The specified KMS key must exist in the Region that the snapshot is being copied
+  to. Amazon EBS does not support asymmetric KMS keys.
 - `"RoleName"`: The name of the role to use when not using the default role, 'vmimport'.
 - `"TagSpecification"`: The tags to apply to the import snapshot task during creation.
 """
@@ -16559,10 +16567,10 @@ end
 Creates an import volume task using metadata from the specified disk image. This API action
 supports only single-volume VMs. To import multi-volume VMs, use ImportImage instead. To
 import a disk to a snapshot, use ImportSnapshot instead. This API action is not supported
-by the AWS Command Line Interface (AWS CLI). For information about using the Amazon EC2
-CLI, which is deprecated, see Importing Disks to Amazon EBS in the Amazon EC2 CLI Reference
-PDF file. For information about the import manifest referenced by this API action, see VM
-Import Manifest.
+by the Command Line Interface (CLI). For information about using the Amazon EC2 CLI, which
+is deprecated, see Importing Disks to Amazon EBS in the Amazon EC2 CLI Reference PDF file.
+For information about the import manifest referenced by this API action, see VM Import
+Manifest.
 
 # Arguments
 - `availability_zone`: The Availability Zone for the resulting EBS volume.
@@ -16730,7 +16738,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Reservation remains active until you explicitly cancel it. Do not provide an EndDate value
   if EndDateType is unlimited.    limited - The Capacity Reservation expires automatically at
   a specified date and time. You must provide an EndDate value if EndDateType is limited.
-- `"InstanceCount"`: The number of instances for which to reserve capacity.
+- `"InstanceCount"`: The number of instances for which to reserve capacity. Valid range: 1
+  - 1000
 """
 function modify_capacity_reservation(
     CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -21041,7 +21050,9 @@ your instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BlockDeviceMapping"`: The block device mapping entries.
+- `"BlockDeviceMapping"`: The block device mapping, which defines the EBS volumes and
+  instance store volumes to attach to the instance at launch. For more information, see Block
+  device mappings in the Amazon EC2 User Guide.
 - `"CapacityReservationSpecification"`: Information about the Capacity Reservation
   targeting option. If you do not specify this parameter, the instance's Capacity Reservation
   preference defaults to open, which enables it to run in any open Capacity Reservation that
@@ -21087,7 +21098,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances to launch. You cannot specify this option and the network interfaces option in
   the same request.
 - `"KernelId"`: The ID of the kernel.  We recommend that you use PV-GRUB instead of kernels
-  and RAM disks. For more information, see  PV-GRUB in the Amazon EC2 User Guide.
+  and RAM disks. For more information, see PV-GRUB in the Amazon EC2 User Guide.
 - `"KeyName"`: The name of the key pair. You can create a key pair using CreateKeyPair or
   ImportKeyPair.  If you do not specify a key pair, you can't connect to the instance unless
   you choose an AMI that is configured to allow users another way to log in.
@@ -21103,7 +21114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   at launch. Check the kernel requirements for information about whether you need to specify
   a RAM disk. To find kernel requirements, go to the Amazon Web Services Resource Center and
   search for the kernel ID.  We recommend that you use PV-GRUB instead of kernels and RAM
-  disks. For more information, see  PV-GRUB in the Amazon EC2 User Guide.
+  disks. For more information, see PV-GRUB in the Amazon EC2 User Guide.
 - `"SecurityGroup"`: [EC2-Classic, default VPC] The names of the security groups. For a
   nondefault VPC, you must use security group IDs instead. If you specify a network
   interface, you must specify any security groups as part of the network interface. Default:

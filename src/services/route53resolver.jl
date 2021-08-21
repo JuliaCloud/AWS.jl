@@ -506,11 +506,11 @@ Creates a Resolver query logging configuration, which defines where you want Res
 save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs
 that are in the same Region as the query logging configuration. To specify which VPCs you
 want to log queries for, you use AssociateResolverQueryLogConfig. For more information, see
-AssociateResolverQueryLogConfig.  You can optionally use AWS Resource Access Manager (AWS
-RAM) to share a query logging configuration with other AWS accounts. The other accounts can
-then associate VPCs with the configuration. The query logs that Resolver creates for a
-configuration include all DNS queries that originate in all VPCs that are associated with
-the configuration.
+AssociateResolverQueryLogConfig.  You can optionally use Resource Access Manager (RAM) to
+share a query logging configuration with other Amazon Web Services accounts. The other
+accounts can then associate VPCs with the configuration. The query logs that Resolver
+creates for a configuration include all DNS queries that originate in all VPCs that are
+associated with the configuration.
 
 # Arguments
 - `creator_request_id`: A unique string that identifies the request and that allows failed
@@ -814,15 +814,15 @@ end
 
 Deletes a query logging configuration. When you delete a configuration, Resolver stops
 logging DNS queries for all of the Amazon VPCs that are associated with the configuration.
-This also applies if the query logging configuration is shared with other AWS accounts, and
-the other accounts have associated VPCs with the shared configuration. Before you can
-delete a query logging configuration, you must first disassociate all VPCs from the
-configuration. See DisassociateResolverQueryLogConfig. If you used Resource Access Manager
-(RAM) to share a query logging configuration with other accounts, you must stop sharing the
-configuration before you can delete a configuration. The accounts that you shared the
-configuration with can first disassociate VPCs that they associated with the configuration,
-but that's not necessary. If you stop sharing the configuration, those VPCs are
-automatically disassociated from the configuration.
+This also applies if the query logging configuration is shared with other Amazon Web
+Services accounts, and the other accounts have associated VPCs with the shared
+configuration. Before you can delete a query logging configuration, you must first
+disassociate all VPCs from the configuration. See DisassociateResolverQueryLogConfig. If
+you used Resource Access Manager (RAM) to share a query logging configuration with other
+accounts, you must stop sharing the configuration before you can delete a configuration.
+The accounts that you shared the configuration with can first disassociate VPCs that they
+associated with the configuration, but that's not necessary. If you stop sharing the
+configuration, those VPCs are automatically disassociated from the configuration.
 
 # Arguments
 - `resolver_query_log_config_id`: The ID of the query logging configuration that you want
@@ -985,9 +985,9 @@ end
 
 Disassociates a VPC from a query logging configuration.  Before you can delete a query
 logging configuration, you must first disassociate all VPCs from the configuration. If you
-used AWS Resource Access Manager (AWS RAM) to share a query logging configuration with
-other accounts, VPCs can be disassociated from the configuration in the following ways:
-The accounts that you shared the configuration with can disassociate VPCs from the
+used Resource Access Manager (RAM) to share a query logging configuration with other
+accounts, VPCs can be disassociated from the configuration in the following ways:   The
+accounts that you shared the configuration with can disassociate VPCs from the
 configuration.   You can stop sharing the configuration.
 
 # Arguments
@@ -1226,9 +1226,9 @@ end
     get_firewall_rule_group_policy(arn)
     get_firewall_rule_group_policy(arn, params::Dict{String,<:Any})
 
-Returns the AWS Identity and Access Management (AWS IAM) policy for sharing the specified
-rule group. You can use the policy to share the rule group using AWS Resource Access
-Manager (AWS RAM).
+Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the
+specified rule group. You can use the policy to share the rule group using Resource Access
+Manager (RAM).
 
 # Arguments
 - `arn`: The ARN (Amazon Resource Name) for the rule group.
@@ -1411,8 +1411,8 @@ end
     get_resolver_query_log_config_policy(arn, params::Dict{String,<:Any})
 
 Gets information about a query logging policy. A query logging policy specifies the
-Resolver query logging operations and resources that you want to allow another AWS account
-to be able to use.
+Resolver query logging operations and resources that you want to allow another Amazon Web
+Services account to be able to use.
 
 # Arguments
 - `arn`: The ARN of the query logging configuration that you want to get the query logging
@@ -1847,8 +1847,8 @@ end
     list_resolver_dnssec_configs()
     list_resolver_dnssec_configs(params::Dict{String,<:Any})
 
-Lists the configurations for DNSSEC validation that are associated with the current AWS
-account.
+Lists the configurations for DNSSEC validation that are associated with the current Amazon
+Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1856,11 +1856,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  Optional: An integer that specifies the maximum number of DNSSEC
   configuration results that you want Amazon Route 53 to return. If you don't specify a value
   for MaxResults, Route 53 returns up to 100 configuration per page.
-- `"NextToken"`: (Optional) If the current AWS account has more than MaxResults DNSSEC
-  configurations, use NextToken to get the second and subsequent pages of results. For the
-  first ListResolverDnssecConfigs request, omit this value. For the second and subsequent
-  requests, get the value of NextToken from the previous response and specify that value for
-  NextToken in the request.
+- `"NextToken"`: (Optional) If the current Amazon Web Services account has more than
+  MaxResults DNSSEC configurations, use NextToken to get the second and subsequent pages of
+  results. For the first ListResolverDnssecConfigs request, omit this value. For the second
+  and subsequent requests, get the value of NextToken from the previous response and specify
+  that value for NextToken in the request.
 """
 function list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=global_aws_config())
     return route53resolver("ListResolverDnssecConfigs"; aws_config=aws_config)
@@ -1920,7 +1920,8 @@ end
     list_resolver_endpoints()
     list_resolver_endpoints(params::Dict{String,<:Any})
 
-Lists all the Resolver endpoints that were created using the current AWS account.
+Lists all the Resolver endpoints that were created using the current Amazon Web Services
+account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2033,17 +2034,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration was created    CreatorRequestId: The value that was specified for
   CreatorRequestId when the configuration was created    DestinationArn: The location that
   logs are sent to    Id: The ID of the configuration    Name: The name of the configuration
-    OwnerId: The AWS account number of the account that created the configuration
-  ShareStatus: Whether the configuration is shared with other AWS accounts or shared with the
-  current account by another AWS account. Sharing is configured through AWS Resource Access
-  Manager (AWS RAM).    Status: The current status of the configuration. Valid values include
-  the following:    CREATING: Resolver is creating the query logging configuration.
-  CREATED: The query logging configuration was successfully created. Resolver is logging
-  queries that originate in the specified VPC.    DELETING: Resolver is deleting this query
-  logging configuration.    FAILED: Resolver either couldn't create or couldn't delete the
-  query logging configuration. Here are two common causes:   The specified destination (for
-  example, an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the
-  destination.
+    OwnerId: The Amazon Web Services account number of the account that created the
+  configuration    ShareStatus: Whether the configuration is shared with other Amazon Web
+  Services accounts or shared with the current account by another Amazon Web Services
+  account. Sharing is configured through Resource Access Manager (RAM).    Status: The
+  current status of the configuration. Valid values include the following:    CREATING:
+  Resolver is creating the query logging configuration.    CREATED: The query logging
+  configuration was successfully created. Resolver is logging queries that originate in the
+  specified VPC.    DELETING: Resolver is deleting this query logging configuration.
+  FAILED: Resolver either couldn't create or couldn't delete the query logging configuration.
+  Here are two common causes:   The specified destination (for example, an Amazon S3 bucket)
+  was deleted.   Permissions don't allow sending logs to the destination.
 - `"SortOrder"`: If you specified a value for SortBy, the order that you want query logging
   configurations to be listed in, ASCENDING or DESCENDING.  If you submit a second or
   subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you
@@ -2065,7 +2066,7 @@ end
     list_resolver_rule_associations(params::Dict{String,<:Any})
 
 Lists the associations that were created between Resolver rules and VPCs using the current
-AWS account.
+Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2096,7 +2097,7 @@ end
     list_resolver_rules()
     list_resolver_rules(params::Dict{String,<:Any})
 
-Lists the Resolver rules that were created using the current AWS account.
+Lists the Resolver rules that were created using the current Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2168,13 +2169,14 @@ end
     put_firewall_rule_group_policy(arn, firewall_rule_group_policy)
     put_firewall_rule_group_policy(arn, firewall_rule_group_policy, params::Dict{String,<:Any})
 
-Attaches an AWS Identity and Access Management (AWS IAM) policy for sharing the rule group.
-You can use the policy to share the rule group using AWS Resource Access Manager (AWS RAM).
+Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the
+rule group. You can use the policy to share the rule group using Resource Access Manager
+(RAM).
 
 # Arguments
 - `arn`: The ARN (Amazon Resource Name) for the rule group that you want to share.
-- `firewall_rule_group_policy`: The AWS Identity and Access Management (AWS IAM) policy to
-  attach to the rule group.
+- `firewall_rule_group_policy`: The Identity and Access Management (Amazon Web Services
+  IAM) policy to attach to the rule group.
 
 """
 function put_firewall_rule_group_policy(
@@ -2213,16 +2215,16 @@ end
     put_resolver_query_log_config_policy(arn, resolver_query_log_config_policy)
     put_resolver_query_log_config_policy(arn, resolver_query_log_config_policy, params::Dict{String,<:Any})
 
-Specifies an AWS account that you want to share a query logging configuration with, the
-query logging configuration that you want to share, and the operations that you want the
-account to be able to perform on the configuration.
+Specifies an Amazon Web Services account that you want to share a query logging
+configuration with, the query logging configuration that you want to share, and the
+operations that you want the account to be able to perform on the configuration.
 
 # Arguments
 - `arn`: The Amazon Resource Name (ARN) of the account that you want to share rules with.
-- `resolver_query_log_config_policy`: An AWS Identity and Access Management policy
-  statement that lists the query logging configurations that you want to share with another
-  AWS account and the operations that you want the account to be able to perform. You can
-  specify the following operations in the Actions section of the statement:
+- `resolver_query_log_config_policy`: An Identity and Access Management policy statement
+  that lists the query logging configurations that you want to share with another Amazon Web
+  Services account and the operations that you want the account to be able to perform. You
+  can specify the following operations in the Actions section of the statement:
   route53resolver:AssociateResolverQueryLogConfig
   route53resolver:DisassociateResolverQueryLogConfig
   route53resolver:ListResolverQueryLogConfigAssociations
@@ -2268,17 +2270,17 @@ end
     put_resolver_rule_policy(arn, resolver_rule_policy)
     put_resolver_rule_policy(arn, resolver_rule_policy, params::Dict{String,<:Any})
 
-Specifies an AWS rule that you want to share with another account, the account that you
-want to share the rule with, and the operations that you want the account to be able to
-perform on the rule.
+Specifies an Amazon Web Services rule that you want to share with another account, the
+account that you want to share the rule with, and the operations that you want the account
+to be able to perform on the rule.
 
 # Arguments
 - `arn`: The Amazon Resource Name (ARN) of the rule that you want to share with another
   account.
-- `resolver_rule_policy`: An AWS Identity and Access Management policy statement that lists
-  the rules that you want to share with another AWS account and the operations that you want
-  the account to be able to perform. You can specify the following operations in the Action
-  section of the statement:    route53resolver:GetResolverRule
+- `resolver_rule_policy`: An Identity and Access Management policy statement that lists the
+  rules that you want to share with another Amazon Web Services account and the operations
+  that you want the account to be able to perform. You can specify the following operations
+  in the Action section of the statement:    route53resolver:GetResolverRule
   route53resolver:AssociateResolverRule     route53resolver:DisassociateResolverRule
   route53resolver:ListResolverRules     route53resolver:ListResolverRuleAssociations    In
   the Resource section of the statement, specify the ARN for the rule that you want to share
