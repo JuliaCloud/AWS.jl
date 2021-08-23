@@ -1424,12 +1424,33 @@ UpdateAssetProperty.
   filter to choose only the asset property values that have a specific quality.
 - `start_time_in_seconds`: The exclusive start of the range from which to interpolate data,
   expressed in seconds in Unix epoch time.
-- `type`: The interpolation type. Valid values: LINEAR_INTERPOLATION
+- `type`: The interpolation type. Valid values: LINEAR_INTERPOLATION | LOCF_INTERPOLATION
+  For the LOCF_INTERPOLATION interpolation, if no data point is found for an interval, IoT
+  SiteWise returns the same interpolated value calculated for the previous interval and
+  carries forward this interpolated value until a new data point is found. For example, you
+  can get the interpolated temperature values for a wind turbine every 24 hours over a
+  duration of 7 days. If the LOCF_INTERPOLATION interpolation starts on July 1, 2021, at 9
+  AM, IoT SiteWise uses the data points from July 1, 2021, at 9 AM to July 2, 2021, at 9 AM
+  to compute the first interpolated value. If no data points is found after 9 A.M. on July 2,
+  2021, IoT SiteWise uses the same interpolated value for the rest of the days.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"assetId"`: The ID of the asset.
 - `"endTimeOffsetInNanos"`: The nanosecond offset converted from endTimeInSeconds.
+- `"intervalWindowInSeconds"`: The query interval for the window in seconds. IoT SiteWise
+  computes each interpolated value by using data points from the timestamp of each interval
+  minus the window to the timestamp of each interval plus the window. If not specified, the
+  window is between the start time minus the interval and the end time plus the interval.
+  If you specify a value for the intervalWindowInSeconds parameter, the type parameter must
+  be LINEAR_INTERPOLATION.   If no data point is found during the specified query window, IoT
+  SiteWise won't return an interpolated value for the interval. This indicates that there's a
+  gap in the ingested data points.    For example, you can get the interpolated temperature
+  values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation
+  starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT SiteWise uses the data points
+  from 7 AM (9 AM - 2 hours) to 11 AM (9 AM + 2 hours) on July 2, 2021 to compute the first
+  interpolated value, uses the data points from 7 AM (9 AM - 2 hours) to 11 AM (9 AM + 2
+  hours) on July 3, 2021 to compute the second interpolated value, and so on.
 - `"maxResults"`: The maximum number of results to return for each paginated request. If
   not specified, the default value is 10.
 - `"nextToken"`: The token to be used for the next set of paginated results.

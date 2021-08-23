@@ -453,7 +453,7 @@ end
     create_auto_mljob(auto_mljob_name, input_data_config, output_data_config, role_arn)
     create_auto_mljob(auto_mljob_name, input_data_config, output_data_config, role_arn, params::Dict{String,<:Any})
 
-Creates an Autopilot job. Find the best performing model after you run an Autopilot job by
+Creates an Autopilot job. Find the best-performing model after you run an Autopilot job by
 calling . For information about how to use Autopilot, see Automate Model Development with
 Amazon SageMaker Autopilot.
 
@@ -1174,6 +1174,9 @@ read.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AsyncInferenceConfig"`: Specifies configuration for how an endpoint performs
+  asynchronous inference. This is a required field in order for your Endpoint to be invoked
+  using  InvokeEndpointAsync .
 - `"DataCaptureConfig"`:
 - `"KmsKeyId"`: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
   Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to
@@ -1760,19 +1763,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration file, that defines the categories used to label the data objects. For 3D
   point cloud and video frame task types, you can add label category attributes and frame
   attributes to your label category configuration file. To learn how, see Create a Labeling
-  Category Configuration File for 3D Point Cloud Labeling Jobs.  For all other built-in task
-  types and custom tasks, your label category configuration file must be a JSON file in the
-  following format. Identify the labels you want to use by replacing label_1,
-  label_2,...,label_n with your label categories.  {    \"document-version\": \"2018-11-28\",
-    \"labels\": [{\"label\": \"label_1\"},{\"label\": \"label_2\"},...{\"label\":
-  \"label_n\"}]   }  Note the following about the label category configuration file:   For
-  image classification and text classification (single and multi-label) you must specify at
-  least two label categories. For all other task types, the minimum number of label
-  categories required is one.    Each label category must be unique, you cannot specify
-  duplicate label categories.   If you create a 3D point cloud or video frame adjustment or
-  verification labeling job, you must include auditLabelAttributeName in the label category
-  configuration. Use this parameter to enter the  LabelAttributeName  of the labeling job you
-  want to adjust or verify annotations of.
+  Category Configuration File for 3D Point Cloud Labeling Jobs.  For named entity recognition
+  jobs, in addition to \"labels\", you must provide worker instructions in the label category
+  configuration file using the \"instructions\" parameter: \"instructions\":
+  {\"shortInstruction\":\"&lt;h1&gt;Add header&lt;/h1&gt;&lt;p&gt;Add
+  Instructions&lt;/p&gt;\", \"fullInstruction\":\"&lt;p&gt;Add additional
+  instructions.&lt;/p&gt;\"}. For details and an example, see Create a Named Entity
+  Recognition Labeling Job (API) . For all other built-in task types and custom tasks, your
+  label category configuration file must be a JSON file in the following format. Identify the
+  labels you want to use by replacing label_1, label_2,...,label_n with your label
+  categories.  {    \"document-version\": \"2018-11-28\",   \"labels\": [{\"label\":
+  \"label_1\"},{\"label\": \"label_2\"},...{\"label\": \"label_n\"}]   }  Note the following
+  about the label category configuration file:   For image classification and text
+  classification (single and multi-label) you must specify at least two label categories. For
+  all other task types, the minimum number of label categories required is one.    Each label
+  category must be unique, you cannot specify duplicate label categories.   If you create a
+  3D point cloud or video frame adjustment or verification labeling job, you must include
+  auditLabelAttributeName in the label category configuration. Use this parameter to enter
+  the  LabelAttributeName  of the labeling job you want to adjust or verify annotations of.
 - `"LabelingJobAlgorithmsConfig"`: Configures the information required to perform automated
   data labeling.
 - `"StoppingConditions"`: A set of conditions for stopping the labeling job. If any of the
@@ -2379,6 +2387,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LifecycleConfigName"`: The name of a lifecycle configuration to associate with the
   notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional)
   Customize a Notebook Instance.
+- `"PlatformIdentifier"`: The platform identifier of the notebook instance runtime
+  environment.
 - `"RootAccess"`: Whether root access is enabled or disabled for users of the notebook
   instance. The default value is Enabled.  Lifecycle configurations need root access to be
   able to set up a notebook instance. Because of this, lifecycle configurations associated
@@ -9122,14 +9132,20 @@ end
     stop_pipeline_execution(client_request_token, pipeline_execution_arn)
     stop_pipeline_execution(client_request_token, pipeline_execution_arn, params::Dict{String,<:Any})
 
-Stops a pipeline execution. A pipeline execution won't stop while a callback step is
-running. When you call StopPipelineExecution on a pipeline execution with a running
-callback step, SageMaker Pipelines sends an additional Amazon SQS message to the specified
-SQS queue. The body of the SQS message contains a \"Status\" field which is set to
-\"Stopping\". You should add logic to your Amazon SQS message consumer to take any needed
-action (for example, resource cleanup) upon receipt of the message followed by a call to
-SendPipelineExecutionStepSuccess or SendPipelineExecutionStepFailure. Only when SageMaker
-Pipelines receives one of these calls will it stop the pipeline execution.
+Stops a pipeline execution.  Callback Step  A pipeline execution won't stop while a
+callback step is running. When you call StopPipelineExecution on a pipeline execution with
+a running callback step, SageMaker Pipelines sends an additional Amazon SQS message to the
+specified SQS queue. The body of the SQS message contains a \"Status\" field which is set
+to \"Stopping\". You should add logic to your Amazon SQS message consumer to take any
+needed action (for example, resource cleanup) upon receipt of the message followed by a
+call to SendPipelineExecutionStepSuccess or SendPipelineExecutionStepFailure. Only when
+SageMaker Pipelines receives one of these calls will it stop the pipeline execution.
+Lambda Step  A pipeline execution can't be stopped while a lambda step is running because
+the Lambda function invoked by the lambda step can't be stopped. If you attempt to stop the
+execution while the Lambda function is running, the pipeline waits for the Lambda function
+to finish or until the timeout is hit, whichever occurs first, and then stops. If the
+Lambda function finishes, the pipeline execution status is Stopped. If the timeout is hit
+the pipeline execution status is Failed.
 
 # Arguments
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure

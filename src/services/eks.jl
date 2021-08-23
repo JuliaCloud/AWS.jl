@@ -498,6 +498,11 @@ cluster. You can always manually start an add-on on the cluster using the Kubern
   ListAddons .
 - `name`: The name of the cluster to delete the add-on from.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"preserve"`: Specifying this option preserves the add-on software on your cluster but
+  Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with
+  the add-on, it is not removed.
 """
 function delete_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
     return eks("DELETE", "/clusters/$(name)/addons/$(addonName)"; aws_config=aws_config)

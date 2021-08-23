@@ -392,10 +392,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IdentityId"`: The globally unique identifier (GUID) of the user or group from the
   Amazon Web Services SSO Identity Store. For more information, see UserId and GroupId in the
   Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId
-  must be specified.
+  must be specified, but not both.
 - `"IdentityName"`: The name of the user or group. For more information, see UserName and
   DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either
-  IdentityName or IdentityId must be specified.
+  IdentityName or IdentityId must be specified, but not both.
 """
 function create_studio_session_mapping(
     IdentityType,
@@ -1092,9 +1092,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specifies the next page of results. If NextToken is not specified, which
   is usually the case for the first request of ListReleaseLabels, the first page of results
   are determined by other filtering parameters or by the latest version. The
-  ListReleaseLabels request fails if the identity (AWS AccountID) and all filtering
-  parameters are different from the original request, or if the NextToken is expired or
-  tampered with.
+  ListReleaseLabels request fails if the identity (account ID) and all filtering parameters
+  are different from the original request, or if the NextToken is expired or tampered with.
 """
 function list_release_labels(; aws_config::AbstractAWSConfig=global_aws_config())
     return emr("ListReleaseLabels"; aws_config=aws_config)
@@ -1710,11 +1709,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances.
 - `"VisibleToAllUsers"`: Set this value to true so that IAM principals in the account
   associated with the cluster can perform EMR actions on the cluster that their IAM policies
-  allow. This value defaults to false for clusters created using the EMR API or the CLI
+  allow. This value defaults to true for clusters created using the EMR API or the CLI
   create-cluster command. When set to false, only the IAM principal that created the cluster
   and the account root user can perform EMR actions for the cluster, regardless of the IAM
   permissions policies attached to other IAM principals. For more information, see
-  Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMR Management Guide.
+  Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
 """
 function run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return emr(
@@ -1807,7 +1806,7 @@ the IAM principal that created the cluster and the account root user can perform
 actions on the cluster, regardless of IAM permissions policies attached to other IAM
 principals. This action works on running clusters. When you create a cluster, use the
 RunJobFlowInputVisibleToAllUsers parameter. For more information, see Understanding the EMR
-Cluster VisibleToAllUsers Setting in the Amazon EMR Management Guide.
+Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
 
 # Arguments
 - `job_flow_ids`: The unique identifier of the job flow (cluster).
