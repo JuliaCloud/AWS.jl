@@ -476,17 +476,17 @@ the limit varies per instance type. For information, see IP Addresses Per Networ
 Per Instance Type in the Amazon Elastic Compute Cloud User Guide. You must specify either
 the IPv6 addresses or the IPv6 address count in the request.  You can optionally use Prefix
 Delegation on the network interface. You must specify either the IPV6 Prefix Delegation
-prefixes, or the IPv6 Prefix Delegation count. For information, see Prefix Delegation in
-the Amazon Elastic Compute Cloud User Guide.
+prefixes, or the IPv6 Prefix Delegation count. For information, see  Assigning prefixes to
+Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `network_interface_id`: The ID of the network interface.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Ipv6Prefix"`: One or more IPv6 Prefix Delegation prefixes assigned to the network
-  interface. You cannot use this option if you use the Ipv6PrefixCount option.
-- `"Ipv6PrefixCount"`: The number of IPv6 Prefix Delegation prefixes that AWS automatically
+- `"Ipv6Prefix"`: One or more IPv6 prefixes assigned to the network interface. You cannot
+  use this option if you use the Ipv6PrefixCount option.
+- `"Ipv6PrefixCount"`: The number of IPv6 prefixes that Amazon Web Services automatically
   assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes
   option.
 - `"ipv6AddressCount"`: The number of additional IPv6 addresses to assign to the network
@@ -540,16 +540,17 @@ network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that
 remapping is complete. You must specify either the IP addresses or the IP address count in
 the request. You can optionally use Prefix Delegation on the network interface. You must
 specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count.
-For information, see Prefix Delegation in the Amazon Elastic Compute Cloud User Guide.
+For information, see  Assigning prefixes to Amazon EC2 network interfaces in the Amazon
+Elastic Compute Cloud User Guide.
 
 # Arguments
 - `network_interface_id`: The ID of the network interface.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Ipv4Prefix"`: One or more IPv4 Prefix Delegation prefixes assigned to the network
-  interface. You cannot use this option if you use the Ipv4PrefixCount option.
-- `"Ipv4PrefixCount"`: The number of IPv4 Prefix Delegation prefixes that AWS automatically
+- `"Ipv4Prefix"`: One or more IPv4 prefixes assigned to the network interface. You cannot
+  use this option if you use the Ipv4PrefixCount option.
+- `"Ipv4PrefixCount"`: The number of IPv4 prefixes that Amazon Web Services automatically
   assigns to the network interface. You cannot use this option if you use the Ipv4 Prefixes
   option.
 - `"allowReassignment"`: Indicates whether to allow an IP address that is already assigned
@@ -1069,11 +1070,11 @@ end
     associate_trunk_interface(branch_interface_id, trunk_interface_id)
     associate_trunk_interface(branch_interface_id, trunk_interface_id, params::Dict{String,<:Any})
 
-Associates a branch network interface with a trunk network interface. Before you create the
-association, run the create-network-interface command and set --interface-type to trunk.
-You must also create a network interface for each branch network interface that you want to
-associate with the trunk network interface. For more information, see  Network interface
-trunking in the Amazon Elastic Compute Cloud User Guide.
+ This API action is currently in limited preview only. If you are interested in using this
+feature, contact your account manager.  Associates a branch network interface with a trunk
+network interface. Before you create the association, run the create-network-interface
+command and set --interface-type to trunk. You must also create a network interface for
+each branch network interface that you want to associate with the trunk network interface.
 
 # Arguments
 - `branch_interface_id`: The ID of the branch network interface.
@@ -3902,14 +3903,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Elastic Compute Cloud User Guide. To create a trunk network interface, specify efa. For
   more information, see  Network interface trunking in the Amazon Elastic Compute Cloud User
   Guide.
-- `"Ipv4Prefix"`: One or moreIPv4 Prefix Delegation prefixes assigned to the network
-  interface. You cannot use this option if you use the Ipv4PrefixCount option.
-- `"Ipv4PrefixCount"`: The number of IPv4 Prefix Delegation prefixes that AWS automatically
+- `"Ipv4Prefix"`: One or more IPv4 prefixes assigned to the network interface. You cannot
+  use this option if you use the Ipv4PrefixCount option.
+- `"Ipv4PrefixCount"`: The number of IPv4 prefixes that Amazon Web Services automatically
   assigns to the network interface. You cannot use this option if you use the Ipv4 Prefixes
   option.
-- `"Ipv6Prefix"`: One or moreIPv6 Prefix Delegation prefixes assigned to the network
-  interface. You cannot use this option if you use the Ipv6PrefixCount option.
-- `"Ipv6PrefixCount"`: The number of IPv6 Prefix Delegation prefixes that AWS automatically
+- `"Ipv6Prefix"`: One or more IPv6 prefixes assigned to the network interface. You cannot
+  use this option if you use the Ipv6PrefixCount option.
+- `"Ipv6PrefixCount"`: The number of IPv6 prefixes that Amazon Web Services automatically
   assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes
   option.
 - `"SecurityGroupId"`: The IDs of one or more security groups.
@@ -5090,12 +5091,12 @@ end
 Creates a Connect attachment from a specified transit gateway attachment. A Connect
 attachment is a GRE-based tunnel attachment that you can use to establish a connection
 between a transit gateway and an appliance. A Connect attachment uses an existing VPC or
-AWS Direct Connect attachment as the underlying transport mechanism.
+Amazon Web Services Direct Connect attachment as the underlying transport mechanism.
 
 # Arguments
 - `options`: The Connect attachment options.
 - `transport_transit_gateway_attachment_id`: The ID of the transit gateway attachment. You
-  can specify a VPC attachment or a AWS Direct Connect attachment.
+  can specify a VPC attachment or Amazon Web Services Direct Connect attachment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5265,12 +5266,13 @@ end
 
 Requests a transit gateway peering attachment between the specified transit gateway
 (requester) and a peer transit gateway (accepter). The transit gateways must be in
-different Regions. The peer transit gateway can be in your account or a different AWS
-account.  After you create the peering attachment, the owner of the accepter transit
-gateway must accept the attachment request.
+different Regions. The peer transit gateway can be in your account or a different Amazon
+Web Services account. After you create the peering attachment, the owner of the accepter
+transit gateway must accept the attachment request.
 
 # Arguments
-- `peer_account_id`: The AWS account ID of the owner of the peer transit gateway.
+- `peer_account_id`: The ID of the Amazon Web Services account that owns the peer transit
+  gateway.
 - `peer_region`: The Region where the peer transit gateway is located.
 - `peer_transit_gateway_id`: The ID of the peer transit gateway with which to create the
   peering attachment.
@@ -12725,14 +12727,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: One or more filters. The possible values are:    association.state - The
   state of the association (associating | associated | disassociating).
   association.transit-gateway-route-table-id - The ID of the route table for the transit
-  gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS
-  account that owns the resource.    resource-type - The resource type. Valid values are vpc
-  | vpn | direct-connect-gateway | peering | connect.    state - The state of the attachment.
-  Valid values are available | deleted | deleting | failed | failing | initiatingRequest |
-  modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting.
-  transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of
-  the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the
-  transit gateway.
+  gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the
+  Amazon Web Services account that owns the resource.    resource-type - The resource type.
+  Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    state - The
+  state of the attachment. Valid values are available | deleted | deleting | failed | failing
+  | initiatingRequest | modifying | pendingAcceptance | pending | rollingBack | rejected |
+  rejecting.    transit-gateway-attachment-id - The ID of the attachment.
+  transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of
+  the Amazon Web Services account that owns the transit gateway.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -12857,16 +12859,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: One or more filters. The possible values are:
   transit-gateway-attachment-id - The ID of the transit gateway attachment.    local-owner-id
-  - The ID of your AWS account.    remote-owner-id - The ID of the AWS account in the remote
-  Region that owns the transit gateway.    state - The state of the peering attachment. Valid
-  values are available | deleted | deleting | failed | failing | initiatingRequest |
-  modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).
-  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
-  key in the filter name and the tag value as the filter value. For example, to find all
-  resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
-  filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
-  resource. Use this filter to find all resources that have a tag with a specific key,
-  regardless of the tag value.    transit-gateway-id - The ID of the transit gateway.
+  - The ID of your Amazon Web Services account.    remote-owner-id - The ID of the Amazon Web
+  Services account in the remote Region that owns the transit gateway.    state - The state
+  of the peering attachment. Valid values are available | deleted | deleting | failed |
+  failing | initiatingRequest | modifying | pendingAcceptance | pending | rollingBack |
+  rejected | rejecting).    tag:&lt;key&gt; - The key/value combination of a tag assigned to
+  the resource. Use the tag key in the filter name and the tag value as the filter value. For
+  example, to find all resources that have a tag with the key Owner and the value TeamA,
+  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
+  of a tag assigned to the resource. Use this filter to find all resources that have a tag
+  with a specific key, regardless of the tag value.    transit-gateway-id - The ID of the
+  transit gateway.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -12976,9 +12979,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   propagation route table (enable | disable).    options.dns-support - Indicates whether DNS
   support is enabled (enable | disable).    options.vpn-ecmp-support - Indicates whether
   Equal Cost Multipath Protocol support is enabled (enable | disable).    owner-id - The ID
-  of the AWS account that owns the transit gateway.    state - The state of the transit
-  gateway (available | deleted | deleting | modifying | pending).    transit-gateway-id - The
-  ID of the transit gateway.
+  of the Amazon Web Services account that owns the transit gateway.    state - The state of
+  the transit gateway (available | deleted | deleting | modifying | pending).
+  transit-gateway-id - The ID of the transit gateway.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -12997,7 +13000,9 @@ end
     describe_trunk_interface_associations()
     describe_trunk_interface_associations(params::Dict{String,<:Any})
 
-Describes one or more network interface trunk associations.
+ This API action is currently in limited preview only. If you are interested in using this
+feature, contact your account manager.  Describes one or more network interface trunk
+associations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -14620,10 +14625,12 @@ end
     disassociate_trunk_interface(association_id)
     disassociate_trunk_interface(association_id, params::Dict{String,<:Any})
 
-Removes an association between a branch network interface with a trunk network interface.
+ This API action is currently in limited preview only. If you are interested in using this
+feature, contact your account manager.  Removes an association between a branch network
+interface with a trunk network interface.
 
 # Arguments
-- `association_id`: The ID ofthe association
+- `association_id`: The ID of the association
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -17608,6 +17615,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HttpEndpoint"`: This parameter enables or disables the HTTP metadata endpoint on your
   instances. If the parameter is not specified, the existing state is maintained.  If you
   specify a value of disabled, you will not be able to access your instance metadata.
+- `"HttpProtocolIpv6"`: Enables or disables the IPv6 endpoint for the instance metadata
+  service.
 - `"HttpPutResponseHopLimit"`: The desired HTTP PUT response hop limit for instance
   metadata requests. The larger the number, the further instance metadata requests can
   travel. If no parameter is specified, the existing state is maintained. Possible values:
@@ -17751,6 +17760,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"MaxEntries"`: The maximum number of entries for the prefix list. You cannot modify the
+  entries of a prefix list and modify the size of a prefix list at the same time.
 - `"PrefixListName"`: A name for the prefix list.
 - `"RemoveEntry"`: One or more entries to remove from the prefix list.
 """
@@ -18383,7 +18394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"Options"`: The new VPC attachment options.  You cannot modify the IPv6 options.
+- `"Options"`: The new VPC attachment options.
 - `"RemoveSubnetIds"`: The IDs of one or more subnets to remove.
 """
 function modify_transit_gateway_vpc_attachment(
@@ -21331,10 +21342,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source. Valid values are true | false.    member-type - The member type. Valid values are
   igmp | static.    resource-id - The ID of the resource.    resource-type - The type of
   resource. Valid values are vpc | vpn | direct-connect-gateway | tgw-peering.    source-type
-  - The source type. Valid values are igmp | static.    state - The state of the subnet
-  association. Valid values are associated | associated | disassociated | disassociating.
-  subnet-id - The ID of the subnet.    transit-gateway-attachment-id - The id of the transit
-  gateway attachment.
+  - The source type. Valid values are igmp | static.    subnet-id - The ID of the subnet.
+  transit-gateway-attachment-id - The id of the transit gateway attachment.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -21791,8 +21800,7 @@ interface.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Ipv6Prefix"`: One or moreIPv6 Prefix Delegation prefixes to unassign from the network
-  interface.
+- `"Ipv6Prefix"`: One or more IPv6 prefixes to unassign from the network interface.
 - `"ipv6Addresses"`: The IPv6 addresses to unassign from the network interface.
 """
 function unassign_ipv6_addresses(
@@ -21832,8 +21840,7 @@ from a network interface.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Ipv4Prefix"`: The IPv4 Prefix Delegation prefixes to unassign from the network
-  interface.
+- `"Ipv4Prefix"`: The IPv4 prefixes to unassign from the network interface.
 - `"privateIpAddress"`: The secondary private IP addresses to unassign from the network
   interface. You can specify this option multiple times to unassign more than one IP address.
 """

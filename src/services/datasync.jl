@@ -13,7 +13,7 @@ is abruptly interrupted. The contents of files that are transferred to the desti
 might be incomplete or inconsistent with the source files. However, if you start a new task
 execution on the same task and you allow the task execution to complete, file content on
 the destination is complete and consistent. This applies to other unexpected failures that
-interrupt a task execution. In all of these cases, AWS DataSync successfully complete the
+interrupt a task execution. In all of these cases, DataSync successfully complete the
 transfer when you start the next task execution.
 
 # Arguments
@@ -49,27 +49,28 @@ end
     create_agent(activation_key)
     create_agent(activation_key, params::Dict{String,<:Any})
 
-Activates an AWS DataSync agent that you have deployed on your host. The activation process
+Activates an DataSync agent that you have deployed on your host. The activation process
 associates your agent with your account. In the activation process, you specify information
-such as the AWS Region that you want to activate the agent in. You activate the agent in
-the AWS Region where your target locations (in Amazon S3 or Amazon EFS) reside. Your tasks
-are created in this AWS Region. You can activate the agent in a VPC (virtual private cloud)
-or provide the agent access to a VPC endpoint so you can run tasks without going over the
-public internet. You can use an agent for more than one location. If a task uses multiple
-agents, all of them need to have status AVAILABLE for the task to run. If you use multiple
-agents for a source location, the status of all the agents must be AVAILABLE for the task
-to run.  Agents are automatically updated by AWS on a regular basis, using a mechanism that
-ensures minimal interruption to your tasks.
+such as the Amazon Web Services Region that you want to activate the agent in. You activate
+the agent in the Amazon Web Services Region where your target locations (in Amazon S3 or
+Amazon EFS) reside. Your tasks are created in this Amazon Web Services Region. You can
+activate the agent in a VPC (virtual private cloud) or provide the agent access to a VPC
+endpoint so you can run tasks without going over the public internet. You can use an agent
+for more than one location. If a task uses multiple agents, all of them need to have status
+AVAILABLE for the task to run. If you use multiple agents for a source location, the status
+of all the agents must be AVAILABLE for the task to run.  Agents are automatically updated
+by Amazon Web Services on a regular basis, using a mechanism that ensures minimal
+interruption to your tasks.
 
 # Arguments
 - `activation_key`: Your agent activation key. You can get the activation key either by
   sending an HTTP GET request with redirects that enable you to get the agent IP address
-  (port 80). Alternatively, you can get it from the AWS DataSync console. The redirect URL
+  (port 80). Alternatively, you can get it from the DataSync console. The redirect URL
   returned in the response provides you the activation key for your agent in the query string
   parameter activationKey. It might also include other activation-related parameters;
   however, these are merely defaults. The arguments you pass to this API call determine the
   actual configuration of your agent. For more information, see Activating an Agent in the
-  AWS DataSync User Guide.
+  DataSync User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -138,8 +139,8 @@ Creates an endpoint for an Amazon EFS file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Subdirectory"`: A subdirectory in the location’s path. This subdirectory in the EFS
   file system is used to read data from the EFS source location or write data to the EFS
-  destination. By default, AWS DataSync uses the root directory.   Subdirectory must be
-  specified with forward slashes. For example, /path/to/folder.
+  destination. By default, DataSync uses the root directory.   Subdirectory must be specified
+  with forward slashes. For example, /path/to/folder.
 - `"Tags"`: The key-value pair that represents a tag that you want to add to the resource.
   The value can be an empty string. This value helps you manage, filter, and search for your
   resources. We recommend that you create a name tag for your location.
@@ -256,13 +257,13 @@ written to.
 
 # Arguments
 - `on_prem_config`: Contains a list of Amazon Resource Names (ARNs) of agents that are used
-  to connect to an NFS server.  If you are copying data to or from your AWS Snowcone device,
-  see NFS Server on AWS Snowcone for more information.
+  to connect to an NFS server.  If you are copying data to or from your Snowcone device, see
+  NFS Server on Snowcone for more information.
 - `server_hostname`: The name of the NFS server. This value is the IP address or Domain
   Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this
   host name to mount the NFS server in a network.  If you are copying data to or from your
-  AWS Snowcone device, see NFS Server on AWS Snowcone for more information.  This name must
-  either be DNS-compliant or must be an IP version 4 (IPv4) address.
+  Snowcone device, see NFS Server on Snowcone for more information.  This name must either be
+  DNS-compliant or must be an IP version 4 (IPv4) address.
 - `subdirectory`: The subdirectory in the NFS file system that is used to read data from
   the NFS source location or write data to the NFS destination. The NFS path should be a path
   that's exported by the NFS server, or a subdirectory of that path. The path should be such
@@ -275,7 +276,7 @@ written to.
   no_root_squash, or ensure that the permissions for all of the files that you want DataSync
   allow read access for all users. Doing either enables the agent to read the files. For the
   agent to access directories, you must additionally enable all execute access. If you are
-  copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more
+  copying data to or from your Snowcone device, see NFS Server on Snowcone for more
   information. For information about NFS export configuration, see 18.7. The /etc/exports
   Configuration File in the Red Hat Enterprise Linux documentation.
 
@@ -402,27 +403,27 @@ end
     create_location_s3(s3_bucket_arn, s3_config)
     create_location_s3(s3_bucket_arn, s3_config, params::Dict{String,<:Any})
 
-Creates an endpoint for an Amazon S3 bucket. For more information, see
-https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-locat
-ion-s3-cli in the AWS DataSync User Guide.
+Creates an endpoint for an Amazon S3 bucket. For more information, see Create an Amazon S3
+location in the DataSync User Guide.
 
 # Arguments
-- `s3_bucket_arn`: The ARN of the Amazon S3 bucket. If the bucket is on an AWS Outpost,
-  this must be an access point ARN.
+- `s3_bucket_arn`: The ARN of the Amazon S3 bucket. If the bucket is on an Amazon Web
+  Services Outpost, this must be an access point ARN.
 - `s3_config`:
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AgentArns"`: If you are using DataSync on an AWS Outpost, specify the Amazon Resource
-  Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about
-  launching a DataSync agent on an AWS Outpost, see Deploy your DataSync agent on AWS
-  Outposts.
+- `"AgentArns"`: If you are using DataSync on an Amazon Web Services Outpost, specify the
+  Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more
+  information about launching a DataSync agent on an Amazon Web Services Outpost, see Deploy
+  your DataSync agent on Outposts.
 - `"S3StorageClass"`: The Amazon S3 storage class that you want to store your files in when
-  this location is used as a task destination. For buckets in AWS Regions, the storage class
-  defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3
-  Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes.
-  Some storage classes have behaviors that can affect your S3 storage cost. For detailed
-  information, see Considerations when working with S3 storage classes in DataSync.
+  this location is used as a task destination. For buckets in Amazon Web Services Regions,
+  the storage class defaults to Standard. For buckets on Outposts, the storage class defaults
+  to Amazon Web Services S3 Outposts. For more information about S3 storage classes, see
+  Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3
+  storage cost. For detailed information, see Considerations when working with S3 storage
+  classes in DataSync.
 - `"Subdirectory"`: A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3
   is used to read data from the S3 source location or write data to the S3 destination.
 - `"Tags"`: The key-value pair that represents the tag that you want to add to the
@@ -551,17 +552,18 @@ Creates a task. A task includes a source location and a destination location, an
 configuration that specifies how data is transferred. A task always transfers data from the
 source location to the destination location. The configuration specifies options such as
 task scheduling, bandwidth limits, etc. A task is the complete definition of a data
-transfer. When you create a task that transfers data between AWS services in different AWS
-Regions, one of the two locations that you specify must reside in the Region where DataSync
-is being used. The other location must be specified in a different Region. You can transfer
-data between commercial AWS Regions except for China, or between AWS GovCloud (US-East and
-US-West) Regions.  When you use DataSync to copy files or objects between AWS Regions, you
-pay for data transfer between Regions. This is billed as data transfer OUT from your source
-Region to your destination Region. For more information, see Data Transfer pricing.
+transfer. When you create a task that transfers data between Amazon Web Services services
+in different Amazon Web Services Regions, one of the two locations that you specify must
+reside in the Region where DataSync is being used. The other location must be specified in
+a different Region. You can transfer data between commercial Amazon Web Services Regions
+except for China, or between Amazon Web Services GovCloud (US) Regions.  When you use
+DataSync to copy files or objects between Amazon Web Services Regions, you pay for data
+transfer between Regions. This is billed as data transfer OUT from your source Region to
+your destination Region. For more information, see Data Transfer pricing.
 
 # Arguments
-- `destination_location_arn`: The Amazon Resource Name (ARN) of an AWS storage resource's
-  location.
+- `destination_location_arn`: The Amazon Resource Name (ARN) of an Amazon Web Services
+  storage resource's location.
 - `source_location_arn`: The Amazon Resource Name (ARN) of the source location for the task.
 
 # Optional Parameters
@@ -572,6 +574,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The list should contain a single filter string that consists of the patterns to exclude.
   The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
   
+- `"Includes"`: A list of filter rules that determines which files to include when running
+  a task. The pattern should contain a single filter string that consists of the patterns to
+  include. The patterns are delimited by \"|\" (that is, a pipe). For example:
+  \"/folder1|/folder2\"
 - `"Name"`: The name of a task. This value is a text reference that is used to identify the
   task in the console.
 - `"Options"`: The set of configuration options that control the behavior of a single
@@ -627,12 +633,13 @@ end
     delete_agent(agent_arn, params::Dict{String,<:Any})
 
 Deletes an agent. To specify which agent to delete, use the Amazon Resource Name (ARN) of
-the agent in your request. The operation disassociates the agent from your AWS account.
-However, it doesn't delete the agent virtual machine (VM) from your on-premises environment.
+the agent in your request. The operation disassociates the agent from your Amazon Web
+Services account. However, it doesn't delete the agent virtual machine (VM) from your
+on-premises environment.
 
 # Arguments
 - `agent_arn`: The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents
-  operation to return a list of agents for your account and AWS Region.
+  operation to return a list of agents for your account and Amazon Web Services Region.
 
 """
 function delete_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -658,7 +665,7 @@ end
     delete_location(location_arn)
     delete_location(location_arn, params::Dict{String,<:Any})
 
-Deletes the configuration of a location used by AWS DataSync.
+Deletes the configuration of a location used by DataSync.
 
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the location to delete.
@@ -1008,13 +1015,13 @@ end
     list_agents()
     list_agents(params::Dict{String,<:Any})
 
-Returns a list of agents owned by an AWS account in the AWS Region specified in the
-request. The returned list is ordered by agent Amazon Resource Name (ARN). By default, this
-operation returns a maximum of 100 agents. This operation supports pagination that enables
-you to optionally reduce the number of agents returned in a response. If you have more
-agents than are returned in a response (that is, the response returns only a truncated list
-of your agents), the response contains a marker that you can specify in your next request
-to fetch the next page of agents.
+Returns a list of agents owned by an Amazon Web Services account in the Amazon Web Services
+Region specified in the request. The returned list is ordered by agent Amazon Resource Name
+(ARN). By default, this operation returns a maximum of 100 agents. This operation supports
+pagination that enables you to optionally reduce the number of agents returned in a
+response. If you have more agents than are returned in a response (that is, the response
+returns only a truncated list of your agents), the response contains a marker that you can
+specify in your next request to fetch the next page of agents.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1150,13 +1157,16 @@ Starts a specific invocation of a task. A TaskExecution value represents an indi
 of a task. Each task can have at most one TaskExecution at a time.  TaskExecution has the
 following transition phases: INITIALIZING | PREPARING | TRANSFERRING | VERIFYING |
 SUCCESS/FAILURE.  For detailed information, see the Task Execution section in the
-Components and Terminology topic in the AWS DataSync User Guide.
+Components and Terminology topic in the DataSync User Guide.
 
 # Arguments
 - `task_arn`: The Amazon Resource Name (ARN) of the task to start.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Excludes"`: A list of filter rules that determines which files to exclude from a task.
+  The list should contain a single filter string that consists of the patterns to exclude.
+  The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".
 - `"Includes"`: A list of filter rules that determines which files to include when running
   a task. The pattern should contain a single filter string that consists of the patterns to
   include. The patterns are delimited by \"|\" (that is, a pipe). For example:
@@ -1182,7 +1192,7 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies a key-value pair to an AWS resource.
+Applies a key-value pair to an Amazon Web Services resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to apply the tag to.
@@ -1219,7 +1229,7 @@ end
     untag_resource(keys, resource_arn)
     untag_resource(keys, resource_arn, params::Dict{String,<:Any})
 
-Removes a tag from an AWS resource.
+Removes a tag from an Amazon Web Services resource.
 
 # Arguments
 - `keys`: The keys in the key-value pair in the tag to remove.
@@ -1313,9 +1323,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   no_root_squash, or ensure that the files you want DataSync to access have permissions that
   allow read access for all users. Doing either option enables the agent to read the files.
   For the agent to access directories, you must additionally enable all execute access. If
-  you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone
-  for more information. For information about NFS export configuration, see 18.7. The
-  /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+  you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more
+  information. For information about NFS export configuration, see 18.7. The /etc/exports
+  Configuration File in the Red Hat Enterprise Linux documentation.
 """
 function update_location_nfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config())
     return datasync(
@@ -1464,6 +1474,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Excludes"`: A list of filter rules that determines which files to exclude from a task.
   The list should contain a single filter string that consists of the patterns to exclude.
   The patterns are delimited by \"|\" (that is, a pipe), for example: \"/folder1|/folder2\"
+- `"Includes"`: A list of filter rules that determines which files to include when running
+  a task. The pattern should contain a single filter string that consists of the patterns to
+  include. The patterns are delimited by \"|\" (that is, a pipe). For example:
+  \"/folder1|/folder2\"
 - `"Name"`: The name of the task to update.
 - `"Options"`:
 - `"Schedule"`: Specifies a schedule used to periodically transfer files from a source to a

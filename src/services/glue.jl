@@ -268,6 +268,36 @@ function batch_delete_table_version(
 end
 
 """
+    batch_get_blueprints(names)
+    batch_get_blueprints(names, params::Dict{String,<:Any})
+
+Retrieves information about a list of blueprints.
+
+# Arguments
+- `names`: A list of blueprint names.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IncludeBlueprint"`: Specifies whether or not to include the blueprint in the response.
+- `"IncludeParameterSpec"`: Specifies whether or not to include the parameters, as a JSON
+  string, for the blueprint in the response.
+"""
+function batch_get_blueprints(Names; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "BatchGetBlueprints", Dict{String,Any}("Names" => Names); aws_config=aws_config
+    )
+end
+function batch_get_blueprints(
+    Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "BatchGetBlueprints",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
+        aws_config=aws_config,
+    )
+end
+
+"""
     batch_get_crawlers(crawler_names)
     batch_get_crawlers(crawler_names, params::Dict{String,<:Any})
 
@@ -670,6 +700,49 @@ function check_schema_version_validity(
                 Dict{String,Any}(
                     "DataFormat" => DataFormat, "SchemaDefinition" => SchemaDefinition
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    create_blueprint(blueprint_location, name)
+    create_blueprint(blueprint_location, name, params::Dict{String,<:Any})
+
+Registers a blueprint with Glue.
+
+# Arguments
+- `blueprint_location`: Specifies a path in Amazon S3 where the blueprint is published.
+- `name`: The name of the blueprint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the blueprint.
+- `"Tags"`: The tags to be applied to this blueprint.
+"""
+function create_blueprint(
+    BlueprintLocation, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "CreateBlueprint",
+        Dict{String,Any}("BlueprintLocation" => BlueprintLocation, "Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function create_blueprint(
+    BlueprintLocation,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "CreateBlueprint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("BlueprintLocation" => BlueprintLocation, "Name" => Name),
                 params,
             ),
         );
@@ -1510,7 +1583,8 @@ Creates a new trigger.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the new trigger.
-- `"EventBatchingCondition"`:
+- `"EventBatchingCondition"`: Batch condition that must be met (specified number of events
+  received or batch time window expired) before EventBridge event trigger fires.
 - `"Predicate"`: A predicate to specify when the new trigger should fire. This field is
   required when the trigger type is CONDITIONAL.
 - `"Schedule"`: A cron expression used to specify the schedule (see Time-Based Schedules
@@ -1626,6 +1700,29 @@ function create_workflow(
 )
     return glue(
         "CreateWorkflow",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
+
+"""
+    delete_blueprint(name)
+    delete_blueprint(name, params::Dict{String,<:Any})
+
+Deletes an existing blueprint.
+
+# Arguments
+- `name`: The name of the blueprint to delete.
+
+"""
+function delete_blueprint(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue("DeleteBlueprint", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function delete_blueprint(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "DeleteBlueprint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
     )
@@ -2428,6 +2525,109 @@ function delete_workflow(
     return glue(
         "DeleteWorkflow",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
+
+"""
+    get_blueprint(name)
+    get_blueprint(name, params::Dict{String,<:Any})
+
+Retrieves the details of a blueprint.
+
+# Arguments
+- `name`: The name of the blueprint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IncludeBlueprint"`: Specifies whether or not to include the blueprint in the response.
+- `"IncludeParameterSpec"`: Specifies whether or not to include the parameter specification.
+"""
+function get_blueprint(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue("GetBlueprint", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function get_blueprint(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetBlueprint",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
+
+"""
+    get_blueprint_run(blueprint_name, run_id)
+    get_blueprint_run(blueprint_name, run_id, params::Dict{String,<:Any})
+
+Retrieves the details of a blueprint run.
+
+# Arguments
+- `blueprint_name`: The name of the blueprint.
+- `run_id`: The run ID for the blueprint run you want to retrieve.
+
+"""
+function get_blueprint_run(
+    BlueprintName, RunId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetBlueprintRun",
+        Dict{String,Any}("BlueprintName" => BlueprintName, "RunId" => RunId);
+        aws_config=aws_config,
+    )
+end
+function get_blueprint_run(
+    BlueprintName,
+    RunId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetBlueprintRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("BlueprintName" => BlueprintName, "RunId" => RunId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    get_blueprint_runs(blueprint_name)
+    get_blueprint_runs(blueprint_name, params::Dict{String,<:Any})
+
+Retrieves the details of blueprint runs for a specified blueprint.
+
+# Arguments
+- `blueprint_name`: The name of the blueprint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum size of a list to return.
+- `"NextToken"`: A continuation token, if this is a continuation request.
+"""
+function get_blueprint_runs(
+    BlueprintName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetBlueprintRuns",
+        Dict{String,Any}("BlueprintName" => BlueprintName);
+        aws_config=aws_config,
+    )
+end
+function get_blueprint_runs(
+    BlueprintName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetBlueprintRuns",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("BlueprintName" => BlueprintName), params)
+        );
         aws_config=aws_config,
     )
 end
@@ -4179,6 +4379,27 @@ function import_catalog_to_glue(
 end
 
 """
+    list_blueprints()
+    list_blueprints(params::Dict{String,<:Any})
+
+Lists all the blueprint names in an account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum size of a list to return.
+- `"NextToken"`: A continuation token, if this is a continuation request.
+- `"Tags"`: Filters the list by an Amazon Web Services resource tag.
+"""
+function list_blueprints(; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue("ListBlueprints"; aws_config=aws_config)
+end
+function list_blueprints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue("ListBlueprints", params; aws_config=aws_config)
+end
+
+"""
     list_crawlers()
     list_crawlers(params::Dict{String,<:Any})
 
@@ -4836,6 +5057,48 @@ function search_tables(
 end
 
 """
+    start_blueprint_run(blueprint_name, role_arn)
+    start_blueprint_run(blueprint_name, role_arn, params::Dict{String,<:Any})
+
+Starts a new run of the specified blueprint.
+
+# Arguments
+- `blueprint_name`: The name of the blueprint.
+- `role_arn`: Specifies the IAM role used to create the workflow.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Parameters"`: Specifies the parameters as a BlueprintParameters object.
+"""
+function start_blueprint_run(
+    BlueprintName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "StartBlueprintRun",
+        Dict{String,Any}("BlueprintName" => BlueprintName, "RoleArn" => RoleArn);
+        aws_config=aws_config,
+    )
+end
+function start_blueprint_run(
+    BlueprintName,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "StartBlueprintRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("BlueprintName" => BlueprintName, "RoleArn" => RoleArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     start_crawler(name)
     start_crawler(name, params::Dict{String,<:Any})
 
@@ -5394,6 +5657,48 @@ function untag_resource(
                 Dict{String,Any}(
                     "ResourceArn" => ResourceArn, "TagsToRemove" => TagsToRemove
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    update_blueprint(blueprint_location, name)
+    update_blueprint(blueprint_location, name, params::Dict{String,<:Any})
+
+Updates a registered blueprint.
+
+# Arguments
+- `blueprint_location`: Specifies a path in Amazon S3 where the blueprint is published.
+- `name`: The name of the blueprint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the blueprint.
+"""
+function update_blueprint(
+    BlueprintLocation, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "UpdateBlueprint",
+        Dict{String,Any}("BlueprintLocation" => BlueprintLocation, "Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function update_blueprint(
+    BlueprintLocation,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "UpdateBlueprint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("BlueprintLocation" => BlueprintLocation, "Name" => Name),
                 params,
             ),
         );

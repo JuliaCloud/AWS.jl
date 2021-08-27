@@ -1411,9 +1411,9 @@ Adds the specified targets to the specified rule, or updates the targets if they
 already associated with the rule. Targets are the resources that are invoked when a rule is
 triggered. You can configure the following as targets for Events:    API destination
 Amazon API Gateway REST API endpoints   API Gateway   Batch job queue   CloudWatch Logs
-group   CodeBuild project   CodePipeline   Amazon EC2 CreateSnapshot API call   EC2 Image
-Builder   Amazon EC2 RebootInstances API call   Amazon EC2 StopInstances API call   Amazon
-EC2 TerminateInstances API call   Amazon ECS tasks   Event bus in a different Amazon Web
+group   CodeBuild project   CodePipeline   Amazon EC2 CreateSnapshot API call   Amazon EC2
+RebootInstances API call   Amazon EC2 StopInstances API call   Amazon EC2
+TerminateInstances API call   Amazon ECS tasks   Event bus in a different Amazon Web
 Services account or Region. You can use an event bus in the US East (N. Virginia)
 us-east-1, US West (Oregon) us-west-2, or Europe (Ireland) eu-west-1 Regions as a target
 for a rule.   Firehose delivery stream (Kinesis Data Firehose)   Inspector assessment

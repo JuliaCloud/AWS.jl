@@ -206,8 +206,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to migrate data to a Kinesis data stream in the Database Migration Service User Guide.
 - `"KmsKeyId"`: An KMS key identifier that is used to encrypt the connection parameters for
   the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your
-  default encryption key. KMS creates the default encryption key for your account. Your
-  account has a different default encryption key for each Region.
+  default encryption key. KMS creates the default encryption key for your Amazon Web Services
+  account. Your Amazon Web Services account has a different default encryption key for each
+  Amazon Web Services Region.
 - `"MicrosoftSQLServerSettings"`: Settings in JSON format for the source and target
   Microsoft SQL Server endpoint. For information about other available settings, see Extra
   connection attributes when using SQL Server as a source for DMS and  Extra connection
@@ -235,6 +236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint. For information about other available settings, see Extra connection attributes
   when using PostgreSQL as a source for DMS and  Extra connection attributes when using
   PostgreSQL as a target for DMS in the Database Migration Service User Guide.
+- `"RedisSettings"`: Settings in JSON format for the target Redis endpoint.
 - `"RedshiftSettings"`:
 - `"ResourceIdentifier"`: A friendly name for the resource identifier at the end of the
   EndpointArn response parameter that is returned in the created Endpoint object. The value
@@ -401,7 +403,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter defaults to true. Default: true
 - `"AvailabilityZone"`: The Availability Zone where the replication instance will be
   created. The default value is a random, system-chosen Availability Zone in the endpoint's
-  Region, for example: us-east-1d
+  Amazon Web Services Region, for example: us-east-1d
 - `"DnsNameServers"`: A list of custom DNS name servers supported for the replication
   instance to access your on-premise source or target database. This list overrides the
   default name servers supported by the replication instance. You can specify a
@@ -412,15 +414,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   latest engine version available.
 - `"KmsKeyId"`: An KMS key identifier that is used to encrypt the data on the replication
   instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your
-  default encryption key. KMS creates the default encryption key for your account. Your
-  account has a different default encryption key for each Region.
+  default encryption key. KMS creates the default encryption key for your Amazon Web Services
+  account. Your Amazon Web Services account has a different default encryption key for each
+  Amazon Web Services Region.
 - `"MultiAZ"`:  Specifies whether the replication instance is a Multi-AZ deployment. You
   can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A
-  30-minute window selected at random from an 8-hour block of time per Region, occurring on a
-  random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum
-  30-minute window.
+  30-minute window selected at random from an 8-hour block of time per Amazon Web Services
+  Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat,
+  Sun Constraints: Minimum 30-minute window.
 - `"PubliclyAccessible"`:  Specifies the accessibility options for the replication
   instance. A value of true represents an instance with a public IP address. A value of false
   represents an instance with a private IP address. The default value is true.
@@ -1484,9 +1487,9 @@ end
     describe_replication_task_assessment_results(params::Dict{String,<:Any})
 
 Returns the task assessment results from the Amazon S3 bucket that DMS creates in your
-account. This action always returns the latest results. For more information about DMS task
-assessments, see Creating a task assessment report in the  Database Migration Service User
-Guide.
+Amazon Web Services account. This action always returns the latest results. For more
+information about DMS task assessments, see Creating a task assessment report in the
+Database Migration Service User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1759,39 +1762,30 @@ function import_certificate(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource()
+    list_tags_for_resource(params::Dict{String,<:Any})
 
 Lists all metadata tags attached to an DMS resource, including replication instance,
 endpoint, security group, and migration task. For more information, see  Tag  data type
 description.
 
-# Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) string that uniquely identifies the DMS
-  resource.
-
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ResourceArn"`: The Amazon Resource Name (ARN) string that uniquely identifies the DMS
+  resource to list tags for. This returns a list of keys (names of tags) created for the
+  resource and their associated tag values.
+- `"ResourceArnList"`: List of ARNs that identify multiple DMS resources that you want to
+  list tags for. This returns a list of keys (tag names) and their associated tag values. It
+  also returns each tag's associated ResourceArn value, which is the ARN of the resource for
+  which each listed tag is created.
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return database_migration_service(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-    )
+function list_tags_for_resource(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service("ListTagsForResource"; aws_config=aws_config)
 end
 function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return database_migration_service(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-    )
+    return database_migration_service("ListTagsForResource", params; aws_config=aws_config)
 end
 
 """
@@ -1891,6 +1885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint. For information about other available settings, see Extra connection attributes
   when using PostgreSQL as a source for DMS and  Extra connection attributes when using
   PostgreSQL as a target for DMS in the Database Migration Service User Guide.
+- `"RedisSettings"`: Settings in JSON format for the Redis target endpoint.
 - `"RedshiftSettings"`:
 - `"S3Settings"`: Settings in JSON format for the target Amazon S3 endpoint. For more
   information about the available settings, see Extra Connection Attributes When Using Amazon
