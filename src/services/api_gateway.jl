@@ -977,13 +977,7 @@ Clears any customization of a GatewayResponse of a specified response type on th
 RestApi and resets it with the default settings.
 
 # Arguments
-- `response_type`: [Required] The response type of the associated GatewayResponse. Valid
-  values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE
-  AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEX
-  PIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUT
-  HENTICATION_TOKEN
-  QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE
-  
+- `response_type`: [Required] The response type of the associated GatewayResponse.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
@@ -2038,13 +2032,7 @@ end
 Gets a GatewayResponse of a specified response type on the given RestApi.
 
 # Arguments
-- `response_type`: [Required] The response type of the associated GatewayResponse. Valid
-  values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE
-  AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEX
-  PIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUT
-  HENTICATION_TOKEN
-  QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE
-  
+- `response_type`: [Required] The response type of the associated GatewayResponse.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
@@ -3046,13 +3034,7 @@ Creates a customization of a GatewayResponse of a specified response type and st
 on the given RestApi.
 
 # Arguments
-- `response_type`: [Required] The response type of the associated GatewayResponse. Valid
-  values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE
-  AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEX
-  PIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUT
-  HENTICATION_TOKEN
-  QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE
-  
+- `response_type`: [Required] The response type of the associated GatewayResponse.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
@@ -3913,13 +3895,7 @@ end
 Updates a GatewayResponse of a specified response type on the given RestApi.
 
 # Arguments
-- `response_type`: [Required] The response type of the associated GatewayResponse. Valid
-  values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE
-  AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEX
-  PIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUT
-  HENTICATION_TOKEN
-  QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPE
-  
+- `response_type`: [Required] The response type of the associated GatewayResponse.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters

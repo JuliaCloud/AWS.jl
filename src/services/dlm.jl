@@ -8,8 +8,8 @@ using AWS.UUIDs
     create_lifecycle_policy(description, execution_role_arn, policy_details, state)
     create_lifecycle_policy(description, execution_role_arn, policy_details, state, params::Dict{String,<:Any})
 
-Creates a policy to manage the lifecycle of the specified AWS resources. You can create up
-to 100 lifecycle policies.
+Creates a policy to manage the lifecycle of the specified Amazon Web Services resources.
+You can create up to 100 lifecycle policies.
 
 # Arguments
 - `description`: A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+ are
@@ -106,8 +106,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceTypes"`: The resource type.
 - `"state"`: The activation state.
 - `"tagsToAdd"`: The tags to add to objects created by the policy. Tags are strings in the
-  format key=value. These user-defined tags are added in addition to the AWS-added lifecycle
-  tags.
+  format key=value. These user-defined tags are added in addition to the Amazon Web
+  Services-added lifecycle tags.
 - `"targetTags"`: The target tag for a policy. Tags are strings in the format key=value.
 """
 function get_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_config())

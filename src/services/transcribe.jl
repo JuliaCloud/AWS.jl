@@ -60,15 +60,19 @@ data.
 # Arguments
 - `base_model_name`: The Amazon Transcribe standard language model, or base model used to
   create your custom language model. If you want to use your custom language model to
-  transcribe audio with a sample rate of 16 kHz or greater, choose Wideband. If you want to
-  use your custom language model to transcribe audio with a sample rate that is less than 16
-  kHz, choose Narrowband.
+  transcribe audio with a sample rate of 16,000 Hz or greater, choose Wideband. If you want
+  to use your custom language model to transcribe audio with a sample rate that is less than
+  16,000 Hz, choose Narrowband.
 - `input_data_config`: Contains the data access role and the Amazon S3 prefixes to read the
   required input files to create a custom language model.
 - `language_code`: The language of the input text you're using to train your custom
   language model.
 - `model_name`: The name you choose for your custom language model when you create it.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Adds one or more tags, each in the form of a key:value pair, to a new language
+  model at the time you create this new model.
 """
 function create_language_model(
     BaseModelName,
@@ -118,7 +122,7 @@ end
     create_medical_vocabulary(language_code, vocabulary_file_uri, vocabulary_name)
     create_medical_vocabulary(language_code, vocabulary_file_uri, vocabulary_name, params::Dict{String,<:Any})
 
-Creates a new custom vocabulary that you can use to change how Amazon Transcribe Medical
+Creates a new custom vocabulary that you can use to modify how Amazon Transcribe Medical
 transcribes your audio file.
 
 # Arguments
@@ -139,6 +143,10 @@ transcribes your audio file.
   unique within an Amazon Web Services account. If you try to create a vocabulary with the
   same name as a previous vocabulary, you get a ConflictException error.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Adds one or more tags, each in the form of a key:value pair, to a new medical
+  vocabulary at the time you create this new vocabulary.
 """
 function create_medical_vocabulary(
     LanguageCode,
@@ -189,7 +197,7 @@ handles transcription of an audio file.
 
 # Arguments
 - `language_code`: The language code of the vocabulary entries. For a list of languages and
-  their corresponding language codes, see what-is-transcribe.
+  their corresponding language codes, see transcribe-whatis.
 - `vocabulary_name`: The name of the vocabulary. The name must be unique within an Amazon
   Web Services account. The name is case sensitive. If you try to create a vocabulary with
   the same name as a previous vocabulary you will receive a ConflictException error.
@@ -197,11 +205,13 @@ handles transcription of an audio file.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Phrases"`: An array of strings that contains the vocabulary entries.
+- `"Tags"`: Adds one or more tags, each in the form of a key:value pair, to a new Amazon
+  Transcribe vocabulary at the time you create this new vocabulary.
 - `"VocabularyFileUri"`: The S3 location of the text file that contains the definition of
   the custom vocabulary. The URI must be in the same region as the API endpoint that you are
-  calling. The general form is  For more information about S3 object names, see Object Keys
+  calling. The general form is: For more information about S3 object names, see Object Keys
   in the Amazon S3 Developer Guide. For more information about custom vocabularies, see
-  Custom Vocabularies.
+  Custom vocabularies.
 """
 function create_vocabulary(
     LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -252,6 +262,8 @@ from the output of a transcription job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Adds one or more tags, each in the form of a key:value pair, to a new Amazon
+  Transcribe vocabulary filter at the time you create this new vocabulary filter.
 - `"VocabularyFilterFileUri"`: The Amazon S3 location of a text file used as input to
   create the vocabulary filter. Only use characters from the character set defined for custom
   vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The
@@ -888,8 +900,9 @@ operation to get more information about it.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of categories to return in the response. If there are
-  fewer results in the list, the response contains only the actual results.
+- `"MaxResults"`: The maximum number of categories to return in each page of results. If
+  there are fewer results than the value you specify, only the actual results are returned.
+  If you do not specify a value, the default of 5 is used.
 - `"NextToken"`: When included, NextTokenfetches the next set of categories if the result
   of the previous request was truncated.
 """
@@ -912,8 +925,9 @@ List call analytics jobs with a specified status or substring that matches their
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobNameContains"`: When specified, the jobs returned in the list are limited to jobs
   whose name contains the specified string.
-- `"MaxResults"`: The maximum number of call analytics jobs to return in the response. If
-  there are fewer results in the list, this response contains only the actual results.
+- `"MaxResults"`:  The maximum number of call analytics jobs to return in each page of
+  results. If there are fewer results than the value you specify, only the actual results are
+  returned. If you do not specify a value, the default of 5 is used.
 - `"NextToken"`: If you receive a truncated result in the previous request of , include
   NextToken to fetch the next set of jobs.
 - `"Status"`: When specified, returns only call analytics jobs with the specified status.
@@ -939,8 +953,9 @@ operation to get more information about it.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of language models to return in the response. If there
-  are fewer results in the list, the response contains only the actual results.
+- `"MaxResults"`:  The maximum number of language models to return in each page of results.
+  If there are fewer results than the value you specify, only the actual results are
+  returned. If you do not specify a value, the default of 5 is used.
 - `"NameContains"`: When specified, the custom language model names returned contain the
   substring you've specified.
 - `"NextToken"`: When included, fetches the next set of jobs if the result of the previous
@@ -970,9 +985,9 @@ names.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobNameContains"`: When specified, the jobs returned in the list are limited to jobs
   whose name contains the specified string.
-- `"MaxResults"`: The maximum number of medical transcription jobs to return in the
-  response. IF there are fewer results in the list, this response contains only the actual
-  results.
+- `"MaxResults"`:  The maximum number of medical transcription jobs to return in each page
+  of results. If there are fewer results than the value you specify, only the actual results
+  are returned. If you do not specify a value, the default of 5 is used.
 - `"NextToken"`: If you a receive a truncated result in the previous request of
   ListMedicalTranscriptionJobs, include NextToken to fetch the next set of jobs.
 - `"Status"`: When specified, returns only medical transcription jobs with the specified
@@ -1000,7 +1015,9 @@ value in any of the request parameters, returns the entire list of vocabularies.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of vocabularies to return in the response.
+- `"MaxResults"`: The maximum number of vocabularies to return in each page of results. If
+  there are fewer results than the value you specify, only the actual results are returned.
+  If you do not specify a value, the default of 5 is used.
 - `"NameContains"`: Returns vocabularies whose names contain the specified string. The
   search is not case sensitive. ListMedicalVocabularies returns both \"vocabularyname\" and
   \"VocabularyName\".
@@ -1020,6 +1037,39 @@ function list_medical_vocabularies(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Lists all tags associated with a given transcription job, vocabulary, or resource.
+
+# Arguments
+- `resource_arn`: Lists all tags associated with a given Amazon Resource Name (ARN).
+
+"""
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     list_transcription_jobs()
     list_transcription_jobs(params::Dict{String,<:Any})
 
@@ -1029,14 +1079,14 @@ Lists transcription jobs with the specified status.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobNameContains"`: When specified, the jobs returned in the list are limited to jobs
   whose name contains the specified string.
-- `"MaxResults"`: The maximum number of jobs to return in the response. If there are fewer
-  results in the list, this response contains only the actual results.
-- `"NextToken"`: If the result of the previous request to ListTranscriptionJobs was
+- `"MaxResults"`: The maximum number of jobs to return in each page of results. If there
+  are fewer results than the value you specify, only the actual results are returned. If you
+  do not specify a value, the default of 5 is used.
+- `"NextToken"`: If the result of the previous request to ListTranscriptionJobs is
   truncated, include the NextToken to fetch the next set of jobs.
 - `"Status"`: When specified, returns only transcription jobs with the specified status.
   Jobs are ordered by creation date, with the newest jobs returned first. If you don’t
-  specify a status, Amazon Transcribe returns all transcription jobs ordered by creation
-  date.
+  specify a status, Amazon Transcribe returns all transcription jobs ordered by creation date.
 """
 function list_transcription_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return transcribe("ListTranscriptionJobs"; aws_config=aws_config)
@@ -1056,8 +1106,9 @@ specified, returns the entire list of vocabularies.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of vocabularies to return in the response. If there
-  are fewer results in the list, this response contains only the actual results.
+- `"MaxResults"`: The maximum number of vocabularies to return in each page of results. If
+  there are fewer results than the value you specify, only the actual results are returned.
+  If you do not specify a value, the default of 5 is used.
 - `"NameContains"`: When specified, the vocabularies returned in the list are limited to
   vocabularies whose name contains the specified string. The search is not case sensitive,
   ListVocabularies returns both \"vocabularyname\" and \"VocabularyName\" in the response
@@ -1084,8 +1135,9 @@ Gets information about vocabulary filters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of filters to return in the response. If there are
-  fewer results in the list, this response contains only the actual results.
+- `"MaxResults"`: The maximum number of filters to return in each page of results. If there
+  are fewer results than the value you specify, only the actual results are returned. If you
+  do not specify a value, the default of 5 is used.
 - `"NameContains"`: Filters the response so that it only contains vocabulary filters whose
   name contains the specified string.
 - `"NextToken"`: If the result of the previous request to ListVocabularyFilters was
@@ -1113,9 +1165,9 @@ call. For more information, see the operation.
 
 # Arguments
 - `call_analytics_job_name`: The name of the call analytics job. You can't use the string
-  \".\" or \"..\" by themselves as the job name. The name must also be unique within an AWS
-  account. If you try to create a call analytics job with the same name as a previous call
-  analytics job, you get a ConflictException error.
+  \".\" or \"..\" by themselves as the job name. The name must also be unique within an
+  Amazon Web Services account. If you try to create a call analytics job with the same name
+  as a previous call analytics job, you get a ConflictException error.
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of a role that has access to the
   S3 bucket that contains your input files. Amazon Transcribe assumes this role to read
   queued audio files. If you have specified an output S3 bucket for your transcription
@@ -1128,12 +1180,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maps the agent and the customer to specific audio channels. The values you can assign to a
   channel are 0 and 1. The agent and the customer must each have their own channel. You can't
   assign more than one channel to an agent or customer.
-- `"OutputEncryptionKMSKeyId"`: The Amazon Resource Name (ARN) of the AWS Key Management
-  Service key used to encrypt the output of the call analytics job. The user calling the
-  operation must have permission to use the specified KMS key. You use either of the
-  following to identify an AWS KMS key in the current account:   KMS Key ID:
-  \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias: \"alias/ExampleAlias\"    You can
-  use either of the following to identify a KMS key in the current account or another
+- `"OutputEncryptionKMSKeyId"`: The Amazon Resource Name (ARN) of the Amazon Web Services
+  Key Management Service key used to encrypt the output of the call analytics job. The user
+  calling the operation must have permission to use the specified KMS key. You use either of
+  the following to identify an Amazon Web Services KMS key in the current account:   KMS Key
+  ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias: \"alias/ExampleAlias\"    You
+  can use either of the following to identify a KMS key in the current account or another
   account:   Amazon Resource Name (ARN) of a KMS key in the current account or another
   account: \"arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef1234567890ab\"   ARN of
   a KMS Key Alias: \"arn:aws:kms:region:account ID:alias/ExampleAlias\"   If you don't
@@ -1149,10 +1201,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you specify a folder, you must provide a trailing slash.
   s3://DOC-EXAMPLE-BUCKET1/folder/filename.json  If you provide a path that has the filename
   specified, Amazon Transcribe saves the output of the analytics job as
-  s3://DOC-EXAMPLEBUCKET1/folder/filename.json   You can specify an AWS Key Management
-  Service key to encrypt the output of our analytics job using the OutputEncryptionKMSKeyId
-  parameter. If you don't specify a KMS key, Amazon Transcribe uses the default Amazon S3 key
-  for server-side encryption of the analytics job output that is placed in your S3 bucket.
+  s3://DOC-EXAMPLEBUCKET1/folder/filename.json   You can specify an Amazon Web Services Key
+  Management Service (KMS) key to encrypt the output of our analytics job using the
+  OutputEncryptionKMSKeyId parameter. If you don't specify a KMS key, Amazon Transcribe uses
+  the default Amazon S3 key for server-side encryption of the analytics job output that is
+  placed in your S3 bucket.
 - `"Settings"`: A Settings object that provides optional settings for a call analytics job.
 """
 function start_call_analytics_job(
@@ -1224,7 +1277,7 @@ Starts a batch job to transcribe medical speech to text.
 - `specialty`: The medical specialty of any clinician speaking in the input media.
 - `type`: The type of speech in the input audio. CONVERSATION refers to conversations
   between two or more speakers, e.g., a conversations between doctors and patients. DICTATION
-  refers to single-speaker dictated speech, e.g., for clinical notes.
+  refers to single-speaker dictated speech, such as clinical notes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1262,6 +1315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file name, for example \"folder/my-other-job-name.json\". If you specify an output key, you
   must also specify an S3 bucket in the OutputBucketName parameter.
 - `"Settings"`: Optional settings for the medical transcription job.
+- `"Tags"`: Add tags to an Amazon Transcribe medical transcription job.
 """
 function start_medical_transcription_job(
     LanguageCode,
@@ -1340,11 +1394,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   concurrency limit is reached and there are no slots available to immediately run the job.
 - `"LanguageCode"`: The language code for the language used in the input media file. To
   transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be
-  encoded at a sample rate of 16000 Hz or higher.
+  encoded at a sample rate of 16,000 Hz or higher.
 - `"LanguageOptions"`: An object containing a list of languages that might be present in
   your collection of audio files. Automatic language identification chooses a language that
   best matches the source audio from that list. To transcribe speech in Modern Standard
-  Arabic (ar-SA), your audio or video file must be encoded at a sample rate of 16000 Hz or
+  Arabic (ar-SA), your audio or video file must be encoded at a sample rate of 16,000 Hz or
   higher.
 - `"MediaFormat"`: The format of the input media file.
 - `"MediaSampleRateHertz"`: The sample rate, in Hertz, of the audio track in the input
@@ -1379,7 +1433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab\"   ARN of a KMS
   Key Alias: \"arn:aws:kms:region:account ID:alias/ExampleAlias\"   If you don't specify an
   encryption key, the output of the transcription job is encrypted with the default Amazon S3
-  key (SSE-S3).  If you specify a KMS key to encrypt your output, you must also specify an
+  key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an
   output location in the OutputBucketName parameter.
 - `"OutputKey"`: You can specify a location in an Amazon S3 bucket to store the output of
   your transcription job. If you don't specify an output key, Amazon Transcribe stores the
@@ -1393,6 +1447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file name, for example \"folder/my-other-job-name.json\". If you specify an output key, you
   must also specify an S3 bucket in the OutputBucketName parameter.
 - `"Settings"`: A Settings object that provides optional settings for a transcription job.
+- `"Tags"`: Add tags to an Amazon Transcribe transcription job.
 """
 function start_transcription_job(
     Media, TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1417,6 +1472,85 @@ function start_transcription_job(
                 Dict{String,Any}(
                     "Media" => Media, "TranscriptionJobName" => TranscriptionJobName
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Tags a Amazon Transcribe resource with the given list of tags.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want
+  to tag.
+- `tags`: The tags you are assigning to a given Amazon Transcribe resource.
+
+"""
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes specified tags from a specified Amazon Transcribe resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want
+  to remove tags from.
+- `tag_keys`: A list of tag keys you want to remove from a specified Amazon Transcribe
+  resource.
+
+"""
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
                 params,
             ),
         );
@@ -1485,9 +1619,9 @@ the existing information with the values that you provide in the request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"VocabularyFileUri"`: The location in Amazon S3 of the text file that contains the you
-  use for your custom vocabulary. The URI must be in the same Amazon Web Services Region as
-  the resource that you are calling. The following is the format for a URI:
+- `"VocabularyFileUri"`: The location in Amazon S3 of the text file that contains your
+  custom vocabulary. The URI must be in the same Amazon Web Services Region as the resource
+  that you are calling. The following is the format for a URI:
   https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;object
   key&gt;   For example:  https://s3.us-east-1.amazonaws.com/AWSDOC-EXAMPLE-BUCKET/vocab.txt
   For more information about Amazon S3 object names, see Object Keys in the Amazon S3
@@ -1535,7 +1669,7 @@ all of the existing information with the values that you provide in the request.
 
 # Arguments
 - `language_code`: The language code of the vocabulary entries. For a list of languages and
-  their corresponding language codes, see what-is-transcribe.
+  their corresponding language codes, see transcribe-whatis.
 - `vocabulary_name`: The name of the vocabulary to update. The name is case sensitive. If
   you try to update a vocabulary with the same name as a previous vocabulary you will receive
   a ConflictException error.

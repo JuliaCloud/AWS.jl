@@ -8,9 +8,10 @@ using AWS.UUIDs
     delete_lexicon(lexicon_name)
     delete_lexicon(lexicon_name, params::Dict{String,<:Any})
 
-Deletes the specified pronunciation lexicon stored in an AWS Region. A lexicon which has
-been deleted is not available for speech synthesis, nor is it possible to retrieve it using
-either the GetLexicon or ListLexicon APIs. For more information, see Managing Lexicons.
+Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A
+lexicon which has been deleted is not available for speech synthesis, nor is it possible to
+retrieve it using either the GetLexicon or ListLexicon APIs. For more information, see
+Managing Lexicons.
 
 # Arguments
 - `lexicon_name`: The name of the lexicon to delete. Must be an existing lexicon in the
@@ -71,8 +72,8 @@ end
     get_lexicon(lexicon_name)
     get_lexicon(lexicon_name, params::Dict{String,<:Any})
 
-Returns the content of the specified pronunciation lexicon stored in an AWS Region. For
-more information, see Managing Lexicons.
+Returns the content of the specified pronunciation lexicon stored in an Amazon Web Services
+Region. For more information, see Managing Lexicons.
 
 # Arguments
 - `lexicon_name`: Name of the lexicon.
@@ -116,8 +117,8 @@ end
     list_lexicons()
     list_lexicons(params::Dict{String,<:Any})
 
-Returns a list of pronunciation lexicons stored in an AWS Region. For more information, see
-Managing Lexicons.
+Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more
+information, see Managing Lexicons.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -161,10 +162,10 @@ end
     put_lexicon(content, lexicon_name)
     put_lexicon(content, lexicon_name, params::Dict{String,<:Any})
 
-Stores a pronunciation lexicon in an AWS Region. If a lexicon with the same name already
-exists in the region, it is overwritten by the new lexicon. Lexicon operations have
-eventual consistency, therefore, it might take some time before the lexicon is available to
-the SynthesizeSpeech operation. For more information, see Managing Lexicons.
+Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same
+name already exists in the region, it is overwritten by the new lexicon. Lexicon operations
+have eventual consistency, therefore, it might take some time before the lexicon is
+available to the SynthesizeSpeech operation. For more information, see Managing Lexicons.
 
 # Arguments
 - `content`: Content of the PLS lexicon as string data.
@@ -206,7 +207,9 @@ SpeechSynthesisTask. This operation requires all the standard information needed
 synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the
 synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn). Once the
 synthesis task is created, this operation will return a SpeechSynthesisTask object, which
-will include an identifier of this task as well as the current status.
+will include an identifier of this task as well as the current status. The
+SpeechSynthesisTask object is available for 72 hours after starting the asynchronous
+synthesis task.
 
 # Arguments
 - `output_format`: The format in which the returned output will be encoded. For audio
@@ -224,7 +227,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LanguageCode"`: Optional language code for the Speech Synthesis request. This is only
   necessary if using a bilingual voice, such as Aditi, which can be used for either Indian
   English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is
-  specified, Amazon Polly will use the default language of the bilingual voice. The default
+  specified, Amazon Polly uses the default language of the bilingual voice. The default
   language for any voice is the one returned by the DescribeVoices operation for the
   LanguageCode parameter. For example, if no language code is specified, Aditi will use
   Indian English rather than Hindi.
@@ -321,7 +324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LanguageCode"`: Optional language code for the Synthesize Speech request. This is only
   necessary if using a bilingual voice, such as Aditi, which can be used for either Indian
   English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is
-  specified, Amazon Polly will use the default language of the bilingual voice. The default
+  specified, Amazon Polly uses the default language of the bilingual voice. The default
   language for any voice is the one returned by the DescribeVoices operation for the
   LanguageCode parameter. For example, if no language code is specified, Aditi will use
   Indian English rather than Hindi.
