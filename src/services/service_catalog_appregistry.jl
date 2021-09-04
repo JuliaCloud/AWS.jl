@@ -347,6 +347,42 @@ function get_application(
 end
 
 """
+    get_associated_resource(application, resource, resource_type)
+    get_associated_resource(application, resource, resource_type, params::Dict{String,<:Any})
+
+Gets the resource associated with the application.
+
+# Arguments
+- `application`: The name or ID of the application.
+- `resource`: The name or ID of the resource associated with the application.
+- `resource_type`: The type of resource associated with the application.
+
+"""
+function get_associated_resource(
+    application, resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return service_catalog_appregistry(
+        "GET",
+        "/applications/$(application)/resources/$(resourceType)/$(resource)";
+        aws_config=aws_config,
+    )
+end
+function get_associated_resource(
+    application,
+    resource,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return service_catalog_appregistry(
+        "GET",
+        "/applications/$(application)/resources/$(resourceType)/$(resource)",
+        params;
+        aws_config=aws_config,
+    )
+end
+
+"""
     get_attribute_group(attribute_group)
     get_attribute_group(attribute_group, params::Dict{String,<:Any})
 
@@ -522,14 +558,14 @@ end
     sync_resource(resource, resource_type)
     sync_resource(resource, resource_type, params::Dict{String,<:Any})
 
-Syncs the resource with what is currently recorded in App registry. Specifically, the
-resource’s App registry system tags are synced with its associated application. The
-resource is removed if it is not associated with the application. The caller must have
+Syncs the resource with current AppRegistry records. Specifically, the resource’s
+AppRegistry system tags sync with its associated application. We remove the resource's
+AppRegistry system tags if it does not associate with the application. The caller must have
 permissions to read and update the resource.
 
 # Arguments
 - `resource`: An entity you can work with and specify with a name or ID. Examples include
-  an Amazon EC2 instance, an AWS CloudFormation stack, or an Amazon S3 bucket.
+  an Amazon EC2 instance, an Amazon Web Services CloudFormation stack, or an Amazon S3 bucket.
 - `resource_type`: The type of resource of which the application will be associated.
 
 """

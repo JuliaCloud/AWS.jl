@@ -15,6 +15,8 @@ Creates a discoverer.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CrossAccount"`: Support discovery of schemas in events sent to the bus from another
+  account. (default: true).
 - `"Description"`: A description for the discoverer.
 - `"tags"`: Tags associated with the resource.
 """
@@ -906,6 +908,8 @@ Updates the discoverer
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CrossAccount"`: Support discovery of schemas in events sent to the bus from another
+  account. (default: true)
 - `"Description"`: The description of the discoverer to update.
 """
 function update_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())

@@ -1183,7 +1183,8 @@ following action is related to DeleteObject:    PutObject
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"versionId"`: VersionId used to reference a specific version of the object.
 - `"x-amz-bypass-governance-retention"`: Indicates whether S3 Object Lock should bypass
-  Governance-mode restrictions to process this operation.
+  Governance-mode restrictions to process this operation. To use this header, you must have
+  the s3:PutBucketPublicAccessBlock permission.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
@@ -1296,8 +1297,8 @@ ListParts     AbortMultipartUpload
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-bypass-governance-retention"`: Specifies whether you want to delete this object
-  even if it has a Governance-type Object Lock in place. You must have sufficient permissions
-  to perform this operation.
+  even if it has a Governance-type Object Lock in place. To use this header, you must have
+  the s3:PutBucketPublicAccessBlock permission.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
@@ -2141,43 +2142,43 @@ server-side encryption with customer-provided encryption keys (SSE-C) when you s
 object in Amazon S3, then when you GET the object, you must use the following headers:
 x-amz-server-side-encryption-customer-algorithm   x-amz-server-side-encryption-customer-key
   x-amz-server-side-encryption-customer-key-MD5   For more information about SSE-C, see
-Server-Side Encryption (Using Customer-Provided Encryption Keys). Assuming you have
-permission to read object tags (permission for the s3:GetObjectVersionTagging action), the
-response also returns the x-amz-tagging-count header that provides the count of number of
-tags associated with the object. You can use GetObjectTagging to retrieve the tag set
-associated with an object.  Permissions  You need the s3:GetObject permission for this
-operation. For more information, see Specifying Permissions in a Policy. If the object you
-request does not exist, the error Amazon S3 returns depends on whether you also have the
-s3:ListBucket permission.   If you have the s3:ListBucket permission on the bucket, Amazon
-S3 will return an HTTP status code 404 (\"no such key\") error.   If you don’t have the
-s3:ListBucket permission, Amazon S3 will return an HTTP status code 403 (\"access denied\")
-error.    Versioning  By default, the GET action returns the current version of an object.
-To return a different version, use the versionId subresource.    You need the
-s3:GetObjectVersion permission to access a specific version of an object.    If the current
-version of the object is a delete marker, Amazon S3 behaves as if the object was deleted
-and includes x-amz-delete-marker: true in the response.    For more information about
-versioning, see PutBucketVersioning.   Overriding Response Header Values  There are times
-when you want to override certain response header values in a GET response. For example,
-you might override the Content-Disposition response header value in your GET request. You
-can override values for a set of response headers using the following query parameters.
-These response header values are sent only on a successful request, that is, when status
-code 200 OK is returned. The set of headers you can override using these parameters is a
-subset of the headers that Amazon S3 accepts when you create an object. The response
-headers that you can override for the GET response are Content-Type, Content-Language,
-Expires, Cache-Control, Content-Disposition, and Content-Encoding. To override these header
-values in the GET response, you use the following request parameters.  You must sign the
-request, either using an Authorization header or a presigned URL, when using these
-parameters. They cannot be used with an unsigned (anonymous) request.
-response-content-type     response-content-language     response-expires
-response-cache-control     response-content-disposition     response-content-encoding
-Additional Considerations about Request Headers  If both of the If-Match and
-If-Unmodified-Since headers are present in the request as follows: If-Match condition
-evaluates to true, and; If-Unmodified-Since condition evaluates to false; then, S3 returns
-200 OK and the data requested.  If both of the If-None-Match and If-Modified-Since headers
-are present in the request as follows: If-None-Match condition evaluates to false, and;
-If-Modified-Since condition evaluates to true; then, S3 returns 304 Not Modified response
-code. For more information about conditional requests, see RFC 7232. The following
-operations are related to GetObject:    ListBuckets     GetObjectAcl
+Server-Side Encryption (Using Customer-Provided Encryption Keys). Assuming you have the
+relevant permission to read object tags, the response also returns the x-amz-tagging-count
+header that provides the count of number of tags associated with the object. You can use
+GetObjectTagging to retrieve the tag set associated with an object.  Permissions  You need
+the relevant read object (or version) permission for this operation. For more information,
+see Specifying Permissions in a Policy. If the object you request does not exist, the error
+Amazon S3 returns depends on whether you also have the s3:ListBucket permission.   If you
+have the s3:ListBucket permission on the bucket, Amazon S3 will return an HTTP status code
+404 (\"no such key\") error.   If you don’t have the s3:ListBucket permission, Amazon S3
+will return an HTTP status code 403 (\"access denied\") error.    Versioning  By default,
+the GET action returns the current version of an object. To return a different version, use
+the versionId subresource.    You need the s3:GetObjectVersion permission to access a
+specific version of an object.    If the current version of the object is a delete marker,
+Amazon S3 behaves as if the object was deleted and includes x-amz-delete-marker: true in
+the response.    For more information about versioning, see PutBucketVersioning.
+Overriding Response Header Values  There are times when you want to override certain
+response header values in a GET response. For example, you might override the
+Content-Disposition response header value in your GET request. You can override values for
+a set of response headers using the following query parameters. These response header
+values are sent only on a successful request, that is, when status code 200 OK is returned.
+The set of headers you can override using these parameters is a subset of the headers that
+Amazon S3 accepts when you create an object. The response headers that you can override for
+the GET response are Content-Type, Content-Language, Expires, Cache-Control,
+Content-Disposition, and Content-Encoding. To override these header values in the GET
+response, you use the following request parameters.  You must sign the request, either
+using an Authorization header or a presigned URL, when using these parameters. They cannot
+be used with an unsigned (anonymous) request.     response-content-type
+response-content-language     response-expires     response-cache-control
+response-content-disposition     response-content-encoding     Additional Considerations
+about Request Headers  If both of the If-Match and If-Unmodified-Since headers are present
+in the request as follows: If-Match condition evaluates to true, and; If-Unmodified-Since
+condition evaluates to false; then, S3 returns 200 OK and the data requested.  If both of
+the If-None-Match and If-Modified-Since headers are present in the request as follows:
+If-None-Match condition evaluates to false, and; If-Modified-Since condition evaluates to
+true; then, S3 returns 304 Not Modified response code. For more information about
+conditional requests, see RFC 7232. The following operations are related to GetObject:
+ListBuckets     GetObjectAcl
 
 # Arguments
 - `bucket`: The bucket name containing the object.  When using this action with an access
@@ -2594,14 +2595,14 @@ S3 returns 200 OK and the data requested.    Consideration 2 – If both of the
 If-None-Match and If-Modified-Since headers are present in the request as follows:
 If-None-Match condition evaluates to false, and;    If-Modified-Since condition evaluates
 to true;   Then Amazon S3 returns the 304 Not Modified response code.   For more
-information about conditional requests, see RFC 7232.  Permissions  You need the
-s3:GetObject permission for this operation. For more information, see Specifying
-Permissions in a Policy. If the object you request does not exist, the error Amazon S3
-returns depends on whether you also have the s3:ListBucket permission.   If you have the
-s3:ListBucket permission on the bucket, Amazon S3 returns an HTTP status code 404 (\"no
-such key\") error.   If you don’t have the s3:ListBucket permission, Amazon S3 returns an
-HTTP status code 403 (\"access denied\") error.   The following action is related to
-HeadObject:    GetObject
+information about conditional requests, see RFC 7232.  Permissions  You need the relevant
+read object (or version) permission for this operation. For more information, see
+Specifying Permissions in a Policy. If the object you request does not exist, the error
+Amazon S3 returns depends on whether you also have the s3:ListBucket permission.   If you
+have the s3:ListBucket permission on the bucket, Amazon S3 returns an HTTP status code 404
+(\"no such key\") error.   If you don’t have the s3:ListBucket permission, Amazon S3
+returns an HTTP status code 403 (\"access denied\") error.   The following action is
+related to HeadObject:    GetObject
 
 # Arguments
 - `bucket`: The name of the bucket containing the object. When using this action with an

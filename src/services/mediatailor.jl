@@ -12,12 +12,16 @@ Creates a channel.
 
 # Arguments
 - `outputs`: The channel's output properties.
-- `playback_mode`: The type of playback mode for this channel. The only supported value is
-  LOOP.
+- `playback_mode`: The type of playback mode to use for this channel. LINEAR - The programs
+  in the schedule play once back-to-back in the schedule. LOOP - The programs in the schedule
+  play back-to-back in an endless loop. When the last program in the schedule stops playing,
+  playback loops back to the first program in the schedule.
 - `channel_name`: The identifier for the channel you are working on.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
+  configure filler slate if your channel uses an LINEAR PlaybackMode.
 - `"tags"`: The tags to assign to the channel.
 """
 function create_channel(

@@ -152,14 +152,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
   cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H
   Clock UTC). The minimum maintenance window is a 60 minute period.
-- `"NumReplicasPerShard"`: The number of replicas to apply to each shard. The limit is 5.
-- `"NumShards"`: The number of shards the cluster will contain. Clusters can have up to 500
-  shards, with your data partitioned across the shards. For example, you can choose to
-  configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per
-  shard) and 500 shards (single primary and no replicas). Make sure there are enough
-  available IP addresses to accommodate the increase. Common pitfalls include the subnets in
-  the subnet group have too small a CIDR range or the subnets are shared and heavily used by
-  other clusters.
+- `"NumReplicasPerShard"`: The number of replicas to apply to each shard. The default value
+  is 1. The maximum is 5.
+- `"NumShards"`: The number of shards the cluster will contain. The default value is 1.
 - `"ParameterGroupName"`: The name of the parameter group associated with the cluster.
 - `"Port"`: The port number on which each of the nodes accepts connections.
 - `"SecurityGroupIds"`: A list of security group names to associate with this cluster.

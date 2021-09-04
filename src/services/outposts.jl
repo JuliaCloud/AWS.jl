@@ -5,6 +5,63 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    create_order(line_items, outpost_identifier, payment_option)
+    create_order(line_items, outpost_identifier, payment_option, params::Dict{String,<:Any})
+
+Creates an order for an Outpost.
+
+# Arguments
+- `line_items`: The line items that make up the order.
+- `outpost_identifier`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `payment_option`: The payment option for the order.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PaymentTerm"`: The payment terms for the order.
+"""
+function create_order(
+    LineItems,
+    OutpostIdentifier,
+    PaymentOption;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return outposts(
+        "POST",
+        "/orders",
+        Dict{String,Any}(
+            "LineItems" => LineItems,
+            "OutpostIdentifier" => OutpostIdentifier,
+            "PaymentOption" => PaymentOption,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_order(
+    LineItems,
+    OutpostIdentifier,
+    PaymentOption,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return outposts(
+        "POST",
+        "/orders",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LineItems" => LineItems,
+                    "OutpostIdentifier" => OutpostIdentifier,
+                    "PaymentOption" => PaymentOption,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     create_outpost(name, site_id)
     create_outpost(name, site_id, params::Dict{String,<:Any})
 
@@ -52,7 +109,7 @@ end
 Deletes the Outpost.
 
 # Arguments
-- `outpost_id`:
+- `outpost_id`:  The ID of the Outpost.
 
 """
 function delete_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -92,7 +149,7 @@ end
 Gets information about the specified Outpost.
 
 # Arguments
-- `outpost_id`:
+- `outpost_id`:  The ID of the Outpost.
 
 """
 function get_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -113,7 +170,7 @@ end
 Lists the instance types for the specified Outpost.
 
 # Arguments
-- `outpost_id`:
+- `outpost_id`:  The ID of the Outpost.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

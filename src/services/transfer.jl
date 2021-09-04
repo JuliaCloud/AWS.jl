@@ -46,7 +46,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair
   example.  [ { \"Entry\": \"your-personal-report.pdf\", \"Target\":
   \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
-  this value instead of the scope-down policy to lock down your user to the designated home
+  this value instead of the session policy to lock down your user to the designated home
   directory (\"chroot\"). To do this, you can set Entry to / and set Target to the
   HomeDirectory parameter value. The following is an Entry and Target pair example for
   chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
@@ -59,17 +59,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
-  you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how
-  you want to make Amazon S3 or EFS paths visible to your users.
-- `"Policy"`: A scope-down policy for your user so that you can use the same IAM role
-  across multiple users. This policy scopes down user access to portions of their Amazon S3
-  bucket. Variables that you can use inside this policy include {Transfer:UserName},
-  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
-  ServerId is S3. Amazon EFS does not use scope-down policies. For scope-down policies,
-  Amazon Web Services Transfer Family stores the policy as a JSON blob, instead of the Amazon
-  Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the
-  Policy argument. For an example of a scope-down policy, see Example scope-down policy. For
-  more information, see AssumeRole in the Amazon Web Services Security Token Service API
+  you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you
+  want to make Amazon S3 or EFS paths visible to your users.
+- `"Policy"`: A session policy for your user so that you can use the same IAM role across
+  multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
+  Variables that you can use inside this policy include {Transfer:UserName},
+  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when the domain of
+  ServerId is S3. EFS does not use session policies. For session policies, Amazon Web
+  Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource
+  Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy
+  argument. For an example of a session policy, see Example session policy. For more
+  information, see AssumeRole in the Amazon Web Services Security Token Service API
   Reference.
 - `"PosixProfile"`:
 """
@@ -189,6 +189,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
 - `"Tags"`: Key-value pairs that can be used to group and search for servers.
+- `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
+  execution role used for executing the workflow.
 """
 function create_server(; aws_config::AbstractAWSConfig=global_aws_config())
     return transfer("CreateServer"; aws_config=aws_config)
@@ -207,7 +209,7 @@ Creates a user and associates them with an existing file transfer protocol-enabl
 You can only create and associate users with servers that have the IdentityProviderType set
 to SERVICE_MANAGED. Using parameters for CreateUser, you can specify the user name, set the
 home directory, store the user's public key, and assign the user's Amazon Web Services
-Identity and Access Management (IAM) role. You can also optionally add a scope-down policy,
+Identity and Access Management (IAM) role. You can also optionally add a session policy,
 and assign metadata with tags that can be used to group and search for users.
 
 # Arguments
@@ -219,10 +221,10 @@ and assign metadata with tags that can be used to group and search for users.
   your users' transfer requests.
 - `server_id`: A system-assigned unique identifier for a server instance. This is the
   specific server that you added your user to.
-- `user_name`: A unique string that identifies a user and is associated with a as specified
-  by the ServerId. This user name must be a minimum of 3 and a maximum of 100 characters
-  long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period
-  '.', and at sign '@'. The user name can't start with a hyphen, period, or at sign.
+- `user_name`: A unique string that identifies a user and is associated with a ServerId.
+  This user name must be a minimum of 3 and a maximum of 100 characters long. The following
+  are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign
+  '@'. The user name can't start with a hyphen, period, or at sign.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -237,7 +239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair
   example.  [ { \"Entry\": \"your-personal-report.pdf\", \"Target\":
   \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
-  this value instead of the scope-down policy to lock your user down to the designated home
+  this value instead of the session policy to lock your user down to the designated home
   directory (\"chroot\"). To do this, you can set Entry to / and set Target to the
   HomeDirectory parameter value. The following is an Entry and Target pair example for
   chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
@@ -250,16 +252,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
-  you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how
-  you want to make Amazon S3 or EFS paths visible to your users.
-- `"Policy"`: A scope-down policy for your user so that you can use the same IAM role
-  across multiple users. This policy scopes down user access to portions of their Amazon S3
-  bucket. Variables that you can use inside this policy include {Transfer:UserName},
-  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
-  ServerId is S3. EFS does not use scope down policy. For scope-down policies, Amazon Web
+  you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you
+  want to make Amazon S3 or EFS paths visible to your users.
+- `"Policy"`: A session policy for your user so that you can use the same IAM role across
+  multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
+  Variables that you can use inside this policy include {Transfer:UserName},
+  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when the domain of
+  ServerId is S3. EFS does not use session policies. For session policies, Amazon Web
   Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource
   Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy
-  argument. For an example of a scope-down policy, see Example scope-down policy. For more
+  argument. For an example of a session policy, see Example session policy. For more
   information, see AssumeRole in the Amazon Web Services Security Token Service API
   Reference.
 - `"PosixProfile"`: Specifies the full POSIX identity, including user ID (Uid), group ID
@@ -299,6 +301,45 @@ function create_user(
                 params,
             ),
         );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    create_workflow(steps)
+    create_workflow(steps, params::Dict{String,<:Any})
+
+ Allows you to create a workflow with specified steps and step details the workflow invokes
+after file transfer completes. After creating a workflow, you can associate the workflow
+created with any transfer servers by specifying the workflow-details field in CreateServer
+and UpdateServer operations.
+
+# Arguments
+- `steps`: Specifies the details for the steps that are in the specified workflow.  The
+  TYPE specifies which of the following actions is being taken for this step.     Copy: copy
+  the file to another location    Custom: custom step with a lambda target    Delete: delete
+  the file    Tag: add a tag to the file    For file location, you specify either the S3
+  bucket and key, or the EFS filesystem ID and path.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A textual description for the workflow.
+- `"OnExceptionSteps"`: Specifies the steps (actions) to take if any errors are encountered
+  during execution of the workflow.
+- `"Tags"`: Key-value pairs that can be used to group and search for workflows. Tags are
+  metadata attached to workflows for any purpose.
+"""
+function create_workflow(Steps; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "CreateWorkflow", Dict{String,Any}("Steps" => Steps); aws_config=aws_config
+    )
+end
+function create_workflow(
+    Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "CreateWorkflow",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Steps" => Steps), params));
         aws_config=aws_config,
     )
 end
@@ -384,7 +425,7 @@ end
     delete_ssh_public_key(server_id, ssh_public_key_id, user_name)
     delete_ssh_public_key(server_id, ssh_public_key_id, user_name, params::Dict{String,<:Any})
 
-Deletes a user's Secure Shell (SSH) public key. No response is returned from this operation.
+Deletes a user's Secure Shell (SSH) public key.
 
 # Arguments
 - `server_id`: A system-assigned unique identifier for a file transfer protocol-enabled
@@ -471,6 +512,37 @@ function delete_user(
 end
 
 """
+    delete_workflow(workflow_id)
+    delete_workflow(workflow_id, params::Dict{String,<:Any})
+
+Deletes the specified workflow.
+
+# Arguments
+- `workflow_id`: A unique identifier for the workflow.
+
+"""
+function delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "DeleteWorkflow",
+        Dict{String,Any}("WorkflowId" => WorkflowId);
+        aws_config=aws_config,
+    )
+end
+function delete_workflow(
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DeleteWorkflow",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkflowId" => WorkflowId), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     describe_access(external_id, server_id)
     describe_access(external_id, server_id, params::Dict{String,<:Any})
 
@@ -514,6 +586,46 @@ function describe_access(
             mergewith(
                 _merge,
                 Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    describe_execution(execution_id, workflow_id)
+    describe_execution(execution_id, workflow_id, params::Dict{String,<:Any})
+
+You can use DescribeExecution to check the details of the execution of the specified
+workflow.
+
+# Arguments
+- `execution_id`: A unique identifier for the execution of a workflow.
+- `workflow_id`: A unique identifier for the workflow.
+
+"""
+function describe_execution(
+    ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer(
+        "DescribeExecution",
+        Dict{String,Any}("ExecutionId" => ExecutionId, "WorkflowId" => WorkflowId);
+        aws_config=aws_config,
+    )
+end
+function describe_execution(
+    ExecutionId,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DescribeExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExecutionId" => ExecutionId, "WorkflowId" => WorkflowId),
                 params,
             ),
         );
@@ -634,6 +746,37 @@ function describe_user(
 end
 
 """
+    describe_workflow(workflow_id)
+    describe_workflow(workflow_id, params::Dict{String,<:Any})
+
+Describes the specified workflow.
+
+# Arguments
+- `workflow_id`: A unique identifier for the workflow.
+
+"""
+function describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "DescribeWorkflow",
+        Dict{String,Any}("WorkflowId" => WorkflowId);
+        aws_config=aws_config,
+    )
+end
+function describe_workflow(
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "DescribeWorkflow",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkflowId" => WorkflowId), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     import_ssh_public_key(server_id, ssh_public_key_body, user_name)
     import_ssh_public_key(server_id, ssh_public_key_body, user_name, params::Dict{String,<:Any})
 
@@ -715,6 +858,50 @@ function list_accesses(
         "ListAccesses",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServerId" => ServerId), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    list_executions(workflow_id)
+    list_executions(workflow_id, params::Dict{String,<:Any})
+
+Lists all executions for the specified workflow.
+
+# Arguments
+- `workflow_id`: A unique identifier for the workflow.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the aximum number of executions to return.
+- `"NextToken"`:  ListExecutions returns the NextToken parameter in the output. You can
+  then pass the NextToken parameter in a subsequent command to continue listing additional
+  executions.  This is useful for pagination, for instance. If you have 100 executions for a
+  workflow, you might only want to list first 10. If so, callthe API by specifing the
+  max-results:   aws transfer list-executions --max-results 10   This returns details for the
+  first 10 executions, as well as the pointer (NextToken) to the eleventh execution. You can
+  now call the API again, suppling the NextToken value you received:   aws transfer
+  list-executions --max-results 10 --next-token somePointerReturnedFromPreviousListResult
+  This call returns the next 10 executions, the 11th through the 20th. You can then repeat
+  the call until the details for all 100 executions have been returned.
+"""
+function list_executions(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer(
+        "ListExecutions",
+        Dict{String,Any}("WorkflowId" => WorkflowId);
+        aws_config=aws_config,
+    )
+end
+function list_executions(
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "ListExecutions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkflowId" => WorkflowId), params)
         );
         aws_config=aws_config,
     )
@@ -842,6 +1029,88 @@ function list_users(
 end
 
 """
+    list_workflows()
+    list_workflows(params::Dict{String,<:Any})
+
+Lists all of your workflows.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the maximum number of workflows to return.
+- `"NextToken"`:  ListWorkflows returns the NextToken parameter in the output. You can then
+  pass the NextToken parameter in a subsequent command to continue listing additional
+  workflows.
+"""
+function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transfer("ListWorkflows"; aws_config=aws_config)
+end
+function list_workflows(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transfer("ListWorkflows", params; aws_config=aws_config)
+end
+
+"""
+    send_workflow_step_state(execution_id, status, token, workflow_id)
+    send_workflow_step_state(execution_id, status, token, workflow_id, params::Dict{String,<:Any})
+
+Sends a callback for asynchronous custom steps.  The ExecutionId, WorkflowId, and Token are
+passed to the target resource during execution of a custom step of a workflow. You must
+include those with their callback as well as providing a status.
+
+# Arguments
+- `execution_id`: A unique identifier for the execution of a workflow.
+- `status`: Indicates whether the specified step succeeded or failed.
+- `token`: Used to distinguish between multiple callbacks for multiple Lambda steps within
+  the same execution.
+- `workflow_id`: A unique identifier for the workflow.
+
+"""
+function send_workflow_step_state(
+    ExecutionId,
+    Status,
+    Token,
+    WorkflowId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "SendWorkflowStepState",
+        Dict{String,Any}(
+            "ExecutionId" => ExecutionId,
+            "Status" => Status,
+            "Token" => Token,
+            "WorkflowId" => WorkflowId,
+        );
+        aws_config=aws_config,
+    )
+end
+function send_workflow_step_state(
+    ExecutionId,
+    Status,
+    Token,
+    WorkflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "SendWorkflowStepState",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExecutionId" => ExecutionId,
+                    "Status" => Status,
+                    "Token" => Token,
+                    "WorkflowId" => WorkflowId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     start_server(server_id)
     start_server(server_id, params::Dict{String,<:Any})
 
@@ -954,6 +1223,16 @@ AWS_DIRECTORY_SERVICE or API_Gateway, tests whether your identity provider is se
 successfully. We highly recommend that you call this operation to test your authentication
 method as soon as you create your server. By doing so, you can troubleshoot issues with the
 identity provider integration to ensure that your users can successfully use the service.
+The ServerId and UserName parameters are required. The ServerProtocol, SourceIp, and
+UserPassword are all optional.    You cannot use TestIdentityProvider if the
+IdentityProviderType of your server is SERVICE_MANAGED.      If you provide any incorrect
+values for any parameters, the Response field is empty.     If you provide a server ID for
+a server that uses service-managed users, you get an error:    An error occurred
+(InvalidRequestException) when calling the TestIdentityProvider operation: s-server-ID not
+configured for external auth      If you enter a Server ID for the --server-id parameter
+that does not identify an actual Transfer server, you receive the following error:   An
+error occurred (ResourceNotFoundException) when calling the TestIdentityProvider operation:
+Unknown server
 
 # Arguments
 - `server_id`: A system-assigned identifier for a specific server. That server's user
@@ -1067,7 +1346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair
   example.  [ { \"Entry\": \"your-personal-report.pdf\", \"Target\":
   \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
-  this value instead of the scope-down policy to lock down your user to the designated home
+  this value instead of the session policy to lock down your user to the designated home
   directory (\"chroot\"). To do this, you can set Entry to / and set Target to the
   HomeDirectory parameter value. The following is an Entry and Target pair example for
   chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
@@ -1080,18 +1359,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
-  you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how
-  you want to make Amazon S3 or EFS paths visible to your users.
-- `"Policy"`: A scope-down policy for your user so that you can use the same IAM role
-  across multiple users. This policy scopes down user access to portions of their Amazon S3
-  bucket. Variables that you can use inside this policy include {Transfer:UserName},
-  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
-  ServerId is S3. Amazon EFS does not use scope down policy. For scope-down policies, Amazon
-  Web ServicesTransfer Family stores the policy as a JSON blob, instead of the Amazon
-  Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the
-  Policy argument. For an example of a scope-down policy, see Example scope-down policy. For
-  more information, see AssumeRole in the Amazon Web ServicesSecurity Token Service API
-  Reference.
+  you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you
+  want to make Amazon S3 or EFS paths visible to your users.
+- `"Policy"`: A session policy for your user so that you can use the same IAM role across
+  multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
+  Variables that you can use inside this policy include {Transfer:UserName},
+  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when the domain of
+  ServerId is S3. EFS does not use session policies. For session policies, Amazon Web
+  Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource
+  Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy
+  argument. For an example of a session policy, see Example session policy. For more
+  information, see AssumeRole in the Amazon Web ServicesSecurity Token Service API Reference.
 - `"PosixProfile"`:
 - `"Role"`: Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
   users' access to your Amazon S3 bucket or EFS file system. The policies attached to this
@@ -1200,6 +1478,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IdentityProviderType can be set to SERVICE_MANAGED.
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
+- `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
+  execution role used for executing the workflow.
 """
 function update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
     return transfer(
@@ -1250,7 +1530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair
   example.  [ { \"Entry\": \"your-personal-report.pdf\", \"Target\":
   \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
-  this value instead of the scope-down policy to lock down your user to the designated home
+  this value instead of the session policy to lock down your user to the designated home
   directory (\"chroot\"). To do this, you can set Entry to '/' and set Target to the
   HomeDirectory parameter value. The following is an Entry and Target pair example for
   chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
@@ -1263,17 +1543,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
-  you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how
-  you want to make Amazon S3 or EFS paths visible to your users.
-- `"Policy"`: A scope-down policy for your user so that you can use the same IAM role
-  across multiple users. This policy scopes down user access to portions of their Amazon S3
-  bucket. Variables that you can use inside this policy include {Transfer:UserName},
-  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
-  ServerId is S3. Amazon EFS does not use scope-down policies. For scope-down policies,
-  Amazon Web ServicesTransfer Family stores the policy as a JSON blob, instead of the Amazon
-  Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the
-  Policy argument. For an example of a scope-down policy, see Creating a scope-down policy.
-  For more information, see AssumeRole in the Amazon Web Services Security Token Service API
+  you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you
+  want to make Amazon S3 or EFS paths visible to your users.
+- `"Policy"`: A session policy for your user so that you can use the same IAM role across
+  multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
+  Variables that you can use inside this policy include {Transfer:UserName},
+  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when the domain of
+  ServerId is S3. EFS does not use session policies. For session policies, Amazon Web
+  Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource
+  Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy
+  argument. For an example of a session policy, see Creating a session policy. For more
+  information, see AssumeRole in the Amazon Web Services Security Token Service API
   Reference.
 - `"PosixProfile"`: Specifies the full POSIX identity, including user ID (Uid), group ID
   (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to

@@ -268,7 +268,7 @@ request completes.  After creating the snapshot, use  PutSnapshotBlock to write 
 data to the snapshot.
 
 # Arguments
-- `volume_size`: The size of the volume, in GiB. The maximum size is 16384 GiB (16 TiB).
+- `volume_size`: The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

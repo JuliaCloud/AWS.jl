@@ -9,19 +9,20 @@ using AWS.UUIDs
     create_certificate_authority(certificate_authority_configuration, certificate_authority_type, params::Dict{String,<:Any})
 
 Creates a root or subordinate private certificate authority (CA). You must specify the CA
-configuration, the certificate revocation list (CRL) configuration, the CA type, and an
-optional idempotency token to avoid accidental creation of multiple CAs. The CA
-configuration specifies the name of the algorithm and key size to be used to create the CA
-private key, the type of signing algorithm that the CA uses, and X.500 subject information.
-The CRL configuration specifies the CRL expiration period in days (the validity period of
-the CRL), the Amazon S3 bucket that will contain the CRL, and a CNAME alias for the S3
-bucket that is included in certificates issued by the CA. If successful, this action
-returns the Amazon Resource Name (ARN) of the CA. ACM Private CA assets that are stored in
-Amazon S3 can be protected with encryption. For more information, see Encrypting Your CRLs.
- Both PCA and the IAM principal must have permission to write to the S3 bucket that you
-specify. If the IAM principal making the call does not have permission to write to the
-bucket, then an exception is thrown. For more information, see Configure Access to ACM
-Private CA.
+configuration, an optional configuration for Online Certificate Status Protocol (OCSP)
+and/or a certificate revocation list (CRL), the CA type, and an optional idempotency token
+to avoid accidental creation of multiple CAs. The CA configuration specifies the name of
+the algorithm and key size to be used to create the CA private key, the type of signing
+algorithm that the CA uses, and X.500 subject information. The OCSP configuration can
+optionally specify a custom URL for the OCSP responder. The CRL configuration specifies the
+CRL expiration period in days (the validity period of the CRL), the Amazon S3 bucket that
+will contain the CRL, and a CNAME alias for the S3 bucket that is included in certificates
+issued by the CA. If successful, this action returns the Amazon Resource Name (ARN) of the
+CA. ACM Private CA assets that are stored in Amazon S3 can be protected with encryption.
+For more information, see Encrypting Your CRLs.  Both PCA and the IAM principal must have
+permission to write to the S3 bucket that you specify. If the IAM principal making the call
+does not have permission to write to the bucket, then an exception is thrown. For more
+information, see Configure Access to ACM Private CA.
 
 # Arguments
 - `certificate_authority_configuration`: Name and bit size of the private key algorithm,
@@ -44,11 +45,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   KeyStorageSecurityStandard. Failure to do this results in an InvalidArgsException with the
   message, \"A certificate authority cannot be created in this region with the specified
   security standard.\"
-- `"RevocationConfiguration"`: Contains a Boolean value that you can use to enable a
-  certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM
-  Private CA will write the CRL, and an optional CNAME alias that you can use to hide the
-  name of your bucket in the CRL Distribution Points extension of your CA certificate. For
-  more information, see the CrlConfiguration structure.
+- `"RevocationConfiguration"`: Contains information to enable Online Certificate Status
+  Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or
+  to enable neither. The default is for both certificate validation mechanisms to be
+  disabled. For more information, see the OcspConfiguration and CrlConfiguration types.
 - `"Tags"`: Key-value pairs that will be attached to the new private CA. You can associate
   up to 50 tags with a private CA. For information using tags with IAM to manage permissions,
   see Controlling Access Using IAM Tags.
@@ -1314,7 +1314,10 @@ Private CA.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RevocationConfiguration"`: Revocation information for your private CA.
+- `"RevocationConfiguration"`: Contains information to enable Online Certificate Status
+  Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or
+  to enable neither. If this parameter is not supplied, existing capibilites remain
+  unchanged. For more information, see the OcspConfiguration and CrlConfiguration types.
 - `"Status"`: Status of your private CA.
 """
 function update_certificate_authority(
