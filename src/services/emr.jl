@@ -762,12 +762,46 @@ function describe_studio(
 end
 
 """
+    get_auto_termination_policy(cluster_id)
+    get_auto_termination_policy(cluster_id, params::Dict{String,<:Any})
+
+Returns the auto-termination policy for an Amazon EMR cluster.
+
+# Arguments
+- `cluster_id`: Specifies the ID of the Amazon EMR cluster for which the auto-termination
+  policy will be fetched.
+
+"""
+function get_auto_termination_policy(
+    ClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr(
+        "GetAutoTerminationPolicy",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+    )
+end
+function get_auto_termination_policy(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr(
+        "GetAutoTerminationPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     get_block_public_access_configuration()
     get_block_public_access_configuration(params::Dict{String,<:Any})
 
-Returns the Amazon EMR block public access configuration for your account in the current
-Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon
-EMR Management Guide.
+Returns the Amazon EMR block public access configuration for your Amazon Web Services
+account in the current Region. For more information see Configure Block Public Access for
+Amazon EMR in the Amazon EMR Management Guide.
 
 """
 function get_block_public_access_configuration(;
@@ -902,11 +936,11 @@ end
     list_clusters()
     list_clusters(params::Dict{String,<:Any})
 
-Provides the status of all clusters visible to this account. Allows you to filter the list
-of clusters based on certain criteria; for example, filtering by cluster creation date and
-time or by status. This call returns a maximum of 50 clusters in unsorted order per call,
-but returns a marker to track the paging of the cluster list across multiple ListClusters
-calls.
+Provides the status of all clusters visible to this Amazon Web Services account. Allows you
+to filter the list of clusters based on certain criteria; for example, filtering by cluster
+creation date and time or by status. This call returns a maximum of 50 clusters in unsorted
+order per call, but returns a marker to track the paging of the cluster list across
+multiple ListClusters calls.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1092,8 +1126,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specifies the next page of results. If NextToken is not specified, which
   is usually the case for the first request of ListReleaseLabels, the first page of results
   are determined by other filtering parameters or by the latest version. The
-  ListReleaseLabels request fails if the identity (account ID) and all filtering parameters
-  are different from the original request, or if the NextToken is expired or tampered with.
+  ListReleaseLabels request fails if the identity (Amazon Web Services account ID) and all
+  filtering parameters are different from the original request, or if the NextToken is
+  expired or tampered with.
 """
 function list_release_labels(; aws_config::AbstractAWSConfig=global_aws_config())
     return emr("ListReleaseLabels"; aws_config=aws_config)
@@ -1195,8 +1230,8 @@ end
     list_studios()
     list_studios(params::Dict{String,<:Any})
 
-Returns a list of all Amazon EMR Studios associated with the account. The list includes
-details such as ID, Studio Access URL, and creation time for each Studio.
+Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account.
+The list includes details such as ID, Studio Access URL, and creation time for each Studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1371,12 +1406,52 @@ function put_auto_scaling_policy(
 end
 
 """
+    put_auto_termination_policy(cluster_id)
+    put_auto_termination_policy(cluster_id, params::Dict{String,<:Any})
+
+Creates or updates an auto-termination policy for an Amazon EMR cluster. An
+auto-termination policy defines the amount of idle time in seconds after which a cluster
+automatically terminates. For alternative cluster termination options, see Control cluster
+termination.
+
+# Arguments
+- `cluster_id`: Specifies the ID of the Amazon EMR cluster to which the auto-termination
+  policy will be attached.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoTerminationPolicy"`: Specifies the auto-termination policy to attach to the cluster.
+"""
+function put_auto_termination_policy(
+    ClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr(
+        "PutAutoTerminationPolicy",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+    )
+end
+function put_auto_termination_policy(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr(
+        "PutAutoTerminationPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     put_block_public_access_configuration(block_public_access_configuration)
     put_block_public_access_configuration(block_public_access_configuration, params::Dict{String,<:Any})
 
-Creates or updates an Amazon EMR block public access configuration for your account in the
-current Region. For more information see Configure Block Public Access for Amazon EMR in
-the Amazon EMR Management Guide.
+Creates or updates an Amazon EMR block public access configuration for your Amazon Web
+Services account in the current Region. For more information see Configure Block Public
+Access for Amazon EMR in the Amazon EMR Management Guide.
 
 # Arguments
 - `block_public_access_configuration`: A configuration for Amazon EMR block public access.
@@ -1516,6 +1591,40 @@ function remove_auto_scaling_policy(
 end
 
 """
+    remove_auto_termination_policy(cluster_id)
+    remove_auto_termination_policy(cluster_id, params::Dict{String,<:Any})
+
+Removes an auto-termination policy from an Amazon EMR cluster.
+
+# Arguments
+- `cluster_id`: Specifies the ID of the Amazon EMR cluster from which the auto-termination
+  policy will be removed.
+
+"""
+function remove_auto_termination_policy(
+    ClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr(
+        "RemoveAutoTerminationPolicy",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+    )
+end
+function remove_auto_termination_policy(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr(
+        "RemoveAutoTerminationPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     remove_managed_scaling_policy(cluster_id)
     remove_managed_scaling_policy(cluster_id, params::Dict{String,<:Any})
 
@@ -1629,6 +1738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoScalingRole"`: An IAM role for automatic scaling policies. The default role is
   EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling
   feature requires to launch and terminate EC2 instances in an instance group.
+- `"AutoTerminationPolicy"`:
 - `"BootstrapActions"`: A list of bootstrap actions to run before Hadoop starts on the
   cluster nodes.
 - `"Configurations"`: For Amazon EMR releases 4.0 and later. The list of configurations
@@ -1707,13 +1817,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   flow using MapR M5 Edition.
 - `"Tags"`: A list of tags to associate with a cluster and propagate to Amazon EC2
   instances.
-- `"VisibleToAllUsers"`: Set this value to true so that IAM principals in the account
-  associated with the cluster can perform EMR actions on the cluster that their IAM policies
-  allow. This value defaults to true for clusters created using the EMR API or the CLI
-  create-cluster command. When set to false, only the IAM principal that created the cluster
-  and the account root user can perform EMR actions for the cluster, regardless of the IAM
-  permissions policies attached to other IAM principals. For more information, see
-  Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
+- `"VisibleToAllUsers"`: Set this value to true so that IAM principals in the Amazon Web
+  Services account associated with the cluster can perform EMR actions on the cluster that
+  their IAM policies allow. This value defaults to true for clusters created using the EMR
+  API or the CLI create-cluster command. When set to false, only the IAM principal that
+  created the cluster and the Amazon Web Services account root user can perform EMR actions
+  for the cluster, regardless of the IAM permissions policies attached to other IAM
+  principals. For more information, see Understanding the EMR Cluster VisibleToAllUsers
+  Setting in the Amazon EMRManagement Guide.
 """
 function run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return emr(
@@ -1801,19 +1912,20 @@ end
     set_visible_to_all_users(job_flow_ids, visible_to_all_users, params::Dict{String,<:Any})
 
 Sets the ClusterVisibleToAllUsers value for an EMR cluster. When true, IAM principals in
-the account can perform EMR cluster actions that their IAM policies allow. When false, only
-the IAM principal that created the cluster and the account root user can perform EMR
-actions on the cluster, regardless of IAM permissions policies attached to other IAM
-principals. This action works on running clusters. When you create a cluster, use the
-RunJobFlowInputVisibleToAllUsers parameter. For more information, see Understanding the EMR
-Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
+the Amazon Web Services account can perform EMR cluster actions that their IAM policies
+allow. When false, only the IAM principal that created the cluster and the Amazon Web
+Services account root user can perform EMR actions on the cluster, regardless of IAM
+permissions policies attached to other IAM principals. This action works on running
+clusters. When you create a cluster, use the RunJobFlowInputVisibleToAllUsers parameter.
+For more information, see Understanding the EMR Cluster VisibleToAllUsers Setting in the
+Amazon EMRManagement Guide.
 
 # Arguments
 - `job_flow_ids`: The unique identifier of the job flow (cluster).
-- `visible_to_all_users`: A value of true indicates that an IAM principal in the account
-  can perform EMR actions on the cluster that the IAM policies attached to the principal
-  allow. A value of false indicates that only the IAM principal that created the cluster and
-  the Amazon Web Services root user can perform EMR actions on the cluster.
+- `visible_to_all_users`: A value of true indicates that an IAM principal in the Amazon Web
+  Services account can perform EMR actions on the cluster that the IAM policies attached to
+  the principal allow. A value of false indicates that only the IAM principal that created
+  the cluster and the Amazon Web Services root user can perform EMR actions on the cluster.
 
 """
 function set_visible_to_all_users(

@@ -10,7 +10,7 @@ using AWS.UUIDs
 
 Accepts a pending certificate transfer. The default state of the certificate is INACTIVE.
 To check for pending certificate transfers, call ListCertificates to enumerate your
-certificates.
+certificates. Requires permission to access the AcceptCertificateTransfer action.
 
 # Arguments
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
@@ -44,7 +44,8 @@ end
     add_thing_to_billing_group()
     add_thing_to_billing_group(params::Dict{String,<:Any})
 
-Adds a thing to a billing group.
+Adds a thing to a billing group. Requires permission to access the AddThingToBillingGroup
+action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -68,7 +69,8 @@ end
     add_thing_to_thing_group()
     add_thing_to_thing_group(params::Dict{String,<:Any})
 
-Adds a thing to a thing group.
+Adds a thing to a thing group. Requires permission to access the AddThingToThingGroup
+action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -97,7 +99,7 @@ end
 Associates a group with a continuous job. The following criteria must be met:    The job
 must have been created with the targetSelection field set to \"CONTINUOUS\".   The job
 status must currently be \"IN_PROGRESS\".   The total number of targets associated with a
-job must not exceed 100.
+job must not exceed 100.   Requires permission to access the AssociateTargetsWithJob action.
 
 # Arguments
 - `job_id`: The unique identifier you assigned to this job when it was created.
@@ -108,8 +110,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"comment"`: An optional comment string describing why the job was associated with the
   targets.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
-  topics that contain the value in the following format.
+  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+  notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 """
@@ -142,6 +144,7 @@ end
     attach_policy(policy_name, target, params::Dict{String,<:Any})
 
 Attaches the specified policy to the specified principal (certificate or other credential).
+Requires permission to access the AttachPolicy action.
 
 # Arguments
 - `policy_name`: The name of the policy to attach.
@@ -178,7 +181,8 @@ end
     attach_principal_policy(policy_name, x-amzn-iot-principal, params::Dict{String,<:Any})
 
 Attaches the specified policy to the specified principal (certificate or other credential).
- Note: This API is deprecated. Please use AttachPolicy instead.
+ Note: This action is deprecated. Please use AttachPolicy instead. Requires permission to
+access the AttachPrincipalPolicy action.
 
 # Arguments
 - `policy_name`: The policy name.
@@ -226,7 +230,8 @@ end
     attach_security_profile(security_profile_name, security_profile_target_arn, params::Dict{String,<:Any})
 
 Associates a Device Defender security profile with a thing group or this account. Each
-thing group or account can have up to five security profiles associated with it.
+thing group or account can have up to five security profiles associated with it. Requires
+permission to access the AttachSecurityProfile action.
 
 # Arguments
 - `security_profile_name`: The security profile that is attached.
@@ -272,7 +277,7 @@ end
 
 Attaches the specified principal to the specified thing. A principal can be X.509
 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-identities.
+identities. Requires permission to access the AttachThingPrincipal action.
 
 # Arguments
 - `thing_name`: The name of the thing.
@@ -319,7 +324,8 @@ end
     cancel_audit_mitigation_actions_task(task_id, params::Dict{String,<:Any})
 
 Cancels a mitigation action task that is in progress. If the task is not in progress, an
-InvalidRequestException occurs.
+InvalidRequestException occurs. Requires permission to access the
+CancelAuditMitigationActionsTask action.
 
 # Arguments
 - `task_id`: The unique identifier for the task that you want to cancel.
@@ -348,7 +354,8 @@ end
     cancel_audit_task(task_id, params::Dict{String,<:Any})
 
 Cancels an audit that is in progress. The audit can be either scheduled or on demand. If
-the audit isn't in progress, an \"InvalidRequestException\" occurs.
+the audit isn't in progress, an \"InvalidRequestException\" occurs. Requires permission to
+access the CancelAuditTask action.
 
 # Arguments
 - `task_id`: The ID of the audit you want to cancel. You can only cancel an audit that is
@@ -370,10 +377,11 @@ end
 
 Cancels a pending transfer for the specified certificate.  Note Only the transfer source
 account can use this operation to cancel a transfer. (Transfer destinations can use
-RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the
+RejectCertificateTransfer instead.) After transfer, IoT returns the certificate to the
 source account in the INACTIVE state. After the destination account has accepted the
 transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the
-status of the certificate changes from PENDING_TRANSFER to INACTIVE.
+status of the certificate changes from PENDING_TRANSFER to INACTIVE. Requires permission to
+access the CancelCertificateTransfer action.
 
 # Arguments
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
@@ -404,7 +412,8 @@ end
     cancel_detect_mitigation_actions_task(task_id)
     cancel_detect_mitigation_actions_task(task_id, params::Dict{String,<:Any})
 
- Cancels a Device Defender ML Detect mitigation action.
+ Cancels a Device Defender ML Detect mitigation action.  Requires permission to access the
+CancelDetectMitigationActionsTask action.
 
 # Arguments
 - `task_id`:  The unique identifier of the task.
@@ -432,7 +441,7 @@ end
     cancel_job(job_id)
     cancel_job(job_id, params::Dict{String,<:Any})
 
-Cancels a job.
+Cancels a job. Requires permission to access the CancelJob action.
 
 # Arguments
 - `job_id`: The unique identifier you assigned to this job when it was created.
@@ -460,7 +469,8 @@ end
     cancel_job_execution(job_id, thing_name)
     cancel_job_execution(job_id, thing_name, params::Dict{String,<:Any})
 
-Cancels the execution of a job for a given thing.
+Cancels the execution of a job for a given thing. Requires permission to access the
+CancelJobExecution action.
 
 # Arguments
 - `job_id`: The ID of the job to be canceled.
@@ -505,7 +515,8 @@ end
     clear_default_authorizer()
     clear_default_authorizer(params::Dict{String,<:Any})
 
-Clears the default authorizer.
+Clears the default authorizer. Requires permission to access the ClearDefaultAuthorizer
+action.
 
 """
 function clear_default_authorizer(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -521,10 +532,11 @@ end
     confirm_topic_rule_destination(confirmation_token)
     confirm_topic_rule_destination(confirmation_token, params::Dict{String,<:Any})
 
-Confirms a topic rule destination. When you create a rule requiring a destination, AWS IoT
+Confirms a topic rule destination. When you create a rule requiring a destination, IoT
 sends a confirmation message to the endpoint or base address you specify. The message
 includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm
-that you own or have access to the endpoint.
+that you own or have access to the endpoint. Requires permission to access the
+ConfirmTopicRuleDestination action.
 
 # Arguments
 - `confirmation_token`: The token used to confirm ownership or access to the topic rule
@@ -550,7 +562,8 @@ end
     create_audit_suppression(check_name, client_request_token, resource_identifier)
     create_audit_suppression(check_name, client_request_token, resource_identifier, params::Dict{String,<:Any})
 
- Creates a Device Defender audit suppression.
+ Creates a Device Defender audit suppression.  Requires permission to access the
+CreateAuditSuppression action.
 
 # Arguments
 - `check_name`:
@@ -611,7 +624,7 @@ end
     create_authorizer(authorizer_function_arn, authorizer_name)
     create_authorizer(authorizer_function_arn, authorizer_name, params::Dict{String,<:Any})
 
-Creates an authorizer.
+Creates an authorizer. Requires permission to access the CreateAuthorizer action.
 
 # Arguments
 - `authorizer_function_arn`: The ARN of the authorizer's Lambda function.
@@ -619,7 +632,7 @@ Creates an authorizer.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"signingDisabled"`: Specifies whether AWS IoT validates the token signature in an
+- `"signingDisabled"`: Specifies whether IoT validates the token signature in an
   authorization request.
 - `"status"`: The status of the create authorizer request.
 - `"tags"`: Metadata which can be used to manage the custom authorizer.  For URI Request
@@ -665,7 +678,7 @@ end
     create_billing_group(billing_group_name)
     create_billing_group(billing_group_name, params::Dict{String,<:Any})
 
-Creates a billing group.
+Creates a billing group. Requires permission to access the CreateBillingGroup action.
 
 # Arguments
 - `billing_group_name`: The name you wish to give to the billing group.
@@ -695,15 +708,16 @@ end
 Creates an X.509 certificate using the specified certificate signing request.  Note: The
 CSR must include a public key that is either an RSA key with a length of at least 2048 bits
 or an ECC key from NIST P-256 or NIST P-384 curves.   Note: Reusing the same certificate
-signing request (CSR) results in a distinct certificate. You can create multiple
-certificates in a batch by creating a directory, copying multiple .csr files into that
-directory, and then specifying that directory on the command line. The following commands
-show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs
-are located inside of the directory my-csr-directory: On Linux and OS X, the command is:
-ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr
---certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs
-in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr
-AWS CLI command to create a certificate for the corresponding CSR. The aws iot
+signing request (CSR) results in a distinct certificate. Requires permission to access the
+CreateCertificateFromCsr action. You can create multiple certificates in a batch by
+creating a directory, copying multiple .csr files into that directory, and then specifying
+that directory on the command line. The following commands show how to create a batch of
+certificates given a batch of CSRs. Assuming a set of CSRs are located inside of the
+directory my-csr-directory: On Linux and OS X, the command is:  ls my-csr-directory/ |
+xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request
+file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes
+each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI
+command to create a certificate for the corresponding CSR. The aws iot
 create-certificate-from-csr part of the command can also be run in parallel to speed up the
 certificate creation process:  ls my-csr-directory/ | xargs -P 10 -I {} aws iot
 create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On
@@ -755,12 +769,13 @@ end
     create_custom_metric(client_request_token, metric_name, metric_type, params::Dict{String,<:Any})
 
  Use this API to define a Custom Metric published by your devices to Device Defender.
+Requires permission to access the CreateCustomMetric action.
 
 # Arguments
 - `client_request_token`: Each custom metric must have a unique client request token. If
   you try to create a new custom metric that already exists with a different token, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+  exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
+  generate a unique client request.
 - `metric_name`:  The name of the custom metric. This will be used in the metric report
   submitted from the device/thing. Shouldn't begin with aws:. Cannot be updated once defined.
 - `metric_type`:  The type of the custom metric. Types include string-list,
@@ -816,15 +831,15 @@ end
     create_dimension(client_request_token, name, string_values, type, params::Dict{String,<:Any})
 
 Create a dimension that you can use to limit the scope of a metric used in a security
-profile for AWS IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can
+profile for IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can
 narrow down the scope of the metric only to MQTT topics whose name match the pattern
-specified in the dimension.
+specified in the dimension. Requires permission to access the CreateDimension action.
 
 # Arguments
 - `client_request_token`: Each dimension must have a unique client request token. If you
   try to create a new dimension with the same token as a dimension that already exists, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+  exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
+  generate a unique client request.
 - `name`: A unique identifier for the dimension. Choose something that describes the type
   and value to make it easy to remember what it does.
 - `string_values`: Specifies the value or list of values for the dimension. For
@@ -884,7 +899,8 @@ end
     create_domain_configuration(domain_configuration_name)
     create_domain_configuration(domain_configuration_name, params::Dict{String,<:Any})
 
-Creates a domain configuration.
+Creates a domain configuration. Requires permission to access the CreateDomainConfiguration
+action.
 
 # Arguments
 - `domain_configuration_name`: The name of the domain configuration. This value must be
@@ -894,18 +910,18 @@ Creates a domain configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authorizerConfig"`: An object that specifies the authorization service for a domain.
 - `"domainName"`: The name of the domain.
-- `"serverCertificateArns"`: The ARNs of the certificates that AWS IoT passes to the device
+- `"serverCertificateArns"`: The ARNs of the certificates that IoT passes to the device
   during the TLS handshake. Currently you can specify only one certificate ARN. This value is
-  not required for AWS-managed domains.
-- `"serviceType"`: The type of service delivered by the endpoint.  AWS IoT Core currently
-  supports only the DATA service type.
+  not required for Amazon Web Services-managed domains.
+- `"serviceType"`: The type of service delivered by the endpoint.  Amazon Web Services IoT
+  Core currently supports only the DATA service type.
 - `"tags"`: Metadata which can be used to manage the domain configuration.  For URI Request
   parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
   use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
   use format: \"tags\": \"key1=value1&amp;key2=value2...\"
 - `"validationCertificateArn"`: The certificate used to validate the server certificate and
   prove domain name ownership. This certificate must be signed by a public certificate
-  authority. This value is not required for AWS-managed domains.
+  authority. This value is not required for Amazon Web Services-managed domains.
 """
 function create_domain_configuration(
     domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -931,7 +947,8 @@ end
     create_dynamic_thing_group(query_string, thing_group_name)
     create_dynamic_thing_group(query_string, thing_group_name, params::Dict{String,<:Any})
 
-Creates a dynamic thing group.
+Creates a dynamic thing group. Requires permission to access the CreateDynamicThingGroup
+action.
 
 # Arguments
 - `query_string`: The dynamic thing group search query string. See Query Syntax for
@@ -941,7 +958,7 @@ Creates a dynamic thing group.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"indexName"`: The dynamic thing group index name.  Currently one index is supported:
-  \"AWS_Things\".
+  AWS_Things.
 - `"queryVersion"`: The dynamic thing group query version.  Currently one query version is
   supported: \"2017-09-30\". If not specified, the query version defaults to this value.
 - `"tags"`: Metadata which can be used to manage the dynamic thing group.
@@ -974,14 +991,85 @@ function create_dynamic_thing_group(
 end
 
 """
+    create_fleet_metric(aggregation_field, aggregation_type, metric_name, period, query_string)
+    create_fleet_metric(aggregation_field, aggregation_type, metric_name, period, query_string, params::Dict{String,<:Any})
+
+Creates a fleet metric. Requires permission to access the CreateFleetMetric action.
+
+# Arguments
+- `aggregation_field`: The field to aggregate.
+- `aggregation_type`: The type of the aggregation query.
+- `metric_name`: The name of the fleet metric to create.
+- `period`: The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1
+  day)] and must be multiple of 60.
+- `query_string`: The search query string.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The fleet metric description.
+- `"indexName"`: The name of the index to search.
+- `"queryVersion"`: The query version.
+- `"tags"`: Metadata, which can be used to manage the fleet metric.
+- `"unit"`: Used to support unit transformation such as milliseconds to seconds. The unit
+  must be supported by CW metric. Default to null.
+"""
+function create_fleet_metric(
+    aggregationField,
+    aggregationType,
+    metricName,
+    period,
+    queryString;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "PUT",
+        "/fleet-metric/$(metricName)",
+        Dict{String,Any}(
+            "aggregationField" => aggregationField,
+            "aggregationType" => aggregationType,
+            "period" => period,
+            "queryString" => queryString,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_fleet_metric(
+    aggregationField,
+    aggregationType,
+    metricName,
+    period,
+    queryString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "PUT",
+        "/fleet-metric/$(metricName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "aggregationField" => aggregationField,
+                    "aggregationType" => aggregationType,
+                    "period" => period,
+                    "queryString" => queryString,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     create_job(job_id, targets)
     create_job(job_id, targets, params::Dict{String,<:Any})
 
-Creates a job.
+Creates a job. Requires permission to access the CreateJob action.
 
 # Arguments
-- `job_id`: A job identifier which must be unique for your AWS account. We recommend using
-  a UUID. Alpha-numeric characters, \"-\" and \"_\" are valid for use here.
+- `job_id`: A job identifier which must be unique for your Amazon Web Services account. We
+  recommend using a UUID. Alpha-numeric characters, \"-\" and \"_\" are valid for use here.
 - `targets`: A list of things and thing groups to which the job should be sent.
 
 # Optional Parameters
@@ -997,8 +1085,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
 - `"jobTemplateArn"`: The ARN of the job template used to create the job.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
-  topics that contain the value in the following format.
+  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+  notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 - `"presignedUrlConfig"`: Configuration information for pre-signed S3 URLs.
@@ -1039,7 +1127,7 @@ end
     create_job_template(description, job_template_id)
     create_job_template(description, job_template_id, params::Dict{String,<:Any})
 
-Creates a job template.
+Creates a job template. Requires permission to access the CreateJobTemplate action.
 
 # Arguments
 - `description`: A description of the job document.
@@ -1093,8 +1181,9 @@ end
 
 Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public
 key. You can also call CreateKeysAndCertificate over MQTT from a device, for more
-information, see Provisioning MQTT API.  Note This is the only time AWS IoT issues the
-private key for this certificate, so it is important to keep it in a secure location.
+information, see Provisioning MQTT API.  Note This is the only time IoT issues the private
+key for this certificate, so it is important to keep it in a secure location. Requires
+permission to access the CreateKeysAndCertificate action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1116,7 +1205,8 @@ end
 Defines an action that can be applied to audit findings by using
 StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to
 specific check names. For more information, see Mitigation actions. Each mitigation action
-can apply only one type of change.
+can apply only one type of change. Requires permission to access the CreateMitigationAction
+action.
 
 # Arguments
 - `action_name`: A friendly name for the action. Choose a friendly name that accurately
@@ -1163,13 +1253,14 @@ end
     create_otaupdate(files, ota_update_id, role_arn, targets)
     create_otaupdate(files, ota_update_id, role_arn, targets, params::Dict{String,<:Any})
 
-Creates an AWS IoT OTAUpdate on a target group of things or groups.
+Creates an IoT OTA update on a target group of things or groups. Requires permission to
+access the CreateOTAUpdate action.
 
 # Arguments
 - `files`: The files to be streamed by the OTA update.
 - `ota_update_id`: The ID of the OTA update to be created.
-- `role_arn`: The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs and
-  AWS Code Signing resources to create an OTA update job.
+- `role_arn`: The IAM role that grants Amazon Web Services IoT Core access to the Amazon
+  S3, IoT jobs and Amazon Web Services Code Signing resources to create an OTA update job.
 - `targets`: The devices targeted to receive OTA updates.
 
 # Optional Parameters
@@ -1233,9 +1324,9 @@ end
     create_policy(policy_document, policy_name)
     create_policy(policy_document, policy_name, params::Dict{String,<:Any})
 
-Creates an AWS IoT policy. The created policy is the default version for the policy. This
+Creates an IoT policy. The created policy is the default version for the policy. This
 operation creates a policy version with a version identifier of 1 and sets 1 as the
-policy's default version.
+policy's default version. Requires permission to access the CreatePolicy action.
 
 # Arguments
 - `policy_document`: The JSON document that describes the policy. policyDocument must have
@@ -1279,12 +1370,13 @@ end
     create_policy_version(policy_document, policy_name)
     create_policy_version(policy_document, policy_name, params::Dict{String,<:Any})
 
-Creates a new version of the specified AWS IoT policy. To update a policy, create a new
-policy version. A managed policy can have up to five versions. If the policy has five
-versions, you must use DeletePolicyVersion to delete an existing version before you create
-a new one. Optionally, you can set the new version as the policy's default version. The
-default version is the operative version (that is, the version that is in effect for the
-certificates to which the policy is attached).
+Creates a new version of the specified IoT policy. To update a policy, create a new policy
+version. A managed policy can have up to five versions. If the policy has five versions,
+you must use DeletePolicyVersion to delete an existing version before you create a new one.
+Optionally, you can set the new version as the policy's default version. The default
+version is the operative version (that is, the version that is in effect for the
+certificates to which the policy is attached). Requires permission to access the
+CreatePolicyVersion action.
 
 # Arguments
 - `policy_document`: The JSON document that describes the policy. Minimum length of 1.
@@ -1327,7 +1419,8 @@ end
     create_provisioning_claim(template_name)
     create_provisioning_claim(template_name, params::Dict{String,<:Any})
 
-Creates a provisioning claim.
+Creates a provisioning claim. Requires permission to access the CreateProvisioningClaim
+action.
 
 # Arguments
 - `template_name`: The name of the provisioning template to use.
@@ -1359,7 +1452,8 @@ end
     create_provisioning_template(provisioning_role_arn, template_body, template_name)
     create_provisioning_template(provisioning_role_arn, template_body, template_name, params::Dict{String,<:Any})
 
-Creates a fleet provisioning template.
+Creates a fleet provisioning template. Requires permission to access the
+CreateProvisioningTemplate action.
 
 # Arguments
 - `provisioning_role_arn`: The role ARN for the role associated with the fleet provisioning
@@ -1423,7 +1517,8 @@ end
     create_provisioning_template_version(template_body, template_name)
     create_provisioning_template_version(template_body, template_name, params::Dict{String,<:Any})
 
-Creates a new version of a fleet provisioning template.
+Creates a new version of a fleet provisioning template. Requires permission to access the
+CreateProvisioningTemplateVersion action.
 
 # Arguments
 - `template_body`: The JSON formatted contents of the fleet provisioning template.
@@ -1463,7 +1558,7 @@ end
     create_role_alias(role_alias, role_arn)
     create_role_alias(role_alias, role_arn, params::Dict{String,<:Any})
 
-Creates a role alias.
+Creates a role alias. Requires permission to access the CreateRoleAlias action.
 
 # Arguments
 - `role_alias`: The role alias that points to a role ARN. This allows you to change the
@@ -1472,7 +1567,8 @@ Creates a role alias.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"credentialDurationSeconds"`: How long (in seconds) the credentials will be valid.
+- `"credentialDurationSeconds"`: How long (in seconds) the credentials will be valid. The
+  default value is 3,600 seconds.
 - `"tags"`: Metadata which can be used to manage the role alias.  For URI Request
   parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
   use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
@@ -1506,7 +1602,8 @@ end
     create_scheduled_audit(frequency, scheduled_audit_name, target_check_names)
     create_scheduled_audit(frequency, scheduled_audit_name, target_check_names, params::Dict{String,<:Any})
 
-Creates a scheduled audit that is run at a specified time interval.
+Creates a scheduled audit that is run at a specified time interval. Requires permission to
+access the CreateScheduledAudit action.
 
 # Arguments
 - `frequency`: How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY or
@@ -1568,7 +1665,8 @@ end
     create_security_profile(security_profile_name)
     create_security_profile(security_profile_name, params::Dict{String,<:Any})
 
-Creates a Device Defender security profile.
+Creates a Device Defender security profile. Requires permission to access the
+CreateSecurityProfile action.
 
 # Arguments
 - `security_profile_name`: The name you are giving to the security profile.
@@ -1612,7 +1710,8 @@ end
 
 Creates a stream for delivering one or more large files in chunks over MQTT. A stream
 transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3.
-You can have one or more files associated with a stream.
+You can have one or more files associated with a stream. Requires permission to access the
+CreateStream action.
 
 # Arguments
 - `files`: The files to stream.
@@ -1662,7 +1761,7 @@ Creates a thing record in the registry. If this call is made multiple times usin
 thing name and configuration, the call will succeed. If this call is made with the same
 thing name but different configuration a ResourceAlreadyExistsException is thrown.  This is
 a control plane operation. See Authorization for information about authorizing control
-plane actions.
+plane actions.  Requires permission to access the CreateThing action.
 
 # Arguments
 - `thing_name`: The name of the thing to create. You can't change a thing's name after you
@@ -1692,7 +1791,8 @@ end
     create_thing_group(thing_group_name, params::Dict{String,<:Any})
 
 Create a thing group.  This is a control plane operation. See Authorization for information
-about authorizing control plane actions.
+about authorizing control plane actions.  Requires permission to access the
+CreateThingGroup action.
 
 # Arguments
 - `thing_group_name`: The thing group name to create.
@@ -1720,7 +1820,7 @@ end
     create_thing_type(thing_type_name)
     create_thing_type(thing_type_name, params::Dict{String,<:Any})
 
-Creates a new thing type.
+Creates a new thing type. Requires permission to access the CreateThingType action.
 
 # Arguments
 - `thing_type_name`: The name of the thing type.
@@ -1748,7 +1848,8 @@ end
     create_topic_rule(rule_name, topic_rule_payload, params::Dict{String,<:Any})
 
 Creates a rule. Creating rules is an administrator-level action. Any user who has
-permission to create rules will be able to access data processed by the rule.
+permission to create rules will be able to access data processed by the rule. Requires
+permission to access the CreateTopicRule action.
 
 # Arguments
 - `rule_name`: The name of the rule.
@@ -1793,7 +1894,8 @@ end
     create_topic_rule_destination(destination_configuration)
     create_topic_rule_destination(destination_configuration, params::Dict{String,<:Any})
 
-Creates a topic rule destination. The destination must be confirmed prior to use.
+Creates a topic rule destination. The destination must be confirmed prior to use. Requires
+permission to access the CreateTopicRuleDestination action.
 
 # Arguments
 - `destination_configuration`: The topic rule destination configuration.
@@ -1834,6 +1936,7 @@ end
 
 Restores the default settings for Device Defender audits for this account. Any
 configuration data you entered is deleted and all audit checks are reset to disabled.
+Requires permission to access the DeleteAccountAuditConfiguration action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1854,7 +1957,8 @@ end
     delete_audit_suppression(check_name, resource_identifier)
     delete_audit_suppression(check_name, resource_identifier, params::Dict{String,<:Any})
 
- Deletes a Device Defender audit suppression.
+ Deletes a Device Defender audit suppression.  Requires permission to access the
+DeleteAuditSuppression action.
 
 # Arguments
 - `check_name`:
@@ -1899,7 +2003,7 @@ end
     delete_authorizer(authorizer_name)
     delete_authorizer(authorizer_name, params::Dict{String,<:Any})
 
-Deletes an authorizer.
+Deletes an authorizer. Requires permission to access the DeleteAuthorizer action.
 
 # Arguments
 - `authorizer_name`: The name of the authorizer to delete.
@@ -1922,7 +2026,7 @@ end
     delete_billing_group(billing_group_name)
     delete_billing_group(billing_group_name, params::Dict{String,<:Any})
 
-Deletes the billing group.
+Deletes the billing group. Requires permission to access the DeleteBillingGroup action.
 
 # Arguments
 - `billing_group_name`: The name of the billing group.
@@ -1952,7 +2056,8 @@ end
     delete_cacertificate(ca_certificate_id)
     delete_cacertificate(ca_certificate_id, params::Dict{String,<:Any})
 
-Deletes a registered CA certificate.
+Deletes a registered CA certificate. Requires permission to access the DeleteCACertificate
+action.
 
 # Arguments
 - `ca_certificate_id`: The ID of the certificate to delete. (The last part of the
@@ -1978,8 +2083,9 @@ end
 
 Deletes the specified certificate. A certificate cannot be deleted if it has a policy or
 IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first
-use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate
-API to set the certificate to the INACTIVE status.
+use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action
+to set the certificate to the INACTIVE status. Requires permission to access the
+DeleteCertificate action.
 
 # Arguments
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
@@ -2007,10 +2113,11 @@ end
     delete_custom_metric(metric_name)
     delete_custom_metric(metric_name, params::Dict{String,<:Any})
 
- Before you can delete a custom metric, you must first remove the custom metric from all
-security profiles it's a part of. The security profile associated with the custom metric
-can be found using the ListSecurityProfiles API with metricName set to your custom metric
-name.   Deletes a Device Defender detect custom metric.
+ Deletes a Device Defender detect custom metric.  Requires permission to access the
+DeleteCustomMetric action.  Before you can delete a custom metric, you must first remove
+the custom metric from all security profiles it's a part of. The security profile
+associated with the custom metric can be found using the ListSecurityProfiles API with
+metricName set to your custom metric name.
 
 # Arguments
 - `metric_name`:  The name of the custom metric.
@@ -2031,7 +2138,8 @@ end
     delete_dimension(name)
     delete_dimension(name, params::Dict{String,<:Any})
 
-Removes the specified dimension from your AWS account.
+Removes the specified dimension from your Amazon Web Services accounts. Requires permission
+to access the DeleteDimension action.
 
 # Arguments
 - `name`: The unique identifier for the dimension that you want to delete.
@@ -2050,7 +2158,8 @@ end
     delete_domain_configuration(domain_configuration_name)
     delete_domain_configuration(domain_configuration_name, params::Dict{String,<:Any})
 
-Deletes the specified domain configuration.
+Deletes the specified domain configuration. Requires permission to access the
+DeleteDomainConfiguration action.
 
 # Arguments
 - `domain_configuration_name`: The name of the domain configuration to be deleted.
@@ -2080,7 +2189,8 @@ end
     delete_dynamic_thing_group(thing_group_name)
     delete_dynamic_thing_group(thing_group_name, params::Dict{String,<:Any})
 
-Deletes a dynamic thing group.
+Deletes a dynamic thing group. Requires permission to access the DeleteDynamicThingGroup
+action.
 
 # Arguments
 - `thing_group_name`: The name of the dynamic thing group to delete.
@@ -2105,6 +2215,32 @@ function delete_dynamic_thing_group(
 end
 
 """
+    delete_fleet_metric(metric_name)
+    delete_fleet_metric(metric_name, params::Dict{String,<:Any})
+
+Deletes the specified fleet metric. Returns successfully with no error if the deletion is
+successful or you specify a fleet metric that doesn't exist. Requires permission to access
+the DeleteFleetMetric action.
+
+# Arguments
+- `metric_name`: The name of the fleet metric to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"expectedVersion"`: The expected version of the fleet metric to delete.
+"""
+function delete_fleet_metric(metricName; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot("DELETE", "/fleet-metric/$(metricName)"; aws_config=aws_config)
+end
+function delete_fleet_metric(
+    metricName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot("DELETE", "/fleet-metric/$(metricName)", params; aws_config=aws_config)
+end
+
+"""
     delete_job(job_id)
     delete_job(job_id, params::Dict{String,<:Any})
 
@@ -2113,7 +2249,7 @@ the number of job executions created for the job and various other factors. Whil
 is being deleted, the status of the job will be shown as \"DELETION_IN_PROGRESS\".
 Attempting to delete or cancel a job whose status is already \"DELETION_IN_PROGRESS\" will
 result in an error. Only 10 jobs may have status \"DELETION_IN_PROGRESS\" at the same time,
-or a LimitExceededException will occur.
+or a LimitExceededException will occur. Requires permission to access the DeleteJob action.
 
 # Arguments
 - `job_id`: The ID of the job to be deleted. After a job deletion is completed, you may
@@ -2129,8 +2265,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information or update the job execution status. Use caution and ensure that each device
   executing a job which is deleted is able to recover to a valid state.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
-  topics that contain the value in the following format.
+  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+  notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 """
@@ -2147,7 +2283,7 @@ end
     delete_job_execution(execution_number, job_id, thing_name)
     delete_job_execution(execution_number, job_id, thing_name, params::Dict{String,<:Any})
 
-Deletes a job execution.
+Deletes a job execution. Requires permission to access the DeleteJobExecution action.
 
 # Arguments
 - `execution_number`: The ID of the job execution to be deleted. The executionNumber refers
@@ -2166,8 +2302,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to be unable to access job information or update the job execution status. Use caution and
   ensure that the device is able to recover to a valid state.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
-  topics that contain the value in the following format.
+  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+  notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 """
@@ -2222,7 +2358,8 @@ end
     delete_mitigation_action(action_name)
     delete_mitigation_action(action_name, params::Dict{String,<:Any})
 
-Deletes a defined mitigation action from your AWS account.
+Deletes a defined mitigation action from your Amazon Web Services accounts. Requires
+permission to access the DeleteMitigationAction action.
 
 # Arguments
 - `action_name`: The name of the mitigation action that you want to delete.
@@ -2247,7 +2384,7 @@ end
     delete_otaupdate(ota_update_id)
     delete_otaupdate(ota_update_id, params::Dict{String,<:Any})
 
-Delete an OTA update.
+Delete an OTA update. Requires permission to access the DeleteOTAUpdate action.
 
 # Arguments
 - `ota_update_id`: The ID of the OTA update to delete.
@@ -2257,7 +2394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deleteStream"`: When true, the stream created by the OTAUpdate process is deleted when
   the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by
   the user.
-- `"forceDeleteAWSJob"`: When true, deletes the AWS job created by the OTAUpdate process
+- `"forceDeleteAWSJob"`: When true, deletes the IoT job created by the OTAUpdate process
   even if it is \"IN_PROGRESS\". Otherwise, if the job is not in a terminal state
   (\"COMPLETED\" or \"CANCELED\") an exception will occur. The default is false.
 """
@@ -2277,10 +2414,13 @@ end
     delete_policy(policy_name, params::Dict{String,<:Any})
 
 Deletes the specified policy. A policy cannot be deleted if it has non-default versions or
-it is attached to any certificate. To delete a policy, use the DeletePolicyVersion API to
-delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach
-the policy from any certificate; and then use the DeletePolicy API to delete the policy.
+it is attached to any certificate. To delete a policy, use the DeletePolicyVersion action
+to delete all non-default versions of the policy; use the DetachPolicy action to detach the
+policy from any certificate; and then use the DeletePolicy action to delete the policy.
 When a policy is deleted using DeletePolicy, its default version is deleted with it.
+Because of the distributed nature of Amazon Web Services, it can take up to five minutes
+after a policy is detached before it's ready to be deleted.  Requires permission to access
+the DeletePolicy action.
 
 # Arguments
 - `policy_name`: The name of the policy to delete.
@@ -2302,9 +2442,9 @@ end
     delete_policy_version(policy_name, policy_version_id, params::Dict{String,<:Any})
 
 Deletes the specified version of the specified policy. You cannot delete the default
-version of a policy using this API. To delete the default version of a policy, use
+version of a policy using this action. To delete the default version of a policy, use
 DeletePolicy. To find out which version of a policy is marked as the default version, use
-ListPolicyVersions.
+ListPolicyVersions. Requires permission to access the DeletePolicyVersion action.
 
 # Arguments
 - `policy_name`: The name of the policy.
@@ -2338,7 +2478,8 @@ end
     delete_provisioning_template(template_name)
     delete_provisioning_template(template_name, params::Dict{String,<:Any})
 
-Deletes a fleet provisioning template.
+Deletes a fleet provisioning template. Requires permission to access the
+DeleteProvisioningTemplate action.
 
 # Arguments
 - `template_name`: The name of the fleet provision template to delete.
@@ -2363,7 +2504,8 @@ end
     delete_provisioning_template_version(template_name, version_id)
     delete_provisioning_template_version(template_name, version_id, params::Dict{String,<:Any})
 
-Deletes a fleet provisioning template version.
+Deletes a fleet provisioning template version. Requires permission to access the
+DeleteProvisioningTemplateVersion action.
 
 # Arguments
 - `template_name`: The name of the fleet provisioning template version to delete.
@@ -2397,7 +2539,8 @@ end
     delete_registration_code()
     delete_registration_code(params::Dict{String,<:Any})
 
-Deletes a CA certificate registration code.
+Deletes a CA certificate registration code. Requires permission to access the
+DeleteRegistrationCode action.
 
 """
 function delete_registration_code(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2413,7 +2556,7 @@ end
     delete_role_alias(role_alias)
     delete_role_alias(role_alias, params::Dict{String,<:Any})
 
-Deletes a role alias
+Deletes a role alias Requires permission to access the DeleteRoleAlias action.
 
 # Arguments
 - `role_alias`: The role alias to delete.
@@ -2434,7 +2577,7 @@ end
     delete_scheduled_audit(scheduled_audit_name)
     delete_scheduled_audit(scheduled_audit_name, params::Dict{String,<:Any})
 
-Deletes a scheduled audit.
+Deletes a scheduled audit. Requires permission to access the DeleteScheduledAudit action.
 
 # Arguments
 - `scheduled_audit_name`: The name of the scheduled audit you want to delete.
@@ -2464,7 +2607,8 @@ end
     delete_security_profile(security_profile_name)
     delete_security_profile(security_profile_name, params::Dict{String,<:Any})
 
-Deletes a Device Defender security profile.
+Deletes a Device Defender security profile. Requires permission to access the
+DeleteSecurityProfile action.
 
 # Arguments
 - `security_profile_name`: The name of the security profile to be deleted.
@@ -2494,7 +2638,7 @@ end
     delete_stream(stream_id)
     delete_stream(stream_id, params::Dict{String,<:Any})
 
-Deletes a stream.
+Deletes a stream. Requires permission to access the DeleteStream action.
 
 # Arguments
 - `stream_id`: The stream ID.
@@ -2516,7 +2660,8 @@ end
     delete_thing(thing_name, params::Dict{String,<:Any})
 
 Deletes the specified thing. Returns successfully with no error if the deletion is
-successful or you specify a thing that doesn't exist.
+successful or you specify a thing that doesn't exist. Requires permission to access the
+DeleteThing action.
 
 # Arguments
 - `thing_name`: The name of the thing to delete.
@@ -2542,7 +2687,7 @@ end
     delete_thing_group(thing_group_name)
     delete_thing_group(thing_group_name, params::Dict{String,<:Any})
 
-Deletes a thing group.
+Deletes a thing group. Requires permission to access the DeleteThingGroup action.
 
 # Arguments
 - `thing_group_name`: The name of the thing group to delete.
@@ -2572,7 +2717,7 @@ Deletes the specified thing type. You cannot delete a thing type if it has thing
 associated with it. To delete a thing type, first mark it as deprecated by calling
 DeprecateThingType, then remove any associated things by calling UpdateThing to change the
 thing type on any associated thing, and finally use DeleteThingType to delete the thing
-type.
+type. Requires permission to access the DeleteThingType action.
 
 # Arguments
 - `thing_type_name`: The name of the thing type.
@@ -2593,7 +2738,7 @@ end
     delete_topic_rule(rule_name)
     delete_topic_rule(rule_name, params::Dict{String,<:Any})
 
-Deletes the rule.
+Deletes the rule. Requires permission to access the DeleteTopicRule action.
 
 # Arguments
 - `rule_name`: The name of the rule.
@@ -2614,7 +2759,8 @@ end
     delete_topic_rule_destination(arn)
     delete_topic_rule_destination(arn, params::Dict{String,<:Any})
 
-Deletes a topic rule destination.
+Deletes a topic rule destination. Requires permission to access the
+DeleteTopicRuleDestination action.
 
 # Arguments
 - `arn`: The ARN of the topic rule destination to delete.
@@ -2635,7 +2781,7 @@ end
     delete_v2_logging_level(target_name, target_type)
     delete_v2_logging_level(target_name, target_type, params::Dict{String,<:Any})
 
-Deletes a logging level.
+Deletes a logging level. Requires permission to access the DeleteV2LoggingLevel action.
 
 # Arguments
 - `target_name`: The name of the resource for which you are configuring logging.
@@ -2678,6 +2824,7 @@ end
     deprecate_thing_type(thing_type_name, params::Dict{String,<:Any})
 
 Deprecates a thing type. You can not associate new things with deprecated thing type.
+Requires permission to access the DeprecateThingType action.
 
 # Arguments
 - `thing_type_name`: The name of the thing type to deprecate.
@@ -2708,6 +2855,7 @@ end
 
 Gets information about the Device Defender audit settings for this account. Settings
 include how audit notifications are sent and which audit checks are enabled or disabled.
+Requires permission to access the DescribeAccountAuditConfiguration action.
 
 """
 function describe_account_audit_configuration(;
@@ -2727,7 +2875,7 @@ end
 
 Gets information about a single audit finding. Properties include the reason for
 noncompliance, the severity of the issue, and the start time when the audit that returned
-the finding.
+the finding. Requires permission to access the DescribeAuditFinding action.
 
 # Arguments
 - `finding_id`: A unique identifier for a single audit finding. You can use this identifier
@@ -2821,7 +2969,8 @@ end
     describe_audit_task(task_id)
     describe_audit_task(task_id, params::Dict{String,<:Any})
 
-Gets information about a Device Defender audit.
+Gets information about a Device Defender audit. Requires permission to access the
+DescribeAuditTask action.
 
 # Arguments
 - `task_id`: The ID of the audit whose information you want to get.
@@ -2840,7 +2989,7 @@ end
     describe_authorizer(authorizer_name)
     describe_authorizer(authorizer_name, params::Dict{String,<:Any})
 
-Describes an authorizer.
+Describes an authorizer. Requires permission to access the DescribeAuthorizer action.
 
 # Arguments
 - `authorizer_name`: The name of the authorizer to describe.
@@ -2863,7 +3012,8 @@ end
     describe_billing_group(billing_group_name)
     describe_billing_group(billing_group_name, params::Dict{String,<:Any})
 
-Returns information about a billing group.
+Returns information about a billing group. Requires permission to access the
+DescribeBillingGroup action.
 
 # Arguments
 - `billing_group_name`: The name of the billing group.
@@ -2886,7 +3036,8 @@ end
     describe_cacertificate(ca_certificate_id)
     describe_cacertificate(ca_certificate_id, params::Dict{String,<:Any})
 
-Describes a registered CA certificate.
+Describes a registered CA certificate. Requires permission to access the
+DescribeCACertificate action.
 
 # Arguments
 - `ca_certificate_id`: The CA certificate identifier.
@@ -2909,7 +3060,8 @@ end
     describe_certificate(certificate_id)
     describe_certificate(certificate_id, params::Dict{String,<:Any})
 
-Gets information about the specified certificate.
+Gets information about the specified certificate. Requires permission to access the
+DescribeCertificate action.
 
 # Arguments
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
@@ -2933,7 +3085,8 @@ end
     describe_custom_metric(metric_name)
     describe_custom_metric(metric_name, params::Dict{String,<:Any})
 
- Gets information about a Device Defender detect custom metric.
+ Gets information about a Device Defender detect custom metric.  Requires permission to
+access the DescribeCustomMetric action.
 
 # Arguments
 - `metric_name`:  The name of the custom metric.
@@ -2956,7 +3109,8 @@ end
     describe_default_authorizer()
     describe_default_authorizer(params::Dict{String,<:Any})
 
-Describes the default authorizer.
+Describes the default authorizer. Requires permission to access the
+DescribeDefaultAuthorizer action.
 
 """
 function describe_default_authorizer(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2972,7 +3126,8 @@ end
     describe_detect_mitigation_actions_task(task_id)
     describe_detect_mitigation_actions_task(task_id, params::Dict{String,<:Any})
 
- Gets information about a Device Defender ML Detect mitigation action.
+ Gets information about a Device Defender ML Detect mitigation action.  Requires permission
+to access the DescribeDetectMitigationActionsTask action.
 
 # Arguments
 - `task_id`:  The unique identifier of the task.
@@ -2995,7 +3150,8 @@ end
     describe_dimension(name)
     describe_dimension(name, params::Dict{String,<:Any})
 
-Provides details about a dimension that is defined in your AWS account.
+Provides details about a dimension that is defined in your Amazon Web Services accounts.
+Requires permission to access the DescribeDimension action.
 
 # Arguments
 - `name`: The unique identifier for the dimension.
@@ -3014,7 +3170,8 @@ end
     describe_domain_configuration(domain_configuration_name)
     describe_domain_configuration(domain_configuration_name, params::Dict{String,<:Any})
 
-Gets summary information about a domain configuration.
+Gets summary information about a domain configuration. Requires permission to access the
+DescribeDomainConfiguration action.
 
 # Arguments
 - `domain_configuration_name`: The name of the domain configuration.
@@ -3044,15 +3201,16 @@ end
     describe_endpoint()
     describe_endpoint(params::Dict{String,<:Any})
 
-Returns a unique endpoint specific to the AWS account making the call.
+Returns a unique endpoint specific to the Amazon Web Services account making the call.
+Requires permission to access the DescribeEndpoint action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"endpointType"`: The endpoint type. Valid endpoint types include:    iot:Data - Returns
   a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.
-     iot:CredentialProvider - Returns an AWS IoT credentials provider API endpoint.
-  iot:Jobs - Returns an AWS IoT device management Jobs API endpoint.   We strongly recommend
-  that customers use the newer iot:Data-ATS endpoint type to avoid issues related to the
+     iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs
+  - Returns an IoT device management Jobs API endpoint.   We strongly recommend that
+  customers use the newer iot:Data-ATS endpoint type to avoid issues related to the
   widespread distrust of Symantec certificate authorities.
 """
 function describe_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3068,7 +3226,8 @@ end
     describe_event_configurations()
     describe_event_configurations(params::Dict{String,<:Any})
 
-Describes event configurations.
+Describes event configurations. Requires permission to access the
+DescribeEventConfigurations action.
 
 """
 function describe_event_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3081,10 +3240,34 @@ function describe_event_configurations(
 end
 
 """
+    describe_fleet_metric(metric_name)
+    describe_fleet_metric(metric_name, params::Dict{String,<:Any})
+
+Gets information about the specified fleet metric. Requires permission to access the
+DescribeFleetMetric action.
+
+# Arguments
+- `metric_name`: The name of the fleet metric to describe.
+
+"""
+function describe_fleet_metric(
+    metricName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot("GET", "/fleet-metric/$(metricName)"; aws_config=aws_config)
+end
+function describe_fleet_metric(
+    metricName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot("GET", "/fleet-metric/$(metricName)", params; aws_config=aws_config)
+end
+
+"""
     describe_index(index_name)
     describe_index(index_name, params::Dict{String,<:Any})
 
-Describes a search index.
+Describes a search index. Requires permission to access the DescribeIndex action.
 
 # Arguments
 - `index_name`: The index name.
@@ -3105,7 +3288,7 @@ end
     describe_job(job_id)
     describe_job(job_id, params::Dict{String,<:Any})
 
-Describes a job.
+Describes a job. Requires permission to access the DescribeJob action.
 
 # Arguments
 - `job_id`: The unique identifier you assigned to this job when it was created.
@@ -3124,7 +3307,7 @@ end
     describe_job_execution(job_id, thing_name)
     describe_job_execution(job_id, thing_name, params::Dict{String,<:Any})
 
-Describes a job execution.
+Describes a job execution. Requires permission to access the DescribeJobExecution action.
 
 # Arguments
 - `job_id`: The unique identifier you assigned to this job when it was created.
@@ -3176,7 +3359,8 @@ end
     describe_mitigation_action(action_name)
     describe_mitigation_action(action_name, params::Dict{String,<:Any})
 
-Gets information about a mitigation action.
+Gets information about a mitigation action. Requires permission to access the
+DescribeMitigationAction action.
 
 # Arguments
 - `action_name`: The friendly name that uniquely identifies the mitigation action.
@@ -3201,7 +3385,8 @@ end
     describe_provisioning_template(template_name)
     describe_provisioning_template(template_name, params::Dict{String,<:Any})
 
-Returns information about a fleet provisioning template.
+Returns information about a fleet provisioning template. Requires permission to access the
+DescribeProvisioningTemplate action.
 
 # Arguments
 - `template_name`: The name of the fleet provisioning template.
@@ -3226,7 +3411,8 @@ end
     describe_provisioning_template_version(template_name, version_id)
     describe_provisioning_template_version(template_name, version_id, params::Dict{String,<:Any})
 
-Returns information about a fleet provisioning template version.
+Returns information about a fleet provisioning template version. Requires permission to
+access the DescribeProvisioningTemplateVersion action.
 
 # Arguments
 - `template_name`: The template name.
@@ -3260,7 +3446,7 @@ end
     describe_role_alias(role_alias)
     describe_role_alias(role_alias, params::Dict{String,<:Any})
 
-Describes a role alias.
+Describes a role alias. Requires permission to access the DescribeRoleAlias action.
 
 # Arguments
 - `role_alias`: The role alias to describe.
@@ -3281,7 +3467,8 @@ end
     describe_scheduled_audit(scheduled_audit_name)
     describe_scheduled_audit(scheduled_audit_name, params::Dict{String,<:Any})
 
-Gets information about a scheduled audit.
+Gets information about a scheduled audit. Requires permission to access the
+DescribeScheduledAudit action.
 
 # Arguments
 - `scheduled_audit_name`: The name of the scheduled audit whose information you want to get.
@@ -3306,7 +3493,8 @@ end
     describe_security_profile(security_profile_name)
     describe_security_profile(security_profile_name, params::Dict{String,<:Any})
 
-Gets information about a Device Defender security profile.
+Gets information about a Device Defender security profile. Requires permission to access
+the DescribeSecurityProfile action.
 
 # Arguments
 - `security_profile_name`: The name of the security profile whose information you want to
@@ -3332,7 +3520,7 @@ end
     describe_stream(stream_id)
     describe_stream(stream_id, params::Dict{String,<:Any})
 
-Gets information about a stream.
+Gets information about a stream. Requires permission to access the DescribeStream action.
 
 # Arguments
 - `stream_id`: The stream ID.
@@ -3353,7 +3541,8 @@ end
     describe_thing(thing_name)
     describe_thing(thing_name, params::Dict{String,<:Any})
 
-Gets information about the specified thing.
+Gets information about the specified thing. Requires permission to access the DescribeThing
+action.
 
 # Arguments
 - `thing_name`: The name of the thing.
@@ -3374,7 +3563,7 @@ end
     describe_thing_group(thing_group_name)
     describe_thing_group(thing_group_name, params::Dict{String,<:Any})
 
-Describe a thing group.
+Describe a thing group. Requires permission to access the DescribeThingGroup action.
 
 # Arguments
 - `thing_group_name`: The name of the thing group.
@@ -3397,7 +3586,8 @@ end
     describe_thing_registration_task(task_id)
     describe_thing_registration_task(task_id, params::Dict{String,<:Any})
 
-Describes a bulk thing provisioning task.
+Describes a bulk thing provisioning task. Requires permission to access the
+DescribeThingRegistrationTask action.
 
 # Arguments
 - `task_id`: The task ID.
@@ -3418,7 +3608,8 @@ end
     describe_thing_type(thing_type_name)
     describe_thing_type(thing_type_name, params::Dict{String,<:Any})
 
-Gets information about the specified thing type.
+Gets information about the specified thing type. Requires permission to access the
+DescribeThingType action.
 
 # Arguments
 - `thing_type_name`: The name of the thing type.
@@ -3441,7 +3632,9 @@ end
     detach_policy(policy_name, target)
     detach_policy(policy_name, target, params::Dict{String,<:Any})
 
-Detaches a policy from the specified target.
+Detaches a policy from the specified target.  Because of the distributed nature of Amazon
+Web Services, it can take up to five minutes after a policy is detached before it's ready
+to be deleted.  Requires permission to access the DetachPolicy action.
 
 # Arguments
 - `policy_name`: The policy to detach.
@@ -3476,8 +3669,9 @@ end
     detach_principal_policy(policy_name, x-amzn-iot-principal)
     detach_principal_policy(policy_name, x-amzn-iot-principal, params::Dict{String,<:Any})
 
-Removes the specified policy from the specified certificate.  Note: This API is deprecated.
-Please use DetachPolicy instead.
+Removes the specified policy from the specified certificate.  This action is deprecated.
+Please use DetachPolicy instead.  Requires permission to access the DetachPrincipalPolicy
+action.
 
 # Arguments
 - `policy_name`: The name of the policy to detach.
@@ -3526,6 +3720,7 @@ end
     detach_security_profile(security_profile_name, security_profile_target_arn, params::Dict{String,<:Any})
 
 Disassociates a Device Defender security profile from a thing group or from this account.
+Requires permission to access the DetachSecurityProfile action.
 
 # Arguments
 - `security_profile_name`: The security profile that is detached.
@@ -3572,7 +3767,7 @@ end
 Detaches the specified principal from the specified thing. A principal can be X.509
 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
 identities.  This call is asynchronous. It might take several seconds for the detachment to
-propagate.
+propagate.  Requires permission to access the DetachThingPrincipal action.
 
 # Arguments
 - `thing_name`: The name of the thing.
@@ -3619,7 +3814,7 @@ end
     disable_topic_rule(rule_name)
     disable_topic_rule(rule_name, params::Dict{String,<:Any})
 
-Disables the rule.
+Disables the rule. Requires permission to access the DisableTopicRule action.
 
 # Arguments
 - `rule_name`: The name of the rule to disable.
@@ -3640,7 +3835,7 @@ end
     enable_topic_rule(rule_name)
     enable_topic_rule(rule_name, params::Dict{String,<:Any})
 
-Enables the rule.
+Enables the rule. Requires permission to access the EnableTopicRule action.
 
 # Arguments
 - `rule_name`: The name of the topic rule to enable.
@@ -3661,7 +3856,8 @@ end
     get_behavior_model_training_summaries()
     get_behavior_model_training_summaries(params::Dict{String,<:Any})
 
- Returns a Device Defender's ML Detect Security Profile training model's status.
+ Returns a Device Defender's ML Detect Security Profile training model's status.  Requires
+permission to access the GetBehaviorModelTrainingSummaries action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3681,13 +3877,74 @@ function get_behavior_model_training_summaries(
 end
 
 """
+    get_buckets_aggregation(aggregation_field, buckets_aggregation_type, query_string)
+    get_buckets_aggregation(aggregation_field, buckets_aggregation_type, query_string, params::Dict{String,<:Any})
+
+Aggregates on indexed data with search queries pertaining to particular fields.  Requires
+permission to access the GetBucketsAggregation action.
+
+# Arguments
+- `aggregation_field`: The aggregation field.
+- `buckets_aggregation_type`: The basic control of the response shape and the bucket
+  aggregation type to perform.
+- `query_string`: The search query string.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"indexName"`: The name of the index to search.
+- `"queryVersion"`: The version of the query.
+"""
+function get_buckets_aggregation(
+    aggregationField,
+    bucketsAggregationType,
+    queryString;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "POST",
+        "/indices/buckets",
+        Dict{String,Any}(
+            "aggregationField" => aggregationField,
+            "bucketsAggregationType" => bucketsAggregationType,
+            "queryString" => queryString,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_buckets_aggregation(
+    aggregationField,
+    bucketsAggregationType,
+    queryString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "POST",
+        "/indices/buckets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "aggregationField" => aggregationField,
+                    "bucketsAggregationType" => bucketsAggregationType,
+                    "queryString" => queryString,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     get_cardinality(query_string)
     get_cardinality(query_string, params::Dict{String,<:Any})
 
-Returns the approximate count of unique values that match the query.
+Returns the approximate count of unique values that match the query. Requires permission to
+access the GetCardinality action.
 
 # Arguments
-- `query_string`: The search query.
+- `query_string`: The search query string.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3723,7 +3980,8 @@ end
     get_effective_policies(params::Dict{String,<:Any})
 
 Gets a list of the policies that have an effect on the authorization behavior of the
-specified device when it connects to the AWS IoT device gateway.
+specified device when it connects to the IoT device gateway. Requires permission to access
+the GetEffectivePolicies action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3746,7 +4004,8 @@ end
     get_indexing_configuration()
     get_indexing_configuration(params::Dict{String,<:Any})
 
-Gets the indexing configuration.
+Gets the indexing configuration. Requires permission to access the GetIndexingConfiguration
+action.
 
 """
 function get_indexing_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3762,7 +4021,7 @@ end
     get_job_document(job_id)
     get_job_document(job_id, params::Dict{String,<:Any})
 
-Gets a job document.
+Gets a job document. Requires permission to access the GetJobDocument action.
 
 # Arguments
 - `job_id`: The unique identifier you assigned to this job when it was created.
@@ -3782,7 +4041,7 @@ end
     get_logging_options(params::Dict{String,<:Any})
 
 Gets the logging options. NOTE: use of this command is not recommended. Use
-GetV2LoggingOptions instead.
+GetV2LoggingOptions instead. Requires permission to access the GetLoggingOptions action.
 
 """
 function get_logging_options(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3798,7 +4057,7 @@ end
     get_otaupdate(ota_update_id)
     get_otaupdate(ota_update_id, params::Dict{String,<:Any})
 
-Gets an OTA update.
+Gets an OTA update. Requires permission to access the GetOTAUpdate action.
 
 # Arguments
 - `ota_update_id`: The OTA update ID.
@@ -3826,10 +4085,11 @@ the default percentile groupings). The percentile group \"1\" contains the aggre
 value that occurs in approximately one percent of the values that match the query. The
 percentile group \"5\" contains the aggregated field value that occurs in approximately
 five percent of the values that match the query, and so on. The result is an approximation,
-the more values that match the query, the more accurate the percentile values.
+the more values that match the query, the more accurate the percentile values. Requires
+permission to access the GetPercentiles action.
 
 # Arguments
-- `query_string`: The query string.
+- `query_string`: The search query string.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3865,7 +4125,8 @@ end
     get_policy(policy_name)
     get_policy(policy_name, params::Dict{String,<:Any})
 
-Gets information about the specified policy with the policy document of the default version.
+Gets information about the specified policy with the policy document of the default
+version. Requires permission to access the GetPolicy action.
 
 # Arguments
 - `policy_name`: The name of the policy.
@@ -3886,7 +4147,8 @@ end
     get_policy_version(policy_name, policy_version_id)
     get_policy_version(policy_name, policy_version_id, params::Dict{String,<:Any})
 
-Gets information about the specified policy version.
+Gets information about the specified policy version. Requires permission to access the
+GetPolicyVersion action.
 
 # Arguments
 - `policy_name`: The name of the policy.
@@ -3918,7 +4180,8 @@ end
     get_registration_code()
     get_registration_code(params::Dict{String,<:Any})
 
-Gets a registration code used to register a CA certificate with AWS IoT.
+Gets a registration code used to register a CA certificate with IoT. Requires permission to
+access the GetRegistrationCode action.
 
 """
 function get_registration_code(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3936,11 +4199,12 @@ end
 
 Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard
 deviation for the specified aggregated field. If the aggregation field is of type String,
-only the count statistic is returned.
+only the count statistic is returned. Requires permission to access the GetStatistics
+action.
 
 # Arguments
 - `query_string`: The query used to search. You can specify \"*\" for the query string to
-  get the count of all indexed things in your AWS account.
+  get the count of all indexed things in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3975,7 +4239,7 @@ end
     get_topic_rule(rule_name)
     get_topic_rule(rule_name, params::Dict{String,<:Any})
 
-Gets information about the rule.
+Gets information about the rule. Requires permission to access the GetTopicRule action.
 
 # Arguments
 - `rule_name`: The name of the rule.
@@ -3996,7 +4260,8 @@ end
     get_topic_rule_destination(arn)
     get_topic_rule_destination(arn, params::Dict{String,<:Any})
 
-Gets information about a topic rule destination.
+Gets information about a topic rule destination. Requires permission to access the
+GetTopicRuleDestination action.
 
 # Arguments
 - `arn`: The ARN of the topic rule destination.
@@ -4015,7 +4280,8 @@ end
     get_v2_logging_options()
     get_v2_logging_options(params::Dict{String,<:Any})
 
-Gets the fine grained logging options.
+Gets the fine grained logging options. Requires permission to access the
+GetV2LoggingOptions action.
 
 """
 function get_v2_logging_options(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4031,7 +4297,8 @@ end
     list_active_violations()
     list_active_violations(params::Dict{String,<:Any})
 
-Lists the active violations for a given Device Defender security profile.
+Lists the active violations for a given Device Defender security profile. Requires
+permission to access the ListActiveViolations action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4056,7 +4323,8 @@ end
     list_attached_policies(target)
     list_attached_policies(target, params::Dict{String,<:Any})
 
-Lists the policies attached to the specified thing group.
+Lists the policies attached to the specified thing group. Requires permission to access the
+ListAttachedPolicies action.
 
 # Arguments
 - `target`: The group or principal for which the policies will be listed. Valid principals
@@ -4083,7 +4351,8 @@ end
     list_audit_findings(params::Dict{String,<:Any})
 
 Lists the findings (results) of a Device Defender audit or of the audits performed during a
-specified time period. (Findings are retained for 90 days.)
+specified time period. (Findings are retained for 90 days.) Requires permission to access
+the ListAuditFindings action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4114,7 +4383,8 @@ end
     list_audit_mitigation_actions_executions(finding_id, task_id)
     list_audit_mitigation_actions_executions(finding_id, task_id, params::Dict{String,<:Any})
 
-Gets the status of audit mitigation action tasks that were executed.
+Gets the status of audit mitigation action tasks that were executed. Requires permission to
+access the ListAuditMitigationActionsExecutions action.
 
 # Arguments
 - `finding_id`: Specify this filter to limit results to those that were applied to a
@@ -4162,7 +4432,8 @@ end
     list_audit_mitigation_actions_tasks(end_time, start_time)
     list_audit_mitigation_actions_tasks(end_time, start_time, params::Dict{String,<:Any})
 
-Gets a list of audit mitigation action tasks that match the specified filters.
+Gets a list of audit mitigation action tasks that match the specified filters. Requires
+permission to access the ListAuditMitigationActionsTasks action.
 
 # Arguments
 - `end_time`: Specify this filter to limit results to tasks that were completed or canceled
@@ -4215,7 +4486,8 @@ end
     list_audit_suppressions()
     list_audit_suppressions(params::Dict{String,<:Any})
 
- Lists your Device Defender audit listings.
+ Lists your Device Defender audit listings.  Requires permission to access the
+ListAuditSuppressions action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4240,6 +4512,7 @@ end
     list_audit_tasks(end_time, start_time, params::Dict{String,<:Any})
 
 Lists the Device Defender audits that have been performed during a given time period.
+Requires permission to access the ListAuditTasks action.
 
 # Arguments
 - `end_time`: The end of the time period.
@@ -4290,7 +4563,8 @@ end
     list_authorizers()
     list_authorizers(params::Dict{String,<:Any})
 
-Lists the authorizers registered in your account.
+Lists the authorizers registered in your account. Requires permission to access the
+ListAuthorizers action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4312,7 +4586,8 @@ end
     list_billing_groups()
     list_billing_groups(params::Dict{String,<:Any})
 
-Lists the billing groups you have created.
+Lists the billing groups you have created. Requires permission to access the
+ListBillingGroups action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4335,8 +4610,9 @@ end
     list_cacertificates()
     list_cacertificates(params::Dict{String,<:Any})
 
-Lists the CA certificates registered for your AWS account. The results are paginated with a
-default page size of 25. You can use the returned marker to retrieve additional results.
+Lists the CA certificates registered for your Amazon Web Services account. The results are
+paginated with a default page size of 25. You can use the returned marker to retrieve
+additional results. Requires permission to access the ListCACertificates action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4357,8 +4633,9 @@ end
     list_certificates()
     list_certificates(params::Dict{String,<:Any})
 
-Lists the certificates registered in your AWS account. The results are paginated with a
-default page size of 25. You can use the returned marker to retrieve additional results.
+Lists the certificates registered in your Amazon Web Services account. The results are
+paginated with a default page size of 25. You can use the returned marker to retrieve
+additional results. Requires permission to access the ListCertificates action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4380,7 +4657,8 @@ end
     list_certificates_by_ca(ca_certificate_id)
     list_certificates_by_ca(ca_certificate_id, params::Dict{String,<:Any})
 
-List the device certificates signed by the specified CA certificate.
+List the device certificates signed by the specified CA certificate. Requires permission to
+access the ListCertificatesByCA action.
 
 # Arguments
 - `ca_certificate_id`: The ID of the CA certificate. This operation will list all
@@ -4412,7 +4690,8 @@ end
     list_custom_metrics()
     list_custom_metrics(params::Dict{String,<:Any})
 
- Lists your Device Defender detect custom metrics.
+ Lists your Device Defender detect custom metrics.  Requires permission to access the
+ListCustomMetrics action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4433,6 +4712,7 @@ end
     list_detect_mitigation_actions_executions(params::Dict{String,<:Any})
 
  Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
+Requires permission to access the ListDetectMitigationActionsExecutions action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4461,7 +4741,8 @@ end
     list_detect_mitigation_actions_tasks(end_time, start_time)
     list_detect_mitigation_actions_tasks(end_time, start_time, params::Dict{String,<:Any})
 
- List of Device Defender ML Detect mitigation actions tasks.
+ List of Device Defender ML Detect mitigation actions tasks.  Requires permission to access
+the ListDetectMitigationActionsTasks action.
 
 # Arguments
 - `end_time`:  The end of the time period for which ML Detect mitigation actions tasks are
@@ -4508,7 +4789,8 @@ end
     list_dimensions()
     list_dimensions(params::Dict{String,<:Any})
 
-List the set of dimensions that are defined for your AWS account.
+List the set of dimensions that are defined for your Amazon Web Services accounts. Requires
+permission to access the ListDimensions action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4529,7 +4811,8 @@ end
     list_domain_configurations(params::Dict{String,<:Any})
 
 Gets a list of domain configurations for the user. This list is sorted alphabetically by
-domain configuration name.
+domain configuration name. Requires permission to access the ListDomainConfigurations
+action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4547,10 +4830,31 @@ function list_domain_configurations(
 end
 
 """
+    list_fleet_metrics()
+    list_fleet_metrics(params::Dict{String,<:Any})
+
+Lists all your fleet metrics.  Requires permission to access the ListFleetMetrics action.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in this operation.
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+"""
+function list_fleet_metrics(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot("GET", "/fleet-metrics"; aws_config=aws_config)
+end
+function list_fleet_metrics(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot("GET", "/fleet-metrics", params; aws_config=aws_config)
+end
+
+"""
     list_indices()
     list_indices(params::Dict{String,<:Any})
 
-Lists the search indices.
+Lists the search indices. Requires permission to access the ListIndices action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4571,7 +4875,8 @@ end
     list_job_executions_for_job(job_id)
     list_job_executions_for_job(job_id, params::Dict{String,<:Any})
 
-Lists the job executions for a job.
+Lists the job executions for a job. Requires permission to access the
+ListJobExecutionsForJob action.
 
 # Arguments
 - `job_id`: The unique identifier you assigned to this job when it was created.
@@ -4597,7 +4902,8 @@ end
     list_job_executions_for_thing(thing_name)
     list_job_executions_for_thing(thing_name, params::Dict{String,<:Any})
 
-Lists the job executions for the specified thing.
+Lists the job executions for the specified thing. Requires permission to access the
+ListJobExecutionsForThing action.
 
 # Arguments
 - `thing_name`: The thing name.
@@ -4606,8 +4912,8 @@ Lists the job executions for the specified thing.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
-  topics that contain the value in the following format.
+  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+  notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 - `"nextToken"`: The token to retrieve the next set of results.
@@ -4631,7 +4937,7 @@ end
     list_job_templates()
     list_job_templates(params::Dict{String,<:Any})
 
-Returns a list of job templates.
+Returns a list of job templates. Requires permission to access the ListJobTemplates action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4651,14 +4957,14 @@ end
     list_jobs()
     list_jobs(params::Dict{String,<:Any})
 
-Lists jobs.
+Lists jobs. Requires permission to access the ListJobs action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of results to return per request.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
-  topics that contain the value in the following format.
+  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+  notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 - `"nextToken"`: The token to retrieve the next set of results.
@@ -4686,7 +4992,8 @@ end
     list_mitigation_actions()
     list_mitigation_actions(params::Dict{String,<:Any})
 
-Gets a list of all mitigation actions that match the specified filter criteria.
+Gets a list of all mitigation actions that match the specified filter criteria. Requires
+permission to access the ListMitigationActions action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4708,7 +5015,7 @@ end
     list_otaupdates()
     list_otaupdates(params::Dict{String,<:Any})
 
-Lists OTA updates.
+Lists OTA updates. Requires permission to access the ListOTAUpdates action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4729,7 +5036,8 @@ end
     list_outgoing_certificates()
     list_outgoing_certificates(params::Dict{String,<:Any})
 
-Lists certificates that are being transferred but not yet accepted.
+Lists certificates that are being transferred but not yet accepted. Requires permission to
+access the ListOutgoingCertificates action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4751,7 +5059,7 @@ end
     list_policies()
     list_policies(params::Dict{String,<:Any})
 
-Lists your policies.
+Lists your policies. Requires permission to access the ListPolicies action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4773,8 +5081,9 @@ end
     list_policy_principals(x-amzn-iot-policy)
     list_policy_principals(x-amzn-iot-policy, params::Dict{String,<:Any})
 
-Lists the principals associated with the specified policy.  Note: This API is deprecated.
-Please use ListTargetsForPolicy instead.
+Lists the principals associated with the specified policy.  Note: This action is
+deprecated. Please use ListTargetsForPolicy instead. Requires permission to access the
+ListPolicyPrincipals action.
 
 # Arguments
 - `x-amzn-iot-policy`: The policy name.
@@ -4823,7 +5132,8 @@ end
     list_policy_versions(policy_name)
     list_policy_versions(policy_name, params::Dict{String,<:Any})
 
-Lists the versions of the specified policy and identifies the default version.
+Lists the versions of the specified policy and identifies the default version. Requires
+permission to access the ListPolicyVersions action.
 
 # Arguments
 - `policy_name`: The policy name.
@@ -4845,8 +5155,9 @@ end
     list_principal_policies(x-amzn-iot-principal, params::Dict{String,<:Any})
 
 Lists the policies attached to the specified principal. If you use an Cognito identity, the
-ID must be in AmazonCognito Identity format.  Note: This API is deprecated. Please use
-ListAttachedPolicies instead.
+ID must be in AmazonCognito Identity format.  Note: This action is deprecated. Please use
+ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies
+action.
 
 # Arguments
 - `x-amzn-iot-principal`: The principal. Valid principals are CertificateArn
@@ -4900,7 +5211,7 @@ end
 
 Lists the things associated with the specified principal. A principal can be X.509
 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-identities.
+identities.  Requires permission to access the ListPrincipalThings action.
 
 # Arguments
 - `x-amzn-principal`: The principal.
@@ -4948,7 +5259,8 @@ end
     list_provisioning_template_versions(template_name)
     list_provisioning_template_versions(template_name, params::Dict{String,<:Any})
 
-A list of fleet provisioning template versions.
+A list of fleet provisioning template versions. Requires permission to access the
+ListProvisioningTemplateVersions action.
 
 # Arguments
 - `template_name`: The name of the fleet provisioning template.
@@ -4982,7 +5294,8 @@ end
     list_provisioning_templates()
     list_provisioning_templates(params::Dict{String,<:Any})
 
-Lists the fleet provisioning templates in your AWS account.
+Lists the fleet provisioning templates in your Amazon Web Services account. Requires
+permission to access the ListProvisioningTemplates action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5002,7 +5315,8 @@ end
     list_role_aliases()
     list_role_aliases(params::Dict{String,<:Any})
 
-Lists the role aliases registered in your account.
+Lists the role aliases registered in your account. Requires permission to access the
+ListRoleAliases action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5023,7 +5337,8 @@ end
     list_scheduled_audits()
     list_scheduled_audits(params::Dict{String,<:Any})
 
-Lists all of your scheduled audits.
+Lists all of your scheduled audits. Requires permission to access the ListScheduledAudits
+action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5044,8 +5359,9 @@ end
     list_security_profiles(params::Dict{String,<:Any})
 
 Lists the Device Defender security profiles you've created. You can filter security
-profiles by dimension or custom metric.   dimensionName and metricName cannot be used in
-the same request.
+profiles by dimension or custom metric. Requires permission to access the
+ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same
+request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5068,7 +5384,8 @@ end
     list_security_profiles_for_target(security_profile_target_arn)
     list_security_profiles_for_target(security_profile_target_arn, params::Dict{String,<:Any})
 
-Lists the Device Defender security profiles attached to a target (thing group).
+Lists the Device Defender security profiles attached to a target (thing group). Requires
+permission to access the ListSecurityProfilesForTarget action.
 
 # Arguments
 - `security_profile_target_arn`: The ARN of the target (thing group) whose attached
@@ -5113,7 +5430,8 @@ end
     list_streams()
     list_streams(params::Dict{String,<:Any})
 
-Lists all of the streams in your AWS account.
+Lists all of the streams in your Amazon Web Services account. Requires permission to access
+the ListStreams action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5134,7 +5452,8 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags (metadata) you have assigned to the resource.
+Lists the tags (metadata) you have assigned to the resource. Requires permission to access
+the ListTagsForResource action.
 
 # Arguments
 - `resource_arn`: The ARN of the resource.
@@ -5173,7 +5492,8 @@ end
     list_targets_for_policy(policy_name)
     list_targets_for_policy(policy_name, params::Dict{String,<:Any})
 
-List targets for the specified policy.
+List targets for the specified policy. Requires permission to access the
+ListTargetsForPolicy action.
 
 # Arguments
 - `policy_name`: The policy name.
@@ -5201,6 +5521,7 @@ end
     list_targets_for_security_profile(security_profile_name, params::Dict{String,<:Any})
 
 Lists the targets (thing groups) associated with a given Device Defender security profile.
+Requires permission to access the ListTargetsForSecurityProfile action.
 
 # Arguments
 - `security_profile_name`: The security profile.
@@ -5234,7 +5555,8 @@ end
     list_thing_groups()
     list_thing_groups(params::Dict{String,<:Any})
 
-List the thing groups in your account.
+List the thing groups in your account. Requires permission to access the ListThingGroups
+action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5260,7 +5582,8 @@ end
     list_thing_groups_for_thing(thing_name)
     list_thing_groups_for_thing(thing_name, params::Dict{String,<:Any})
 
-List the thing groups to which the specified thing belongs.
+List the thing groups to which the specified thing belongs. Requires permission to access
+the ListThingGroupsForThing action.
 
 # Arguments
 - `thing_name`: The thing name.
@@ -5290,7 +5613,7 @@ end
 
 Lists the principals associated with the specified thing. A principal can be X.509
 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-identities.
+identities. Requires permission to access the ListThingPrincipals action.
 
 # Arguments
 - `thing_name`: The name of the thing.
@@ -5358,7 +5681,8 @@ end
     list_thing_registration_tasks()
     list_thing_registration_tasks(params::Dict{String,<:Any})
 
-List bulk thing provisioning tasks.
+List bulk thing provisioning tasks. Requires permission to access the
+ListThingRegistrationTasks action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5380,7 +5704,7 @@ end
     list_thing_types()
     list_thing_types(params::Dict{String,<:Any})
 
-Lists the existing thing types.
+Lists the existing thing types. Requires permission to access the ListThingTypes action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5405,9 +5729,10 @@ end
 Lists your things. Use the attributeName and attributeValue parameters to filter your
 things. For example, calling ListThings with attributeName=Color and attributeValue=Red
 retrieves all things in the registry that contain an attribute Color with the value Red.
-You will not be charged for calling this API if an Access denied error is returned. You
-will also not be charged if no attributes or pagination token was provided in request and
-no pagination token and no results were returned.
+Requires permission to access the ListThings action.  You will not be charged for calling
+this API if an Access denied error is returned. You will also not be charged if no
+attributes or pagination token was provided in request and no pagination token and no
+results were returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5435,7 +5760,8 @@ end
     list_things_in_billing_group(billing_group_name)
     list_things_in_billing_group(billing_group_name, params::Dict{String,<:Any})
 
-Lists the things you have added to the given billing group.
+Lists the things you have added to the given billing group. Requires permission to access
+the ListThingsInBillingGroup action.
 
 # Arguments
 - `billing_group_name`: The name of the billing group.
@@ -5465,7 +5791,8 @@ end
     list_things_in_thing_group(thing_group_name)
     list_things_in_thing_group(thing_group_name, params::Dict{String,<:Any})
 
-Lists the things in the specified group.
+Lists the things in the specified group. Requires permission to access the
+ListThingsInThingGroup action.
 
 # Arguments
 - `thing_group_name`: The thing group name.
@@ -5496,7 +5823,8 @@ end
     list_topic_rule_destinations()
     list_topic_rule_destinations(params::Dict{String,<:Any})
 
-Lists all the topic rule destinations in your AWS account.
+Lists all the topic rule destinations in your Amazon Web Services account. Requires
+permission to access the ListTopicRuleDestinations action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5517,7 +5845,8 @@ end
     list_topic_rules()
     list_topic_rules(params::Dict{String,<:Any})
 
-Lists the rules for the specific topic.
+Lists the rules for the specific topic. Requires permission to access the ListTopicRules
+action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5540,7 +5869,7 @@ end
     list_v2_logging_levels()
     list_v2_logging_levels(params::Dict{String,<:Any})
 
-Lists logging levels.
+Lists logging levels. Requires permission to access the ListV2LoggingLevels action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5565,7 +5894,8 @@ end
 
 Lists the Device Defender security profile violations discovered during the given time
 period. You can use filters to limit the results to those alerts issued for a particular
-security profile, behavior, or thing (device).
+security profile, behavior, or thing (device). Requires permission to access the
+ListViolationEvents action.
 
 # Arguments
 - `end_time`: The end time for the alerts to be listed.
@@ -5615,12 +5945,13 @@ end
     register_cacertificate(ca_certificate, verification_certificate)
     register_cacertificate(ca_certificate, verification_certificate, params::Dict{String,<:Any})
 
-Registers a CA certificate with AWS IoT. This CA certificate can then be used to sign
-device certificates, which can be then registered with AWS IoT. You can register up to 10
-CA certificates per AWS account that have the same subject field. This enables you to have
-up to 10 certificate authorities sign your device certificates. If you have more than one
-CA certificate registered, make sure you pass the CA certificate when you register your
-device certificates with the RegisterCertificate API.
+Registers a CA certificate with IoT. This CA certificate can then be used to sign device
+certificates, which can be then registered with IoT. You can register up to 10 CA
+certificates per Amazon Web Services account that have the same subject field. This enables
+you to have up to 10 certificate authorities sign your device certificates. If you have
+more than one CA certificate registered, make sure you pass the CA certificate when you
+register your device certificates with the RegisterCertificate action. Requires permission
+to access the RegisterCACertificate action.
 
 # Arguments
 - `ca_certificate`: The CA certificate.
@@ -5679,9 +6010,10 @@ end
     register_certificate(certificate_pem)
     register_certificate(certificate_pem, params::Dict{String,<:Any})
 
-Registers a device certificate with AWS IoT. If you have more than one CA certificate that
-has the same subject field, you must specify the CA certificate that was used to sign the
-device certificate being registered.
+Registers a device certificate with IoT. If you have more than one CA certificate that has
+the same subject field, you must specify the CA certificate that was used to sign the
+device certificate being registered. Requires permission to access the RegisterCertificate
+action.
 
 # Arguments
 - `certificate_pem`: The certificate data, in PEM format.
@@ -5760,10 +6092,10 @@ end
     register_thing(template_body)
     register_thing(template_body, params::Dict{String,<:Any})
 
-Provisions a thing in the device registry. RegisterThing calls other AWS IoT control plane
-APIs. These calls might exceed your account level  AWS IoT Throttling Limits and cause
-throttle errors. Please contact AWS Customer Support to raise your throttling limits if
-necessary.
+Provisions a thing in the device registry. RegisterThing calls other IoT control plane
+APIs. These calls might exceed your account level  IoT Throttling Limits and cause throttle
+errors. Please contact Amazon Web Services Customer Support to raise your throttling limits
+if necessary. Requires permission to access the RegisterThing action.
 
 # Arguments
 - `template_body`: The provisioning template. See Provisioning Devices That Have Device
@@ -5801,11 +6133,12 @@ end
     reject_certificate_transfer(certificate_id)
     reject_certificate_transfer(certificate_id, params::Dict{String,<:Any})
 
-Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the
+Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the
 certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending
 certificate transfers, call ListCertificates to enumerate your certificates. This operation
 can only be called by the transfer destination. After it is called, the certificate will be
-returned to the source's account in the INACTIVE state.
+returned to the source's account in the INACTIVE state. Requires permission to access the
+RejectCertificateTransfer action.
 
 # Arguments
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
@@ -5839,7 +6172,8 @@ end
     remove_thing_from_billing_group()
     remove_thing_from_billing_group(params::Dict{String,<:Any})
 
-Removes the given thing from the billing group.
+Removes the given thing from the billing group. Requires permission to access the
+RemoveThingFromBillingGroup action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5867,7 +6201,8 @@ end
 
 Remove the specified thing from the specified group. You must specify either a
 thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a
-thingName to identify the thing to remove from the thing group.
+thingName to identify the thing to remove from the thing group.  Requires permission to
+access the RemoveThingFromThingGroup action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5893,7 +6228,8 @@ end
 
 Replaces the rule. You must specify all parameters for the new rule. Creating rules is an
 administrator-level action. Any user who has permission to create rules will be able to
-access data processed by the rule.
+access data processed by the rule. Requires permission to access the ReplaceTopicRule
+action.
 
 # Arguments
 - `rule_name`: The name of the rule.
@@ -5932,7 +6268,7 @@ end
     search_index(query_string)
     search_index(query_string, params::Dict{String,<:Any})
 
-The query search index.
+The query search index. Requires permission to access the SearchIndex action.
 
 # Arguments
 - `query_string`: The search query string.
@@ -5973,7 +6309,7 @@ end
     set_default_authorizer(authorizer_name, params::Dict{String,<:Any})
 
 Sets the default authorizer. This will be used if a websocket connection is made without
-specifying an authorizer.
+specifying an authorizer. Requires permission to access the SetDefaultAuthorizer action.
 
 # Arguments
 - `authorizer_name`: The authorizer name.
@@ -6010,7 +6346,8 @@ end
 
 Sets the specified version of the specified policy as the policy's default (operative)
 version. This action affects all certificates to which the policy is attached. To list the
-principals the policy is attached to, use the ListPrincipalPolicy API.
+principals the policy is attached to, use the ListPrincipalPolicies action. Requires
+permission to access the SetDefaultPolicyVersion action.
 
 # Arguments
 - `policy_name`: The policy name.
@@ -6043,7 +6380,7 @@ end
     set_logging_options(logging_options_payload, params::Dict{String,<:Any})
 
 Sets the logging options. NOTE: use of this command is not recommended. Use
-SetV2LoggingOptions instead.
+SetV2LoggingOptions instead. Requires permission to access the SetLoggingOptions action.
 
 # Arguments
 - `logging_options_payload`: The logging options payload.
@@ -6082,7 +6419,7 @@ end
     set_v2_logging_level(log_level, log_target)
     set_v2_logging_level(log_level, log_target, params::Dict{String,<:Any})
 
-Sets the logging level.
+Sets the logging level. Requires permission to access the SetV2LoggingLevel action.
 
 # Arguments
 - `log_level`: The log level.
@@ -6123,7 +6460,8 @@ end
     set_v2_logging_options()
     set_v2_logging_options(params::Dict{String,<:Any})
 
-Sets the logging options for the V2 logging service.
+Sets the logging options for the V2 logging service. Requires permission to access the
+SetV2LoggingOptions action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6144,11 +6482,12 @@ end
     start_audit_mitigation_actions_task(audit_check_to_actions_mapping, client_request_token, target, task_id)
     start_audit_mitigation_actions_task(audit_check_to_actions_mapping, client_request_token, target, task_id, params::Dict{String,<:Any})
 
-Starts a task that applies a set of mitigation actions to the specified target.
+Starts a task that applies a set of mitigation actions to the specified target. Requires
+permission to access the StartAuditMitigationActionsTask action.
 
 # Arguments
 - `audit_check_to_actions_mapping`: For an audit check, specifies which mitigation actions
-  to apply. Those actions must be defined in your AWS account.
+  to apply. Those actions must be defined in your Amazon Web Services accounts.
 - `client_request_token`: Each audit mitigation task must have a unique client request
   token. If you try to start a new task with the same token as a task that already exists, an
   exception occurs. If you omit this value, a unique client request token is generated
@@ -6208,14 +6547,15 @@ end
     start_detect_mitigation_actions_task(actions, client_request_token, target, task_id)
     start_detect_mitigation_actions_task(actions, client_request_token, target, task_id, params::Dict{String,<:Any})
 
- Starts a Device Defender ML Detect mitigation actions task.
+ Starts a Device Defender ML Detect mitigation actions task.  Requires permission to access
+the StartDetectMitigationActionsTask action.
 
 # Arguments
 - `actions`:  The actions to be performed when a device has unexpected behavior.
 - `client_request_token`:  Each mitigation action task must have a unique client request
   token. If you try to create a new task with the same token as a task that already exists,
-  an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+  an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically
+  generate a unique client request.
 - `target`:  Specifies the ML Detect findings to which the mitigation actions are applied.
 - `task_id`:  The unique identifier of the task.
 
@@ -6274,7 +6614,8 @@ end
     start_on_demand_audit_task(target_check_names)
     start_on_demand_audit_task(target_check_names, params::Dict{String,<:Any})
 
-Starts an on-demand Device Defender audit.
+Starts an on-demand Device Defender audit. Requires permission to access the
+StartOnDemandAuditTask action.
 
 # Arguments
 - `target_check_names`: Which checks are performed during the audit. The checks you specify
@@ -6314,7 +6655,8 @@ end
     start_thing_registration_task(input_file_bucket, input_file_key, role_arn, template_body)
     start_thing_registration_task(input_file_bucket, input_file_key, role_arn, template_body, params::Dict{String,<:Any})
 
-Creates a bulk thing provisioning task.
+Creates a bulk thing provisioning task. Requires permission to access the
+StartThingRegistrationTask action.
 
 # Arguments
 - `input_file_bucket`: The S3 bucket that contains the input file.
@@ -6375,7 +6717,8 @@ end
     stop_thing_registration_task(task_id)
     stop_thing_registration_task(task_id, params::Dict{String,<:Any})
 
-Cancels a bulk thing provisioning task.
+Cancels a bulk thing provisioning task. Requires permission to access the
+StopThingRegistrationTask action.
 
 # Arguments
 - `task_id`: The bulk thing provisioning task ID.
@@ -6399,7 +6742,7 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds to or modifies the tags of the given resource. Tags are metadata which can be used to
-manage a resource.
+manage a resource. Requires permission to access the TagResource action.
 
 # Arguments
 - `resource_arn`: The ARN of the resource.
@@ -6438,9 +6781,9 @@ end
     test_authorization(auth_infos)
     test_authorization(auth_infos, params::Dict{String,<:Any})
 
-Tests if a specified principal is authorized to perform an AWS IoT action on a specified
+Tests if a specified principal is authorized to perform an IoT action on a specified
 resource. Use this to test and debug the authorization behavior of devices that connect to
-the AWS IoT device gateway.
+the IoT device gateway. Requires permission to access the TestAuthorization action.
 
 # Arguments
 - `auth_infos`: A list of authorization info objects. Simulating authorization will create
@@ -6486,8 +6829,8 @@ end
     test_invoke_authorizer(authorizer_name, params::Dict{String,<:Any})
 
 Tests a custom authorization behavior by invoking a specified custom authorizer. Use this
-to test and debug the custom authorization behavior of devices that connect to the AWS IoT
-device gateway.
+to test and debug the custom authorization behavior of devices that connect to the IoT
+device gateway. Requires permission to access the TestInvokeAuthorizer action.
 
 # Arguments
 - `authorizer_name`: The custom authorizer name.
@@ -6518,17 +6861,18 @@ end
     transfer_certificate(certificate_id, target_aws_account)
     transfer_certificate(certificate_id, target_aws_account, params::Dict{String,<:Any})
 
-Transfers the specified certificate to the specified AWS account. You can cancel the
-transfer until it is acknowledged by the recipient. No notification is sent to the transfer
-destination's account. It is up to the caller to notify the transfer target. The
-certificate being transferred must not be in the ACTIVE state. You can use the
-UpdateCertificate API to deactivate it. The certificate must not have any policies attached
-to it. You can use the DetachPrincipalPolicy API to detach them.
+Transfers the specified certificate to the specified Amazon Web Services account. Requires
+permission to access the TransferCertificate action. You can cancel the transfer until it
+is acknowledged by the recipient. No notification is sent to the transfer destination's
+account. It is up to the caller to notify the transfer target. The certificate being
+transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to
+deactivate it. The certificate must not have any policies attached to it. You can use the
+DetachPolicy action to detach them.
 
 # Arguments
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
   contains the certificate ID.)
-- `target_aws_account`: The AWS account.
+- `target_aws_account`: The Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6566,7 +6910,8 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the given tags (metadata) from the resource.
+Removes the given tags (metadata) from the resource. Requires permission to access the
+UntagResource action.
 
 # Arguments
 - `resource_arn`: The ARN of the resource.
@@ -6609,6 +6954,7 @@ end
 
 Configures or reconfigures the Device Defender audit settings for this account. Settings
 include how audit notifications are sent and which audit checks are enabled or disabled.
+Requires permission to access the UpdateAccountAuditConfiguration action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6622,9 +6968,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required and must specify at least one enabled check.
 - `"auditNotificationTargetConfigurations"`: Information about the targets to which audit
   notifications are sent.
-- `"roleArn"`: The Amazon Resource Name (ARN) of the role that grants permission to AWS IoT
-  to access information about your devices, policies, certificates, and other items as
-  required when performing an audit.
+- `"roleArn"`: The Amazon Resource Name (ARN) of the role that grants permission to IoT to
+  access information about your devices, policies, certificates, and other items as required
+  when performing an audit.
 """
 function update_account_audit_configuration(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -6693,7 +7039,7 @@ end
     update_authorizer(authorizer_name)
     update_authorizer(authorizer_name, params::Dict{String,<:Any})
 
-Updates an authorizer.
+Updates an authorizer. Requires permission to access the UpdateAuthorizer action.
 
 # Arguments
 - `authorizer_name`: The authorizer name.
@@ -6722,7 +7068,8 @@ end
     update_billing_group(billing_group_name, billing_group_properties)
     update_billing_group(billing_group_name, billing_group_properties, params::Dict{String,<:Any})
 
-Updates information about the billing group.
+Updates information about the billing group. Requires permission to access the
+UpdateBillingGroup action.
 
 # Arguments
 - `billing_group_name`: The name of the billing group.
@@ -6770,7 +7117,8 @@ end
     update_cacertificate(ca_certificate_id)
     update_cacertificate(ca_certificate_id, params::Dict{String,<:Any})
 
-Updates a registered CA certificate.
+Updates a registered CA certificate. Requires permission to access the UpdateCACertificate
+action.
 
 # Arguments
 - `ca_certificate_id`: The CA certificate identifier.
@@ -6801,20 +7149,20 @@ end
     update_certificate(certificate_id, new_status)
     update_certificate(certificate_id, new_status, params::Dict{String,<:Any})
 
-Updates the status of the specified certificate. This operation is idempotent. Certificates
-must be in the ACTIVE state to authenticate devices that use a certificate to connect to
-AWS IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other
-state, AWS IoT disconnects all devices that used that certificate to connect. Devices
-cannot use a certificate that is not in the ACTIVE state to reconnect.
+Updates the status of the specified certificate. This operation is idempotent. Requires
+permission to access the UpdateCertificate action. Certificates must be in the ACTIVE state
+to authenticate devices that use a certificate to connect to IoT. Within a few minutes of
+updating a certificate from the ACTIVE state to any other state, IoT disconnects all
+devices that used that certificate to connect. Devices cannot use a certificate that is not
+in the ACTIVE state to reconnect.
 
 # Arguments
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
   contains the certificate ID.)
 - `new_status`: The new status.  Note: Setting the status to PENDING_TRANSFER or
   PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and
-  PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not intended for
-  developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be
-  used.
+  PENDING_ACTIVATION are statuses used internally by IoT. They are not intended for developer
+  use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
 
 """
 function update_certificate(
@@ -6847,7 +7195,8 @@ end
     update_custom_metric(display_name, metric_name)
     update_custom_metric(display_name, metric_name, params::Dict{String,<:Any})
 
-Updates a Device Defender detect custom metric.
+Updates a Device Defender detect custom metric.  Requires permission to access the
+UpdateCustomMetric action.
 
 # Arguments
 - `display_name`:  Field represents a friendly name in the console for the custom metric,
@@ -6887,7 +7236,8 @@ end
     update_dimension(name, string_values, params::Dict{String,<:Any})
 
 Updates the definition for a dimension. You cannot change the type of a dimension after it
-is created (you can delete it and recreate it).
+is created (you can delete it and recreate it). Requires permission to access the
+UpdateDimension action.
 
 # Arguments
 - `name`: A unique identifier for the dimension. Choose something that describes the type
@@ -6928,7 +7278,8 @@ end
     update_domain_configuration(domain_configuration_name, params::Dict{String,<:Any})
 
 Updates values stored in the domain configuration. Domain configurations for default
-endpoints can't be updated.
+endpoints can't be updated. Requires permission to access the UpdateDomainConfiguration
+action.
 
 # Arguments
 - `domain_configuration_name`: The name of the domain configuration to be updated.
@@ -6964,7 +7315,8 @@ end
     update_dynamic_thing_group(thing_group_name, thing_group_properties)
     update_dynamic_thing_group(thing_group_name, thing_group_properties, params::Dict{String,<:Any})
 
-Updates a dynamic thing group.
+Updates a dynamic thing group. Requires permission to access the UpdateDynamicThingGroup
+action.
 
 # Arguments
 - `thing_group_name`: The name of the dynamic thing group to update.
@@ -6974,7 +7326,7 @@ Updates a dynamic thing group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"expectedVersion"`: The expected version of the dynamic thing group to update.
 - `"indexName"`: The dynamic thing group index to update.  Currently one index is
-  supported: 'AWS_Things'.
+  supported: AWS_Things.
 - `"queryString"`: The dynamic thing group search query string to update.
 - `"queryVersion"`: The dynamic thing group query version to update.  Currently one query
   version is supported: \"2017-09-30\". If not specified, the query version defaults to this
@@ -7014,7 +7366,8 @@ end
     update_event_configurations()
     update_event_configurations(params::Dict{String,<:Any})
 
-Updates the event configurations.
+Updates the event configurations. Requires permission to access the
+UpdateEventConfigurations action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7030,10 +7383,61 @@ function update_event_configurations(
 end
 
 """
+    update_fleet_metric(index_name, metric_name)
+    update_fleet_metric(index_name, metric_name, params::Dict{String,<:Any})
+
+Updates the data for a fleet metric. Requires permission to access the UpdateFleetMetric
+action.
+
+# Arguments
+- `index_name`: The name of the index to search.
+- `metric_name`: The name of the fleet metric to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"aggregationField"`: The field to aggregate.
+- `"aggregationType"`: The type of the aggregation query.
+- `"description"`: The description of the fleet metric.
+- `"expectedVersion"`: The expected version of the fleet metric record in the registry.
+- `"period"`: The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1
+  day)] and must be multiple of 60.
+- `"queryString"`: The search query string.
+- `"queryVersion"`: The version of the query.
+- `"unit"`: Used to support unit transformation such as milliseconds to seconds. The unit
+  must be supported by CW metric.
+"""
+function update_fleet_metric(
+    indexName, metricName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "PATCH",
+        "/fleet-metric/$(metricName)",
+        Dict{String,Any}("indexName" => indexName);
+        aws_config=aws_config,
+    )
+end
+function update_fleet_metric(
+    indexName,
+    metricName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "PATCH",
+        "/fleet-metric/$(metricName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("indexName" => indexName), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     update_indexing_configuration()
     update_indexing_configuration(params::Dict{String,<:Any})
 
-Updates the search configuration.
+Updates the search configuration. Requires permission to access the
+UpdateIndexingConfiguration action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7053,7 +7457,8 @@ end
     update_job(job_id)
     update_job(job_id, params::Dict{String,<:Any})
 
-Updates supported fields of the specified job.
+Updates supported fields of the specified job. Requires permission to access the UpdateJob
+action.
 
 # Arguments
 - `job_id`: The ID of the job to be updated.
@@ -7064,8 +7469,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A short text description of the job.
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
-  When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
-  topics that contain the value in the following format.
+  When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
+  notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
   is in public preview.
 - `"presignedUrlConfig"`: Configuration information for pre-signed S3 URLs.
@@ -7087,7 +7492,8 @@ end
     update_mitigation_action(action_name)
     update_mitigation_action(action_name, params::Dict{String,<:Any})
 
-Updates the definition for the specified mitigation action.
+Updates the definition for the specified mitigation action. Requires permission to access
+the UpdateMitigationAction action.
 
 # Arguments
 - `action_name`: The friendly name for the mitigation action. You cannot change the name by
@@ -7118,7 +7524,8 @@ end
     update_provisioning_template(template_name)
     update_provisioning_template(template_name, params::Dict{String,<:Any})
 
-Updates a fleet provisioning template.
+Updates a fleet provisioning template. Requires permission to access the
+UpdateProvisioningTemplate action.
 
 # Arguments
 - `template_name`: The name of the fleet provisioning template.
@@ -7152,7 +7559,7 @@ end
     update_role_alias(role_alias)
     update_role_alias(role_alias, params::Dict{String,<:Any})
 
-Updates a role alias.
+Updates a role alias. Requires permission to access the UpdateRoleAlias action.
 
 # Arguments
 - `role_alias`: The role alias to update.
@@ -7178,7 +7585,7 @@ end
     update_scheduled_audit(scheduled_audit_name, params::Dict{String,<:Any})
 
 Updates a scheduled audit, including which checks are performed and how often the audit
-takes place.
+takes place. Requires permission to access the UpdateScheduledAudit action.
 
 # Arguments
 - `scheduled_audit_name`: The name of the scheduled audit. (Max. 128 chars)
@@ -7223,7 +7630,8 @@ end
     update_security_profile(security_profile_name)
     update_security_profile(security_profile_name, params::Dict{String,<:Any})
 
-Updates a Device Defender security profile.
+Updates a Device Defender security profile. Requires permission to access the
+UpdateSecurityProfile action.
 
 # Arguments
 - `security_profile_name`: The name of the security profile you want to update.
@@ -7273,7 +7681,8 @@ end
     update_stream(stream_id)
     update_stream(stream_id, params::Dict{String,<:Any})
 
-Updates an existing stream. The stream version will be incremented by one.
+Updates an existing stream. The stream version will be incremented by one. Requires
+permission to access the UpdateStream action.
 
 # Arguments
 - `stream_id`: The stream ID.
@@ -7300,7 +7709,7 @@ end
     update_thing(thing_name)
     update_thing(thing_name, params::Dict{String,<:Any})
 
-Updates the data for a thing.
+Updates the data for a thing. Requires permission to access the UpdateThing action.
 
 # Arguments
 - `thing_name`: The name of the thing to update. You can't change a thing's name. To change
@@ -7333,7 +7742,7 @@ end
     update_thing_group(thing_group_name, thing_group_properties)
     update_thing_group(thing_group_name, thing_group_properties, params::Dict{String,<:Any})
 
-Update a thing group.
+Update a thing group. Requires permission to access the UpdateThingGroup action.
 
 # Arguments
 - `thing_group_name`: The thing group to update.
@@ -7378,7 +7787,8 @@ end
     update_thing_groups_for_thing()
     update_thing_groups_for_thing(params::Dict{String,<:Any})
 
-Updates the groups to which the thing belongs.
+Updates the groups to which the thing belongs. Requires permission to access the
+UpdateThingGroupsForThing action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7406,7 +7816,8 @@ end
     update_topic_rule_destination(arn, status, params::Dict{String,<:Any})
 
 Updates a topic rule destination. You use this to change the status, endpoint URL, or
-confirmation URL of the destination.
+confirmation URL of the destination. Requires permission to access the
+UpdateTopicRuleDestination action.
 
 # Arguments
 - `arn`: The ARN of the topic rule destination.
@@ -7454,7 +7865,8 @@ end
     validate_security_profile_behaviors(behaviors)
     validate_security_profile_behaviors(behaviors, params::Dict{String,<:Any})
 
-Validates a Device Defender security profile behaviors specification.
+Validates a Device Defender security profile behaviors specification. Requires permission
+to access the ValidateSecurityProfileBehaviors action.
 
 # Arguments
 - `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an

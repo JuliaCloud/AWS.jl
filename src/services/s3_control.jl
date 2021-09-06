@@ -32,8 +32,8 @@ following actions are related to CreateAccessPoint:    GetAccessPoint     Delete
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
 - `name`: The name you want to assign to this access point.
-- `x-amz-account-id`: The account ID for the owner of the bucket for which you want to
-  create an access point.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the bucket for
+  which you want to create an access point.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -92,7 +92,8 @@ GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
 # Arguments
 - `configuration`: Object Lambda Access Point configuration as a JSON document.
 - `name`: The name you want to assign to this Object Lambda Access Point.
-- `x-amz-account-id`: The account ID for owner of the specified Object Lambda Access Point.
+- `x-amz-account-id`: The Amazon Web Services account ID for owner of the specified Object
+  Lambda Access Point.
 
 """
 function create_access_point_for_object_lambda(
@@ -205,7 +206,7 @@ creates a S3 Batch Operations job.  Related actions include:    DescribeJob     
 - `role_arn`: The Amazon Resource Name (ARN) for the Identity and Access Management (IAM)
   role that Batch Operations will use to run this job's action on every object in the
   manifest.
-- `x-amz-account-id`: The account ID that creates the job.
+- `x-amz-account-id`: The Amazon Web Services account ID that creates the job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -265,6 +266,73 @@ function create_job(
                     "Priority" => Priority,
                     "Report" => Report,
                     "RoleArn" => RoleArn,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    create_multi_region_access_point(client_token, details, x-amz-account-id)
+    create_multi_region_access_point(client_token, details, x-amz-account-id, params::Dict{String,<:Any})
+
+Creates a Multi-Region Access Point and associates it with the specified buckets. For more
+information about creating Multi-Region Access Points, see Creating Multi-Region Access
+Points in the Amazon S3 User Guide. This action will always be routed to the US West
+(Oregon) Region. For more information about the restrictions around managing Multi-Region
+Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. This
+request is asynchronous, meaning that you might receive a response before the command has
+completed. When this request provides a response, it provides a token that you can use to
+monitor the status of the request with DescribeMultiRegionAccessPointOperation. The
+following actions are related to CreateMultiRegionAccessPoint:
+DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation
+GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+
+# Arguments
+- `client_token`: An idempotency token used to identify the request and guarantee that
+  requests are unique.
+- `details`: A container element containing details about the Multi-Region Access Point.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point. The owner of the Multi-Region Access Point also must own the underlying
+  buckets.
+
+"""
+function create_multi_region_access_point(
+    ClientToken,
+    Details,
+    x_amz_account_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/async-requests/mrap/create",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "Details" => Details,
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_multi_region_access_point(
+    ClientToken,
+    Details,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/async-requests/mrap/create",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "Details" => Details,
                     "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
                 ),
                 params,
@@ -626,23 +694,23 @@ end
  This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy,
 see DeleteBucketPolicy in the Amazon S3 API Reference.   This implementation of the DELETE
 action uses the policy subresource to delete the policy of a specified Amazon S3 on
-Outposts bucket. If you are using an identity other than the root user of the account that
-owns the bucket, the calling identity must have the s3-outposts:DeleteBucketPolicy
-permissions on the specified Outposts bucket and belong to the bucket owner's account to
-use this action. For more information, see Using Amazon S3 on Outposts in Amazon S3 User
-Guide. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access
-Denied error. If you have the correct permissions, but you're not using an identity that
-belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error.
-As a security precaution, the root user of the account that owns a bucket can always use
-this action, even if the policy explicitly denies the root user the ability to perform this
-action.  For more information about bucket policies, see Using Bucket Policies and User
-Policies.  All Amazon S3 on Outposts REST API requests for this action require an
-additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
-Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
-following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
-
+Outposts bucket. If you are using an identity other than the root user of the Amazon Web
+Services account that owns the bucket, the calling identity must have the
+s3-outposts:DeleteBucketPolicy permissions on the specified Outposts bucket and belong to
+the bucket owner's account to use this action. For more information, see Using Amazon S3 on
+Outposts in Amazon S3 User Guide. If you don't have DeleteBucketPolicy permissions, Amazon
+S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not
+using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405
+Method Not Allowed error.   As a security precaution, the root user of the Amazon Web
+Services account that owns a bucket can always use this action, even if the policy
+explicitly denies the root user the ability to perform this action.  For more information
+about bucket policies, see Using Bucket Policies and User Policies.  All Amazon S3 on
+Outposts REST API requests for this action require an additional parameter of
+x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
+prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
+Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
+derived using the access point ARN, see the Examples section. The following actions are
+related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -717,7 +785,8 @@ related to DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
-- `x-amz-account-id`: The account ID of the Outposts bucket tag set to be removed.
+- `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket tag set to
+  be removed.
 
 """
 function delete_bucket_tagging(
@@ -765,7 +834,8 @@ Guide.  Related actions include:    CreateJob     GetJobTagging     PutJobTaggin
 
 # Arguments
 - `id`: The ID for the S3 Batch Operations job whose tags you want to delete.
-- `x-amz-account-id`: The account ID associated with the S3 Batch Operations job.
+- `x-amz-account-id`: The Amazon Web Services account ID associated with the S3 Batch
+  Operations job.
 
 """
 function delete_job_tagging(
@@ -803,16 +873,82 @@ function delete_job_tagging(
 end
 
 """
+    delete_multi_region_access_point(client_token, details, x-amz-account-id)
+    delete_multi_region_access_point(client_token, details, x-amz-account-id, params::Dict{String,<:Any})
+
+Deletes a Multi-Region Access Point. This action does not delete the buckets associated
+with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action
+will always be routed to the US West (Oregon) Region. For more information about the
+restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access
+Points in the Amazon S3 User Guide. This request is asynchronous, meaning that you might
+receive a response before the command has completed. When this request provides a response,
+it provides a token that you can use to monitor the status of the request with
+DescribeMultiRegionAccessPointOperation. The following actions are related to
+DeleteMultiRegionAccessPoint:    CreateMultiRegionAccessPoint
+DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
+ListMultiRegionAccessPoints
+
+# Arguments
+- `client_token`: An idempotency token used to identify the request and guarantee that
+  requests are unique.
+- `details`: A container element containing details about the Multi-Region Access Point.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point.
+
+"""
+function delete_multi_region_access_point(
+    ClientToken,
+    Details,
+    x_amz_account_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/async-requests/mrap/delete",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "Details" => Details,
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_multi_region_access_point(
+    ClientToken,
+    Details,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/async-requests/mrap/delete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "Details" => Details,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     delete_public_access_block(x-amz-account-id)
     delete_public_access_block(x-amz-account-id, params::Dict{String,<:Any})
 
-Removes the PublicAccessBlock configuration for an account. For more information, see
-Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock
-PutPublicAccessBlock
+Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more
+information, see  Using Amazon S3 block public access. Related actions include:
+GetPublicAccessBlock     PutPublicAccessBlock
 
 # Arguments
-- `x-amz-account-id`: The account ID for the account whose PublicAccessBlock configuration
-  you want to remove.
+- `x-amz-account-id`: The account ID for the Amazon Web Services account whose
+  PublicAccessBlock configuration you want to remove.
 
 """
 function delete_public_access_block(
@@ -956,7 +1092,8 @@ information, see S3 Batch Operations in the Amazon S3 User Guide.  Related actio
 
 # Arguments
 - `id`: The ID for the job whose information you want to retrieve.
-- `x-amz-account-id`: The account ID associated with the S3 Batch Operations job.
+- `x-amz-account-id`: The Amazon Web Services account ID associated with the S3 Batch
+  Operations job.
 
 """
 function describe_job(
@@ -980,6 +1117,59 @@ function describe_job(
     return s3_control(
         "GET",
         "/v20180820/jobs/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    describe_multi_region_access_point_operation(request_token, x-amz-account-id)
+    describe_multi_region_access_point_operation(request_token, x-amz-account-id, params::Dict{String,<:Any})
+
+Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For
+more information about managing Multi-Region Access Points and how asynchronous requests
+work, see Managing Multi-Region Access Points in the Amazon S3 User Guide. The following
+actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint
+DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+
+
+# Arguments
+- `request_token`: The request token associated with the request you want to know about.
+  This request token is returned as part of the response when you make an asynchronous
+  request. You provide this token to query about the status of the asynchronous action.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point.
+
+"""
+function describe_multi_region_access_point_operation(
+    request_token, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/async-requests/mrap/$(request_token)",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_multi_region_access_point_operation(
+    request_token,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/async-requests/mrap/$(request_token)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1354,9 +1544,9 @@ end
 
 Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on
 Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user
-of the account that owns the Outposts bucket, the calling identity must have the
-s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the
-Outposts bucket owner's account in order to use this action. Only users from Outposts
+of the Amazon Web Services account that owns the Outposts bucket, the calling identity must
+have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to
+the Outposts bucket owner's account in order to use this action. Only users from Outposts
 bucket owner account with the right permissions can perform actions on an Outposts bucket.
  If you don't have s3-outposts:GetBucket permissions or you're not using an identity that
 belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The
@@ -1378,7 +1568,7 @@ derived using the access point ARN, see the Examples section.    PutObject     C
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
-- `x-amz-account-id`: The account ID of the Outposts bucket.
+- `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
 function get_bucket(
@@ -1449,7 +1639,7 @@ DeleteBucketLifecycleConfiguration
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
-- `x-amz-account-id`: The account ID of the Outposts bucket.
+- `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
 function get_bucket_lifecycle_configuration(
@@ -1493,22 +1683,23 @@ end
  This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for
 an S3 bucket, see GetBucketPolicy in the Amazon S3 API Reference.   Returns the policy of a
 specified Outposts bucket. For more information, see Using Amazon S3 on Outposts in the
-Amazon S3 User Guide. If you are using an identity other than the root user of the account
-that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the
-specified bucket and belong to the bucket owner's account in order to use this action. Only
-users from Outposts bucket owner account with the right permissions can perform actions on
-an Outposts bucket. If you don't have s3-outposts:GetBucketPolicy permissions or you're not
-using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403
-Access Denied error.  As a security precaution, the root user of the account that owns a
-bucket can always use this action, even if the policy explicitly denies the root user the
-ability to perform this action.  For more information about bucket policies, see Using
-Bucket Policies and User Policies. All Amazon S3 on Outposts REST API requests for this
-action require an additional parameter of x-amz-outpost-id to be passed with the request
-and an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the
-request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname
-prefix and the x-amz-outpost-id derived using the access point ARN, see the Examples
-section. The following actions are related to GetBucketPolicy:    GetObject
-PutBucketPolicy     DeleteBucketPolicy
+Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon
+Web Services account that owns the bucket, the calling identity must have the
+GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's
+account in order to use this action. Only users from Outposts bucket owner account with the
+right permissions can perform actions on an Outposts bucket. If you don't have
+s3-outposts:GetBucketPolicy permissions or you're not using an identity that belongs to the
+bucket owner's account, Amazon S3 returns a 403 Access Denied error.  As a security
+precaution, the root user of the Amazon Web Services account that owns a bucket can always
+use this action, even if the policy explicitly denies the root user the ability to perform
+this action.  For more information about bucket policies, see Using Bucket Policies and
+User Policies. All Amazon S3 on Outposts REST API requests for this action require an
+additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
+Outposts endpoint hostname prefix instead of s3-control. For an example of the request
+syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
+the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
+following actions are related to GetBucketPolicy:    GetObject     PutBucketPolicy
+DeleteBucketPolicy
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -1520,7 +1711,7 @@ PutBucketPolicy     DeleteBucketPolicy
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
-- `x-amz-account-id`: The account ID of the Outposts bucket.
+- `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
 function get_bucket_policy(
@@ -1585,7 +1776,7 @@ related to GetBucketTagging:    PutBucketTagging     DeleteBucketTagging
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
-- `x-amz-account-id`: The account ID of the Outposts bucket.
+- `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
 function get_bucket_tagging(
@@ -1633,7 +1824,8 @@ access and labeling jobs using tags in the Amazon S3 User Guide.  Related action
 
 # Arguments
 - `id`: The ID for the S3 Batch Operations job whose tags you want to retrieve.
-- `x-amz-account-id`: The account ID associated with the S3 Batch Operations job.
+- `x-amz-account-id`: The Amazon Web Services account ID associated with the S3 Batch
+  Operations job.
 
 """
 function get_job_tagging(
@@ -1671,16 +1863,178 @@ function get_job_tagging(
 end
 
 """
+    get_multi_region_access_point(name, x-amz-account-id)
+    get_multi_region_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Returns configuration information about the specified Multi-Region Access Point. This
+action will always be routed to the US West (Oregon) Region. For more information about the
+restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access
+Points in the Amazon S3 User Guide. The following actions are related to
+GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint
+    DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints
+
+# Arguments
+- `name`: The name of the Multi-Region Access Point whose configuration information you
+  want to receive. The name of the Multi-Region Access Point is different from the alias. For
+  more information about the distinction between the name and the alias of an Multi-Region
+  Access Point, see Managing Multi-Region Access Points in the Amazon S3 User Guide.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point.
+
+"""
+function get_multi_region_access_point(
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances/$(name)",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+    )
+end
+function get_multi_region_access_point(
+    name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances/$(name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    get_multi_region_access_point_policy(name, x-amz-account-id)
+    get_multi_region_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Returns the access control policy of the specified Multi-Region Access Point. This action
+will always be routed to the US West (Oregon) Region. For more information about the
+restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access
+Points in the Amazon S3 User Guide. The following actions are related to
+GetMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicyStatus
+PutMultiRegionAccessPointPolicy
+
+# Arguments
+- `name`: Specifies the Multi-Region Access Point. The name of the Multi-Region Access
+  Point is different from the alias. For more information about the distinction between the
+  name and the alias of an Multi-Region Access Point, see Managing Multi-Region Access Points
+  in the Amazon S3 User Guide.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point.
+
+"""
+function get_multi_region_access_point_policy(
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances/$(name)/policy",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+    )
+end
+function get_multi_region_access_point_policy(
+    name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances/$(name)/policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    get_multi_region_access_point_policy_status(name, x-amz-account-id)
+    get_multi_region_access_point_policy_status(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Indicates whether the specified Multi-Region Access Point has an access control policy that
+allows public access. This action will always be routed to the US West (Oregon) Region. For
+more information about the restrictions around managing Multi-Region Access Points, see
+Managing Multi-Region Access Points in the Amazon S3 User Guide. The following actions are
+related to GetMultiRegionAccessPointPolicyStatus:    GetMultiRegionAccessPointPolicy
+PutMultiRegionAccessPointPolicy
+
+# Arguments
+- `name`: Specifies the Multi-Region Access Point. The name of the Multi-Region Access
+  Point is different from the alias. For more information about the distinction between the
+  name and the alias of an Multi-Region Access Point, see Managing Multi-Region Access Points
+  in the Amazon S3 User Guide.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point.
+
+"""
+function get_multi_region_access_point_policy_status(
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances/$(name)/policystatus",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+    )
+end
+function get_multi_region_access_point_policy_status(
+    name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances/$(name)/policystatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     get_public_access_block(x-amz-account-id)
     get_public_access_block(x-amz-account-id, params::Dict{String,<:Any})
 
-Retrieves the PublicAccessBlock configuration for an account. For more information, see
-Using Amazon S3 block public access. Related actions include:    DeletePublicAccessBlock
- PutPublicAccessBlock
+Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more
+information, see  Using Amazon S3 block public access. Related actions include:
+DeletePublicAccessBlock     PutPublicAccessBlock
 
 # Arguments
-- `x-amz-account-id`: The account ID for the account whose PublicAccessBlock configuration
-  you want to retrieve.
+- `x-amz-account-id`: The account ID for the Amazon Web Services account whose
+  PublicAccessBlock configuration you want to retrieve.
 
 """
 function get_public_access_block(
@@ -1831,8 +2185,8 @@ related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetA
 
 
 # Arguments
-- `x-amz-account-id`: The account ID for owner of the bucket whose access points you want
-  to list.
+- `x-amz-account-id`: The Amazon Web Services account ID for owner of the bucket whose
+  access points you want to list.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1950,12 +2304,13 @@ end
     list_jobs(x-amz-account-id, params::Dict{String,<:Any})
 
 Lists current S3 Batch Operations jobs and jobs that have ended within the last 30 days for
-the account making the request. For more information, see S3 Batch Operations in the Amazon
-S3 User Guide. Related actions include:     CreateJob     DescribeJob     UpdateJobPriority
-    UpdateJobStatus
+the Amazon Web Services account making the request. For more information, see S3 Batch
+Operations in the Amazon S3 User Guide. Related actions include:     CreateJob
+DescribeJob     UpdateJobPriority     UpdateJobStatus
 
 # Arguments
-- `x-amz-account-id`: The account ID associated with the S3 Batch Operations job.
+- `x-amz-account-id`: The Amazon Web Services account ID associated with the S3 Batch
+  Operations job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2000,6 +2355,62 @@ function list_jobs(
 end
 
 """
+    list_multi_region_access_points(x-amz-account-id)
+    list_multi_region_access_points(x-amz-account-id, params::Dict{String,<:Any})
+
+Returns a list of the Multi-Region Access Points currently associated with the specified
+Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the
+maximum number of Multi-Region Access Points that can be associated with a single account.
+This action will always be routed to the US West (Oregon) Region. For more information
+about the restrictions around managing Multi-Region Access Points, see Managing
+Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related
+to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint
+DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation
+GetMultiRegionAccessPoint
+
+# Arguments
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Not currently used. Do not use this parameter.
+- `"nextToken"`: Not currently used. Do not use this parameter.
+"""
+function list_multi_region_access_points(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+    )
+end
+function list_multi_region_access_points(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     list_regional_buckets(x-amz-account-id)
     list_regional_buckets(x-amz-account-id, params::Dict{String,<:Any})
 
@@ -2010,7 +2421,7 @@ S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, se
 Examples section.
 
 # Arguments
-- `x-amz-account-id`: The account ID of the Outposts bucket.
+- `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2182,8 +2593,8 @@ DeleteAccessPointPolicy
   outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding
   of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap.
   The value must be URL encoded.
-- `x-amz-account-id`: The account ID for owner of the bucket associated with the specified
-  access point.
+- `x-amz-account-id`: The Amazon Web Services account ID for owner of the bucket associated
+  with the specified access point.
 
 """
 function put_access_point_policy(
@@ -2295,7 +2706,7 @@ GetBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
 
 # Arguments
 - `name`: The name of the bucket for which to set the configuration.
-- `x-amz-account-id`: The account ID of the Outposts bucket.
+- `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2344,21 +2755,21 @@ end
 S3 bucket, see PutBucketPolicy in the Amazon S3 API Reference.   Applies an Amazon S3
 bucket policy to an Outposts bucket. For more information, see Using Amazon S3 on Outposts
 in the Amazon S3 User Guide. If you are using an identity other than the root user of the
-account that owns the Outposts bucket, the calling identity must have the PutBucketPolicy
-permissions on the specified Outposts bucket and belong to the bucket owner's account in
-order to use this action. If you don't have PutBucketPolicy permissions, Amazon S3 returns
-a 403 Access Denied error. If you have the correct permissions, but you're not using an
-identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not
-Allowed error.   As a security precaution, the root user of the account that owns a bucket
-can always use this action, even if the policy explicitly denies the root user the ability
-to perform this action.   For more information about bucket policies, see Using Bucket
-Policies and User Policies. All Amazon S3 on Outposts REST API requests for this action
-require an additional parameter of x-amz-outpost-id to be passed with the request and an S3
-on Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
-following actions are related to PutBucketPolicy:    GetBucketPolicy     DeleteBucketPolicy
-
+Amazon Web Services account that owns the Outposts bucket, the calling identity must have
+the PutBucketPolicy permissions on the specified Outposts bucket and belong to the bucket
+owner's account in order to use this action. If you don't have PutBucketPolicy permissions,
+Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but
+you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns
+a 405 Method Not Allowed error.   As a security precaution, the root user of the Amazon Web
+Services account that owns a bucket can always use this action, even if the policy
+explicitly denies the root user the ability to perform this action.   For more information
+about bucket policies, see Using Bucket Policies and User Policies. All Amazon S3 on
+Outposts REST API requests for this action require an additional parameter of
+x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
+prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
+Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
+derived using the access point ARN, see the Examples section. The following actions are
+related to PutBucketPolicy:    GetBucketPolicy     DeleteBucketPolicy
 
 # Arguments
 - `policy`: The bucket policy as a JSON document.
@@ -2371,7 +2782,7 @@ following actions are related to PutBucketPolicy:    GetBucketPolicy     DeleteB
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
-- `x-amz-account-id`: The account ID of the Outposts bucket.
+- `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2424,14 +2835,14 @@ end
 PutBucketTagging in the Amazon S3 API Reference.   Sets the tags for an S3 on Outposts
 bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide.
 Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To
-do this, sign up to get your account bill with tag key values included. Then, to see the
-cost of combined resources, organize your billing information according to resources with
-the same tag key values. For example, you can tag several resources with a specific
-application name, and then organize your billing information to see the total cost of that
-application across several services. For more information, see Cost allocation and tagging.
- Within a bucket, if you add a tag that has the same key as an existing tag, the new value
-overwrites the old value. For more information, see  Using cost allocation in Amazon S3
-bucket tags.  To use this action, you must have permissions to perform the
+do this, sign up to get your Amazon Web Services account bill with tag key values included.
+Then, to see the cost of combined resources, organize your billing information according to
+resources with the same tag key values. For example, you can tag several resources with a
+specific application name, and then organize your billing information to see the total cost
+of that application across several services. For more information, see Cost allocation and
+tagging.  Within a bucket, if you add a tag that has the same key as an existing tag, the
+new value overwrites the old value. For more information, see  Using cost allocation in
+Amazon S3 bucket tags.  To use this action, you must have permissions to perform the
 s3-outposts:PutBucketTagging action. The Outposts bucket owner has this permission by
 default and can grant this permission to others. For more information about permissions,
 see  Permissions Related to Bucket Subresource Operations and Managing access permissions
@@ -2462,7 +2873,7 @@ DeleteBucketTagging
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
-- `x-amz-account-id`: The account ID of the Outposts bucket.
+- `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
 function put_bucket_tagging(
@@ -2529,7 +2940,8 @@ actions include:    CreatJob     GetJobTagging     DeleteJobTagging
 # Arguments
 - `tags`: The set of tags to associate with the S3 Batch Operations job.
 - `id`: The ID for the S3 Batch Operations job whose tags you want to replace.
-- `x-amz-account-id`: The account ID associated with the S3 Batch Operations job.
+- `x-amz-account-id`: The Amazon Web Services account ID associated with the S3 Batch
+  Operations job.
 
 """
 function put_job_tagging(
@@ -2570,18 +2982,82 @@ function put_job_tagging(
 end
 
 """
+    put_multi_region_access_point_policy(client_token, details, x-amz-account-id)
+    put_multi_region_access_point_policy(client_token, details, x-amz-account-id, params::Dict{String,<:Any})
+
+Associates an access control policy with the specified Multi-Region Access Point. Each
+Multi-Region Access Point can have only one policy, so a request made to this action
+replaces any existing policy that is associated with the specified Multi-Region Access
+Point. This action will always be routed to the US West (Oregon) Region. For more
+information about the restrictions around managing Multi-Region Access Points, see Managing
+Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related
+to PutMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicy
+GetMultiRegionAccessPointPolicyStatus
+
+# Arguments
+- `client_token`: An idempotency token used to identify the request and guarantee that
+  requests are unique.
+- `details`: A container element containing the details of the policy for the Multi-Region
+  Access Point.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point.
+
+"""
+function put_multi_region_access_point_policy(
+    ClientToken,
+    Details,
+    x_amz_account_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/async-requests/mrap/put-policy",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "Details" => Details,
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+        );
+        aws_config=aws_config,
+    )
+end
+function put_multi_region_access_point_policy(
+    ClientToken,
+    Details,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/async-requests/mrap/put-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "Details" => Details,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     put_public_access_block(public_access_block_configuration, x-amz-account-id)
     put_public_access_block(public_access_block_configuration, x-amz-account-id, params::Dict{String,<:Any})
 
-Creates or modifies the PublicAccessBlock configuration for an account. For more
-information, see  Using Amazon S3 block public access. Related actions include:
+Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account.
+For more information, see  Using Amazon S3 block public access. Related actions include:
 GetPublicAccessBlock     DeletePublicAccessBlock
 
 # Arguments
 - `public_access_block_configuration`: The PublicAccessBlock configuration that you want to
-  apply to the specified account.
-- `x-amz-account-id`: The account ID for the account whose PublicAccessBlock configuration
-  you want to set.
+  apply to the specified Amazon Web Services account.
+- `x-amz-account-id`: The account ID for the Amazon Web Services account whose
+  PublicAccessBlock configuration you want to set.
 
 """
 function put_public_access_block(
@@ -2752,7 +3228,8 @@ Operations in the Amazon S3 User Guide.  Related actions include:    CreateJob  
 # Arguments
 - `id`: The ID for the job whose priority you want to update.
 - `priority`: The priority you want to assign to this job.
-- `x-amz-account-id`: The account ID associated with the S3 Batch Operations job.
+- `x-amz-account-id`: The Amazon Web Services account ID associated with the S3 Batch
+  Operations job.
 
 """
 function update_job_priority(
@@ -2804,7 +3281,8 @@ Amazon S3 User Guide.  Related actions include:    CreateJob     ListJobs     De
 # Arguments
 - `id`: The ID of the job whose status you want to update.
 - `requested_job_status`: The status that you want to move the specified job to.
-- `x-amz-account-id`: The account ID associated with the S3 Batch Operations job.
+- `x-amz-account-id`: The Amazon Web Services account ID associated with the S3 Batch
+  Operations job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

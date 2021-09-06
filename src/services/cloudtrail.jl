@@ -12,8 +12,8 @@ Adds one or more tags to a trail, up to a limit of 50. Overwrites an existing ta
 when a new value is specified for an existing tag key. Tag key names must be unique for a
 trail; you cannot have two keys with the same name but different values. If you specify a
 key without a value, the tag will be created with the specified key and a value of null.
-You can tag a trail that applies to all AWS Regions only from the Region in which the trail
-was created (also known as its home region).
+You can tag a trail that applies to all Amazon Web Services Regions only from the Region in
+which the trail was created (also known as its home region).
 
 # Arguments
 - `resource_id`: Specifies the ARN of the trail to which one or more tags will be added.
@@ -21,7 +21,7 @@ was created (also known as its home region).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TagsList"`: Contains a list of CloudTrail tags, up to a limit of 50
+- `"TagsList"`: Contains a list of tags, up to a limit of 50
 """
 function add_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
@@ -54,7 +54,7 @@ bucket.
   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or
   dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3
   and 128 characters   Have no adjacent periods, underscores or dashes. Names like
-  my-_namespace and my--namespace are invalid.   Not be in IP address format (for example,
+  my-_namespace and my--namespace are not valid.   Not be in IP address format (for example,
   192.168.5.4)
 - `s3_bucket_name`: Specifies the name of the Amazon S3 bucket designated for publishing
   log files. See Amazon S3 Bucket Naming Requirements.
@@ -68,7 +68,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to write to a user's log group.
 - `"EnableLogFileValidation"`: Specifies whether log file integrity validation is enabled.
   The default is false.  When you disable log file integrity validation, the chain of digest
-  files is broken after one hour. CloudTrail will not create digest files for log files that
+  files is broken after one hour. CloudTrail does not create digest files for log files that
   were delivered during a period in which log file integrity validation was disabled. For
   example, if you enable log file integrity validation at noon on January 1, disable it at
   noon on January 2, and re-enable it at noon on January 10, digest files will not be created
@@ -80,12 +80,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in all regions. The default is false, which creates a trail only in the region where you
   are signed in. As a best practice, consider creating trails that log events in all regions.
 - `"IsOrganizationTrail"`: Specifies whether the trail is created for all accounts in an
-  organization in AWS Organizations, or only for the current AWS account. The default is
-  false, and cannot be true unless the call is made on behalf of an AWS account that is the
-  master account for an organization in AWS Organizations.
+  organization in Organizations, or only for the current Amazon Web Services account. The
+  default is false, and cannot be true unless the call is made on behalf of an Amazon Web
+  Services account that is the management account for an organization in Organizations.
 - `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by
   CloudTrail. The value can be an alias name prefixed by \"alias/\", a fully specified ARN to
-  an alias, a fully specified ARN to a key, or a globally unique identifier. Examples:
+  an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also
+  supports KMS multi-Region keys. For more information about multi-Region keys, see Using
+  multi-Region keys in the Key Management Service Developer Guide. Examples:
   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
   12345678-1234-1234-1234-123456789012
@@ -131,8 +133,9 @@ created. DeleteTrail cannot be called on the shadow trails (replicated trails in
 regions) of a trail that is enabled in all regions.
 
 # Arguments
-- `name`: Specifies the name or the CloudTrail ARN of the trail to be deleted. The format
-  of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+- `name`: Specifies the name or the CloudTrail ARN of the trail to be deleted. The
+  following is the format of a trail ARN.
+  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
 function delete_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -195,7 +198,7 @@ selector includes read-only events, write-only events, or all events. This appli
 management events and data events.   If your event selector includes management events.
 If your event selector includes data events, the resources on which you are logging data
 events.   For more information, see Logging Data and Management Events for Trails  in the
-AWS CloudTrail User Guide.
+CloudTrail User Guide.
 
 # Arguments
 - `trail_name`: Specifies the name of the trail or trail ARN. If you specify a trail name,
@@ -237,7 +240,7 @@ GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the
 if it is, which insight types are enabled. If you run GetInsightSelectors on a trail that
 does not have Insights events enabled, the operation throws the exception
 InsightNotEnabledException  For more information, see Logging CloudTrail Insights Events
-for Trails  in the AWS CloudTrail User Guide.
+for Trails  in the CloudTrail User Guide.
 
 # Arguments
 - `trail_name`: Specifies the name of the trail or trail ARN. If you specify a trail name,
@@ -306,7 +309,7 @@ trail status from all regions, you must call the operation on each region.
 # Arguments
 - `name`: Specifies the name or the CloudTrail ARN of the trail for which you are
   requesting status. To get the status of a shadow trail (a replication of the trail in
-  another region), you must specify its ARN. The format of a trail ARN is:
+  another region), you must specify its ARN. The following is the format of a trail ARN.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
@@ -331,10 +334,10 @@ end
 
 Returns all public keys whose private keys were used to sign the digest files within the
 specified time range. The public key is needed to validate digest files that were signed
-with its corresponding private key.  CloudTrail uses different private/public key pairs per
-region. Each digest file is signed with a private key unique to its region. Therefore, when
-you validate a digest file from a particular region, you must look in the same region for
-its corresponding public key.
+with its corresponding private key.  CloudTrail uses different private and public key pairs
+per region. Each digest file is signed with a private key unique to its region. When you
+validate a digest file from a specific region, you must look in the same region for its
+corresponding public key.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -362,7 +365,7 @@ Lists the tags for the trail in the current region.
 
 # Arguments
 - `resource_id_list`: Specifies a list of trail ARNs whose tags will be listed. The list
-  has a limit of 20 ARNs. The format of a trail ARN is:
+  has a limit of 20 ARNs. The following is the format of a trail ARN.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 # Optional Parameters
@@ -418,13 +421,13 @@ end
 
 Looks up management events or CloudTrail Insights events that are captured by CloudTrail.
 You can look up events that occurred in a region within the last 90 days. Lookup supports
-the following attributes for management events:   AWS access key   Event ID   Event name
-Event source   Read only   Resource name   Resource type   User name   Lookup supports the
-following attributes for Insights events:   Event ID   Event name   Event source   All
-attributes are optional. The default number of results returned is 50, with a maximum of 50
-possible. The response includes a token that you can use to get the next page of results.
-The rate of lookup requests is limited to two per second, per account, per region. If this
-limit is exceeded, a throttling error occurs.
+the following attributes for management events:   Amazon Web Services access key   Event ID
+  Event name   Event source   Read only   Resource name   Resource type   User name
+Lookup supports the following attributes for Insights events:   Event ID   Event name
+Event source   All attributes are optional. The default number of results returned is 50,
+with a maximum of 50 possible. The response includes a token that you can use to get the
+next page of results.  The rate of lookup requests is limited to two per second, per
+account, per region. If this limit is exceeded, a throttling error occurs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -465,7 +468,7 @@ log all read and write management events, and no data events. When an event occu
 account, CloudTrail evaluates the event selectors or advanced event selectors in all
 trails. For each trail, if the event matches any event selector, the trail processes and
 logs the event. If the event doesn't match any event selector, the trail doesn't log the
-event.  Example   You create an event selector for a trail and specify that you want
+event. Example   You create an event selector for a trail and specify that you want
 write-only events.   The EC2 GetConsoleOutput and RunInstances API operations occur in your
 account.   CloudTrail evaluates whether the events match your event selectors.   The
 RunInstances is a write-only event and it matches your event selector. The trail logs the
@@ -473,22 +476,22 @@ event.   The GetConsoleOutput is a read-only event that doesn't match your event
 The trail doesn't log the event.    The PutEventSelectors operation must be called from the
 region in which the trail was created; otherwise, an InvalidHomeRegionException exception
 is thrown. You can configure up to five event selectors for each trail. For more
-information, see Logging data and management events for trails  and Quotas in AWS
-CloudTrail in the AWS CloudTrail User Guide. You can add advanced event selectors, and
-conditions for your advanced event selectors, up to a maximum of 500 values for all
-conditions and selectors on a trail. You can use either AdvancedEventSelectors or
-EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing
-EventSelectors are overwritten. For more information about advanced event selectors, see
-Logging data events for trails in the AWS CloudTrail User Guide.
+information, see Logging data and management events for trails  and Quotas in CloudTrail in
+the CloudTrail User Guide. You can add advanced event selectors, and conditions for your
+advanced event selectors, up to a maximum of 500 values for all conditions and selectors on
+a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you
+apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For
+more information about advanced event selectors, see Logging data events for trails in the
+CloudTrail User Guide.
 
 # Arguments
 - `trail_name`: Specifies the name of the trail or trail ARN. If you specify a trail name,
   the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z),
   numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number,
   and end with a letter or number   Be between 3 and 128 characters   Have no adjacent
-  periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.
+  periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.
   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it
-  must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+  must be in the following format.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -497,8 +500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum of 500 values for all conditions and selectors on a trail. You can use either
   AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors
   to a trail, any existing EventSelectors are overwritten. For more information about
-  advanced event selectors, see Logging data events for trails in the AWS CloudTrail User
-  Guide.
+  advanced event selectors, see Logging data events for trails in the CloudTrail User Guide.
 - `"EventSelectors"`: Specifies the settings for your event selectors. You can configure up
   to five event selectors for a trail. You can use either EventSelectors or
   AdvancedEventSelectors in a PutEventSelectors request, but not both. If you apply
@@ -531,12 +533,12 @@ end
 
 Lets you enable Insights event logging by specifying the Insights selectors that you want
 to enable on an existing trail. You also use PutInsightSelectors to turn off Insights event
-logging, by passing an empty list of insight types. In this release, only
-ApiCallRateInsight is supported as an Insights selector.
+logging, by passing an empty list of insight types. The valid Insights event type in this
+release is ApiCallRateInsight.
 
 # Arguments
-- `insight_selectors`: A JSON string that contains the insight types you want to log on a
-  trail. In this release, only ApiCallRateInsight is supported as an insight type.
+- `insight_selectors`: A JSON string that contains the Insights types that you want to log
+  on a trail. The valid Insights type in this release is ApiCallRateInsight.
 - `trail_name`: The name of the CloudTrail trail for which you want to change or add
   Insights selectors.
 
@@ -608,14 +610,14 @@ end
     start_logging(name)
     start_logging(name, params::Dict{String,<:Any})
 
-Starts the recording of AWS API calls and log file delivery for a trail. For a trail that
-is enabled in all regions, this operation must be called from the region in which the trail
-was created. This operation cannot be called on the shadow trails (replicated trails in
-other regions) of a trail that is enabled in all regions.
+Starts the recording of Amazon Web Services API calls and log file delivery for a trail.
+For a trail that is enabled in all regions, this operation must be called from the region
+in which the trail was created. This operation cannot be called on the shadow trails
+(replicated trails in other regions) of a trail that is enabled in all regions.
 
 # Arguments
 - `name`: Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs
-  AWS API calls. The format of a trail ARN is:
+  Amazon Web Services API calls. The following is the format of a trail ARN.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
@@ -638,16 +640,17 @@ end
     stop_logging(name)
     stop_logging(name, params::Dict{String,<:Any})
 
-Suspends the recording of AWS API calls and log file delivery for the specified trail.
-Under most circumstances, there is no need to use this action. You can update a trail
-without stopping it first. This action is the only way to stop recording. For a trail
-enabled in all regions, this operation must be called from the region in which the trail
-was created, or an InvalidHomeRegionException will occur. This operation cannot be called
-on the shadow trails (replicated trails in other regions) of a trail enabled in all regions.
+Suspends the recording of Amazon Web Services API calls and log file delivery for the
+specified trail. Under most circumstances, there is no need to use this action. You can
+update a trail without stopping it first. This action is the only way to stop recording.
+For a trail enabled in all regions, this operation must be called from the region in which
+the trail was created, or an InvalidHomeRegionException will occur. This operation cannot
+be called on the shadow trails (replicated trails in other regions) of a trail enabled in
+all regions.
 
 # Arguments
 - `name`: Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will
-  stop logging AWS API calls. The format of a trail ARN is:
+  stop logging Amazon Web Services API calls. The following is the format of a trail ARN.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
@@ -670,31 +673,32 @@ end
     update_trail(name)
     update_trail(name, params::Dict{String,<:Any})
 
-Updates the settings that specify delivery of log files. Changes to a trail do not require
-stopping the CloudTrail service. Use this action to designate an existing bucket for log
-delivery. If the existing bucket has previously been a target for CloudTrail log files, an
-IAM policy exists for the bucket. UpdateTrail must be called from the region in which the
-trail was created; otherwise, an InvalidHomeRegionException is thrown.
+Updates trail settings that control what events you are logging, and how to handle log
+files. Changes to a trail do not require stopping the CloudTrail service. Use this action
+to designate an existing bucket for log delivery. If the existing bucket has previously
+been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail
+must be called from the region in which the trail was created; otherwise, an
+InvalidHomeRegionException is thrown.
 
 # Arguments
 - `name`: Specifies the name of the trail or trail ARN. If Name is a trail name, the string
   must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers
   (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end
   with a letter or number   Be between 3 and 128 characters   Have no adjacent periods,
-  underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in
-  IP address format (for example, 192.168.5.4)   If Name is a trail ARN, it must be in the
-  format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+  underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be
+  in IP address format (for example, 192.168.5.4)   If Name is a trail ARN, it must be in the
+  following format.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CloudWatchLogsLogGroupArn"`: Specifies a log group name using an Amazon Resource Name
-  (ARN), a unique identifier that represents the log group to which CloudTrail logs will be
+  (ARN), a unique identifier that represents the log group to which CloudTrail logs are
   delivered. Not required unless you specify CloudWatchLogsRoleArn.
 - `"CloudWatchLogsRoleArn"`: Specifies the role for the CloudWatch Logs endpoint to assume
   to write to a user's log group.
 - `"EnableLogFileValidation"`: Specifies whether log file validation is enabled. The
   default is false.  When you disable log file integrity validation, the chain of digest
-  files is broken after one hour. CloudTrail will not create digest files for log files that
+  files is broken after one hour. CloudTrail does not create digest files for log files that
   were delivered during a period in which log file integrity validation was disabled. For
   example, if you enable log file integrity validation at noon on January 1, disable it at
   noon on January 2, and re-enable it at noon on January 10, digest files will not be created
@@ -709,16 +713,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will remain in the region where it was created, and its shadow trails in other regions will
   be deleted. As a best practice, consider using trails that log events in all regions.
 - `"IsOrganizationTrail"`: Specifies whether the trail is applied to all accounts in an
-  organization in AWS Organizations, or only for the current AWS account. The default is
-  false, and cannot be true unless the call is made on behalf of an AWS account that is the
-  master account for an organization in AWS Organizations. If the trail is not an
-  organization trail and this is set to true, the trail will be created in all AWS accounts
-  that belong to the organization. If the trail is an organization trail and this is set to
-  false, the trail will remain in the current AWS account but be deleted from all member
-  accounts in the organization.
+  organization in Organizations, or only for the current Amazon Web Services account. The
+  default is false, and cannot be true unless the call is made on behalf of an Amazon Web
+  Services account that is the management account for an organization in Organizations. If
+  the trail is not an organization trail and this is set to true, the trail will be created
+  in all Amazon Web Services accounts that belong to the organization. If the trail is an
+  organization trail and this is set to false, the trail will remain in the current Amazon
+  Web Services account but be deleted from all member accounts in the organization.
 - `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by
   CloudTrail. The value can be an alias name prefixed by \"alias/\", a fully specified ARN to
-  an alias, a fully specified ARN to a key, or a globally unique identifier. Examples:
+  an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also
+  supports KMS multi-Region keys. For more information about multi-Region keys, see Using
+  multi-Region keys in the Key Management Service Developer Guide. Examples:
   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
   12345678-1234-1234-1234-123456789012

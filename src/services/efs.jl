@@ -36,7 +36,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the directory. If you do not provide this information, Amazon EFS does not create the
   root directory. If the root directory does not exist, attempts to mount using the access
   point will fail.
-- `"Tags"`: Creates tags associated with the access point. Each tag is a key-value pair.
+- `"Tags"`: Creates tags associated with the access point. Each tag is a key-value pair,
+  each key must be unique. For more information, see Tagging Amazon Web Services resources in
+  the Amazon Web Services General Reference Guide.
 """
 function create_access_point(
     ClientToken, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -77,11 +79,11 @@ end
 Creates a new, empty file system. The operation requires a creation token in the request
 that Amazon EFS uses to ensure idempotent creation (calling the operation with same
 creation token has no effect). If a file system does not currently exist that is owned by
-the caller's AWS account with the specified creation token, this operation does the
-following:   Creates a new, empty file system. The file system will have an Amazon EFS
-assigned ID, and an initial lifecycle state creating.   Returns with the description of the
-created file system.   Otherwise, this operation returns a FileSystemAlreadyExists error
-with the ID of the existing file system.  For basic use cases, you can use a randomly
+the caller's Amazon Web Services account with the specified creation token, this operation
+does the following:   Creates a new, empty file system. The file system will have an Amazon
+EFS assigned ID, and an initial lifecycle state creating.   Returns with the description of
+the created file system.   Otherwise, this operation returns a FileSystemAlreadyExists
+error with the ID of the existing file system.  For basic use cases, you can use a randomly
 generated UUID for the creation token.   The idempotent operation allows you to retry a
 CreateFileSystem call without risk of creating an extra file system. This can happen when
 an initial call fails in a way that leaves it uncertain whether or not a file system was
@@ -112,26 +114,26 @@ permissions for the elasticfilesystem:CreateFileSystem action.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AvailabilityZoneName"`: Used to create a file system that uses One Zone storage
-  classes. It specifies the AWS Availability Zone in which to create the file system. Use the
-  format us-east-1a to specify the Availability Zone. For more information about One Zone
-  storage classes, see Using EFS storage classes in the Amazon EFS User Guide.  One Zone
-  storage classes are not available in all Availability Zones in AWS Regions where Amazon EFS
-  is available.
+  classes. It specifies the Amazon Web Services Availability Zone in which to create the file
+  system. Use the format us-east-1a to specify the Availability Zone. For more information
+  about One Zone storage classes, see Using EFS storage classes in the Amazon EFS User Guide.
+   One Zone storage classes are not available in all Availability Zones in Amazon Web
+  Services Regions where Amazon EFS is available.
 - `"Backup"`: Specifies whether automatic backups are enabled on the file system that you
   are creating. Set the value to true to enable automatic backups. If you are creating a file
   system that uses One Zone storage classes, automatic backups are enabled by default. For
   more information, see Automatic backups in the Amazon EFS User Guide. Default is false.
-  However, if you specify an AvailabilityZoneName, the default is true.  AWS Backup is not
-  available in all AWS Regions where Amazon EFS is available.
+  However, if you specify an AvailabilityZoneName, the default is true.  Backup is not
+  available in all Amazon Web Services Regionswhere Amazon EFS is available.
 - `"Encrypted"`: A Boolean value that, if true, creates an encrypted file system. When
   creating an encrypted file system, you have the option of specifying
-  CreateFileSystemRequestKmsKeyId for an existing AWS Key Management Service (AWS KMS)
-  customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS,
+  CreateFileSystemRequestKmsKeyId for an existing Key Management Service (KMS customer master
+  key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS,
   /aws/elasticfilesystem, is used to protect the encrypted file system.
-- `"KmsKeyId"`: The ID of the AWS KMS CMK that you want to use to protect the encrypted
-  file system. This parameter is only required if you want to use a non-default KMS key. If
-  this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in
-  one of the following formats:   Key ID - A unique identifier of the key, for example
+- `"KmsKeyId"`: The ID of the KMS CMK that you want to use to protect the encrypted file
+  system. This parameter is only required if you want to use a non-default KMS key. If this
+  parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one
+  of the following formats:   Key ID - A unique identifier of the key, for example
   1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key,
   for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
   Key alias - A previously created display name for a key, for example alias/projectKey1.
@@ -148,11 +150,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisionedThroughputInMibps"`: The throughput, measured in MiB/s, that you want to
   provision for a file system that you're creating. Valid values are 1-1024. Required if
   ThroughputMode is set to provisioned. The upper limit for throughput is 1024 MiB/s. To
-  increase this limit, contact AWS Support. For more information, see Amazon EFS quotas that
-  you can increase in the Amazon EFS User Guide.
-- `"Tags"`: A value that specifies to create one or more tags associated with the file
-  system. Each tag is a user-defined key-value pair. Name your file system on creation by
-  including a \"Key\":\"Name\",\"Value\":\"{value}\" key-value pair.
+  increase this limit, contact Amazon Web Services Support. For more information, see Amazon
+  EFS quotas that you can increase in the Amazon EFS User Guide.
+- `"Tags"`: Use to create one or more tags associated with the file system. Each tag is a
+  user-defined key-value pair. Name your file system on creation by including a
+  \"Key\":\"Name\",\"Value\":\"{value}\" key-value pair. Each key must be unique. For more
+  information, see Tagging Amazon Web Services resources in the Amazon Web Services General
+  Reference Guide.
 - `"ThroughputMode"`: Specifies the throughput mode for the file system, either bursting or
   provisioned. If you set ThroughputMode to provisioned, you must also set a value for
   ProvisionedThroughputInMibps. After you create the file system, you can decrease your file
@@ -477,7 +481,7 @@ end
 remove tags from EFS resources.  Deletes the specified tags from a file system. If the
 DeleteTags request includes a tag key that doesn't exist, Amazon EFS ignores it and doesn't
 cause an error. For more information about tags and related restrictions, see Tag
-Restrictions in the AWS Billing and Cost Management User Guide. This operation requires
+restrictions in the Billing and Cost Management User Guide. This operation requires
 permissions for the elasticfilesystem:DeleteTags action.
 
 # Arguments
@@ -544,12 +548,17 @@ end
     describe_account_preferences()
     describe_account_preferences(params::Dict{String,<:Any})
 
-
+Returns the account preferences settings for the Amazon Web Services account associated
+with the user making the request, in the current Amazon Web Services Region. For more
+information, see Managing Amazon EFS resource IDs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:
-- `"NextToken"`:
+- `"MaxResults"`: (Optional) When retrieving account preferences, you can optionally
+  specify the MaxItems parameter to limit the number of objects returned in a response. The
+  default value is 100.
+- `"NextToken"`: (Optional) You can use NextToken in a subsequent request to fetch the next
+  page of Amazon Web Services account preferences if the response payload was paginated.
 """
 function describe_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
     return efs("GET", "/2015-02-01/account-preferences"; aws_config=aws_config)
@@ -629,19 +638,20 @@ end
 
 Returns the description of a specific Amazon EFS file system if either the file system
 CreationToken or the FileSystemId is provided. Otherwise, it returns descriptions of all
-file systems owned by the caller's AWS account in the AWS Region of the endpoint that
-you're calling. When retrieving all file system descriptions, you can optionally specify
-the MaxItems parameter to limit the number of descriptions in a response. Currently, this
-number is automatically set to 10. If more file system descriptions remain, Amazon EFS
-returns a NextMarker, an opaque token, in the response. In this case, you should send a
-subsequent request with the Marker request parameter set to the value of NextMarker.  To
-retrieve a list of your file system descriptions, this operation is used in an iterative
-process, where DescribeFileSystems is called first without the Marker and then the
-operation continues to call it with the Marker parameter set to the value of the NextMarker
-from the previous response until the response has no NextMarker.   The order of file
-systems returned in the response of one DescribeFileSystems call and the order of file
-systems returned across the responses of a multi-call iteration is unspecified.   This
-operation requires permissions for the elasticfilesystem:DescribeFileSystems action.
+file systems owned by the caller's Amazon Web Services account in the Amazon Web Services
+Region of the endpoint that you're calling. When retrieving all file system descriptions,
+you can optionally specify the MaxItems parameter to limit the number of descriptions in a
+response. Currently, this number is automatically set to 10. If more file system
+descriptions remain, Amazon EFS returns a NextMarker, an opaque token, in the response. In
+this case, you should send a subsequent request with the Marker request parameter set to
+the value of NextMarker.  To retrieve a list of your file system descriptions, this
+operation is used in an iterative process, where DescribeFileSystems is called first
+without the Marker and then the operation continues to call it with the Marker parameter
+set to the value of the NextMarker from the previous response until the response has no
+NextMarker.   The order of file systems returned in the response of one DescribeFileSystems
+call and the order of file systems returned across the responses of a multi-call iteration
+is unspecified.   This operation requires permissions for the
+elasticfilesystem:DescribeFileSystems action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -672,9 +682,10 @@ end
 Returns the current LifecycleConfiguration object for the specified Amazon EFS file system.
 EFS lifecycle management uses the LifecycleConfiguration object to identify which files to
 move to the EFS Infrequent Access (IA) storage class. For a file system without a
-LifecycleConfiguration object, the call returns an empty array in the response. This
-operation requires permissions for the elasticfilesystem:DescribeLifecycleConfiguration
-operation.
+LifecycleConfiguration object, the call returns an empty array in the response. When EFS
+Intelligent Tiering is enabled, TransitionToPrimaryStorageClass has a value of
+AFTER_1_ACCESS. This operation requires permissions for the
+elasticfilesystem:DescribeLifecycleConfiguration operation.
 
 # Arguments
 - `file_system_id`: The ID of the file system whose LifecycleConfiguration object you want
@@ -893,10 +904,16 @@ end
     put_account_preferences(resource_id_type)
     put_account_preferences(resource_id_type, params::Dict{String,<:Any})
 
-
+Use this operation to set the account preference in the current Amazon Web Services Region
+to use either long 17 character (63 bit) or short 8 character (32 bit) IDs for new EFS file
+systems and mount targets created. All existing resource IDs are not affected by any
+changes you make. You can set the ID preference during the opt-in period as EFS transitions
+to long resource IDs. For more information, see Managing Amazon EFS resource IDs.
 
 # Arguments
-- `resource_id_type`:
+- `resource_id_type`: Specifies the EFS resource ID preference to set for the user's Amazon
+  Web Services account, in the current Amazon Web Services Region, either LONG_ID (17
+  characters), or SHORT_ID (8 characters).
 
 """
 function put_account_preferences(
@@ -1022,7 +1039,9 @@ end
 
 Enables lifecycle management by creating a new LifecycleConfiguration object. A
 LifecycleConfiguration object defines when files in an Amazon EFS file system are
-automatically transitioned to the lower-cost EFS Infrequent Access (IA) storage class. A
+automatically transitioned to the lower-cost EFS Infrequent Access (IA) storage class. To
+enable EFS Intelligent Tiering, set the value of TransitionToPrimaryStorageClass to
+AFTER_1_ACCESS. For more information, see EFS Lifecycle Management. A
 LifecycleConfiguration applies to all files in a file system. Each Amazon EFS file system
 supports one lifecycle configuration, which applies to all files in the file system. If a
 LifecycleConfiguration object already exists for the specified file system, a
@@ -1034,8 +1053,8 @@ disabling, or modifying lifecycle management.   A LifecyclePolicies array of
 LifecyclePolicy objects that define when files are moved to the IA storage class. The array
 can contain only one LifecyclePolicy item.   This operation requires permissions for the
 elasticfilesystem:PutLifecycleConfiguration operation. To apply a LifecycleConfiguration
-object to an encrypted file system, you need the same AWS Key Management Service (AWS KMS)
-permissions as when you created the encrypted file system.
+object to an encrypted file system, you need the same Key Management Service permissions as
+when you created the encrypted file system.
 
 # Arguments
 - `file_system_id`: The ID of the file system for which you are creating the

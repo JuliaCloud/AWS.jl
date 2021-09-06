@@ -299,7 +299,7 @@ PutRecord and PutRecordBatch, the limits are an aggregate across these two opera
 each delivery stream. For more information about limits and how to request an increase, see
 Amazon Kinesis Data Firehose Limits.  You must specify the name of the delivery stream and
 the data record when using PutRecord. The data record consists of a data blob that can be
-up to 1,000 KB in size, and any kind of data. For example, it can be a segment from a log
+up to 1,000 KiB in size, and any kind of data. For example, it can be a segment from a log
 file, geographic location data, website clickstream data, and so on. Kinesis Data Firehose
 buffers records before delivering them to the destination. To disambiguate the data blobs
 at the destination, a common solution is to use delimiters in the data, such as a newline
@@ -359,7 +359,7 @@ higher throughput per producer than when writing single records. To write single
 records into a delivery stream, use PutRecord. Applications using these operations are
 referred to as producers. For information about service quota, see Amazon Kinesis Data
 Firehose Quota. Each PutRecordBatch request supports up to 500 records. Each record in the
-request can be as large as 1,000 KB (before 64-bit encoding), up to a limit of 4 MB for the
+request can be as large as 1,000 KB (before base64 encoding), up to a limit of 4 MB for the
 entire request. These limits cannot be changed. You must specify the name of the delivery
 stream and the data record when using PutRecord. The data record consists of a data blob
 that can be up to 1,000 KB in size, and any kind of data. For example, it could be a

@@ -291,20 +291,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about policy structure, see Overview of Amazon Web Services IAM Policies in the
   Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds – The length of time, in
   seconds, for which a  ReceiveMessage  action waits for a message to arrive. Valid values:
-  An integer from 0 to 20 (seconds). Default: 0.     RedrivePolicy – The string that
-  includes the parameters for the dead-letter queue functionality of the source queue as a
-  JSON object. For more information about the redrive policy and dead-letter queues, see
-  Using Amazon SQS Dead-Letter Queues in the Amazon SQS Developer Guide.
+  An integer from 0 to 20 (seconds). Default: 0.     VisibilityTimeout – The visibility
+  timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12 hours).
+  Default: 30. For more information about the visibility timeout, see Visibility Timeout in
+  the Amazon SQS Developer Guide.   The following attributes apply only to dead-letter
+  queues:     RedrivePolicy – The string that includes the parameters for the dead-letter
+  queue functionality of the source queue as a JSON object. The parameters are as follows:
   deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which
   Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
   maxReceiveCount – The number of times a message is delivered to the source queue before
   being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the
-  maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.    The
-  dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter
-  queue of a standard queue must also be a standard queue.     VisibilityTimeout – The
-  visibility timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12
-  hours). Default: 30. For more information about the visibility timeout, see Visibility
-  Timeout in the Amazon SQS Developer Guide.   The following attributes apply only to
+  maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
+  RedriveAllowPolicy – The string that includes the parameters for the permissions for the
+  dead-letter queue redrive permission and which source queues can specify dead-letter queues
+  as a JSON object. The parameters are as follows:    redrivePermission – The permission
+  type that defines which source queues can specify the current queue as the dead-letter
+  queue. Valid values are:    allowAll – (Default) Any source queues in this Amazon Web
+  Services account in the same Region can specify this queue as the dead-letter queue.
+  denyAll – No source queues can specify this queue as the dead-letter queue.    byQueue
+  – Only queues specified by the sourceQueueArns parameter can specify this queue as the
+  dead-letter queue.      sourceQueueArns – The Amazon Resource Names (ARN)s of the source
+  queues that can specify this queue as the dead-letter queue and redrive messages. You can
+  specify this parameter only when the redrivePermission parameter is set to byQueue. You can
+  specify up to 10 source queue ARNs. To allow more than 10 source queues to specify
+  dead-letter queues, set the redrivePermission parameter to allowAll.      The dead-letter
+  queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a
+  standard queue must also be a standard queue.  The following attributes apply only to
   server-side-encryption:    KmsMasterKeyId – The ID of an Amazon Web Services managed
   customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key
   Terms. While the alias of the Amazon Web Services managed CMK for Amazon SQS is always
@@ -566,39 +578,54 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Returns the length of time, in seconds, for which Amazon SQS retains a message.    Policy
   – Returns the policy of the queue.    QueueArn – Returns the Amazon resource name (ARN)
   of the queue.    ReceiveMessageWaitTimeSeconds – Returns the length of time, in seconds,
-  for which the ReceiveMessage action waits for a message to arrive.     RedrivePolicy –
-  The string that includes the parameters for the dead-letter queue functionality of the
-  source queue as a JSON object. For more information about the redrive policy and
-  dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon SQS Developer
-  Guide.    deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue
-  to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
-  maxReceiveCount – The number of times a message is delivered to the source queue before
-  being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the
-  maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
-  VisibilityTimeout – Returns the visibility timeout for the queue. For more information
-  about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.
-  The following attributes apply only to server-side-encryption:    KmsMasterKeyId –
-  Returns the ID of an Amazon Web Services managed customer master key (CMK) for Amazon SQS
-  or a custom CMK. For more information, see Key Terms.     KmsDataKeyReusePeriodSeconds –
-  Returns the length of time, in seconds, for which Amazon SQS can reuse a data key to
-  encrypt or decrypt messages before calling KMS again. For more information, see How Does
-  the Data Key Reuse Period Work?.    The following attributes apply only to FIFO
-  (first-in-first-out) queues:    FifoQueue – Returns information about whether the queue
-  is FIFO. For more information, see FIFO queue logic in the Amazon SQS Developer Guide.  To
-  determine whether a queue is FIFO, you can check whether QueueName ends with the .fifo
-  suffix.     ContentBasedDeduplication – Returns whether content-based deduplication is
-  enabled for the queue. For more information, see Exactly-once processing in the Amazon SQS
-  Developer Guide.    The following attributes apply only to high throughput for FIFO queues:
-     DeduplicationScope – Specifies whether message deduplication occurs at the message
-  group or queue level. Valid values are messageGroup and queue.    FifoThroughputLimit –
-  Specifies whether the FIFO queue throughput quota applies to the entire queue or per
-  message group. Valid values are perQueue and perMessageGroupId. The perMessageGroupId value
-  is allowed only when the value for DeduplicationScope is messageGroup.   To enable high
-  throughput for FIFO queues, do the following:   Set DeduplicationScope to messageGroup.
-  Set FifoThroughputLimit to perMessageGroupId.   If you set these attributes to anything
-  other than the values shown for enabling high throughput, normal throughput is in effect
-  and deduplication occurs as specified. For information on throughput quotas, see Quotas
-  related to messages in the Amazon SQS Developer Guide.
+  for which the ReceiveMessage action waits for a message to arrive.     VisibilityTimeout
+  – Returns the visibility timeout for the queue. For more information about the visibility
+  timeout, see Visibility Timeout in the Amazon SQS Developer Guide.    The following
+  attributes apply only to dead-letter queues:     RedrivePolicy – The string that includes
+  the parameters for the dead-letter queue functionality of the source queue as a JSON
+  object. The parameters are as follows:    deadLetterTargetArn – The Amazon Resource Name
+  (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of
+  maxReceiveCount is exceeded.    maxReceiveCount – The number of times a message is
+  delivered to the source queue before being moved to the dead-letter queue. When the
+  ReceiveCount for a message exceeds the maxReceiveCount for a queue, Amazon SQS moves the
+  message to the dead-letter-queue.      RedriveAllowPolicy – The string that includes the
+  parameters for the permissions for the dead-letter queue redrive permission and which
+  source queues can specify dead-letter queues as a JSON object. The parameters are as
+  follows:    redrivePermission – The permission type that defines which source queues can
+  specify the current queue as the dead-letter queue. Valid values are:    allowAll –
+  (Default) Any source queues in this Amazon Web Services account in the same Region can
+  specify this queue as the dead-letter queue.    denyAll – No source queues can specify
+  this queue as the dead-letter queue.    byQueue – Only queues specified by the
+  sourceQueueArns parameter can specify this queue as the dead-letter queue.
+  sourceQueueArns – The Amazon Resource Names (ARN)s of the source queues that can specify
+  this queue as the dead-letter queue and redrive messages. You can specify this parameter
+  only when the redrivePermission parameter is set to byQueue. You can specify up to 10
+  source queue ARNs. To allow more than 10 source queues to specify dead-letter queues, set
+  the redrivePermission parameter to allowAll.      The dead-letter queue of a FIFO queue
+  must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also
+  be a standard queue.  The following attributes apply only to server-side-encryption:
+  KmsMasterKeyId – Returns the ID of an Amazon Web Services managed customer master key
+  (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms.
+  KmsDataKeyReusePeriodSeconds – Returns the length of time, in seconds, for which Amazon
+  SQS can reuse a data key to encrypt or decrypt messages before calling KMS again. For more
+  information, see How Does the Data Key Reuse Period Work?.    The following attributes
+  apply only to FIFO (first-in-first-out) queues:    FifoQueue – Returns information about
+  whether the queue is FIFO. For more information, see FIFO queue logic in the Amazon SQS
+  Developer Guide.  To determine whether a queue is FIFO, you can check whether QueueName
+  ends with the .fifo suffix.     ContentBasedDeduplication – Returns whether content-based
+  deduplication is enabled for the queue. For more information, see Exactly-once processing
+  in the Amazon SQS Developer Guide.    The following attributes apply only to high
+  throughput for FIFO queues:    DeduplicationScope – Specifies whether message
+  deduplication occurs at the message group or queue level. Valid values are messageGroup and
+  queue.    FifoThroughputLimit – Specifies whether the FIFO queue throughput quota applies
+  to the entire queue or per message group. Valid values are perQueue and perMessageGroupId.
+  The perMessageGroupId value is allowed only when the value for DeduplicationScope is
+  messageGroup.   To enable high throughput for FIFO queues, do the following:   Set
+  DeduplicationScope to messageGroup.   Set FifoThroughputLimit to perMessageGroupId.   If
+  you set these attributes to anything other than the values shown for enabling high
+  throughput, normal throughput is in effect and deduplication occurs as specified. For
+  information on throughput quotas, see Quotas related to messages in the Amazon SQS
+  Developer Guide.
 """
 function get_queue_attributes(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config())
     return sqs(
@@ -1164,20 +1191,32 @@ AddPermission, RemovePermission, and SetQueueAttributes actions in your IAM poli
   policy structure, see Overview of Amazon Web Services IAM Policies in the Identity and
   Access Management User Guide.     ReceiveMessageWaitTimeSeconds – The length of time, in
   seconds, for which a  ReceiveMessage  action waits for a message to arrive. Valid values:
-  An integer from 0 to 20 (seconds). Default: 0.     RedrivePolicy – The string that
-  includes the parameters for the dead-letter queue functionality of the source queue as a
-  JSON object. For more information about the redrive policy and dead-letter queues, see
-  Using Amazon SQS Dead-Letter Queues in the Amazon SQS Developer Guide.
+  An integer from 0 to 20 (seconds). Default: 0.     VisibilityTimeout – The visibility
+  timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12 hours).
+  Default: 30. For more information about the visibility timeout, see Visibility Timeout in
+  the Amazon SQS Developer Guide.   The following attributes apply only to dead-letter
+  queues:     RedrivePolicy – The string that includes the parameters for the dead-letter
+  queue functionality of the source queue as a JSON object. The parameters are as follows:
   deadLetterTargetArn – The Amazon Resource Name (ARN) of the dead-letter queue to which
   Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
   maxReceiveCount – The number of times a message is delivered to the source queue before
   being moved to the dead-letter queue. When the ReceiveCount for a message exceeds the
-  maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.    The
-  dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter
-  queue of a standard queue must also be a standard queue.     VisibilityTimeout – The
-  visibility timeout for the queue, in seconds. Valid values: An integer from 0 to 43,200 (12
-  hours). Default: 30. For more information about the visibility timeout, see Visibility
-  Timeout in the Amazon SQS Developer Guide.   The following attributes apply only to
+  maxReceiveCount for a queue, Amazon SQS moves the message to the dead-letter-queue.
+  RedriveAllowPolicy – The string that includes the parameters for the permissions for the
+  dead-letter queue redrive permission and which source queues can specify dead-letter queues
+  as a JSON object. The parameters are as follows:    redrivePermission – The permission
+  type that defines which source queues can specify the current queue as the dead-letter
+  queue. Valid values are:    allowAll – (Default) Any source queues in this Amazon Web
+  Services account in the same Region can specify this queue as the dead-letter queue.
+  denyAll – No source queues can specify this queue as the dead-letter queue.    byQueue
+  – Only queues specified by the sourceQueueArns parameter can specify this queue as the
+  dead-letter queue.      sourceQueueArns – The Amazon Resource Names (ARN)s of the source
+  queues that can specify this queue as the dead-letter queue and redrive messages. You can
+  specify this parameter only when the redrivePermission parameter is set to byQueue. You can
+  specify up to 10 source queue ARNs. To allow more than 10 source queues to specify
+  dead-letter queues, set the redrivePermission parameter to allowAll.      The dead-letter
+  queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a
+  standard queue must also be a standard queue.  The following attributes apply only to
   server-side-encryption:    KmsMasterKeyId – The ID of an Amazon Web Services managed
   customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key
   Terms. While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs, the

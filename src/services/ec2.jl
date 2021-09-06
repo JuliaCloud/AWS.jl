@@ -16368,6 +16368,7 @@ VM Import/Export User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Architecture"`: The architecture of the virtual machine. Valid values: i386 | x86_64 |
   arm64
+- `"BootMode"`: The boot mode of the virtual machine.
 - `"ClientData"`: The client-specific data.
 - `"ClientToken"`: The token to enable idempotency for VM import requests.
 - `"Description"`: A description string for the import image task.
