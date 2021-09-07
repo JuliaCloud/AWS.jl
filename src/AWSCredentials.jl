@@ -9,7 +9,7 @@ using ..AWSExceptions
 export AWSCredentials,
     aws_account_number,
     aws_get_region,
-    aws_get_role_details,
+    aws_get_profile_settings,
     aws_user_arn,
     check_credentials,
     dot_aws_config,
@@ -566,17 +566,25 @@ end
 )
 
 """
-    aws_get_role_details(profile::AbstractString, ini::Inifile) -> Tuple
+    aws_get_profile_settings(profile::AbstractString, ini::Inifile) -> Dict
 
-Return a tuple of `profile` details and the `role arn`.
+Return a `Dict` containing all of the settings for the specified profile.
 
 # Arguments
-- `profile::AbstractString`: Specific profile to get role details about
-- `ini::Inifile`: Inifile to look into to find the role details
+- `profile::AbstractString`: Profile to retrieve settings from
+- `ini::Inifile`: Configuration file read the settings from
 """
-function aws_get_role_details(profile::AbstractString, ini::Inifile)
-    role_arn = _get_ini_value(ini, profile, "role_arn")
-    source_profile = _get_ini_value(ini, profile, "source_profile")
+function aws_get_profile_settings(profile::AbstractString, ini::Inifile)
+    section = get(sections(ini), "profile $profile", nothing)
 
-    return (source_profile, role_arn)
+    # Internals of IniFile.jl always return strings for keys/values even though the returned
+    # Dict uses more generic type parameters
+    return Dict{String,String}(section)
 end
+
+@deprecate(
+    aws_get_role_details(profile::AbstractString, ini::Inifile),
+    get.(
+        Ref(aws_get_profile_settings(profile, ini)), ("source_profile", "role_arn"), nothing
+    ),
+)
