@@ -40,11 +40,21 @@ jobs:
       MINIO_REGION_NAME: aregion
     steps:
       - uses: actions/checkout@v2
-      - if: matrix.os == 'ubuntu-latest'
-        run: curl -LO https://dl.minio.io/server/minio/release/linux-amd64/minio
-      - if: matrix.os == 'macOS-latest'
-        run: curl -LO https://dl.minio.io/server/minio/release/darwin-amd64/minio
-      - run: |
+      - name: MinIO server setup
+        run: |
+          case "$RUNNER_OS" in
+            Linux)
+              host_os="linux-amd64"
+              ;;
+            macOS)
+              host_os="darwin-amd64"
+              ;;
+            *)
+              echo "$RUNNER_OS not supported" >&2
+              exit 1
+              ;;
+          esac
+          curl -LO "https://dl.minio.io/server/minio/release/${host_os}/minio"
           mkdir data
           chmod +x ./minio
           ./minio server --compat --quiet data 2>&1 > minio.log &
