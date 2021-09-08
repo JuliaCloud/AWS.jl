@@ -218,89 +218,94 @@ end
                 @test creds.renew !== nothing
 
                 # Check credential file takes precedence over config
-                ENV["AWS_DEFAULT_PROFILE"] = "test2"
-                config = AWSConfig()
-                creds = config.credentials
+                withenv("AWS_DEFAULT_PROFILE" => "test2") do
+                    config = AWSConfig()
+                    creds = config.credentials
 
-                @test creds.access_key_id == "RIGHT_ACCESS_ID2"
-                @test creds.secret_key == "RIGHT_ACCESS_KEY2"
+                    @test creds.access_key_id == "RIGHT_ACCESS_ID2"
+                    @test creds.secret_key == "RIGHT_ACCESS_KEY2"
+                end
 
                 # Check credentials take precedence over role
-                ENV["AWS_DEFAULT_PROFILE"] = "test3"
-                config = AWSConfig()
-                creds = config.credentials
+                withenv("AWS_DEFAULT_PROFILE" => "test3") do
+                    config = AWSConfig()
+                    creds = config.credentials
 
-                @test creds.access_key_id == "RIGHT_ACCESS_ID3"
-                @test creds.secret_key == "RIGHT_ACCESS_KEY3"
+                    @test creds.access_key_id == "RIGHT_ACCESS_ID3"
+                    @test creds.secret_key == "RIGHT_ACCESS_KEY3"
+                end
 
-                ENV["AWS_DEFAULT_PROFILE"] = "test4"
-                config = AWSConfig()
-                creds = config.credentials
+                withenv("AWS_DEFAULT_PROFILE" => "test4") do
+                    config = AWSConfig()
+                    creds = config.credentials
 
-                @test creds.access_key_id == "RIGHT_ACCESS_ID4"
-                @test creds.secret_key == "RIGHT_ACCESS_KEY4"
+                    @test creds.access_key_id == "RIGHT_ACCESS_ID4"
+                    @test creds.secret_key == "RIGHT_ACCESS_KEY4"
+                end
             end
 
             @testset "Refresh" begin
-                ENV["AWS_DEFAULT_PROFILE"] = "test"
-                # Check credentials refresh on timeout
-                config = AWSConfig()
-                creds = config.credentials
-                creds.access_key_id = "EXPIRED_ACCESS_ID"
-                creds.secret_key = "EXPIRED_ACCESS_KEY"
-                creds.expiry = now(UTC)
+                withenv("AWS_DEFAULT_PROFILE" => "test") do
+                    # Check credentials refresh on timeout
+                    config = AWSConfig()
+                    creds = config.credentials
+                    creds.access_key_id = "EXPIRED_ACCESS_ID"
+                    creds.secret_key = "EXPIRED_ACCESS_KEY"
+                    creds.expiry = now(UTC)
 
-                @test creds.renew !== nothing
-                renew = creds.renew
+                    @test creds.renew !== nothing
+                    renew = creds.renew
 
-                @test renew() isa AWSCredentials
+                    @test renew() isa AWSCredentials
 
-                creds = check_credentials(config.credentials)
+                    creds = check_credentials(config.credentials)
 
-                @test creds.access_key_id == "TEST_ACCESS_ID"
-                @test creds.secret_key == "TEST_ACCESS_KEY"
-                @test creds.expiry > now(UTC)
+                    @test creds.access_key_id == "TEST_ACCESS_ID"
+                    @test creds.secret_key == "TEST_ACCESS_KEY"
+                    @test creds.expiry > now(UTC)
 
-                # Check renew function remains unchanged
-                @test creds.renew !== nothing
-                @test creds.renew === renew
+                    # Check renew function remains unchanged
+                    @test creds.renew !== nothing
+                    @test creds.renew === renew
 
-                # Check force_refresh
-                creds.access_key_id = "WRONG_ACCESS_KEY"
-                creds = check_credentials(creds; force_refresh=true)
-                @test creds.access_key_id == "TEST_ACCESS_ID"
+                    # Check force_refresh
+                    creds.access_key_id = "WRONG_ACCESS_KEY"
+                    creds = check_credentials(creds; force_refresh=true)
+                    @test creds.access_key_id == "TEST_ACCESS_ID"
+                end
             end
 
             @testset "Profile" begin
                 # Check profile kwarg
-                ENV["AWS_DEFAULT_PROFILE"] = "test"
-                creds = AWSCredentials(; profile="test2")
-                @test creds.access_key_id == "RIGHT_ACCESS_ID2"
-                @test creds.secret_key == "RIGHT_ACCESS_KEY2"
+                withenv("AWS_DEFAULT_PROFILE" => "test") do
+                    creds = AWSCredentials(; profile="test2")
+                    @test creds.access_key_id == "RIGHT_ACCESS_ID2"
+                    @test creds.secret_key == "RIGHT_ACCESS_KEY2"
 
-                config = AWSConfig(; profile="test2")
-                creds = config.credentials
-                @test creds.access_key_id == "RIGHT_ACCESS_ID2"
-                @test creds.secret_key == "RIGHT_ACCESS_KEY2"
+                    config = AWSConfig(; profile="test2")
+                    creds = config.credentials
+                    @test creds.access_key_id == "RIGHT_ACCESS_ID2"
+                    @test creds.secret_key == "RIGHT_ACCESS_KEY2"
 
-                # Check profile persists on renewal
-                creds.access_key_id = "WRONG_ACCESS_ID2"
-                creds.secret_key = "WRONG_ACCESS_KEY2"
-                creds = check_credentials(creds; force_refresh=true)
+                    # Check profile persists on renewal
+                    creds.access_key_id = "WRONG_ACCESS_ID2"
+                    creds.secret_key = "WRONG_ACCESS_KEY2"
+                    creds = check_credentials(creds; force_refresh=true)
 
-                @test creds.access_key_id == "RIGHT_ACCESS_ID2"
-                @test creds.secret_key == "RIGHT_ACCESS_KEY2"
+                    @test creds.access_key_id == "RIGHT_ACCESS_ID2"
+                    @test creds.secret_key == "RIGHT_ACCESS_KEY2"
+                end
             end
 
             @testset "Assume Role" begin
                 # Check we try to assume a role
-                ENV["AWS_DEFAULT_PROFILE"] = "test:dev"
-
-                @test_ecode("InvalidClientTokenId", AWSConfig())
+                withenv("AWS_DEFAULT_PROFILE" => "test:dev") do
+                    @test_ecode("InvalidClientTokenId", AWSConfig())
+                end
 
                 # Check we try to assume a role
-                ENV["AWS_DEFAULT_PROFILE"] = "test:sub-dev"
-                let oldout = stdout
+                withenv("AWS_DEFAULT_PROFILE" => "test:sub-dev") do
+                    oldout = stdout
                     r, w = redirect_stdout()
 
                     @test_ecode("InvalidClientTokenId", AWSConfig())
