@@ -102,7 +102,7 @@ function submit_request(
 
         # Handle ExpiredToken...
         # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
-        @retry if ecode(e) in EXPIRED_ERROR_CODES
+        @retry if e.code in EXPIRED_ERROR_CODES
             check_credentials(credentials(aws); force_refresh=true)
         end
 
@@ -110,14 +110,14 @@ function submit_request(
         # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
         # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
         @delay_retry if e isa AWSException && (
-            _http_status(e.cause) == TOO_MANY_REQUESTS || ecode(e) in THROTTLING_ERROR_CODES
+            _http_status(e.cause) == TOO_MANY_REQUESTS || e.code in THROTTLING_ERROR_CODES
         )
         end
 
         # Handle BadDigest error and CRC32 check sum failure
         @retry if e isa AWSException && (
             _header(e.cause, "crc32body") == "x-amz-crc32" ||
-            ecode(e) in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
+            e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
         )
         end
 
