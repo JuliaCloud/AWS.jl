@@ -579,7 +579,7 @@ function aws_get_profile_settings(profile::AbstractString, ini::Inifile)
 
     # Internals of IniFile.jl always return strings for keys/values even though the returned
     # Dict uses more generic type parameters
-    return Dict{String,String}(section)
+    return section !== nothing ? Dict{String,String}(section) : nothing
 end
 
 @deprecate(
