@@ -434,6 +434,7 @@ const network_firewall = AWS.JSONService(
 )
 const networkmanager = AWS.RestJSONService("networkmanager", "networkmanager", "2019-07-05")
 const nimble = AWS.RestJSONService("nimble", "nimble", "2020-08-01")
+const opensearch = AWS.RestJSONService("es", "es", "2021-01-01")
 const opsworks = AWS.JSONService(
     "opsworks", "opsworks", "2013-02-18", "1.1", "OpsWorks_20130218"
 )

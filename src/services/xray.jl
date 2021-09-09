@@ -57,12 +57,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to true to enable insights notifications for the new group. Notifications may only be
   enabled on a group with InsightsEnabled set to true.
 - `"Tags"`: A map that contains one or more tag keys and tag values to attach to an X-Ray
-  group. For more information about ways to use tags, see Tagging AWS resources in the AWS
-  General Reference. The following restrictions apply to tags:   Maximum number of
-  user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters
-  Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z,
-  A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values
-  are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.
+  group. For more information about ways to use tags, see Tagging Amazon Web Services
+  resources in the Amazon Web Services General Reference. The following restrictions apply to
+  tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128
+  Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for
+  key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @
+  Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's
+  reserved for Amazon Web Services use.
 """
 function create_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config())
     return xray(
@@ -104,12 +105,13 @@ the service can use instead of borrowing from the reservoir.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A map that contains one or more tag keys and tag values to attach to an X-Ray
-  sampling rule. For more information about ways to use tags, see Tagging AWS resources in
-  the AWS General Reference. The following restrictions apply to tags:   Maximum number of
-  user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters
-  Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z,
-  A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values
-  are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.
+  sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services
+  resources in the Amazon Web Services General Reference. The following restrictions apply to
+  tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128
+  Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for
+  key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @
+  Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's
+  reserved for Amazon Web Services use.
 """
 function create_sampling_rule(
     SamplingRule; aws_config::AbstractAWSConfig=global_aws_config()
@@ -507,9 +509,9 @@ end
 
 Retrieves a document that describes services that process incoming requests, and downstream
 services that they call as a result. Root services process incoming requests and make calls
-to downstream services. Root services are applications that use the AWS X-Ray SDK.
-Downstream services can be other applications, AWS resources, HTTP web APIs, or SQL
-databases.
+to downstream services. Root services are applications that use the Amazon Web Services
+X-Ray SDK. Downstream services can be other applications, Amazon Web Services resources,
+HTTP web APIs, or SQL databases.
 
 # Arguments
 - `end_time`: The end of the timeframe for which to generate a graph.
@@ -652,7 +654,8 @@ errors, or come from a known user. For example, the following filter expression 
 traces that pass through api.example.com:  service(\"api.example.com\")  This filter
 expression finds traces that have an annotation named account with the value 12345:
 annotation.account = \"12345\"  For a full list of indexed fields and keywords that you can
-use in filter expressions, see Using Filter Expressions in the AWS X-Ray Developer Guide.
+use in filter expressions, see Using Filter Expressions in the Amazon Web Services X-Ray
+Developer Guide.
 
 # Arguments
 - `end_time`: The end of the time frame for which to retrieve traces.
@@ -704,7 +707,8 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Returns a list of tags that are applied to the specified AWS X-Ray group or sampling rule.
+Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or
+sampling rule.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
@@ -752,12 +756,13 @@ Updates the encryption configuration for X-Ray data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KeyId"`: An AWS KMS customer master key (CMK) in one of the following formats:    Alias
-  - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For
-  example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. AWS X-Ray does not support asymmetric CMKs.
-     ARN - The full Amazon Resource Name of the key ID or alias. For example,
-  arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this
-  format to specify a key in a different account.   Omit this key if you set Type to NONE.
+- `"KeyId"`: An Amazon Web Services KMS key in one of the following formats:    Alias - The
+  name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For
+  example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Amazon Web Services X-Ray does not support
+  asymmetric KMS keys.    ARN - The full Amazon Resource Name of the key ID or alias. For
+  example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use
+  this format to specify a key in a different account.   Omit this key if you set Type to
+  NONE.
 """
 function put_encryption_config(Type; aws_config::AbstractAWSConfig=global_aws_config())
     return xray(
@@ -782,7 +787,7 @@ end
     put_telemetry_records(telemetry_records)
     put_telemetry_records(telemetry_records, params::Dict{String,<:Any})
 
-Used by the AWS X-Ray daemon to upload telemetry.
+Used by the Amazon Web Services X-Ray daemon to upload telemetry.
 
 # Arguments
 - `telemetry_records`:
@@ -824,28 +829,28 @@ end
     put_trace_segments(trace_segment_documents)
     put_trace_segments(trace_segment_documents, params::Dict{String,<:Any})
 
-Uploads segment documents to AWS X-Ray. The X-Ray SDK generates segment documents and sends
-them to the X-Ray daemon, which uploads them in batches. A segment document can be a
-completed segment, an in-progress segment, or an array of subsegments. Segments must
-include the following fields. For the full segment document schema, see AWS X-Ray Segment
-Documents in the AWS X-Ray Developer Guide.  Required segment document fields     name -
-The name of the service that handled the request.    id - A 64-bit identifier for the
-segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A
-unique identifier that connects all segments and subsegments originating from a single
-client request.    start_time - Time the segment or subsegment was created, in floating
-point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or
-1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example,
-1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.
-in_progress - Set to true instead of specifying an end_time to record that a segment has
-been started, but is not complete. Send an in-progress segment when your application
-receives a request that will take a long time to serve, to trace that the request was
-received. When the response is sent, send the complete segment to overwrite the in-progress
-segment.   A trace_id consists of three numbers separated by hyphens. For example,
-1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number,
-for instance, 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal
-digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or
-58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24
-hexadecimal digits.
+Uploads segment documents to Amazon Web Services X-Ray. The X-Ray SDK generates segment
+documents and sends them to the X-Ray daemon, which uploads them in batches. A segment
+document can be a completed segment, an in-progress segment, or an array of subsegments.
+Segments must include the following fields. For the full segment document schema, see
+Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer
+Guide.  Required segment document fields     name - The name of the service that handled
+the request.    id - A 64-bit identifier for the segment, unique among segments in the same
+trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all
+segments and subsegments originating from a single client request.    start_time - Time the
+segment or subsegment was created, in floating point seconds in epoch time, accurate to
+milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the
+segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify
+either an end_time or in_progress.    in_progress - Set to true instead of specifying an
+end_time to record that a segment has been started, but is not complete. Send an
+in-progress segment when your application receives a request that will take a long time to
+serve, to trace that the request was received. When the response is sent, send the complete
+segment to overwrite the in-progress segment.   A trace_id consists of three numbers
+separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:
+Trace ID Format    The version number, for instance, 1.   The time of the original request,
+in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in
+epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the
+trace, globally unique, in 24 hexadecimal digits.
 
 # Arguments
 - `trace_segment_documents`: A string containing a JSON document defining one or more
@@ -885,18 +890,18 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies tags to an existing AWS X-Ray group or sampling rule.
+Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
 - `tags`: A map that contains one or more tag keys and tag values to attach to an X-Ray
-  group or sampling rule. For more information about ways to use tags, see Tagging AWS
-  resources in the AWS General Reference. The following restrictions apply to tags:   Maximum
-  number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode
-  characters   Maximum tag value length: 256 Unicode characters   Valid values for key and
-  value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys
-  and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS
-  use. You cannot edit or delete system tags.
+  group or sampling rule. For more information about ways to use tags, see Tagging Amazon Web
+  Services resources in the Amazon Web Services General Reference. The following restrictions
+  apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key
+  length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid
+  values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + -
+  and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's
+  reserved for Amazon Web Services use. You cannot edit or delete system tags.
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -931,8 +936,8 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from an AWS X-Ray group or sampling rule. You cannot edit or delete system
-tags (those with an aws: prefix).
+Removes tags from an Amazon Web Services X-Ray group or sampling rule. You cannot edit or
+delete system tags (those with an aws: prefix).
 
 # Arguments
 - `resource_arn`: The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.

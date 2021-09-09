@@ -616,6 +616,25 @@ function delete_nodegroup(
 end
 
 """
+    deregister_cluster(name)
+    deregister_cluster(name, params::Dict{String,<:Any})
+
+Deregisters a connected cluster to remove it from the Amazon EKS control plane.
+
+# Arguments
+- `name`: The name of the connected cluster to deregister.
+
+"""
+function deregister_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return eks("DELETE", "/cluster-registrations/$(name)"; aws_config=aws_config)
+end
+function deregister_cluster(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return eks("DELETE", "/cluster-registrations/$(name)", params; aws_config=aws_config)
+end
+
+"""
     describe_addon(addon_name, name)
     describe_addon(addon_name, name, params::Dict{String,<:Any})
 
@@ -924,6 +943,8 @@ Lists the Amazon EKS clusters in your Amazon Web Services account in the specifi
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"include"`: Indicates whether connected clusters are included in the returned list.
+  Default value is 'ALL'.
 - `"maxResults"`: The maximum number of cluster results returned by ListClusters in
   paginated output. When you use this parameter, ListClusters returns only maxResults results
   in a single page along with a nextToken response element. You can see the remaining results
@@ -1102,6 +1123,68 @@ function list_updates(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return eks("GET", "/clusters/$(name)/updates", params; aws_config=aws_config)
+end
+
+"""
+    register_cluster(connector_config, name)
+    register_cluster(connector_config, name, params::Dict{String,<:Any})
+
+Connects a Kubernetes cluster to the Amazon EKS control plane.  Any Kubernetes cluster can
+be connected to the Amazon EKS control plane to view current information about the cluster
+and its nodes.  Cluster connection requires two steps. First, send a
+RegisterClusterRequest  to add it to the Amazon EKS control plane. Second, a Manifest
+containing the activationID and activationCode must be applied to the Kubernetes cluster
+through it's native provider to provide visibility. After the Manifest is updated and
+applied, then the connected cluster is visible to the Amazon EKS control plane. If the
+Manifest is not applied within a set amount of time, then the connected cluster will no
+longer be visible and must be deregistered. See DeregisterCluster.
+
+# Arguments
+- `connector_config`: The configuration settings required to connect the Kubernetes cluster
+  to the Amazon EKS control plane.
+- `name`: Define a unique name for this cluster within your AWS account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+"""
+function register_cluster(
+    connectorConfig, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return eks(
+        "POST",
+        "/cluster-registrations",
+        Dict{String,Any}(
+            "connectorConfig" => connectorConfig,
+            "name" => name,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function register_cluster(
+    connectorConfig,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return eks(
+        "POST",
+        "/cluster-registrations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectorConfig" => connectorConfig,
+                    "name" => name,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
 end
 
 """

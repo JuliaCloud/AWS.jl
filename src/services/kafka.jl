@@ -1225,3 +1225,54 @@ function update_monitoring(
         aws_config=aws_config,
     )
 end
+
+"""
+    update_security(cluster_arn, current_version)
+    update_security(cluster_arn, current_version, params::Dict{String,<:Any})
+
+
+            Updates the security settings for the cluster. You can use this operation to
+specify encryption and authentication on existing clusters.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) that uniquely identifies the
+  cluster.
+- `current_version`: 
+            The version of the MSK cluster to update. Cluster
+  versions aren't simple numbers. You can describe an MSK cluster to find its version. When
+  this update operation is successful, it generates a new cluster version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientAuthentication"`: 
+            Includes all client authentication related
+  information.
+- `"encryptionInfo"`: 
+            Includes all encryption-related information.
+"""
+function update_security(
+    clusterArn, currentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "PATCH",
+        "/v1/clusters/$(clusterArn)/security",
+        Dict{String,Any}("currentVersion" => currentVersion);
+        aws_config=aws_config,
+    )
+end
+function update_security(
+    clusterArn,
+    currentVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "PATCH",
+        "/v1/clusters/$(clusterArn)/security",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
+        );
+        aws_config=aws_config,
+    )
+end
