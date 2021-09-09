@@ -2900,7 +2900,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, ElastiCache promotes the specified cluster in the specified replication group to
   the primary role. The nodes of all other clusters in the replication group are read
   replicas.
-- `"RemoveUserGroups"`: Removes the user groups that can access this replication group.
+- `"RemoveUserGroups"`: Removes the user group associated with this replication group.
 - `"ReplicationGroupDescription"`: A description for the replication group. Maximum length
   is 255 characters.
 - `"SecurityGroupIds"`: Specifies the VPC Security Groups associated with the clusters in
@@ -2918,9 +2918,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshottingClusterId"`: The cluster ID that is used as the daily snapshot source for
   the replication group. This parameter cannot be set for Redis (cluster mode enabled)
   replication groups.
-- `"UserGroupIdsToAdd"`: The user group you are associating with the replication group.
-- `"UserGroupIdsToRemove"`: The user group to remove, meaning the users in the group no
-  longer can access the replication group.
+- `"UserGroupIdsToAdd"`: The ID of the user group you are associating with the replication
+  group.
+- `"UserGroupIdsToRemove"`: The ID of the user group to disassociate from the replication
+  group, meaning the users in the group no longer can access the replication group.
 """
 function modify_replication_group(
     ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()

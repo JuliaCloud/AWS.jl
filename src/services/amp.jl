@@ -16,6 +16,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reference and does not need to be unique.
 - `"clientToken"`: Optional, unique, case-sensitive, user-provided identifier to ensure the
   idempotency of the request.
+- `"tags"`: Optional, user-provided tags for this workspace.
 """
 function create_workspace(; aws_config::AbstractAWSConfig=global_aws_config())
     return amp(
@@ -97,6 +98,29 @@ function describe_workspace(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Lists the tags you have assigned to the resource.
+
+# Arguments
+- `resource_arn`: The ARN of the resource.
+
+"""
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amp("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+end
+
+"""
     list_workspaces()
     list_workspaces(params::Dict{String,<:Any})
 
@@ -117,6 +141,74 @@ function list_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return amp("GET", "/workspaces", params; aws_config=aws_config)
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Creates tags for the specified resource.
+
+# Arguments
+- `resource_arn`: The ARN of the resource.
+- `tags`:
+
+"""
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return amp(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Deletes tags from the specified resource.
+
+# Arguments
+- `resource_arn`: The ARN of the resource.
+- `tag_keys`: One or more tag keys
+
+"""
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amp(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
 end
 
 """

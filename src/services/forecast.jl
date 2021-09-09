@@ -489,8 +489,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/CNN-QR
   arn:aws:forecast:::algorithm/Deep_AR_Plus     arn:aws:forecast:::algorithm/ETS
   arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
-- `"AutoMLOverrideStrategy"`: Used to overide the default AutoML strategy, which is to
-  optimize predictor accuracy. To apply an AutoML strategy that minimizes training time, use
+- `"AutoMLOverrideStrategy"`:   The LatencyOptimized AutoML override strategy is only
+  available in private beta. Contact AWS Support or your account manager to learn more about
+  access privileges.   Used to overide the default AutoML strategy, which is to optimize
+  predictor accuracy. To apply an AutoML strategy that minimizes training time, use
   LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
 - `"EncryptionConfig"`: An AWS Key Management Service (KMS) key and the AWS Identity and
   Access Management (IAM) role that Amazon Forecast can assume to access the key.
@@ -507,6 +509,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify which hyperparameters support hyperparameter optimization (HPO). For more
   information, see aws-forecast-choosing-recipes. If you included the HPOConfig object, you
   must set PerformHPO to true.
+- `"OptimizationMetric"`: The accuracy metric used to optimize the predictor.
 - `"PerformAutoML"`: Whether to perform AutoML. When Amazon Forecast performs AutoML, it
   evaluates the algorithms it provides and chooses the best algorithm and configuration for
   your training dataset. The default value is false. In this case, you are required to

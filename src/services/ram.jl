@@ -8,7 +8,7 @@ using AWS.UUIDs
     accept_resource_share_invitation(resource_share_invitation_arn)
     accept_resource_share_invitation(resource_share_invitation_arn, params::Dict{String,<:Any})
 
-Accepts an invitation to a resource share from another AWS account.
+Accepts an invitation to a resource share from another Amazon Web Services account.
 
 # Arguments
 - `resource_share_invitation_arn`: The Amazon Resource Name (ARN) of the invitation.
@@ -63,9 +63,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"principals"`: The principals to associate with the resource share. The possible values
-  are IDs of AWS accounts, and the ARNs of organizational units (OU) or organizations from
-  AWS Organizations.
-- `"resourceArns"`: The Amazon Resource Names (ARN) of the resources.
+  are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization
+  in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an
+  IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and
+  IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource
+  Access Manager User Guide.
+- `"resourceArns"`: The Amazon Resource Names (ARNs) of the resources.
 """
 function associate_resource_share(
     resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -101,16 +104,16 @@ end
 Associates a permission with a resource share.
 
 # Arguments
-- `permission_arn`: The Amazon Resource Name (ARN) of the AWS RAM permissions to associate
-  with the resource share.
+- `permission_arn`: The Amazon Resource Name (ARN) of the RAM permission to associate with
+  the resource share.
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"permissionVersion"`: The version of the AWS RAM permissions to associate with the
-  resource share.
+- `"permissionVersion"`: The version of the RAM permissions to associate with the resource
+  share.
 - `"replace"`: Indicates whether the permission should replace the permissions that are
   currently associated with the resource share. Use true to replace the current permissions.
   Use false to add the permission to the current permission.
@@ -153,24 +156,33 @@ end
     create_resource_share(name)
     create_resource_share(name, params::Dict{String,<:Any})
 
-Creates a resource share.
+Creates a resource share. You must provide a list of the Amazon Resource Names (ARNs) for
+the resources you want to share. You must also specify who you want to share the resources
+with, and the permissions that you grant them.  Sharing a resource makes it available for
+use by principals outside of the Amazon Web Services account that created the resource.
+Sharing doesn't change any permissions or quotas that apply to the resource in the account
+that created it.
 
 # Arguments
 - `name`: The name of the resource share.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"allowExternalPrincipals"`: Indicates whether principals outside your AWS organization
-  can be associated with a resource share.
+- `"allowExternalPrincipals"`: Indicates whether principals outside your organization in
+  Organizations can be associated with a resource share.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"permissionArns"`: The ARNs of the permissions to associate with the resource share. If
-  you do not specify an ARN for the permission, AWS RAM automatically attaches the default
-  version of the permission for each resource type.
+- `"permissionArns"`: The Amazon Resource Names (ARNs) of the permissions to associate with
+  the resource share. If you do not specify an ARN for the permission, RAM automatically
+  attaches the default version of the permission for each resource type. Only one permission
+  can be associated with each resource type in a resource share.
 - `"principals"`: The principals to associate with the resource share. The possible values
-  are IDs of AWS accounts, the ARN of an OU or organization from AWS Organizations.
-- `"resourceArns"`: The Amazon Resource Names (ARN) of the resources to associate with the
-  resource share.
+  are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization
+  in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an
+  IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and
+  IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource
+  Access Manager User Guide.
+- `"resourceArns"`: The ARNs of the resources to associate with the resource share.
 - `"tags"`: One or more tags.
 """
 function create_resource_share(name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -280,10 +292,11 @@ end
     disassociate_resource_share_permission(permission_arn, resource_share_arn)
     disassociate_resource_share_permission(permission_arn, resource_share_arn, params::Dict{String,<:Any})
 
-Disassociates an AWS RAM permission from a resource share.
+Disassociates an RAM permission from a resource share.
 
 # Arguments
-- `permission_arn`: The ARN of the permission to disassociate from the resource share.
+- `permission_arn`: The Amazon Resource Name (ARN) of the permission to disassociate from
+  the resource share.
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
@@ -329,8 +342,8 @@ end
     enable_sharing_with_aws_organization()
     enable_sharing_with_aws_organization(params::Dict{String,<:Any})
 
-Enables resource sharing within your AWS Organization. The caller must be the master
-account for the AWS Organization.
+Enables resource sharing within your organization in Organizations. The caller must be the
+master account for the organization.
 
 """
 function enable_sharing_with_aws_organization(;
@@ -348,10 +361,10 @@ end
     get_permission(permission_arn)
     get_permission(permission_arn, params::Dict{String,<:Any})
 
-Gets the contents of an AWS RAM permission in JSON format.
+Gets the contents of an RAM permission in JSON format.
 
 # Arguments
-- `permission_arn`: The ARN of the permission.
+- `permission_arn`: The Amazon Resource Name (ARN) of the permission.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -387,7 +400,7 @@ end
 Gets the policies for the specified resources that you own and have shared.
 
 # Arguments
-- `resource_arns`: The Amazon Resource Names (ARN) of the resources.
+- `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -509,9 +522,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"name"`: The name of the resource share.
 - `"nextToken"`: The token for the next page of results.
-- `"permissionArn"`: The Amazon Resource Name (ARN) of the AWS RAM permission that is
+- `"permissionArn"`: The Amazon Resource Name (ARN) of the RAM permission that is
   associated with the resource share.
-- `"resourceShareArns"`: The ARNs of the resource shares.
+- `"resourceShareArns"`: The Amazon Resource Names (ARNs) of the resource shares.
 - `"resourceShareStatus"`: The status of the resource share.
 - `"tagFilters"`: One or more tag filters.
 """
@@ -591,7 +604,7 @@ end
     list_permissions()
     list_permissions(params::Dict{String,<:Any})
 
-Lists the AWS RAM permissions.
+Lists the RAM permissions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -635,8 +648,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database |
   glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy |
   network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost
-  | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig |
-  route53resolver:ResolverRule
+  | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup
+  |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule |
+  s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
 """
 function list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config())
     return ram(
@@ -665,7 +679,7 @@ end
     list_resource_share_permissions(resource_share_arn)
     list_resource_share_permissions(resource_share_arn, params::Dict{String,<:Any})
 
-Lists the AWS RAM permissions that are associated with a resource share.
+Lists the RAM permissions that are associated with a resource share.
 
 # Arguments
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
@@ -707,7 +721,7 @@ end
     list_resource_types()
     list_resource_types(params::Dict{String,<:Any})
 
-Lists the shareable resource types supported by AWS RAM.
+Lists the shareable resource types supported by RAM.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -740,7 +754,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
 - `"principal"`: The principal.
-- `"resourceArns"`: The Amazon Resource Names (ARN) of the resources.
+- `"resourceArns"`: The Amazon Resource Names (ARNs) of the resources.
 - `"resourceShareArns"`: The Amazon Resource Names (ARN) of the resource shares.
 - `"resourceType"`: The resource type. Valid values: acm-pca:CertificateAuthority |
   appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation |
@@ -749,8 +763,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database |
   glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy |
   network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost
-  | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig |
-  route53resolver:ResolverRule
+  | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup
+  |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule |
+  s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
 """
 function list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config())
     return ram(
@@ -780,12 +795,12 @@ end
     promote_resource_share_created_from_policy(resource_share_arn, params::Dict{String,<:Any})
 
 Resource shares that were created by attaching a policy to a resource are visible only to
-the resource share owner, and the resource share cannot be modified in AWS RAM. Use this
-API action to promote the resource share. When you promote the resource share, it becomes:
- Visible to all principals that it is shared with.   Modifiable in AWS RAM.
+the resource share owner, and the resource share cannot be modified in RAM. Use this API
+action to promote the resource share. When you promote the resource share, it becomes:
+Visible to all principals that it is shared with.   Modifiable in RAM.
 
 # Arguments
-- `resource_share_arn`: The ARN of the resource share to promote.
+- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share to promote.
 
 """
 function promote_resource_share_created_from_policy(
@@ -819,7 +834,7 @@ end
     reject_resource_share_invitation(resource_share_invitation_arn)
     reject_resource_share_invitation(resource_share_invitation_arn, params::Dict{String,<:Any})
 
-Rejects an invitation to a resource share from another AWS account.
+Rejects an invitation to a resource share from another Amazon Web Services account.
 
 # Arguments
 - `resource_share_invitation_arn`: The Amazon Resource Name (ARN) of the invitation.
@@ -955,8 +970,8 @@ Updates the specified resource share that you own.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"allowExternalPrincipals"`: Indicates whether principals outside your AWS organization
-  can be associated with a resource share.
+- `"allowExternalPrincipals"`: Indicates whether principals outside your organization in
+  Organizations can be associated with a resource share.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"name"`: The name of the resource share.

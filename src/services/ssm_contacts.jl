@@ -126,7 +126,7 @@ incident.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DisplayName"`: The full name of the contact or escalation plan.
-- `"IdempotencyToken"`: A token ensuring that the action is called only once with the
+- `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"Tags"`: Adds a tag to the target. You can only tag resources created in the first
   Region of your replication set.
@@ -192,7 +192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeferActivation"`: If you want to activate the channel at a later time, you can choose
   to defer activation. Incident Manager can't engage your contact channel until it has been
   activated.
-- `"IdempotencyToken"`: A token ensuring that the action is called only once with the
+- `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
   specified details.
 """
 function create_contact_channel(
@@ -765,7 +765,7 @@ end
     send_activation_code(contact_channel_id, params::Dict{String,<:Any})
 
 Sends an activation code to a contact channel. The contact can use this code to activate
-the contact channel in the console or with the ActivateChannel action. Incident Manager
+the contact channel in the console or with the ActivateChannel operation. Incident Manager
 can't engage a contact channel until it has been activated.
 
 # Arguments
@@ -814,7 +814,7 @@ specified in the incident.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdempotencyToken"`: A token ensuring that the action is called only once with the
+- `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"IncidentId"`: The ARN of the incident that the engagement is part of.
 - `"PublicContent"`: The insecure content of the message that was sent to the contact. Use
@@ -1025,7 +1025,7 @@ Updates a contact's contact channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeliveryAddress"`: The details that Incident Manager uses when trying to engage the
   contact channel.
-- `"Name"`: The name of the contact channel
+- `"Name"`: The name of the contact channel.
 """
 function update_contact_channel(
     ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
