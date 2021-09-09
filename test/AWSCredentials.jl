@@ -64,6 +64,12 @@ end
     end
 end
 
+@testset "aws_get_profile_settings" begin
+    @testset "no profile" begin
+        @test aws_get_profile_settings("foo", Inifile()) === nothing
+    end
+end
+
 @testset "AWSCredentials" begin
     @testset "Defaults" begin
         creds = AWSCredentials("access_key_id", "secret_key")
