@@ -60,7 +60,7 @@ end
 Retrieve the `AWSCredentials` for a given role from Security Token Services (STS).
 """
 function _aws_get_role(role::AbstractString, ini::Inifile)
-    settings = aws_get_profile_settings(role, ini)
+    settings = @mock aws_get_profile_settings(role, ini)
     settings === nothing && return nothing
 
     source_profile = get(settings, "source_profile", nothing)
