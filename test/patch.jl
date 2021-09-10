@@ -122,4 +122,12 @@ _http_options_patch = @patch function HTTP.request(args...; kwargs...)
     return options
 end
 
+get_profile_settings_empty_patch = @patch function aws_get_profile_settings(profile, ini)
+    return nothing
+end
+
+get_profile_settings_patch = @patch function aws_get_profile_settings(profile, ini)
+    return Dict("foo" => "bar")
+end
+
 end

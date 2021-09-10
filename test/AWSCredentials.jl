@@ -70,6 +70,23 @@ end
     end
 end
 
+@testset "_aws_get_role" begin
+    profile = "foobar"
+    ini = Inifile()
+
+    @testset "settings early exit" begin
+        apply(Patches.get_profile_settings_empty_patch) do
+            @test AWS._aws_get_role(profile, ini) === nothing
+        end
+    end
+
+    @testset "source_profile early exit" begin
+        apply(Patches.get_profile_settings_empty_patch) do
+            @test AWS._aws_get_role(profile, ini) === nothing
+        end
+    end
+end
+
 @testset "AWSCredentials" begin
     @testset "Defaults" begin
         creds = AWSCredentials("access_key_id", "secret_key")
