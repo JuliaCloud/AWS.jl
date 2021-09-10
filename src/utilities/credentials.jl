@@ -61,11 +61,13 @@ Retrieve the `AWSCredentials` for a given role from Security Token Services (STS
 """
 function _aws_get_role(role::AbstractString, ini::Inifile)
     settings = aws_get_profile_settings(role, ini)
+    settings === nothing && return nothing
+
     source_profile = get(settings, "source_profile", nothing)
+    source_profile === nothing && return nothing
+
     role_arn = get(settings, "role_arn", nothing)
     mfa_serial = get(settings, "mfa_serial", nothing)
-
-    source_profile === nothing && return nothing
 
     credentials = nothing
     for f in (dot_aws_credentials, dot_aws_config)
