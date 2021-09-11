@@ -9,6 +9,8 @@
         config = withenv(
             "AWS_CONFIG_FILE" => joinpath(config_dir, "config"),
             "AWS_SHARED_CREDENTIALS_FILE" => joinpath(config_dir, "credentials"),
+            "AWS_ACCESS_KEY_ID" => nothing,
+            "AWS_SECRET_ACCESS_KEY" => nothing,
         ) do
             apply(patch) do
                 AWSConfig(; profile="default")
