@@ -1,17 +1,20 @@
 @testset "AWSConfig" begin
     @testset "default profile assumes role" begin
+        access_key_id = "assumed_access_key_id"
+        config_dir = joinpath(@__DIR__, "configs", "default-role")
+
         # Avoid calling out to STS with invalid credentials
-        patch = Patches._assume_role_patch("AssumeRole"; access_key="assumed_access_key_id")
+        patch = Patches._assume_role_patch("AssumeRole"; access_key=access_key_id)
 
         config = withenv(
-            "AWS_CONFIG_FILE" => joinpath(@__DIR__, "configs", "default-role", "config"),
-            "AWS_SHARED_CREDENTIALS_FILE" => joinpath(@__DIR__, "configs", "default-role", "credentials"),
+            "AWS_CONFIG_FILE" => joinpath(config_dir, "config"),
+            "AWS_SHARED_CREDENTIALS_FILE" => joinpath(config_dir, "credentials"),
         ) do
             apply(patch) do
                 AWSConfig(; profile="default")
             end
         end
 
-        @test config.credentials.access_key_id == "assumed_access_key_id"
+        @test config.credentials.access_key_id == access_key_id
     end
 end

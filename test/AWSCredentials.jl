@@ -87,11 +87,14 @@ end
     end
 
     @testset "default profile" begin
-        patch = Patches._assume_role_patch("AssumeRole"; access_key="assumed_access_key_id")
+        access_key_id = "assumed_access_key_id"
+        config_dir = joinpath(@__DIR__, "configs", "default-role")
+
+        patch = Patches._assume_role_patch("AssumeRole"; access_key=access_key_id)
 
         config = withenv(
-            "AWS_CONFIG_FILE" => joinpath(@__DIR__, "configs", "default-role", "config"),
-            "AWS_SHARED_CREDENTIALS_FILE" => joinpath(@__DIR__, "configs", "default-role", "credentials"),
+            "AWS_CONFIG_FILE" => joinpath(config_dir, "config"),
+            "AWS_SHARED_CREDENTIALS_FILE" => joinpath(config_dir, "credentials"),
         ) do
             ini = read(Inifile(), ENV["AWS_CONFIG_FILE"])
             apply(patch) do
@@ -99,7 +102,7 @@ end
             end
         end
 
-        @test config.credentials.access_key_id == "assumed_access_key_id"
+        @test config.credentials.access_key_id == access_key_id
     end
 end
 
