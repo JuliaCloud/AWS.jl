@@ -92,7 +92,7 @@ end
 
         patch = Patches._assume_role_patch("AssumeRole"; access_key=access_key_id)
 
-        config = withenv(
+        cred = withenv(
             "AWS_CONFIG_FILE" => joinpath(config_dir, "config"),
             "AWS_SHARED_CREDENTIALS_FILE" => joinpath(config_dir, "credentials"),
             "AWS_ACCESS_KEY_ID" => nothing,
@@ -104,7 +104,7 @@ end
             end
         end
 
-        @test config.credentials.access_key_id == access_key_id
+        @test cred.access_key_id == access_key_id
     end
 end
 
