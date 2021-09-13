@@ -60,7 +60,7 @@ end
 Retrieve the `AWSCredentials` for a given role from Security Token Services (STS).
 """
 function _aws_get_role(role::AbstractString, ini::Inifile)
-    settings = @mock aws_get_profile_settings(role, ini)
+    settings = @mock _aws_profile_config(ini, role)
     settings === nothing && return nothing
 
     source_profile = get(settings, "source_profile", nothing)
@@ -93,7 +93,7 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
 
     # RoleSessionName Documentation
     # https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
-    role = AWSServices.sts("AssumeRole", params; aws_config=config)
+    role = @mock AWSServices.sts("AssumeRole", params; aws_config=config)
 
     role_creds = role["AssumeRoleResult"]["Credentials"]
 

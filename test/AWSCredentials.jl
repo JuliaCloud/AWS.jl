@@ -85,6 +85,27 @@ end
             @test AWS._aws_get_role(profile, ini) === nothing
         end
     end
+
+    @testset "default profile" begin
+        access_key_id = "assumed_access_key_id"
+        config_dir = joinpath(@__DIR__, "configs", "default-role")
+
+        patch = Patches._assume_role_patch("AssumeRole"; access_key=access_key_id)
+
+        cred = withenv(
+            "AWS_CONFIG_FILE" => joinpath(config_dir, "config"),
+            "AWS_SHARED_CREDENTIALS_FILE" => joinpath(config_dir, "credentials"),
+            "AWS_ACCESS_KEY_ID" => nothing,
+            "AWS_SECRET_ACCESS_KEY" => nothing,
+        ) do
+            ini = read(Inifile(), ENV["AWS_CONFIG_FILE"])
+            apply(patch) do
+                AWS._aws_get_role("default", ini)
+            end
+        end
+
+        @test cred.access_key_id == access_key_id
+    end
 end
 
 @testset "AWSCredentials" begin

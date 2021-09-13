@@ -49,6 +49,7 @@ end
     include("AWSMetadataUtilities.jl")
     include("test_pkg.jl")
     include("utilities.jl")
+    include("AWSConfig.jl")
 
     backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
     @testset "Backend: $(nameof(backend))" for backend in backends
