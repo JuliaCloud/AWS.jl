@@ -1284,6 +1284,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContentIdentificationType"`: You can configure Amazon Transcribe Medical to label
   content in the transcription output. If you specify PHI, Amazon Transcribe Medical labels
   the personal health information (PHI) that it identifies in the transcription output.
+- `"KMSEncryptionContext"`: A map of plain text, non-secret key:value pairs, known as
+  encryption context pairs, that provide an added layer of security for your data.
 - `"MediaFormat"`: The audio format of the input media file.
 - `"MediaSampleRateHertz"`: The sample rate, in Hertz, of the audio track in the input
   media file. If you do not specify the media sample rate, Amazon Transcribe Medical
@@ -1392,6 +1394,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobExecutionSettings"`: Provides information about how a transcription job is executed.
   Use this field to indicate that the job can be queued for deferred execution if the
   concurrency limit is reached and there are no slots available to immediately run the job.
+- `"KMSEncryptionContext"`: A map of plain text, non-secret key:value pairs, known as
+  encryption context pairs, that provide an added layer of security for your data.
 - `"LanguageCode"`: The language code for the language used in the input media file. To
   transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be
   encoded at a sample rate of 16,000 Hz or higher.
@@ -1447,6 +1451,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file name, for example \"folder/my-other-job-name.json\". If you specify an output key, you
   must also specify an S3 bucket in the OutputBucketName parameter.
 - `"Settings"`: A Settings object that provides optional settings for a transcription job.
+- `"Subtitles"`: Add subtitles to your batch transcription job.
 - `"Tags"`: Add tags to an Amazon Transcribe transcription job.
 """
 function start_transcription_job(

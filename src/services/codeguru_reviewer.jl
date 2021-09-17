@@ -8,19 +8,20 @@ using AWS.UUIDs
     associate_repository(repository)
     associate_repository(repository, params::Dict{String,<:Any})
 
- Use to associate an AWS CodeCommit repository or a repostory managed by AWS CodeStar
-Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru
-Reviewer reviews source code changes in the repository's pull requests and provides
-automatic recommendations. You can view recommendations using the CodeGuru Reviewer
-console. For more information, see Recommendations in Amazon CodeGuru Reviewer in the
-Amazon CodeGuru Reviewer User Guide.  If you associate a CodeCommit or S3 repository, it
-must be in the same AWS Region and AWS account where its CodeGuru Reviewer code reviews are
-configured. Bitbucket and GitHub Enterprise Server repositories are managed by AWS CodeStar
-Connections to connect to CodeGuru Reviewer. For more information, see Associate a
-repository in the Amazon CodeGuru Reviewer User Guide.    You cannot use the CodeGuru
-Reviewer SDK or the AWS CLI to associate a GitHub repository with Amazon CodeGuru Reviewer.
-To associate a GitHub repository, use the console. For more information, see Getting
-started with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.
+ Use to associate an Amazon Web Services CodeCommit repository or a repostory managed by
+Amazon Web Services CodeStar Connections with Amazon CodeGuru Reviewer. When you associate
+a repository, CodeGuru Reviewer reviews source code changes in the repository's pull
+requests and provides automatic recommendations. You can view recommendations using the
+CodeGuru Reviewer console. For more information, see Recommendations in Amazon CodeGuru
+Reviewer in the Amazon CodeGuru Reviewer User Guide.  If you associate a CodeCommit or S3
+repository, it must be in the same Amazon Web Services Region and Amazon Web Services
+account where its CodeGuru Reviewer code reviews are configured. Bitbucket and GitHub
+Enterprise Server repositories are managed by Amazon Web Services CodeStar Connections to
+connect to CodeGuru Reviewer. For more information, see Associate a repository in the
+Amazon CodeGuru Reviewer User Guide.    You cannot use the CodeGuru Reviewer SDK or the
+Amazon Web Services CLI to associate a GitHub repository with Amazon CodeGuru Reviewer. To
+associate a GitHub repository, use the console. For more information, see Getting started
+with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.
 
 # Arguments
 - `repository`: The repository to associate.
@@ -30,9 +31,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: Amazon CodeGuru Reviewer uses this value to prevent the
   accidental creation of duplicate repository associations if there are failures and retries.
 - `"KMSKeyDetails"`: A KMSKeyDetails object that contains:   The encryption option for this
-  repository association. It is either owned by AWS Key Management Service (KMS)
-  (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the AWS KMS key
-  that is associated with this respository association.
+  repository association. It is either owned by Amazon Web Services Key Management Service
+  (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the Amazon
+  Web Services KMS key that is associated with this respository association.
 - `"Tags"`:  An array of key-value pairs used to tag an associated repository. A tag is a
   custom attribute label with two parts:    A tag key (for example, CostCenter, Environment,
   Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value
@@ -79,8 +80,8 @@ code review analyzes all code under a specified branch in an associated reposito
 PullRequest code reviews are automatically triggered by a pull request.
 
 # Arguments
-- `name`:  The name of the code review. The name of each code review in your AWS account
-  must be unique.
+- `name`:  The name of the code review. The name of each code review in your Amazon Web
+  Services account must be unique.
 - `repository_association_arn`:  The Amazon Resource Name (ARN) of the
   RepositoryAssociation  object. You can retrieve this ARN by calling
   ListRepositoryAssociations .   A code review can only be created on an associated
@@ -174,9 +175,9 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"UserId"`:  Optional parameter to describe the feedback for a given user. If this is not
   supplied, it defaults to the user making the request.   The UserId is an IAM principal that
-  can be specified as an AWS account ID or an Amazon Resource Name (ARN). For more
-  information, see  Specifying a Principal in the AWS Identity and Access Management User
-  Guide.
+  can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For
+  more information, see  Specifying a Principal in the Amazon Web Services Identity and
+  Access Management User Guide.
 """
 function describe_recommendation_feedback(
     CodeReviewArn, RecommendationId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -324,11 +325,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"RecommendationIds"`:  Used to query the recommendation feedback for a given
   recommendation.
-- `"UserIds"`:  An AWS user's account ID or Amazon Resource Name (ARN). Use this ID to
-  query the recommendation feedback for a code review from that user.   The UserId is an IAM
-  principal that can be specified as an AWS account ID or an Amazon Resource Name (ARN). For
-  more information, see  Specifying a Principal in the AWS Identity and Access Management
-  User Guide.
+- `"UserIds"`:  An Amazon Web Services user's account ID or Amazon Resource Name (ARN). Use
+  this ID to query the recommendation feedback for a code review from that user.   The UserId
+  is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon
+  Resource Name (ARN). For more information, see  Specifying a Principal in the Amazon Web
+  Services Identity and Access Management User Guide.
 """
 function list_recommendation_feedback(
     CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -408,10 +409,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of that parameter. Pagination continues from the end of the previous results that
   returned the nextToken value.   Treat this token as an opaque identifier that is only used
   to retrieve the next items in a list and not for other programmatic purposes.
-- `"Owner"`: List of owners to use as a filter. For AWS CodeCommit, it is the name of the
-  CodeCommit account that was used to associate the repository. For other repository source
-  providers, such as Bitbucket and GitHub Enterprise Server, this is name of the account that
-  was used to associate the repository.
+- `"Owner"`: List of owners to use as a filter. For Amazon Web Services CodeCommit, it is
+  the name of the CodeCommit account that was used to associate the repository. For other
+  repository source providers, such as Bitbucket and GitHub Enterprise Server, this is name
+  of the account that was used to associate the repository.
 - `"ProviderType"`: List of provider types to use as a filter.
 - `"State"`: List of repository association states to use as a filter. The valid repository
   association states are:    Associated: The repository association is complete.

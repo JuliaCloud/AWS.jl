@@ -167,10 +167,7 @@ end
 Creates an action. An action is a lineage tracking entity that represents an action or
 activity. For example, a model deployment or an HPO job. Generally, an action involves at
 least one input or output artifact. For more information, see Amazon SageMaker ML Lineage
-Tracking.   CreateAction can only be invoked from within an SageMaker managed environment.
-This includes SageMaker training jobs, processing jobs, transform jobs, and SageMaker
-notebooks. A call to CreateAction from outside one of these environments results in an
-error.
+Tracking.
 
 # Arguments
 - `action_name`: The name of the action. Must be unique to your account in an Amazon Web
@@ -405,9 +402,6 @@ end
 Creates an artifact. An artifact is a lineage tracking entity that represents a URI
 addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry
 path of an image. For more information, see Amazon SageMaker ML Lineage Tracking.
-CreateArtifact can only be invoked from within an SageMaker managed environment. This
-includes SageMaker training jobs, processing jobs, transform jobs, and SageMaker notebooks.
-A call to CreateArtifact from outside one of these environments results in an error.
 
 # Arguments
 - `artifact_type`: The artifact type.
@@ -686,9 +680,6 @@ end
 Creates a context. A context is a lineage tracking entity that represents a logical
 grouping of other tracking or experiment entities. Some examples are an endpoint and a
 model package. For more information, see Amazon SageMaker ML Lineage Tracking.
-CreateContext can only be invoked from within an SageMaker managed environment. This
-includes SageMaker training jobs, processing jobs, transform jobs, and SageMaker notebooks.
-A call to CreateContext from outside one of these environments results in an error.
 
 # Arguments
 - `context_name`: The name of the context. Must be unique to your account in an Amazon Web
@@ -881,12 +872,12 @@ an EFS volume is created for use by all of the users within the domain. Each use
 a private home directory within the EFS volume for notebooks, Git repositories, and data
 files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services
 KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed
-customer master key (CMK) by default. For more control, you can specify a customer managed
-CMK. For more information, see Protect Data at Rest Using Encryption.  VPC configuration
-All SageMaker Studio traffic between the domain and the EFS volume is through the specified
-VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType
-parameter. AppNetworkAccessType corresponds to the network access type that you choose when
-you onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS
+key by default. For more control, you can specify a customer managed key. For more
+information, see Protect Data at Rest Using Encryption.  VPC configuration  All SageMaker
+Studio traffic between the domain and the EFS volume is through the specified VPC and
+subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter.
+AppNetworkAccessType corresponds to the network access type that you choose when you
+onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS
 traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This
 is the default value.    VpcOnly - All Studio traffic is through the specified VPC and
 subnets. Internet access is disabled by default. To allow internet access, you must specify
@@ -916,8 +907,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   through the specified VPC and subnets
 - `"HomeEfsFileSystemKmsKeyId"`: This member is deprecated and replaced with KmsKeyId.
 - `"KmsKeyId"`: SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached
-  to the domain with an Amazon Web Services managed customer master key (CMK) by default. For
-  more control, specify a customer managed CMK.
+  to the domain with an Amazon Web Services managed key by default. For more control, specify
+  a customer managed key.
 - `"Tags"`: Tags to associated with the Domain. Each tag consists of a key and an optional
   value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags
   that you specify for the Domain are also added to all Apps that the Domain launches.
@@ -991,8 +982,8 @@ specify.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ResourceKey"`: The CMK to use when encrypting the EBS volume the edge packaging job
-  runs on.
+- `"ResourceKey"`: The Amazon Web Services KMS key to use when encrypting the EBS volume
+  the edge packaging job runs on.
 - `"Tags"`: Creates tags for the packaging job.
 """
 function create_edge_packaging_job(
@@ -1153,18 +1144,15 @@ number and type of ML compute instances to deploy.  If you are hosting multiple 
 also assign a VariantWeight to specify how much traffic you want to allocate to each model.
 For example, suppose that you want to host two models, A and B, and you assign traffic
 weight 2 for model A and 1 for model B. Amazon SageMaker distributes two-thirds of the
-traffic to Model A, and one-third to model B.  For an example that calls this method when
-deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon
-SageMaker Hosting Services (Amazon Web Services SDK for Python (Boto 3)).   When you call
-CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration
-exists. When you read data from a DynamoDB table supporting  Eventually Consistent Reads ,
-the response might not reflect the results of a recently completed write operation. The
-response might include some stale data. If the dependent entities are not yet in DynamoDB,
-this causes a validation error. If you repeat your read request after a short time, the
-response should return the latest data. So retry logic is recommended to handle these
-possible issues. We also recommend that customers call DescribeEndpointConfig before
-calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent
-read.
+traffic to Model A, and one-third to model B.   When you call CreateEndpoint, a load call
+is made to DynamoDB to verify that your endpoint configuration exists. When you read data
+from a DynamoDB table supporting  Eventually Consistent Reads , the response might not
+reflect the results of a recently completed write operation. The response might include
+some stale data. If the dependent entities are not yet in DynamoDB, this causes a
+validation error. If you repeat your read request after a short time, the response should
+return the latest data. So retry logic is recommended to handle these possible issues. We
+also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to
+minimize the potential impact of a DynamoDB eventually consistent read.
 
 # Arguments
 - `endpoint_config_name`: The name of the endpoint configuration. You specify this name in
@@ -2805,6 +2793,65 @@ function create_project(
                     "ProjectName" => ProjectName,
                     "ServiceCatalogProvisioningDetails" =>
                         ServiceCatalogProvisioningDetails,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    create_studio_lifecycle_config(studio_lifecycle_config_app_type, studio_lifecycle_config_content, studio_lifecycle_config_name)
+    create_studio_lifecycle_config(studio_lifecycle_config_app_type, studio_lifecycle_config_content, studio_lifecycle_config_name, params::Dict{String,<:Any})
+
+Creates a new Studio Lifecycle Configuration.
+
+# Arguments
+- `studio_lifecycle_config_app_type`: The App type that the Lifecycle Configuration is
+  attached to.
+- `studio_lifecycle_config_content`: The content of your Studio Lifecycle Configuration
+  script. This content must be base64 encoded.
+- `studio_lifecycle_config_name`: The name of the Studio Lifecycle Configuration to create.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Tags to be associated with the Lifecycle Configuration. Each tag consists of a
+  key and an optional value. Tag keys must be unique per resource. Tags are searchable using
+  the Search API.
+"""
+function create_studio_lifecycle_config(
+    StudioLifecycleConfigAppType,
+    StudioLifecycleConfigContent,
+    StudioLifecycleConfigName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateStudioLifecycleConfig",
+        Dict{String,Any}(
+            "StudioLifecycleConfigAppType" => StudioLifecycleConfigAppType,
+            "StudioLifecycleConfigContent" => StudioLifecycleConfigContent,
+            "StudioLifecycleConfigName" => StudioLifecycleConfigName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_studio_lifecycle_config(
+    StudioLifecycleConfigAppType,
+    StudioLifecycleConfigContent,
+    StudioLifecycleConfigName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateStudioLifecycleConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StudioLifecycleConfigAppType" => StudioLifecycleConfigAppType,
+                    "StudioLifecycleConfigContent" => StudioLifecycleConfigContent,
+                    "StudioLifecycleConfigName" => StudioLifecycleConfigName,
                 ),
                 params,
             ),
@@ -4521,6 +4568,45 @@ function delete_project(
 end
 
 """
+    delete_studio_lifecycle_config(studio_lifecycle_config_name)
+    delete_studio_lifecycle_config(studio_lifecycle_config_name, params::Dict{String,<:Any})
+
+Deletes the Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration,
+there must be no running apps using the Lifecycle Configuration. You must also remove the
+Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
+
+# Arguments
+- `studio_lifecycle_config_name`: The name of the Studio Lifecycle Configuration to delete.
+
+"""
+function delete_studio_lifecycle_config(
+    StudioLifecycleConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "DeleteStudioLifecycleConfig",
+        Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName);
+        aws_config=aws_config,
+    )
+end
+function delete_studio_lifecycle_config(
+    StudioLifecycleConfigName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DeleteStudioLifecycleConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     delete_tags(resource_arn, tag_keys)
     delete_tags(resource_arn, tag_keys, params::Dict{String,<:Any})
 
@@ -6146,6 +6232,44 @@ function describe_project(
 end
 
 """
+    describe_studio_lifecycle_config(studio_lifecycle_config_name)
+    describe_studio_lifecycle_config(studio_lifecycle_config_name, params::Dict{String,<:Any})
+
+Describes the Studio Lifecycle Configuration.
+
+# Arguments
+- `studio_lifecycle_config_name`: The name of the Studio Lifecycle Configuration to
+  describe.
+
+"""
+function describe_studio_lifecycle_config(
+    StudioLifecycleConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "DescribeStudioLifecycleConfig",
+        Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName);
+        aws_config=aws_config,
+    )
+end
+function describe_studio_lifecycle_config(
+    StudioLifecycleConfigName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DescribeStudioLifecycleConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     describe_subscribed_workteam(workteam_arn)
     describe_subscribed_workteam(workteam_arn, params::Dict{String,<:Any})
 
@@ -7723,8 +7847,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CreationTimeBefore"`: A filter that returns only models created before the specified
   time (timestamp).
 - `"MaxResults"`: The maximum number of models to return in the response.
-- `"NameContains"`: A string in the training job name. This filter returns only models in
-  the training job whose name contains the specified string.
+- `"NameContains"`: A string in the model name. This filter returns only models whose name
+  contains the specified string.
 - `"NextToken"`: If the response to a previous ListModels request was truncated, the
   response includes a NextToken. To retrieve the next set of models, use the token in the
   next request.
@@ -8111,6 +8235,43 @@ function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sagemaker("ListProjects", params; aws_config=aws_config)
+end
+
+"""
+    list_studio_lifecycle_configs()
+    list_studio_lifecycle_configs(params::Dict{String,<:Any})
+
+Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppTypeEquals"`: A parameter to search for the App Type to which the Lifecycle
+  Configuration is attached.
+- `"CreationTimeAfter"`: A filter that returns only Lifecycle Configurations created on or
+  after the specified time.
+- `"CreationTimeBefore"`: A filter that returns only Lifecycle Configurations created on or
+  before the specified time.
+- `"MaxResults"`: The maximum number of Studio Lifecycle Configurations to return in the
+  response. The default value is 10.
+- `"ModifiedTimeAfter"`: A filter that returns only Lifecycle Configurations modified after
+  the specified time.
+- `"ModifiedTimeBefore"`: A filter that returns only Lifecycle Configurations modified
+  before the specified time.
+- `"NameContains"`: A string in the Lifecycle Configuration name. This filter returns only
+  Lifecycle Configurations whose name contains the specified string.
+- `"NextToken"`: If the previous call to ListStudioLifecycleConfigs didn't return the full
+  set of Lifecycle Configurations, the call returns a token for getting the next set of
+  Lifecycle Configurations.
+- `"SortBy"`: The property used to sort results. The default value is CreationTime.
+- `"SortOrder"`: The sort order. The default value is Descending.
+"""
+function list_studio_lifecycle_configs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker("ListStudioLifecycleConfigs"; aws_config=aws_config)
+end
+function list_studio_lifecycle_configs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker("ListStudioLifecycleConfigs", params; aws_config=aws_config)
 end
 
 """
@@ -8590,6 +8751,54 @@ function render_ui_template(
 end
 
 """
+    retry_pipeline_execution(client_request_token, pipeline_execution_arn)
+    retry_pipeline_execution(client_request_token, pipeline_execution_arn, params::Dict{String,<:Any})
+
+Retry the execution of the pipeline.
+
+# Arguments
+- `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the operation. An idempotent operation completes no more than once.
+- `pipeline_execution_arn`: The Amazon Resource Name (ARN) of the pipeline execution.
+
+"""
+function retry_pipeline_execution(
+    ClientRequestToken,
+    PipelineExecutionArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "RetryPipelineExecution",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken,
+            "PipelineExecutionArn" => PipelineExecutionArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function retry_pipeline_execution(
+    ClientRequestToken,
+    PipelineExecutionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "RetryPipelineExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "PipelineExecutionArn" => PipelineExecutionArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     search(resource)
     search(resource, params::Dict{String,<:Any})
 
@@ -8820,7 +9029,7 @@ Starts a pipeline execution.
 
 # Arguments
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one time.
+  the idempotency of the operation. An idempotent operation completes no more than once.
 - `pipeline_name`: The name of the pipeline.
 
 # Optional Parameters
@@ -9149,7 +9358,7 @@ the pipeline execution status is Failed.
 
 # Arguments
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one time.
+  the idempotency of the operation. An idempotent operation completes no more than once.
 - `pipeline_execution_arn`: The Amazon Resource Name (ARN) of the pipeline execution.
 
 """

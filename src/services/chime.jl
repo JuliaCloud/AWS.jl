@@ -1488,6 +1488,9 @@ and it invokes the endpoint of the specified sipMediaApplicationId.
 - `to_phone_number`: The phone number that the service should call.
 - `sip_media_application_id`: The ID of the SIP media application.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SipHeaders"`: The SIP headers added to an outbound call leg.
 """
 function create_sip_media_application_call(
     FromPhoneNumber,
@@ -5728,7 +5731,7 @@ end
     start_meeting_transcription(transcription_configuration, meeting_id)
     start_meeting_transcription(transcription_configuration, meeting_id, params::Dict{String,<:Any})
 
-Start transcription for the specified meetingId.
+Starts transcription for the specified meetingId.
 
 # Arguments
 - `transcription_configuration`: The configuration for the current transcription operation.

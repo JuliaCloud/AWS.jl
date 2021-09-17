@@ -955,10 +955,11 @@ end
     get_managed_rule_set(id, name, scope, params::Dict{String,<:Any})
 
 Retrieves the specified managed rule set.   This is intended for use only by vendors of
-managed rule sets. Vendors are Amazon Web Services and Marketplace sellers.  Vendors, you
-can use the managed rule set APIs to provide controlled rollout of your versioned managed
-rule group offerings for your customers. The APIs are ListManagedRuleSets,
-GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
+managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace
+sellers.  Vendors, you can use the managed rule set APIs to provide controlled rollout of
+your versioned managed rule group offerings for your customers. The APIs are
+ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and
+UpdateManagedRuleSetVersionExpiryDate.
 
 # Arguments
 - `id`: A unique identifier for the managed rule set. The ID is returned in the responses
@@ -1042,12 +1043,23 @@ end
     get_rate_based_statement_managed_keys(rule_name, scope, web_aclid, web_aclname)
     get_rate_based_statement_managed_keys(rule_name, scope, web_aclid, web_aclname, params::Dict{String,<:Any})
 
-Retrieves the keys that are currently blocked by a rate-based rule. The maximum number of
-managed keys that can be blocked for a single rate-based rule is 10,000. If more than
-10,000 addresses exceed the rate limit, those with the highest rates are blocked.
+Retrieves the keys that are currently blocked by a rate-based rule instance. The maximum
+number of managed keys that can be blocked for a single rate-based rule instance is 10,000.
+If more than 10,000 addresses exceed the rate limit, those with the highest rates are
+blocked. For a rate-based rule that you've defined inside a rule group, provide the name of
+the rule group reference statement in your request, in addition to the rate-based rule name
+and the web ACL name.  WAF monitors web requests and manages keys independently for each
+unique combination of web ACL, optional rule group, and rate-based rule. For example, if
+you define a rate-based rule inside a rule group, and then use the rule group in a web ACL,
+WAF monitors web requests and manages keys for that web ACL, rule group reference
+statement, and rate-based rule instance. If you use the same rule group in a second web
+ACL, WAF monitors web requests and manages keys for this second usage completely
+independent of your first.
 
 # Arguments
-- `rule_name`: The name of the rate-based rule to get the keys for.
+- `rule_name`: The name of the rate-based rule to get the keys for. If you have the rule
+  defined inside a rule group that you're using in your web ACL, also provide the name of the
+  rule group reference statement in the request parameter RuleGroupRuleName.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
   regional application. A regional application can be an Application Load Balancer (ALB), an
   Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must
@@ -1059,6 +1071,10 @@ managed keys that can be blocked for a single rate-based rule is 10,000. If more
 - `web_aclname`: The name of the web ACL. You cannot change the name of a web ACL after you
   create it.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RuleGroupRuleName"`: The name of the rule group reference statement in your web ACL.
+  This is required only when you have the rate-based rule nested inside a rule group.
 """
 function get_rate_based_statement_managed_keys(
     RuleName, Scope, WebACLId, WebACLName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1403,8 +1419,8 @@ end
     list_available_managed_rule_groups(scope, params::Dict{String,<:Any})
 
 Retrieves an array of managed rule groups that are available for you to use. This list
-includes all Amazon Web Services Managed Rules rule groups and all of the Marketplace
-managed rule groups that you're subscribed to.
+includes all Amazon Web Services Managed Rules rule groups and all of the Amazon Web
+Services Marketplace managed rule groups that you're subscribed to.
 
 # Arguments
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -1516,10 +1532,11 @@ end
     list_managed_rule_sets(scope, params::Dict{String,<:Any})
 
 Retrieves the managed rule sets that you own.   This is intended for use only by vendors of
-managed rule sets. Vendors are Amazon Web Services and Marketplace sellers.  Vendors, you
-can use the managed rule set APIs to provide controlled rollout of your versioned managed
-rule group offerings for your customers. The APIs are ListManagedRuleSets,
-GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
+managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace
+sellers.  Vendors, you can use the managed rule set APIs to provide controlled rollout of
+your versioned managed rule group offerings for your customers. The APIs are
+ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and
+UpdateManagedRuleSetVersionExpiryDate.
 
 # Arguments
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -1816,10 +1833,10 @@ end
 
 Defines the versions of your managed rule set that you are offering to the customers.
 Customers see your offerings as managed rule groups with versioning.  This is intended for
-use only by vendors of managed rule sets. Vendors are Amazon Web Services and Marketplace
-sellers.  Vendors, you can use the managed rule set APIs to provide controlled rollout of
-your versioned managed rule group offerings for your customers. The APIs are
-ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and
+use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web
+Services Marketplace sellers.  Vendors, you can use the managed rule set APIs to provide
+controlled rollout of your versioned managed rule group offerings for your customers. The
+APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and
 UpdateManagedRuleSetVersionExpiryDate.  Customers retrieve their managed rule group list by
 calling ListAvailableManagedRuleGroups. The name that you provide here for your managed
 rule set is the name the customer sees for the corresponding managed rule group. Customers
@@ -2121,10 +2138,10 @@ Updates the expiration information for your managed rule set. Use this to initia
 expiration of a managed rule group version. After you initiate expiration for a version,
 WAF excludes it from the reponse to ListAvailableManagedRuleGroupVersions for the managed
 rule group.   This is intended for use only by vendors of managed rule sets. Vendors are
-Amazon Web Services and Marketplace sellers.  Vendors, you can use the managed rule set
-APIs to provide controlled rollout of your versioned managed rule group offerings for your
-customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions,
-and UpdateManagedRuleSetVersionExpiryDate.
+Amazon Web Services and Amazon Web Services Marketplace sellers.  Vendors, you can use the
+managed rule set APIs to provide controlled rollout of your versioned managed rule group
+offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet,
+PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
 
 # Arguments
 - `expiry_timestamp`: The time that you want the version to expire. Times are in

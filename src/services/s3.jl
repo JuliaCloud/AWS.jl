@@ -502,68 +502,65 @@ or abort the multipart upload. Amazon S3 frees up the space used to store the pa
 stop charging you for storing them only after you either complete or abort a multipart
 upload.   You can optionally request server-side encryption. For server-side encryption,
 Amazon S3 encrypts your data as it writes it to disks in its data centers and decrypts it
-when you access it. You can provide your own encryption key, or use Amazon Web Services Key
-Management Service (Amazon Web Services KMS) customer master keys (CMKs) or Amazon
-S3-managed encryption keys. If you choose to provide your own encryption key, the request
-headers you provide in UploadPart and UploadPartCopy requests must match the headers you
-used in the request to initiate the upload by using CreateMultipartUpload.  To perform a
-multipart upload with encryption using an Amazon Web Services KMS CMK, the requester must
-have permission to the kms:Decrypt and kms:GenerateDataKey* actions on the key. These
-permissions are required because Amazon S3 must decrypt and read data from the encrypted
-file parts before it completes the multipart upload. For more information, see Multipart
-upload API and permissions in the Amazon S3 User Guide. If your Identity and Access
-Management (IAM) user or role is in the same Amazon Web Services account as the Amazon Web
-Services KMS CMK, then you must have these permissions on the key policy. If your IAM user
-or role belongs to a different account than the key, then you must have the permissions on
-both the key policy and your IAM user or role.  For more information, see Protecting Data
-Using Server-Side Encryption.  Access Permissions  When copying an object, you can
-optionally specify the accounts or groups that should be granted specific permissions on
-the new object. There are two ways to grant the permissions using the request headers:
-Specify a canned ACL with the x-amz-acl request header. For more information, see Canned
-ACL.   Specify access permissions explicitly with the x-amz-grant-read,
-x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control headers. These
-parameters map to the set of permissions that Amazon S3 supports in an ACL. For more
-information, see Access Control List (ACL) Overview.   You can use either a canned ACL or
-specify access permissions explicitly. You cannot do both.  Server-Side-
-Encryption-Specific Request Headers  You can optionally tell Amazon S3 to encrypt data at
-rest using server-side encryption. Server-side encryption is for data encryption at rest.
-Amazon S3 encrypts your data as it writes it to disks in its data centers and decrypts it
-when you access it. The option you use depends on whether you want to use Amazon Web
-Services managed encryption keys or provide your own encryption key.    Use encryption keys
-managed by Amazon S3 or customer master keys (CMKs) stored in Amazon Web Services Key
-Management Service (Amazon Web Services KMS) – If you want Amazon Web Services to manage
-the keys used to encrypt data, specify the following headers in the request.
-x-amz-server-side-encryption   x-amz-server-side-encryption-aws-kms-key-id
-x-amz-server-side-encryption-context    If you specify
-x-amz-server-side-encryption:aws:kms, but don't provide
+when you access it. You can provide your own encryption key, or use Amazon Web Services KMS
+keys or Amazon S3-managed encryption keys. If you choose to provide your own encryption
+key, the request headers you provide in UploadPart and UploadPartCopy requests must match
+the headers you used in the request to initiate the upload by using CreateMultipartUpload.
+To perform a multipart upload with encryption using an Amazon Web Services KMS key, the
+requester must have permission to the kms:Decrypt and kms:GenerateDataKey* actions on the
+key. These permissions are required because Amazon S3 must decrypt and read data from the
+encrypted file parts before it completes the multipart upload. For more information, see
+Multipart upload API and permissions in the Amazon S3 User Guide. If your Identity and
+Access Management (IAM) user or role is in the same Amazon Web Services account as the KMS
+key, then you must have these permissions on the key policy. If your IAM user or role
+belongs to a different account than the key, then you must have the permissions on both the
+key policy and your IAM user or role.  For more information, see Protecting Data Using
+Server-Side Encryption.  Access Permissions  When copying an object, you can optionally
+specify the accounts or groups that should be granted specific permissions on the new
+object. There are two ways to grant the permissions using the request headers:   Specify a
+canned ACL with the x-amz-acl request header. For more information, see Canned ACL.
+Specify access permissions explicitly with the x-amz-grant-read, x-amz-grant-read-acp,
+x-amz-grant-write-acp, and x-amz-grant-full-control headers. These parameters map to the
+set of permissions that Amazon S3 supports in an ACL. For more information, see Access
+Control List (ACL) Overview.   You can use either a canned ACL or specify access
+permissions explicitly. You cannot do both.  Server-Side- Encryption-Specific Request
+Headers  You can optionally tell Amazon S3 to encrypt data at rest using server-side
+encryption. Server-side encryption is for data encryption at rest. Amazon S3 encrypts your
+data as it writes it to disks in its data centers and decrypts it when you access it. The
+option you use depends on whether you want to use Amazon Web Services managed encryption
+keys or provide your own encryption key.    Use encryption keys managed by Amazon S3 or
+customer managed key stored in Amazon Web Services Key Management Service (Amazon Web
+Services KMS) – If you want Amazon Web Services to manage the keys used to encrypt data,
+specify the following headers in the request.   x-amz-server-side-encryption
+x-amz-server-side-encryption-aws-kms-key-id   x-amz-server-side-encryption-context    If
+you specify x-amz-server-side-encryption:aws:kms, but don't provide
 x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed
-CMK in Amazon Web Services KMS to protect the data.   All GET and PUT requests for an
+key in Amazon Web Services KMS to protect the data.   All GET and PUT requests for an
 object protected by Amazon Web Services KMS fail if you don't make them with SSL or by
-using SigV4.  For more information about server-side encryption with CMKs stored in Amazon
-Web Services KMS (SSE-KMS), see Protecting Data Using Server-Side Encryption with CMKs
-stored in Amazon Web Services KMS.   Use customer-provided encryption keys – If you want
-to manage your own encryption keys, provide all the following headers in the request.
-x-amz-server-side-encryption-customer-algorithm   x-amz-server-side-encryption-customer-key
-  x-amz-server-side-encryption-customer-key-MD5   For more information about server-side
-encryption with CMKs stored in Amazon Web Services KMS (SSE-KMS), see Protecting Data Using
-Server-Side Encryption with CMKs stored in Amazon Web Services KMS.    Access-Control-List
-(ACL)-Specific Request Headers  You also can use the following access control–related
-headers with this operation. By default, all objects are private. Only the owner has full
-access control. When adding a new object, you can grant permissions to individual Amazon
-Web Services accounts or to predefined groups defined by Amazon S3. These permissions are
-then added to the access control list (ACL) on the object. For more information, see Using
-ACLs. With this operation, you can grant access permissions using one of the following two
-methods:   Specify a canned ACL (x-amz-acl) — Amazon S3 supports a set of predefined
-ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees and
-permissions. For more information, see Canned ACL.   Specify access permissions explicitly
-— To explicitly grant access permissions to specific Amazon Web Services accounts or
-groups, use the following headers. Each header maps to specific permissions that Amazon S3
-supports in an ACL. For more information, see Access Control List (ACL) Overview. In the
-header, you specify a list of grantees who get the specific permission. To grant
-permissions explicitly, use:   x-amz-grant-read   x-amz-grant-write   x-amz-grant-read-acp
- x-amz-grant-write-acp   x-amz-grant-full-control   You specify each grantee as a
-type=value pair, where the type is one of the following:    id – if the value specified
-is the canonical user ID of an Amazon Web Services account    uri – if you are granting
+using SigV4.  For more information about server-side encryption with KMS key (SSE-KMS), see
+Protecting Data Using Server-Side Encryption with KMS keys.   Use customer-provided
+encryption keys – If you want to manage your own encryption keys, provide all the
+following headers in the request.   x-amz-server-side-encryption-customer-algorithm
+x-amz-server-side-encryption-customer-key   x-amz-server-side-encryption-customer-key-MD5
+For more information about server-side encryption with KMS keys (SSE-KMS), see Protecting
+Data Using Server-Side Encryption with KMS keys.    Access-Control-List (ACL)-Specific
+Request Headers  You also can use the following access control–related headers with this
+operation. By default, all objects are private. Only the owner has full access control.
+When adding a new object, you can grant permissions to individual Amazon Web Services
+accounts or to predefined groups defined by Amazon S3. These permissions are then added to
+the access control list (ACL) on the object. For more information, see Using ACLs. With
+this operation, you can grant access permissions using one of the following two methods:
+Specify a canned ACL (x-amz-acl) — Amazon S3 supports a set of predefined ACLs, known as
+canned ACLs. Each canned ACL has a predefined set of grantees and permissions. For more
+information, see Canned ACL.   Specify access permissions explicitly — To explicitly
+grant access permissions to specific Amazon Web Services accounts or groups, use the
+following headers. Each header maps to specific permissions that Amazon S3 supports in an
+ACL. For more information, see Access Control List (ACL) Overview. In the header, you
+specify a list of grantees who get the specific permission. To grant permissions
+explicitly, use:   x-amz-grant-read   x-amz-grant-write   x-amz-grant-read-acp
+x-amz-grant-write-acp   x-amz-grant-full-control   You specify each grantee as a type=value
+pair, where the type is one of the following:    id – if the value specified is the
+canonical user ID of an Amazon Web Services account    uri – if you are granting
 permissions to a predefined group    emailAddress – if the value specified is the email
 address of an Amazon Web Services account  Using email addresses to specify a grantee is
 only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US
@@ -626,11 +623,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when storing
   this object in Amazon S3 (for example, AES256, aws:kms).
 - `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the ID of the symmetric
-  customer managed Amazon Web Services KMS CMK to use for object encryption. All GET and PUT
-  requests for an object protected by Amazon Web Services KMS will fail if not made via SSL
-  or using SigV4. For information about configuring using any of the officially supported
-  Amazon Web Services SDKs and Amazon Web Services CLI, see Specifying the Signature Version
-  in Request Authentication in the Amazon S3 User Guide.
+  customer managed key to use for object encryption. All GET and PUT requests for an object
+  protected by Amazon Web Services KMS will fail if not made via SSL or using SigV4. For
+  information about configuring using any of the officially supported Amazon Web Services
+  SDKs and Amazon Web Services CLI, see Specifying the Signature Version in Request
+  Authentication in the Amazon S3 User Guide.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
   use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
   (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
@@ -814,14 +811,15 @@ end
 
 Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
-moving data to the most cost-effective storage access tier, without additional operational
-overhead. S3 Intelligent-Tiering delivers automatic cost savings by moving data between
-access tiers, when access patterns change. The S3 Intelligent-Tiering storage class is
-suitable for objects larger than 128 KB that you plan to store for at least 30 days. If the
-size of an object is less than 128 KB, it is not eligible for auto-tiering. Smaller objects
-can be stored, but they are always charged at the frequent access tier rates in the S3
-Intelligent-Tiering storage class.  If you delete an object before the end of the 30-day
-minimum storage duration period, you are charged for 30 days. For more information, see
+moving data to the most cost-effective storage access tier, without performance impact or
+operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in two low
+latency and high throughput access tiers. For data that can be accessed asynchronously, you
+can choose to activate automatic archiving capabilities within the S3 Intelligent-Tiering
+storage class. The S3 Intelligent-Tiering storage class is the ideal storage class for data
+with unknown, changing, or unpredictable access patterns, independent of object size or
+retention period. If the size of an object is less than 128 KB, it is not eligible for
+auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
+Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
 Storage class for automatically optimizing frequently and infrequently accessed objects.
 Operations related to DeleteBucketIntelligentTieringConfiguration include:
 GetBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
@@ -1541,14 +1539,15 @@ end
 
 Gets the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
-moving data to the most cost-effective storage access tier, without additional operational
-overhead. S3 Intelligent-Tiering delivers automatic cost savings by moving data between
-access tiers, when access patterns change. The S3 Intelligent-Tiering storage class is
-suitable for objects larger than 128 KB that you plan to store for at least 30 days. If the
-size of an object is less than 128 KB, it is not eligible for auto-tiering. Smaller objects
-can be stored, but they are always charged at the frequent access tier rates in the S3
-Intelligent-Tiering storage class.  If you delete an object before the end of the 30-day
-minimum storage duration period, you are charged for 30 days. For more information, see
+moving data to the most cost-effective storage access tier, without performance impact or
+operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in two low
+latency and high throughput access tiers. For data that can be accessed asynchronously, you
+can choose to activate automatic archiving capabilities within the S3 Intelligent-Tiering
+storage class. The S3 Intelligent-Tiering storage class is the ideal storage class for data
+with unknown, changing, or unpredictable access patterns, independent of object size or
+retention period. If the size of an object is less than 128 KB, it is not eligible for
+auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
+Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
 Storage class for automatically optimizing frequently and infrequently accessed objects.
 Operations related to GetBucketIntelligentTieringConfiguration include:
 DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
@@ -2135,11 +2134,11 @@ retrieve the object you must first restore a copy using RestoreObject. Otherwise
 action returns an InvalidObjectStateError error. For information about restoring archived
 objects, see Restoring Archived Objects. Encryption request headers, like
 x-amz-server-side-encryption, should not be sent for GET requests if your object uses
-server-side encryption with CMKs stored in Amazon Web Services KMS (SSE-KMS) or server-side
-encryption with Amazon S3–managed encryption keys (SSE-S3). If your object does use these
-types of keys, you’ll get an HTTP 400 BadRequest error. If you encrypt an object by using
-server-side encryption with customer-provided encryption keys (SSE-C) when you store the
-object in Amazon S3, then when you GET the object, you must use the following headers:
+server-side encryption with KMS keys (SSE-KMS) or server-side encryption with Amazon
+S3–managed encryption keys (SSE-S3). If your object does use these types of keys,
+you’ll get an HTTP 400 BadRequest error. If you encrypt an object by using server-side
+encryption with customer-provided encryption keys (SSE-C) when you store the object in
+Amazon S3, then when you GET the object, you must use the following headers:
 x-amz-server-side-encryption-customer-algorithm   x-amz-server-side-encryption-customer-key
   x-amz-server-side-encryption-customer-key-MD5   For more information about SSE-C, see
 Server-Side Encryption (Using Customer-Provided Encryption Keys). Assuming you have the
@@ -2186,9 +2185,11 @@ ListBuckets     GetObjectAcl
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this action with an access point through the Amazon Web Services SDKs, you provide the
   access point ARN in place of the bucket name. For more information about access point ARNs,
-  see Using access points in the Amazon S3 User Guide. When using this action with Amazon S3
-  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  see Using access points in the Amazon S3 User Guide. When using an Object Lambda access
+  point the hostname takes the form
+  AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com. When using this action
+  with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3
+  on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see
@@ -2583,26 +2584,25 @@ x-amz-server-side-encryption-customer-algorithm   x-amz-server-side-encryption-c
   x-amz-server-side-encryption-customer-key-MD5   For more information about SSE-C, see
 Server-Side Encryption (Using Customer-Provided Encryption Keys).    Encryption request
 headers, like x-amz-server-side-encryption, should not be sent for GET requests if your
-object uses server-side encryption with CMKs stored in Amazon Web Services KMS (SSE-KMS) or
-server-side encryption with Amazon S3–managed encryption keys (SSE-S3). If your object
-does use these types of keys, you’ll get an HTTP 400 BadRequest error.    The last
-modified property in this case is the creation date of the object.    Request headers are
-limited to 8 KB in size. For more information, see Common Request Headers. Consider the
-following when using request headers:    Consideration 1 – If both of the If-Match and
-If-Unmodified-Since headers are present in the request as follows:    If-Match condition
-evaluates to true, and;    If-Unmodified-Since condition evaluates to false;   Then Amazon
-S3 returns 200 OK and the data requested.    Consideration 2 – If both of the
-If-None-Match and If-Modified-Since headers are present in the request as follows:
-If-None-Match condition evaluates to false, and;    If-Modified-Since condition evaluates
-to true;   Then Amazon S3 returns the 304 Not Modified response code.   For more
-information about conditional requests, see RFC 7232.  Permissions  You need the relevant
-read object (or version) permission for this operation. For more information, see
-Specifying Permissions in a Policy. If the object you request does not exist, the error
-Amazon S3 returns depends on whether you also have the s3:ListBucket permission.   If you
-have the s3:ListBucket permission on the bucket, Amazon S3 returns an HTTP status code 404
-(\"no such key\") error.   If you don’t have the s3:ListBucket permission, Amazon S3
-returns an HTTP status code 403 (\"access denied\") error.   The following action is
-related to HeadObject:    GetObject
+object uses server-side encryption with KMS keys (SSE-KMS) or server-side encryption with
+Amazon S3–managed encryption keys (SSE-S3). If your object does use these types of keys,
+you’ll get an HTTP 400 BadRequest error.    The last modified property in this case is
+the creation date of the object.    Request headers are limited to 8 KB in size. For more
+information, see Common Request Headers. Consider the following when using request headers:
+   Consideration 1 – If both of the If-Match and If-Unmodified-Since headers are present
+in the request as follows:    If-Match condition evaluates to true, and;
+If-Unmodified-Since condition evaluates to false;   Then Amazon S3 returns 200 OK and the
+data requested.    Consideration 2 – If both of the If-None-Match and If-Modified-Since
+headers are present in the request as follows:    If-None-Match condition evaluates to
+false, and;    If-Modified-Since condition evaluates to true;   Then Amazon S3 returns the
+304 Not Modified response code.   For more information about conditional requests, see RFC
+7232.  Permissions  You need the relevant read object (or version) permission for this
+operation. For more information, see Specifying Permissions in a Policy. If the object you
+request does not exist, the error Amazon S3 returns depends on whether you also have the
+s3:ListBucket permission.   If you have the s3:ListBucket permission on the bucket, Amazon
+S3 returns an HTTP status code 404 (\"no such key\") error.   If you don’t have the
+s3:ListBucket permission, Amazon S3 returns an HTTP status code 403 (\"access denied\")
+error.   The following action is related to HeadObject:    GetObject
 
 # Arguments
 - `bucket`: The name of the bucket containing the object. When using this action with an
@@ -2711,14 +2711,15 @@ end
 
 Lists the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
-moving data to the most cost-effective storage access tier, without additional operational
-overhead. S3 Intelligent-Tiering delivers automatic cost savings by moving data between
-access tiers, when access patterns change. The S3 Intelligent-Tiering storage class is
-suitable for objects larger than 128 KB that you plan to store for at least 30 days. If the
-size of an object is less than 128 KB, it is not eligible for auto-tiering. Smaller objects
-can be stored, but they are always charged at the frequent access tier rates in the S3
-Intelligent-Tiering storage class.  If you delete an object before the end of the 30-day
-minimum storage duration period, you are charged for 30 days. For more information, see
+moving data to the most cost-effective storage access tier, without performance impact or
+operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in two low
+latency and high throughput access tiers. For data that can be accessed asynchronously, you
+can choose to activate automatic archiving capabilities within the S3 Intelligent-Tiering
+storage class. The S3 Intelligent-Tiering storage class is the ideal storage class for data
+with unknown, changing, or unpredictable access patterns, independent of object size or
+retention period. If the size of an object is less than 128 KB, it is not eligible for
+auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
+Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
 Storage class for automatically optimizing frequently and infrequently accessed objects.
 Operations related to ListBucketIntelligentTieringConfigurations include:
 DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
@@ -3461,24 +3462,24 @@ end
 
 This action uses the encryption subresource to configure default encryption and Amazon S3
 Bucket Key for an existing bucket. Default encryption for a bucket can use server-side
-encryption with Amazon S3-managed keys (SSE-S3) or Amazon Web Services KMS customer master
-keys (SSE-KMS). If you specify default encryption using SSE-KMS, you can also configure
-Amazon S3 Bucket Key. For information about default encryption, see Amazon S3 default
-bucket encryption in the Amazon S3 User Guide. For more information about S3 Bucket Keys,
-see Amazon S3 Bucket Keys in the Amazon S3 User Guide.  This action requires Amazon Web
-Services Signature Version 4. For more information, see  Authenticating Requests (Amazon
-Web Services Signature Version 4).   To use this operation, you must have permissions to
-perform the s3:PutEncryptionConfiguration action. The bucket owner has this permission by
-default. The bucket owner can grant this permission to others. For more information about
-permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
-Permissions to Your Amazon S3 Resources in the Amazon S3 User Guide.   Related Resources
- GetBucketEncryption     DeleteBucketEncryption
+encryption with Amazon S3-managed keys (SSE-S3) or customer managed keys (SSE-KMS). If you
+specify default encryption using SSE-KMS, you can also configure Amazon S3 Bucket Key. For
+information about default encryption, see Amazon S3 default bucket encryption in the Amazon
+S3 User Guide. For more information about S3 Bucket Keys, see Amazon S3 Bucket Keys in the
+Amazon S3 User Guide.  This action requires Amazon Web Services Signature Version 4. For
+more information, see  Authenticating Requests (Amazon Web Services Signature Version 4).
+To use this operation, you must have permissions to perform the
+s3:PutEncryptionConfiguration action. The bucket owner has this permission by default. The
+bucket owner can grant this permission to others. For more information about permissions,
+see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
+Your Amazon S3 Resources in the Amazon S3 User Guide.   Related Resources
+GetBucketEncryption     DeleteBucketEncryption
 
 # Arguments
 - `bucket`: Specifies default encryption for a bucket using server-side encryption with
-  Amazon S3-managed keys (SSE-S3) or customer master keys stored in Amazon Web Services KMS
-  (SSE-KMS). For information about the Amazon S3 default encryption feature, see Amazon S3
-  Default Bucket Encryption in the Amazon S3 User Guide.
+  Amazon S3-managed keys (SSE-S3) or customer managed keys (SSE-KMS). For information about
+  the Amazon S3 default encryption feature, see Amazon S3 Default Bucket Encryption in the
+  Amazon S3 User Guide.
 - `server_side_encryption_configuration`:
 
 # Optional Parameters
@@ -3533,16 +3534,17 @@ end
 Puts a S3 Intelligent-Tiering configuration to the specified bucket. You can have up to
 1,000 S3 Intelligent-Tiering configurations per bucket. The S3 Intelligent-Tiering storage
 class is designed to optimize storage costs by automatically moving data to the most
-cost-effective storage access tier, without additional operational overhead. S3
-Intelligent-Tiering delivers automatic cost savings by moving data between access tiers,
-when access patterns change. The S3 Intelligent-Tiering storage class is suitable for
-objects larger than 128 KB that you plan to store for at least 30 days. If the size of an
-object is less than 128 KB, it is not eligible for auto-tiering. Smaller objects can be
-stored, but they are always charged at the frequent access tier rates in the S3
-Intelligent-Tiering storage class.  If you delete an object before the end of the 30-day
-minimum storage duration period, you are charged for 30 days. For more information, see
-Storage class for automatically optimizing frequently and infrequently accessed objects.
-Operations related to PutBucketIntelligentTieringConfiguration include:
+cost-effective storage access tier, without performance impact or operational overhead. S3
+Intelligent-Tiering delivers automatic cost savings in two low latency and high throughput
+access tiers. For data that can be accessed asynchronously, you can choose to activate
+automatic archiving capabilities within the S3 Intelligent-Tiering storage class. The S3
+Intelligent-Tiering storage class is the ideal storage class for data with unknown,
+changing, or unpredictable access patterns, independent of object size or retention period.
+If the size of an object is less than 128 KB, it is not eligible for auto-tiering. Smaller
+objects can be stored, but they are always charged at the Frequent Access tier rates in the
+S3 Intelligent-Tiering storage class. For more information, see Storage class for
+automatically optimizing frequently and infrequently accessed objects. Operations related
+to PutBucketIntelligentTieringConfiguration include:
 DeleteBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration
  ListBucketIntelligentTieringConfigurations     You only need S3 Intelligent-Tiering
 enabled on a bucket if you want to automatically move objects stored in the S3
@@ -3867,7 +3869,7 @@ to others. For more information about permissions, see Permissions Related to Bu
 Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For
 information about CloudWatch request metrics for Amazon S3, see Monitoring Metrics with
 Amazon CloudWatch. The following operations are related to PutBucketMetricsConfiguration:
- DeleteBucketMetricsConfiguration     PutBucketMetricsConfiguration
+ DeleteBucketMetricsConfiguration     GetBucketMetricsConfiguration
 ListBucketMetricsConfigurations     GetBucketLifecycle has the following special error:
 Error code: TooManyConfigurations    Description: You are attempting to create a new
 configuration but have already reached the 1,000-configuration limit.   HTTP Status Code:
@@ -4168,12 +4170,11 @@ replication configuration, Amazon S3 handles replication of delete markers diffe
 more information, see Backward Compatibility.  For information about enabling versioning on
 a bucket, see Using Versioning.  Handling Replication of Encrypted Objects  By default,
 Amazon S3 doesn't replicate objects that are stored at rest using server-side encryption
-with CMKs stored in Amazon Web Services KMS. To replicate Amazon Web Services KMS-encrypted
-objects, add the following: SourceSelectionCriteria, SseKmsEncryptedObjects, Status,
-EncryptionConfiguration, and ReplicaKmsKeyID. For information about replication
-configuration, see Replicating Objects Created with SSE Using CMKs stored in Amazon Web
-Services KMS. For information on PutBucketReplication errors, see List of
-replication-related error codes   Permissions  To create a PutBucketReplication request,
+with KMS keys. To replicate Amazon Web Services KMS-encrypted objects, add the following:
+SourceSelectionCriteria, SseKmsEncryptedObjects, Status, EncryptionConfiguration, and
+ReplicaKmsKeyID. For information about replication configuration, see Replicating Objects
+Created with SSE Using KMS keys. For information on PutBucketReplication errors, see List
+of replication-related error codes   Permissions  To create a PutBucketReplication request,
 you must have s3:PutReplicationConfiguration permissions for the bucket.  By default, a
 resource owner, in this case the Amazon Web Services account that created the bucket, can
 perform this operation. The resource owner can also grant others permissions to perform the
@@ -4601,12 +4602,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this object in Amazon S3 (for example, AES256, aws:kms).
 - `"x-amz-server-side-encryption-aws-kms-key-id"`: If x-amz-server-side-encryption is
   present and has the value of aws:kms, this header specifies the ID of the Amazon Web
-  Services Key Management Service (Amazon Web Services KMS) symmetrical customer managed
-  customer master key (CMK) that was used for the object. If you specify
-  x-amz-server-side-encryption:aws:kms, but do not provide
-  x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed
-  CMK in Amazon Web Services to protect the data. If the KMS key does not exist in the same
-  account issuing the command, you must use the full ARN and not just the ID.
+  Services Key Management Service (Amazon Web Services KMS) symmetrical customer managed key
+  that was used for the object. If you specify x-amz-server-side-encryption:aws:kms, but do
+  not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web
+  Services managed key to protect the data. If the KMS key does not exist in the same account
+  issuing the command, you must use the full ARN and not just the ID.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
   use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
   (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
@@ -5225,23 +5225,23 @@ with server-side encryption. For objects that are encrypted with customer-provid
 encryption keys (SSE-C), you must use HTTPS, and you must use the headers that are
 documented in the GetObject. For more information about SSE-C, see Server-Side Encryption
 (Using Customer-Provided Encryption Keys) in the Amazon S3 User Guide. For objects that are
-encrypted with Amazon S3 managed encryption keys (SSE-S3) and customer master keys (CMKs)
-stored in Amazon Web Services Key Management Service (SSE-KMS), server-side encryption is
-handled transparently, so you don't need to specify anything. For more information about
-server-side encryption, including SSE-S3 and SSE-KMS, see Protecting Data Using Server-Side
-Encryption in the Amazon S3 User Guide.    Working with the Response Body  Given the
-response size is unknown, Amazon S3 Select streams the response as a series of messages and
-includes a Transfer-Encoding header with chunked as its value in the response. For more
-information, see Appendix: SelectObjectContent Response.   GetObject Support  The
-SelectObjectContent action does not support the following GetObject functionality. For more
-information, see GetObject.    Range: Although you can specify a scan range for an Amazon
-S3 Select request (see SelectObjectContentRequest - ScanRange in the request parameters),
-you cannot specify the range of bytes of an object to return.    GLACIER, DEEP_ARCHIVE and
-REDUCED_REDUNDANCY storage classes: You cannot specify the GLACIER, DEEP_ARCHIVE, or
-REDUCED_REDUNDANCY storage classes. For more information, about storage classes see Storage
-Classes in the Amazon S3 User Guide.     Special Errors  For a list of special errors for
-this operation, see List of SELECT Object Content Error Codes   Related Resources
-GetObject     GetBucketLifecycleConfiguration     PutBucketLifecycleConfiguration
+encrypted with Amazon S3 managed encryption keys (SSE-S3) and Amazon Web Services KMS keys
+(SSE-KMS), server-side encryption is handled transparently, so you don't need to specify
+anything. For more information about server-side encryption, including SSE-S3 and SSE-KMS,
+see Protecting Data Using Server-Side Encryption in the Amazon S3 User Guide.    Working
+with the Response Body  Given the response size is unknown, Amazon S3 Select streams the
+response as a series of messages and includes a Transfer-Encoding header with chunked as
+its value in the response. For more information, see Appendix: SelectObjectContent
+Response.   GetObject Support  The SelectObjectContent action does not support the
+following GetObject functionality. For more information, see GetObject.    Range: Although
+you can specify a scan range for an Amazon S3 Select request (see
+SelectObjectContentRequest - ScanRange in the request parameters), you cannot specify the
+range of bytes of an object to return.    GLACIER, DEEP_ARCHIVE and REDUCED_REDUNDANCY
+storage classes: You cannot specify the GLACIER, DEEP_ARCHIVE, or REDUCED_REDUNDANCY
+storage classes. For more information, about storage classes see Storage Classes in the
+Amazon S3 User Guide.     Special Errors  For a list of special errors for this operation,
+see List of SELECT Object Content Error Codes   Related Resources     GetObject
+GetBucketLifecycleConfiguration     PutBucketLifecycleConfiguration
 
 # Arguments
 - `bucket`: The S3 bucket.
@@ -5631,9 +5631,9 @@ end
     write_get_object_response(x-amz-request-route, x-amz-request-token)
     write_get_object_response(x-amz-request-route, x-amz-request-token, params::Dict{String,<:Any})
 
-Passes transformed objects to a GetObject operation when using Object Lambda Access Points.
-For information about Object Lambda Access Points, see Transforming objects with Object
-Lambda Access Points in the Amazon S3 User Guide. This operation supports metadata that can
+Passes transformed objects to a GetObject operation when using Object Lambda access points.
+For information about Object Lambda access points, see Transforming objects with Object
+Lambda access points in the Amazon S3 User Guide. This operation supports metadata that can
 be returned by GetObject, in addition to RequestRoute, RequestToken, StatusCode, ErrorCode,
 and ErrorMessage. The GetObject response metadata is supported so that the
 WriteGetObjectResponse caller, typically an Lambda function, can provide the same metadata
@@ -5646,7 +5646,7 @@ forward GetObject metadata. Amazon Web Services provides some prebuilt Lambda fu
 that you can use with S3 Object Lambda to detect and redact personally identifiable
 information (PII) and decompress S3 objects. These Lambda functions are available in the
 Amazon Web Services Serverless Application Repository, and can be selected through the
-Amazon Web Services Management Console when you create your Object Lambda Access Point.
+Amazon Web Services Management Console when you create your Object Lambda access point.
 Example 1: PII Access Control - This Lambda function uses Amazon Comprehend, a natural
 language processing (NLP) service using machine learning to find insights and relationships
 in text. It automatically detects personally identifiable information (PII) such as names,
@@ -5722,8 +5722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used when storing requested object in Amazon S3 (for example, AES256, aws:kms).
 - `"x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id"`:  If present, specifies
   the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS)
-  symmetric customer managed customer master key (CMK) that was used for stored in Amazon S3
-  object.
+  symmetric customer managed key that was used for stored in Amazon S3 object.
 - `"x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled"`:  Indicates whether
   the object stored in Amazon S3 uses an S3 bucket key for server-side encryption with Amazon
   Web Services KMS (SSE-KMS).

@@ -22,8 +22,8 @@ information. A dataset also contains any tags associated with the ingested data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ServerSideKmsKeyId"`: Provides the identifier of the AWS KMS customer master key (CMK)
-  used to encrypt dataset data by Amazon Lookout for Equipment.
+- `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt dataset
+  data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the ingested data described in the dataset.
 """
 function create_dataset(
@@ -97,15 +97,15 @@ You must also provide an S3 bucket location for the output data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataDelayOffsetInMinutes"`:  A period of time (in minutes) by which inference on the
+- `"DataDelayOffsetInMinutes"`: A period of time (in minutes) by which inference on the
   data is delayed after the data starts. For instance, if you select an offset delay time of
   five minutes, inference will not begin on the data until the first data measurement after
   the five minute mark. For example, if five minutes is selected, the inference scheduler
   will wake up at the configured frequency with the additional five minute delay time to
   check the customer S3 bucket. The customer can upload data at the same frequency and they
   don't need to stop and restart the scheduler when uploading new data.
-- `"ServerSideKmsKeyId"`: Provides the identifier of the AWS KMS customer master key (CMK)
-  used to encrypt inference scheduler data by Amazon Lookout for Equipment.
+- `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt inference
+  scheduler data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the inference scheduler.
 """
 function create_inference_scheduler(
@@ -199,10 +199,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to begin the subset of evaluation data for the ML model.
 - `"LabelsInputConfiguration"`: The input configuration for the labels being used for the
   ML model that's being created.
+- `"OffCondition"`: Indicates that the asset associated with this sensor has been shut off.
+  As long as this condition is met, Lookout for Equipment will not use data from this asset
+  for training, evaluation, or inference.
 - `"RoleArn"`:  The Amazon Resource Name (ARN) of a role with permission to access the data
   source being used to create the ML model.
-- `"ServerSideKmsKeyId"`: Provides the identifier of the AWS KMS customer master key (CMK)
-  used to encrypt model data by Amazon Lookout for Equipment.
+- `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt model data
+  by Amazon Lookout for Equipment.
 - `"Tags"`:  Any tags associated with the ML model being created.
 - `"TrainingDataEndTime"`: Indicates the time reference in the dataset that should be used
   to end the subset of training data for the ML model.
@@ -383,7 +386,8 @@ end
     describe_dataset(dataset_name)
     describe_dataset(dataset_name, params::Dict{String,<:Any})
 
-Provides information on a specified dataset such as the schema location, status, and so on.
+Provides a JSON description of the data that is in each time series dataset, including
+names, column names, and data types.
 
 # Arguments
 - `dataset_name`: The name of the dataset to be described.
@@ -452,8 +456,8 @@ end
     describe_model(model_name)
     describe_model(model_name, params::Dict{String,<:Any})
 
-Provides overall information about a specific ML model, including model name and ARN,
-dataset, training and evaluation information, status, and so on.
+Provides a JSON containing the overall information about a specific ML model, including
+model name and ARN, dataset, training and evaluation information, status, and so on.
 
 # Arguments
 - `model_name`: The name of the ML model to be described.
@@ -885,13 +889,13 @@ Updates an inference scheduler.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataDelayOffsetInMinutes"`: &gt; A period of time (in minutes) by which inference on
-  the data is delayed after the data starts. For instance, if you select an offset delay time
-  of five minutes, inference will not begin on the data until the first data measurement
-  after the five minute mark. For example, if five minutes is selected, the inference
-  scheduler will wake up at the configured frequency with the additional five minute delay
-  time to check the customer S3 bucket. The customer can upload data at the same frequency
-  and they don't need to stop and restart the scheduler when uploading new data.
+- `"DataDelayOffsetInMinutes"`:  A period of time (in minutes) by which inference on the
+  data is delayed after the data starts. For instance, if you select an offset delay time of
+  five minutes, inference will not begin on the data until the first data measurement after
+  the five minute mark. For example, if five minutes is selected, the inference scheduler
+  will wake up at the configured frequency with the additional five minute delay time to
+  check the customer S3 bucket. The customer can upload data at the same frequency and they
+  don't need to stop and restart the scheduler when uploading new data.
 - `"DataInputConfiguration"`:  Specifies information for the input data for the inference
   scheduler, including delimiter, format, and dataset location.
 - `"DataOutputConfiguration"`:  Specifies information for the output results from the
