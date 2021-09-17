@@ -21,8 +21,9 @@ images. In most cases, you should use the docker CLI to pull, tag, and push imag
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the image
-  layers to check. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the image layers to check. If you do not specify a registry, the default registry
+  is assumed.
 """
 function batch_check_layer_availability(
     layerDigests, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -73,8 +74,9 @@ image's digest in your request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the image
-  to delete. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the image to delete. If you do not specify a registry, the default registry is
+  assumed.
 """
 function batch_delete_image(
     imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -125,8 +127,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application/vnd.docker.distribution.manifest.v1+json |
   application/vnd.docker.distribution.manifest.v2+json |
   application/vnd.oci.image.manifest.v1+json
-- `"registryId"`: The AWS account ID associated with the registry that contains the images
-  to describe. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the images to describe. If you do not specify a registry, the default registry is
+  assumed.
 """
 function batch_get_image(
     imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -178,8 +181,8 @@ push images.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry to which to upload
-  layers. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry to which
+  to upload layers. If you do not specify a registry, the default registry is assumed.
 """
 function complete_layer_upload(
     layerDigests,
@@ -225,7 +228,7 @@ end
     create_repository(repository_name)
     create_repository(repository_name, params::Dict{String,<:Any})
 
-Creates a repository. For more information, see Amazon ECR Repositories in the Amazon
+Creates a repository. For more information, see Amazon ECR repositories in the Amazon
 Elastic Container Registry User Guide.
 
 # Arguments
@@ -283,8 +286,8 @@ Deletes the lifecycle policy associated with the specified repository.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function delete_lifecycle_policy(
     repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -338,8 +341,9 @@ in the repository or use the force option to delete the repository.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"force"`:  If a repository contains images, forces the deletion.
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository to delete. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository to delete. If you do not specify a registry, the default registry
+  is assumed.
 """
 function delete_repository(
     repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -376,9 +380,9 @@ Deletes the repository policy associated with the specified repository.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository policy to delete. If you do not specify a registry, the default registry is
-  assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository policy to delete. If you do not specify a registry, the default
+  registry is assumed.
 """
 function delete_repository_policy(
     repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -426,9 +430,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DescribeImageScanFindings request where maxResults was used and the results exceeded the
   value of that parameter. Pagination continues from the end of the previous results that
   returned the nextToken value. This value is null when there are no more results to return.
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository in which to describe the image scan findings for. If you do not specify a
-  registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository in which to describe the image scan findings for. If you do not
+  specify a registry, the default registry is assumed.
 """
 function describe_image_scan_findings(
     imageId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -486,9 +490,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pagination continues from the end of the previous results that returned the nextToken
   value. This value is null when there are no more results to return. This option cannot be
   used when you specify images with imageIds.
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository in which to describe images. If you do not specify a registry, the default
-  registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository in which to describe images. If you do not specify a registry, the
+  default registry is assumed.
 """
 function describe_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config())
     return ecr(
@@ -550,9 +554,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   option cannot be used when you specify repositories with repositoryNames.  This token
   should be treated as an opaque identifier that is only used to retrieve the next items in a
   list and not for other programmatic purposes.
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repositories to be described. If you do not specify a registry, the default registry is
-  assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repositories to be described. If you do not specify a registry, the default
+  registry is assumed.
 - `"repositoryNames"`: A list of repositories to describe. If this parameter is omitted,
   then all repositories in a registry are described.
 """
@@ -573,15 +577,15 @@ Retrieves an authorization token. An authorization token represents your IAM aut
 credentials and can be used to access any Amazon ECR registry that your IAM principal has
 access to. The authorization token is valid for 12 hours. The authorizationToken returned
 is a base64 encoded string that can be decoded and used in a docker login command to
-authenticate to a registry. The AWS CLI offers an get-login-password command that
-simplifies the login process. For more information, see Registry Authentication in the
-Amazon Elastic Container Registry User Guide.
+authenticate to a registry. The CLI offers an get-login-password command that simplifies
+the login process. For more information, see Registry authentication in the Amazon Elastic
+Container Registry User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryIds"`: A list of AWS account IDs that are associated with the registries for
-  which to get AuthorizationData objects. If you do not specify a registry, the default
-  registry is assumed.
+- `"registryIds"`: A list of Amazon Web Services account IDs that are associated with the
+  registries for which to get AuthorizationData objects. If you do not specify a registry,
+  the default registry is assumed.
 """
 function get_authorization_token(; aws_config::AbstractAWSConfig=global_aws_config())
     return ecr("GetAuthorizationToken"; aws_config=aws_config)
@@ -610,8 +614,9 @@ push images.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the image
-  layer to download. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the image layer to download. If you do not specify a registry, the default
+  registry is assumed.
 """
 function get_download_url_for_layer(
     layerDigest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -654,8 +659,8 @@ Retrieves the lifecycle policy for the specified repository.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function get_lifecycle_policy(
     repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -709,8 +714,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous results that returned the nextToken value. This value is&#x2028; null when there
   are no more results to return. This option cannot be used when you specify images with
   imageIds.
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function get_lifecycle_policy_preview(
     repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -762,8 +767,8 @@ Retrieves the repository policy for the specified repository.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function get_repository_policy(
     repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -804,8 +809,9 @@ should use the docker CLI to pull, tag, and push images.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry to which you intend to
-  upload layers. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry to which
+  you intend to upload layers. If you do not specify a registry, the default registry is
+  assumed.
 """
 function initiate_layer_upload(
     repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -858,9 +864,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is null when there are no more results to return.  This token should be treated as an
   opaque identifier that is only used to retrieve the next items in a list and not for other
   programmatic purposes.
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository in which to list images. If you do not specify a registry, the default registry
-  is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository in which to list images. If you do not specify a registry, the
+  default registry is assumed.
 """
 function list_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config())
     return ecr(
@@ -939,9 +945,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   imageManifestMediaType in the request.
 - `"imageTag"`: The tag to associate with the image. This parameter is required for images
   that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository in which to put the image. If you do not specify a registry, the default
-  registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository in which to put the image. If you do not specify a registry, the
+  default registry is assumed.
 """
 function put_image(
     imageManifest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -990,9 +996,9 @@ Updates the image scanning configuration for the specified repository.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository in which to update the image scanning configuration setting. If you do not
-  specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository in which to update the image scanning configuration setting. If you
+  do not specify a registry, the default registry is assumed.
 """
 function put_image_scanning_configuration(
     imageScanningConfiguration,
@@ -1035,7 +1041,7 @@ end
     put_image_tag_mutability(image_tag_mutability, repository_name, params::Dict{String,<:Any})
 
 Updates the image tag mutability settings for the specified repository. For more
-information, see Image Tag Mutability in the Amazon Elastic Container Registry User Guide.
+information, see Image tag mutability in the Amazon Elastic Container Registry User Guide.
 
 # Arguments
 - `image_tag_mutability`: The tag mutability setting for the repository. If MUTABLE is
@@ -1046,9 +1052,9 @@ information, see Image Tag Mutability in the Amazon Elastic Container Registry U
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository in which to update the image tag mutability settings. If you do not specify a
-  registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository in which to update the image tag mutability settings. If you do not
+  specify a registry, the default registry is assumed.
 """
 function put_image_tag_mutability(
     imageTagMutability, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1088,7 +1094,7 @@ end
     put_lifecycle_policy(lifecycle_policy_text, repository_name, params::Dict{String,<:Any})
 
 Creates or updates the lifecycle policy for the specified repository. For more information,
-see Lifecycle Policy Template.
+see Lifecycle policy template.
 
 # Arguments
 - `lifecycle_policy_text`: The JSON repository policy text to apply to the repository.
@@ -1096,8 +1102,9 @@ see Lifecycle Policy Template.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository. If you do&#x2028; not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository. If you do&#x2028; not specify a registry, the default registry is
+  assumed.
 """
 function put_lifecycle_policy(
     lifecyclePolicyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1137,9 +1144,9 @@ end
     put_registry_policy(policy_text, params::Dict{String,<:Any})
 
 Creates or updates the permissions policy for your registry. A registry policy is used to
-specify permissions for another AWS account and is used when configuring cross-account
-replication. For more information, see Registry permissions in the Amazon Elastic Container
-Registry User Guide.
+specify permissions for another Amazon Web Services account and is used when configuring
+cross-account replication. For more information, see Registry permissions in the Amazon
+Elastic Container Registry User Guide.
 
 # Arguments
 - `policy_text`: The JSON policy text to apply to your registry. The policy text follows
@@ -1176,7 +1183,7 @@ Creates or updates the replication configuration for a registry. The existing re
 configuration for a repository can be retrieved with the DescribeRegistry API action. The
 first time the PutReplicationConfiguration API is called, a service-linked IAM role is
 created in your account for the replication process. For more information, see Using
-Service-Linked Roles for Amazon ECR in the Amazon Elastic Container Registry User Guide.
+service-linked roles for Amazon ECR in the Amazon Elastic Container Registry User Guide.
 When configuring cross-account replication, the destination account must grant the source
 account permission to replicate. This permission is controlled using a registry permissions
 policy. For more information, see PutRegistryPolicy.
@@ -1218,12 +1225,12 @@ end
     set_repository_policy(policy_text, repository_name, params::Dict{String,<:Any})
 
 Applies a repository policy to the specified repository to control access permissions. For
-more information, see Amazon ECR Repository Policies in the Amazon Elastic Container
+more information, see Amazon ECR Repository policies in the Amazon Elastic Container
 Registry User Guide.
 
 # Arguments
 - `policy_text`: The JSON repository policy text to apply to the repository. For more
-  information, see Amazon ECR Repository Policies in the Amazon Elastic Container Registry
+  information, see Amazon ECR repository policies in the Amazon Elastic Container Registry
   User Guide.
 - `repository_name`: The name of the repository to receive the policy.
 
@@ -1232,8 +1239,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"force"`: If the policy you are attempting to set on a repository policy would prevent
   you from setting another policy in the future, you must force the SetRepositoryPolicy
   operation. This is intended to prevent accidental repository lock outs.
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function set_repository_policy(
     policyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1269,9 +1276,9 @@ end
     start_image_scan(image_id, repository_name)
     start_image_scan(image_id, repository_name, params::Dict{String,<:Any})
 
-Starts an image vulnerability scan. An image scan can only be started once per day on an
-individual image. This limit includes if an image was scanned on initial push. For more
-information, see Image Scanning in the Amazon Elastic Container Registry User Guide.
+Starts an image vulnerability scan. An image scan can only be started once per 24 hours on
+an individual image. This limit includes if an image was scanned on initial push. For more
+information, see Image scanning in the Amazon Elastic Container Registry User Guide.
 
 # Arguments
 - `image_id`:
@@ -1279,9 +1286,9 @@ information, see Image Scanning in the Amazon Elastic Container Registry User Gu
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository in which to start an image scan request. If you do not specify a registry, the
-  default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository in which to start an image scan request. If you do not specify a
+  registry, the default registry is assumed.
 """
 function start_image_scan(
     imageId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1325,8 +1332,8 @@ the results before associating the lifecycle policy with the repository.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"lifecyclePolicyText"`: The policy to be evaluated against. If you do not specify a
   policy, the current policy for the repository is used.
-- `"registryId"`: The AWS account ID associated with the registry that contains the
-  repository. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository. If you do not specify a registry, the default registry is assumed.
 """
 function start_lifecycle_policy_preview(
     repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1455,8 +1462,9 @@ push images.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The AWS account ID associated with the registry to which you are
-  uploading layer parts. If you do not specify a registry, the default registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID associated with the registry to which
+  you are uploading layer parts. If you do not specify a registry, the default registry is
+  assumed.
 """
 function upload_layer_part(
     layerPartBlob,

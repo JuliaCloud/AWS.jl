@@ -210,6 +210,49 @@ function create_import_job(
 end
 
 """
+    create_in_app_template(in_app_template_request, template-name)
+    create_in_app_template(in_app_template_request, template-name, params::Dict{String,<:Any})
+
+Creates a new message template for messages using the in-app message channel.
+
+# Arguments
+- `in_app_template_request`:
+- `template-name`: The name of the message template. A template name must start with an
+  alphanumeric character and can contain a maximum of 128 characters. The characters can be
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+
+"""
+function create_in_app_template(
+    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pinpoint(
+        "POST",
+        "/v1/templates/$(template-name)/inapp",
+        Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest);
+        aws_config=aws_config,
+    )
+end
+function create_in_app_template(
+    InAppTemplateRequest,
+    template_name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "POST",
+        "/v1/templates/$(template-name)/inapp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     create_journey(write_journey_request, application-id)
     create_journey(write_journey_request, application-id, params::Dict{String,<:Any})
 
@@ -870,6 +913,46 @@ function delete_gcm_channel(
 )
     return pinpoint(
         "DELETE", "/v1/apps/$(application-id)/channels/gcm", params; aws_config=aws_config
+    )
+end
+
+"""
+    delete_in_app_template(template-name)
+    delete_in_app_template(template-name, params::Dict{String,<:Any})
+
+Deletes a message template for messages sent using the in-app message channel.
+
+# Arguments
+- `template-name`: The name of the message template. A template name must start with an
+  alphanumeric character and can contain a maximum of 128 characters. The characters can be
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"version"`: The unique identifier for the version of the message template to update,
+  retrieve information about, or delete. To retrieve identifiers and other information for
+  all the versions of a template, use the Template Versions resource. If specified, this
+  value must match the identifier for an existing template version. If specified for an
+  update operation, this value must match the identifier for the latest existing version of
+  the template. This restriction helps ensure that race conditions don't occur. If you don't
+  specify a value for this parameter, Amazon Pinpoint does the following: For a get
+  operation, retrieves information about the active version of the template. For an update
+  operation, saves the updates to (overwrites) the latest existing version of the template,
+  if the create-new-version parameter isn't used or is set to false. For a delete operation,
+  deletes the template, including all versions of the template.
+"""
+function delete_in_app_template(
+    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pinpoint("DELETE", "/v1/templates/$(template-name)/inapp"; aws_config=aws_config)
+end
+function delete_in_app_template(
+    template_name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "DELETE", "/v1/templates/$(template-name)/inapp", params; aws_config=aws_config
     )
 end
 
@@ -2019,6 +2102,82 @@ function get_import_jobs(
 )
     return pinpoint(
         "GET", "/v1/apps/$(application-id)/jobs/import", params; aws_config=aws_config
+    )
+end
+
+"""
+    get_in_app_messages(application-id, endpoint-id)
+    get_in_app_messages(application-id, endpoint-id, params::Dict{String,<:Any})
+
+Retrieves the in-app messages targeted for the provided endpoint ID.
+
+# Arguments
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the Project ID on the Amazon Pinpoint console.
+- `endpoint-id`: The unique identifier for the endpoint.
+
+"""
+function get_in_app_messages(
+    application_id, endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pinpoint(
+        "GET",
+        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages";
+        aws_config=aws_config,
+    )
+end
+function get_in_app_messages(
+    application_id,
+    endpoint_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "GET",
+        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages",
+        params;
+        aws_config=aws_config,
+    )
+end
+
+"""
+    get_in_app_template(template-name)
+    get_in_app_template(template-name, params::Dict{String,<:Any})
+
+Retrieves the content and settings of a message template for messages sent through the
+in-app channel.
+
+# Arguments
+- `template-name`: The name of the message template. A template name must start with an
+  alphanumeric character and can contain a maximum of 128 characters. The characters can be
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"version"`: The unique identifier for the version of the message template to update,
+  retrieve information about, or delete. To retrieve identifiers and other information for
+  all the versions of a template, use the Template Versions resource. If specified, this
+  value must match the identifier for an existing template version. If specified for an
+  update operation, this value must match the identifier for the latest existing version of
+  the template. This restriction helps ensure that race conditions don't occur. If you don't
+  specify a value for this parameter, Amazon Pinpoint does the following: For a get
+  operation, retrieves information about the active version of the template. For an update
+  operation, saves the updates to (overwrites) the latest existing version of the template,
+  if the create-new-version parameter isn't used or is set to false. For a delete operation,
+  deletes the template, including all versions of the template.
+"""
+function get_in_app_template(
+    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pinpoint("GET", "/v1/templates/$(template-name)/inapp"; aws_config=aws_config)
+end
+function get_in_app_template(
+    template_name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "GET", "/v1/templates/$(template-name)/inapp", params; aws_config=aws_config
     )
 end
 
@@ -3726,6 +3885,68 @@ function update_gcm_channel(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("GCMChannelRequest" => GCMChannelRequest), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    update_in_app_template(in_app_template_request, template-name)
+    update_in_app_template(in_app_template_request, template-name, params::Dict{String,<:Any})
+
+Updates an existing message template for messages sent through the in-app message channel.
+
+# Arguments
+- `in_app_template_request`:
+- `template-name`: The name of the message template. A template name must start with an
+  alphanumeric character and can contain a maximum of 128 characters. The characters can be
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"create-new-version"`: Specifies whether to save the updates as a new version of the
+  message template. Valid values are: true, save the updates as a new version; and, false,
+  save the updates to (overwrite) the latest existing version of the template. If you don't
+  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
+  latest existing version of the template. If you specify a value of true for this parameter,
+  don't specify a value for the version parameter. Otherwise, an error will occur.
+- `"version"`: The unique identifier for the version of the message template to update,
+  retrieve information about, or delete. To retrieve identifiers and other information for
+  all the versions of a template, use the Template Versions resource. If specified, this
+  value must match the identifier for an existing template version. If specified for an
+  update operation, this value must match the identifier for the latest existing version of
+  the template. This restriction helps ensure that race conditions don't occur. If you don't
+  specify a value for this parameter, Amazon Pinpoint does the following: For a get
+  operation, retrieves information about the active version of the template. For an update
+  operation, saves the updates to (overwrites) the latest existing version of the template,
+  if the create-new-version parameter isn't used or is set to false. For a delete operation,
+  deletes the template, including all versions of the template.
+"""
+function update_in_app_template(
+    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pinpoint(
+        "PUT",
+        "/v1/templates/$(template-name)/inapp",
+        Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest);
+        aws_config=aws_config,
+    )
+end
+function update_in_app_template(
+    InAppTemplateRequest,
+    template_name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "PUT",
+        "/v1/templates/$(template-name)/inapp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest),
+                params,
             ),
         );
         aws_config=aws_config,

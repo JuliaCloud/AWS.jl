@@ -5231,8 +5231,8 @@ down. For more information about Aurora Serverless, see Using Amazon Aurora Serv
 the Amazon Aurora User Guide.  If you call ModifyCurrentDBClusterCapacity with the default
 TimeoutAction, connections that prevent Aurora Serverless from finding a scaling point
 might be dropped. For more information about scaling points, see  Autoscaling for Aurora
-Serverless in the Amazon Aurora User Guide.   This action only applies to Aurora DB
-clusters.
+Serverless in the Amazon Aurora User Guide.   This action only applies to Aurora Serverless
+DB clusters.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier for the cluster being modified. This
@@ -5247,7 +5247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   capacity values are 2, 4, 8, 16, 32, 64, 192, and 384.
 - `"SecondsBeforeTimeout"`: The amount of time, in seconds, that Aurora Serverless tries to
   find a scaling point to perform seamless scaling before enforcing the timeout action. The
-  default is 300.   Value must be from 10 through 600.
+  default is 300. Specify a value between 10 and 600 seconds.
 - `"TimeoutAction"`: The action to take when the timeout is reached, either
   ForceApplyCapacityChange or RollbackCapacityChange.  ForceApplyCapacityChange, the default,
   sets the capacity to the specified value as soon as possible.  RollbackCapacityChange

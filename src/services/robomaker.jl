@@ -360,8 +360,8 @@ function create_robot(
 end
 
 """
-    create_robot_application(name, robot_software_suite, sources)
-    create_robot_application(name, robot_software_suite, sources, params::Dict{String,<:Any})
+    create_robot_application(name, robot_software_suite)
+    create_robot_application(name, robot_software_suite, params::Dict{String,<:Any})
 
 Creates a robot application.
 
@@ -369,29 +369,28 @@ Creates a robot application.
 - `name`: The name of the robot application.
 - `robot_software_suite`: The robot software suite (ROS distribuition) used by the robot
   application.
-- `sources`: The sources of the robot application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"environment"`: The object that contains that URI of the Docker image that you use for
+  your robot application.
+- `"sources"`: The sources of the robot application.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the robot
   application.
 """
 function create_robot_application(
-    name, robotSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()
+    name, robotSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return robomaker(
         "POST",
         "/createRobotApplication",
-        Dict{String,Any}(
-            "name" => name, "robotSoftwareSuite" => robotSoftwareSuite, "sources" => sources
-        );
+        Dict{String,Any}("name" => name, "robotSoftwareSuite" => robotSoftwareSuite);
         aws_config=aws_config,
     )
 end
 function create_robot_application(
     name,
     robotSoftwareSuite,
-    sources,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -402,9 +401,7 @@ function create_robot_application(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "name" => name,
-                    "robotSoftwareSuite" => robotSoftwareSuite,
-                    "sources" => sources,
+                    "name" => name, "robotSoftwareSuite" => robotSoftwareSuite
                 ),
                 params,
             ),
@@ -426,6 +423,10 @@ Creates a version of a robot application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"currentRevisionId"`: The current revision id for the robot application. If you provide
   a value and it matches the latest revision ID, a new version will be created.
+- `"imageDigest"`: A SHA256 identifier for the Docker image that you use for your robot
+  application.
+- `"s3Etags"`: The Amazon S3 identifier for the zip file bundle that you use for your robot
+  application.
 """
 function create_robot_application_version(
     application; aws_config::AbstractAWSConfig=global_aws_config()
@@ -453,8 +454,8 @@ function create_robot_application_version(
 end
 
 """
-    create_simulation_application(name, robot_software_suite, simulation_software_suite, sources)
-    create_simulation_application(name, robot_software_suite, simulation_software_suite, sources, params::Dict{String,<:Any})
+    create_simulation_application(name, robot_software_suite, simulation_software_suite)
+    create_simulation_application(name, robot_software_suite, simulation_software_suite, params::Dict{String,<:Any})
 
 Creates a simulation application.
 
@@ -464,19 +465,20 @@ Creates a simulation application.
   simulation application.
 - `simulation_software_suite`: The simulation software suite used by the simulation
   application.
-- `sources`: The sources of the simulation application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"environment"`: The object that contains the Docker image URI used to create your
+  simulation application.
 - `"renderingEngine"`: The rendering engine for the simulation application.
+- `"sources"`: The sources of the simulation application.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the simulation
   application.
 """
 function create_simulation_application(
     name,
     robotSoftwareSuite,
-    simulationSoftwareSuite,
-    sources;
+    simulationSoftwareSuite;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return robomaker(
@@ -486,7 +488,6 @@ function create_simulation_application(
             "name" => name,
             "robotSoftwareSuite" => robotSoftwareSuite,
             "simulationSoftwareSuite" => simulationSoftwareSuite,
-            "sources" => sources,
         );
         aws_config=aws_config,
     )
@@ -495,7 +496,6 @@ function create_simulation_application(
     name,
     robotSoftwareSuite,
     simulationSoftwareSuite,
-    sources,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -509,7 +509,6 @@ function create_simulation_application(
                     "name" => name,
                     "robotSoftwareSuite" => robotSoftwareSuite,
                     "simulationSoftwareSuite" => simulationSoftwareSuite,
-                    "sources" => sources,
                 ),
                 params,
             ),
@@ -531,6 +530,10 @@ Creates a simulation application with a specific revision id.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"currentRevisionId"`: The current revision id for the simulation application. If you
   provide a value and it matches the latest revision ID, a new version will be created.
+- `"imageDigest"`: The SHA256 digest used to identify the Docker image URI used to created
+  the simulation application.
+- `"s3Etags"`: The Amazon S3 eTag identifier for the zip file bundle that you use to create
+  the simulation application.
 """
 function create_simulation_application_version(
     application; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1941,8 +1944,8 @@ function untag_resource(
 end
 
 """
-    update_robot_application(application, robot_software_suite, sources)
-    update_robot_application(application, robot_software_suite, sources, params::Dict{String,<:Any})
+    update_robot_application(application, robot_software_suite)
+    update_robot_application(application, robot_software_suite, params::Dict{String,<:Any})
 
 Updates a robot application.
 
@@ -1950,25 +1953,21 @@ Updates a robot application.
 - `application`: The application information for the robot application.
 - `robot_software_suite`: The robot software suite (ROS distribution) used by the robot
   application.
-- `sources`: The sources of the robot application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"currentRevisionId"`: The revision id for the robot application.
+- `"environment"`: The object that contains the Docker image URI for your robot application.
+- `"sources"`: The sources of the robot application.
 """
 function update_robot_application(
-    application,
-    robotSoftwareSuite,
-    sources;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application, robotSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return robomaker(
         "POST",
         "/updateRobotApplication",
         Dict{String,Any}(
-            "application" => application,
-            "robotSoftwareSuite" => robotSoftwareSuite,
-            "sources" => sources,
+            "application" => application, "robotSoftwareSuite" => robotSoftwareSuite
         );
         aws_config=aws_config,
     )
@@ -1976,7 +1975,6 @@ end
 function update_robot_application(
     application,
     robotSoftwareSuite,
-    sources,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1987,9 +1985,7 @@ function update_robot_application(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "application" => application,
-                    "robotSoftwareSuite" => robotSoftwareSuite,
-                    "sources" => sources,
+                    "application" => application, "robotSoftwareSuite" => robotSoftwareSuite
                 ),
                 params,
             ),
@@ -1999,8 +1995,8 @@ function update_robot_application(
 end
 
 """
-    update_simulation_application(application, robot_software_suite, simulation_software_suite, sources)
-    update_simulation_application(application, robot_software_suite, simulation_software_suite, sources, params::Dict{String,<:Any})
+    update_simulation_application(application, robot_software_suite, simulation_software_suite)
+    update_simulation_application(application, robot_software_suite, simulation_software_suite, params::Dict{String,<:Any})
 
 Updates a simulation application.
 
@@ -2009,18 +2005,19 @@ Updates a simulation application.
 - `robot_software_suite`: Information about the robot software suite (ROS distribution).
 - `simulation_software_suite`: The simulation software suite used by the simulation
   application.
-- `sources`: The sources of the simulation application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"currentRevisionId"`: The revision id for the robot application.
+- `"environment"`: The object that contains the Docker image URI for your simulation
+  application.
 - `"renderingEngine"`: The rendering engine for the simulation application.
+- `"sources"`: The sources of the simulation application.
 """
 function update_simulation_application(
     application,
     robotSoftwareSuite,
-    simulationSoftwareSuite,
-    sources;
+    simulationSoftwareSuite;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return robomaker(
@@ -2030,7 +2027,6 @@ function update_simulation_application(
             "application" => application,
             "robotSoftwareSuite" => robotSoftwareSuite,
             "simulationSoftwareSuite" => simulationSoftwareSuite,
-            "sources" => sources,
         );
         aws_config=aws_config,
     )
@@ -2039,7 +2035,6 @@ function update_simulation_application(
     application,
     robotSoftwareSuite,
     simulationSoftwareSuite,
-    sources,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -2053,7 +2048,6 @@ function update_simulation_application(
                     "application" => application,
                     "robotSoftwareSuite" => robotSoftwareSuite,
                     "simulationSoftwareSuite" => simulationSoftwareSuite,
-                    "sources" => sources,
                 ),
                 params,
             ),

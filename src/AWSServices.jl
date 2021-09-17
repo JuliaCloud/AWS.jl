@@ -320,6 +320,7 @@ const iotthingsgraph = AWS.JSONService(
 )
 const ivs = AWS.RestJSONService("ivs", "ivs", "2020-07-14")
 const kafka = AWS.RestJSONService("kafka", "kafka", "2018-11-14")
+const kafkaconnect = AWS.RestJSONService("kafkaconnect", "kafkaconnect", "2021-09-14")
 const kendra = AWS.JSONService(
     "kendra", "kendra", "2019-02-03", "1.1", "AWSKendraFrontendService"
 )

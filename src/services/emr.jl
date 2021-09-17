@@ -142,16 +142,16 @@ end
     add_tags(resource_id, tags)
     add_tags(resource_id, tags, params::Dict{String,<:Any})
 
-Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters in various
-ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For
-more information, see Tag Clusters.
+Adds tags to an Amazon EMR resource, such as a cluster or an Amazon EMR Studio. Tags make
+it easier to associate resources in various ways, such as grouping clusters to track your
+Amazon EMR resource allocation costs. For more information, see Tag Clusters.
 
 # Arguments
-- `resource_id`: The Amazon EMR resource identifier to which tags will be added. This value
-  must be a cluster identifier.
-- `tags`: A list of tags to associate with a cluster and propagate to EC2 instances. Tags
-  are user-defined key-value pairs that consist of a required key string with a maximum of
-  128 characters, and an optional value string with a maximum of 256 characters.
+- `resource_id`: The Amazon EMR resource identifier to which tags will be added. For
+  example, a cluster identifier or an Amazon EMR Studio ID.
+- `tags`: A list of tags to associate with a resource. Tags are user-defined key-value
+  pairs that consist of a required key string with a maximum of 128 characters, and an
+  optional value string with a maximum of 256 characters.
 
 """
 function add_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -271,29 +271,26 @@ function create_security_configuration(
 end
 
 """
-    create_studio(auth_mode, default_s3_location, engine_security_group_id, name, service_role, subnet_ids, user_role, vpc_id, workspace_security_group_id)
-    create_studio(auth_mode, default_s3_location, engine_security_group_id, name, service_role, subnet_ids, user_role, vpc_id, workspace_security_group_id, params::Dict{String,<:Any})
+    create_studio(auth_mode, default_s3_location, engine_security_group_id, name, service_role, subnet_ids, vpc_id, workspace_security_group_id)
+    create_studio(auth_mode, default_s3_location, engine_security_group_id, name, service_role, subnet_ids, vpc_id, workspace_security_group_id, params::Dict{String,<:Any})
 
 Creates a new Amazon EMR Studio.
 
 # Arguments
-- `auth_mode`: Specifies whether the Studio authenticates users using single sign-on (SSO)
-  or IAM. Amazon EMR Studio currently only supports SSO authentication.
+- `auth_mode`: Specifies whether the Studio authenticates users using IAM or Amazon Web
+  Services SSO.
 - `default_s3_location`: The Amazon S3 location to back up Amazon EMR Studio Workspaces and
   notebook files.
 - `engine_security_group_id`: The ID of the Amazon EMR Studio Engine security group. The
   Engine security group allows inbound network traffic from the Workspace security group, and
   it must be in the same VPC specified by VpcId.
 - `name`: A descriptive name for the Amazon EMR Studio.
-- `service_role`: The IAM role that will be assumed by the Amazon EMR Studio. The service
-  role provides a way for Amazon EMR Studio to interoperate with other Amazon Web Services
+- `service_role`: The IAM role that the Amazon EMR Studio assumes. The service role
+  provides a way for Amazon EMR Studio to interoperate with other Amazon Web Services
   services.
 - `subnet_ids`: A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can
   have a maximum of 5 subnets. The subnets must belong to the VPC specified by VpcId. Studio
   users can create a Workspace in any of the specified subnets.
-- `user_role`: The IAM user role that will be assumed by users and groups logged in to an
-  Amazon EMR Studio. The permissions attached to this IAM role can be scoped down for each
-  user or group using session policies.
 - `vpc_id`: The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the
   Studio.
 - `workspace_security_group_id`: The ID of the Amazon EMR Studio Workspace security group.
@@ -303,9 +300,21 @@ Creates a new Amazon EMR Studio.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A detailed description of the Amazon EMR Studio.
+- `"IdpAuthUrl"`: The authentication endpoint of your identity provider (IdP). Specify this
+  value when you use IAM authentication and want to let federated users log in to a Studio
+  with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users to
+  this endpoint to enter credentials.
+- `"IdpRelayStateParameterName"`: The name that your identity provider (IdP) uses for its
+  RelayState parameter. For example, RelayState or TargetSource. Specify this value when you
+  use IAM authentication and want to let federated users log in to a Studio using the Studio
+  URL. The RelayState parameter differs by IdP.
 - `"Tags"`: A list of tags to associate with the Amazon EMR Studio. Tags are user-defined
   key-value pairs that consist of a required key string with a maximum of 128 characters, and
   an optional value string with a maximum of 256 characters.
+- `"UserRole"`: The IAM user role that users and groups assume when logged in to an Amazon
+  EMR Studio. Only specify a UserRole when you use Amazon Web Services SSO authentication.
+  The permissions attached to the UserRole can be scoped down for each user or group using
+  session policies.
 """
 function create_studio(
     AuthMode,
@@ -314,7 +323,6 @@ function create_studio(
     Name,
     ServiceRole,
     SubnetIds,
-    UserRole,
     VpcId,
     WorkspaceSecurityGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -328,7 +336,6 @@ function create_studio(
             "Name" => Name,
             "ServiceRole" => ServiceRole,
             "SubnetIds" => SubnetIds,
-            "UserRole" => UserRole,
             "VpcId" => VpcId,
             "WorkspaceSecurityGroupId" => WorkspaceSecurityGroupId,
         );
@@ -342,7 +349,6 @@ function create_studio(
     Name,
     ServiceRole,
     SubnetIds,
-    UserRole,
     VpcId,
     WorkspaceSecurityGroupId,
     params::AbstractDict{String};
@@ -360,7 +366,6 @@ function create_studio(
                     "Name" => Name,
                     "ServiceRole" => ServiceRole,
                     "SubnetIds" => SubnetIds,
-                    "UserRole" => UserRole,
                     "VpcId" => VpcId,
                     "WorkspaceSecurityGroupId" => WorkspaceSecurityGroupId,
                 ),
@@ -376,7 +381,10 @@ end
     create_studio_session_mapping(identity_type, session_policy_arn, studio_id, params::Dict{String,<:Any})
 
 Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a session
-policy to refine Studio permissions for that user or group.
+policy to refine Studio permissions for that user or group. Use CreateStudioSessionMapping
+to assign users to a Studio when you use Amazon Web Services SSO authentication. For
+instructions on how to assign users to a Studio when you use IAM authentication, see Assign
+a user or group to your EMR Studio.
 
 # Arguments
 - `identity_type`: Specifies whether the identity to map to the Amazon EMR Studio is a user
@@ -1662,15 +1670,15 @@ end
     remove_tags(resource_id, tag_keys)
     remove_tags(resource_id, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from an Amazon EMR resource. Tags make it easier to associate clusters in
-various ways, such as grouping clusters to track your Amazon EMR resource allocation costs.
-For more information, see Tag Clusters.  The following example removes the stack tag with
-value Prod from a cluster:
+Removes tags from an Amazon EMR resource, such as a cluster or Amazon EMR Studio. Tags make
+it easier to associate resources in various ways, such as grouping clusters to track your
+Amazon EMR resource allocation costs. For more information, see Tag Clusters.  The
+following example removes the stack tag with value Prod from a cluster:
 
 # Arguments
-- `resource_id`: The Amazon EMR resource identifier from which tags will be removed. This
-  value must be a cluster identifier.
-- `tag_keys`: A list of tag keys to remove from a resource.
+- `resource_id`: The Amazon EMR resource identifier from which tags will be removed. For
+  example, a cluster identifier or an Amazon EMR Studio ID.
+- `tag_keys`: A list of tag keys to remove from the resource.
 
 """
 function remove_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1805,8 +1813,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0
   and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
 - `"SecurityConfiguration"`: The name of a security configuration to apply to the cluster.
-- `"ServiceRole"`: The IAM role that will be assumed by the Amazon EMR service to access
-  Amazon Web Services resources on your behalf.
+- `"ServiceRole"`: The IAM role that Amazon EMR assumes in order to access Amazon Web
+  Services resources on your behalf.
 - `"StepConcurrencyLevel"`: Specifies the number of steps that can be executed
   concurrently. The default value is 1. The maximum value is 256.
 - `"Steps"`: A list of steps to run.

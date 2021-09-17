@@ -52,8 +52,8 @@ Retrieves information about one or more custom data identifiers.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ids"`: An array of strings that lists the unique identifiers for the custom data
-  identifiers to retrieve information about.
+- `"ids"`: An array of custom data identifier IDs, one for each custom data identifier to
+  retrieve information about.
 """
 function batch_get_custom_data_identifiers(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -85,16 +85,38 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"customDataIdentifierIds"`: The custom data identifiers to use for data analysis and
-  classification.
+- `"customDataIdentifierIds"`: An array of unique identifiers, one for each custom data
+  identifier for the job to use when it analyzes data. To use only managed data identifiers,
+  don't specify a value for this property and specify a value other than NONE for the
+  managedDataIdentifierSelector property.
 - `"description"`: A custom description of the job. The description can contain as many as
   200 characters.
-- `"initialRun"`: Specifies whether to analyze all existing, eligible objects immediately
-  after the job is created.
-- `"samplingPercentage"`: The sampling depth, as a percentage, to apply when processing
-  objects. This value determines the percentage of eligible objects that the job analyzes. If
-  this value is less than 100, Amazon Macie selects the objects to analyze at random, up to
-  the specified percentage, and analyzes all the data in those objects.
+- `"initialRun"`: For a recurring job, specifies whether to analyze all existing, eligible
+  objects immediately after the job is created (true). To analyze only those objects that are
+  created or changed after you create the job and before the job's first scheduled run, set
+  this value to false.If you configure the job to run only once, don't specify a value for
+  this property.
+- `"managedDataIdentifierIds"`: An array of unique identifiers, one for each managed data
+  identifier for the job to include (use) or exclude (not use) when it analyzes data.
+  Inclusion or exclusion depends on the managed data identifier selection type that you
+  specify for the job (managedDataIdentifierSelector).To retrieve a list of valid values for
+  this property, use the ListManagedDataIdentifiers operation.
+- `"managedDataIdentifierSelector"`: The selection type to apply when determining which
+  managed data identifiers the job uses to analyze data. Valid values are: ALL - Use all the
+  managed data identifiers that Amazon Macie provides. If you specify this value, don't
+  specify any values for the managedDataIdentifierIds property. EXCLUDE - Use all the managed
+  data identifiers that Macie provides except the managed data identifiers specified by the
+  managedDataIdentifierIds property. INCLUDE - Use only the managed data identifiers
+  specified by the managedDataIdentifierIds property. NONE - Don't use any managed data
+  identifiers. If you specify this value, specify at least one custom data identifier for the
+  job (customDataIdentifierIds) and don't specify any values for the managedDataIdentifierIds
+  property. If you don't specify a value for this property, the job uses all managed data
+  identifiers. If you don't specify a value for this property or you specify ALL or EXCLUDE
+  for a recurring job, the job also uses new managed data identifiers as they are released.
+- `"samplingPercentage"`: The sampling depth, as a percentage, for the job to apply when
+  processing objects. This value determines the percentage of eligible objects that the job
+  analyzes. If this value is less than 100, Amazon Macie selects the objects to analyze at
+  random, up to the specified percentage, and analyzes all the data in those objects.
 - `"scheduleFrequency"`: The recurrence pattern for running the job. To run the job only
   once, don't specify a value for this property and set the value for the jobType property to
   ONE_TIME.
@@ -167,14 +189,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ignoreWords"`: An array that lists specific character sequences (ignore words) to
   exclude from the results. If the text matched by the regular expression is the same as any
   string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
-  words. Each ignore word can contain 4-90 characters. Ignore words are case sensitive.
+  words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
 - `"keywords"`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
-  array can contain as many as 50 keywords. Each keyword can contain 3-90 characters.
+  array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters.
   Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between text
   that matches the regex pattern and the character sequences specified by the keywords array.
-  Macie includes or excludes a result based on the proximity of a keyword to text that
+  Amazon Macie includes or excludes a result based on the proximity of a keyword to text that
   matches the regex pattern. The distance can be 1-300 characters. The default value is 50.
 - `"name"`: A custom name for the custom data identifier. The name can contain as many as
   128 characters. We strongly recommend that you avoid including any sensitive data in the
@@ -1172,8 +1194,8 @@ end
     list_invitations()
     list_invitations(params::Dict{String,<:Any})
 
-Retrieves information about all the Amazon Macie membership invitations that were received
-by an account.
+Retrieves information about the Amazon Macie membership invitations that were received by
+an account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1189,6 +1211,27 @@ function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return macie2("GET", "/invitations", params; aws_config=aws_config)
+end
+
+"""
+    list_managed_data_identifiers()
+    list_managed_data_identifiers(params::Dict{String,<:Any})
+
+Retrieves information about all the managed data identifiers that Amazon Macie currently
+provides.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The nextToken string that specifies which page of results to return in a
+  paginated response.
+"""
+function list_managed_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return macie2("POST", "/managed-data-identifiers/list"; aws_config=aws_config)
+end
+function list_managed_data_identifiers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie2("POST", "/managed-data-identifiers/list", params; aws_config=aws_config)
 end
 
 """
@@ -1421,14 +1464,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ignoreWords"`: An array that lists specific character sequences (ignore words) to
   exclude from the results. If the text matched by the regular expression is the same as any
   string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
-  words. Each ignore word can contain 4-90 characters. Ignore words are case sensitive.
+  words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
 - `"keywords"`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
-  array can contain as many as 50 keywords. Each keyword can contain 3-90 characters.
+  array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters.
   Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between text
   that matches the regex pattern and the character sequences specified by the keywords array.
-  Macie includes or excludes a result based on the proximity of a keyword to text that
+  Amazon Macie includes or excludes a result based on the proximity of a keyword to text that
   matches the regex pattern. The distance can be 1-300 characters. The default value is 50.
 """
 function test_custom_data_identifier(

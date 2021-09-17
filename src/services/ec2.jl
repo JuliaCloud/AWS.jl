@@ -2111,8 +2111,8 @@ end
     copy_image(name, source_image_id, source_region, params::Dict{String,<:Any})
 
 Initiates the copy of an AMI. You can copy an AMI from one Region to another, or from a
-Region to an AWS Outpost. You can't copy an AMI from an Outpost to a Region, from one
-Outpost to another, or within the same Outpost. To copy an AMI to another partition, see
+Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost
+to another, or within the same Outpost. To copy an AMI to another partition, see
 CreateStoreImageTask. To copy an AMI from one Region to another, specify the source Region
 using the SourceRegion parameter, and specify the destination Region using its endpoint.
 Copies of encrypted backing snapshots for the AMI are encrypted. Copies of unencrypted
@@ -2138,30 +2138,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `"Description"`: A description for the new AMI in the destination Region.
 - `"DestinationOutpostArn"`: The Amazon Resource Name (ARN) of the Outpost to which to copy
-  the AMI. Only specify this parameter when copying an AMI from an AWS Region to an Outpost.
-  The AMI must be in the Region of the destination Outpost. You cannot copy an AMI from an
-  Outpost to a Region, from one Outpost to another, or within the same Outpost. For more
-  information, see  Copying AMIs from an AWS Region to an Outpost in the Amazon Elastic
-  Compute Cloud User Guide.
+  the AMI. Only specify this parameter when copying an AMI from an Amazon Web Services Region
+  to an Outpost. The AMI must be in the Region of the destination Outpost. You cannot copy an
+  AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost.
+  For more information, see  Copying AMIs from an Amazon Web Services Region to an Outpost in
+  the Amazon Elastic Compute Cloud User Guide.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"encrypted"`: Specifies whether the destination snapshots of the copied image should be
   encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an
-  unencrypted copy of an encrypted snapshot. The default CMK for EBS is used unless you
-  specify a non-default AWS Key Management Service (AWS KMS) CMK using KmsKeyId. For more
-  information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
-- `"kmsKeyId"`: The identifier of the symmetric AWS Key Management Service (AWS KMS)
-  customer master key (CMK) to use when creating encrypted volumes. If this parameter is not
-  specified, your AWS managed CMK for EBS is used. If you specify a CMK, you must also set
-  the encrypted state to true. You can specify a CMK using any of the following:   Key ID.
-  For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example,
+  unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used
+  unless you specify a non-default Key Management Service (KMS) KMS key using KmsKeyId. For
+  more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+- `"kmsKeyId"`: The identifier of the symmetric Key Management Service (KMS) KMS key to use
+  when creating encrypted volumes. If this parameter is not specified, your Amazon Web
+  Services managed KMS key for Amazon EBS is used. If you specify a KMS key, you must also
+  set the encrypted state to true. You can specify a KMS key using any of the following:
+  Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example,
   alias/ExampleAlias.   Key ARN. For example,
   arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN.
-  For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the
-  CMK asynchronously. Therefore, if you specify an identifier that is not valid, the action
-  can appear to complete, but eventually fails. The specified CMK must exist in the
-  destination Region. Amazon EBS does not support asymmetric CMKs.
+  For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   Amazon Web Services
+  authenticates the KMS key asynchronously. Therefore, if you specify an identifier that is
+  not valid, the action can appear to complete, but eventually fails. The specified KMS key
+  must exist in the destination Region. Amazon EBS does not support asymmetric KMS keys.
 """
 function copy_image(
     Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3109,9 +3109,9 @@ end
     create_image(instance_id, name, params::Dict{String,<:Any})
 
 Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running
-or stopped. If you customized your instance with instance store volumes or EBS volumes in
-addition to the root device volume, the new AMI contains block device mapping information
-for those volumes. When you launch an instance from this new AMI, the instance
+or stopped. If you customized your instance with instance store volumes or Amazon EBS
+volumes in addition to the root device volume, the new AMI contains block device mapping
+information for those volumes. When you launch an instance from this new AMI, the instance
 automatically launches with those additional volumes. For more information, see Creating
 Amazon EBS-Backed Linux AMIs in the Amazon Elastic Compute Cloud User Guide.
 
@@ -3125,11 +3125,11 @@ Amazon EBS-Backed Linux AMIs in the Amazon Elastic Compute Cloud User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TagSpecification"`: The tags to apply to the AMI and snapshots on creation. You can tag
   the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be
-  image.   To tag the snapshots that are created of the root volume and of other EBS volumes
-  that are attached to the instance, the value for ResourceType must be snapshot. The same
-  tag is applied to all of the snapshots that are created.   If you specify other values for
-  ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see
-  CreateTags.
+  image.   To tag the snapshots that are created of the root volume and of other Amazon EBS
+  volumes that are attached to the instance, the value for ResourceType must be snapshot. The
+  same tag is applied to all of the snapshots that are created.   If you specify other values
+  for ResourceType, the request fails. To tag an AMI or snapshot after it has been created,
+  see CreateTags.
 - `"blockDeviceMapping"`: The block device mappings. This parameter cannot be used to
   modify the encryption status of existing volumes or snapshots. To create an AMI with
   encrypted snapshots, use the CopyImage action.
@@ -3139,8 +3139,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"noReboot"`: By default, Amazon EC2 attempts to shut down and reboot the instance before
   creating the image. If the No Reboot option is set, Amazon EC2 doesn't shut down the
-  instance before creating the image. When this option is used, file system integrity on the
-  created image can't be guaranteed.
+  instance before creating the image. Without a reboot, the AMI will be crash consistent (all
+  the volumes are snapshotted at the same time), but not application consistent (all the
+  operating system buffers are not flushed to disk before the snapshots are created).
 """
 function create_image(instanceId, name; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
@@ -3564,9 +3565,7 @@ end
     create_managed_prefix_list(address_family, max_entries, prefix_list_name, params::Dict{String,<:Any})
 
 Creates a managed prefix list. You can specify one or more entries for the prefix list.
-Each entry consists of a CIDR block and an optional description. You must specify the
-maximum number of entries for the prefix list. The maximum number of entries cannot be
-changed later.
+Each entry consists of a CIDR block and an optional description.
 
 # Arguments
 - `address_family`: The IP address type. Valid Values: IPv4 | IPv6
@@ -4185,14 +4184,14 @@ end
     create_restore_image_task(bucket, object_key)
     create_restore_image_task(bucket, object_key, params::Dict{String,<:Any})
 
-Starts a task that restores an AMI from an S3 object that was previously created by using
-CreateStoreImageTask. To use this API, you must have the required permissions. For more
-information, see Permissions for storing and restoring AMIs using S3 in the Amazon Elastic
-Compute Cloud User Guide. For more information, see Store and restore an AMI using S3 in
-the Amazon Elastic Compute Cloud User Guide.
+Starts a task that restores an AMI from an Amazon S3 object that was previously created by
+using CreateStoreImageTask. To use this API, you must have the required permissions. For
+more information, see Permissions for storing and restoring AMIs using Amazon S3 in the
+Amazon Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI
+using Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
-- `bucket`: The name of the S3 bucket that contains the stored AMI object.
+- `bucket`: The name of the Amazon S3 bucket that contains the stored AMI object.
 - `object_key`: The name of the stored AMI object in the bucket.
 
 # Optional Parameters
@@ -4575,15 +4574,15 @@ end
     create_store_image_task(bucket, image_id)
     create_store_image_task(bucket, image_id, params::Dict{String,<:Any})
 
-Stores an AMI as a single object in an S3 bucket. To use this API, you must have the
+Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the
 required permissions. For more information, see Permissions for storing and restoring AMIs
-using S3 in the Amazon Elastic Compute Cloud User Guide. For more information, see Store
-and restore an AMI using S3 in the Amazon Elastic Compute Cloud User Guide.
+using Amazon S3 in the Amazon Elastic Compute Cloud User Guide. For more information, see
+Store and restore an AMI using Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
-- `bucket`: The name of the S3 bucket in which the AMI object will be stored. The bucket
-  must be in the Region in which the request is being made. The AMI object appears in the
-  bucket only after the upload task has completed.
+- `bucket`: The name of the Amazon S3 bucket in which the AMI object will be stored. The
+  bucket must be in the Region in which the request is being made. The AMI object appears in
+  the bucket only after the upload task has completed.
 - `image_id`: The ID of the AMI.
 
 # Optional Parameters
@@ -4591,7 +4590,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"S3ObjectTag"`: The tags to apply to the AMI object that will be stored in the S3
+- `"S3ObjectTag"`: The tags to apply to the AMI object that will be stored in the Amazon S3
   bucket.
 """
 function create_store_image_task(
@@ -10001,59 +10000,59 @@ end
 
 Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images
 available to you. The images available to you include public images, private images that
-you own, and private images owned by other AWS accounts for which you have explicit launch
-permissions. Recently deregistered images appear in the returned results for a short
-interval and then return empty results. After all instances that reference a deregistered
-AMI are terminated, specifying the ID of the image will eventually return an error
-indicating that the AMI ID cannot be found.
+you own, and private images owned by other Amazon Web Services accounts for which you have
+explicit launch permissions. Recently deregistered images appear in the returned results
+for a short interval and then return empty results. After all instances that reference a
+deregistered AMI are terminated, specifying the ID of the image will eventually return an
+error indicating that the AMI ID cannot be found.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ExecutableBy"`: Scopes the images by users with explicit launch permissions. Specify an
-  AWS account ID, self (the sender of the request), or all (public AMIs).
+  Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).
 - `"Filter"`: The filters.    architecture - The image architecture (i386 | x86_64 |
   arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates
   whether the Amazon EBS volume is deleted on instance termination.
   block-device-mapping.device-name - The device name specified in the block device mapping
   (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the
-  snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of
-  the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS
-  volume (gp2 | io1 | io2 | st1 | sc1 | standard).    block-device-mapping.encrypted - A
-  Boolean that indicates whether the EBS volume is encrypted.    description - The
-  description of the image (provided during image creation).    ena-support - A Boolean that
-  indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor
-  type (ovm | xen).    image-id - The ID of the image.    image-type - The image type
-  (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is
-  public.    kernel-id - The kernel ID.    manifest-location - The location of the image
-  manifest.    name - The name of the AMI (provided during image creation).    owner-alias -
-  The owner alias (amazon | aws-marketplace). The valid aliases are defined in an
-  Amazon-maintained list. This is not the AWS account alias that can be set using the IAM
-  console. We recommend that you use the Owner request parameter instead of this filter.
-  owner-id - The AWS account ID of the owner. We recommend that you use the Owner request
-  parameter instead of this filter.    platform - The platform. To only list Windows-based
-  AMIs, use windows.    product-code - The product code.    product-code.type - The type of
-  the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.
-  root-device-name - The device name of the root device volume (for example, /dev/sda1).
-  root-device-type - The type of the root device volume (ebs | instance-store).    state -
-  The state of the image (available | pending | failed).    state-reason-code - The reason
-  code for the state change.    state-reason-message - The message for the state change.
-  sriov-net-support - A value of simple indicates that enhanced networking with the Intel
-  82599 VF interface is enabled.    tag:&lt;key&gt; - The key/value combination of a tag
-  assigned to the resource. Use the tag key in the filter name and the tag value as the
-  filter value. For example, to find all resources that have a tag with the key Owner and the
-  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
-  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
-  assigned a tag with a specific key, regardless of the tag value.    virtualization-type -
-  The virtualization type (paravirtual | hvm).
+  snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume
+  size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume
+  type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).
+  block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is
+  encrypted.    description - The description of the image (provided during image creation).
+    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.
+   hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.
+  image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that
+  indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location -
+  The location of the image manifest.    name - The name of the AMI (provided during image
+  creation).    owner-alias - The owner alias (amazon | aws-marketplace). The valid aliases
+  are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias
+  that can be set using the IAM console. We recommend that you use the Owner request
+  parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the
+  owner. We recommend that you use the Owner request parameter instead of this filter.
+  platform - The platform. To only list Windows-based AMIs, use windows.    product-code -
+  The product code.    product-code.type - The type of the product code (marketplace).
+  ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device
+  volume (for example, /dev/sda1).    root-device-type - The type of the root device volume
+  (ebs | instance-store).    state - The state of the image (available | pending | failed).
+   state-reason-code - The reason code for the state change.    state-reason-message - The
+  message for the state change.    sriov-net-support - A value of simple indicates that
+  enhanced networking with the Intel 82599 VF interface is enabled.    tag:&lt;key&gt; - The
+  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
+  and the tag value as the filter value. For example, to find all resources that have a tag
+  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
+  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
+  to find all resources assigned a tag with a specific key, regardless of the tag value.
+  virtualization-type - The virtualization type (paravirtual | hvm).
 - `"ImageId"`: The image IDs. Default: Describes all images available to you.
 - `"IncludeDeprecated"`: If true, all deprecated AMIs are included in the response. If
   false, no deprecated AMIs are included in the response. If no value is specified, the
   default value is false.  If you are the AMI owner, all deprecated AMIs appear in the
   response regardless of the value (true or false) that you set for this parameter.
 - `"Owner"`: Scopes the results to images with the specified owners. You can specify a
-  combination of AWS account IDs, self, amazon, and aws-marketplace. If you omit this
-  parameter, the results include all images for which you have launch permissions, regardless
-  of ownership.
+  combination of Amazon Web Services account IDs, self, amazon, and aws-marketplace. If you
+  omit this parameter, the results include all images for which you have launch permissions,
+  regardless of ownership.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10429,7 +10428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or
   required (required | supported | unsupported).
   network-info.encryption-in-transit-supported - Indicates whether the instance type
-  automatically encrypts in-transit traffic between instances.
+  automatically encrypts in-transit traffic between instances (true | false).
   network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses
   per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of
   private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates
@@ -12500,9 +12499,9 @@ the last 31 days. For each AMI task, the response indicates if the task is InPro
 Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a
 percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the
 past 31 days can be viewed. To use this API, you must have the required permissions. For
-more information, see Permissions for storing and restoring AMIs using S3 in the Amazon
-Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI using
-S3 in the Amazon Elastic Compute Cloud User Guide.
+more information, see Permissions for storing and restoring AMIs using Amazon S3 in the
+Amazon Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI
+using Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -16746,8 +16745,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Reservation remains active until you explicitly cancel it. Do not provide an EndDate value
   if EndDateType is unlimited.    limited - The Capacity Reservation expires automatically at
   a specified date and time. You must provide an EndDate value if EndDateType is limited.
-- `"InstanceCount"`: The number of instances for which to reserve capacity. Valid range: 1
-  - 1000
+- `"InstanceCount"`: The number of instances for which to reserve capacity. The number of
+  instances can't be increased or decreased by more than 1000 in a single request.
 """
 function modify_capacity_reservation(
     CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -17241,30 +17240,29 @@ end
 
 Modifies the specified attribute of the specified AMI. You can specify only one attribute
 at a time. You can use the Attribute parameter to specify the attribute or one of the
-following parameters: Description, LaunchPermission, or ProductCode. AWS Marketplace
-product codes cannot be modified. Images with an AWS Marketplace product code cannot be
-made public. To enable the SriovNetSupport enhanced networking attribute of an image,
-enable SriovNetSupport on an instance and create an AMI from the instance.
+following parameters: Description or LaunchPermission. Images with an Amazon Web Services
+Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced
+networking attribute of an image, enable SriovNetSupport on an instance and create an AMI
+from the instance.
 
 # Arguments
 - `image_id`: The ID of the AMI.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attribute"`: The name of the attribute to modify. The valid values are description,
-  launchPermission, and productCodes.
+- `"Attribute"`: The name of the attribute to modify. The valid values are description and
+  launchPermission.
 - `"Description"`: A new description for the AMI.
 - `"LaunchPermission"`: A new launch permission for the AMI.
 - `"OperationType"`: The operation type. This parameter can be used only when the Attribute
   parameter is launchPermission.
-- `"ProductCode"`: The DevPay product codes. After you add a product code to an AMI, it
-  can't be removed.
+- `"ProductCode"`: Not supported.
 - `"UserGroup"`: The user groups. This parameter can be used only when the Attribute
   parameter is launchPermission.
-- `"UserId"`: The AWS account IDs. This parameter can be used only when the Attribute
-  parameter is launchPermission.
+- `"UserId"`: The Amazon Web Services account IDs. This parameter can be used only when the
+  Attribute parameter is launchPermission.
 - `"Value"`: The value of the attribute being modified. This parameter can be used only
-  when the Attribute parameter is description or productCodes.
+  when the Attribute parameter is description.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -17685,7 +17683,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PartitionNumber"`: Reserved for future use.
 - `"affinity"`: The affinity setting for the instance.
 - `"hostId"`: The ID of the Dedicated Host with which to associate the instance.
-- `"tenancy"`: The tenancy for the instance.
+- `"tenancy"`: The tenancy for the instance. For T3 instances, you can't change the tenancy
+  from dedicated to host, or from host to dedicated. Attempting to make one of these
+  unsupported tenancy changes results in the InvalidTenancy error code.
 """
 function modify_instance_placement(
     instanceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -17762,7 +17762,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"MaxEntries"`: The maximum number of entries for the prefix list. You cannot modify the
-  entries of a prefix list and modify the size of a prefix list at the same time.
+  entries of a prefix list and modify the size of a prefix list at the same time. If any of
+  the resources that reference the prefix list cannot support the new maximum size, the
+  modify operation fails. Check the state message for the IDs of the first ten resources that
+  do not support the new maximum size.
 - `"PrefixListName"`: A name for the prefix list.
 - `"RemoveEntry"`: One or more entries to remove from the prefix list.
 """
@@ -19479,22 +19482,22 @@ create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. Y
 the snapshot using a block device mapping. You can't set the encryption state of the volume
 using the block device mapping. If the snapshot is encrypted, or encryption by default is
 enabled, the root volume of an instance launched from the AMI is encrypted. For more
-information, see Create a Linux AMI from a snapshot and Use encryption with EBS-backed AMIs
-in the Amazon Elastic Compute Cloud User Guide.  AWS Marketplace product codes  If any
-snapshots have AWS Marketplace product codes, they are copied to the new AMI. Windows and
-some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise
-Server (SLES), use the EC2 billing product code associated with an AMI to verify the
-subscription status for package updates. To create a new AMI for operating systems that
-require a billing product code, instead of registering the AMI, do the following to
-preserve the billing product code association:   Launch an instance from an existing AMI
-with that billing product code.   Customize the instance.   Create an AMI from the instance
-using CreateImage.   If you purchase a Reserved Instance to apply to an On-Demand Instance
-that was launched from an AMI with a billing product code, make sure that the Reserved
-Instance has the matching billing product code. If you purchase a Reserved Instance without
-the matching billing product code, the Reserved Instance will not be applied to the
-On-Demand Instance. For information about how to obtain the platform details and billing
-information of an AMI, see Obtaining billing information in the Amazon Elastic Compute
-Cloud User Guide.
+information, see Create a Linux AMI from a snapshot and Use encryption with Amazon
+EBS-backed AMIs in the Amazon Elastic Compute Cloud User Guide.  Amazon Web Services
+Marketplace product codes  If any snapshots have Amazon Web Services Marketplace product
+codes, they are copied to the new AMI. Windows and some Linux distributions, such as Red
+Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2
+billing product code associated with an AMI to verify the subscription status for package
+updates. To create a new AMI for operating systems that require a billing product code,
+instead of registering the AMI, do the following to preserve the billing product code
+association:   Launch an instance from an existing AMI with that billing product code.
+Customize the instance.   Create an AMI from the instance using CreateImage.   If you
+purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an
+AMI with a billing product code, make sure that the Reserved Instance has the matching
+billing product code. If you purchase a Reserved Instance without the matching billing
+product code, the Reserved Instance will not be applied to the On-Demand Instance. For
+information about how to obtain the platform details and billing information of an AMI, see
+Understanding AMI billing in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `name`: A name for your AMI. Constraints: 3-128 alphanumeric characters, parentheses
@@ -19504,14 +19507,14 @@ Cloud User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BillingProduct"`: The billing product codes. Your account must be authorized to specify
-  billing product codes. Otherwise, you can use the AWS Marketplace to bill for the use of an
-  AMI.
-- `"BlockDeviceMapping"`: The block device mapping entries. If you specify an EBS volume
-  using the ID of an EBS snapshot, you can't specify the encryption state of the volume. If
-  you create an AMI on an Outpost, then all backing snapshots must be on the same Outpost or
-  in the Region of that Outpost. AMIs on an Outpost that include local snapshots can be used
-  to launch instances on the same Outpost only. For more information,  Amazon EBS local
-  snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide.
+  billing product codes. Otherwise, you can use the Amazon Web Services Marketplace to bill
+  for the use of an AMI.
+- `"BlockDeviceMapping"`: The block device mapping entries. If you specify an Amazon EBS
+  volume using the ID of an Amazon EBS snapshot, you can't specify the encryption state of
+  the volume. If you create an AMI on an Outpost, then all backing snapshots must be on the
+  same Outpost or in the Region of that Outpost. AMIs on an Outpost that include local
+  snapshots can be used to launch instances on the same Outpost only. For more information,
+  Amazon EBS local snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide.
 - `"BootMode"`: The boot mode of the AMI. For more information, see Boot modes in the
   Amazon Elastic Compute Cloud User Guide.
 - `"ImageLocation"`: The full path to your AMI manifest in Amazon S3 storage. The specified
@@ -20565,8 +20568,7 @@ end
     reset_image_attribute(attribute, image_id)
     reset_image_attribute(attribute, image_id, params::Dict{String,<:Any})
 
-Resets an attribute of an AMI to its default value.  The productCodes attribute can't be
-reset.
+Resets an attribute of an AMI to its default value.
 
 # Arguments
 - `attribute`: The attribute to reset (currently you can only reset the launch permission
@@ -21075,7 +21077,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. Valid values are standard and unlimited. To change this attribute after launch,
   use  ModifyInstanceCreditSpecification. For more information, see Burstable performance
   instances in the Amazon EC2 User Guide. Default: standard (T2 instances) or unlimited
-  (T3/T3a instances)
+  (T3/T3a instances) For T3 instances with host tenancy, only standard is supported.
 - `"ElasticGpuSpecification"`: An elastic GPU to associate with the instance. An Elastic
   GPU is a GPU resource that you can attach to your Windows instance to accelerate the
   graphics performance of your applications. For more information, see Amazon EC2 Elastic
@@ -21484,8 +21486,11 @@ time. Every time you start your instance, Amazon EC2 charges a one-minute minimu
 instance usage, and thereafter charges per second for instance usage. Before stopping an
 instance, make sure it is in a state from which it can be restarted. Stopping an instance
 does not preserve data stored in RAM. Performing this operation on an instance that uses an
-instance store as its root device returns an error. For more information, see Stopping
-instances in the Amazon EC2 User Guide.
+instance store as its root device returns an error. If you attempt to start a T3 instance
+with host tenancy and the unlimted CPU credit option, the request fails. The unlimited CPU
+credit option is not supported on Dedicated Hosts. Before you start the instance, either
+change its CPU credit option to standard, or change its tenancy to default or dedicated.
+For more information, see Stopping instances in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.
