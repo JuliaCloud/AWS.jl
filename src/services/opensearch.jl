@@ -927,6 +927,10 @@ end
 
 Returns the names of all domains owned by the current user's account.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"engineType"`:  Optional parameter to filter the output by domain engine type.
+  Acceptable values are 'Elasticsearch' and 'OpenSearch'.
 """
 function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearch("GET", "/2021-01-01/domain"; aws_config=aws_config)
