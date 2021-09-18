@@ -55,7 +55,8 @@ end
 Applies a pending maintenance action to a resource (for example, to a replication instance).
 
 # Arguments
-- `apply_action`: The pending maintenance action to apply to this resource.
+- `apply_action`: The pending maintenance action to apply to this resource. Valid values:
+  os-upgrade, system-update, db-upgrade
 - `opt_in_type`: A value that specifies the type of opt-in request, or undoes an opt-in
   request. You can't undo an opt-in request of type immediate. Valid values:    immediate -
   Apply the maintenance action immediately.    next-maintenance - Apply the maintenance
@@ -176,12 +177,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseName"`: The name of the endpoint database. For a MySQL source or target
   endpoint, do not specify DatabaseName.
 - `"DmsTransferSettings"`: The settings in JSON format for the DMS transfer type of source
-  endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The IAM role
-  that has permission to access the Amazon S3 bucket. The role must allow the iam:PassRole
-  action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these
-  settings is as follows: ServiceAccessRoleArn=string,BucketName=string  JSON syntax for
-  these settings is as follows: { \"ServiceAccessRoleArn\": \"string\", \"BucketName\":
-  \"string\", }
+  endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The Amazon
+  Resource Name (ARN) used by the service access IAM role. The role must allow the
+  iam:PassRole action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax
+  for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string  JSON
+  syntax for these settings is as follows: { \"ServiceAccessRoleArn\": \"string\",
+  \"BucketName\": \"string\", }
 - `"DocDbSettings"`:
 - `"DynamoDbSettings"`: Settings in JSON format for the target Amazon DynamoDB endpoint.
   For information about other available settings, see Using Object Mapping to Migrate Data to
@@ -482,7 +483,10 @@ end
     create_replication_subnet_group(replication_subnet_group_description, replication_subnet_group_identifier, subnet_ids)
     create_replication_subnet_group(replication_subnet_group_description, replication_subnet_group_identifier, subnet_ids, params::Dict{String,<:Any})
 
-Creates a replication subnet group given a list of the subnet IDs in a VPC.
+Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs
+to have at least one subnet in at least two availability zones in the Amazon Web Services
+Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs
+exception.
 
 # Arguments
 - `replication_subnet_group_description`: The description for the subnet group.
@@ -1809,12 +1813,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseName"`: The name of the endpoint database. For a MySQL source or target
   endpoint, do not specify DatabaseName.
 - `"DmsTransferSettings"`: The settings in JSON format for the DMS transfer type of source
-  endpoint.  Attributes include the following:   serviceAccessRoleArn - The Identity and
-  Access Management (IAM) role that has permission to access the Amazon S3 bucket. The role
-  must allow the iam:PassRole action.   BucketName - The name of the S3 bucket to use.
-  Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string
-  ,BucketName=string  JSON syntax for these settings is as follows: {
-  \"ServiceAccessRoleArn\": \"string\", \"BucketName\": \"string\"}
+  endpoint.  Attributes include the following:   serviceAccessRoleArn - The Amazon Resource
+  Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole
+  action.   BucketName - The name of the S3 bucket to use.   Shorthand syntax for these
+  settings is as follows: ServiceAccessRoleArn=string ,BucketName=string  JSON syntax for
+  these settings is as follows: { \"ServiceAccessRoleArn\": \"string\", \"BucketName\":
+  \"string\"}
 - `"DocDbSettings"`: Settings in JSON format for the source DocumentDB endpoint. For more
   information about the available settings, see the configuration properties section in
   Using DocumentDB as a Target for Database Migration Service  in the Database Migration
@@ -2230,7 +2234,12 @@ replication instance becomes available again.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ForceFailover"`: If this parameter is true, the reboot is conducted through a Multi-AZ
-  failover. (If the instance isn't configured for Multi-AZ, then you can't specify true.)
+  failover. If the instance isn't configured for Multi-AZ, then you can't specify true. (
+  --force-planned-failover and --force-failover can't both be set to true.)
+- `"ForcePlannedFailover"`: If this parameter is true, the reboot is conducted through a
+  planned Multi-AZ failover where resources are released and cleaned up prior to conducting
+  the failover. If the instance isn''t configured for Multi-AZ, then you can't specify true.
+  ( --force-planned-failover and --force-failover can't both be set to true.)
 """
 function reboot_replication_instance(
     ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2310,7 +2319,9 @@ end
     reload_tables(replication_task_arn, tables_to_reload)
     reload_tables(replication_task_arn, tables_to_reload, params::Dict{String,<:Any})
 
-Reloads the target database table with the source data.
+Reloads the target database table with the source data.  You can only use this operation
+with a task in the RUNNING state, otherwise the service will throw an
+InvalidResourceStateFault exception.
 
 # Arguments
 - `replication_task_arn`: The Amazon Resource Name (ARN) of the replication task.
