@@ -43,24 +43,26 @@ function mime_type(r::Response)
     return T
 end
 
-function read(r::Response)
+function Base.parse(f::Function, r::Response)
     M = mime_type(r)
-    return AWS.read(r.io, M())
+    return f(r.io, M())
 end
 
-function read(io::IO, ::MIME"application/xml")
+Base.parse(r::Response) = parse(_read, r)
+
+function _read(io::IO, ::MIME"application/xml")
     xml = parse_xml(Base.read(io, String))
     root = XMLDict.root(xml.x)  # Drop XML declaration
     return xml_dict(root, OrderedDict{Union{String,Symbol},Any})
 end
 
-function read(io::IO, ::MIME"application/json")
+function _read(io::IO, ::MIME"application/json")
     # Note: Using JSON instead of JSON3 does not support OrderedDict
     return JSON.parse(io; dicttype=OrderedDict{String,Any})
 end
 
-read(io::IO, ::MIME"text/plain") = Base.read(io, String)
-read(io::IO, ::MIME) = Base.read(io)
+_read(io::IO, ::MIME"text/plain") = Base.read(io, String)
+_read(io::IO, ::MIME) = Base.read(io)
 
 # Dict-like access
 
@@ -68,7 +70,7 @@ read(io::IO, ::MIME) = Base.read(io)
 function _dict(r::Response)
     if !isassigned(r.dict)
         dict = _rewind(r.io) do io
-            AWS.read(r)::AbstractDict  # Uses `r.io` internally
+            parse(r)::AbstractDict  # Uses `r.io` internally
         end
 
         r.dict[] = dict
@@ -84,7 +86,7 @@ Base.values(r::Response) = values(_dict(r))
 
 function Base.iterate(r::Response)
     iter = _rewind(r.io) do io
-        AWS.read(r)
+        parse(r)
     end
 
     x = iterate(iter)
@@ -108,7 +110,7 @@ function Base.show(io::IO, m::MIME"text/plain", r::Response)
 
     # `show` should not consume the buffer
     content = _rewind(r.io) do io
-        AWS.read(r)  # Uses `r.io` internally
+        parse(r)  # Uses `r.io` internally
     end
     show(io, m, content)
 

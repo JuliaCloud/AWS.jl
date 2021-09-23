@@ -276,7 +276,7 @@ end
                 AWS.submit_request(aws, request)
             end
 
-            content = AWS.read(response)
+            content = parse(response)
             @test content isa expected_body_type
             @test content == expected_body
         end
@@ -291,7 +291,7 @@ end
                 AWS.submit_request(aws, request)
             end
 
-            content = AWS.read(response)
+            content = parse(response)
             @test content isa expected_body_type
             @test content == expected_body
         end
@@ -306,7 +306,7 @@ end
                 AWS.submit_request(aws, request)
             end
 
-            content = AWS.read(response)
+            content = parse(response)
             @test content isa expected_body_type
             @test content == expected_body
         end
@@ -335,7 +335,7 @@ end
                 AWS.submit_request(aws, request)
             end
 
-            content = AWS.read(response)
+            content = parse(response)
             @test content isa expected_body_type
             @test content == expected_body
         end
@@ -349,7 +349,7 @@ end
                 AWS.submit_request(aws, request)
             end
 
-            content = AWS.read(response)
+            content = parse(response)
             @test content isa String
             @test content == expected_body
         end
