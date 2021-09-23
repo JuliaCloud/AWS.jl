@@ -36,6 +36,8 @@ include(joinpath("utilities", "response.jl"))
 include(joinpath("utilities", "sign.jl"))
 include(joinpath("utilities", "downloads_backend.jl"))
 
+include("deprecated.jl")
+
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
@@ -228,7 +230,7 @@ function (service::RestXMLService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    _delete_outdated_kw_args!(args)
+    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -254,7 +256,7 @@ function (service::RestXMLService)(
         aws_config, service.endpoint_prefix, request.resource
     )
 
-    return submit_request(aws_config, request)
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
 """
@@ -282,7 +284,7 @@ function (service::QueryService)(
     feature_set::FeatureSet=FeatureSet(),
 )
     POST_RESOURCE = "/"
-    _delete_outdated_kw_args!(args)
+    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -297,7 +299,7 @@ function (service::QueryService)(
     args["Version"] = service.api_version
     request.content = HTTP.escapeuri(_flatten_query(service.signing_name, args))
 
-    return submit_request(aws_config, request)
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
 """
@@ -325,7 +327,7 @@ function (service::JSONService)(
     feature_set::FeatureSet=FeatureSet(),
 )
     POST_RESOURCE = "/"
-    _delete_outdated_kw_args!(args)
+    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -338,7 +340,7 @@ function (service::JSONService)(
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
 
-    return submit_request(aws_config, request)
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
 """
@@ -367,7 +369,7 @@ function (service::RestJSONService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    _delete_outdated_kw_args!(args)
+    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -386,7 +388,7 @@ function (service::RestJSONService)(
     request.headers["Content-Type"] = "application/json"
     request.content = json(args)
 
-    return submit_request(aws_config, request)
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
 function (service::ServiceWrapper)(args...; feature_set=nothing, kwargs...)

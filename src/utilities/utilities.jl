@@ -66,19 +66,18 @@ function _extract_common_kw_args(service, args)
     return (
         service=service.signing_name,
         api_version=service.api_version,
+        response_stream=_pop!(args, "response_stream", nothing),
         headers=LittleDict{String,String}(_pop!(args, "headers", [])),
         http_options=_pop!(args, "http_options", LittleDict{Symbol,String}()),
         backend=_pop!(args, "backend", DEFAULT_BACKEND[]),
-    )
-end
 
-function _delete_outdated_kw_args!(args)
-    delete!(args, "return_headers")
-    delete!(args, "return_stream")
-    delete!(args, "return_raw")
-    delete!(args, "response_stream")
-    delete!(args, "response_dict_type")
-    return args
+        return_legacy=_pop!(args, "legacy", true),
+
+        # Deprecated keywords
+        return_stream=_pop!(args, "return_stream", nothing),
+        return_raw=_pop!(args, "return_raw", nothing),
+        response_dict_type=_pop!(args, "response_dict_type", nothing),
+    )
 end
 
 # Use this until the three arg pop! is available for LittleDict

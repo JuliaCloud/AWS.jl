@@ -32,10 +32,16 @@ Base.@kwdef mutable struct Request
     resource::String = ""
     url::String = ""
 
+    return_legacy::Bool = true
     response_stream::Union{IO,Nothing} = nothing
 
     http_options::AbstractDict{Symbol,<:Any} = LittleDict{Symbol,String}()
     backend::AbstractBackend = DEFAULT_BACKEND[]
+
+    # Deprecated fields
+    return_stream::Union{Bool,Nothing} = nothing
+    return_raw::Union{Bool,Nothing} = nothing
+    response_dict_type::Union{Type{<:AbstractDict},Nothing} = nothing
 end
 
 """
@@ -50,7 +56,7 @@ Submit the request to AWS.
 # Returns
 - `AWS.Response`: A struct containing the response details
 """
-function submit_request(aws::AbstractAWSConfig, request::Request)
+function submit_request(aws::AbstractAWSConfig, request::Request; return_headers=nothing)
     aws_response = nothing
     TOO_MANY_REQUESTS = 429
     EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
@@ -126,7 +132,11 @@ function submit_request(aws::AbstractAWSConfig, request::Request)
         end
     end
 
-    return aws_response
+    if request.return_legacy
+        return legacy_response(request, aws_response; return_headers=return_headers)
+    else
+        return aws_response
+    end
 end
 
 function _http_request(http_backend::HTTPBackend, request::Request, response_stream::IO)
