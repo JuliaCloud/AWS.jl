@@ -907,7 +907,7 @@ end
             # PUT with parameters operation
             body = Array{UInt8}("sample-file-body")
             AWSServices.s3("PUT", "/$bucket_name/$file_name", Dict("body" => body))
-            @test AWSServices.s3("GET", "/$bucket_name/$file_name").body == body
+            @test AWSServices.s3("GET", "/$bucket_name/$file_name") == body
 
             # GET operation
             result = AWSServices.s3("GET", "/$bucket_name")
@@ -961,7 +961,7 @@ end
             end
 
             for vault in vault_names
-                result_tags = Dict(Glacier.list_tags_for_vault("-", vault))
+                result_tags = Glacier.list_tags_for_vault("-", vault)
                 @test result_tags == tags
             end
 
@@ -1005,7 +1005,7 @@ end
             end
 
             for vault in vault_names
-                result_tags = Dict(AWSServices.glacier("GET", "/-/vaults/$vault/tags"))
+                result_tags = AWSServices.glacier("GET", "/-/vaults/$vault/tags")
 
                 @test result_tags == tags
             end
