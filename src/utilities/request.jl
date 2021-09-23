@@ -32,6 +32,8 @@ Base.@kwdef mutable struct Request
     resource::String = ""
     url::String = ""
 
+    response_stream::Union{IO,Nothing} = nothing
+
     http_options::AbstractDict{Symbol,<:Any} = LittleDict{Symbol,String}()
     backend::AbstractBackend = DEFAULT_BACKEND[]
 end
@@ -67,7 +69,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request)
 
     request.headers["User-Agent"] = user_agent[]
     request.headers["Host"] = HTTP.URI(request.url).host
-    stream = IOBuffer()
+    stream = @something request.response_stream IOBuffer()
 
     @repeat 3 try
         credentials(aws) === nothing || sign!(aws, request)

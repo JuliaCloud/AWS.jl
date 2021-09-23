@@ -40,8 +40,11 @@ try
     @test String(S3.get_object("anewbucket", "myobject")) == "Hi from Minio"
 
     # Test retrieving an object into a stream target
-    response = S3.get_object("anewbucket", "myobject")
-    @test read(response.io, String) == "Hi from Minio"
+    mktemp() do f, io
+        S3.get_object("anewbucket", "myobject", Dict("response_stream" => io))
+        flush(io)
+        @test read(f, String) == "Hi from Minio"
+    end
 
     # Test listing
     objs = S3.list_objects_v2("anewbucket")
