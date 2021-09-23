@@ -44,7 +44,9 @@ using ..AWSExceptions: AWSException
 const user_agent = Ref("AWS.jl/1.0.0")
 const aws_config = Ref{AbstractAWSConfig}()
 
-Base.@kwdef struct FeatureSet end
+Base.@kwdef struct FeatureSet
+    use_response_type::Bool = false
+end
 
 """
     global_aws_config()
@@ -230,10 +232,13 @@ function (service::RestXMLService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
+    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
+
     return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
+        use_response_type=feature_set.use_response_type,
         request_method=request_method,
         content=_pop!(args, "body", ""),
     )
@@ -283,11 +288,14 @@ function (service::QueryService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
+    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
+
     POST_RESOURCE = "/"
     return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
+        use_response_type=feature_set.use_response_type,
         resource=POST_RESOURCE,
         request_method="POST",
         url=generate_service_url(aws_config, service.endpoint_prefix, POST_RESOURCE),
@@ -326,11 +334,14 @@ function (service::JSONService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
+    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
+
     POST_RESOURCE = "/"
     return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
+        use_response_type=feature_set.use_response_type,
         resource=POST_RESOURCE,
         request_method="POST",
         content=json(args),
@@ -369,10 +380,13 @@ function (service::RestJSONService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
+    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
+
     return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
+        use_response_type=feature_set.use_response_type,
         request_method=request_method,
         resource=_generate_rest_resource(request_uri, args),
     )

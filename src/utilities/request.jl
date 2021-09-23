@@ -32,13 +32,13 @@ Base.@kwdef mutable struct Request
     resource::String = ""
     url::String = ""
 
-    return_legacy::Bool = true
     response_stream::Union{IO,Nothing} = nothing
 
     http_options::AbstractDict{Symbol,<:Any} = LittleDict{Symbol,String}()
     backend::AbstractBackend = DEFAULT_BACKEND[]
 
     # Deprecated fields
+    use_response_type::Bool = false
     return_stream::Union{Bool,Nothing} = nothing
     return_raw::Union{Bool,Nothing} = nothing
     response_dict_type::Union{Type{<:AbstractDict},Nothing} = nothing
@@ -132,10 +132,10 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         end
     end
 
-    if request.return_legacy
-        return legacy_response(request, aws_response; return_headers=return_headers)
-    else
+    if request.use_response_type
         return aws_response
+    else
+        return legacy_response(request, aws_response; return_headers=return_headers)
     end
 end
 
