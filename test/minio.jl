@@ -21,7 +21,9 @@ end
 
 AWS.global_aws_config(
     MinioConfig(
-        "http://127.0.0.1:9000", "aregion", SimpleCredentials("minio", "minio123", "")
+        "http://127.0.0.1:9000",
+        ENV["MINIO_REGION_NAME"],
+        SimpleCredentials(ENV["MINIO_ACCESS_KEY"], ENV["MINIO_SECRET_KEY"], ""),
     ),
 )
 datadir = joinpath(dirname(pathof(AWS)), "..", "data")
