@@ -38,6 +38,10 @@ Mocking.activate()
 
 include("patch.jl")
 
+const TEST_MINIO = begin
+    all(k -> haskey(ENV, k), ("MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "MINIO_REGION_NAME"))
+end
+
 aws = AWSConfig()
 
 function _now_formatted()
@@ -58,7 +62,7 @@ end
         include("AWSCredentials.jl")
         include("issues.jl")
 
-        if haskey(ENV, "TEST_MINIO")
+        if TEST_MINIO
             include("minio.jl")
         end
     end

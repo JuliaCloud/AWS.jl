@@ -34,6 +34,10 @@ jobs:
           - os: ubuntu-latest
             version: "1.5"
             arch: x64
+    env:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+      MINIO_REGION_NAME: aregion
     steps:
       - uses: actions/checkout@v2
       - if: matrix.os == 'ubuntu-latest'
@@ -41,9 +45,6 @@ jobs:
       - if: matrix.os == 'macOS-latest'
         run: curl -LO https://dl.minio.io/server/minio/release/darwin-amd64/minio
       - run: |
-          export MINIO_ACCESS_KEY=minio
-          export MINIO_SECRET_KEY=minio123
-          export MINIO_REGION_NAME=aregion
           mkdir data
           chmod +x ./minio
           ./minio server --compat --quiet data 2>&1 > minio.log &
@@ -65,11 +66,10 @@ jobs:
       - run: |
           git config --global user.name Tester
           git config --global user.email te@st.er
-      - env:
+      - uses: julia-actions/julia-runtest@latest
+        env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          TEST_MINIO: true
-        uses: julia-actions/julia-runtest@latest
   slack:
     name: Notify Slack Failure
     needs: test
