@@ -4,17 +4,21 @@ function legacy_response(
     response_dict_type = something(request.response_dict_type, LittleDict)
     return_headers = something(return_headers, false)
 
+    # The stored service name is always lowercase and may not match the module name
+    # specified by the user. We'll assume that the typical casing used is titlecase.
+    alt_service = "@service $(titlecase(request.service)) use_response_type=true"
+
     # if response_dict_type !== nothing
     #     Base.depwarn(
     #         "The keyword `response_dict_type` is deprecated,
-    #         "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+    #         "use `$alt_service` instead to return an `AWS.Response` allowing for " *
     #         "direct access and app)
 
     # For HEAD request, return headers...
     if request.request_method == "HEAD"
         Base.depwarn(
             "Using \"HEAD\" in AWS requests to return headers is deprecated, " *
-            "use `legacy=false` to return an `AWS.Response` allowing for " *
+            "use `$alt_service` to return an `AWS.Response` allowing for " *
             "header access via " *
             "`$(response_dict_type)(response.headers)`.",
             :legacy_response,
@@ -27,7 +31,7 @@ function legacy_response(
     if something(request.return_stream, false)
         Base.depwarn(
             "The keyword `return_stream` is deprecated, " *
-            "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+            "use `$alt_service` instead to return an `AWS.Response` allowing for " *
             "streaming access via `response.io`.",
             :legacy_response,
         )
@@ -40,7 +44,7 @@ function legacy_response(
         if return_headers
             Base.depwarn(
                 "The keywords `return_raw` and `return_headers` are deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "raw data and header access via " *
                 "`response.body`/`response.header`.",
                 :legacy_response,
@@ -48,7 +52,7 @@ function legacy_response(
         else
             Base.depwarn(
                 "The keyword `return_raw` is deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "raw data access via " *
                 "`response.body`.",
                 :legacy_response,
@@ -73,7 +77,7 @@ function legacy_response(
         if return_headers
             Base.depwarn(
                 "The keyword `return_headers` is deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "parsed XML and header access via " *
                 "`parse(response)`/`$(response_dict_type)(response.header)` respectively",
                 :legacy_response,
@@ -81,7 +85,7 @@ function legacy_response(
         else
             Base.depwarn(
                 "Returning the parsed AWS response is deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "parsed XML access via " *
                 "`parse(response.body)`.",
                 :legacy_response,
@@ -103,7 +107,7 @@ function legacy_response(
         if return_headers
             Base.depwarn(
                 "The keyword `return_headers` is deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "parsed JSON and header access via " *
                 "`parse(response)`/`$(response_dict_type)(response.header)` respectively",
                 :legacy_response,
@@ -111,7 +115,7 @@ function legacy_response(
         else
             Base.depwarn(
                 "Returning the parsed AWS response is deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "parsed JSON access via " *
                 "`parse(response.body)`.",
                 :legacy_response,
@@ -125,15 +129,15 @@ function legacy_response(
         if return_headers
             Base.depwarn(
                 "The keyword `return_headers` is deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "raw string data and header access via " *
                 "`String(response.body)`/`$(response_dict_type)(response.header)` respectively.",
                 :legacy_response,
             )
         else
             Base.depwarn(
-                "Returning the AWS response body is deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "Returning the raw AWS response body is deprecated, " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "raw string data access via " *
                 "`String(response.body)`.",
                 :legacy_response,
@@ -145,15 +149,15 @@ function legacy_response(
         if return_headers
             Base.depwarn(
                 "The keyword `return_headers` is deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "raw data and header access via " *
                 "`response.body`/`response.header` respectively.",
                 :legacy_response,
             )
         else
             Base.depwarn(
-                "Returning the AWS response body is deprecated, " *
-                "use `legacy=false` instead to return an `AWS.Response` allowing for " *
+                "Returning the raw AWS response body is deprecated, " *
+                "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "raw data access via " *
                 "`response.body`.",
                 :legacy_response,
