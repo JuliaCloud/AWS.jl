@@ -61,3 +61,21 @@ end
 
     @test AWS._merge("a", "b") == expected
 end
+
+@testset "_assignment_to_kw!" begin
+    @testset "non-expression" begin
+        ex = :(true)
+        @test_throws ArgumentError AWS._assignment_to_kw!(ex)
+    end
+
+    @testset "non-assignment" begin
+        ex = :(a => true)
+        @test_throws ArgumentError AWS._assignment_to_kw!(ex)
+    end
+
+    @testset "assignment" begin
+        ex = :(a = true)
+        @test AWS._assignment_to_kw!(ex) == Expr(:kw, :a, true)
+        @test ex == Expr(:kw, :a, true)
+    end
+end

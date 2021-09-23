@@ -41,6 +41,8 @@ using ..AWSExceptions: AWSException
 const user_agent = Ref("AWS.jl/1.0.0")
 const aws_config = Ref{AbstractAWSConfig}()
 
+Base.@kwdef struct FeatureSet end
+
 """
     global_aws_config()
 
@@ -122,12 +124,17 @@ using AWS: @service
 # Return
 - `Expression`: Base.include() call to introduce the high-level service API wrapper functions in your namespace
 """
-macro service(module_name::Symbol)
+macro service(module_name::Symbol, features...)
     service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
+    map(_assignment_to_kw!, features)
 
-    return Expr(:toplevel, :(module ($(esc(module_name)))
-    Base.include($(esc(module_name)), $(esc(service_name)))
-    end))
+    module_block = quote
+        using AWS: FeatureSet
+        const SERVICE_FEATURE_SET = FeatureSet(; $(features...))
+        include($service_name)
+    end
+
+    return Expr(:toplevel, Expr(:module, true, esc(module_name), esc(module_block)))
 end
 
 struct RestXMLService
@@ -207,6 +214,7 @@ function (service::RestXMLService)(
     request_uri::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
+    feature_set::FeatureSet=FeatureSet(),
 )
     return_headers = _pop!(args, "return_headers", false)
 
@@ -259,6 +267,7 @@ function (service::QueryService)(
     operation::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
+    feature_set::FeatureSet=FeatureSet(),
 )
     POST_RESOURCE = "/"
     return_headers = _pop!(args, "return_headers", false)
@@ -301,6 +310,7 @@ function (service::JSONService)(
     operation::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
+    feature_set::FeatureSet=FeatureSet(),
 )
     POST_RESOURCE = "/"
     return_headers = _pop!(args, "return_headers", false)
@@ -343,6 +353,7 @@ function (service::RestJSONService)(
     request_uri::String,
     args::AbstractDict{String,<:Any}=Dict{String,String}();
     aws_config::AbstractAWSConfig=global_aws_config(),
+    feature_set::FeatureSet=FeatureSet(),
 )
     return_headers = _pop!(args, "return_headers", false)
 
