@@ -1,4 +1,4 @@
-@service S3
+@service S3 use_response_type = true
 struct MinioConfig <: AbstractAWSConfig
     endpoint::String
     region::String
