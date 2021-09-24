@@ -80,19 +80,25 @@ _assume_role_patch = function (
     session_token="token",
     role_arn="arn:aws:sts:::assumed-role/role-name",
 )
-    @patch function AWSServices.sts(op, params; aws_config)
-        return Dict(
-            "$(op)Result" => Dict(
-                "Credentials" => Dict(
-                    "AccessKeyId" => access_key,
-                    "SecretAccessKey" => secret_key,
-                    "SessionToken" => session_token,
-                    "Expiration" => string(now(UTC)),
-                ),
-                "AssumedRoleUser" =>
-                    Dict("Arn" => "$(role_arn)/$(params["RoleSessionName"])"),
-            ),
-        )
+    @patch function AWSServices.sts(op, params; aws_config, feature_set)
+        xml = """
+            <$(op)Response xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
+              <$(op)Result>
+                <AssumedRoleUser>
+                  <Arn>$(role_arn)/$(params["RoleSessionName"])</Arn>
+                </AssumedRoleUser>
+                <Credentials>
+                  <AccessKeyId>$access_key</AccessKeyId>
+                  <SecretAccessKey>$secret_key</SecretAccessKey>
+                  <SessionToken>$session_token</SessionToken>
+                  <Expiration>$(now(UTC))</Expiration>
+                </Credentials>
+              </$(op)Result>
+            </$(op)Response>
+            """
+
+        r = _response(; body=xml)
+        return feature_set.use_response_type ? r : parse(r)::AbstractDict
     end
 end
 
