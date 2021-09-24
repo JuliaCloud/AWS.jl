@@ -1,11 +1,11 @@
 macro test_ecode(error_codes, expr)
     quote
         try
-            $expr
+            $(esc(expr))
             @test false
         catch e
             if e isa AWSException
-                @test e.code in [$error_codes;]
+                @test e.code in [$(esc(error_codes));]
             else
                 rethrow(e)
             end
@@ -14,22 +14,23 @@ macro test_ecode(error_codes, expr)
 end
 
 @testset "Load Credentials" begin
+    iam = set_features(AWSServices.iam; use_response_type=true)
+
     user = aws_user_arn(aws)
     @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
     aws.region = "us-east-1"
 
-    @test_ecode("InvalidAction", AWSServices.iam("GetFoo"))
+    @test_ecode("InvalidAction", iam("GetFoo"))
 
     @test_ecode(
-        ["AccessDenied", "NoSuchEntity"],
-        AWSServices.iam("GetUser", Dict("UserName" => "notauser"))
+        ["AccessDenied", "NoSuchEntity"], iam("GetUser", Dict("UserName" => "notauser"))
     )
 
-    @test_ecode("ValidationError", AWSServices.iam("GetUser", Dict("UserName" => "@#!%%!")))
+    @test_ecode("ValidationError", iam("GetUser", Dict("UserName" => "@#!%%!")))
 
     @test_ecode(
         ["AccessDenied", "EntityAlreadyExists"],
-        AWSServices.iam("CreateUser", Dict("UserName" => "root"))
+        iam("CreateUser", Dict("UserName" => "root"))
     )
 end
 

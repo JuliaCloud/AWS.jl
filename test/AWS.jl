@@ -518,7 +518,9 @@ end
     end
 
     @testset "low-level" begin
-        response = AWSServices.sts("GetCallerIdentity")
+        sts = set_features(AWSServices.sts; use_response_type=true)
+
+        response = sts("GetCallerIdentity")
         d = response["GetCallerIdentityResult"]
 
         @test Set(keys(d)) == Set(["Arn", "UserId", "Account"])
@@ -559,18 +561,20 @@ end
     end
 
     @testset "low-level secrets manager" begin
+        secrets_manager = set_features(AWSServices.secrets_manager; use_response_type=true)
+
         secret_name = "aws-jl-test---" * _now_formatted()
         secret_string = "sshhh it is a secret!"
 
         function _get_secret_string(secret_name)
-            response = AWSServices.secrets_manager(
+            response = secrets_manager(
                 "GetSecretValue", LittleDict("SecretId" => secret_name)
             )
 
             return response["SecretString"]
         end
 
-        resp = AWSServices.secrets_manager(
+        resp = secrets_manager(
             "CreateSecret",
             LittleDict(
                 "Name" => secret_name,
@@ -582,7 +586,7 @@ end
         try
             @test _get_secret_string(secret_name) == secret_string
         finally
-            AWSServices.secrets_manager(
+            secrets_manager(
                 "DeleteSecret",
                 LittleDict(
                     "SecretId" => secret_name, "ForceDeleteWithoutRecovery" => "true"
@@ -627,6 +631,8 @@ end
     end
 
     @testset "low-level iam" begin
+        iam = set_features(AWSServices.iam; use_response_type=true)
+
         policy_arn = ""
         expected_policy_name = "aws-jl-test---" * _now_formatted()
         expected_policy_document = LittleDict(
@@ -641,7 +647,7 @@ end
         )
         expected_policy_document = JSON.json(expected_policy_document)
 
-        response = AWSServices.iam(
+        response = iam(
             "CreatePolicy",
             LittleDict(
                 "PolicyName" => expected_policy_name,
@@ -651,19 +657,17 @@ end
         policy_arn = response["CreatePolicyResult"]["Policy"]["Arn"]
 
         try
-            response_policy_version = AWSServices.iam(
+            response_policy_version = iam(
                 "GetPolicyVersion",
                 LittleDict("PolicyArn" => policy_arn, "VersionId" => "v1"),
             )
             response_document = response_policy_version["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
             @test HTTP.unescapeuri(response_document) == expected_policy_document
         finally
-            AWSServices.iam("DeletePolicy", LittleDict("PolicyArn" => policy_arn))
+            iam("DeletePolicy", LittleDict("PolicyArn" => policy_arn))
         end
 
-        @test_throws AWSException AWSServices.iam(
-            "GetPolicy", LittleDict("PolicyArn" => policy_arn)
-        )
+        @test_throws AWSException iam("GetPolicy", LittleDict("PolicyArn" => policy_arn))
     end
 
     @testset "high-level sqs" begin
@@ -719,17 +723,19 @@ end
     end
 
     @testset "low-level sqs" begin
+        sqs = set_features(AWSServices.sqs; use_response_type=true)
+
         queue_name = "aws-jl-test---" * _now_formatted()
         expected_message = "Hello for AWS.jl"
 
         function _get_queue_url(queue_name)
-            result = AWSServices.sqs("GetQueueUrl", LittleDict("QueueName" => queue_name))
+            result = sqs("GetQueueUrl", LittleDict("QueueName" => queue_name))
 
             return result["GetQueueUrlResult"]["QueueUrl"]
         end
 
         # Create Queue
-        AWSServices.sqs("CreateQueue", LittleDict("QueueName" => queue_name))
+        sqs("CreateQueue", LittleDict("QueueName" => queue_name))
 
         queue_url = _get_queue_url(queue_name)
         @test !isempty(queue_url)
@@ -738,17 +744,15 @@ end
             # Change Message Visibility Batch Request
             expected_message_id = "aws-jl-test"
 
-            AWSServices.sqs(
+            sqs(
                 "SendMessage",
                 LittleDict("QueueUrl" => queue_url, "MessageBody" => expected_message),
             )
 
-            response = AWSServices.sqs(
-                "ReceiveMessage", LittleDict("QueueUrl" => queue_url)
-            )
+            response = sqs("ReceiveMessage", LittleDict("QueueUrl" => queue_url))
             receipt_handle = response["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
 
-            response = AWSServices.sqs(
+            response = sqs(
                 "DeleteMessageBatch",
                 LittleDict(
                     "QueueUrl" => queue_url,
@@ -765,17 +769,17 @@ end
             @test message_id == expected_message_id
 
             # Send message
-            AWSServices.sqs(
+            sqs(
                 "SendMessage",
                 LittleDict("QueueUrl" => queue_url, "MessageBody" => expected_message),
             )
 
             # Receive Message
-            result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl" => queue_url))
+            result = sqs("ReceiveMessage", LittleDict("QueueUrl" => queue_url))
             message = result["ReceiveMessageResult"]["Message"]["Body"]
             @test message == expected_message
         finally
-            AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl" => queue_url))
+            sqs("DeleteQueue", LittleDict("QueueUrl" => queue_url))
         end
 
         @test_throws AWSException _get_queue_url(queue_name)
@@ -845,12 +849,14 @@ end
     end
 
     @testset "low-level s3" begin
+        s3 = set_features(AWSServices.s3; use_response_type=true)
+
         bucket_name = "aws-jl-test---" * _now_formatted()
         file_name = "*)=('! +@,:.txt"  # Special characters which S3 allows
 
         function _bucket_exists(bucket_name)
             try
-                AWSServices.s3("HEAD", "/$bucket_name")
+                s3("HEAD", "/$bucket_name")
                 return true
             catch e
                 if e isa AWSException && e.cause.status == 404
@@ -865,22 +871,22 @@ end
         @test _bucket_exists(bucket_name) == false
 
         # PUT operation
-        AWSServices.s3("PUT", "/$bucket_name")
+        s3("PUT", "/$bucket_name")
         @test _bucket_exists(bucket_name)
 
         try
             # PUT with parameters operation
             body = Array{UInt8}("sample-file-body")
-            AWSServices.s3("PUT", "/$bucket_name/$file_name", Dict("body" => body))
-            @test AWSServices.s3("GET", "/$bucket_name/$file_name") == body
+            s3("PUT", "/$bucket_name/$file_name", Dict("body" => body))
+            @test s3("GET", "/$bucket_name/$file_name").body == body
 
             # GET operation
-            result = AWSServices.s3("GET", "/$bucket_name")
+            result = s3("GET", "/$bucket_name")
             @test result["Contents"]["Key"] == file_name
 
             # GET with parameters operation
             max_keys = 1
-            result = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys" => max_keys))
+            result = s3("GET", "/$bucket_name", Dict("max_keys" => max_keys))
             @test length([result["Contents"]]) == max_keys
 
             # POST with parameters operation
@@ -892,11 +898,11 @@ end
                 </Delete>
                 """
 
-            AWSServices.s3("POST", "/$bucket_name?delete", Dict("body" => body))
-            @test_throws AWSException AWSServices.s3("GET", "/$bucket_name/$file_name")
+            s3("POST", "/$bucket_name?delete", Dict("body" => body))
+            @test_throws AWSException s3("GET", "/$bucket_name/$file_name")
         finally
             # DELETE operation
-            AWSServices.s3("DELETE", "/$bucket_name")
+            s3("DELETE", "/$bucket_name")
 
             sleep(2)
         end
@@ -953,12 +959,14 @@ end
     end
 
     @testset "low-level glacier" begin
+        glacier = set_features(AWSServices.glacier; use_response_type=true)
+
         timestamp = _now_formatted()
         vault_names = ["aws-jl-test-01---$timestamp", "aws-jl-test-02---$timestamp"]
 
         # PUT
         for vault in vault_names
-            AWSServices.glacier("PUT", "/-/vaults/$vault")
+            glacier("PUT", "/-/vaults/$vault")
         end
 
         try
@@ -966,11 +974,11 @@ end
             tags = Dict("Tags" => LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
 
             for vault in vault_names
-                AWSServices.glacier("POST", "/-/vaults/$vault/tags?operation=add", tags)
+                glacier("POST", "/-/vaults/$vault/tags?operation=add", tags)
             end
 
             for vault in vault_names
-                result_tags = Dict(AWSServices.glacier("GET", "/-/vaults/$vault/tags"))
+                result_tags = Dict(glacier("GET", "/-/vaults/$vault/tags"))
                 @test result_tags == tags
             end
 
@@ -979,17 +987,17 @@ end
             # "class com.amazon.coral.value.json.numbers.TruncatingBigNumber can not be converted to an String"
             limit = "1"
             params = LittleDict("limit" => limit)
-            result = AWSServices.glacier("GET", "/-/vaults/", params)
+            result = glacier("GET", "/-/vaults/", params)
 
             @test length(result["VaultList"]) == parse(Int, limit)
         finally
             # DELETE
             for vault in vault_names
-                AWSServices.glacier("DELETE", "/-/vaults/$vault")
+                glacier("DELETE", "/-/vaults/$vault")
             end
         end
 
-        result = AWSServices.glacier("GET", "/-/vaults")
+        result = glacier("GET", "/-/vaults")
         res_vault_names = [v["VaultName"] for v in result["VaultList"]]
 
         for vault in vault_names
