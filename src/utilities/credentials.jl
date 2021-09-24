@@ -93,8 +93,13 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
 
     # RoleSessionName Documentation
     # https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
-    role = @mock AWSServices.sts("AssumeRole", params; aws_config=config)
-
+    response = @mock AWSServices.sts(
+        "AssumeRole",
+        params;
+        aws_config=config,
+        feature_set=FeatureSet(; use_response_type=true),
+    )
+    role = parse(response)
     role_creds = role["AssumeRoleResult"]["Credentials"]
 
     return AWSCredentials(
