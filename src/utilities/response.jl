@@ -12,7 +12,7 @@ function Base.getproperty(r::Response, f::Symbol)
         return getfield(r, f)
     elseif f === :body
         # As we're streaming the requests we'll fake the `HTTP.Response` body field
-        return _rewind(Base.read, r.io)::Vector{UInt8}
+        return _rewind(read, r.io)::Vector{UInt8}
     else
         # Pretend like we're an `HTTP.Response` type for any other field access
         return getproperty(r.response, f)
@@ -26,7 +26,7 @@ function mime_type(r::Response)
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 
     # Reading consumes the buffer so this is unsafe currently
-    # if isempty(mime) && Base.read(r.io, 5) == b"<?xml"
+    # if isempty(mime) && read(r.io, 5) == b"<?xml"
     #     "xml"
 
     # e.g. "application/xml" or "text/xml"
@@ -51,7 +51,7 @@ end
 Base.parse(r::Response) = parse(_read, r)
 
 function _read(io::IO, ::MIME"application/xml")
-    xml = parse_xml(Base.read(io, String))
+    xml = parse_xml(read(io, String))
     root = XMLDict.root(xml.x)  # Drop XML declaration
     return xml_dict(root, OrderedDict{Union{String,Symbol},Any})
 end
@@ -61,8 +61,8 @@ function _read(io::IO, ::MIME"application/json")
     return JSON.parse(io; dicttype=OrderedDict{String,Any})
 end
 
-_read(io::IO, ::MIME"text/plain") = Base.read(io, String)
-_read(io::IO, ::MIME) = Base.read(io)
+_read(io::IO, ::MIME"text/plain") = read(io, String)
+_read(io::IO, ::MIME) = read(io)
 
 # Dict-like access
 
@@ -103,7 +103,7 @@ function Base.iterate(r::Response, state)
     return (el, (iter, s))
 end
 
-Base.String(r::Response) = Base.read(r.io, String)
+Base.String(r::Response) = read(r.io, String)
 
 function Base.show(io::IO, m::MIME"text/plain", r::Response)
     println(io, "$(Response): $(mime_type(r)()) interpreted as:")

@@ -58,7 +58,7 @@ AWSException(e::HTTP.StatusError) = AWSException(e, String(copy(e.response.body)
 
 function AWSException(e::HTTP.StatusError, stream::IO)
     seekstart(stream)
-    body = Base.read(stream, String)
+    body = read(stream, String)
     return AWSException(e, body)
 end
 

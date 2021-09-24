@@ -35,7 +35,7 @@ body_length(x::AbstractString) = sizeof(x)
 read_body(x::IOBuffer) = take!(x)
 function read_body(x::IO)
     close(x)
-    return Base.read(x)
+    return read(x)
 end
 
 function _http_request(backend::DownloadsBackend, request::Request, response_stream::IO)
