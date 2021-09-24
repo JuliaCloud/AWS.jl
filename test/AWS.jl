@@ -926,7 +926,7 @@ end
             end
 
             for vault in vault_names
-                result_tags = Glacier.list_tags_for_vault("-", vault)
+                result_tags = Dict(Glacier.list_tags_for_vault("-", vault))
                 @test result_tags == tags
             end
 
@@ -970,8 +970,7 @@ end
             end
 
             for vault in vault_names
-                result_tags = AWSServices.glacier("GET", "/-/vaults/$vault/tags")
-
+                result_tags = Dict(AWSServices.glacier("GET", "/-/vaults/$vault/tags"))
                 @test result_tags == tags
             end
 

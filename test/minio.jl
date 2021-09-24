@@ -74,32 +74,12 @@ try
 
             # Note: Using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
 
-            stream = S3.get_object("anewbucket", file_name, Dict("return_stream" => true))
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test !isopen(stream)
-            else
-                @test isopen(stream)
-            end
+            response = S3.get_object("anewbucket", file_name)
+            @test isopen(response.io)
 
             stream = Base.BufferStream()
             S3.get_object("anewbucket", file_name, Dict("response_stream" => stream))
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test !isopen(stream)
-            else
-                @test_broken isopen(stream)
-            end
-
-            stream = Base.BufferStream()
-            S3.get_object(
-                "anewbucket",
-                file_name,
-                Dict("response_stream" => stream, "return_stream" => true),
-            )
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test !isopen(stream)
-            else
-                @test isopen(stream)
-            end
+            @test isopen(stream)
         finally
             S3.delete_object("anewbucket", file_name)
         end

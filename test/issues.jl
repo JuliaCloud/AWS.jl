@@ -67,11 +67,7 @@ try
             # ERROR: MethodError: no method matching iterate(::Base.BufferStream)
             #   => BUG: header `response_stream` is pushed into the query...
             io = Base.BufferStream()
-            S3.get_object(
-                BUCKET_NAME,
-                file_name,
-                Dict("response_stream" => io, "return_stream" => true),
-            )
+            S3.get_object(BUCKET_NAME, file_name, Dict("response_stream" => io))
             if bytesavailable(io) > 0
                 @test String(readavailable(io)) == body
             else
@@ -92,33 +88,12 @@ try
             # The tests below validate the current behavior of how streams are handled.
             # Note: Avoid using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
 
-            stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test !isopen(stream)
-            else
-                @test isopen(stream)
-            end
+            response = S3.get_object(BUCKET_NAME, file_name)
+            @test isopen(response.io)
 
             stream = Base.BufferStream()
-            S3.get_object(BUCKET_NAME, file_name, Dict("response_stream" => stream))
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test !isopen(stream)
-            else
-                # See: https://github.com/JuliaCloud/AWS.jl/issues/471
-                @test_broken isopen(stream)
-            end
-
-            stream = Base.BufferStream()
-            S3.get_object(
-                BUCKET_NAME,
-                file_name,
-                Dict("response_stream" => stream, "return_stream" => true),
-            )
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test !isopen(stream)
-            else
-                @test isopen(stream)
-            end
+            S3.get_object(BUCKET_NAME, file_name)
+            @test isopen(stream)
         finally
             S3.delete_object(BUCKET_NAME, file_name)
         end
