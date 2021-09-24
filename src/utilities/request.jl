@@ -186,7 +186,6 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
             end
 
             write(response_stream, data)
-            seekstart(response_stream)
         end
 
         return @mock Response(r, response_stream)

@@ -88,8 +88,6 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
             downloader=downloader,
         )
 
-        output !== nothing && seekstart(output)
-
         http_response = HTTP.Response(response.status, response.headers; request=nothing)
 
         if HTTP.iserror(http_response)
