@@ -335,6 +335,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For
   example, a tag with \"Sales\" as the key might be added to a resource to indicate its use
   by the sales department.
+- `"VersionName"`: The version name given to the newly created classifier. Version names
+  can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores
+  (_) are allowed. The version name must be unique among all models with the same classifier
+  name in the account/AWS Region.
 - `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
@@ -494,6 +498,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For
   example, a tag with \"Sales\" as the key might be added to a resource to indicate its use
   by the sales department.
+- `"VersionName"`: The version name given to the newly created recognizer. Version names
+  can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores
+  (_) are allowed. The version name must be unique among all models with the same recognizer
+  name in the account/ AWS Region.
 - `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
   Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
@@ -1279,6 +1287,28 @@ function list_document_classification_jobs(
 end
 
 """
+    list_document_classifier_summaries()
+    list_document_classifier_summaries(params::Dict{String,<:Any})
+
+Gets a list of summaries of the document classifiers that you have created
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return on each page. The default is 100.
+- `"NextToken"`: Identifies the next page of results to return.
+"""
+function list_document_classifier_summaries(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend("ListDocumentClassifierSummaries"; aws_config=aws_config)
+end
+function list_document_classifier_summaries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend("ListDocumentClassifierSummaries", params; aws_config=aws_config)
+end
+
+"""
     list_document_classifiers()
     list_document_classifiers(params::Dict{String,<:Any})
 
@@ -1370,6 +1400,28 @@ function list_entities_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return comprehend("ListEntitiesDetectionJobs", params; aws_config=aws_config)
+end
+
+"""
+    list_entity_recognizer_summaries()
+    list_entity_recognizer_summaries(params::Dict{String,<:Any})
+
+Gets a list of summaries for the entity recognizers that you have created.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return on each page. The default is 100.
+- `"NextToken"`: Identifies the next page of results to return.
+"""
+function list_entity_recognizer_summaries(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend("ListEntityRecognizerSummaries"; aws_config=aws_config)
+end
+function list_entity_recognizer_summaries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend("ListEntityRecognizerSummaries", params; aws_config=aws_config)
 end
 
 """
@@ -2562,31 +2614,31 @@ function untag_resource(
 end
 
 """
-    update_endpoint(desired_inference_units, endpoint_arn)
-    update_endpoint(desired_inference_units, endpoint_arn, params::Dict{String,<:Any})
+    update_endpoint(endpoint_arn)
+    update_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
 Updates information about the specified endpoint.
 
 # Arguments
-- `desired_inference_units`:  The desired number of inference units to be used by the model
-  using this endpoint. Each inference unit represents of a throughput of 100 characters per
-  second.
 - `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being updated.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DesiredDataAccessRoleArn"`: Data access role ARN to use in case the new model is
+  encrypted with a customer CMK.
+- `"DesiredInferenceUnits"`:  The desired number of inference units to be used by the model
+  using this endpoint. Each inference unit represents of a throughput of 100 characters per
+  second.
+- `"DesiredModelArn"`: The ARN of the new model to use when updating an existing endpoint.
 """
-function update_endpoint(
-    DesiredInferenceUnits, EndpointArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config())
     return comprehend(
         "UpdateEndpoint",
-        Dict{String,Any}(
-            "DesiredInferenceUnits" => DesiredInferenceUnits, "EndpointArn" => EndpointArn
-        );
+        Dict{String,Any}("EndpointArn" => EndpointArn);
         aws_config=aws_config,
     )
 end
 function update_endpoint(
-    DesiredInferenceUnits,
     EndpointArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -2594,14 +2646,7 @@ function update_endpoint(
     return comprehend(
         "UpdateEndpoint",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DesiredInferenceUnits" => DesiredInferenceUnits,
-                    "EndpointArn" => EndpointArn,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
         aws_config=aws_config,
     )

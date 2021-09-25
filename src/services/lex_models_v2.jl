@@ -1157,6 +1157,40 @@ function delete_slot_type(
 end
 
 """
+    delete_utterances(bot_id)
+    delete_utterances(bot_id, params::Dict{String,<:Any})
+
+Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot.
+Utterances are stored for 15 days for use with the operation, and then stored indefinitely
+for use in improving the ability of your bot to respond to user input.. Use the
+DeleteUtterances operation to manually delete utterances for a specific session. When you
+use the DeleteUtterances operation, utterances stored for improving your bot's ability to
+respond to user input are deleted immediately. Utterances stored for use with the
+ListAggregatedUtterances operation are deleted after 15 days.
+
+# Arguments
+- `bot_id`: The unique identifier of the bot that contains the utterances.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"localeId"`: The identifier of the language and locale where the utterances were
+  collected. The string must match one of the supported locales. For more information, see
+  Supported languages.
+- `"sessionId"`: The unique identifier of the session with the user. The ID is returned in
+  the response from the and operations.
+"""
+function delete_utterances(botId; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_models_v2("DELETE", "/bots/$(botId)/utterances/"; aws_config=aws_config)
+end
+function delete_utterances(
+    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "DELETE", "/bots/$(botId)/utterances/", params; aws_config=aws_config
+    )
+end
+
+"""
     describe_bot(bot_id)
     describe_bot(bot_id, params::Dict{String,<:Any})
 
@@ -1463,6 +1497,81 @@ function describe_slot_type(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
         params;
+        aws_config=aws_config,
+    )
+end
+
+"""
+    list_aggregated_utterances(aggregation_duration, bot_id, locale_id)
+    list_aggregated_utterances(aggregation_duration, bot_id, locale_id, params::Dict{String,<:Any})
+
+Provides a list of utterances that users have sent to the bot. Utterances are aggregated by
+the text of the utterance. For example, all instances where customers used the phrase \"I
+want to order pizza\" are aggregated into the same line in the response. You can see both
+detected utterances and missed utterances. A detected utterance is where the bot properly
+recognized the utterance and activated the associated intent. A missed utterance was not
+recognized by the bot and didn't activate an intent. Utterances can be aggregated for a bot
+alias or for a bot version, but not both at the same time. Utterances statistics are not
+generated under the following conditions:   The childDirected field was set to true when
+the bot was created.   You are using slot obfuscation with one or more slots.   You opted
+out of participating in improving Amazon Lex.
+
+# Arguments
+- `aggregation_duration`: The time window for aggregating the utterance information. You
+  can specify a time between one hour and two weeks.
+- `bot_id`: The unique identifier of the bot associated with this request.
+- `locale_id`: The identifier of the language and locale where the utterances were
+  collected. For more information, see Supported languages.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"botAliasId"`: The identifier of the bot alias associated with this request. If you
+  specify the bot alias, you can't specify the bot version.
+- `"botVersion"`: The identifier of the bot version associated with this request. If you
+  specify the bot version, you can't specify the bot alias.
+- `"filters"`: Provides the specification of a filter used to limit the utterances in the
+  response to only those that match the filter specification. You can only specify one filter
+  and one string to filter on.
+- `"maxResults"`: The maximum number of utterances to return in each page of results. If
+  there are fewer results than the maximum page size, only the actual number of results are
+  returned. If you don't specify the maxResults parameter, 1,000 results are returned.
+- `"nextToken"`: If the response from the ListAggregatedUtterances operation contains more
+  results that specified in the maxResults parameter, a token is returned in the response.
+  Use that token in the nextToken parameter to return the next page of results.
+- `"sortBy"`: Specifies sorting parameters for the list of utterances. You can sort by the
+  hit count, the missed count, or the number of distinct sessions the utterance appeared in.
+"""
+function list_aggregated_utterances(
+    aggregationDuration, botId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/aggregatedutterances/",
+        Dict{String,Any}(
+            "aggregationDuration" => aggregationDuration, "localeId" => localeId
+        );
+        aws_config=aws_config,
+    )
+end
+function list_aggregated_utterances(
+    aggregationDuration,
+    botId,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/aggregatedutterances/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "aggregationDuration" => aggregationDuration, "localeId" => localeId
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
     )
 end

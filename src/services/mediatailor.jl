@@ -5,6 +5,60 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    configure_logs_for_playback_configuration(percent_enabled, playback_configuration_name)
+    configure_logs_for_playback_configuration(percent_enabled, playback_configuration_name, params::Dict{String,<:Any})
+
+Configures Amazon CloudWatch log settings for a playback configuration.
+
+# Arguments
+- `percent_enabled`: The percentage of session logs that MediaTailor sends to your
+  Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and
+  percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch
+  Logs. MediaTailor decides at random which of the playback configuration sessions to send
+  logs for. If you want to view logs for a specific session, you can use the debug log mode.
+  Valid values: 0 - 100
+- `playback_configuration_name`: The name of the playback configuration.
+
+"""
+function configure_logs_for_playback_configuration(
+    PercentEnabled,
+    PlaybackConfigurationName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "PUT",
+        "/configureLogs/playbackConfiguration",
+        Dict{String,Any}(
+            "PercentEnabled" => PercentEnabled,
+            "PlaybackConfigurationName" => PlaybackConfigurationName,
+        );
+        aws_config=aws_config,
+    )
+end
+function configure_logs_for_playback_configuration(
+    PercentEnabled,
+    PlaybackConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "PUT",
+        "/configureLogs/playbackConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PercentEnabled" => PercentEnabled,
+                    "PlaybackConfigurationName" => PlaybackConfigurationName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     create_channel(outputs, playback_mode, channel_name)
     create_channel(outputs, playback_mode, channel_name, params::Dict{String,<:Any})
 
@@ -21,7 +75,7 @@ Creates a channel.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
-  configure filler slate if your channel uses an LINEAR PlaybackMode.
+  configure filler slate if your channel uses a LINEAR PlaybackMode.
 - `"tags"`: The tags to assign to the channel.
 """
 function create_channel(

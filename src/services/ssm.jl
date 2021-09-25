@@ -83,9 +83,9 @@ end
     associate_ops_item_related_item(association_type, ops_item_id, resource_type, resource_uri)
     associate_ops_item_related_item(association_type, ops_item_id, resource_type, resource_uri, params::Dict{String,<:Any})
 
-Associates a related resource to a Systems Manager OpsCenter OpsItem. For example, you can
-associate an Incident Manager incident or analysis with an OpsItem. Incident Manager is a
-capability of Amazon Web Services Systems Manager.
+Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can
+associate an Incident Manager incident or analysis with an OpsItem. Incident Manager and
+OpsCenter are capabilities of Amazon Web Services Systems Manager.
 
 # Arguments
 - `association_type`: The type of association that you want to create between an OpsItem
@@ -94,8 +94,7 @@ capability of Amazon Web Services Systems Manager.
   related item.
 - `resource_type`: The type of resource that you want to associate with an OpsItem.
   OpsCenter supports the following types:  AWS::SSMIncidents::IncidentRecord: an Incident
-  Manager incident. Incident Manager is a capability of Amazon Web Services Systems Manager.
-  AWS::SSM::Document: a Systems Manager (SSM) document.
+  Manager incident.   AWS::SSM::Document: a Systems Manager (SSM) document.
 - `resource_uri`: The Amazon Resource Name (ARN) of the Amazon Web Services resource that
   you want to associate with the OpsItem.
 
@@ -2376,7 +2375,10 @@ you specify MaxResults in the request, the response includes information up to t
 specified. The number of items returned, however, can be between zero and the value of
 MaxResults. If the service reaches an internal limit while processing the results, it stops
 the operation and returns the matching values up to that point and a NextToken. You can
-specify the NextToken in a subsequent call to get the next set of results.
+specify the NextToken in a subsequent call to get the next set of results.  If you change
+the KMS key alias for the KMS key used to encrypt a parameter, then you must also update
+the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves
+whatever the original key alias was referencing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2577,15 +2579,15 @@ end
     disassociate_ops_item_related_item(association_id, ops_item_id)
     disassociate_ops_item_related_item(association_id, ops_item_id, params::Dict{String,<:Any})
 
-Deletes the association between an OpsItem and a related resource. For example, this API
+Deletes the association between an OpsItem and a related item. For example, this API
 operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a
 capability of Amazon Web Services Systems Manager.
 
 # Arguments
 - `association_id`: The ID of the association for which you want to delete an association
-  between the OpsItem and a related resource.
+  between the OpsItem and a related item.
 - `ops_item_id`: The ID of the OpsItem for which you want to delete an association between
-  the OpsItem and a related resource.
+  the OpsItem and a related item.
 
 """
 function disassociate_ops_item_related_item(
@@ -3286,7 +3288,10 @@ end
     get_parameter_history(name)
     get_parameter_history(name, params::Dict{String,<:Any})
 
-Retrieves the history of all changes to a parameter.
+Retrieves the history of all changes to a parameter.  If you change the KMS key alias for
+the KMS key used to encrypt a parameter, then you must also update the key alias the
+parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the
+original key alias was referencing.
 
 # Arguments
 - `name`: The name of the parameter for which you want to review history.
@@ -3369,9 +3374,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
-- `"ParameterFilters"`: Filters to limit the request results.  For GetParametersByPath, the
-  following filter Key names are supported: Type, KeyId, Label, and DataType. The following
-  Key values are not supported for GetParametersByPath: tag, Name, Path, and Tier.
+- `"ParameterFilters"`: Filters to limit the request results.  The following Key values are
+  supported for GetParametersByPath: Type, KeyId, and Label. The following Key values aren't
+  supported for GetParametersByPath: tag, DataType, Name, Path, and Tier.
 - `"Recursive"`: Retrieve all parameters within a hierarchy.  If a user has access to a
   path, then the user can access all levels of that path. For example, if a user has
   permission to access path /a, then the user can also access /a/b. Even if a user has
@@ -3933,7 +3938,8 @@ end
     list_ops_item_related_items()
     list_ops_item_related_items(params::Dict{String,<:Any})
 
-Lists all related-item resources associated with an OpsItem.
+Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem.
+OpsCenter is a capability of Amazon Web Services Systems Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4568,6 +4574,15 @@ Adds a new task to a maintenance window.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: User-provided idempotency token.
+- `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
+  specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is
+  reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For
+  Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task
+  invocations that are already running continue, but no new task invocations are started.
+  For Run Command tasks: When the cutoff time is reached, the system sends a CancelCommand
+  operation that attempts to cancel the command associated with the task. However, there is
+  no guarantee that the command will be terminated and the underlying process stopped.   The
+  status for tasks that are not completed is TIMED_OUT.
 - `"Description"`: An optional description for the task.
 - `"LoggingInfo"`: A structure containing information about an Amazon Simple Storage
   Service (Amazon S3) bucket to write instance-level logs to.    LoggingInfo has been
@@ -4854,9 +4869,10 @@ Runs commands on one or more managed instances.
 # Arguments
 - `document_name`: The name of the Amazon Web Services Systems Manager document (SSM
   document) to run. This can be a public document or a custom document. To run a shared
-  document belonging to another account, specify the document ARN. For more information about
-  how to use shared documents, see Using shared SSM documents in the Amazon Web Services
-  Systems Manager User Guide.
+  document belonging to another account, specify the document Amazon Resource Name (ARN). For
+  more information about how to use shared documents, see Using shared SSM documents in the
+  Amazon Web Services Systems Manager User Guide.  If you specify a document name or ARN that
+  hasn't been shared with your account, you receive an InvalidDocument error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5721,6 +5737,15 @@ OutputS3BucketName value, the values for Comment and NotificationConfig are remo
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
+  specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is
+  reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For
+  Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task
+  invocations that are already running continue, but no new task invocations are started.
+  For Run Command tasks: When the cutoff time is reached, the system sends a CancelCommand
+  operation that attempts to cancel the command associated with the task. However, there is
+  no guarantee that the command will be terminated and the underlying process stopped.   The
+  status for tasks that are not completed is TIMED_OUT.
 - `"Description"`: The new task description to specify.
 - `"LoggingInfo"`: The new logging location in Amazon S3 to specify.   LoggingInfo has been
   deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs,
@@ -6107,16 +6132,15 @@ service setting for the account.
   /ssm/documents/console/public-sharing-permission
   /ssm/parameter-store/default-parameter-tier
   /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
-- `setting_value`: The new value to specify for the service setting. For the
-  /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the
-  following.   Standard   Advanced   Intelligent-Tiering   For the
-  /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier
-  setting IDs, the setting value can be true or false. For the
-  /ssm/automation/customer-script-log-destination setting ID, the setting value can be
-  CloudWatch. For the /ssm/automation/customer-script-log-group-name setting ID, the setting
-  value can be the name of an Amazon CloudWatch Logs log group. For the
-  /ssm/documents/console/public-sharing-permission setting ID, the setting value can be
-  Enable or Disable.
+- `setting_value`: The new value to specify for the service setting. The following list
+  specifies the available values for each setting.
+  /ssm/parameter-store/default-parameter-tier: Standard, Advanced, Intelligent-Tiering
+  /ssm/parameter-store/high-throughput-enabled: true or false
+  /ssm/managed-instance/activation-tier: true or false
+  /ssm/automation/customer-script-log-destination: CloudWatch
+  /ssm/automation/customer-script-log-group-name: the name of an Amazon CloudWatch Logs log
+  group    /ssm/documents/console/public-sharing-permission: Enable or Disable
+  /ssm/managed-instance/activation-tier: standard or advanced
 
 """
 function update_service_setting(
