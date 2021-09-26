@@ -45,7 +45,10 @@ end
 
 function Base.parse(f::Function, r::Response)
     M = mime_type(r)
-    return f(r.io, M())
+    result = _rewind(r.io) do io
+        f(io, M())
+    end
+    return result
 end
 
 Base.parse(r::Response) = parse(_read, r)
@@ -69,10 +72,7 @@ _read(io::IO, ::MIME) = read(io)
 # TODO: Could be more user friendly
 function _dict(r::Response)
     if !isassigned(r.dict)
-        dict = _rewind(r.io) do io
-            parse(r)::AbstractDict  # Uses `r.io` internally
-        end
-
+        dict = parse(r)::AbstractDict
         r.dict[] = dict
     end
 
@@ -85,10 +85,7 @@ Base.keys(r::Response) = keys(_dict(r))
 Base.values(r::Response) = values(_dict(r))
 
 function Base.iterate(r::Response)
-    iter = _rewind(r.io) do io
-        parse(r)
-    end
-
+    iter = parse(r)
     x = iterate(iter)
     x === nothing && return nothing
     el, s = x
@@ -103,15 +100,12 @@ function Base.iterate(r::Response, state)
     return (el, (iter, s))
 end
 
-Base.String(r::Response) = read(r.io, String)
+Base.String(r::Response) = _rewind(io -> read(io, String), r.io)
 
 function Base.show(io::IO, m::MIME"text/plain", r::Response)
     println(io, "$(Response): $(mime_type(r)()) interpreted as:")
 
-    # `show` should not consume the buffer
-    content = _rewind(r.io) do io
-        parse(r)  # Uses `r.io` internally
-    end
+    content = parse(r)
     show(io, m, content)
 
     return nothing
