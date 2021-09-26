@@ -1,5 +1,5 @@
 """
-Generate the `src/services/{service}.jl` file.
+Generate the `src/services/{service}.gen.jl` file.
 """
 function _generate_high_level_wrapper(
     services::AbstractArray{<:AbstractDict}, repo_name::String, auth::GitHub.OAuth2
@@ -22,7 +22,7 @@ function _generate_high_level_wrapper(
             _generate_high_level_definitions(service_name, protocol, operations, shapes)
         )
 
-        service_path = joinpath(@__DIR__, "..", "services", "$service_name.jl")
+        service_path = joinpath(@__DIR__, "..", "services", "$service_name.gen.jl")
         open(service_path, "w") do f
             println(
                 f,
@@ -41,7 +41,7 @@ end
 
 """
 Generate high-level definitions for the `service`.
-All high-level definitions and documentation to be written into `services/{Service}.jl`
+All high-level definitions and documentation to be written into `services/{Service}.gen.jl`
 """
 function _generate_high_level_definitions(
     service_name::String, protocol::String, operations::AbstractDict, shapes::AbstractDict

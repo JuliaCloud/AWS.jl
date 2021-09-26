@@ -1,5 +1,5 @@
 """
-Generate the low-level `src/AWSServices.jl` file with all definitions.
+Generate the low-level `src/AWSServices.gen.jl` file with all definitions.
 """
 function _generate_low_level_wrappers(
     services::AbstractArray, repo_name::String, auth::GitHub.OAuth2

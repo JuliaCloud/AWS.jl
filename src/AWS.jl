@@ -108,7 +108,7 @@ using AWS: @service
 
 # This does NOT match the filename structure and will error!
 @service secretsmanager
-> ERROR: could not open file /.julia/dev/AWS.jl/src/services/secretsmanager.jl
+> ERROR: could not open file /.julia/dev/AWS.jl/src/services/secretsmanager.gen.jl
 
 # All of the examples below are valid!
 @service Secrets_Manager
@@ -123,7 +123,9 @@ using AWS: @service
 - `Expression`: Base.include() call to introduce the high-level service API wrapper functions in your namespace
 """
 macro service(module_name::Symbol)
-    service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
+    service_name = joinpath(
+        @__DIR__, "services", lowercase(string(module_name)) * ".gen.jl"
+    )
 
     return Expr(:toplevel, :(module ($(esc(module_name)))
     Base.include($(esc(module_name)), $(esc(service_name)))
@@ -166,7 +168,7 @@ function RestJSONService(signing_name::String, endpoint_prefix::String, api_vers
 end
 
 # Needs to be included after the definition of struct otherwise it cannot find them
-include("AWSServices.jl")
+include("AWSServices.gen.jl")
 
 function generate_service_url(aws::AbstractAWSConfig, service::String, resource::String)
     SERVICE_HOST = "amazonaws.com"
