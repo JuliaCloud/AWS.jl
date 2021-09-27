@@ -4,7 +4,7 @@ Generate the `src/services/{service}.jl` file.
 function _generate_high_level_wrapper(
     services::AbstractArray{<:AbstractDict}, repo_name::String, auth::GitHub.OAuth2
 )
-    for service in services
+    Threads.@threads for service in services
         service_name = service["path"]
         @info "Generating high level wrapper for $service_name"
 
