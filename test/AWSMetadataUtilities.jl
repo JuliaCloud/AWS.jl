@@ -6,12 +6,13 @@ function _clean_high_level_definition(definition::String)
     return definition
 end
 
-@testset "_get_aws_sdk_js_files" begin
+@testset "_get_service_files" begin
     apply(Patches._github_tree_patch) do
-        files = _get_aws_sdk_js_files("foobar", GitHub.OAuth2("foobar"))
+        service_files = _get_service_files("foobar", GitHub.OAuth2("foobar"))
 
-        @test length(files) == 1
-        @test files[1] == OrderedDict("path" => "test-2020-01-01.normal.json")
+        @test length(service_files) == 1
+        @test service_files[1] ==
+              ServiceFile("foobar", "test-2020-01-01.normal.json", "test-sha", nothing)
     end
 end
 

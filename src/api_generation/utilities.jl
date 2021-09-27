@@ -1,15 +1,49 @@
+mutable struct ServiceFile
+    repo::String
+    name::String
+    sha::String
+    definition::Union{AbstractDict,Nothing}
+end
+
+function ServiceFile(repo::String, tree_item::AbstractDict)
+    return ServiceFile(repo, tree_item["path"], tree_item["sha"], nothing)
+end
+
+function service_definition(
+    service_file::ServiceFile; auth::GitHub.Authorization=GitHub.AnonymousAuth()
+)
+    if service_file.definition === nothing
+        # Retrieve the contents of the ${service}.normal.json file
+        service_blob = blob(service_file.repo, service_file.sha; auth=auth)
+        def = JSON.parse(String(base64decode(service_blob.content)))
+        service_file.definition = def
+    end
+
+    return service_file.definition
+end
+
+function Base.:(==)(a::ServiceFile, b::ServiceFile)
+    return (
+        a.repo == b.repo &&
+        a.name == b.name &&
+        a.sha == b.sha &&
+        a.definition == b.definition
+    )
+end
+
 """
 Get a list of all AWS service API definition files from the `awsk-sdk-js` GitHub repository.
 """
-function _get_aws_sdk_js_files(repo_name::String, auth::GitHub.OAuth2)
+function _get_service_files(repo_name::String, auth::GitHub.OAuth2)
     master_tree = @mock tree(repo_name, "master"; auth=auth)
     apis_sha = [t for t in master_tree.tree if t["path"] == "apis"][1]["sha"]
     files = @mock tree(repo_name, apis_sha)
-    files = files.tree
+    tree_items = files.tree
 
-    filter!(f -> endswith(f["path"], ".normal.json"), files)
+    filter!(f -> endswith(f["path"], ".normal.json"), tree_items)
+    tree_items = _filter_latest_service_version(tree_items)
 
-    return _filter_latest_service_version(files)
+    return [ServiceFile(repo_name, item) for item in tree_items]
 end
 
 """

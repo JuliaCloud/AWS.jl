@@ -2,7 +2,7 @@
 Generate the `src/services/{service}.jl` file.
 """
 function _generate_high_level_wrapper(
-    services::AbstractArray{<:AbstractDict}, repo_name::String, auth::GitHub.OAuth2
+    service_files::AbstractArray{ServiceFile}, auth::GitHub.OAuth2
 )
     service_dir = joinpath(@__DIR__, "..", "services")
 
@@ -14,12 +14,10 @@ function _generate_high_level_wrapper(
         end
     end
 
-    Threads.@threads for service in services
-        service_name = service["path"]
+    Threads.@threads for service_file in service_files
+        service_name = service_file.name
         @info "Generating high level wrapper for $service_name"
-
-        service_blob = blob(repo_name, service["sha"]; auth=auth)
-        service = JSON.parse(String(base64decode(service_blob.content)))
+        service = service_definition(service_file; auth=auth)
 
         service_name = lowercase(service["metadata"]["serviceId"])
         service_name = replace(service_name, ' ' => '_')
