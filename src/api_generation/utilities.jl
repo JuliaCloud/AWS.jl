@@ -34,7 +34,7 @@ end
 """
 Get a list of all AWS service API definition files from the `awsk-sdk-js` GitHub repository.
 """
-function _get_service_files(repo_name::String, auth::GitHub.OAuth2)
+function _get_service_files(repo_name::String, auth::GitHub.Authorization)
     master_tree = @mock tree(repo_name, "master"; auth=auth)
     apis_sha = [t for t in master_tree.tree if t["path"] == "apis"][1]["sha"]
     files = @mock tree(repo_name, apis_sha)

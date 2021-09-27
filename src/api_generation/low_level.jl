@@ -2,7 +2,7 @@
 Generate the low-level `src/AWSServices.jl` file with all definitions.
 """
 function _generate_low_level_wrappers(
-    service_files::AbstractArray{ServiceFile}, auth::GitHub.OAuth2
+    service_files::AbstractArray{ServiceFile}, auth::GitHub.Authorization
 )
     service_definitions = sort!(_generate_low_level_definitions(service_files, auth))
 
@@ -30,7 +30,7 @@ end
 Get the low-level definitions for all AWS Services.
 """
 function _generate_low_level_definitions(
-    service_files::AbstractArray{ServiceFile}, auth::GitHub.OAuth2
+    service_files::AbstractArray{ServiceFile}, auth::GitHub.Authorization
 )
     low_level_defs = Vector{String}(undef, length(service_files))
 
