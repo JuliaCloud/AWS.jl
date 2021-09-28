@@ -247,6 +247,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is omitted, the default setting of MUTABLE will be used which will allow image tags to be
   overwritten. If IMMUTABLE is specified, all image tags within the repository will be
   immutable which will prevent them from being overwritten.
+- `"registryId"`: The AWS account ID associated with the registry to create the repository.
+  If you do not specify a registry, the default registry is assumed.
 - `"tags"`: The metadata that you apply to the repository to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   Tag keys can have a maximum character length of 128 characters, and tag values can have a
@@ -402,6 +404,49 @@ function delete_repository_policy(
         "DeleteRepositoryPolicy",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    describe_image_replication_status(image_id, repository_name)
+    describe_image_replication_status(image_id, repository_name, params::Dict{String,<:Any})
+
+Returns the replication status for a specified image.
+
+# Arguments
+- `image_id`:
+- `repository_name`: The name of the repository that the image is in.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"registryId"`: The Amazon Web Services account ID associated with the registry. If you
+  do not specify a registry, the default registry is assumed.
+"""
+function describe_image_replication_status(
+    imageId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "DescribeImageReplicationStatus",
+        Dict{String,Any}("imageId" => imageId, "repositoryName" => repositoryName);
+        aws_config=aws_config,
+    )
+end
+function describe_image_replication_status(
+    imageId,
+    repositoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "DescribeImageReplicationStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("imageId" => imageId, "repositoryName" => repositoryName),
+                params,
+            ),
         );
         aws_config=aws_config,
     )

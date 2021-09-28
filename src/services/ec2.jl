@@ -668,7 +668,7 @@ associated with it.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
+  idempotency of the request. For more information, see How to ensure idempotency.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1408,8 +1408,8 @@ end
     attach_vpn_gateway(vpc_id, vpn_gateway_id, params::Dict{String,<:Any})
 
 Attaches a virtual private gateway to a VPC. You can attach one virtual private gateway to
-one VPC at a time. For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site
-VPN User Guide.
+one VPC at a time. For more information, see Amazon Web Services Site-to-Site VPN in the
+Amazon Web Services Site-to-Site VPN User Guide.
 
 # Arguments
 - `vpc_id`: The ID of the VPC.
@@ -1455,7 +1455,8 @@ end
 
 Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules
 act as firewall rules that grant access to networks. You must configure ingress
-authorization rules to enable clients to access resources in AWS or on-premises networks.
+authorization rules to enable clients to access resources in Amazon Web Services or
+on-premises networks.
 
 # Arguments
 - `client_vpn_endpoint_id`: The ID of the Client VPN endpoint.
@@ -1471,7 +1472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   grant all clients who successfully establish a VPN connection access to the network. Must
   be set to true if AccessGroupId is not specified.
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
+  idempotency of the request. For more information, see How to ensure idempotency.
 - `"Description"`: A brief description of the authorization rule.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -2481,14 +2482,14 @@ all client VPN sessions are terminated.
   connection results (successful and unsuccessful)   Reasons for unsuccessful client
   connection requests   Client connection termination time
 - `server_certificate_arn`: The ARN of the server certificate. For more information, see
-  the AWS Certificate Manager User Guide.
+  the Certificate Manager User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientConnectOptions"`: The options for managing connection authorization for new
   client connections.
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
+  idempotency of the request. For more information, see How to ensure idempotency.
 - `"Description"`: A brief description of the Client VPN endpoint.
 - `"DnsServers"`: Information about the DNS servers to be used for DNS resolution. A Client
   VPN endpoint can have up to two DNS servers. If no DNS server is specified, the DNS address
@@ -2500,10 +2501,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network. You must also specify the ID of the VPC that contains the security groups.
 - `"SelfServicePortal"`: Specify whether to enable the self-service portal for the Client
   VPN endpoint. Default Value: enabled
-- `"SplitTunnel"`: Indicates whether split-tunnel is enabled on the AWS Client VPN
-  endpoint. By default, split-tunnel on a VPN endpoint is disabled. For information about
-  split-tunnel VPN endpoints, see Split-Tunnel AWS Client VPN Endpoint in the AWS Client VPN
-  Administrator Guide.
+- `"SplitTunnel"`: Indicates whether split-tunnel is enabled on the Client VPN endpoint. By
+  default, split-tunnel on a VPN endpoint is disabled. For information about split-tunnel VPN
+  endpoints, see Split-tunnel Client VPN endpoint in the Client VPN Administrator Guide.
 - `"TagSpecification"`: The tags to apply to the Client VPN endpoint during creation.
 - `"TransportProtocol"`: The transport protocol to be used by the VPN session. Default
   value: udp
@@ -2571,8 +2571,8 @@ table specifies the path for traﬃc to speciﬁc resources or networks.
 - `destination_cidr_block`: The IPv4 address range, in CIDR notation, of the route
   destination. For example:   To add a route for Internet access, enter 0.0.0.0/0    To add a
   route for a peered VPC, enter the peered VPC's IPv4 CIDR range   To add a route for an
-  on-premises network, enter the AWS Site-to-Site VPN connection's IPv4 CIDR range   To add a
-  route for the local network, enter the client CIDR range
+  on-premises network, enter the Amazon Web Services Site-to-Site VPN connection's IPv4 CIDR
+  range   To add a route for the local network, enter the client CIDR range
 - `target_vpc_subnet_id`: The ID of the subnet through which you want to route traffic. The
   specified subnet must be an existing target network of the Client VPN endpoint.
   Alternatively, if you're adding a route for the local network, specify local.
@@ -2580,7 +2580,7 @@ table specifies the path for traﬃc to speciﬁc resources or networks.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
+  idempotency of the request. For more information, see How to ensure idempotency.
 - `"Description"`: A brief description of the route.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -2632,21 +2632,22 @@ end
     create_customer_gateway(bgp_asn, type)
     create_customer_gateway(bgp_asn, type, params::Dict{String,<:Any})
 
-Provides information to AWS about your VPN customer gateway device. The customer gateway is
-the appliance at your end of the VPN connection. (The device on the AWS side of the VPN
-connection is the virtual private gateway.) You must provide the internet-routable IP
-address of the customer gateway's external interface. The IP address must be static and can
-be behind a device performing network address translation (NAT). For devices that use
-Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System
-Number (ASN). You can use an existing ASN assigned to your network. If you don't have an
-ASN already, you can use a private ASN (in the 64512 - 65534 range).  Amazon EC2 supports
-all 4-byte ASN numbers in the range of 1 - 2147483647, with the exception of the following:
-  7224 - reserved in the us-east-1 Region   9059 - reserved in the eu-west-1 Region   17943
-- reserved in the ap-southeast-1 Region   10124 - reserved in the ap-northeast-1 Region
-For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.  To
-create more than one customer gateway with the same VPN type, IP address, and BGP ASN,
-specify a unique device name for each customer gateway. Identical requests return
-information about the existing customer gateway and do not create new customer gateways.
+Provides information to Amazon Web Services about your VPN customer gateway device. The
+customer gateway is the appliance at your end of the VPN connection. (The device on the
+Amazon Web Services side of the VPN connection is the virtual private gateway.) You must
+provide the internet-routable IP address of the customer gateway's external interface. The
+IP address must be static and can be behind a device performing network address translation
+(NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the
+device's BGP Autonomous System Number (ASN). You can use an existing ASN assigned to your
+network. If you don't have an ASN already, you can use a private ASN (in the 64512 - 65534
+range).  Amazon EC2 supports all 4-byte ASN numbers in the range of 1 - 2147483647, with
+the exception of the following:   7224 - reserved in the us-east-1 Region   9059 - reserved
+in the eu-west-1 Region   17943 - reserved in the ap-southeast-1 Region   10124 - reserved
+in the ap-northeast-1 Region    For more information, see Amazon Web Services Site-to-Site
+VPN in the Amazon Web Services Site-to-Site VPN User Guide.  To create more than one
+customer gateway with the same VPN type, IP address, and BGP ASN, specify a unique device
+name for each customer gateway. Identical requests return information about the existing
+customer gateway and do not create new customer gateways.
 
 # Arguments
 - `bgp_asn`: For devices that support BGP, the customer gateway's BGP ASN. Default: 65000
@@ -5937,8 +5938,8 @@ response contains sensitive cryptographic information for configuring your custo
 device.  If you decide to shut down your VPN connection for any reason and later create a
 new VPN connection, you must reconfigure your customer gateway with the new information
 returned from this call. This is an idempotent operation. If you perform the operation more
-than once, Amazon EC2 doesn't return an error. For more information, see AWS Site-to-Site
-VPN in the AWS Site-to-Site VPN User Guide.
+than once, Amazon EC2 doesn't return an error. For more information, see Amazon Web
+Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide.
 
 # Arguments
 - `customer_gateway_id`: The ID of the customer gateway.
@@ -5990,8 +5991,8 @@ end
 
 Creates a static route associated with a VPN connection between an existing virtual private
 gateway and a VPN customer gateway. The static route allows traffic to be routed from the
-virtual private gateway to the VPN customer gateway. For more information, see AWS
-Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.
+virtual private gateway to the VPN customer gateway. For more information, see Amazon Web
+Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide.
 
 # Arguments
 - `destination_cidr_block`: The CIDR block associated with the local subnet of the customer
@@ -6039,8 +6040,8 @@ end
 
 Creates a virtual private gateway. A virtual private gateway is the endpoint on the VPC
 side of your VPN connection. You can create a virtual private gateway before creating the
-VPC itself. For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site VPN User
-Guide.
+VPC itself. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon
+Web Services Site-to-Site VPN User Guide.
 
 # Arguments
 - `type`: The type of VPN connection this virtual private gateway supports.
@@ -8300,9 +8301,9 @@ credentials for your VPN connection have been compromised, you can delete the VP
 connection and create a new one that has new keys, without needing to delete the VPC or
 virtual private gateway. If you create a new VPN connection, you must reconfigure the
 customer gateway device using the new configuration information returned with the new VPN
-connection ID. For certificate-based authentication, delete all AWS Certificate Manager
-(ACM) private certificates used for the AWS-side tunnel endpoints for the VPN connection
-before deleting the VPN connection.
+connection ID. For certificate-based authentication, delete all Certificate Manager (ACM)
+private certificates used for the Amazon Web Services-side tunnel endpoints for the VPN
+connection before deleting the VPN connection.
 
 # Arguments
 - `vpn_connection_id`: The ID of the VPN connection.
@@ -9251,8 +9252,8 @@ end
     describe_customer_gateways()
     describe_customer_gateways(params::Dict{String,<:Any})
 
-Describes one or more of your VPN customer gateways. For more information, see AWS
-Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.
+Describes one or more of your VPN customer gateways. For more information, see Amazon Web
+Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -13663,8 +13664,8 @@ end
     describe_vpn_connections()
     describe_vpn_connections(params::Dict{String,<:Any})
 
-Describes one or more of your VPN connections. For more information, see AWS Site-to-Site
-VPN in the AWS Site-to-Site VPN User Guide.
+Describes one or more of your VPN connections. For more information, see Amazon Web
+Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -13704,8 +13705,8 @@ end
     describe_vpn_gateways()
     describe_vpn_gateways(params::Dict{String,<:Any})
 
-Describes one or more of your virtual private gateways. For more information, see AWS
-Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.
+Describes one or more of your virtual private gateways. For more information, see Amazon
+Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -16298,6 +16299,100 @@ function get_transit_gateway_route_table_propagations(
 end
 
 """
+    get_vpn_connection_device_sample_configuration(vpn_connection_device_type_id, vpn_connection_id)
+    get_vpn_connection_device_sample_configuration(vpn_connection_device_type_id, vpn_connection_id, params::Dict{String,<:Any})
+
+Download an AWS-provided sample configuration file to be used with the customer gateway
+device specified for your Site-to-Site VPN connection.
+
+# Arguments
+- `vpn_connection_device_type_id`: Device identifier provided by the
+  GetVpnConnectionDeviceTypes API.
+- `vpn_connection_id`: The VpnConnectionId specifies the Site-to-Site VPN connection used
+  for the sample configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"InternetKeyExchangeVersion"`: The IKE version to be used in the sample configuration
+  file for your customer gateway device. You can specify one of the following versions: ikev1
+  or ikev2.
+"""
+function get_vpn_connection_device_sample_configuration(
+    VpnConnectionDeviceTypeId,
+    VpnConnectionId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetVpnConnectionDeviceSampleConfiguration",
+        Dict{String,Any}(
+            "VpnConnectionDeviceTypeId" => VpnConnectionDeviceTypeId,
+            "VpnConnectionId" => VpnConnectionId,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_vpn_connection_device_sample_configuration(
+    VpnConnectionDeviceTypeId,
+    VpnConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetVpnConnectionDeviceSampleConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpnConnectionDeviceTypeId" => VpnConnectionDeviceTypeId,
+                    "VpnConnectionId" => VpnConnectionId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
+    get_vpn_connection_device_types()
+    get_vpn_connection_device_types(params::Dict{String,<:Any})
+
+Obtain a list of customer gateway devices for which sample configuration files can be
+provided. The request has no additional parameters. You can also see the list of device
+types with sample configuration files available under Your customer gateway device in the
+Amazon Web Services Site-to-Site VPN User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"MaxResults"`: The maximum number of results returned by GetVpnConnectionDeviceTypes in
+  paginated output. When this parameter is used, GetVpnConnectionDeviceTypes only returns
+  MaxResults results in a single page along with a NextToken response element. The remaining
+  results of the initial request can be seen by sending another GetVpnConnectionDeviceTypes
+  request with the returned NextToken value. This value can be between 200 and 1000. If this
+  parameter is not used, then GetVpnConnectionDeviceTypes returns all results.
+- `"NextToken"`: The NextToken value returned from a previous paginated
+  GetVpnConnectionDeviceTypes request where MaxResults was used and the results exceeded the
+  value of that parameter. Pagination continues from the end of the previous results that
+  returned the NextToken value. This value is null when there are no more results to return.
+"""
+function get_vpn_connection_device_types(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2("GetVpnConnectionDeviceTypes"; aws_config=aws_config)
+end
+function get_vpn_connection_device_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2("GetVpnConnectionDeviceTypes", params; aws_config=aws_config)
+end
+
+"""
     import_client_vpn_client_certificate_revocation_list(certificate_revocation_list, client_vpn_endpoint_id)
     import_client_vpn_client_certificate_revocation_list(certificate_revocation_list, client_vpn_endpoint_id, params::Dict{String,<:Any})
 
@@ -16308,7 +16403,7 @@ connections.
 
 # Arguments
 - `certificate_revocation_list`: The client certificate revocation list file. For more
-  information, see Generate a Client Certificate Revocation List in the AWS Client VPN
+  information, see Generate a Client Certificate Revocation List in the Client VPN
   Administrator Guide.
 - `client_vpn_endpoint_id`: The ID of the Client VPN endpoint to which the client
   certificate revocation list applies.
@@ -16805,9 +16900,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SelfServicePortal"`: Specify whether to enable the self-service portal for the Client
   VPN endpoint.
 - `"ServerCertificateArn"`: The ARN of the server certificate to be used. The server
-  certificate must be provisioned in AWS Certificate Manager (ACM).
+  certificate must be provisioned in Certificate Manager (ACM).
 - `"SplitTunnel"`: Indicates whether the VPN is split-tunnel. For information about
-  split-tunnel VPN endpoints, see Split-Tunnel AWS Client VPN Endpoint in the AWS Client VPN
+  split-tunnel VPN endpoints, see Split-tunnel Client VPN endpoint in the Client VPN
   Administrator Guide.
 - `"VpcId"`: The ID of the VPC to associate with the Client VPN endpoint.
 - `"VpnPort"`: The port number to assign to the Client VPN endpoint for TCP and UDP
@@ -17662,12 +17757,11 @@ Modify the affinity between an instance and a Dedicated Host. When affinity is s
 and the instance is not associated with a specific Dedicated Host, the next time the
 instance is launched, it is automatically associated with the host on which it lands. If
 the instance is restarted or rebooted, this relationship persists.   Change the Dedicated
-Host with which an instance is associated.   Change the instance tenancy of an instance
-from host to dedicated, or from dedicated to host.   Move an instance to or from a
-placement group.   At least one attribute for affinity, host ID, tenancy, or placement
-group name must be specified in the request. Affinity and tenancy can be modified in the
-same request. To modify the host ID, tenancy, placement group, or partition for an
-instance, the instance must be in the stopped state.
+Host with which an instance is associated.   Change the instance tenancy of an instance.
+Move an instance to or from a placement group.   At least one attribute for affinity, host
+ID, tenancy, or placement group name must be specified in the request. Affinity and tenancy
+can be modified in the same request. To modify the host ID, tenancy, placement group, or
+partition for an instance, the instance must be in the stopped state.
 
 # Arguments
 - `instance_id`: The ID of the instance that you are modifying.
@@ -17683,8 +17777,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PartitionNumber"`: Reserved for future use.
 - `"affinity"`: The affinity setting for the instance.
 - `"hostId"`: The ID of the Dedicated Host with which to associate the instance.
-- `"tenancy"`: The tenancy for the instance. For T3 instances, you can't change the tenancy
-  from dedicated to host, or from host to dedicated. Attempting to make one of these
+- `"tenancy"`: The tenancy for the instance.  For T3 instances, you can't change the
+  tenancy from dedicated to host, or from host to dedicated. Attempting to make one of these
   unsupported tenancy changes results in the InvalidTenancy error code.
 """
 function modify_instance_placement(
@@ -18904,26 +18998,27 @@ end
     modify_vpn_connection(vpn_connection_id)
     modify_vpn_connection(vpn_connection_id, params::Dict{String,<:Any})
 
-Modifies the customer gateway or the target gateway of an AWS Site-to-Site VPN connection.
-To modify the target gateway, the following migration options are available:   An existing
-virtual private gateway to a new virtual private gateway   An existing virtual private
-gateway to a transit gateway   An existing transit gateway to a new transit gateway   An
-existing transit gateway to a virtual private gateway   Before you perform the migration to
-the new gateway, you must configure the new gateway. Use CreateVpnGateway to create a
-virtual private gateway, or CreateTransitGateway to create a transit gateway. This step is
-required when you migrate from a virtual private gateway with static routes to a transit
-gateway.  You must delete the static routes before you migrate to the new gateway. Keep a
-copy of the static route before you delete it. You will need to add back these routes to
-the transit gateway after the VPN connection migration is complete. After you migrate to
-the new gateway, you might need to modify your VPC route table. Use CreateRoute and
-DeleteRoute to make the changes described in VPN Gateway Target Modification Required VPC
-Route Table Updates in the AWS Site-to-Site VPN User Guide.  When the new gateway is a
+Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site
+VPN connection. To modify the target gateway, the following migration options are
+available:   An existing virtual private gateway to a new virtual private gateway   An
+existing virtual private gateway to a transit gateway   An existing transit gateway to a
+new transit gateway   An existing transit gateway to a virtual private gateway   Before you
+perform the migration to the new gateway, you must configure the new gateway. Use
+CreateVpnGateway to create a virtual private gateway, or CreateTransitGateway to create a
+transit gateway. This step is required when you migrate from a virtual private gateway with
+static routes to a transit gateway.  You must delete the static routes before you migrate
+to the new gateway. Keep a copy of the static route before you delete it. You will need to
+add back these routes to the transit gateway after the VPN connection migration is
+complete. After you migrate to the new gateway, you might need to modify your VPC route
+table. Use CreateRoute and DeleteRoute to make the changes described in Update VPC route
+tables in the Amazon Web Services Site-to-Site VPN User Guide. When the new gateway is a
 transit gateway, modify the transit gateway route table to allow traffic between the VPC
-and the AWS Site-to-Site VPN connection. Use CreateTransitGatewayRoute to add the routes.
-If you deleted VPN static routes, you must add the static routes to the transit gateway
-route table. After you perform this operation, the AWS VPN endpoint's IP addresses on the
-AWS side and the tunnel options remain intact. Your AWS Site-to-Site VPN connection will be
-temporarily unavailable for a brief period while we provision the new endpoints.
+and the Amazon Web Services Site-to-Site VPN connection. Use CreateTransitGatewayRoute to
+add the routes.  If you deleted VPN static routes, you must add the static routes to the
+transit gateway route table. After you perform this operation, the VPN endpoint's IP
+addresses on the Amazon Web Services side and the tunnel options remain intact. Your Amazon
+Web Services Site-to-Site VPN connection will be temporarily unavailable for a brief period
+while we provision the new endpoints.
 
 # Arguments
 - `vpn_connection_id`: The ID of the VPN connection.
@@ -18935,8 +19030,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"TransitGatewayId"`: The ID of the transit gateway.
-- `"VpnGatewayId"`: The ID of the virtual private gateway at the AWS side of the VPN
-  connection.
+- `"VpnGatewayId"`: The ID of the virtual private gateway at the Amazon Web Services side
+  of the VPN connection.
 """
 function modify_vpn_connection(
     VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -18968,9 +19063,9 @@ end
     modify_vpn_connection_options(vpn_connection_id, params::Dict{String,<:Any})
 
 Modifies the connection options for your Site-to-Site VPN connection. When you modify the
-VPN connection options, the VPN endpoint IP addresses on the AWS side do not change, and
-the tunnel options do not change. Your VPN connection will be temporarily unavailable for a
-brief period while the VPN connection is updated.
+VPN connection options, the VPN endpoint IP addresses on the Amazon Web Services side do
+not change, and the tunnel options do not change. Your VPN connection will be temporarily
+unavailable for a brief period while the VPN connection is updated.
 
 # Arguments
 - `vpn_connection_id`: The ID of the Site-to-Site VPN connection.
@@ -18984,10 +19079,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPN connection. Default: 0.0.0.0/0
 - `"LocalIpv6NetworkCidr"`: The IPv6 CIDR on the customer gateway (on-premises) side of the
   VPN connection. Default: ::/0
-- `"RemoteIpv4NetworkCidr"`: The IPv4 CIDR on the AWS side of the VPN connection. Default:
-  0.0.0.0/0
-- `"RemoteIpv6NetworkCidr"`: The IPv6 CIDR on the AWS side of the VPN connection. Default:
-  ::/0
+- `"RemoteIpv4NetworkCidr"`: The IPv4 CIDR on the Amazon Web Services side of the VPN
+  connection. Default: 0.0.0.0/0
+- `"RemoteIpv6NetworkCidr"`: The IPv6 CIDR on the Amazon Web Services side of the VPN
+  connection. Default: ::/0
 """
 function modify_vpn_connection_options(
     VpnConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -19021,7 +19116,7 @@ end
 Modifies the VPN tunnel endpoint certificate.
 
 # Arguments
-- `vpn_connection_id`: The ID of the AWS Site-to-Site VPN connection.
+- `vpn_connection_id`: The ID of the Amazon Web Services Site-to-Site VPN connection.
 - `vpn_tunnel_outside_ip_address`: The external IP address of the VPN tunnel.
 
 # Optional Parameters
@@ -19070,14 +19165,14 @@ end
     modify_vpn_tunnel_options(tunnel_options, vpn_connection_id, vpn_tunnel_outside_ip_address)
     modify_vpn_tunnel_options(tunnel_options, vpn_connection_id, vpn_tunnel_outside_ip_address, params::Dict{String,<:Any})
 
-Modifies the options for a VPN tunnel in an AWS Site-to-Site VPN connection. You can modify
-multiple options for a tunnel in a single request, but you can only modify one tunnel at a
-time. For more information, see Site-to-Site VPN Tunnel Options for Your Site-to-Site VPN
-Connection in the AWS Site-to-Site VPN User Guide.
+Modifies the options for a VPN tunnel in an Amazon Web Services Site-to-Site VPN
+connection. You can modify multiple options for a tunnel in a single request, but you can
+only modify one tunnel at a time. For more information, see Site-to-Site VPN tunnel options
+for your Site-to-Site VPN connection in the Amazon Web Services Site-to-Site VPN User Guide.
 
 # Arguments
 - `tunnel_options`: The tunnel options to modify.
-- `vpn_connection_id`: The ID of the AWS Site-to-Site VPN connection.
+- `vpn_connection_id`: The ID of the Amazon Web Services Site-to-Site VPN connection.
 - `vpn_tunnel_outside_ip_address`: The external IP address of the VPN tunnel.
 
 # Optional Parameters

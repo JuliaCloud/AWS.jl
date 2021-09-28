@@ -107,9 +107,13 @@ Creates a DataSource object.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the DataSource.
 - `"dynamodbConfig"`: Amazon DynamoDB settings.
-- `"elasticsearchConfig"`: Amazon Elasticsearch Service settings.
+- `"elasticsearchConfig"`: Amazon OpenSearch Service settings. As of September 2021, Amazon
+  Elasticsearch service is Amazon OpenSearch Service. This configuration is deprecated. For
+  new data sources, use CreateDataSourceRequestopenSearchServiceConfig to create an
+  OpenSearch data source.
 - `"httpConfig"`: HTTP endpoint settings.
 - `"lambdaConfig"`: Amazon Web Services Lambda settings.
+- `"openSearchServiceConfig"`: Amazon OpenSearch Service settings.
 - `"relationalDatabaseConfig"`: Relational database settings.
 - `"serviceRoleArn"`: The Identity and Access Management service role ARN for the data
   source. The system assumes this role when accessing the data source.
@@ -215,14 +219,15 @@ Creates a GraphqlApi object.
 
 # Arguments
 - `authentication_type`: The authentication type: API key, Identity and Access Management,
-  OIDC, or Amazon Cognito user pools.
+  OIDC, Amazon Cognito user pools, or Amazon Web Services Lambda.
 - `name`: A user-supplied name for the GraphqlApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"additionalAuthenticationProviders"`: A list of additional authentication providers for
   the GraphqlApi API.
-- `"lambdaAuthorizerConfig"`: Configuration for AWS Lambda function authorization.
+- `"lambdaAuthorizerConfig"`: Configuration for Amazon Web Services Lambda function
+  authorization.
 - `"logConfig"`: The Amazon CloudWatch Logs configuration.
 - `"openIDConnectConfig"`: The OpenID Connect configuration.
 - `"tags"`: A TagMap object.
@@ -1218,9 +1223,13 @@ Updates a DataSource object.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The new description for the data source.
 - `"dynamodbConfig"`: The new Amazon DynamoDB configuration.
-- `"elasticsearchConfig"`: The new Elasticsearch Service configuration.
+- `"elasticsearchConfig"`: The new OpenSearch configuration. As of September 2021, Amazon
+  Elasticsearch service is Amazon OpenSearch Service. This configuration is deprecated.
+  Instead, use UpdateDataSourceRequestopenSearchServiceConfig to update an OpenSearch data
+  source.
 - `"httpConfig"`: The new HTTP endpoint configuration.
 - `"lambdaConfig"`: The new Amazon Web Services Lambda configuration.
+- `"openSearchServiceConfig"`: The new OpenSearch configuration.
 - `"relationalDatabaseConfig"`: The new relational database configuration.
 - `"serviceRoleArn"`: The new service role ARN for the data source.
 """
@@ -1332,7 +1341,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"additionalAuthenticationProviders"`: A list of additional authentication providers for
   the GraphqlApi API.
 - `"authenticationType"`: The new authentication type for the GraphqlApi object.
-- `"lambdaAuthorizerConfig"`: Configuration for AWS Lambda function authorization.
+- `"lambdaAuthorizerConfig"`: Configuration for Amazon Web Services Lambda function
+  authorization.
 - `"logConfig"`: The Amazon CloudWatch Logs configuration for the GraphqlApi object.
 - `"openIDConnectConfig"`: The OpenID Connect configuration for the GraphqlApi object.
 - `"userPoolConfig"`: The new Amazon Cognito user pool configuration for the GraphqlApi

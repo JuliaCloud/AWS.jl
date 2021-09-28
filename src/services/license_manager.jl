@@ -210,7 +210,7 @@ end
     create_grant(allowed_operations, client_token, grant_name, home_region, license_arn, principals, params::Dict{String,<:Any})
 
 Creates a grant for the specified license. A grant shares the use of license entitlements
-with specific AWS accounts.
+with specific Amazon Web Services accounts.
 
 # Arguments
 - `allowed_operations`: Allowed operations for the grant.
@@ -291,7 +291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GrantName"`: Grant name.
 - `"SourceVersion"`: Current version of the grant.
 - `"Status"`: Grant status.
-- `"StatusReason"`:
+- `"StatusReason"`: Grant status reason.
 """
 function create_grant_version(
     ClientToken, GrantArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -481,10 +481,67 @@ function create_license_configuration(
 end
 
 """
+    create_license_conversion_task_for_resource(destination_license_context, resource_arn, source_license_context)
+    create_license_conversion_task_for_resource(destination_license_context, resource_arn, source_license_context, params::Dict{String,<:Any})
+
+Creates a new license conversion task.
+
+# Arguments
+- `destination_license_context`: Information that identifies the license type you are
+  converting to. For the structure of the destination license, see Convert a license type
+  using the AWS CLI in the License Manager User Guide.
+- `resource_arn`: Amazon Resource Name (ARN) of the resource you are converting the license
+  type for.
+- `source_license_context`: Information that identifies the license type you are converting
+  from. For the structure of the source license, see Convert a license type using the AWS CLI
+  in the License Manager User Guide.
+
+"""
+function create_license_conversion_task_for_resource(
+    DestinationLicenseContext,
+    ResourceArn,
+    SourceLicenseContext;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return license_manager(
+        "CreateLicenseConversionTaskForResource",
+        Dict{String,Any}(
+            "DestinationLicenseContext" => DestinationLicenseContext,
+            "ResourceArn" => ResourceArn,
+            "SourceLicenseContext" => SourceLicenseContext,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_license_conversion_task_for_resource(
+    DestinationLicenseContext,
+    ResourceArn,
+    SourceLicenseContext,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return license_manager(
+        "CreateLicenseConversionTaskForResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationLicenseContext" => DestinationLicenseContext,
+                    "ResourceArn" => ResourceArn,
+                    "SourceLicenseContext" => SourceLicenseContext,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     create_license_manager_report_generator(client_token, report_context, report_frequency, report_generator_name, type)
     create_license_manager_report_generator(client_token, report_context, report_frequency, report_generator_name, type, params::Dict{String,<:Any})
 
-Creates a new report generator.
+Creates a report generator.
 
 # Arguments
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
@@ -494,8 +551,8 @@ Creates a new report generator.
   daily, monthly, or weekly.
 - `report_generator_name`: Name of the report generator.
 - `type`: Type of reports to generate. The following report types an be generated:
-  License configuration report - Reports on the number and details of consumed licenses for a
-  license configuration.   Resource report - Reports on the tracked licenses and resource
+  License configuration report - Reports the number and details of consumed licenses for a
+  license configuration.   Resource report - Reports the tracked licenses and resource
   consumption for a license configuration.
 
 # Optional Parameters
@@ -707,7 +764,7 @@ Deletes the specified grant.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StatusReason"`:
+- `"StatusReason"`: The Status reason for the delete request.
 """
 function delete_grant(GrantArn, Version; aws_config::AbstractAWSConfig=global_aws_config())
     return license_manager(
@@ -818,13 +875,13 @@ end
     delete_license_manager_report_generator(license_manager_report_generator_arn)
     delete_license_manager_report_generator(license_manager_report_generator_arn, params::Dict{String,<:Any})
 
-Delete an existing report generator. This action deletes the report generator, which stops
-it from generating future reports and cannot be reversed. However, the previous reports
-from this generator will remain in your S3 bucket.
+Deletes the specified report generator. This action deletes the report generator, which
+stops it from generating future reports. The action cannot be reversed. It has no effect on
+the previous reports from this generator.
 
 # Arguments
-- `license_manager_report_generator_arn`: Amazon Resource Number (ARN) of the report
-  generator that will be deleted.
+- `license_manager_report_generator_arn`: Amazon Resource Name (ARN) of the report
+  generator to be deleted.
 
 """
 function delete_license_manager_report_generator(
@@ -1056,14 +1113,52 @@ function get_license_configuration(
 end
 
 """
+    get_license_conversion_task(license_conversion_task_id)
+    get_license_conversion_task(license_conversion_task_id, params::Dict{String,<:Any})
+
+Gets information about the specified license type conversion task.
+
+# Arguments
+- `license_conversion_task_id`: ID of the license type conversion task to retrieve
+  information on.
+
+"""
+function get_license_conversion_task(
+    LicenseConversionTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return license_manager(
+        "GetLicenseConversionTask",
+        Dict{String,Any}("LicenseConversionTaskId" => LicenseConversionTaskId);
+        aws_config=aws_config,
+    )
+end
+function get_license_conversion_task(
+    LicenseConversionTaskId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return license_manager(
+        "GetLicenseConversionTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LicenseConversionTaskId" => LicenseConversionTaskId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+
+"""
     get_license_manager_report_generator(license_manager_report_generator_arn)
     get_license_manager_report_generator(license_manager_report_generator_arn, params::Dict{String,<:Any})
 
-Gets information on the specified report generator.
+Gets information about the specified report generator.
 
 # Arguments
-- `license_manager_report_generator_arn`: mazon Resource Number (ARN) of the report
-  generator to retrieve information on.
+- `license_manager_report_generator_arn`: Amazon Resource Name (ARN) of the report
+  generator.
 
 """
 function get_license_manager_report_generator(
@@ -1260,7 +1355,7 @@ Lists the license configurations for your account.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Filters to scope the results. The following filters and logical operators
-  are supported:    licenseCountingType - The dimension on which licenses are counted.
+  are supported:    licenseCountingType - The dimension for which licenses are counted.
   Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS |
   NOT_EQUALS.    enforceLicenseCount - A Boolean value that indicates whether hard license
   enforcement is used. Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A
@@ -1277,6 +1372,27 @@ function list_license_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return license_manager("ListLicenseConfigurations", params; aws_config=aws_config)
+end
+
+"""
+    list_license_conversion_tasks()
+    list_license_conversion_tasks(params::Dict{String,<:Any})
+
+Lists the license type conversion tasks for your account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`:  Filters to scope the results. Valid filters are ResourceArns and Status.
+- `"MaxResults"`: Maximum number of results to return in a single call.
+- `"NextToken"`: Token for the next set of results.
+"""
+function list_license_conversion_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return license_manager("ListLicenseConversionTasks"; aws_config=aws_config)
+end
+function list_license_conversion_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return license_manager("ListLicenseConversionTasks", params; aws_config=aws_config)
 end
 
 """
@@ -1458,10 +1574,10 @@ Lists resources managed using Systems Manager inventory.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Filters to scope the results. The following filters and logical operators
-  are supported:    account_id - The ID of the AWS account that owns the resource. Logical
-  operators are EQUALS | NOT_EQUALS.    application_name - The name of the application.
-  Logical operators are EQUALS | BEGINS_WITH.    license_included - The type of license
-  included. Logical operators are EQUALS | NOT_EQUALS. Possible values are
+  are supported:    account_id - The ID of the Amazon Web Services account that owns the
+  resource. Logical operators are EQUALS | NOT_EQUALS.    application_name - The name of the
+  application. Logical operators are EQUALS | BEGINS_WITH.    license_included - The type of
+  license included. Logical operators are EQUALS | NOT_EQUALS. Possible values are
   sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.
    platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH.
   resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS.
@@ -1742,22 +1858,21 @@ end
     update_license_manager_report_generator(client_token, license_manager_report_generator_arn, report_context, report_frequency, report_generator_name, type)
     update_license_manager_report_generator(client_token, license_manager_report_generator_arn, report_context, report_frequency, report_generator_name, type, params::Dict{String,<:Any})
 
-Updates a report generator. After you make changes to a report generator, it will start
+Updates a report generator. After you make changes to a report generator, it starts
 generating new reports within 60 minutes of being updated.
 
 # Arguments
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `license_manager_report_generator_arn`: Amazon Resource Number (ARN) of the report
+- `license_manager_report_generator_arn`: Amazon Resource Name (ARN) of the report
   generator to update.
-- `report_context`: ?
-- `report_frequency`: Frequency by which reports are generated. The following options are
-  avaiable: ??? What are the APi value options?
+- `report_context`: The report context.
+- `report_frequency`: Frequency by which reports are generated.
 - `report_generator_name`: Name of the report generator.
-- `type`: Type of reports to generate. The following report types an be generated:
-  License configuration report - Reports on the number and details of consumed licenses for a
-  license configuration.   Resource report - Reports on the tracked licenses and resource
-  consumption for a license configuration.
+- `type`: Type of reports to generate. The following report types are supported:   License
+  configuration report - Reports the number and details of consumed licenses for a license
+  configuration.   Resource report - Reports the tracked licenses and resource consumption
+  for a license configuration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1819,13 +1934,13 @@ end
     update_license_specifications_for_resource(resource_arn)
     update_license_specifications_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Adds or removes the specified license configurations for the specified AWS resource. You
-can update the license specifications of AMIs, instances, and hosts. You cannot update the
-license specifications for launch templates and AWS CloudFormation templates, as they send
-license configurations to the operation that creates the resource.
+Adds or removes the specified license configurations for the specified Amazon Web Services
+resource. You can update the license specifications of AMIs, instances, and hosts. You
+cannot update the license specifications for launch templates and CloudFormation templates,
+as they send license configurations to the operation that creates the resource.
 
 # Arguments
-- `resource_arn`: Amazon Resource Name (ARN) of the AWS resource.
+- `resource_arn`: Amazon Resource Name (ARN) of the Amazon Web Services resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1864,8 +1979,8 @@ Updates License Manager settings for the current Region.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EnableCrossAccountsDiscovery"`: Activates cross-account discovery.
-- `"OrganizationConfiguration"`: Enables integration with AWS Organizations for
-  cross-account discovery.
+- `"OrganizationConfiguration"`: Enables integration with Organizations for cross-account
+  discovery.
 - `"S3BucketArn"`: Amazon Resource Name (ARN) of the Amazon S3 bucket where the License
   Manager information is stored.
 - `"SnsTopicArn"`: Amazon Resource Name (ARN) of the Amazon SNS topic used for License
