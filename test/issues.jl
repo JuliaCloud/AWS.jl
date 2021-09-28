@@ -1,6 +1,6 @@
 @service S3
 
-const BUCKET_NAME = "aws-jl-test-issues---" * _now_formatted()
+BUCKET_NAME = "aws-jl-test-issues---" * _now_formatted()
 
 try
     S3.create_bucket(BUCKET_NAME)
