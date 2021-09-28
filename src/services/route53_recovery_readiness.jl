@@ -21,7 +21,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config())
     return route53_recovery_readiness(
-        "POST", "/cells", Dict{String,Any}("cellName" => cellName); aws_config=aws_config
+        "POST",
+        "/cells",
+        Dict{String,Any}("cellName" => cellName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_cell(
@@ -36,6 +40,7 @@ function create_cell(
             mergewith(_merge, Dict{String,Any}("cellName" => cellName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -57,6 +62,7 @@ function create_cross_account_authorization(
         "/crossaccountauthorizations",
         Dict{String,Any}("crossAccountAuthorization" => crossAccountAuthorization);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_cross_account_authorization(
@@ -75,6 +81,7 @@ function create_cross_account_authorization(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -102,6 +109,7 @@ function create_readiness_check(
             "readinessCheckName" => readinessCheckName, "resourceSetName" => resourceSetName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_readiness_check(
@@ -124,6 +132,7 @@ function create_readiness_check(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -149,6 +158,7 @@ function create_recovery_group(
         "/recoverygroups",
         Dict{String,Any}("recoveryGroupName" => recoveryGroupName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_recovery_group(
@@ -165,6 +175,7 @@ function create_recovery_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -198,6 +209,7 @@ function create_resource_set(
             "resources" => resources,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resource_set(
@@ -222,6 +234,7 @@ function create_resource_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -236,7 +249,12 @@ Deletes an existing Cell.
 
 """
 function delete_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness("DELETE", "/cells/$(cellName)"; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "DELETE",
+        "/cells/$(cellName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_cell(
     cellName,
@@ -244,7 +262,11 @@ function delete_cell(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "DELETE", "/cells/$(cellName)", params; aws_config=aws_config
+        "DELETE",
+        "/cells/$(cellName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -265,6 +287,7 @@ function delete_cross_account_authorization(
         "DELETE",
         "/crossaccountauthorizations/$(crossAccountAuthorization)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_cross_account_authorization(
@@ -277,6 +300,7 @@ function delete_cross_account_authorization(
         "/crossaccountauthorizations/$(crossAccountAuthorization)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -294,7 +318,10 @@ function delete_readiness_check(
     readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "DELETE", "/readinesschecks/$(readinessCheckName)"; aws_config=aws_config
+        "DELETE",
+        "/readinesschecks/$(readinessCheckName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_readiness_check(
@@ -303,7 +330,11 @@ function delete_readiness_check(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "DELETE", "/readinesschecks/$(readinessCheckName)", params; aws_config=aws_config
+        "DELETE",
+        "/readinesschecks/$(readinessCheckName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -321,7 +352,10 @@ function delete_recovery_group(
     recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "DELETE", "/recoverygroups/$(recoveryGroupName)"; aws_config=aws_config
+        "DELETE",
+        "/recoverygroups/$(recoveryGroupName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_recovery_group(
@@ -330,7 +364,11 @@ function delete_recovery_group(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "DELETE", "/recoverygroups/$(recoveryGroupName)", params; aws_config=aws_config
+        "DELETE",
+        "/recoverygroups/$(recoveryGroupName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -348,7 +386,10 @@ function delete_resource_set(
     resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "DELETE", "/resourcesets/$(resourceSetName)"; aws_config=aws_config
+        "DELETE",
+        "/resourcesets/$(resourceSetName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_resource_set(
@@ -357,7 +398,11 @@ function delete_resource_set(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "DELETE", "/resourcesets/$(resourceSetName)", params; aws_config=aws_config
+        "DELETE",
+        "/resourcesets/$(resourceSetName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -384,6 +429,7 @@ function get_architecture_recommendations(
         "GET",
         "/recoverygroups/$(recoveryGroupName)/architectureRecommendations";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_architecture_recommendations(
@@ -396,6 +442,7 @@ function get_architecture_recommendations(
         "/recoverygroups/$(recoveryGroupName)/architectureRecommendations",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -410,7 +457,9 @@ Returns information about a Cell.
 
 """
 function get_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness("GET", "/cells/$(cellName)"; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET", "/cells/$(cellName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_cell(
     cellName,
@@ -418,7 +467,11 @@ function get_cell(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "GET", "/cells/$(cellName)", params; aws_config=aws_config
+        "GET",
+        "/cells/$(cellName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -440,7 +493,10 @@ function get_cell_readiness_summary(
     cellName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/cellreadiness/$(cellName)"; aws_config=aws_config
+        "GET",
+        "/cellreadiness/$(cellName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_cell_readiness_summary(
@@ -449,7 +505,11 @@ function get_cell_readiness_summary(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "GET", "/cellreadiness/$(cellName)", params; aws_config=aws_config
+        "GET",
+        "/cellreadiness/$(cellName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -467,7 +527,10 @@ function get_readiness_check(
     readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/readinesschecks/$(readinessCheckName)"; aws_config=aws_config
+        "GET",
+        "/readinesschecks/$(readinessCheckName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_readiness_check(
@@ -476,7 +539,11 @@ function get_readiness_check(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "GET", "/readinesschecks/$(readinessCheckName)", params; aws_config=aws_config
+        "GET",
+        "/readinesschecks/$(readinessCheckName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -505,6 +572,7 @@ function get_readiness_check_resource_status(
         "GET",
         "/readinesschecks/$(readinessCheckName)/resource/$(resourceIdentifier)/status";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_readiness_check_resource_status(
@@ -518,6 +586,7 @@ function get_readiness_check_resource_status(
         "/readinesschecks/$(readinessCheckName)/resource/$(resourceIdentifier)/status",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -539,7 +608,10 @@ function get_readiness_check_status(
     readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/readinesschecks/$(readinessCheckName)/status"; aws_config=aws_config
+        "GET",
+        "/readinesschecks/$(readinessCheckName)/status";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_readiness_check_status(
@@ -552,6 +624,7 @@ function get_readiness_check_status(
         "/readinesschecks/$(readinessCheckName)/status",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -569,7 +642,10 @@ function get_recovery_group(
     recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/recoverygroups/$(recoveryGroupName)"; aws_config=aws_config
+        "GET",
+        "/recoverygroups/$(recoveryGroupName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_recovery_group(
@@ -578,7 +654,11 @@ function get_recovery_group(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "GET", "/recoverygroups/$(recoveryGroupName)", params; aws_config=aws_config
+        "GET",
+        "/recoverygroups/$(recoveryGroupName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -600,7 +680,10 @@ function get_recovery_group_readiness_summary(
     recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/recoverygroupreadiness/$(recoveryGroupName)"; aws_config=aws_config
+        "GET",
+        "/recoverygroupreadiness/$(recoveryGroupName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_recovery_group_readiness_summary(
@@ -609,7 +692,11 @@ function get_recovery_group_readiness_summary(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "GET", "/recoverygroupreadiness/$(recoveryGroupName)", params; aws_config=aws_config
+        "GET",
+        "/recoverygroupreadiness/$(recoveryGroupName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -627,7 +714,10 @@ function get_resource_set(
     resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/resourcesets/$(resourceSetName)"; aws_config=aws_config
+        "GET",
+        "/resourcesets/$(resourceSetName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resource_set(
@@ -636,7 +726,11 @@ function get_resource_set(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "GET", "/resourcesets/$(resourceSetName)", params; aws_config=aws_config
+        "GET",
+        "/resourcesets/$(resourceSetName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -652,12 +746,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 function list_cells(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness("GET", "/cells"; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET", "/cells"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_cells(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53_recovery_readiness("GET", "/cells", params; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET", "/cells", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -675,14 +773,21 @@ function list_cross_account_authorizations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/crossaccountauthorizations"; aws_config=aws_config
+        "GET",
+        "/crossaccountauthorizations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_cross_account_authorizations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/crossaccountauthorizations", params; aws_config=aws_config
+        "GET",
+        "/crossaccountauthorizations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -698,13 +803,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 function list_readiness_checks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness("GET", "/readinesschecks"; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET", "/readinesschecks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_readiness_checks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/readinesschecks", params; aws_config=aws_config
+        "GET",
+        "/readinesschecks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -720,13 +831,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 function list_recovery_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness("GET", "/recoverygroups"; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET", "/recoverygroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_recovery_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/recoverygroups", params; aws_config=aws_config
+        "GET",
+        "/recoverygroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -742,12 +859,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 function list_resource_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness("GET", "/resourcesets"; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET", "/resourcesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_resource_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53_recovery_readiness("GET", "/resourcesets", params; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET",
+        "/resourcesets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -764,12 +889,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type.
 """
 function list_rules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness("GET", "/rules"; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET", "/rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53_recovery_readiness("GET", "/rules", params; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET", "/rules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -786,7 +915,12 @@ Returns a list of the tags assigned to the specified resource.
 function list_tags_for_resources(
     resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53_recovery_readiness("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
+    return route53_recovery_readiness(
+        "GET",
+        "/tags/$(resource-arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resources(
     resource_arn,
@@ -794,7 +928,11 @@ function list_tags_for_resources(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return route53_recovery_readiness(
-        "GET", "/tags/$(resource-arn)", params; aws_config=aws_config
+        "GET",
+        "/tags/$(resource-arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -816,6 +954,7 @@ function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_a
         "/tags/$(resource-arn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -829,6 +968,7 @@ function tag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -852,6 +992,7 @@ function untag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -865,6 +1006,7 @@ function untag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -885,6 +1027,7 @@ function update_cell(cellName, cells; aws_config::AbstractAWSConfig=global_aws_c
         "/cells/$(cellName)",
         Dict{String,Any}("cells" => cells);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_cell(
@@ -898,6 +1041,7 @@ function update_cell(
         "/cells/$(cellName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cells" => cells), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -920,6 +1064,7 @@ function update_readiness_check(
         "/readinesschecks/$(readinessCheckName)",
         Dict{String,Any}("resourceSetName" => resourceSetName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_readiness_check(
@@ -937,6 +1082,7 @@ function update_readiness_check(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -959,6 +1105,7 @@ function update_recovery_group(
         "/recoverygroups/$(recoveryGroupName)",
         Dict{String,Any}("cells" => cells);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_recovery_group(
@@ -972,6 +1119,7 @@ function update_recovery_group(
         "/recoverygroups/$(recoveryGroupName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cells" => cells), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -998,6 +1146,7 @@ function update_resource_set(
         "/resourcesets/$(resourceSetName)",
         Dict{String,Any}("resourceSetType" => resourceSetType, "resources" => resources);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_resource_set(
@@ -1020,5 +1169,6 @@ function update_resource_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

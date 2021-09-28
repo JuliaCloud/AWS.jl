@@ -46,6 +46,7 @@ function create_batch_inference_job(
             "solutionVersionArn" => solutionVersionArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_batch_inference_job(
@@ -73,6 +74,7 @@ function create_batch_inference_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -116,6 +118,7 @@ function create_campaign(
         "CreateCampaign",
         Dict{String,Any}("name" => name, "solutionVersionArn" => solutionVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_campaign(
@@ -136,6 +139,7 @@ function create_campaign(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -178,6 +182,7 @@ function create_dataset(
             "schemaArn" => schemaArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_dataset(
@@ -203,6 +208,7 @@ function create_dataset(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -252,6 +258,7 @@ function create_dataset_export_job(
             "roleArn" => roleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_dataset_export_job(
@@ -277,6 +284,7 @@ function create_dataset_export_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -312,7 +320,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_dataset_group(name; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize(
-        "CreateDatasetGroup", Dict{String,Any}("name" => name); aws_config=aws_config
+        "CreateDatasetGroup",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_dataset_group(
@@ -322,6 +333,7 @@ function create_dataset_group(
         "CreateDatasetGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -368,6 +380,7 @@ function create_dataset_import_job(
             "roleArn" => roleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_dataset_import_job(
@@ -393,6 +406,7 @@ function create_dataset_import_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -425,6 +439,7 @@ function create_event_tracker(
         "CreateEventTracker",
         Dict{String,Any}("datasetGroupArn" => datasetGroupArn, "name" => name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_event_tracker(
@@ -443,6 +458,7 @@ function create_event_tracker(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -474,6 +490,7 @@ function create_filter(
             "name" => name,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_filter(
@@ -497,6 +514,7 @@ function create_filter(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -520,6 +538,7 @@ function create_schema(name, schema; aws_config::AbstractAWSConfig=global_aws_co
         "CreateSchema",
         Dict{String,Any}("name" => name, "schema" => schema);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_schema(
@@ -534,6 +553,7 @@ function create_schema(
             mergewith(_merge, Dict{String,Any}("name" => name, "schema" => schema), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -595,6 +615,7 @@ function create_solution(
         "CreateSolution",
         Dict{String,Any}("datasetGroupArn" => datasetGroupArn, "name" => name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_solution(
@@ -613,6 +634,7 @@ function create_solution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -653,6 +675,7 @@ function create_solution_version(
         "CreateSolutionVersion",
         Dict{String,Any}("solutionArn" => solutionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_solution_version(
@@ -666,6 +689,7 @@ function create_solution_version(
             mergewith(_merge, Dict{String,Any}("solutionArn" => solutionArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -687,6 +711,7 @@ function delete_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteCampaign",
         Dict{String,Any}("campaignArn" => campaignArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_campaign(
@@ -700,6 +725,7 @@ function delete_campaign(
             mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -717,7 +743,10 @@ datasets, see CreateDataset.
 """
 function delete_dataset(datasetArn; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize(
-        "DeleteDataset", Dict{String,Any}("datasetArn" => datasetArn); aws_config=aws_config
+        "DeleteDataset",
+        Dict{String,Any}("datasetArn" => datasetArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_dataset(
@@ -731,6 +760,7 @@ function delete_dataset(
             mergewith(_merge, Dict{String,Any}("datasetArn" => datasetArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -753,6 +783,7 @@ function delete_dataset_group(
         "DeleteDatasetGroup",
         Dict{String,Any}("datasetGroupArn" => datasetGroupArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_dataset_group(
@@ -768,6 +799,7 @@ function delete_dataset_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -789,6 +821,7 @@ function delete_event_tracker(
         "DeleteEventTracker",
         Dict{String,Any}("eventTrackerArn" => eventTrackerArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_event_tracker(
@@ -804,6 +837,7 @@ function delete_event_tracker(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -819,7 +853,10 @@ Deletes a filter.
 """
 function delete_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize(
-        "DeleteFilter", Dict{String,Any}("filterArn" => filterArn); aws_config=aws_config
+        "DeleteFilter",
+        Dict{String,Any}("filterArn" => filterArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_filter(
@@ -833,6 +870,7 @@ function delete_filter(
             mergewith(_merge, Dict{String,Any}("filterArn" => filterArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -849,7 +887,10 @@ schema. For more information on schemas, see CreateSchema.
 """
 function delete_schema(schemaArn; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize(
-        "DeleteSchema", Dict{String,Any}("schemaArn" => schemaArn); aws_config=aws_config
+        "DeleteSchema",
+        Dict{String,Any}("schemaArn" => schemaArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_schema(
@@ -863,6 +904,7 @@ function delete_schema(
             mergewith(_merge, Dict{String,Any}("schemaArn" => schemaArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -885,6 +927,7 @@ function delete_solution(solutionArn; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteSolution",
         Dict{String,Any}("solutionArn" => solutionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_solution(
@@ -898,6 +941,7 @@ function delete_solution(
             mergewith(_merge, Dict{String,Any}("solutionArn" => solutionArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -916,6 +960,7 @@ function describe_algorithm(algorithmArn; aws_config::AbstractAWSConfig=global_a
         "DescribeAlgorithm",
         Dict{String,Any}("algorithmArn" => algorithmArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_algorithm(
@@ -929,6 +974,7 @@ function describe_algorithm(
             mergewith(_merge, Dict{String,Any}("algorithmArn" => algorithmArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -951,6 +997,7 @@ function describe_batch_inference_job(
         "DescribeBatchInferenceJob",
         Dict{String,Any}("batchInferenceJobArn" => batchInferenceJobArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_batch_inference_job(
@@ -968,6 +1015,7 @@ function describe_batch_inference_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -990,6 +1038,7 @@ function describe_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws
         "DescribeCampaign",
         Dict{String,Any}("campaignArn" => campaignArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_campaign(
@@ -1003,6 +1052,7 @@ function describe_campaign(
             mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1021,6 +1071,7 @@ function describe_dataset(datasetArn; aws_config::AbstractAWSConfig=global_aws_c
         "DescribeDataset",
         Dict{String,Any}("datasetArn" => datasetArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_dataset(
@@ -1034,6 +1085,7 @@ function describe_dataset(
             mergewith(_merge, Dict{String,Any}("datasetArn" => datasetArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1056,6 +1108,7 @@ function describe_dataset_export_job(
         "DescribeDatasetExportJob",
         Dict{String,Any}("datasetExportJobArn" => datasetExportJobArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_dataset_export_job(
@@ -1073,6 +1126,7 @@ function describe_dataset_export_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1094,6 +1148,7 @@ function describe_dataset_group(
         "DescribeDatasetGroup",
         Dict{String,Any}("datasetGroupArn" => datasetGroupArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_dataset_group(
@@ -1109,6 +1164,7 @@ function describe_dataset_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1131,6 +1187,7 @@ function describe_dataset_import_job(
         "DescribeDatasetImportJob",
         Dict{String,Any}("datasetImportJobArn" => datasetImportJobArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_dataset_import_job(
@@ -1148,6 +1205,7 @@ function describe_dataset_import_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1169,6 +1227,7 @@ function describe_event_tracker(
         "DescribeEventTracker",
         Dict{String,Any}("eventTrackerArn" => eventTrackerArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_event_tracker(
@@ -1184,6 +1243,7 @@ function describe_event_tracker(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1205,6 +1265,7 @@ function describe_feature_transformation(
         "DescribeFeatureTransformation",
         Dict{String,Any}("featureTransformationArn" => featureTransformationArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_feature_transformation(
@@ -1222,6 +1283,7 @@ function describe_feature_transformation(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1237,7 +1299,10 @@ Describes a filter's properties.
 """
 function describe_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize(
-        "DescribeFilter", Dict{String,Any}("filterArn" => filterArn); aws_config=aws_config
+        "DescribeFilter",
+        Dict{String,Any}("filterArn" => filterArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_filter(
@@ -1251,6 +1316,7 @@ function describe_filter(
             mergewith(_merge, Dict{String,Any}("filterArn" => filterArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1272,7 +1338,10 @@ GetRecommendations API.
 """
 function describe_recipe(recipeArn; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize(
-        "DescribeRecipe", Dict{String,Any}("recipeArn" => recipeArn); aws_config=aws_config
+        "DescribeRecipe",
+        Dict{String,Any}("recipeArn" => recipeArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_recipe(
@@ -1286,6 +1355,7 @@ function describe_recipe(
             mergewith(_merge, Dict{String,Any}("recipeArn" => recipeArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1301,7 +1371,10 @@ Describes a schema. For more information on schemas, see CreateSchema.
 """
 function describe_schema(schemaArn; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize(
-        "DescribeSchema", Dict{String,Any}("schemaArn" => schemaArn); aws_config=aws_config
+        "DescribeSchema",
+        Dict{String,Any}("schemaArn" => schemaArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_schema(
@@ -1315,6 +1388,7 @@ function describe_schema(
             mergewith(_merge, Dict{String,Any}("schemaArn" => schemaArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1333,6 +1407,7 @@ function describe_solution(solutionArn; aws_config::AbstractAWSConfig=global_aws
         "DescribeSolution",
         Dict{String,Any}("solutionArn" => solutionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_solution(
@@ -1346,6 +1421,7 @@ function describe_solution(
             mergewith(_merge, Dict{String,Any}("solutionArn" => solutionArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1367,6 +1443,7 @@ function describe_solution_version(
         "DescribeSolutionVersion",
         Dict{String,Any}("solutionVersionArn" => solutionVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_solution_version(
@@ -1382,6 +1459,7 @@ function describe_solution_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1403,6 +1481,7 @@ function get_solution_metrics(
         "GetSolutionMetrics",
         Dict{String,Any}("solutionVersionArn" => solutionVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_solution_metrics(
@@ -1418,6 +1497,7 @@ function get_solution_metrics(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1436,12 +1516,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the batch inference jobs were created.
 """
 function list_batch_inference_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListBatchInferenceJobs"; aws_config=aws_config)
+    return personalize(
+        "ListBatchInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_batch_inference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListBatchInferenceJobs", params; aws_config=aws_config)
+    return personalize(
+        "ListBatchInferenceJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1463,12 +1550,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listed.
 """
 function list_campaigns(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListCampaigns"; aws_config=aws_config)
+    return personalize(
+        "ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_campaigns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListCampaigns", params; aws_config=aws_config)
+    return personalize(
+        "ListCampaigns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1490,12 +1581,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   getting the next set of dataset export jobs (if they exist).
 """
 function list_dataset_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListDatasetExportJobs"; aws_config=aws_config)
+    return personalize(
+        "ListDatasetExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_dataset_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListDatasetExportJobs", params; aws_config=aws_config)
+    return personalize(
+        "ListDatasetExportJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1513,12 +1611,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of dataset groups (if they exist).
 """
 function list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListDatasetGroups"; aws_config=aws_config)
+    return personalize(
+        "ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_dataset_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListDatasetGroups", params; aws_config=aws_config)
+    return personalize(
+        "ListDatasetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1540,12 +1642,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   getting the next set of dataset import jobs (if they exist).
 """
 function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListDatasetImportJobs"; aws_config=aws_config)
+    return personalize(
+        "ListDatasetImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_dataset_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListDatasetImportJobs", params; aws_config=aws_config)
+    return personalize(
+        "ListDatasetImportJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1565,12 +1674,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   getting the next set of dataset import jobs (if they exist).
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListDatasets"; aws_config=aws_config)
+    return personalize(
+        "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListDatasets", params; aws_config=aws_config)
+    return personalize(
+        "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1589,12 +1702,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of event trackers (if they exist).
 """
 function list_event_trackers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListEventTrackers"; aws_config=aws_config)
+    return personalize(
+        "ListEventTrackers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_event_trackers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListEventTrackers", params; aws_config=aws_config)
+    return personalize(
+        "ListEventTrackers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1611,12 +1728,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of filters (if they exist).
 """
 function list_filters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListFilters"; aws_config=aws_config)
+    return personalize(
+        "ListFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListFilters", params; aws_config=aws_config)
+    return personalize(
+        "ListFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1634,12 +1755,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recipeProvider"`: The default is SERVICE.
 """
 function list_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListRecipes"; aws_config=aws_config)
+    return personalize(
+        "ListRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_recipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListRecipes", params; aws_config=aws_config)
+    return personalize(
+        "ListRecipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1657,12 +1782,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of schemas (if they exist).
 """
 function list_schemas(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListSchemas"; aws_config=aws_config)
+    return personalize(
+        "ListSchemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_schemas(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListSchemas", params; aws_config=aws_config)
+    return personalize(
+        "ListSchemas", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1682,12 +1811,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"solutionArn"`: The Amazon Resource Name (ARN) of the solution.
 """
 function list_solution_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListSolutionVersions"; aws_config=aws_config)
+    return personalize(
+        "ListSolutionVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_solution_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListSolutionVersions", params; aws_config=aws_config)
+    return personalize(
+        "ListSolutionVersions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1707,12 +1843,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of solutions (if they exist).
 """
 function list_solutions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize("ListSolutions"; aws_config=aws_config)
+    return personalize(
+        "ListSolutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_solutions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return personalize("ListSolutions", params; aws_config=aws_config)
+    return personalize(
+        "ListSolutions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1738,6 +1878,7 @@ function stop_solution_version_creation(
         "StopSolutionVersionCreation",
         Dict{String,Any}("solutionVersionArn" => solutionVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function stop_solution_version_creation(
@@ -1753,6 +1894,7 @@ function stop_solution_version_creation(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1781,6 +1923,7 @@ function update_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws_c
         "UpdateCampaign",
         Dict{String,Any}("campaignArn" => campaignArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_campaign(
@@ -1794,5 +1937,6 @@ function update_campaign(
             mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

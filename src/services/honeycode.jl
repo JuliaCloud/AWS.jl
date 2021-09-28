@@ -45,6 +45,7 @@ function batch_create_table_rows(
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate",
         Dict{String,Any}("rowsToCreate" => rowsToCreate);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_create_table_rows(
@@ -61,6 +62,7 @@ function batch_create_table_rows(
             mergewith(_merge, Dict{String,Any}("rowsToCreate" => rowsToCreate), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -98,6 +100,7 @@ function batch_delete_table_rows(
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete",
         Dict{String,Any}("rowIds" => rowIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_delete_table_rows(
@@ -112,6 +115,7 @@ function batch_delete_table_rows(
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("rowIds" => rowIds), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -155,6 +159,7 @@ function batch_update_table_rows(
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate",
         Dict{String,Any}("rowsToUpdate" => rowsToUpdate);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_update_table_rows(
@@ -171,6 +176,7 @@ function batch_update_table_rows(
             mergewith(_merge, Dict{String,Any}("rowsToUpdate" => rowsToUpdate), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -219,6 +225,7 @@ function batch_upsert_table_rows(
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert",
         Dict{String,Any}("rowsToUpsert" => rowsToUpsert);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_upsert_table_rows(
@@ -235,6 +242,7 @@ function batch_upsert_table_rows(
             mergewith(_merge, Dict{String,Any}("rowsToUpsert" => rowsToUpsert), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -261,6 +269,7 @@ function describe_table_data_import_job(
         "GET",
         "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_table_data_import_job(
@@ -275,6 +284,7 @@ function describe_table_data_import_job(
         "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -314,6 +324,7 @@ function get_screen_data(
             "appId" => appId, "screenId" => screenId, "workbookId" => workbookId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_screen_data(
@@ -336,6 +347,7 @@ function get_screen_data(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -381,6 +393,7 @@ function invoke_screen_automation(
         "POST",
         "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function invoke_screen_automation(
@@ -396,6 +409,7 @@ function invoke_screen_automation(
         "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -423,7 +437,10 @@ function list_table_columns(
     tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return honeycode(
-        "GET", "/workbooks/$(workbookId)/tables/$(tableId)/columns"; aws_config=aws_config
+        "GET",
+        "/workbooks/$(workbookId)/tables/$(tableId)/columns";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_table_columns(
@@ -437,6 +454,7 @@ function list_table_columns(
         "/workbooks/$(workbookId)/tables/$(tableId)/columns",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -471,6 +489,7 @@ function list_table_rows(
         "POST",
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/list";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_table_rows(
@@ -484,6 +503,7 @@ function list_table_rows(
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/list",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -505,7 +525,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was returned more than an hour back, the API will throw ValidationException.
 """
 function list_tables(workbookId; aws_config::AbstractAWSConfig=global_aws_config())
-    return honeycode("GET", "/workbooks/$(workbookId)/tables"; aws_config=aws_config)
+    return honeycode(
+        "GET",
+        "/workbooks/$(workbookId)/tables";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tables(
     workbookId,
@@ -513,7 +538,11 @@ function list_tables(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return honeycode(
-        "GET", "/workbooks/$(workbookId)/tables", params; aws_config=aws_config
+        "GET",
+        "/workbooks/$(workbookId)/tables",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -547,6 +576,7 @@ function query_table_rows(
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/query",
         Dict{String,Any}("filterFormula" => filterFormula);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function query_table_rows(
@@ -563,6 +593,7 @@ function query_table_rows(
             mergewith(_merge, Dict{String,Any}("filterFormula" => filterFormula), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -613,6 +644,7 @@ function start_table_data_import_job(
             "importOptions" => importOptions,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_table_data_import_job(
@@ -641,5 +673,6 @@ function start_table_data_import_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

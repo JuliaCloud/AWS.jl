@@ -28,6 +28,7 @@ function batch_get_named_query(
         "BatchGetNamedQuery",
         Dict{String,Any}("NamedQueryIds" => NamedQueryIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_get_named_query(
@@ -41,6 +42,7 @@ function batch_get_named_query(
             mergewith(_merge, Dict{String,Any}("NamedQueryIds" => NamedQueryIds), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -65,6 +67,7 @@ function batch_get_query_execution(
         "BatchGetQueryExecution",
         Dict{String,Any}("QueryExecutionIds" => QueryExecutionIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_get_query_execution(
@@ -80,6 +83,7 @@ function batch_get_query_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -125,6 +129,7 @@ function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aw
         "CreateDataCatalog",
         Dict{String,Any}("Name" => Name, "Type" => Type);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_data_catalog(
@@ -139,6 +144,7 @@ function create_data_catalog(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "Type" => Type), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -179,6 +185,7 @@ function create_named_query(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_named_query(
@@ -203,6 +210,7 @@ function create_named_query(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -235,6 +243,7 @@ function create_prepared_statement(
             "WorkGroup" => WorkGroup,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_prepared_statement(
@@ -258,6 +267,7 @@ function create_prepared_statement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -284,7 +294,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_work_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "CreateWorkGroup", Dict{String,Any}("Name" => Name); aws_config=aws_config
+        "CreateWorkGroup",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_work_group(
@@ -294,6 +307,7 @@ function create_work_group(
         "CreateWorkGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -309,7 +323,10 @@ Deletes a data catalog.
 """
 function delete_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "DeleteDataCatalog", Dict{String,Any}("Name" => Name); aws_config=aws_config
+        "DeleteDataCatalog",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_data_catalog(
@@ -319,6 +336,7 @@ function delete_data_catalog(
         "DeleteDataCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -339,6 +357,7 @@ function delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_a
         "DeleteNamedQuery",
         Dict{String,Any}("NamedQueryId" => NamedQueryId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_named_query(
@@ -352,6 +371,7 @@ function delete_named_query(
             mergewith(_merge, Dict{String,Any}("NamedQueryId" => NamedQueryId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -373,6 +393,7 @@ function delete_prepared_statement(
         "DeletePreparedStatement",
         Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_prepared_statement(
@@ -393,6 +414,7 @@ function delete_prepared_statement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -412,7 +434,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "DeleteWorkGroup", Dict{String,Any}("WorkGroup" => WorkGroup); aws_config=aws_config
+        "DeleteWorkGroup",
+        Dict{String,Any}("WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_work_group(
@@ -426,6 +451,7 @@ function delete_work_group(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -440,7 +466,12 @@ Returns the specified data catalog.
 
 """
 function get_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena("GetDataCatalog", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+    return athena(
+        "GetDataCatalog",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_data_catalog(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -449,6 +480,7 @@ function get_data_catalog(
         "GetDataCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -470,6 +502,7 @@ function get_database(
         "GetDatabase",
         Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_database(
@@ -490,6 +523,7 @@ function get_database(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -509,6 +543,7 @@ function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_
         "GetNamedQuery",
         Dict{String,Any}("NamedQueryId" => NamedQueryId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_named_query(
@@ -522,6 +557,7 @@ function get_named_query(
             mergewith(_merge, Dict{String,Any}("NamedQueryId" => NamedQueryId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -543,6 +579,7 @@ function get_prepared_statement(
         "GetPreparedStatement",
         Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_prepared_statement(
@@ -563,6 +600,7 @@ function get_prepared_statement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -585,6 +623,7 @@ function get_query_execution(
         "GetQueryExecution",
         Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_query_execution(
@@ -600,6 +639,7 @@ function get_query_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -635,6 +675,7 @@ function get_query_results(
         "GetQueryResults",
         Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_query_results(
@@ -650,6 +691,7 @@ function get_query_results(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -677,6 +719,7 @@ function get_table_metadata(
             "TableName" => TableName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_table_metadata(
@@ -700,6 +743,7 @@ function get_table_metadata(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -715,7 +759,10 @@ Returns information about the workgroup with the specified name.
 """
 function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "GetWorkGroup", Dict{String,Any}("WorkGroup" => WorkGroup); aws_config=aws_config
+        "GetWorkGroup",
+        Dict{String,Any}("WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_work_group(
@@ -729,6 +776,7 @@ function get_work_group(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -746,12 +794,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken from the response object of the previous page call.
 """
 function list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena("ListDataCatalogs"; aws_config=aws_config)
+    return athena(
+        "ListDataCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_data_catalogs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return athena("ListDataCatalogs", params; aws_config=aws_config)
+    return athena(
+        "ListDataCatalogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -775,6 +827,7 @@ function list_databases(CatalogName; aws_config::AbstractAWSConfig=global_aws_co
         "ListDatabases",
         Dict{String,Any}("CatalogName" => CatalogName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_databases(
@@ -788,6 +841,7 @@ function list_databases(
             mergewith(_merge, Dict{String,Any}("CatalogName" => CatalogName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -806,12 +860,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken from the response object of the previous page call.
 """
 function list_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena("ListEngineVersions"; aws_config=aws_config)
+    return athena(
+        "ListEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return athena("ListEngineVersions", params; aws_config=aws_config)
+    return athena(
+        "ListEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -833,12 +891,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If a workgroup is not specified, the saved queries for the primary workgroup are returned.
 """
 function list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena("ListNamedQueries"; aws_config=aws_config)
+    return athena(
+        "ListNamedQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_named_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return athena("ListNamedQueries", params; aws_config=aws_config)
+    return athena(
+        "ListNamedQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -864,6 +926,7 @@ function list_prepared_statements(
         "ListPreparedStatements",
         Dict{String,Any}("WorkGroup" => WorkGroup);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_prepared_statements(
@@ -877,6 +940,7 @@ function list_prepared_statements(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -901,12 +965,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   primary workgroup is returned.
 """
 function list_query_executions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena("ListQueryExecutions"; aws_config=aws_config)
+    return athena(
+        "ListQueryExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_query_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return athena("ListQueryExecutions", params; aws_config=aws_config)
+    return athena(
+        "ListQueryExecutions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -935,6 +1006,7 @@ function list_table_metadata(
         "ListTableMetadata",
         Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_table_metadata(
@@ -955,6 +1027,7 @@ function list_table_metadata(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -982,6 +1055,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -995,6 +1069,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1012,12 +1087,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken from the response object of the previous page call.
 """
 function list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena("ListWorkGroups"; aws_config=aws_config)
+    return athena("ListWorkGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_work_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return athena("ListWorkGroups", params; aws_config=aws_config)
+    return athena(
+        "ListWorkGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1058,6 +1135,7 @@ function start_query_execution(
             "QueryString" => QueryString, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_query_execution(
@@ -1077,6 +1155,7 @@ function start_query_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1099,6 +1178,7 @@ function stop_query_execution(
         "StopQueryExecution",
         Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function stop_query_execution(
@@ -1114,6 +1194,7 @@ function stop_query_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1144,6 +1225,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1162,6 +1244,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1184,6 +1267,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -1202,6 +1286,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1238,6 +1323,7 @@ function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aw
         "UpdateDataCatalog",
         Dict{String,Any}("Name" => Name, "Type" => Type);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_data_catalog(
@@ -1252,6 +1338,7 @@ function update_data_catalog(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "Type" => Type), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1284,6 +1371,7 @@ function update_prepared_statement(
             "WorkGroup" => WorkGroup,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_prepared_statement(
@@ -1307,6 +1395,7 @@ function update_prepared_statement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1328,7 +1417,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
-        "UpdateWorkGroup", Dict{String,Any}("WorkGroup" => WorkGroup); aws_config=aws_config
+        "UpdateWorkGroup",
+        Dict{String,Any}("WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_work_group(
@@ -1342,5 +1434,6 @@ function update_work_group(
             mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

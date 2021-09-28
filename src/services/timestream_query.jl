@@ -20,7 +20,10 @@ indicating that the query has already been canceled.
 """
 function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
     return timestream_query(
-        "CancelQuery", Dict{String,Any}("QueryId" => QueryId); aws_config=aws_config
+        "CancelQuery",
+        Dict{String,Any}("QueryId" => QueryId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_query(
@@ -30,6 +33,7 @@ function cancel_query(
         "CancelQuery",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -48,12 +52,16 @@ APIs.
 
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_query("DescribeEndpoints"; aws_config=aws_config)
+    return timestream_query(
+        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return timestream_query("DescribeEndpoints", params; aws_config=aws_config)
+    return timestream_query(
+        "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -89,6 +97,7 @@ function query(QueryString; aws_config::AbstractAWSConfig=global_aws_config())
         "Query",
         Dict{String,Any}("QueryString" => QueryString, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function query(
@@ -108,5 +117,6 @@ function query(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

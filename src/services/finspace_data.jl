@@ -43,6 +43,7 @@ function create_changeset(
             "sourceType" => sourceType,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_changeset(
@@ -68,6 +69,7 @@ function create_changeset(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -92,6 +94,7 @@ function get_programmatic_access_credentials(
         "/credentials/programmatic",
         Dict{String,Any}("environmentId" => environmentId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_programmatic_access_credentials(
@@ -106,6 +109,7 @@ function get_programmatic_access_credentials(
             mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -125,10 +129,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creation operation.
 """
 function get_working_location(; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace_data("POST", "/workingLocationV1"; aws_config=aws_config)
+    return finspace_data(
+        "POST", "/workingLocationV1"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_working_location(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return finspace_data("POST", "/workingLocationV1", params; aws_config=aws_config)
+    return finspace_data(
+        "POST",
+        "/workingLocationV1",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end

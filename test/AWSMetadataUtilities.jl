@@ -327,8 +327,8 @@ end
     Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
     - `"OptionalParam"`: Optional param
     \"\"\"
-    sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2); aws_config=aws_config)
-    sample_operation(RequiredParam1, RequiredParam2, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), params)); aws_config=aws_config)
+    sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    sample_operation(RequiredParam1, RequiredParam2, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
     """
 
     result = _generate_high_level_definitions(service_name, protocol, operations, shapes)
@@ -375,8 +375,8 @@ end
             Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
             - `"OptionalParam"`: This parameter is optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
-            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config)
+            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             """
 
             result = _generate_high_level_definition(
@@ -412,8 +412,8 @@ end
             Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
             - `"OptionalParam"`: This parameter is optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
-            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config)
+            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             """
 
             result = _generate_high_level_definition(
@@ -462,8 +462,8 @@ end
             Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
             - `"OptionalParam"`: This parameter i  s optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)); aws_config=aws_config)
-            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), params)); aws_config=aws_config)
+            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             """
             result = _generate_high_level_definition(
                 service_name,
@@ -498,8 +498,8 @@ end
             Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
             - `"OptionalParam"`: This parameter i  s optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())); aws_config=aws_config)
-            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), params)); aws_config=aws_config)
+            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
             """
 
             result = _generate_high_level_definition(

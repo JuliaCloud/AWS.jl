@@ -16,7 +16,10 @@ Delete the connection with the provided id.
 """
 function delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
     return apigatewaymanagementapi(
-        "DELETE", "/@connections/$(connectionId)"; aws_config=aws_config
+        "DELETE",
+        "/@connections/$(connectionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_connection(
@@ -25,7 +28,11 @@ function delete_connection(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return apigatewaymanagementapi(
-        "DELETE", "/@connections/$(connectionId)", params; aws_config=aws_config
+        "DELETE",
+        "/@connections/$(connectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -41,7 +48,10 @@ Get information about the connection with the provided id.
 """
 function get_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
     return apigatewaymanagementapi(
-        "GET", "/@connections/$(connectionId)"; aws_config=aws_config
+        "GET",
+        "/@connections/$(connectionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_connection(
@@ -50,7 +60,11 @@ function get_connection(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return apigatewaymanagementapi(
-        "GET", "/@connections/$(connectionId)", params; aws_config=aws_config
+        "GET",
+        "/@connections/$(connectionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -73,6 +87,7 @@ function post_to_connection(
         "/@connections/$(connectionId)",
         Dict{String,Any}("Data" => Data);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function post_to_connection(
@@ -86,5 +101,6 @@ function post_to_connection(
         "/@connections/$(connectionId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Data" => Data), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -28,13 +28,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_recommendation_export_jobs(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return compute_optimizer("DescribeRecommendationExportJobs"; aws_config=aws_config)
+    return compute_optimizer(
+        "DescribeRecommendationExportJobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_recommendation_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return compute_optimizer(
-        "DescribeRecommendationExportJobs", params; aws_config=aws_config
+        "DescribeRecommendationExportJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -96,6 +103,7 @@ function export_auto_scaling_group_recommendations(
         "ExportAutoScalingGroupRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function export_auto_scaling_group_recommendations(
@@ -113,6 +121,7 @@ function export_auto_scaling_group_recommendations(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -164,6 +173,7 @@ function export_ebsvolume_recommendations(
         "ExportEBSVolumeRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function export_ebsvolume_recommendations(
@@ -181,6 +191,7 @@ function export_ebsvolume_recommendations(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -241,6 +252,7 @@ function export_ec2_instance_recommendations(
         "ExportEC2InstanceRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function export_ec2_instance_recommendations(
@@ -258,6 +270,7 @@ function export_ec2_instance_recommendations(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -309,6 +322,7 @@ function export_lambda_function_recommendations(
         "ExportLambdaFunctionRecommendations",
         Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function export_lambda_function_recommendations(
@@ -326,6 +340,7 @@ function export_lambda_function_recommendations(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -359,13 +374,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_auto_scaling_group_recommendations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return compute_optimizer("GetAutoScalingGroupRecommendations"; aws_config=aws_config)
+    return compute_optimizer(
+        "GetAutoScalingGroupRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_auto_scaling_group_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return compute_optimizer(
-        "GetAutoScalingGroupRecommendations", params; aws_config=aws_config
+        "GetAutoScalingGroupRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -394,12 +416,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recommendations.
 """
 function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer("GetEBSVolumeRecommendations"; aws_config=aws_config)
+    return compute_optimizer(
+        "GetEBSVolumeRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_ebsvolume_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return compute_optimizer("GetEBSVolumeRecommendations", params; aws_config=aws_config)
+    return compute_optimizer(
+        "GetEBSVolumeRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -431,12 +462,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_ec2_instance_recommendations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return compute_optimizer("GetEC2InstanceRecommendations"; aws_config=aws_config)
+    return compute_optimizer(
+        "GetEC2InstanceRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_ec2_instance_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return compute_optimizer("GetEC2InstanceRecommendations", params; aws_config=aws_config)
+    return compute_optimizer(
+        "GetEC2InstanceRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -480,6 +520,7 @@ function get_ec2_recommendation_projected_metrics(
             "stat" => stat,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_ec2_recommendation_projected_metrics(
@@ -507,6 +548,7 @@ function get_ec2_recommendation_projected_metrics(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -522,12 +564,19 @@ enrollment status of member accounts of an organization.
 
 """
 function get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer("GetEnrollmentStatus"; aws_config=aws_config)
+    return compute_optimizer(
+        "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_enrollment_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return compute_optimizer("GetEnrollmentStatus", params; aws_config=aws_config)
+    return compute_optimizer(
+        "GetEnrollmentStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -550,13 +599,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_enrollment_statuses_for_organization(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return compute_optimizer("GetEnrollmentStatusesForOrganization"; aws_config=aws_config)
+    return compute_optimizer(
+        "GetEnrollmentStatusesForOrganization";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_enrollment_statuses_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return compute_optimizer(
-        "GetEnrollmentStatusesForOrganization", params; aws_config=aws_config
+        "GetEnrollmentStatusesForOrganization",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -591,13 +647,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_lambda_function_recommendations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return compute_optimizer("GetLambdaFunctionRecommendations"; aws_config=aws_config)
+    return compute_optimizer(
+        "GetLambdaFunctionRecommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_lambda_function_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return compute_optimizer(
-        "GetLambdaFunctionRecommendations", params; aws_config=aws_config
+        "GetLambdaFunctionRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -623,12 +686,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to advance to the next page of recommendation summaries.
 """
 function get_recommendation_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer("GetRecommendationSummaries"; aws_config=aws_config)
+    return compute_optimizer(
+        "GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_recommendation_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return compute_optimizer("GetRecommendationSummaries", params; aws_config=aws_config)
+    return compute_optimizer(
+        "GetRecommendationSummaries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -666,6 +736,7 @@ function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_a
         "UpdateEnrollmentStatus",
         Dict{String,Any}("status" => status);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_enrollment_status(
@@ -675,5 +746,6 @@ function update_enrollment_status(
         "UpdateEnrollmentStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

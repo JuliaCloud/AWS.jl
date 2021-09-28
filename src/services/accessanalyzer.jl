@@ -31,6 +31,7 @@ function apply_archive_rule(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function apply_archive_rule(
@@ -54,6 +55,7 @@ function apply_archive_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -70,13 +72,22 @@ Cancels the requested policy generation.
 
 """
 function cancel_policy_generation(jobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return accessanalyzer("PUT", "/policy/generation/$(jobId)"; aws_config=aws_config)
+    return accessanalyzer(
+        "PUT",
+        "/policy/generation/$(jobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function cancel_policy_generation(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return accessanalyzer(
-        "PUT", "/policy/generation/$(jobId)", params; aws_config=aws_config
+        "PUT",
+        "/policy/generation/$(jobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -111,6 +122,7 @@ function create_access_preview(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_access_preview(
@@ -134,6 +146,7 @@ function create_access_preview(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -166,6 +179,7 @@ function create_analyzer(
             "analyzerName" => analyzerName, "type" => type, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_analyzer(
@@ -189,6 +203,7 @@ function create_analyzer(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -220,6 +235,7 @@ function create_archive_rule(
             "filter" => filter, "ruleName" => ruleName, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_archive_rule(
@@ -244,6 +260,7 @@ function create_archive_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -268,6 +285,7 @@ function delete_analyzer(analyzerName; aws_config::AbstractAWSConfig=global_aws_
         "/analyzer/$(analyzerName)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_analyzer(
@@ -282,6 +300,7 @@ function delete_analyzer(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -307,6 +326,7 @@ function delete_archive_rule(
         "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_archive_rule(
@@ -322,6 +342,7 @@ function delete_archive_rule(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -344,6 +365,7 @@ function get_access_preview(
         "/access-preview/$(accessPreviewId)",
         Dict{String,Any}("analyzerArn" => analyzerArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_access_preview(
@@ -359,6 +381,7 @@ function get_access_preview(
             mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -381,6 +404,7 @@ function get_analyzed_resource(
         "/analyzed-resource",
         Dict{String,Any}("analyzerArn" => analyzerArn, "resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_analyzed_resource(
@@ -402,6 +426,7 @@ function get_analyzed_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -416,14 +441,25 @@ Retrieves information about the specified analyzer.
 
 """
 function get_analyzer(analyzerName; aws_config::AbstractAWSConfig=global_aws_config())
-    return accessanalyzer("GET", "/analyzer/$(analyzerName)"; aws_config=aws_config)
+    return accessanalyzer(
+        "GET",
+        "/analyzer/$(analyzerName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_analyzer(
     analyzerName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return accessanalyzer("GET", "/analyzer/$(analyzerName)", params; aws_config=aws_config)
+    return accessanalyzer(
+        "GET",
+        "/analyzer/$(analyzerName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -442,7 +478,10 @@ function get_archive_rule(
     analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return accessanalyzer(
-        "GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)"; aws_config=aws_config
+        "GET",
+        "/analyzer/$(analyzerName)/archive-rule/$(ruleName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_archive_rule(
@@ -456,6 +495,7 @@ function get_archive_rule(
         "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -476,6 +516,7 @@ function get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_c
         "/finding/$(id)",
         Dict{String,Any}("analyzerArn" => analyzerArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_finding(
@@ -491,6 +532,7 @@ function get_finding(
             mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -518,13 +560,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service-level template.
 """
 function get_generated_policy(jobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return accessanalyzer("GET", "/policy/generation/$(jobId)"; aws_config=aws_config)
+    return accessanalyzer(
+        "GET",
+        "/policy/generation/$(jobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_generated_policy(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return accessanalyzer(
-        "GET", "/policy/generation/$(jobId)", params; aws_config=aws_config
+        "GET",
+        "/policy/generation/$(jobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -552,6 +603,7 @@ function list_access_preview_findings(
         "/access-preview/$(accessPreviewId)",
         Dict{String,Any}("analyzerArn" => analyzerArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_access_preview_findings(
@@ -567,6 +619,7 @@ function list_access_preview_findings(
             mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -592,6 +645,7 @@ function list_access_previews(
         "/access-preview",
         Dict{String,Any}("analyzerArn" => analyzerArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_access_previews(
@@ -606,6 +660,7 @@ function list_access_previews(
             mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -633,6 +688,7 @@ function list_analyzed_resources(
         "/analyzed-resource",
         Dict{String,Any}("analyzerArn" => analyzerArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_analyzed_resources(
@@ -647,6 +703,7 @@ function list_analyzed_resources(
             mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -663,12 +720,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of analyzer.
 """
 function list_analyzers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return accessanalyzer("GET", "/analyzer"; aws_config=aws_config)
+    return accessanalyzer(
+        "GET", "/analyzer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_analyzers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return accessanalyzer("GET", "/analyzer", params; aws_config=aws_config)
+    return accessanalyzer(
+        "GET", "/analyzer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -687,7 +748,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_archive_rules(analyzerName; aws_config::AbstractAWSConfig=global_aws_config())
     return accessanalyzer(
-        "GET", "/analyzer/$(analyzerName)/archive-rule"; aws_config=aws_config
+        "GET",
+        "/analyzer/$(analyzerName)/archive-rule";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_archive_rules(
@@ -696,7 +760,11 @@ function list_archive_rules(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return accessanalyzer(
-        "GET", "/analyzer/$(analyzerName)/archive-rule", params; aws_config=aws_config
+        "GET",
+        "/analyzer/$(analyzerName)/archive-rule",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -724,6 +792,7 @@ function list_findings(analyzerArn; aws_config::AbstractAWSConfig=global_aws_con
         "/finding",
         Dict{String,Any}("analyzerArn" => analyzerArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_findings(
@@ -738,6 +807,7 @@ function list_findings(
             mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -756,12 +826,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for a specific principal.
 """
 function list_policy_generations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return accessanalyzer("GET", "/policy/generation"; aws_config=aws_config)
+    return accessanalyzer(
+        "GET", "/policy/generation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_policy_generations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return accessanalyzer("GET", "/policy/generation", params; aws_config=aws_config)
+    return accessanalyzer(
+        "GET",
+        "/policy/generation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -777,14 +855,25 @@ Retrieves a list of tags applied to the specified resource.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return accessanalyzer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return accessanalyzer(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return accessanalyzer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return accessanalyzer(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -819,6 +908,7 @@ function start_policy_generation(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_policy_generation(
@@ -840,6 +930,7 @@ function start_policy_generation(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -863,6 +954,7 @@ function start_resource_scan(
         "/resource/scan",
         Dict{String,Any}("analyzerArn" => analyzerArn, "resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_resource_scan(
@@ -884,6 +976,7 @@ function start_resource_scan(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -904,6 +997,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -917,6 +1011,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -939,6 +1034,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -952,6 +1048,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -979,6 +1076,7 @@ function update_archive_rule(
         "/analyzer/$(analyzerName)/archive-rule/$(ruleName)",
         Dict{String,Any}("filter" => filter, "clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_archive_rule(
@@ -999,6 +1097,7 @@ function update_archive_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1032,6 +1131,7 @@ function update_findings(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_findings(
@@ -1055,6 +1155,7 @@ function update_findings(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1091,6 +1192,7 @@ function validate_policy(
         "/policy/validation",
         Dict{String,Any}("policyDocument" => policyDocument, "policyType" => policyType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function validate_policy(
@@ -1112,5 +1214,6 @@ function validate_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

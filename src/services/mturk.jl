@@ -29,6 +29,7 @@ function accept_qualification_request(
         "AcceptQualificationRequest",
         Dict{String,Any}("QualificationRequestId" => QualificationRequestId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function accept_qualification_request(
@@ -46,6 +47,7 @@ function accept_qualification_request(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -81,6 +83,7 @@ function approve_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_a
         "ApproveAssignment",
         Dict{String,Any}("AssignmentId" => AssignmentId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function approve_assignment(
@@ -94,6 +97,7 @@ function approve_assignment(
             mergewith(_merge, Dict{String,Any}("AssignmentId" => AssignmentId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -134,6 +138,7 @@ function associate_qualification_with_worker(
             "QualificationTypeId" => QualificationTypeId, "WorkerId" => WorkerId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_qualification_with_worker(
@@ -154,6 +159,7 @@ function associate_qualification_with_worker(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -195,6 +201,7 @@ function create_additional_assignments_for_hit(
             "NumberOfAdditionalAssignments" => NumberOfAdditionalAssignments,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_additional_assignments_for_hit(
@@ -216,6 +223,7 @@ function create_additional_assignments_for_hit(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -323,6 +331,7 @@ function create_hit(
             "Title" => Title,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_hit(
@@ -350,6 +359,7 @@ function create_hit(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -408,6 +418,7 @@ function create_hittype(
             "Title" => Title,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_hittype(
@@ -433,6 +444,7 @@ function create_hittype(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -501,6 +513,7 @@ function create_hitwith_hittype(
             "HITTypeId" => HITTypeId, "LifetimeInSeconds" => LifetimeInSeconds
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_hitwith_hittype(
@@ -521,6 +534,7 @@ function create_hitwith_hittype(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -583,6 +597,7 @@ function create_qualification_type(
             "QualificationTypeStatus" => QualificationTypeStatus,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_qualification_type(
@@ -606,6 +621,7 @@ function create_qualification_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -630,6 +646,7 @@ function create_worker_block(
         "CreateWorkerBlock",
         Dict{String,Any}("Reason" => Reason, "WorkerId" => WorkerId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_worker_block(
@@ -646,6 +663,7 @@ function create_worker_block(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -669,7 +687,12 @@ can improve the performance of operations such as ListReviewableHITs and ListHIT
 
 """
 function delete_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mturk("DeleteHIT", Dict{String,Any}("HITId" => HITId); aws_config=aws_config)
+    return mturk(
+        "DeleteHIT",
+        Dict{String,Any}("HITId" => HITId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -678,6 +701,7 @@ function delete_hit(
         "DeleteHIT",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -706,6 +730,7 @@ function delete_qualification_type(
         "DeleteQualificationType",
         Dict{String,Any}("QualificationTypeId" => QualificationTypeId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_qualification_type(
@@ -723,6 +748,7 @@ function delete_qualification_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -746,7 +772,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=global_aws_config())
     return mturk(
-        "DeleteWorkerBlock", Dict{String,Any}("WorkerId" => WorkerId); aws_config=aws_config
+        "DeleteWorkerBlock",
+        Dict{String,Any}("WorkerId" => WorkerId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_worker_block(
@@ -760,6 +789,7 @@ function delete_worker_block(
             mergewith(_merge, Dict{String,Any}("WorkerId" => WorkerId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -790,6 +820,7 @@ function disassociate_qualification_from_worker(
             "QualificationTypeId" => QualificationTypeId, "WorkerId" => WorkerId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_qualification_from_worker(
@@ -810,6 +841,7 @@ function disassociate_qualification_from_worker(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -825,12 +857,16 @@ balance can be viewed on the My Account page in the Requester console.
 
 """
 function get_account_balance(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mturk("GetAccountBalance"; aws_config=aws_config)
+    return mturk(
+        "GetAccountBalance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_account_balance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return mturk("GetAccountBalance", params; aws_config=aws_config)
+    return mturk(
+        "GetAccountBalance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -848,6 +884,7 @@ function get_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_c
         "GetAssignment",
         Dict{String,Any}("AssignmentId" => AssignmentId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_assignment(
@@ -861,6 +898,7 @@ function get_assignment(
             mergewith(_merge, Dict{String,Any}("AssignmentId" => AssignmentId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -894,6 +932,7 @@ function get_file_upload_url(
             "AssignmentId" => AssignmentId, "QuestionIdentifier" => QuestionIdentifier
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_file_upload_url(
@@ -915,6 +954,7 @@ function get_file_upload_url(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -929,7 +969,12 @@ end
 
 """
 function get_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mturk("GetHIT", Dict{String,Any}("HITId" => HITId); aws_config=aws_config)
+    return mturk(
+        "GetHIT",
+        Dict{String,Any}("HITId" => HITId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -938,6 +983,7 @@ function get_hit(
         "GetHIT",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -965,6 +1011,7 @@ function get_qualification_score(
             "QualificationTypeId" => QualificationTypeId, "WorkerId" => WorkerId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_qualification_score(
@@ -985,6 +1032,7 @@ function get_qualification_score(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1006,6 +1054,7 @@ function get_qualification_type(
         "GetQualificationType",
         Dict{String,Any}("QualificationTypeId" => QualificationTypeId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_qualification_type(
@@ -1023,6 +1072,7 @@ function get_qualification_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1055,7 +1105,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config())
     return mturk(
-        "ListAssignmentsForHIT", Dict{String,Any}("HITId" => HITId); aws_config=aws_config
+        "ListAssignmentsForHIT",
+        Dict{String,Any}("HITId" => HITId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_assignments_for_hit(
@@ -1065,6 +1118,7 @@ function list_assignments_for_hit(
         "ListAssignmentsForHIT",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1087,12 +1141,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token
 """
 function list_bonus_payments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mturk("ListBonusPayments"; aws_config=aws_config)
+    return mturk(
+        "ListBonusPayments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_bonus_payments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return mturk("ListBonusPayments", params; aws_config=aws_config)
+    return mturk(
+        "ListBonusPayments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1109,12 +1167,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token
 """
 function list_hits(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mturk("ListHITs"; aws_config=aws_config)
+    return mturk("ListHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_hits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return mturk("ListHITs", params; aws_config=aws_config)
+    return mturk("ListHITs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1141,6 +1199,7 @@ function list_hits_for_qualification_type(
         "ListHITsForQualificationType",
         Dict{String,Any}("QualificationTypeId" => QualificationTypeId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_hits_for_qualification_type(
@@ -1158,6 +1217,7 @@ function list_hits_for_qualification_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1176,12 +1236,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QualificationTypeId"`: The ID of the QualificationType.
 """
 function list_qualification_requests(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mturk("ListQualificationRequests"; aws_config=aws_config)
+    return mturk(
+        "ListQualificationRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_qualification_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return mturk("ListQualificationRequests", params; aws_config=aws_config)
+    return mturk(
+        "ListQualificationRequests",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1214,6 +1281,7 @@ function list_qualification_types(
         "ListQualificationTypes",
         Dict{String,Any}("MustBeRequestable" => MustBeRequestable);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_qualification_types(
@@ -1229,6 +1297,7 @@ function list_qualification_types(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1264,6 +1333,7 @@ function list_review_policy_results_for_hit(
         "ListReviewPolicyResultsForHIT",
         Dict{String,Any}("HITId" => HITId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_review_policy_results_for_hit(
@@ -1273,6 +1343,7 @@ function list_review_policy_results_for_hit(
         "ListReviewPolicyResultsForHIT",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1292,12 +1363,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`:  Can be either Reviewable or Reviewing. Reviewable is the default value.
 """
 function list_reviewable_hits(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mturk("ListReviewableHITs"; aws_config=aws_config)
+    return mturk(
+        "ListReviewableHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_reviewable_hits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return mturk("ListReviewableHITs", params; aws_config=aws_config)
+    return mturk(
+        "ListReviewableHITs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1313,12 +1388,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token
 """
 function list_worker_blocks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mturk("ListWorkerBlocks"; aws_config=aws_config)
+    return mturk("ListWorkerBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_worker_blocks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return mturk("ListWorkerBlocks", params; aws_config=aws_config)
+    return mturk(
+        "ListWorkerBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1344,6 +1421,7 @@ function list_workers_with_qualification_type(
         "ListWorkersWithQualificationType",
         Dict{String,Any}("QualificationTypeId" => QualificationTypeId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_workers_with_qualification_type(
@@ -1361,6 +1439,7 @@ function list_workers_with_qualification_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1390,6 +1469,7 @@ function notify_workers(
             "MessageText" => MessageText, "Subject" => Subject, "WorkerIds" => WorkerIds
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function notify_workers(
@@ -1413,6 +1493,7 @@ function notify_workers(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1443,6 +1524,7 @@ function reject_assignment(
             "AssignmentId" => AssignmentId, "RequesterFeedback" => RequesterFeedback
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reject_assignment(
@@ -1463,6 +1545,7 @@ function reject_assignment(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1490,6 +1573,7 @@ function reject_qualification_request(
         "RejectQualificationRequest",
         Dict{String,Any}("QualificationRequestId" => QualificationRequestId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reject_qualification_request(
@@ -1507,6 +1591,7 @@ function reject_qualification_request(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1557,6 +1642,7 @@ function send_bonus(
             "WorkerId" => WorkerId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function send_bonus(
@@ -1582,6 +1668,7 @@ function send_bonus(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1611,6 +1698,7 @@ function send_test_event_notification(
         "SendTestEventNotification",
         Dict{String,Any}("Notification" => Notification, "TestEventType" => TestEventType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function send_test_event_notification(
@@ -1631,6 +1719,7 @@ function send_test_event_notification(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1653,6 +1742,7 @@ function update_expiration_for_hit(
         "UpdateExpirationForHIT",
         Dict{String,Any}("ExpireAt" => ExpireAt, "HITId" => HITId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_expiration_for_hit(
@@ -1669,6 +1759,7 @@ function update_expiration_for_hit(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1691,7 +1782,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=global_aws_config())
     return mturk(
-        "UpdateHITReviewStatus", Dict{String,Any}("HITId" => HITId); aws_config=aws_config
+        "UpdateHITReviewStatus",
+        Dict{String,Any}("HITId" => HITId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_hitreview_status(
@@ -1701,6 +1795,7 @@ function update_hitreview_status(
         "UpdateHITReviewStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HITId" => HITId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1725,6 +1820,7 @@ function update_hittype_of_hit(
         "UpdateHITTypeOfHIT",
         Dict{String,Any}("HITId" => HITId, "HITTypeId" => HITTypeId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_hittype_of_hit(
@@ -1741,6 +1837,7 @@ function update_hittype_of_hit(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1775,6 +1872,7 @@ function update_notification_settings(
         "UpdateNotificationSettings",
         Dict{String,Any}("HITTypeId" => HITTypeId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_notification_settings(
@@ -1788,6 +1886,7 @@ function update_notification_settings(
             mergewith(_merge, Dict{String,Any}("HITTypeId" => HITTypeId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1852,6 +1951,7 @@ function update_qualification_type(
         "UpdateQualificationType",
         Dict{String,Any}("QualificationTypeId" => QualificationTypeId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_qualification_type(
@@ -1869,5 +1969,6 @@ function update_qualification_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -26,6 +26,7 @@ function cancel_change_set(
         "/CancelChangeSet",
         Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_change_set(
@@ -45,6 +46,7 @@ function cancel_change_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -68,6 +70,7 @@ function describe_change_set(
         "/DescribeChangeSet",
         Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_change_set(
@@ -87,6 +90,7 @@ function describe_change_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -109,6 +113,7 @@ function describe_entity(
         "/DescribeEntity",
         Dict{String,Any}("catalog" => catalog, "entityId" => entityId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_entity(
@@ -128,6 +133,7 @@ function describe_entity(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -160,6 +166,7 @@ function list_change_sets(Catalog; aws_config::AbstractAWSConfig=global_aws_conf
         "/ListChangeSets",
         Dict{String,Any}("Catalog" => Catalog);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_change_sets(
@@ -170,6 +177,7 @@ function list_change_sets(
         "/ListChangeSets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Catalog" => Catalog), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -201,6 +209,7 @@ function list_entities(
         "/ListEntities",
         Dict{String,Any}("Catalog" => Catalog, "EntityType" => EntityType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_entities(
@@ -220,6 +229,7 @@ function list_entities(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -255,6 +265,7 @@ function start_change_set(
         "/StartChangeSet",
         Dict{String,Any}("Catalog" => Catalog, "ChangeSet" => ChangeSet);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_change_set(
@@ -274,5 +285,6 @@ function start_change_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

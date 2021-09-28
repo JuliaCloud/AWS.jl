@@ -55,6 +55,7 @@ function count_closed_workflow_executions(
         "CountClosedWorkflowExecutions",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function count_closed_workflow_executions(
@@ -64,6 +65,7 @@ function count_closed_workflow_executions(
         "CountClosedWorkflowExecutions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -110,6 +112,7 @@ function count_open_workflow_executions(
         "CountOpenWorkflowExecutions",
         Dict{String,Any}("domain" => domain, "startTimeFilter" => startTimeFilter);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function count_open_workflow_executions(
@@ -128,6 +131,7 @@ function count_open_workflow_executions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -160,6 +164,7 @@ function count_pending_activity_tasks(
         "CountPendingActivityTasks",
         Dict{String,Any}("domain" => domain, "taskList" => taskList);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function count_pending_activity_tasks(
@@ -176,6 +181,7 @@ function count_pending_activity_tasks(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -208,6 +214,7 @@ function count_pending_decision_tasks(
         "CountPendingDecisionTasks",
         Dict{String,Any}("domain" => domain, "taskList" => taskList);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function count_pending_decision_tasks(
@@ -224,6 +231,7 @@ function count_pending_decision_tasks(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -259,6 +267,7 @@ function deprecate_activity_type(
         "DeprecateActivityType",
         Dict{String,Any}("activityType" => activityType, "domain" => domain);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deprecate_activity_type(
@@ -277,6 +286,7 @@ function deprecate_activity_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -304,7 +314,12 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 
 """
 function deprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return swf("DeprecateDomain", Dict{String,Any}("name" => name); aws_config=aws_config)
+    return swf(
+        "DeprecateDomain",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function deprecate_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -313,6 +328,7 @@ function deprecate_domain(
         "DeprecateDomain",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -348,6 +364,7 @@ function deprecate_workflow_type(
         "DeprecateWorkflowType",
         Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deprecate_workflow_type(
@@ -366,6 +383,7 @@ function deprecate_workflow_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -399,6 +417,7 @@ function describe_activity_type(
         "DescribeActivityType",
         Dict{String,Any}("activityType" => activityType, "domain" => domain);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_activity_type(
@@ -417,6 +436,7 @@ function describe_activity_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -439,7 +459,12 @@ Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer G
 
 """
 function describe_domain(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return swf("DescribeDomain", Dict{String,Any}("name" => name); aws_config=aws_config)
+    return swf(
+        "DescribeDomain",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -448,6 +473,7 @@ function describe_domain(
         "DescribeDomain",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -479,6 +505,7 @@ function describe_workflow_execution(
         "DescribeWorkflowExecution",
         Dict{String,Any}("domain" => domain, "execution" => execution);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_workflow_execution(
@@ -497,6 +524,7 @@ function describe_workflow_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -530,6 +558,7 @@ function describe_workflow_type(
         "DescribeWorkflowType",
         Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_workflow_type(
@@ -548,6 +577,7 @@ function describe_workflow_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -592,6 +622,7 @@ function get_workflow_execution_history(
         "GetWorkflowExecutionHistory",
         Dict{String,Any}("domain" => domain, "execution" => execution);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_workflow_execution_history(
@@ -610,6 +641,7 @@ function get_workflow_execution_history(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -656,6 +688,7 @@ function list_activity_types(
         "ListActivityTypes",
         Dict{String,Any}("domain" => domain, "registrationStatus" => registrationStatus);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_activity_types(
@@ -676,6 +709,7 @@ function list_activity_types(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -746,6 +780,7 @@ function list_closed_workflow_executions(
         "ListClosedWorkflowExecutions",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_closed_workflow_executions(
@@ -755,6 +790,7 @@ function list_closed_workflow_executions(
         "ListClosedWorkflowExecutions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -797,6 +833,7 @@ function list_domains(registrationStatus; aws_config::AbstractAWSConfig=global_a
         "ListDomains",
         Dict{String,Any}("registrationStatus" => registrationStatus);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_domains(
@@ -812,6 +849,7 @@ function list_domains(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -869,6 +907,7 @@ function list_open_workflow_executions(
         "ListOpenWorkflowExecutions",
         Dict{String,Any}("domain" => domain, "startTimeFilter" => startTimeFilter);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_open_workflow_executions(
@@ -887,6 +926,7 @@ function list_open_workflow_executions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -907,6 +947,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -920,6 +961,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -963,6 +1005,7 @@ function list_workflow_types(
         "ListWorkflowTypes",
         Dict{String,Any}("domain" => domain, "registrationStatus" => registrationStatus);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_workflow_types(
@@ -983,6 +1026,7 @@ function list_workflow_types(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1029,6 +1073,7 @@ function poll_for_activity_task(
         "PollForActivityTask",
         Dict{String,Any}("domain" => domain, "taskList" => taskList);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function poll_for_activity_task(
@@ -1045,6 +1090,7 @@ function poll_for_activity_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1112,6 +1158,7 @@ function poll_for_decision_task(
         "PollForDecisionTask",
         Dict{String,Any}("domain" => domain, "taskList" => taskList);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function poll_for_decision_task(
@@ -1128,6 +1175,7 @@ function poll_for_decision_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1178,6 +1226,7 @@ function record_activity_task_heartbeat(
         "RecordActivityTaskHeartbeat",
         Dict{String,Any}("taskToken" => taskToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function record_activity_task_heartbeat(
@@ -1191,6 +1240,7 @@ function record_activity_task_heartbeat(
             mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1267,6 +1317,7 @@ function register_activity_type(
         "RegisterActivityType",
         Dict{String,Any}("domain" => domain, "name" => name, "version" => version);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_activity_type(
@@ -1286,6 +1337,7 @@ function register_activity_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1336,6 +1388,7 @@ function register_domain(
                 workflowExecutionRetentionPeriodInDays,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_domain(
@@ -1358,6 +1411,7 @@ function register_domain(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1442,6 +1496,7 @@ function register_workflow_type(
         "RegisterWorkflowType",
         Dict{String,Any}("domain" => domain, "name" => name, "version" => version);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_workflow_type(
@@ -1461,6 +1516,7 @@ function register_workflow_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1500,6 +1556,7 @@ function request_cancel_workflow_execution(
         "RequestCancelWorkflowExecution",
         Dict{String,Any}("domain" => domain, "workflowId" => workflowId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function request_cancel_workflow_execution(
@@ -1518,6 +1575,7 @@ function request_cancel_workflow_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1560,6 +1618,7 @@ function respond_activity_task_canceled(
         "RespondActivityTaskCanceled",
         Dict{String,Any}("taskToken" => taskToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function respond_activity_task_canceled(
@@ -1573,6 +1632,7 @@ function respond_activity_task_canceled(
             mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1617,6 +1677,7 @@ function respond_activity_task_completed(
         "RespondActivityTaskCompleted",
         Dict{String,Any}("taskToken" => taskToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function respond_activity_task_completed(
@@ -1630,6 +1691,7 @@ function respond_activity_task_completed(
             mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1671,6 +1733,7 @@ function respond_activity_task_failed(
         "RespondActivityTaskFailed",
         Dict{String,Any}("taskToken" => taskToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function respond_activity_task_failed(
@@ -1684,6 +1747,7 @@ function respond_activity_task_failed(
             mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1721,6 +1785,7 @@ function respond_decision_task_completed(
         "RespondDecisionTaskCompleted",
         Dict{String,Any}("taskToken" => taskToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function respond_decision_task_completed(
@@ -1734,6 +1799,7 @@ function respond_decision_task_completed(
             mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1778,6 +1844,7 @@ function signal_workflow_execution(
             "domain" => domain, "signalName" => signalName, "workflowId" => workflowId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function signal_workflow_execution(
@@ -1801,6 +1868,7 @@ function signal_workflow_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1904,6 +1972,7 @@ function start_workflow_execution(
             "domain" => domain, "workflowId" => workflowId, "workflowType" => workflowType
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_workflow_execution(
@@ -1927,6 +1996,7 @@ function start_workflow_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1947,6 +2017,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1965,6 +2036,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2018,6 +2090,7 @@ function terminate_workflow_execution(
         "TerminateWorkflowExecution",
         Dict{String,Any}("domain" => domain, "workflowId" => workflowId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function terminate_workflow_execution(
@@ -2036,6 +2109,7 @@ function terminate_workflow_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2070,6 +2144,7 @@ function undeprecate_activity_type(
         "UndeprecateActivityType",
         Dict{String,Any}("activityType" => activityType, "domain" => domain);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function undeprecate_activity_type(
@@ -2088,6 +2163,7 @@ function undeprecate_activity_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2113,7 +2189,12 @@ Developer Guide.
 
 """
 function undeprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return swf("UndeprecateDomain", Dict{String,Any}("name" => name); aws_config=aws_config)
+    return swf(
+        "UndeprecateDomain",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function undeprecate_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2122,6 +2203,7 @@ function undeprecate_domain(
         "UndeprecateDomain",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2156,6 +2238,7 @@ function undeprecate_workflow_type(
         "UndeprecateWorkflowType",
         Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function undeprecate_workflow_type(
@@ -2174,6 +2257,7 @@ function undeprecate_workflow_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2195,6 +2279,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -2213,5 +2298,6 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

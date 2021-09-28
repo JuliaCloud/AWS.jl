@@ -42,6 +42,7 @@ function associate_firewall_policy(
         "AssociateFirewallPolicy",
         Dict{String,Any}("FirewallPolicyArn" => FirewallPolicyArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_firewall_policy(
@@ -57,6 +58,7 @@ function associate_firewall_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -100,6 +102,7 @@ function associate_subnets(
         "AssociateSubnets",
         Dict{String,Any}("SubnetMappings" => SubnetMappings);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_subnets(
@@ -113,6 +116,7 @@ function associate_subnets(
             mergewith(_merge, Dict{String,Any}("SubnetMappings" => SubnetMappings), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -175,6 +179,7 @@ function create_firewall(
             "VpcId" => VpcId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_firewall(
@@ -200,6 +205,7 @@ function create_firewall(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -239,6 +245,7 @@ function create_firewall_policy(
             "FirewallPolicy" => FirewallPolicy, "FirewallPolicyName" => FirewallPolicyName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_firewall_policy(
@@ -260,6 +267,7 @@ function create_firewall_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -329,6 +337,7 @@ function create_rule_group(
             "Capacity" => Capacity, "RuleGroupName" => RuleGroupName, "Type" => Type
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_rule_group(
@@ -350,6 +359,7 @@ function create_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -376,12 +386,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both.
 """
 function delete_firewall(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("DeleteFirewall"; aws_config=aws_config)
+    return network_firewall(
+        "DeleteFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_firewall(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("DeleteFirewall", params; aws_config=aws_config)
+    return network_firewall(
+        "DeleteFirewall", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -399,12 +413,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can specify both.
 """
 function delete_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("DeleteFirewallPolicy"; aws_config=aws_config)
+    return network_firewall(
+        "DeleteFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_firewall_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("DeleteFirewallPolicy", params; aws_config=aws_config)
+    return network_firewall(
+        "DeleteFirewallPolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -425,6 +446,7 @@ function delete_resource_policy(
         "DeleteResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_resource_policy(
@@ -438,6 +460,7 @@ function delete_resource_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -459,12 +482,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This setting is required for requests that do not include the RuleGroupARN.
 """
 function delete_rule_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("DeleteRuleGroup"; aws_config=aws_config)
+    return network_firewall(
+        "DeleteRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("DeleteRuleGroup", params; aws_config=aws_config)
+    return network_firewall(
+        "DeleteRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -482,12 +509,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both.
 """
 function describe_firewall(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("DescribeFirewall"; aws_config=aws_config)
+    return network_firewall(
+        "DescribeFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_firewall(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("DescribeFirewall", params; aws_config=aws_config)
+    return network_firewall(
+        "DescribeFirewall", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -505,12 +536,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can specify both.
 """
 function describe_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("DescribeFirewallPolicy"; aws_config=aws_config)
+    return network_firewall(
+        "DescribeFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_firewall_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("DescribeFirewallPolicy", params; aws_config=aws_config)
+    return network_firewall(
+        "DescribeFirewallPolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -528,12 +566,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both.
 """
 function describe_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("DescribeLoggingConfiguration"; aws_config=aws_config)
+    return network_firewall(
+        "DescribeLoggingConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("DescribeLoggingConfiguration", params; aws_config=aws_config)
+    return network_firewall(
+        "DescribeLoggingConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -554,6 +601,7 @@ function describe_resource_policy(
         "DescribeResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_resource_policy(
@@ -567,6 +615,7 @@ function describe_resource_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -588,12 +637,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This setting is required for requests that do not include the RuleGroupARN.
 """
 function describe_rule_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("DescribeRuleGroup"; aws_config=aws_config)
+    return network_firewall(
+        "DescribeRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("DescribeRuleGroup", params; aws_config=aws_config)
+    return network_firewall(
+        "DescribeRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -631,6 +684,7 @@ function disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=global_aw
         "DisassociateSubnets",
         Dict{String,Any}("SubnetIds" => SubnetIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_subnets(
@@ -644,6 +698,7 @@ function disassociate_subnets(
             mergewith(_merge, Dict{String,Any}("SubnetIds" => SubnetIds), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -666,12 +721,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects, use the token returned from the prior request in your next request.
 """
 function list_firewall_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("ListFirewallPolicies"; aws_config=aws_config)
+    return network_firewall(
+        "ListFirewallPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_firewall_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("ListFirewallPolicies", params; aws_config=aws_config)
+    return network_firewall(
+        "ListFirewallPolicies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -696,12 +758,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the firewalls for. Leave this blank to retrieve all firewalls that you have defined.
 """
 function list_firewalls(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("ListFirewalls"; aws_config=aws_config)
+    return network_firewall(
+        "ListFirewalls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_firewalls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("ListFirewalls", params; aws_config=aws_config)
+    return network_firewall(
+        "ListFirewalls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -723,12 +789,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects, use the token returned from the prior request in your next request.
 """
 function list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("ListRuleGroups"; aws_config=aws_config)
+    return network_firewall(
+        "ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_rule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("ListRuleGroups", params; aws_config=aws_config)
+    return network_firewall(
+        "ListRuleGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -762,6 +832,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -775,6 +846,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -818,6 +890,7 @@ function put_resource_policy(
         "PutResourcePolicy",
         Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_resource_policy(
@@ -836,6 +909,7 @@ function put_resource_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -860,6 +934,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -878,6 +953,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -904,6 +980,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -922,6 +999,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -965,6 +1043,7 @@ function update_firewall_delete_protection(
         "UpdateFirewallDeleteProtection",
         Dict{String,Any}("DeleteProtection" => DeleteProtection);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_firewall_delete_protection(
@@ -980,6 +1059,7 @@ function update_firewall_delete_protection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1012,12 +1092,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the new token.
 """
 function update_firewall_description(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("UpdateFirewallDescription"; aws_config=aws_config)
+    return network_firewall(
+        "UpdateFirewallDescription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_firewall_description(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("UpdateFirewallDescription", params; aws_config=aws_config)
+    return network_firewall(
+        "UpdateFirewallDescription",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1061,6 +1148,7 @@ function update_firewall_policy(
         "UpdateFirewallPolicy",
         Dict{String,Any}("FirewallPolicy" => FirewallPolicy, "UpdateToken" => UpdateToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_firewall_policy(
@@ -1081,6 +1169,7 @@ function update_firewall_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1124,6 +1213,7 @@ function update_firewall_policy_change_protection(
             "FirewallPolicyChangeProtection" => FirewallPolicyChangeProtection
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_firewall_policy_change_protection(
@@ -1143,6 +1233,7 @@ function update_firewall_policy_change_protection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1174,12 +1265,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you omit this setting, Network Firewall disables logging for the firewall.
 """
 function update_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return network_firewall("UpdateLoggingConfiguration"; aws_config=aws_config)
+    return network_firewall(
+        "UpdateLoggingConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return network_firewall("UpdateLoggingConfiguration", params; aws_config=aws_config)
+    return network_firewall(
+        "UpdateLoggingConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1235,6 +1333,7 @@ function update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=global_aws
         "UpdateRuleGroup",
         Dict{String,Any}("UpdateToken" => UpdateToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_rule_group(
@@ -1248,6 +1347,7 @@ function update_rule_group(
             mergewith(_merge, Dict{String,Any}("UpdateToken" => UpdateToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1289,6 +1389,7 @@ function update_subnet_change_protection(
         "UpdateSubnetChangeProtection",
         Dict{String,Any}("SubnetChangeProtection" => SubnetChangeProtection);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_subnet_change_protection(
@@ -1306,5 +1407,6 @@ function update_subnet_change_protection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

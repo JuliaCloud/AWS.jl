@@ -27,6 +27,7 @@ function add_lftags_to_resource(
         "AddLFTagsToResource",
         Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_lftags_to_resource(
@@ -43,6 +44,7 @@ function add_lftags_to_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -67,6 +69,7 @@ function batch_grant_permissions(Entries; aws_config::AbstractAWSConfig=global_a
         "BatchGrantPermissions",
         Dict{String,Any}("Entries" => Entries);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_grant_permissions(
@@ -76,6 +79,7 @@ function batch_grant_permissions(
         "BatchGrantPermissions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -102,6 +106,7 @@ function batch_revoke_permissions(
         "BatchRevokePermissions",
         Dict{String,Any}("Entries" => Entries);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_revoke_permissions(
@@ -111,6 +116,7 @@ function batch_revoke_permissions(
         "BatchRevokePermissions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -135,6 +141,7 @@ function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=global_aw
         "CreateLFTag",
         Dict{String,Any}("TagKey" => TagKey, "TagValues" => TagValues);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_lftag(
@@ -153,6 +160,7 @@ function create_lftag(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -177,7 +185,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "DeleteLFTag", Dict{String,Any}("TagKey" => TagKey); aws_config=aws_config
+        "DeleteLFTag",
+        Dict{String,Any}("TagKey" => TagKey);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_lftag(
@@ -187,6 +198,7 @@ function delete_lftag(
         "DeleteLFTag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -207,6 +219,7 @@ function deregister_resource(ResourceArn; aws_config::AbstractAWSConfig=global_a
         "DeregisterResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deregister_resource(
@@ -220,6 +233,7 @@ function deregister_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -239,6 +253,7 @@ function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws
         "DescribeResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_resource(
@@ -252,6 +267,7 @@ function describe_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -268,12 +284,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
 function get_data_lake_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lakeformation("GetDataLakeSettings"; aws_config=aws_config)
+    return lakeformation(
+        "GetDataLakeSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_data_lake_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lakeformation("GetDataLakeSettings", params; aws_config=aws_config)
+    return lakeformation(
+        "GetDataLakeSettings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -303,6 +326,7 @@ function get_effective_permissions_for_path(
         "GetEffectivePermissionsForPath",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_effective_permissions_for_path(
@@ -316,6 +340,7 @@ function get_effective_permissions_for_path(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -336,7 +361,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "GetLFTag", Dict{String,Any}("TagKey" => TagKey); aws_config=aws_config
+        "GetLFTag",
+        Dict{String,Any}("TagKey" => TagKey);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_lftag(
@@ -346,6 +374,7 @@ function get_lftag(
         "GetLFTag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -367,7 +396,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "GetResourceLFTags", Dict{String,Any}("Resource" => Resource); aws_config=aws_config
+        "GetResourceLFTags",
+        Dict{String,Any}("Resource" => Resource);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resource_lftags(
@@ -381,6 +413,7 @@ function get_resource_lftags(
             mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -424,6 +457,7 @@ function grant_permissions(
             "Permissions" => Permissions, "Principal" => Principal, "Resource" => Resource
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function grant_permissions(
@@ -447,6 +481,7 @@ function grant_permissions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -469,12 +504,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   lists tags in the given catalog ID that the requester has permission to view.
 """
 function list_lftags(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lakeformation("ListLFTags"; aws_config=aws_config)
+    return lakeformation(
+        "ListLFTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_lftags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lakeformation("ListLFTags", params; aws_config=aws_config)
+    return lakeformation(
+        "ListLFTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -501,12 +540,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceType"`: Specifies a resource type to filter the permissions returned.
 """
 function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lakeformation("ListPermissions"; aws_config=aws_config)
+    return lakeformation(
+        "ListPermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lakeformation("ListPermissions", params; aws_config=aws_config)
+    return lakeformation(
+        "ListPermissions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -524,12 +567,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources.
 """
 function list_resources(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lakeformation("ListResources"; aws_config=aws_config)
+    return lakeformation(
+        "ListResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lakeformation("ListResources", params; aws_config=aws_config)
+    return lakeformation(
+        "ListResources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -559,6 +606,7 @@ function put_data_lake_settings(
         "PutDataLakeSettings",
         Dict{String,Any}("DataLakeSettings" => DataLakeSettings);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_data_lake_settings(
@@ -574,6 +622,7 @@ function put_data_lake_settings(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -609,6 +658,7 @@ function register_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws
         "RegisterResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_resource(
@@ -622,6 +672,7 @@ function register_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -650,6 +701,7 @@ function remove_lftags_from_resource(
         "RemoveLFTagsFromResource",
         Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function remove_lftags_from_resource(
@@ -666,6 +718,7 @@ function remove_lftags_from_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -699,6 +752,7 @@ function revoke_permissions(
             "Permissions" => Permissions, "Principal" => Principal, "Resource" => Resource
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function revoke_permissions(
@@ -722,6 +776,7 @@ function revoke_permissions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -752,6 +807,7 @@ function search_databases_by_lftags(
         "SearchDatabasesByLFTags",
         Dict{String,Any}("Expression" => Expression);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function search_databases_by_lftags(
@@ -765,6 +821,7 @@ function search_databases_by_lftags(
             mergewith(_merge, Dict{String,Any}("Expression" => Expression), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -795,6 +852,7 @@ function search_tables_by_lftags(
         "SearchTablesByLFTags",
         Dict{String,Any}("Expression" => Expression);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function search_tables_by_lftags(
@@ -808,6 +866,7 @@ function search_tables_by_lftags(
             mergewith(_merge, Dict{String,Any}("Expression" => Expression), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -834,7 +893,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
-        "UpdateLFTag", Dict{String,Any}("TagKey" => TagKey); aws_config=aws_config
+        "UpdateLFTag",
+        Dict{String,Any}("TagKey" => TagKey);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_lftag(
@@ -844,6 +906,7 @@ function update_lftag(
         "UpdateLFTag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -866,6 +929,7 @@ function update_resource(
         "UpdateResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "RoleArn" => RoleArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_resource(
@@ -884,5 +948,6 @@ function update_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

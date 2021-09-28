@@ -30,6 +30,7 @@ function associate_aws_account_with_partner_account(
         "/partner-accounts",
         Dict{String,Any}("Sidewalk" => Sidewalk, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_aws_account_with_partner_account(
@@ -50,6 +51,7 @@ function associate_aws_account_with_partner_account(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -72,6 +74,7 @@ function associate_wireless_device_with_thing(
         "/wireless-devices/$(Id)/thing",
         Dict{String,Any}("ThingArn" => ThingArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_wireless_device_with_thing(
@@ -87,6 +90,7 @@ function associate_wireless_device_with_thing(
             mergewith(_merge, Dict{String,Any}("ThingArn" => ThingArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -109,6 +113,7 @@ function associate_wireless_gateway_with_certificate(
         "/wireless-gateways/$(Id)/certificate",
         Dict{String,Any}("IotCertificateId" => IotCertificateId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_wireless_gateway_with_certificate(
@@ -126,6 +131,7 @@ function associate_wireless_gateway_with_certificate(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -148,6 +154,7 @@ function associate_wireless_gateway_with_thing(
         "/wireless-gateways/$(Id)/thing",
         Dict{String,Any}("ThingArn" => ThingArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_wireless_gateway_with_thing(
@@ -163,6 +170,7 @@ function associate_wireless_gateway_with_thing(
             mergewith(_merge, Dict{String,Any}("ThingArn" => ThingArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -206,6 +214,7 @@ function create_destination(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_destination(
@@ -233,6 +242,7 @@ function create_destination(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -259,6 +269,7 @@ function create_device_profile(; aws_config::AbstractAWSConfig=global_aws_config
         "/device-profiles",
         Dict{String,Any}("ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_device_profile(
@@ -273,6 +284,7 @@ function create_device_profile(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -299,6 +311,7 @@ function create_service_profile(; aws_config::AbstractAWSConfig=global_aws_confi
         "/service-profiles",
         Dict{String,Any}("ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_service_profile(
@@ -313,6 +326,7 @@ function create_service_profile(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -350,6 +364,7 @@ function create_wireless_device(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_wireless_device(
@@ -373,6 +388,7 @@ function create_wireless_device(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -402,6 +418,7 @@ function create_wireless_gateway(LoRaWAN; aws_config::AbstractAWSConfig=global_a
         "/wireless-gateways",
         Dict{String,Any}("LoRaWAN" => LoRaWAN, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_wireless_gateway(
@@ -420,6 +437,7 @@ function create_wireless_gateway(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -444,6 +462,7 @@ function create_wireless_gateway_task(
             "WirelessGatewayTaskDefinitionId" => WirelessGatewayTaskDefinitionId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_wireless_gateway_task(
@@ -465,6 +484,7 @@ function create_wireless_gateway_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -500,6 +520,7 @@ function create_wireless_gateway_task_definition(
             "AutoCreateTasks" => AutoCreateTasks, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_wireless_gateway_task_definition(
@@ -521,6 +542,7 @@ function create_wireless_gateway_task_definition(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -535,12 +557,23 @@ Deletes a destination.
 
 """
 function delete_destination(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("DELETE", "/destinations/$(Name)"; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/destinations/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("DELETE", "/destinations/$(Name)", params; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/destinations/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -554,12 +587,23 @@ Deletes a device profile.
 
 """
 function delete_device_profile(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("DELETE", "/device-profiles/$(Id)"; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/device-profiles/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_device_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("DELETE", "/device-profiles/$(Id)", params; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/device-profiles/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -573,12 +617,23 @@ Deletes a service profile.
 
 """
 function delete_service_profile(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("DELETE", "/service-profiles/$(Id)"; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/service-profiles/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_service_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("DELETE", "/service-profiles/$(Id)", params; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/service-profiles/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -592,12 +647,23 @@ Deletes a wireless device.
 
 """
 function delete_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("DELETE", "/wireless-devices/$(Id)"; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/wireless-devices/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_wireless_device(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("DELETE", "/wireless-devices/$(Id)", params; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/wireless-devices/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -611,12 +677,23 @@ Deletes a wireless gateway.
 
 """
 function delete_wireless_gateway(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("DELETE", "/wireless-gateways/$(Id)"; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/wireless-gateways/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_wireless_gateway(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("DELETE", "/wireless-gateways/$(Id)", params; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/wireless-gateways/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -630,13 +707,22 @@ Deletes a wireless gateway task.
 
 """
 function delete_wireless_gateway_task(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("DELETE", "/wireless-gateways/$(Id)/tasks"; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/wireless-gateways/$(Id)/tasks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_wireless_gateway_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "DELETE", "/wireless-gateways/$(Id)/tasks", params; aws_config=aws_config
+        "DELETE",
+        "/wireless-gateways/$(Id)/tasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -655,14 +741,21 @@ function delete_wireless_gateway_task_definition(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "DELETE", "/wireless-gateway-task-definitions/$(Id)"; aws_config=aws_config
+        "DELETE",
+        "/wireless-gateway-task-definitions/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_wireless_gateway_task_definition(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "DELETE", "/wireless-gateway-task-definitions/$(Id)", params; aws_config=aws_config
+        "DELETE",
+        "/wireless-gateway-task-definitions/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -686,6 +779,7 @@ function disassociate_aws_account_from_partner_account(
         "/partner-accounts/$(PartnerAccountId)",
         Dict{String,Any}("partnerType" => partnerType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_aws_account_from_partner_account(
@@ -701,6 +795,7 @@ function disassociate_aws_account_from_partner_account(
             mergewith(_merge, Dict{String,Any}("partnerType" => partnerType), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -717,13 +812,22 @@ Disassociates a wireless device from its currently associated thing.
 function disassociate_wireless_device_from_thing(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("DELETE", "/wireless-devices/$(Id)/thing"; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/wireless-devices/$(Id)/thing";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function disassociate_wireless_device_from_thing(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "DELETE", "/wireless-devices/$(Id)/thing", params; aws_config=aws_config
+        "DELETE",
+        "/wireless-devices/$(Id)/thing",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -741,14 +845,21 @@ function disassociate_wireless_gateway_from_certificate(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "DELETE", "/wireless-gateways/$(Id)/certificate"; aws_config=aws_config
+        "DELETE",
+        "/wireless-gateways/$(Id)/certificate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_wireless_gateway_from_certificate(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "DELETE", "/wireless-gateways/$(Id)/certificate", params; aws_config=aws_config
+        "DELETE",
+        "/wireless-gateways/$(Id)/certificate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -765,13 +876,22 @@ Disassociates a wireless gateway from its currently associated thing.
 function disassociate_wireless_gateway_from_thing(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("DELETE", "/wireless-gateways/$(Id)/thing"; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/wireless-gateways/$(Id)/thing";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function disassociate_wireless_gateway_from_thing(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "DELETE", "/wireless-gateways/$(Id)/thing", params; aws_config=aws_config
+        "DELETE",
+        "/wireless-gateways/$(Id)/thing",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -786,12 +906,23 @@ Gets information about a destination.
 
 """
 function get_destination(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/destinations/$(Name)"; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/destinations/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/destinations/$(Name)", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/destinations/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -805,12 +936,23 @@ Gets information about a device profile.
 
 """
 function get_device_profile(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/device-profiles/$(Id)"; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/device-profiles/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_device_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/device-profiles/$(Id)", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/device-profiles/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -824,12 +966,16 @@ types, log levels can be for wireless device log options or wireless gateway log
 function get_log_levels_by_resource_types(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/log-levels"; aws_config=aws_config)
+    return iot_wireless(
+        "GET", "/log-levels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_log_levels_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/log-levels", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET", "/log-levels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -852,6 +998,7 @@ function get_partner_account(
         "/partner-accounts/$(PartnerAccountId)",
         Dict{String,Any}("partnerType" => partnerType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_partner_account(
@@ -867,6 +1014,7 @@ function get_partner_account(
             mergewith(_merge, Dict{String,Any}("partnerType" => partnerType), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -890,6 +1038,7 @@ function get_resource_log_level(
         "/log-levels/$(ResourceIdentifier)",
         Dict{String,Any}("resourceType" => resourceType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resource_log_level(
@@ -905,6 +1054,7 @@ function get_resource_log_level(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -922,12 +1072,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Server endpoint.
 """
 function get_service_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/service-endpoint"; aws_config=aws_config)
+    return iot_wireless(
+        "GET", "/service-endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_service_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/service-endpoint", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/service-endpoint",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -941,12 +1099,23 @@ Gets information about a service profile.
 
 """
 function get_service_profile(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/service-profiles/$(Id)"; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/service-profiles/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_service_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/service-profiles/$(Id)", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/service-profiles/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -968,6 +1137,7 @@ function get_wireless_device(
         "/wireless-devices/$(Identifier)",
         Dict{String,Any}("identifierType" => identifierType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_wireless_device(
@@ -983,6 +1153,7 @@ function get_wireless_device(
             mergewith(_merge, Dict{String,Any}("identifierType" => identifierType), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -999,13 +1170,22 @@ Gets operating information about a wireless device.
 function get_wireless_device_statistics(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/wireless-devices/$(Id)/statistics"; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/wireless-devices/$(Id)/statistics";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_wireless_device_statistics(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "GET", "/wireless-devices/$(Id)/statistics", params; aws_config=aws_config
+        "GET",
+        "/wireless-devices/$(Id)/statistics",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1028,6 +1208,7 @@ function get_wireless_gateway(
         "/wireless-gateways/$(Identifier)",
         Dict{String,Any}("identifierType" => identifierType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_wireless_gateway(
@@ -1043,6 +1224,7 @@ function get_wireless_gateway(
             mergewith(_merge, Dict{String,Any}("identifierType" => identifierType), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1060,14 +1242,21 @@ function get_wireless_gateway_certificate(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "GET", "/wireless-gateways/$(Id)/certificate"; aws_config=aws_config
+        "GET",
+        "/wireless-gateways/$(Id)/certificate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_wireless_gateway_certificate(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "GET", "/wireless-gateways/$(Id)/certificate", params; aws_config=aws_config
+        "GET",
+        "/wireless-gateways/$(Id)/certificate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1085,7 +1274,10 @@ function get_wireless_gateway_firmware_information(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "GET", "/wireless-gateways/$(Id)/firmware-information"; aws_config=aws_config
+        "GET",
+        "/wireless-gateways/$(Id)/firmware-information";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_wireless_gateway_firmware_information(
@@ -1096,6 +1288,7 @@ function get_wireless_gateway_firmware_information(
         "/wireless-gateways/$(Id)/firmware-information",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1112,13 +1305,22 @@ Gets operating information about a wireless gateway.
 function get_wireless_gateway_statistics(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/wireless-gateways/$(Id)/statistics"; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/wireless-gateways/$(Id)/statistics";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_wireless_gateway_statistics(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "GET", "/wireless-gateways/$(Id)/statistics", params; aws_config=aws_config
+        "GET",
+        "/wireless-gateways/$(Id)/statistics",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1133,13 +1335,22 @@ Gets information about a wireless gateway task.
 
 """
 function get_wireless_gateway_task(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/wireless-gateways/$(Id)/tasks"; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/wireless-gateways/$(Id)/tasks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_wireless_gateway_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "GET", "/wireless-gateways/$(Id)/tasks", params; aws_config=aws_config
+        "GET",
+        "/wireless-gateways/$(Id)/tasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1157,14 +1368,21 @@ function get_wireless_gateway_task_definition(
     Id; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "GET", "/wireless-gateway-task-definitions/$(Id)"; aws_config=aws_config
+        "GET",
+        "/wireless-gateway-task-definitions/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_wireless_gateway_task_definition(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "GET", "/wireless-gateway-task-definitions/$(Id)", params; aws_config=aws_config
+        "GET",
+        "/wireless-gateway-task-definitions/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1181,12 +1399,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 function list_destinations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/destinations"; aws_config=aws_config)
+    return iot_wireless(
+        "GET", "/destinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/destinations", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/destinations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1202,12 +1428,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 function list_device_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/device-profiles"; aws_config=aws_config)
+    return iot_wireless(
+        "GET", "/device-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_device_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/device-profiles", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/device-profiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1223,12 +1457,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 function list_partner_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/partner-accounts"; aws_config=aws_config)
+    return iot_wireless(
+        "GET", "/partner-accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_partner_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/partner-accounts", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/partner-accounts",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1244,12 +1486,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 function list_service_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/service-profiles"; aws_config=aws_config)
+    return iot_wireless(
+        "GET", "/service-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_service_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/service-profiles", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/service-profiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1270,6 +1520,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -1284,6 +1535,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1307,12 +1559,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   device type.
 """
 function list_wireless_devices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/wireless-devices"; aws_config=aws_config)
+    return iot_wireless(
+        "GET", "/wireless-devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_wireless_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/wireless-devices", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/wireless-devices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1332,13 +1592,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_wireless_gateway_task_definitions(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/wireless-gateway-task-definitions"; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/wireless-gateway-task-definitions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_wireless_gateway_task_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "GET", "/wireless-gateway-task-definitions", params; aws_config=aws_config
+        "GET",
+        "/wireless-gateway-task-definitions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1355,12 +1624,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 function list_wireless_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("GET", "/wireless-gateways"; aws_config=aws_config)
+    return iot_wireless(
+        "GET", "/wireless-gateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_wireless_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("GET", "/wireless-gateways", params; aws_config=aws_config)
+    return iot_wireless(
+        "GET",
+        "/wireless-gateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1388,6 +1665,7 @@ function put_resource_log_level(
         "/log-levels/$(ResourceIdentifier)",
         Dict{String,Any}("LogLevel" => LogLevel, "resourceType" => resourceType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_resource_log_level(
@@ -1408,6 +1686,7 @@ function put_resource_log_level(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1420,12 +1699,20 @@ gateways.
 
 """
 function reset_all_resource_log_levels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("DELETE", "/log-levels"; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE", "/log-levels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function reset_all_resource_log_levels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("DELETE", "/log-levels", params; aws_config=aws_config)
+    return iot_wireless(
+        "DELETE",
+        "/log-levels",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1448,6 +1735,7 @@ function reset_resource_log_level(
         "/log-levels/$(ResourceIdentifier)",
         Dict{String,Any}("resourceType" => resourceType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reset_resource_log_level(
@@ -1463,6 +1751,7 @@ function reset_resource_log_level(
             mergewith(_merge, Dict{String,Any}("resourceType" => resourceType), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1490,6 +1779,7 @@ function send_data_to_wireless_device(
         "/wireless-devices/$(Id)/data",
         Dict{String,Any}("PayloadData" => PayloadData, "TransmitMode" => TransmitMode);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function send_data_to_wireless_device(
@@ -1512,6 +1802,7 @@ function send_data_to_wireless_device(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1533,6 +1824,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aw
         "/tags",
         Dict{String,Any}("Tags" => Tags, "resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1552,6 +1844,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1566,13 +1859,22 @@ Simulates a provisioned device by sending an uplink data payload of Hello.
 
 """
 function test_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("POST", "/wireless-devices/$(Id)/test"; aws_config=aws_config)
+    return iot_wireless(
+        "POST",
+        "/wireless-devices/$(Id)/test";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function test_wireless_device(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_wireless(
-        "POST", "/wireless-devices/$(Id)/test", params; aws_config=aws_config
+        "POST",
+        "/wireless-devices/$(Id)/test",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1595,6 +1897,7 @@ function untag_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -1614,6 +1917,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1634,12 +1938,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The ARN of the IAM Role that authorizes the destination.
 """
 function update_destination(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("PATCH", "/destinations/$(Name)"; aws_config=aws_config)
+    return iot_wireless(
+        "PATCH",
+        "/destinations/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("PATCH", "/destinations/$(Name)", params; aws_config=aws_config)
+    return iot_wireless(
+        "PATCH",
+        "/destinations/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1659,12 +1974,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_log_levels_by_resource_types(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("POST", "/log-levels"; aws_config=aws_config)
+    return iot_wireless(
+        "POST", "/log-levels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_log_levels_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("POST", "/log-levels", params; aws_config=aws_config)
+    return iot_wireless(
+        "POST",
+        "/log-levels",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1690,6 +2013,7 @@ function update_partner_account(
         "/partner-accounts/$(PartnerAccountId)",
         Dict{String,Any}("Sidewalk" => Sidewalk, "partnerType" => partnerType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_partner_account(
@@ -1710,6 +2034,7 @@ function update_partner_account(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1730,12 +2055,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The new name of the resource.
 """
 function update_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("PATCH", "/wireless-devices/$(Id)"; aws_config=aws_config)
+    return iot_wireless(
+        "PATCH",
+        "/wireless-devices/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_wireless_device(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("PATCH", "/wireless-devices/$(Id)", params; aws_config=aws_config)
+    return iot_wireless(
+        "PATCH",
+        "/wireless-devices/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1755,10 +2091,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetIdFilters"`:
 """
 function update_wireless_gateway(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_wireless("PATCH", "/wireless-gateways/$(Id)"; aws_config=aws_config)
+    return iot_wireless(
+        "PATCH",
+        "/wireless-gateways/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_wireless_gateway(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_wireless("PATCH", "/wireless-gateways/$(Id)", params; aws_config=aws_config)
+    return iot_wireless(
+        "PATCH",
+        "/wireless-gateways/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end

@@ -50,6 +50,7 @@ function create_token(
             "grantType" => grantType,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_token(
@@ -76,6 +77,7 @@ function create_token(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -104,6 +106,7 @@ function register_client(
         "/client/register",
         Dict{String,Any}("clientName" => clientName, "clientType" => clientType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_client(
@@ -123,6 +126,7 @@ function register_client(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -152,6 +156,7 @@ function start_device_authorization(
             "clientId" => clientId, "clientSecret" => clientSecret, "startUrl" => startUrl
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_device_authorization(
@@ -176,5 +181,6 @@ function start_device_authorization(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

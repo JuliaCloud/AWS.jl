@@ -25,6 +25,7 @@ function accept_environment_account_connection(
         "AcceptEnvironmentAccountConnection",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function accept_environment_account_connection(
@@ -34,6 +35,7 @@ function accept_environment_account_connection(
         "AcceptEnvironmentAccountConnection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -60,6 +62,7 @@ function cancel_environment_deployment(
         "CancelEnvironmentDeployment",
         Dict{String,Any}("environmentName" => environmentName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_environment_deployment(
@@ -75,6 +78,7 @@ function cancel_environment_deployment(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -105,6 +109,7 @@ function cancel_service_instance_deployment(
             "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_service_instance_deployment(
@@ -126,6 +131,7 @@ function cancel_service_instance_deployment(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -153,6 +159,7 @@ function cancel_service_pipeline_deployment(
         "CancelServicePipelineDeployment",
         Dict{String,Any}("serviceName" => serviceName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_service_pipeline_deployment(
@@ -166,6 +173,7 @@ function cancel_service_pipeline_deployment(
             mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -217,6 +225,7 @@ function create_environment(
             "templateName" => templateName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_environment(
@@ -242,6 +251,7 @@ function create_environment(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -288,6 +298,7 @@ function create_environment_account_connection(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_environment_account_connection(
@@ -312,6 +323,7 @@ function create_environment_account_connection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -348,7 +360,10 @@ function create_environment_template(
     name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return proton(
-        "CreateEnvironmentTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+        "CreateEnvironmentTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_environment_template(
@@ -358,6 +373,7 @@ function create_environment_template(
         "CreateEnvironmentTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -395,6 +411,7 @@ function create_environment_template_version(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_environment_template_version(
@@ -417,6 +434,7 @@ function create_environment_template_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -473,6 +491,7 @@ function create_service(
             "templateName" => templateName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_service(
@@ -498,6 +517,7 @@ function create_service(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -529,7 +549,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
-        "CreateServiceTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+        "CreateServiceTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_service_template(
@@ -539,6 +562,7 @@ function create_service_template(
         "CreateServiceTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -582,6 +606,7 @@ function create_service_template_version(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_service_template_version(
@@ -606,6 +631,7 @@ function create_service_template_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -621,7 +647,10 @@ Delete an environment.
 """
 function delete_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
-        "DeleteEnvironment", Dict{String,Any}("name" => name); aws_config=aws_config
+        "DeleteEnvironment",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_environment(
@@ -631,6 +660,7 @@ function delete_environment(
         "DeleteEnvironment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -657,6 +687,7 @@ function delete_environment_account_connection(
         "DeleteEnvironmentAccountConnection",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_environment_account_connection(
@@ -666,6 +697,7 @@ function delete_environment_account_connection(
         "DeleteEnvironmentAccountConnection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -684,7 +716,10 @@ function delete_environment_template(
     name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return proton(
-        "DeleteEnvironmentTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+        "DeleteEnvironmentTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_environment_template(
@@ -694,6 +729,7 @@ function delete_environment_template(
         "DeleteEnvironmentTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -730,6 +766,7 @@ function delete_environment_template_version(
             "templateName" => templateName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_environment_template_version(
@@ -753,6 +790,7 @@ function delete_environment_template_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -767,7 +805,12 @@ Delete a service.
 
 """
 function delete_service(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("DeleteService", Dict{String,Any}("name" => name); aws_config=aws_config)
+    return proton(
+        "DeleteService",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -776,6 +819,7 @@ function delete_service(
         "DeleteService",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -792,7 +836,10 @@ template.
 """
 function delete_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
-        "DeleteServiceTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+        "DeleteServiceTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_service_template(
@@ -802,6 +849,7 @@ function delete_service_template(
         "DeleteServiceTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -838,6 +886,7 @@ function delete_service_template_version(
             "templateName" => templateName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_service_template_version(
@@ -861,6 +910,7 @@ function delete_service_template_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -872,12 +922,16 @@ Get detail data for the AWS Proton pipeline service role.
 
 """
 function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("GetAccountSettings"; aws_config=aws_config)
+    return proton(
+        "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return proton("GetAccountSettings", params; aws_config=aws_config)
+    return proton(
+        "GetAccountSettings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -891,7 +945,12 @@ Get detail data for an environment.
 
 """
 function get_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("GetEnvironment", Dict{String,Any}("name" => name); aws_config=aws_config)
+    return proton(
+        "GetEnvironment",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_environment(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -900,6 +959,7 @@ function get_environment(
         "GetEnvironment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -921,6 +981,7 @@ function get_environment_account_connection(
         "GetEnvironmentAccountConnection",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_environment_account_connection(
@@ -930,6 +991,7 @@ function get_environment_account_connection(
         "GetEnvironmentAccountConnection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -945,7 +1007,10 @@ Get detail data for an environment template.
 """
 function get_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
-        "GetEnvironmentTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+        "GetEnvironmentTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_environment_template(
@@ -955,6 +1020,7 @@ function get_environment_template(
         "GetEnvironmentTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -986,6 +1052,7 @@ function get_environment_template_version(
             "templateName" => templateName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_environment_template_version(
@@ -1009,6 +1076,7 @@ function get_environment_template_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1023,7 +1091,12 @@ Get detail data for a service.
 
 """
 function get_service(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("GetService", Dict{String,Any}("name" => name); aws_config=aws_config)
+    return proton(
+        "GetService",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1032,6 +1105,7 @@ function get_service(
         "GetService",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1054,6 +1128,7 @@ function get_service_instance(
         "GetServiceInstance",
         Dict{String,Any}("name" => name, "serviceName" => serviceName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_service_instance(
@@ -1072,6 +1147,7 @@ function get_service_instance(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1087,7 +1163,10 @@ Get detail data for a service template.
 """
 function get_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
-        "GetServiceTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+        "GetServiceTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_service_template(
@@ -1097,6 +1176,7 @@ function get_service_template(
         "GetServiceTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1126,6 +1206,7 @@ function get_service_template_version(
             "templateName" => templateName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_service_template_version(
@@ -1149,6 +1230,7 @@ function get_service_template_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1179,6 +1261,7 @@ function list_environment_account_connections(
         "ListEnvironmentAccountConnections",
         Dict{String,Any}("requestedBy" => requestedBy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_environment_account_connections(
@@ -1192,6 +1275,7 @@ function list_environment_account_connections(
             mergewith(_merge, Dict{String,Any}("requestedBy" => requestedBy), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1222,6 +1306,7 @@ function list_environment_template_versions(
         "ListEnvironmentTemplateVersions",
         Dict{String,Any}("templateName" => templateName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_environment_template_versions(
@@ -1235,6 +1320,7 @@ function list_environment_template_versions(
             mergewith(_merge, Dict{String,Any}("templateName" => templateName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1252,12 +1338,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requested.
 """
 function list_environment_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("ListEnvironmentTemplates"; aws_config=aws_config)
+    return proton(
+        "ListEnvironmentTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_environment_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return proton("ListEnvironmentTemplates", params; aws_config=aws_config)
+    return proton(
+        "ListEnvironmentTemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1274,12 +1367,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environments, after the list of environments that was previously requested.
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("ListEnvironments"; aws_config=aws_config)
+    return proton(
+        "ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return proton("ListEnvironments", params; aws_config=aws_config)
+    return proton(
+        "ListEnvironments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1296,12 +1393,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceName"`: The name of the service that the service instance belongs to.
 """
 function list_service_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("ListServiceInstances"; aws_config=aws_config)
+    return proton(
+        "ListServiceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_service_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return proton("ListServiceInstances", params; aws_config=aws_config)
+    return proton(
+        "ListServiceInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1331,6 +1435,7 @@ function list_service_template_versions(
         "ListServiceTemplateVersions",
         Dict{String,Any}("templateName" => templateName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_service_template_versions(
@@ -1344,6 +1449,7 @@ function list_service_template_versions(
             mergewith(_merge, Dict{String,Any}("templateName" => templateName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1360,12 +1466,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of service templates, after the list of service templates previously requested.
 """
 function list_service_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("ListServiceTemplates"; aws_config=aws_config)
+    return proton(
+        "ListServiceTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_service_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return proton("ListServiceTemplates", params; aws_config=aws_config)
+    return proton(
+        "ListServiceTemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1381,12 +1494,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   services, after the list of services that was previously requested.
 """
 function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("ListServices"; aws_config=aws_config)
+    return proton("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return proton("ListServices", params; aws_config=aws_config)
+    return proton(
+        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1412,6 +1527,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -1425,6 +1541,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1449,6 +1566,7 @@ function reject_environment_account_connection(
         "RejectEnvironmentAccountConnection",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reject_environment_account_connection(
@@ -1458,6 +1576,7 @@ function reject_environment_account_connection(
         "RejectEnvironmentAccountConnection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1479,6 +1598,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1497,6 +1617,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1521,6 +1642,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -1539,6 +1661,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1554,12 +1677,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service role.
 """
 function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("UpdateAccountSettings"; aws_config=aws_config)
+    return proton(
+        "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return proton("UpdateAccountSettings", params; aws_config=aws_config)
+    return proton(
+        "UpdateAccountSettings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1623,6 +1753,7 @@ function update_environment(
         "UpdateEnvironment",
         Dict{String,Any}("deploymentType" => deploymentType, "name" => name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_environment(
@@ -1641,6 +1772,7 @@ function update_environment(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1665,6 +1797,7 @@ function update_environment_account_connection(
         "UpdateEnvironmentAccountConnection",
         Dict{String,Any}("id" => id, "roleArn" => roleArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_environment_account_connection(
@@ -1679,6 +1812,7 @@ function update_environment_account_connection(
             mergewith(_merge, Dict{String,Any}("id" => id, "roleArn" => roleArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1701,7 +1835,10 @@ function update_environment_template(
     name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return proton(
-        "UpdateEnvironmentTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+        "UpdateEnvironmentTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_environment_template(
@@ -1711,6 +1848,7 @@ function update_environment_template(
         "UpdateEnvironmentTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1746,6 +1884,7 @@ function update_environment_template_version(
             "templateName" => templateName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_environment_template_version(
@@ -1769,6 +1908,7 @@ function update_environment_template_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1793,7 +1933,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Proton Administrator Guide or the AWS Proton User Guide.
 """
 function update_service(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("UpdateService", Dict{String,Any}("name" => name); aws_config=aws_config)
+    return proton(
+        "UpdateService",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1802,6 +1947,7 @@ function update_service(
         "UpdateService",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1855,6 +2001,7 @@ function update_service_instance(
             "deploymentType" => deploymentType, "name" => name, "serviceName" => serviceName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_service_instance(
@@ -1878,6 +2025,7 @@ function update_service_instance(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1932,6 +2080,7 @@ function update_service_pipeline(
             "deploymentType" => deploymentType, "serviceName" => serviceName, "spec" => spec
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_service_pipeline(
@@ -1955,6 +2104,7 @@ function update_service_pipeline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1975,7 +2125,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
     return proton(
-        "UpdateServiceTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+        "UpdateServiceTemplate",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_service_template(
@@ -1985,6 +2138,7 @@ function update_service_template(
         "UpdateServiceTemplate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2020,6 +2174,7 @@ function update_service_template_version(
             "templateName" => templateName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_service_template_version(
@@ -2043,5 +2198,6 @@ function update_service_template_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

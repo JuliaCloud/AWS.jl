@@ -22,6 +22,7 @@ function activate_anomaly_detector(
         "/ActivateAnomalyDetector",
         Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function activate_anomaly_detector(
@@ -38,6 +39,7 @@ function activate_anomaly_detector(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -59,6 +61,7 @@ function back_test_anomaly_detector(
         "/BackTestAnomalyDetector",
         Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function back_test_anomaly_detector(
@@ -75,6 +78,7 @@ function back_test_anomaly_detector(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -113,6 +117,7 @@ function create_alert(
             "AnomalyDetectorArn" => AnomalyDetectorArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_alert(
@@ -139,6 +144,7 @@ function create_alert(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -172,6 +178,7 @@ function create_anomaly_detector(
             "AnomalyDetectorName" => AnomalyDetectorName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_anomaly_detector(
@@ -194,6 +201,7 @@ function create_anomaly_detector(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -239,6 +247,7 @@ function create_metric_set(
             "MetricSource" => MetricSource,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_metric_set(
@@ -265,6 +274,7 @@ function create_metric_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -284,6 +294,7 @@ function delete_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_config(
         "/DeleteAlert",
         Dict{String,Any}("AlertArn" => AlertArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_alert(
@@ -298,6 +309,7 @@ function delete_alert(
             mergewith(_merge, Dict{String,Any}("AlertArn" => AlertArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -320,6 +332,7 @@ function delete_anomaly_detector(
         "/DeleteAnomalyDetector",
         Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_anomaly_detector(
@@ -336,6 +349,7 @@ function delete_anomaly_detector(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -357,6 +371,7 @@ function describe_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_confi
         "/DescribeAlert",
         Dict{String,Any}("AlertArn" => AlertArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_alert(
@@ -371,6 +386,7 @@ function describe_alert(
             mergewith(_merge, Dict{String,Any}("AlertArn" => AlertArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -398,6 +414,7 @@ function describe_anomaly_detection_executions(
         "/DescribeAnomalyDetectionExecutions",
         Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_anomaly_detection_executions(
@@ -414,6 +431,7 @@ function describe_anomaly_detection_executions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -437,6 +455,7 @@ function describe_anomaly_detector(
         "/DescribeAnomalyDetector",
         Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_anomaly_detector(
@@ -453,6 +472,7 @@ function describe_anomaly_detector(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -476,6 +496,7 @@ function describe_metric_set(
         "/DescribeMetricSet",
         Dict{String,Any}("MetricSetArn" => MetricSetArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_metric_set(
@@ -490,6 +511,7 @@ function describe_metric_set(
             mergewith(_merge, Dict{String,Any}("MetricSetArn" => MetricSetArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -514,6 +536,7 @@ function get_anomaly_group(
             "AnomalyDetectorArn" => AnomalyDetectorArn, "AnomalyGroupId" => AnomalyGroupId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_anomaly_group(
@@ -536,6 +559,7 @@ function get_anomaly_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -568,6 +592,7 @@ function get_feedback(
             "AnomalyGroupTimeSeriesFeedback" => AnomalyGroupTimeSeriesFeedback,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_feedback(
@@ -590,6 +615,7 @@ function get_feedback(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -604,12 +630,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3SourceConfig"`: A datasource bucket in Amazon S3.
 """
 function get_sample_data(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lookoutmetrics("POST", "/GetSampleData"; aws_config=aws_config)
+    return lookoutmetrics(
+        "POST", "/GetSampleData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_sample_data(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lookoutmetrics("POST", "/GetSampleData", params; aws_config=aws_config)
+    return lookoutmetrics(
+        "POST",
+        "/GetSampleData",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -629,12 +663,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_alerts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lookoutmetrics("POST", "/ListAlerts"; aws_config=aws_config)
+    return lookoutmetrics(
+        "POST", "/ListAlerts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_alerts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lookoutmetrics("POST", "/ListAlerts", params; aws_config=aws_config)
+    return lookoutmetrics(
+        "POST",
+        "/ListAlerts",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -653,12 +695,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lookoutmetrics("POST", "/ListAnomalyDetectors"; aws_config=aws_config)
+    return lookoutmetrics(
+        "POST",
+        "/ListAnomalyDetectors";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_anomaly_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lookoutmetrics("POST", "/ListAnomalyDetectors", params; aws_config=aws_config)
+    return lookoutmetrics(
+        "POST",
+        "/ListAnomalyDetectors",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -690,6 +743,7 @@ function list_anomaly_group_summaries(
             "SensitivityThreshold" => SensitivityThreshold,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_anomaly_group_summaries(
@@ -712,6 +766,7 @@ function list_anomaly_group_summaries(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -747,6 +802,7 @@ function list_anomaly_group_time_series(
             "MetricName" => MetricName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_anomaly_group_time_series(
@@ -771,6 +827,7 @@ function list_anomaly_group_time_series(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -792,12 +849,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_metric_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lookoutmetrics("POST", "/ListMetricSets"; aws_config=aws_config)
+    return lookoutmetrics(
+        "POST", "/ListMetricSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_metric_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lookoutmetrics("POST", "/ListMetricSets", params; aws_config=aws_config)
+    return lookoutmetrics(
+        "POST",
+        "/ListMetricSets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -813,14 +878,25 @@ Gets a list of tags for a detector, dataset, or alert.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lookoutmetrics("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return lookoutmetrics(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return lookoutmetrics("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return lookoutmetrics(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -847,6 +923,7 @@ function put_feedback(
             "AnomalyGroupTimeSeriesFeedback" => AnomalyGroupTimeSeriesFeedback,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_feedback(
@@ -869,6 +946,7 @@ function put_feedback(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -890,6 +968,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -903,6 +982,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -925,6 +1005,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -938,6 +1019,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -966,6 +1048,7 @@ function update_anomaly_detector(
         "/UpdateAnomalyDetector",
         Dict{String,Any}("AnomalyDetectorArn" => AnomalyDetectorArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_anomaly_detector(
@@ -982,6 +1065,7 @@ function update_anomaly_detector(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1011,6 +1095,7 @@ function update_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=global_aw
         "/UpdateMetricSet",
         Dict{String,Any}("MetricSetArn" => MetricSetArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_metric_set(
@@ -1025,5 +1110,6 @@ function update_metric_set(
             mergewith(_merge, Dict{String,Any}("MetricSetArn" => MetricSetArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

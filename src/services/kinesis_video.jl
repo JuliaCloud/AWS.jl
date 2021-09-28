@@ -30,6 +30,7 @@ function create_signaling_channel(
         "/createSignalingChannel",
         Dict{String,Any}("ChannelName" => ChannelName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_signaling_channel(
@@ -44,6 +45,7 @@ function create_signaling_channel(
             mergewith(_merge, Dict{String,Any}("ChannelName" => ChannelName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -89,6 +91,7 @@ function create_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_conf
         "/createStream",
         Dict{String,Any}("StreamName" => StreamName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_stream(
@@ -103,6 +106,7 @@ function create_stream(
             mergewith(_merge, Dict{String,Any}("StreamName" => StreamName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -131,6 +135,7 @@ function delete_signaling_channel(
         "/deleteSignalingChannel",
         Dict{String,Any}("ChannelARN" => ChannelARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_signaling_channel(
@@ -145,6 +150,7 @@ function delete_signaling_channel(
             mergewith(_merge, Dict{String,Any}("ChannelARN" => ChannelARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -176,6 +182,7 @@ function delete_stream(StreamARN; aws_config::AbstractAWSConfig=global_aws_confi
         "/deleteStream",
         Dict{String,Any}("StreamARN" => StreamARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_stream(
@@ -190,6 +197,7 @@ function delete_stream(
             mergewith(_merge, Dict{String,Any}("StreamARN" => StreamARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -206,12 +214,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ChannelName"`: The name of the signaling channel that you want to describe.
 """
 function describe_signaling_channel(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video("POST", "/describeSignalingChannel"; aws_config=aws_config)
+    return kinesis_video(
+        "POST",
+        "/describeSignalingChannel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_signaling_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return kinesis_video("POST", "/describeSignalingChannel", params; aws_config=aws_config)
+    return kinesis_video(
+        "POST",
+        "/describeSignalingChannel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -227,12 +246,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream.
 """
 function describe_stream(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video("POST", "/describeStream"; aws_config=aws_config)
+    return kinesis_video(
+        "POST", "/describeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return kinesis_video("POST", "/describeStream", params; aws_config=aws_config)
+    return kinesis_video(
+        "POST",
+        "/describeStream",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -262,6 +289,7 @@ function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=global_aws_con
         "/getDataEndpoint",
         Dict{String,Any}("APIName" => APIName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_data_endpoint(
@@ -272,6 +300,7 @@ function get_data_endpoint(
         "/getDataEndpoint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("APIName" => APIName), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -306,6 +335,7 @@ function get_signaling_channel_endpoint(
         "/getSignalingChannelEndpoint",
         Dict{String,Any}("ChannelARN" => ChannelARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_signaling_channel_endpoint(
@@ -320,6 +350,7 @@ function get_signaling_channel_endpoint(
             mergewith(_merge, Dict{String,Any}("ChannelARN" => ChannelARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -342,12 +373,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of channels, provide this token in your next request.
 """
 function list_signaling_channels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video("POST", "/listSignalingChannels"; aws_config=aws_config)
+    return kinesis_video(
+        "POST",
+        "/listSignalingChannels";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_signaling_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return kinesis_video("POST", "/listSignalingChannels", params; aws_config=aws_config)
+    return kinesis_video(
+        "POST",
+        "/listSignalingChannels",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -368,12 +410,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   condition. Currently, you can specify only the prefix of a stream name as a condition.
 """
 function list_streams(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video("POST", "/listStreams"; aws_config=aws_config)
+    return kinesis_video(
+        "POST", "/listStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return kinesis_video("POST", "/listStreams", params; aws_config=aws_config)
+    return kinesis_video(
+        "POST",
+        "/listStreams",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -400,6 +450,7 @@ function list_tags_for_resource(
         "/ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -414,6 +465,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -434,12 +486,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream that you want to list tags for.
 """
 function list_tags_for_stream(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video("POST", "/listTagsForStream"; aws_config=aws_config)
+    return kinesis_video(
+        "POST", "/listTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_tags_for_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return kinesis_video("POST", "/listTagsForStream", params; aws_config=aws_config)
+    return kinesis_video(
+        "POST",
+        "/listTagsForStream",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -465,6 +525,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "/TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -484,6 +545,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -510,7 +572,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function tag_stream(Tags; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis_video(
-        "POST", "/tagStream", Dict{String,Any}("Tags" => Tags); aws_config=aws_config
+        "POST",
+        "/tagStream",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_stream(
@@ -521,6 +587,7 @@ function tag_stream(
         "/tagStream",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -546,6 +613,7 @@ function untag_resource(
         "/UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeyList" => TagKeyList);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -565,6 +633,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -591,6 +660,7 @@ function untag_stream(TagKeyList; aws_config::AbstractAWSConfig=global_aws_confi
         "/untagStream",
         Dict{String,Any}("TagKeyList" => TagKeyList);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_stream(
@@ -605,6 +675,7 @@ function untag_stream(
             mergewith(_merge, Dict{String,Any}("TagKeyList" => TagKeyList), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -653,6 +724,7 @@ function update_data_retention(
             "Operation" => Operation,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_data_retention(
@@ -677,6 +749,7 @@ function update_data_retention(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -707,6 +780,7 @@ function update_signaling_channel(
         "/updateSignalingChannel",
         Dict{String,Any}("ChannelARN" => ChannelARN, "CurrentVersion" => CurrentVersion);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_signaling_channel(
@@ -728,6 +802,7 @@ function update_signaling_channel(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -764,6 +839,7 @@ function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=global_aws_
         "/updateStream",
         Dict{String,Any}("CurrentVersion" => CurrentVersion);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_stream(
@@ -778,5 +854,6 @@ function update_stream(
             mergewith(_merge, Dict{String,Any}("CurrentVersion" => CurrentVersion), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

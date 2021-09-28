@@ -25,6 +25,7 @@ function describe_group(
         "DescribeGroup",
         Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_group(
@@ -45,6 +46,7 @@ function describe_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -69,6 +71,7 @@ function describe_user(
         "DescribeUser",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "UserId" => UserId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_user(
@@ -87,6 +90,7 @@ function describe_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -122,6 +126,7 @@ function list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_c
         "ListGroups",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_groups(
@@ -137,6 +142,7 @@ function list_groups(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -171,6 +177,7 @@ function list_users(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_co
         "ListUsers",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_users(
@@ -186,5 +193,6 @@ function list_users(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

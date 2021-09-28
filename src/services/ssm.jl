@@ -53,6 +53,7 @@ function add_tags_to_resource(
             "ResourceId" => ResourceId, "ResourceType" => ResourceType, "Tags" => Tags
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_tags_to_resource(
@@ -76,6 +77,7 @@ function add_tags_to_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -83,9 +85,9 @@ end
     associate_ops_item_related_item(association_type, ops_item_id, resource_type, resource_uri)
     associate_ops_item_related_item(association_type, ops_item_id, resource_type, resource_uri, params::Dict{String,<:Any})
 
-Associates a related resource to a Systems Manager OpsCenter OpsItem. For example, you can
-associate an Incident Manager incident or analysis with an OpsItem. Incident Manager is a
-capability of Amazon Web Services Systems Manager.
+Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can
+associate an Incident Manager incident or analysis with an OpsItem. Incident Manager and
+OpsCenter are capabilities of Amazon Web Services Systems Manager.
 
 # Arguments
 - `association_type`: The type of association that you want to create between an OpsItem
@@ -94,8 +96,7 @@ capability of Amazon Web Services Systems Manager.
   related item.
 - `resource_type`: The type of resource that you want to associate with an OpsItem.
   OpsCenter supports the following types:  AWS::SSMIncidents::IncidentRecord: an Incident
-  Manager incident. Incident Manager is a capability of Amazon Web Services Systems Manager.
-  AWS::SSM::Document: a Systems Manager (SSM) document.
+  Manager incident.   AWS::SSM::Document: a Systems Manager (SSM) document.
 - `resource_uri`: The Amazon Resource Name (ARN) of the Amazon Web Services resource that
   you want to associate with the OpsItem.
 
@@ -116,6 +117,7 @@ function associate_ops_item_related_item(
             "ResourceUri" => ResourceUri,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_ops_item_related_item(
@@ -141,6 +143,7 @@ function associate_ops_item_related_item(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -162,7 +165,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function cancel_command(CommandId; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "CancelCommand", Dict{String,Any}("CommandId" => CommandId); aws_config=aws_config
+        "CancelCommand",
+        Dict{String,Any}("CommandId" => CommandId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_command(
@@ -176,6 +182,7 @@ function cancel_command(
             mergewith(_merge, Dict{String,Any}("CommandId" => CommandId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -198,6 +205,7 @@ function cancel_maintenance_window_execution(
         "CancelMaintenanceWindowExecution",
         Dict{String,Any}("WindowExecutionId" => WindowExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_maintenance_window_execution(
@@ -213,6 +221,7 @@ function cancel_maintenance_window_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -268,7 +277,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_activation(IamRole; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "CreateActivation", Dict{String,Any}("IamRole" => IamRole); aws_config=aws_config
+        "CreateActivation",
+        Dict{String,Any}("IamRole" => IamRole);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_activation(
@@ -278,6 +290,7 @@ function create_activation(
         "CreateActivation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IamRole" => IamRole), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -372,7 +385,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Systems Manager User Guide.
 """
 function create_association(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("CreateAssociation", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+    return ssm(
+        "CreateAssociation",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function create_association(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -381,6 +399,7 @@ function create_association(
         "CreateAssociation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -406,6 +425,7 @@ function create_association_batch(
         "CreateAssociationBatch",
         Dict{String,Any}("Entries" => Entries);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_association_batch(
@@ -415,6 +435,7 @@ function create_association_batch(
         "CreateAssociationBatch",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -475,6 +496,7 @@ function create_document(Content, Name; aws_config::AbstractAWSConfig=global_aws
         "CreateDocument",
         Dict{String,Any}("Content" => Content, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_document(
@@ -491,6 +513,7 @@ function create_document(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -565,6 +588,7 @@ function create_maintenance_window(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_maintenance_window(
@@ -593,6 +617,7 @@ function create_maintenance_window(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -666,6 +691,7 @@ function create_ops_item(
             "Description" => Description, "Source" => Source, "Title" => Title
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_ops_item(
@@ -687,6 +713,7 @@ function create_ops_item(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -716,6 +743,7 @@ function create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aw
         "CreateOpsMetadata",
         Dict{String,Any}("ResourceId" => ResourceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_ops_metadata(
@@ -729,6 +757,7 @@ function create_ops_metadata(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -786,6 +815,7 @@ function create_patch_baseline(Name; aws_config::AbstractAWSConfig=global_aws_co
         "CreatePatchBaseline",
         Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_patch_baseline(
@@ -801,6 +831,7 @@ function create_patch_baseline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -850,6 +881,7 @@ function create_resource_data_sync(
         "CreateResourceDataSync",
         Dict{String,Any}("SyncName" => SyncName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resource_data_sync(
@@ -863,6 +895,7 @@ function create_resource_data_sync(
             mergewith(_merge, Dict{String,Any}("SyncName" => SyncName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -884,6 +917,7 @@ function delete_activation(ActivationId; aws_config::AbstractAWSConfig=global_aw
         "DeleteActivation",
         Dict{String,Any}("ActivationId" => ActivationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_activation(
@@ -897,6 +931,7 @@ function delete_activation(
             mergewith(_merge, Dict{String,Any}("ActivationId" => ActivationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -923,12 +958,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the SSM document.
 """
 function delete_association(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DeleteAssociation"; aws_config=aws_config)
+    return ssm("DeleteAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function delete_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DeleteAssociation", params; aws_config=aws_config)
+    return ssm(
+        "DeleteAssociation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -954,7 +991,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, all versions of the document are deleted.
 """
 function delete_document(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DeleteDocument", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+    return ssm(
+        "DeleteDocument",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_document(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -963,6 +1005,7 @@ function delete_document(
         "DeleteDocument",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -998,6 +1041,7 @@ function delete_inventory(TypeName; aws_config::AbstractAWSConfig=global_aws_con
         "DeleteInventory",
         Dict{String,Any}("TypeName" => TypeName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_inventory(
@@ -1015,6 +1059,7 @@ function delete_inventory(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1035,6 +1080,7 @@ function delete_maintenance_window(
         "DeleteMaintenanceWindow",
         Dict{String,Any}("WindowId" => WindowId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_maintenance_window(
@@ -1048,6 +1094,7 @@ function delete_maintenance_window(
             mergewith(_merge, Dict{String,Any}("WindowId" => WindowId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1068,6 +1115,7 @@ function delete_ops_metadata(
         "DeleteOpsMetadata",
         Dict{String,Any}("OpsMetadataArn" => OpsMetadataArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_ops_metadata(
@@ -1081,6 +1129,7 @@ function delete_ops_metadata(
             mergewith(_merge, Dict{String,Any}("OpsMetadataArn" => OpsMetadataArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1096,7 +1145,12 @@ seconds to create a parameter with the same name.
 
 """
 function delete_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DeleteParameter", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+    return ssm(
+        "DeleteParameter",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_parameter(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1105,6 +1159,7 @@ function delete_parameter(
         "DeleteParameter",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1122,7 +1177,10 @@ create a parameter with the same name.
 """
 function delete_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "DeleteParameters", Dict{String,Any}("Names" => Names); aws_config=aws_config
+        "DeleteParameters",
+        Dict{String,Any}("Names" => Names);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_parameters(
@@ -1132,6 +1190,7 @@ function delete_parameters(
         "DeleteParameters",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1152,6 +1211,7 @@ function delete_patch_baseline(
         "DeletePatchBaseline",
         Dict{String,Any}("BaselineId" => BaselineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_patch_baseline(
@@ -1165,6 +1225,7 @@ function delete_patch_baseline(
             mergewith(_merge, Dict{String,Any}("BaselineId" => BaselineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1190,6 +1251,7 @@ function delete_resource_data_sync(
         "DeleteResourceDataSync",
         Dict{String,Any}("SyncName" => SyncName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_resource_data_sync(
@@ -1203,6 +1265,7 @@ function delete_resource_data_sync(
             mergewith(_merge, Dict{String,Any}("SyncName" => SyncName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1226,6 +1289,7 @@ function deregister_managed_instance(
         "DeregisterManagedInstance",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deregister_managed_instance(
@@ -1239,6 +1303,7 @@ function deregister_managed_instance(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1261,6 +1326,7 @@ function deregister_patch_baseline_for_patch_group(
         "DeregisterPatchBaselineForPatchGroup",
         Dict{String,Any}("BaselineId" => BaselineId, "PatchGroup" => PatchGroup);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deregister_patch_baseline_for_patch_group(
@@ -1279,6 +1345,7 @@ function deregister_patch_baseline_for_patch_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1305,6 +1372,7 @@ function deregister_target_from_maintenance_window(
         "DeregisterTargetFromMaintenanceWindow",
         Dict{String,Any}("WindowId" => WindowId, "WindowTargetId" => WindowTargetId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deregister_target_from_maintenance_window(
@@ -1325,6 +1393,7 @@ function deregister_target_from_maintenance_window(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1346,6 +1415,7 @@ function deregister_task_from_maintenance_window(
         "DeregisterTaskFromMaintenanceWindow",
         Dict{String,Any}("WindowId" => WindowId, "WindowTaskId" => WindowTaskId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deregister_task_from_maintenance_window(
@@ -1364,6 +1434,7 @@ function deregister_task_from_maintenance_window(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1384,12 +1455,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_activations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeActivations"; aws_config=aws_config)
+    return ssm(
+        "DescribeActivations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_activations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeActivations", params; aws_config=aws_config)
+    return ssm(
+        "DescribeActivations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1411,12 +1489,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the SSM document.
 """
 function describe_association(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeAssociation"; aws_config=aws_config)
+    return ssm(
+        "DescribeAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeAssociation", params; aws_config=aws_config)
+    return ssm(
+        "DescribeAssociation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1445,6 +1530,7 @@ function describe_association_execution_targets(
         "DescribeAssociationExecutionTargets",
         Dict{String,Any}("AssociationId" => AssociationId, "ExecutionId" => ExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_association_execution_targets(
@@ -1465,6 +1551,7 @@ function describe_association_execution_targets(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1492,6 +1579,7 @@ function describe_association_executions(
         "DescribeAssociationExecutions",
         Dict{String,Any}("AssociationId" => AssociationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_association_executions(
@@ -1505,6 +1593,7 @@ function describe_association_executions(
             mergewith(_merge, Dict{String,Any}("AssociationId" => AssociationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1523,12 +1612,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_automation_executions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeAutomationExecutions"; aws_config=aws_config)
+    return ssm(
+        "DescribeAutomationExecutions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_automation_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeAutomationExecutions", params; aws_config=aws_config)
+    return ssm(
+        "DescribeAutomationExecutions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1559,6 +1657,7 @@ function describe_automation_step_executions(
         "DescribeAutomationStepExecutions",
         Dict{String,Any}("AutomationExecutionId" => AutomationExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_automation_step_executions(
@@ -1576,6 +1675,7 @@ function describe_automation_step_executions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1612,12 +1712,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_available_patches(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeAvailablePatches"; aws_config=aws_config)
+    return ssm(
+        "DescribeAvailablePatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_available_patches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeAvailablePatches", params; aws_config=aws_config)
+    return ssm(
+        "DescribeAvailablePatches",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1638,7 +1745,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of a document, and can't be changed.
 """
 function describe_document(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeDocument", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+    return ssm(
+        "DescribeDocument",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_document(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1647,6 +1759,7 @@ function describe_document(
         "DescribeDocument",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1677,6 +1790,7 @@ function describe_document_permission(
         "DescribeDocumentPermission",
         Dict{String,Any}("Name" => Name, "PermissionType" => PermissionType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_document_permission(
@@ -1695,6 +1809,7 @@ function describe_document_permission(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1721,6 +1836,7 @@ function describe_effective_instance_associations(
         "DescribeEffectiveInstanceAssociations",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_effective_instance_associations(
@@ -1734,6 +1850,7 @@ function describe_effective_instance_associations(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1760,6 +1877,7 @@ function describe_effective_patches_for_patch_baseline(
         "DescribeEffectivePatchesForPatchBaseline",
         Dict{String,Any}("BaselineId" => BaselineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_effective_patches_for_patch_baseline(
@@ -1773,6 +1891,7 @@ function describe_effective_patches_for_patch_baseline(
             mergewith(_merge, Dict{String,Any}("BaselineId" => BaselineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1799,6 +1918,7 @@ function describe_instance_associations_status(
         "DescribeInstanceAssociationsStatus",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_instance_associations_status(
@@ -1812,6 +1932,7 @@ function describe_instance_associations_status(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1842,12 +1963,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_instance_information(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeInstanceInformation"; aws_config=aws_config)
+    return ssm(
+        "DescribeInstanceInformation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_instance_information(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeInstanceInformation", params; aws_config=aws_config)
+    return ssm(
+        "DescribeInstanceInformation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1873,6 +2003,7 @@ function describe_instance_patch_states(
         "DescribeInstancePatchStates",
         Dict{String,Any}("InstanceIds" => InstanceIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_instance_patch_states(
@@ -1886,6 +2017,7 @@ function describe_instance_patch_states(
             mergewith(_merge, Dict{String,Any}("InstanceIds" => InstanceIds), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1915,6 +2047,7 @@ function describe_instance_patch_states_for_patch_group(
         "DescribeInstancePatchStatesForPatchGroup",
         Dict{String,Any}("PatchGroup" => PatchGroup);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_instance_patch_states_for_patch_group(
@@ -1928,6 +2061,7 @@ function describe_instance_patch_states_for_patch_group(
             mergewith(_merge, Dict{String,Any}("PatchGroup" => PatchGroup), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1959,6 +2093,7 @@ function describe_instance_patches(
         "DescribeInstancePatches",
         Dict{String,Any}("InstanceId" => InstanceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_instance_patches(
@@ -1972,6 +2107,7 @@ function describe_instance_patches(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1990,12 +2126,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_inventory_deletions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeInventoryDeletions"; aws_config=aws_config)
+    return ssm(
+        "DescribeInventoryDeletions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_inventory_deletions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeInventoryDeletions", params; aws_config=aws_config)
+    return ssm(
+        "DescribeInventoryDeletions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2027,6 +2170,7 @@ function describe_maintenance_window_execution_task_invocations(
         "DescribeMaintenanceWindowExecutionTaskInvocations",
         Dict{String,Any}("TaskId" => TaskId, "WindowExecutionId" => WindowExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_maintenance_window_execution_task_invocations(
@@ -2047,6 +2191,7 @@ function describe_maintenance_window_execution_task_invocations(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2077,6 +2222,7 @@ function describe_maintenance_window_execution_tasks(
         "DescribeMaintenanceWindowExecutionTasks",
         Dict{String,Any}("WindowExecutionId" => WindowExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_maintenance_window_execution_tasks(
@@ -2092,6 +2238,7 @@ function describe_maintenance_window_execution_tasks(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2124,6 +2271,7 @@ function describe_maintenance_window_executions(
         "DescribeMaintenanceWindowExecutions",
         Dict{String,Any}("WindowId" => WindowId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_maintenance_window_executions(
@@ -2137,6 +2285,7 @@ function describe_maintenance_window_executions(
             mergewith(_merge, Dict{String,Any}("WindowId" => WindowId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2163,12 +2312,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_maintenance_window_schedule(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeMaintenanceWindowSchedule"; aws_config=aws_config)
+    return ssm(
+        "DescribeMaintenanceWindowSchedule";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_maintenance_window_schedule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeMaintenanceWindowSchedule", params; aws_config=aws_config)
+    return ssm(
+        "DescribeMaintenanceWindowSchedule",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2196,6 +2354,7 @@ function describe_maintenance_window_targets(
         "DescribeMaintenanceWindowTargets",
         Dict{String,Any}("WindowId" => WindowId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_maintenance_window_targets(
@@ -2209,6 +2368,7 @@ function describe_maintenance_window_targets(
             mergewith(_merge, Dict{String,Any}("WindowId" => WindowId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2240,6 +2400,7 @@ function describe_maintenance_window_tasks(
         "DescribeMaintenanceWindowTasks",
         Dict{String,Any}("WindowId" => WindowId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_maintenance_window_tasks(
@@ -2253,6 +2414,7 @@ function describe_maintenance_window_tasks(
             mergewith(_merge, Dict{String,Any}("WindowId" => WindowId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2273,12 +2435,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_maintenance_windows(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeMaintenanceWindows"; aws_config=aws_config)
+    return ssm(
+        "DescribeMaintenanceWindows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_maintenance_windows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeMaintenanceWindows", params; aws_config=aws_config)
+    return ssm(
+        "DescribeMaintenanceWindows",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2307,6 +2476,7 @@ function describe_maintenance_windows_for_target(
         "DescribeMaintenanceWindowsForTarget",
         Dict{String,Any}("ResourceType" => ResourceType, "Targets" => Targets);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_maintenance_windows_for_target(
@@ -2325,6 +2495,7 @@ function describe_maintenance_windows_for_target(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2359,12 +2530,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   {\"key\":\"key_name\",\"value\":\"a_value\"}
 """
 function describe_ops_items(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeOpsItems"; aws_config=aws_config)
+    return ssm("DescribeOpsItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_ops_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeOpsItems", params; aws_config=aws_config)
+    return ssm(
+        "DescribeOpsItems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2376,7 +2549,10 @@ you specify MaxResults in the request, the response includes information up to t
 specified. The number of items returned, however, can be between zero and the value of
 MaxResults. If the service reaches an internal limit while processing the results, it stops
 the operation and returns the matching values up to that point and a NextToken. You can
-specify the NextToken in a subsequent call to get the next set of results.
+specify the NextToken in a subsequent call to get the next set of results.  If you change
+the KMS key alias for the KMS key used to encrypt a parameter, then you must also update
+the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves
+whatever the original key alias was referencing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2388,12 +2564,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParameterFilters"`: Filters to limit the request results.
 """
 function describe_parameters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeParameters"; aws_config=aws_config)
+    return ssm("DescribeParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_parameters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribeParameters", params; aws_config=aws_config)
+    return ssm(
+        "DescribeParameters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2413,12 +2591,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_patch_baselines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribePatchBaselines"; aws_config=aws_config)
+    return ssm(
+        "DescribePatchBaselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_patch_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribePatchBaselines", params; aws_config=aws_config)
+    return ssm(
+        "DescribePatchBaselines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2438,6 +2623,7 @@ function describe_patch_group_state(
         "DescribePatchGroupState",
         Dict{String,Any}("PatchGroup" => PatchGroup);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_patch_group_state(
@@ -2451,6 +2637,7 @@ function describe_patch_group_state(
             mergewith(_merge, Dict{String,Any}("PatchGroup" => PatchGroup), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2470,12 +2657,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_patch_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribePatchGroups"; aws_config=aws_config)
+    return ssm(
+        "DescribePatchGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_patch_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("DescribePatchGroups", params; aws_config=aws_config)
+    return ssm(
+        "DescribePatchGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2517,6 +2711,7 @@ function describe_patch_properties(
         "DescribePatchProperties",
         Dict{String,Any}("OperatingSystem" => OperatingSystem, "Property" => Property);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_patch_properties(
@@ -2537,6 +2732,7 @@ function describe_patch_properties(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2560,7 +2756,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_sessions(State; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "DescribeSessions", Dict{String,Any}("State" => State); aws_config=aws_config
+        "DescribeSessions",
+        Dict{String,Any}("State" => State);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_sessions(
@@ -2570,6 +2769,7 @@ function describe_sessions(
         "DescribeSessions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("State" => State), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2577,15 +2777,15 @@ end
     disassociate_ops_item_related_item(association_id, ops_item_id)
     disassociate_ops_item_related_item(association_id, ops_item_id, params::Dict{String,<:Any})
 
-Deletes the association between an OpsItem and a related resource. For example, this API
+Deletes the association between an OpsItem and a related item. For example, this API
 operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a
 capability of Amazon Web Services Systems Manager.
 
 # Arguments
 - `association_id`: The ID of the association for which you want to delete an association
-  between the OpsItem and a related resource.
+  between the OpsItem and a related item.
 - `ops_item_id`: The ID of the OpsItem for which you want to delete an association between
-  the OpsItem and a related resource.
+  the OpsItem and a related item.
 
 """
 function disassociate_ops_item_related_item(
@@ -2595,6 +2795,7 @@ function disassociate_ops_item_related_item(
         "DisassociateOpsItemRelatedItem",
         Dict{String,Any}("AssociationId" => AssociationId, "OpsItemId" => OpsItemId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_ops_item_related_item(
@@ -2615,6 +2816,7 @@ function disassociate_ops_item_related_item(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2637,6 +2839,7 @@ function get_automation_execution(
         "GetAutomationExecution",
         Dict{String,Any}("AutomationExecutionId" => AutomationExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_automation_execution(
@@ -2654,6 +2857,7 @@ function get_automation_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2690,6 +2894,7 @@ function get_calendar_state(
         "GetCalendarState",
         Dict{String,Any}("CalendarNames" => CalendarNames);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_calendar_state(
@@ -2703,6 +2908,7 @@ function get_calendar_state(
             mergewith(_merge, Dict{String,Any}("CalendarNames" => CalendarNames), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2740,6 +2946,7 @@ function get_command_invocation(
         "GetCommandInvocation",
         Dict{String,Any}("CommandId" => CommandId, "InstanceId" => InstanceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_command_invocation(
@@ -2758,6 +2965,7 @@ function get_command_invocation(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2774,7 +2982,10 @@ running and ready to receive Session Manager connections.
 """
 function get_connection_status(Target; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "GetConnectionStatus", Dict{String,Any}("Target" => Target); aws_config=aws_config
+        "GetConnectionStatus",
+        Dict{String,Any}("Target" => Target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_connection_status(
@@ -2784,6 +2995,7 @@ function get_connection_status(
         "GetConnectionStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Target" => Target), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2802,12 +3014,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system.
 """
 function get_default_patch_baseline(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetDefaultPatchBaseline"; aws_config=aws_config)
+    return ssm(
+        "GetDefaultPatchBaseline"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_default_patch_baseline(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("GetDefaultPatchBaseline", params; aws_config=aws_config)
+    return ssm(
+        "GetDefaultPatchBaseline",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2839,6 +3058,7 @@ function get_deployable_patch_snapshot_for_instance(
         "GetDeployablePatchSnapshotForInstance",
         Dict{String,Any}("InstanceId" => InstanceId, "SnapshotId" => SnapshotId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_deployable_patch_snapshot_for_instance(
@@ -2857,6 +3077,7 @@ function get_deployable_patch_snapshot_for_instance(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2880,7 +3101,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of a document and can't be changed.
 """
 function get_document(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetDocument", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+    return ssm(
+        "GetDocument",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_document(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2889,6 +3115,7 @@ function get_document(
         "GetDocument",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2912,12 +3139,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResultAttributes"`: The list of inventory item types to return.
 """
 function get_inventory(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetInventory"; aws_config=aws_config)
+    return ssm("GetInventory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_inventory(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("GetInventory", params; aws_config=aws_config)
+    return ssm(
+        "GetInventory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2940,12 +3169,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TypeName"`: The type of inventory item to return.
 """
 function get_inventory_schema(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetInventorySchema"; aws_config=aws_config)
+    return ssm("GetInventorySchema"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_inventory_schema(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("GetInventorySchema", params; aws_config=aws_config)
+    return ssm(
+        "GetInventorySchema", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2963,6 +3194,7 @@ function get_maintenance_window(WindowId; aws_config::AbstractAWSConfig=global_a
         "GetMaintenanceWindow",
         Dict{String,Any}("WindowId" => WindowId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_maintenance_window(
@@ -2976,6 +3208,7 @@ function get_maintenance_window(
             mergewith(_merge, Dict{String,Any}("WindowId" => WindowId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2996,6 +3229,7 @@ function get_maintenance_window_execution(
         "GetMaintenanceWindowExecution",
         Dict{String,Any}("WindowExecutionId" => WindowExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_maintenance_window_execution(
@@ -3011,6 +3245,7 @@ function get_maintenance_window_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3033,6 +3268,7 @@ function get_maintenance_window_execution_task(
         "GetMaintenanceWindowExecutionTask",
         Dict{String,Any}("TaskId" => TaskId, "WindowExecutionId" => WindowExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_maintenance_window_execution_task(
@@ -3053,6 +3289,7 @@ function get_maintenance_window_execution_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3084,6 +3321,7 @@ function get_maintenance_window_execution_task_invocation(
             "WindowExecutionId" => WindowExecutionId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_maintenance_window_execution_task_invocation(
@@ -3107,6 +3345,7 @@ function get_maintenance_window_execution_task_invocation(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3131,6 +3370,7 @@ function get_maintenance_window_task(
         "GetMaintenanceWindowTask",
         Dict{String,Any}("WindowId" => WindowId, "WindowTaskId" => WindowTaskId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_maintenance_window_task(
@@ -3149,6 +3389,7 @@ function get_maintenance_window_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3170,7 +3411,10 @@ Web Services Systems Manager User Guide.
 """
 function get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "GetOpsItem", Dict{String,Any}("OpsItemId" => OpsItemId); aws_config=aws_config
+        "GetOpsItem",
+        Dict{String,Any}("OpsItemId" => OpsItemId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_ops_item(
@@ -3184,6 +3428,7 @@ function get_ops_item(
             mergewith(_merge, Dict{String,Any}("OpsItemId" => OpsItemId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3207,6 +3452,7 @@ function get_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_a
         "GetOpsMetadata",
         Dict{String,Any}("OpsMetadataArn" => OpsMetadataArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_ops_metadata(
@@ -3220,6 +3466,7 @@ function get_ops_metadata(
             mergewith(_merge, Dict{String,Any}("OpsMetadataArn" => OpsMetadataArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3245,12 +3492,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SyncName"`: Specify the name of a resource data sync to get.
 """
 function get_ops_summary(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetOpsSummary"; aws_config=aws_config)
+    return ssm("GetOpsSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_ops_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("GetOpsSummary", params; aws_config=aws_config)
+    return ssm(
+        "GetOpsSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -3270,7 +3519,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ignored for String and StringList parameter types.
 """
 function get_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetParameter", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+    return ssm(
+        "GetParameter",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_parameter(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3279,6 +3533,7 @@ function get_parameter(
         "GetParameter",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3286,7 +3541,10 @@ end
     get_parameter_history(name)
     get_parameter_history(name, params::Dict{String,<:Any})
 
-Retrieves the history of all changes to a parameter.
+Retrieves the history of all changes to a parameter.  If you change the KMS key alias for
+the KMS key used to encrypt a parameter, then you must also update the key alias the
+parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the
+original key alias was referencing.
 
 # Arguments
 - `name`: The name of the parameter for which you want to review history.
@@ -3302,7 +3560,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_parameter_history(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "GetParameterHistory", Dict{String,Any}("Name" => Name); aws_config=aws_config
+        "GetParameterHistory",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_parameter_history(
@@ -3312,6 +3573,7 @@ function get_parameter_history(
         "GetParameterHistory",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3333,7 +3595,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   secure string parameters. This flag is ignored for String and StringList parameter types.
 """
 function get_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetParameters", Dict{String,Any}("Names" => Names); aws_config=aws_config)
+    return ssm(
+        "GetParameters",
+        Dict{String,Any}("Names" => Names);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_parameters(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3342,6 +3609,7 @@ function get_parameters(
         "GetParameters",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3369,9 +3637,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
-- `"ParameterFilters"`: Filters to limit the request results.  For GetParametersByPath, the
-  following filter Key names are supported: Type, KeyId, Label, and DataType. The following
-  Key values are not supported for GetParametersByPath: tag, Name, Path, and Tier.
+- `"ParameterFilters"`: Filters to limit the request results.  The following Key values are
+  supported for GetParametersByPath: Type, KeyId, and Label. The following Key values aren't
+  supported for GetParametersByPath: tag, DataType, Name, Path, and Tier.
 - `"Recursive"`: Retrieve all parameters within a hierarchy.  If a user has access to a
   path, then the user can access all levels of that path. For example, if a user has
   permission to access path /a, then the user can also access /a/b. Even if a user has
@@ -3381,7 +3649,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_parameters_by_path(Path; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "GetParametersByPath", Dict{String,Any}("Path" => Path); aws_config=aws_config
+        "GetParametersByPath",
+        Dict{String,Any}("Path" => Path);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_parameters_by_path(
@@ -3391,6 +3662,7 @@ function get_parameters_by_path(
         "GetParametersByPath",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Path" => Path), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3413,6 +3685,7 @@ function get_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws
         "GetPatchBaseline",
         Dict{String,Any}("BaselineId" => BaselineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_patch_baseline(
@@ -3426,6 +3699,7 @@ function get_patch_baseline(
             mergewith(_merge, Dict{String,Any}("BaselineId" => BaselineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3450,6 +3724,7 @@ function get_patch_baseline_for_patch_group(
         "GetPatchBaselineForPatchGroup",
         Dict{String,Any}("PatchGroup" => PatchGroup);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_patch_baseline_for_patch_group(
@@ -3463,6 +3738,7 @@ function get_patch_baseline_for_patch_group(
             mergewith(_merge, Dict{String,Any}("PatchGroup" => PatchGroup), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3497,6 +3773,7 @@ function get_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws
         "GetServiceSetting",
         Dict{String,Any}("SettingId" => SettingId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_service_setting(
@@ -3510,6 +3787,7 @@ function get_service_setting(
             mergewith(_merge, Dict{String,Any}("SettingId" => SettingId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3550,6 +3828,7 @@ function label_parameter_version(
         "LabelParameterVersion",
         Dict{String,Any}("Labels" => Labels, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function label_parameter_version(
@@ -3564,6 +3843,7 @@ function label_parameter_version(
             mergewith(_merge, Dict{String,Any}("Labels" => Labels, "Name" => Name), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3589,6 +3869,7 @@ function list_association_versions(
         "ListAssociationVersions",
         Dict{String,Any}("AssociationId" => AssociationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_association_versions(
@@ -3602,6 +3883,7 @@ function list_association_versions(
             mergewith(_merge, Dict{String,Any}("AssociationId" => AssociationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3626,12 +3908,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function list_associations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListAssociations"; aws_config=aws_config)
+    return ssm("ListAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListAssociations", params; aws_config=aws_config)
+    return ssm(
+        "ListAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -3658,12 +3942,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous call.)
 """
 function list_command_invocations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListCommandInvocations"; aws_config=aws_config)
+    return ssm(
+        "ListCommandInvocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_command_invocations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListCommandInvocations", params; aws_config=aws_config)
+    return ssm(
+        "ListCommandInvocations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -3687,12 +3978,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous call.)
 """
 function list_commands(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListCommands"; aws_config=aws_config)
+    return ssm("ListCommands"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_commands(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListCommands", params; aws_config=aws_config)
+    return ssm(
+        "ListCommands", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -3716,12 +4009,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Currently, the only supported resource type is ManagedInstance.
 """
 function list_compliance_items(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListComplianceItems"; aws_config=aws_config)
+    return ssm(
+        "ListComplianceItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_compliance_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListComplianceItems", params; aws_config=aws_config)
+    return ssm(
+        "ListComplianceItems",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -3742,12 +4042,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_compliance_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListComplianceSummaries"; aws_config=aws_config)
+    return ssm(
+        "ListComplianceSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_compliance_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListComplianceSummaries", params; aws_config=aws_config)
+    return ssm(
+        "ListComplianceSummaries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -3776,6 +4083,7 @@ function list_document_metadata_history(
         "ListDocumentMetadataHistory",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_document_metadata_history(
@@ -3792,6 +4100,7 @@ function list_document_metadata_history(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3813,7 +4122,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_document_versions(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "ListDocumentVersions", Dict{String,Any}("Name" => Name); aws_config=aws_config
+        "ListDocumentVersions",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_document_versions(
@@ -3823,6 +4135,7 @@ function list_document_versions(
         "ListDocumentVersions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3850,12 +4163,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function list_documents(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListDocuments"; aws_config=aws_config)
+    return ssm("ListDocuments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_documents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListDocuments", params; aws_config=aws_config)
+    return ssm(
+        "ListDocuments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -3883,6 +4198,7 @@ function list_inventory_entries(
         "ListInventoryEntries",
         Dict{String,Any}("InstanceId" => InstanceId, "TypeName" => TypeName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_inventory_entries(
@@ -3901,6 +4217,7 @@ function list_inventory_entries(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3921,19 +4238,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_ops_item_events(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListOpsItemEvents"; aws_config=aws_config)
+    return ssm("ListOpsItemEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_ops_item_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListOpsItemEvents", params; aws_config=aws_config)
+    return ssm(
+        "ListOpsItemEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
     list_ops_item_related_items()
     list_ops_item_related_items(params::Dict{String,<:Any})
 
-Lists all related-item resources associated with an OpsItem.
+Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem.
+OpsCenter is a capability of Amazon Web Services Systems Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3947,12 +4267,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources.
 """
 function list_ops_item_related_items(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListOpsItemRelatedItems"; aws_config=aws_config)
+    return ssm(
+        "ListOpsItemRelatedItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_ops_item_related_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListOpsItemRelatedItems", params; aws_config=aws_config)
+    return ssm(
+        "ListOpsItemRelatedItems",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -3971,12 +4298,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_ops_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListOpsMetadata"; aws_config=aws_config)
+    return ssm("ListOpsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_ops_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListOpsMetadata", params; aws_config=aws_config)
+    return ssm(
+        "ListOpsMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -3997,12 +4326,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_resource_compliance_summaries(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListResourceComplianceSummaries"; aws_config=aws_config)
+    return ssm(
+        "ListResourceComplianceSummaries";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_resource_compliance_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListResourceComplianceSummaries", params; aws_config=aws_config)
+    return ssm(
+        "ListResourceComplianceSummaries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -4029,12 +4367,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services Regions.
 """
 function list_resource_data_sync(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListResourceDataSync"; aws_config=aws_config)
+    return ssm(
+        "ListResourceDataSync"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_resource_data_sync(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ssm("ListResourceDataSync", params; aws_config=aws_config)
+    return ssm(
+        "ListResourceDataSync",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -4056,6 +4401,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceId" => ResourceId, "ResourceType" => ResourceType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -4076,6 +4422,7 @@ function list_tags_for_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4110,6 +4457,7 @@ function modify_document_permission(
         "ModifyDocumentPermission",
         Dict{String,Any}("Name" => Name, "PermissionType" => PermissionType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function modify_document_permission(
@@ -4128,6 +4476,7 @@ function modify_document_permission(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4198,6 +4547,7 @@ function put_compliance_items(
             "ResourceType" => ResourceType,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_compliance_items(
@@ -4225,6 +4575,7 @@ function put_compliance_items(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4245,6 +4596,7 @@ function put_inventory(InstanceId, Items; aws_config::AbstractAWSConfig=global_a
         "PutInventory",
         Dict{String,Any}("InstanceId" => InstanceId, "Items" => Items);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_inventory(
@@ -4263,6 +4615,7 @@ function put_inventory(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4386,6 +4739,7 @@ function put_parameter(Name, Value; aws_config::AbstractAWSConfig=global_aws_con
         "PutParameter",
         Dict{String,Any}("Name" => Name, "Value" => Value);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_parameter(
@@ -4400,6 +4754,7 @@ function put_parameter(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "Value" => Value), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4424,6 +4779,7 @@ function register_default_patch_baseline(
         "RegisterDefaultPatchBaseline",
         Dict{String,Any}("BaselineId" => BaselineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_default_patch_baseline(
@@ -4437,6 +4793,7 @@ function register_default_patch_baseline(
             mergewith(_merge, Dict{String,Any}("BaselineId" => BaselineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4458,6 +4815,7 @@ function register_patch_baseline_for_patch_group(
         "RegisterPatchBaselineForPatchGroup",
         Dict{String,Any}("BaselineId" => BaselineId, "PatchGroup" => PatchGroup);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_patch_baseline_for_patch_group(
@@ -4476,6 +4834,7 @@ function register_patch_baseline_for_patch_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4527,6 +4886,7 @@ function register_target_with_maintenance_window(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_target_with_maintenance_window(
@@ -4551,6 +4911,7 @@ function register_target_with_maintenance_window(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4568,6 +4929,15 @@ Adds a new task to a maintenance window.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: User-provided idempotency token.
+- `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
+  specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is
+  reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For
+  Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task
+  invocations that are already running continue, but no new task invocations are started.
+  For Run Command tasks: When the cutoff time is reached, the system sends a CancelCommand
+  operation that attempts to cancel the command associated with the task. However, there is
+  no guarantee that the command will be terminated and the underlying process stopped.   The
+  status for tasks that are not completed is TIMED_OUT.
 - `"Description"`: An optional description for the task.
 - `"LoggingInfo"`: A structure containing information about an Amazon Simple Storage
   Service (Amazon S3) bucket to write instance-level logs to.    LoggingInfo has been
@@ -4625,6 +4995,7 @@ function register_task_with_maintenance_window(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_task_with_maintenance_window(
@@ -4649,6 +5020,7 @@ function register_task_with_maintenance_window(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4685,6 +5057,7 @@ function remove_tags_from_resource(
             "ResourceId" => ResourceId, "ResourceType" => ResourceType, "TagKeys" => TagKeys
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function remove_tags_from_resource(
@@ -4708,6 +5081,7 @@ function remove_tags_from_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4742,6 +5116,7 @@ function reset_service_setting(SettingId; aws_config::AbstractAWSConfig=global_a
         "ResetServiceSetting",
         Dict{String,Any}("SettingId" => SettingId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reset_service_setting(
@@ -4755,6 +5130,7 @@ function reset_service_setting(
             mergewith(_merge, Dict{String,Any}("SettingId" => SettingId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4773,7 +5149,10 @@ It isn't intended for any other use.
 """
 function resume_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "ResumeSession", Dict{String,Any}("SessionId" => SessionId); aws_config=aws_config
+        "ResumeSession",
+        Dict{String,Any}("SessionId" => SessionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function resume_session(
@@ -4787,6 +5166,7 @@ function resume_session(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4821,6 +5201,7 @@ function send_automation_signal(
             "AutomationExecutionId" => AutomationExecutionId, "SignalType" => SignalType
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function send_automation_signal(
@@ -4842,6 +5223,7 @@ function send_automation_signal(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4854,9 +5236,10 @@ Runs commands on one or more managed instances.
 # Arguments
 - `document_name`: The name of the Amazon Web Services Systems Manager document (SSM
   document) to run. This can be a public document or a custom document. To run a shared
-  document belonging to another account, specify the document ARN. For more information about
-  how to use shared documents, see Using shared SSM documents in the Amazon Web Services
-  Systems Manager User Guide.
+  document belonging to another account, specify the document Amazon Resource Name (ARN). For
+  more information about how to use shared documents, see Using shared SSM documents in the
+  Amazon Web Services Systems Manager User Guide.  If you specify a document name or ARN that
+  hasn't been shared with your account, you receive an InvalidDocument error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4918,6 +5301,7 @@ function send_command(DocumentName; aws_config::AbstractAWSConfig=global_aws_con
         "SendCommand",
         Dict{String,Any}("DocumentName" => DocumentName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function send_command(
@@ -4931,6 +5315,7 @@ function send_command(
             mergewith(_merge, Dict{String,Any}("DocumentName" => DocumentName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4952,6 +5337,7 @@ function start_associations_once(
         "StartAssociationsOnce",
         Dict{String,Any}("AssociationIds" => AssociationIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_associations_once(
@@ -4965,6 +5351,7 @@ function start_associations_once(
             mergewith(_merge, Dict{String,Any}("AssociationIds" => AssociationIds), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5028,6 +5415,7 @@ function start_automation_execution(
         "StartAutomationExecution",
         Dict{String,Any}("DocumentName" => DocumentName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_automation_execution(
@@ -5041,6 +5429,7 @@ function start_automation_execution(
             mergewith(_merge, Dict{String,Any}("DocumentName" => DocumentName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5092,6 +5481,7 @@ function start_change_request_execution(
         "StartChangeRequestExecution",
         Dict{String,Any}("DocumentName" => DocumentName, "Runbooks" => Runbooks);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_change_request_execution(
@@ -5110,6 +5500,7 @@ function start_change_request_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5138,7 +5529,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: Reserved for future use.
 """
 function start_session(Target; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("StartSession", Dict{String,Any}("Target" => Target); aws_config=aws_config)
+    return ssm(
+        "StartSession",
+        Dict{String,Any}("Target" => Target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function start_session(
     Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5147,6 +5543,7 @@ function start_session(
         "StartSession",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Target" => Target), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5171,6 +5568,7 @@ function stop_automation_execution(
         "StopAutomationExecution",
         Dict{String,Any}("AutomationExecutionId" => AutomationExecutionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function stop_automation_execution(
@@ -5188,6 +5586,7 @@ function stop_automation_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5207,6 +5606,7 @@ function terminate_session(SessionId; aws_config::AbstractAWSConfig=global_aws_c
         "TerminateSession",
         Dict{String,Any}("SessionId" => SessionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function terminate_session(
@@ -5220,6 +5620,7 @@ function terminate_session(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5245,6 +5646,7 @@ function unlabel_parameter_version(
             "Labels" => Labels, "Name" => Name, "ParameterVersion" => ParameterVersion
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function unlabel_parameter_version(
@@ -5268,6 +5670,7 @@ function unlabel_parameter_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5365,6 +5768,7 @@ function update_association(
         "UpdateAssociation",
         Dict{String,Any}("AssociationId" => AssociationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_association(
@@ -5378,6 +5782,7 @@ function update_association(
             mergewith(_merge, Dict{String,Any}("AssociationId" => AssociationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5407,6 +5812,7 @@ function update_association_status(
             "Name" => Name,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_association_status(
@@ -5430,6 +5836,7 @@ function update_association_status(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5465,6 +5872,7 @@ function update_document(Content, Name; aws_config::AbstractAWSConfig=global_aws
         "UpdateDocument",
         Dict{String,Any}("Content" => Content, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_document(
@@ -5481,6 +5889,7 @@ function update_document(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5503,6 +5912,7 @@ function update_document_default_version(
         "UpdateDocumentDefaultVersion",
         Dict{String,Any}("DocumentVersion" => DocumentVersion, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_document_default_version(
@@ -5521,6 +5931,7 @@ function update_document_default_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5547,6 +5958,7 @@ function update_document_metadata(
         "UpdateDocumentMetadata",
         Dict{String,Any}("DocumentReviews" => DocumentReviews, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_document_metadata(
@@ -5565,6 +5977,7 @@ function update_document_metadata(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5621,6 +6034,7 @@ function update_maintenance_window(
         "UpdateMaintenanceWindow",
         Dict{String,Any}("WindowId" => WindowId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_maintenance_window(
@@ -5634,6 +6048,7 @@ function update_maintenance_window(
             mergewith(_merge, Dict{String,Any}("WindowId" => WindowId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5669,6 +6084,7 @@ function update_maintenance_window_target(
         "UpdateMaintenanceWindowTarget",
         Dict{String,Any}("WindowId" => WindowId, "WindowTargetId" => WindowTargetId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_maintenance_window_target(
@@ -5689,6 +6105,7 @@ function update_maintenance_window_target(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5721,6 +6138,15 @@ OutputS3BucketName value, the values for Comment and NotificationConfig are remo
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
+  specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is
+  reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For
+  Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task
+  invocations that are already running continue, but no new task invocations are started.
+  For Run Command tasks: When the cutoff time is reached, the system sends a CancelCommand
+  operation that attempts to cancel the command associated with the task. However, there is
+  no guarantee that the command will be terminated and the underlying process stopped.   The
+  status for tasks that are not completed is TIMED_OUT.
 - `"Description"`: The new task description to specify.
 - `"LoggingInfo"`: The new logging location in Amazon S3 to specify.   LoggingInfo has been
   deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs,
@@ -5784,6 +6210,7 @@ function update_maintenance_window_task(
         "UpdateMaintenanceWindowTask",
         Dict{String,Any}("WindowId" => WindowId, "WindowTaskId" => WindowTaskId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_maintenance_window_task(
@@ -5802,6 +6229,7 @@ function update_maintenance_window_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5825,6 +6253,7 @@ function update_managed_instance_role(
         "UpdateManagedInstanceRole",
         Dict{String,Any}("IamRole" => IamRole, "InstanceId" => InstanceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_managed_instance_role(
@@ -5843,6 +6272,7 @@ function update_managed_instance_role(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5905,7 +6335,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
-        "UpdateOpsItem", Dict{String,Any}("OpsItemId" => OpsItemId); aws_config=aws_config
+        "UpdateOpsItem",
+        Dict{String,Any}("OpsItemId" => OpsItemId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_ops_item(
@@ -5919,6 +6352,7 @@ function update_ops_item(
             mergewith(_merge, Dict{String,Any}("OpsItemId" => OpsItemId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5944,6 +6378,7 @@ function update_ops_metadata(
         "UpdateOpsMetadata",
         Dict{String,Any}("OpsMetadataArn" => OpsMetadataArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_ops_metadata(
@@ -5957,6 +6392,7 @@ function update_ops_metadata(
             mergewith(_merge, Dict{String,Any}("OpsMetadataArn" => OpsMetadataArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -6011,6 +6447,7 @@ function update_patch_baseline(
         "UpdatePatchBaseline",
         Dict{String,Any}("BaselineId" => BaselineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_patch_baseline(
@@ -6024,6 +6461,7 @@ function update_patch_baseline(
             mergewith(_merge, Dict{String,Any}("BaselineId" => BaselineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -6054,6 +6492,7 @@ function update_resource_data_sync(
             "SyncName" => SyncName, "SyncSource" => SyncSource, "SyncType" => SyncType
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_resource_data_sync(
@@ -6077,6 +6516,7 @@ function update_resource_data_sync(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -6107,16 +6547,15 @@ service setting for the account.
   /ssm/documents/console/public-sharing-permission
   /ssm/parameter-store/default-parameter-tier
   /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
-- `setting_value`: The new value to specify for the service setting. For the
-  /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the
-  following.   Standard   Advanced   Intelligent-Tiering   For the
-  /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier
-  setting IDs, the setting value can be true or false. For the
-  /ssm/automation/customer-script-log-destination setting ID, the setting value can be
-  CloudWatch. For the /ssm/automation/customer-script-log-group-name setting ID, the setting
-  value can be the name of an Amazon CloudWatch Logs log group. For the
-  /ssm/documents/console/public-sharing-permission setting ID, the setting value can be
-  Enable or Disable.
+- `setting_value`: The new value to specify for the service setting. The following list
+  specifies the available values for each setting.
+  /ssm/parameter-store/default-parameter-tier: Standard, Advanced, Intelligent-Tiering
+  /ssm/parameter-store/high-throughput-enabled: true or false
+  /ssm/managed-instance/activation-tier: true or false
+  /ssm/automation/customer-script-log-destination: CloudWatch
+  /ssm/automation/customer-script-log-group-name: the name of an Amazon CloudWatch Logs log
+  group    /ssm/documents/console/public-sharing-permission: Enable or Disable
+  /ssm/managed-instance/activation-tier: standard or advanced
 
 """
 function update_service_setting(
@@ -6126,6 +6565,7 @@ function update_service_setting(
         "UpdateServiceSetting",
         Dict{String,Any}("SettingId" => SettingId, "SettingValue" => SettingValue);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_service_setting(
@@ -6144,5 +6584,6 @@ function update_service_setting(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

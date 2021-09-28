@@ -20,7 +20,7 @@ export AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
 export ec2_instance_metadata, ec2_instance_region
 export generate_service_url, global_aws_config, set_user_agent
 export sign!, sign_aws2!, sign_aws4!
-export JSONService, RestJSONService, RestXMLService, QueryService
+export JSONService, RestJSONService, RestXMLService, QueryService, set_features
 
 const DEFAULT_REGION = "us-east-1"
 
@@ -40,6 +40,8 @@ using ..AWSExceptions: AWSException
 
 const user_agent = Ref("AWS.jl/1.0.0")
 const aws_config = Ref{AbstractAWSConfig}()
+
+Base.@kwdef struct FeatureSet end
 
 """
     global_aws_config()
@@ -122,27 +124,34 @@ using AWS: @service
 # Return
 - `Expression`: Base.include() call to introduce the high-level service API wrapper functions in your namespace
 """
-macro service(module_name::Symbol)
+macro service(module_name::Symbol, features...)
     service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
+    map(_assignment_to_kw!, features)
 
-    return Expr(:toplevel, :(module ($(esc(module_name)))
-    Base.include($(esc(module_name)), $(esc(service_name)))
-    end))
+    module_block = quote
+        using AWS: FeatureSet
+        const SERVICE_FEATURE_SET = FeatureSet(; $(features...))
+        include($service_name)
+    end
+
+    return Expr(:toplevel, Expr(:module, true, esc(module_name), esc(module_block)))
 end
 
-struct RestXMLService
+abstract type Service end
+
+struct RestXMLService <: Service
     signing_name::String
     endpoint_prefix::String
     api_version::String
 end
 
-struct QueryService
+struct QueryService <: Service
     signing_name::String
     endpoint_prefix::String
     api_version::String
 end
 
-struct JSONService
+struct JSONService <: Service
     signing_name::String
     endpoint_prefix::String
     api_version::String
@@ -151,7 +160,7 @@ struct JSONService
     target::String
 end
 
-struct RestJSONService
+struct RestJSONService <: Service
     signing_name::String
     endpoint_prefix::String
     api_version::String
@@ -163,6 +172,15 @@ function RestJSONService(signing_name::String, endpoint_prefix::String, api_vers
     return RestJSONService(
         signing_name, endpoint_prefix, api_version, LittleDict{String,String}()
     )
+end
+
+struct ServiceWrapper{S<:Service}
+    service::S
+    feature_set::FeatureSet
+end
+
+function set_features(service::Service; features...)
+    return ServiceWrapper(service, FeatureSet(; features...))
 end
 
 # Needs to be included after the definition of struct otherwise it cannot find them
@@ -207,6 +225,7 @@ function (service::RestXMLService)(
     request_uri::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
+    feature_set::FeatureSet=FeatureSet(),
 )
     return_headers = _pop!(args, "return_headers", false)
 
@@ -259,6 +278,7 @@ function (service::QueryService)(
     operation::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
+    feature_set::FeatureSet=FeatureSet(),
 )
     POST_RESOURCE = "/"
     return_headers = _pop!(args, "return_headers", false)
@@ -301,6 +321,7 @@ function (service::JSONService)(
     operation::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
+    feature_set::FeatureSet=FeatureSet(),
 )
     POST_RESOURCE = "/"
     return_headers = _pop!(args, "return_headers", false)
@@ -343,6 +364,7 @@ function (service::RestJSONService)(
     request_uri::String,
     args::AbstractDict{String,<:Any}=Dict{String,String}();
     aws_config::AbstractAWSConfig=global_aws_config(),
+    feature_set::FeatureSet=FeatureSet(),
 )
     return_headers = _pop!(args, "return_headers", false)
 
@@ -364,6 +386,11 @@ function (service::RestJSONService)(
     request.content = json(args)
 
     return submit_request(aws_config, request; return_headers=return_headers)
+end
+
+function (service::ServiceWrapper)(args...; feature_set=nothing, kwargs...)
+    feature_set = something(feature_set, service.feature_set)
+    return service.service(args...; feature_set=feature_set, kwargs...)
 end
 
 function __init__()

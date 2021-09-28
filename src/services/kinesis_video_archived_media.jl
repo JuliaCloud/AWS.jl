@@ -45,6 +45,7 @@ function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws
         "/getClip",
         Dict{String,Any}("ClipFragmentSelector" => ClipFragmentSelector);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_clip(
@@ -63,6 +64,7 @@ function get_clip(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -214,14 +216,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis_video_archived_media(
-        "POST", "/getDASHStreamingSessionURL"; aws_config=aws_config
+        "POST",
+        "/getDASHStreamingSessionURL";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_dashstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis_video_archived_media(
-        "POST", "/getDASHStreamingSessionURL", params; aws_config=aws_config
+        "POST",
+        "/getDASHStreamingSessionURL",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -407,14 +416,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis_video_archived_media(
-        "POST", "/getHLSStreamingSessionURL"; aws_config=aws_config
+        "POST",
+        "/getHLSStreamingSessionURL";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_hlsstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis_video_archived_media(
-        "POST", "/getHLSStreamingSessionURL", params; aws_config=aws_config
+        "POST",
+        "/getHLSStreamingSessionURL",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -456,6 +472,7 @@ function get_media_for_fragment_list(
         "/getMediaForFragmentList",
         Dict{String,Any}("Fragments" => Fragments);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_media_for_fragment_list(
@@ -470,6 +487,7 @@ function get_media_for_fragment_list(
             mergewith(_merge, Dict{String,Any}("Fragments" => Fragments), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -510,12 +528,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either this parameter or the StreamARN parameter.
 """
 function list_fragments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media("POST", "/listFragments"; aws_config=aws_config)
+    return kinesis_video_archived_media(
+        "POST", "/listFragments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_fragments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kinesis_video_archived_media(
-        "POST", "/listFragments", params; aws_config=aws_config
+        "POST",
+        "/listFragments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -39,7 +39,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return resource_groups(
-        "POST", "/groups", Dict{String,Any}("Name" => Name); aws_config=aws_config
+        "POST",
+        "/groups",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_group(
@@ -50,6 +54,7 @@ function create_group(
         "/groups",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -68,12 +73,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Deprecated - don't use this parameter. Use Group instead.
 """
 function delete_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_groups("POST", "/delete-group"; aws_config=aws_config)
+    return resource_groups(
+        "POST", "/delete-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return resource_groups("POST", "/delete-group", params; aws_config=aws_config)
+    return resource_groups(
+        "POST",
+        "/delete-group",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -89,12 +102,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Deprecated - don't use this parameter. Use Group instead.
 """
 function get_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_groups("POST", "/get-group"; aws_config=aws_config)
+    return resource_groups(
+        "POST", "/get-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return resource_groups("POST", "/get-group", params; aws_config=aws_config)
+    return resource_groups(
+        "POST", "/get-group", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -111,13 +128,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Group"`: The name or the ARN of the resource group.
 """
 function get_group_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_groups("POST", "/get-group-configuration"; aws_config=aws_config)
+    return resource_groups(
+        "POST",
+        "/get-group-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_group_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return resource_groups(
-        "POST", "/get-group-configuration", params; aws_config=aws_config
+        "POST",
+        "/get-group-configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -136,12 +162,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Don't use this parameter. Use Group instead.
 """
 function get_group_query(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_groups("POST", "/get-group-query"; aws_config=aws_config)
+    return resource_groups(
+        "POST", "/get-group-query"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_group_query(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return resource_groups("POST", "/get-group-query", params; aws_config=aws_config)
+    return resource_groups(
+        "POST",
+        "/get-group-query",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -157,12 +191,23 @@ resource-groups:GetTags
 
 """
 function get_tags(Arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_groups("GET", "/resources/$(Arn)/tags"; aws_config=aws_config)
+    return resource_groups(
+        "GET",
+        "/resources/$(Arn)/tags";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_tags(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return resource_groups("GET", "/resources/$(Arn)/tags", params; aws_config=aws_config)
+    return resource_groups(
+        "GET",
+        "/resources/$(Arn)/tags",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -185,6 +230,7 @@ function group_resources(
         "/group-resources",
         Dict{String,Any}("Group" => Group, "ResourceArns" => ResourceArns);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function group_resources(
@@ -204,6 +250,7 @@ function group_resources(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -251,12 +298,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate where the output should continue from.
 """
 function list_group_resources(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_groups("POST", "/list-group-resources"; aws_config=aws_config)
+    return resource_groups(
+        "POST",
+        "/list-group-resources";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_group_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return resource_groups("POST", "/list-group-resources", params; aws_config=aws_config)
+    return resource_groups(
+        "POST",
+        "/list-group-resources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -289,12 +347,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate where the output should continue from.
 """
 function list_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_groups("POST", "/groups-list"; aws_config=aws_config)
+    return resource_groups(
+        "POST", "/groups-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return resource_groups("POST", "/groups-list", params; aws_config=aws_config)
+    return resource_groups(
+        "POST",
+        "/groups-list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -318,13 +384,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update.
 """
 function put_group_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_groups("POST", "/put-group-configuration"; aws_config=aws_config)
+    return resource_groups(
+        "POST",
+        "/put-group-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function put_group_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return resource_groups(
-        "POST", "/put-group-configuration", params; aws_config=aws_config
+        "POST",
+        "/put-group-configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -363,6 +438,7 @@ function search_resources(ResourceQuery; aws_config::AbstractAWSConfig=global_aw
         "/resources/search",
         Dict{String,Any}("ResourceQuery" => ResourceQuery);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function search_resources(
@@ -377,6 +453,7 @@ function search_resources(
             mergewith(_merge, Dict{String,Any}("ResourceQuery" => ResourceQuery), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -403,6 +480,7 @@ function tag(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
         "/resources/$(Arn)/tags",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag(
@@ -416,6 +494,7 @@ function tag(
         "/resources/$(Arn)/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -439,6 +518,7 @@ function ungroup_resources(
         "/ungroup-resources",
         Dict{String,Any}("Group" => Group, "ResourceArns" => ResourceArns);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function ungroup_resources(
@@ -458,6 +538,7 @@ function ungroup_resources(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -480,6 +561,7 @@ function untag(Arn, Keys; aws_config::AbstractAWSConfig=global_aws_config())
         "/resources/$(Arn)/tags",
         Dict{String,Any}("Keys" => Keys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag(
@@ -493,6 +575,7 @@ function untag(
         "/resources/$(Arn)/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Keys" => Keys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -512,12 +595,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Don't use this parameter. Use Group instead.
 """
 function update_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_groups("POST", "/update-group"; aws_config=aws_config)
+    return resource_groups(
+        "POST", "/update-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return resource_groups("POST", "/update-group", params; aws_config=aws_config)
+    return resource_groups(
+        "POST",
+        "/update-group",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -546,6 +637,7 @@ function update_group_query(
         "/update-group-query",
         Dict{String,Any}("ResourceQuery" => ResourceQuery);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_group_query(
@@ -560,5 +652,6 @@ function update_group_query(
             mergewith(_merge, Dict{String,Any}("ResourceQuery" => ResourceQuery), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -17,12 +17,21 @@ your template.
 function associate_service_quota_template(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return service_quotas("AssociateServiceQuotaTemplate"; aws_config=aws_config)
+    return service_quotas(
+        "AssociateServiceQuotaTemplate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function associate_service_quota_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return service_quotas("AssociateServiceQuotaTemplate", params; aws_config=aws_config)
+    return service_quotas(
+        "AssociateServiceQuotaTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -46,6 +55,7 @@ function delete_service_quota_increase_request_from_template(
             "AwsRegion" => AwsRegion, "QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_service_quota_increase_request_from_template(
@@ -69,6 +79,7 @@ function delete_service_quota_increase_request_from_template(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -84,12 +95,21 @@ quota request template does not apply its quota increase requests.
 function disassociate_service_quota_template(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return service_quotas("DisassociateServiceQuotaTemplate"; aws_config=aws_config)
+    return service_quotas(
+        "DisassociateServiceQuotaTemplate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function disassociate_service_quota_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return service_quotas("DisassociateServiceQuotaTemplate", params; aws_config=aws_config)
+    return service_quotas(
+        "DisassociateServiceQuotaTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -102,13 +122,20 @@ Retrieves the status of the association for the quota request template.
 function get_association_for_service_quota_template(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return service_quotas("GetAssociationForServiceQuotaTemplate"; aws_config=aws_config)
+    return service_quotas(
+        "GetAssociationForServiceQuotaTemplate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_association_for_service_quota_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return service_quotas(
-        "GetAssociationForServiceQuotaTemplate", params; aws_config=aws_config
+        "GetAssociationForServiceQuotaTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -131,6 +158,7 @@ function get_awsdefault_service_quota(
         "GetAWSDefaultServiceQuota",
         Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_awsdefault_service_quota(
@@ -149,6 +177,7 @@ function get_awsdefault_service_quota(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -169,6 +198,7 @@ function get_requested_service_quota_change(
         "GetRequestedServiceQuotaChange",
         Dict{String,Any}("RequestId" => RequestId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_requested_service_quota_change(
@@ -182,6 +212,7 @@ function get_requested_service_quota_change(
             mergewith(_merge, Dict{String,Any}("RequestId" => RequestId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -205,6 +236,7 @@ function get_service_quota(
         "GetServiceQuota",
         Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_service_quota(
@@ -223,6 +255,7 @@ function get_service_quota(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -248,6 +281,7 @@ function get_service_quota_increase_request_from_template(
             "AwsRegion" => AwsRegion, "QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_service_quota_increase_request_from_template(
@@ -271,6 +305,7 @@ function get_service_quota_increase_request_from_template(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -297,6 +332,7 @@ function list_awsdefault_service_quotas(
         "ListAWSDefaultServiceQuotas",
         Dict{String,Any}("ServiceCode" => ServiceCode);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_awsdefault_service_quotas(
@@ -310,6 +346,7 @@ function list_awsdefault_service_quotas(
             mergewith(_merge, Dict{String,Any}("ServiceCode" => ServiceCode), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -330,13 +367,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_requested_service_quota_change_history(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return service_quotas("ListRequestedServiceQuotaChangeHistory"; aws_config=aws_config)
+    return service_quotas(
+        "ListRequestedServiceQuotaChangeHistory";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_requested_service_quota_change_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return service_quotas(
-        "ListRequestedServiceQuotaChangeHistory", params; aws_config=aws_config
+        "ListRequestedServiceQuotaChangeHistory",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -364,6 +408,7 @@ function list_requested_service_quota_change_history_by_quota(
         "ListRequestedServiceQuotaChangeHistoryByQuota",
         Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_requested_service_quota_change_history_by_quota(
@@ -382,6 +427,7 @@ function list_requested_service_quota_change_history_by_quota(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -403,14 +449,19 @@ function list_service_quota_increase_requests_in_template(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return service_quotas(
-        "ListServiceQuotaIncreaseRequestsInTemplate"; aws_config=aws_config
+        "ListServiceQuotaIncreaseRequestsInTemplate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_service_quota_increase_requests_in_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return service_quotas(
-        "ListServiceQuotaIncreaseRequestsInTemplate", params; aws_config=aws_config
+        "ListServiceQuotaIncreaseRequestsInTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -436,6 +487,7 @@ function list_service_quotas(ServiceCode; aws_config::AbstractAWSConfig=global_a
         "ListServiceQuotas",
         Dict{String,Any}("ServiceCode" => ServiceCode);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_service_quotas(
@@ -449,6 +501,7 @@ function list_service_quotas(
             mergewith(_merge, Dict{String,Any}("ServiceCode" => ServiceCode), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -465,12 +518,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return service_quotas("ListServices"; aws_config=aws_config)
+    return service_quotas(
+        "ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return service_quotas("ListServices", params; aws_config=aws_config)
+    return service_quotas(
+        "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -493,6 +550,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -506,6 +564,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -538,6 +597,7 @@ function put_service_quota_increase_request_into_template(
             "ServiceCode" => ServiceCode,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_service_quota_increase_request_into_template(
@@ -563,6 +623,7 @@ function put_service_quota_increase_request_into_template(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -589,6 +650,7 @@ function request_service_quota_increase(
             "ServiceCode" => ServiceCode,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function request_service_quota_increase(
@@ -612,6 +674,7 @@ function request_service_quota_increase(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -634,6 +697,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -652,6 +716,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -676,6 +741,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -694,5 +760,6 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
