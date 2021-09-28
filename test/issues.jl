@@ -1,7 +1,7 @@
 @service S3
 
-bucket_name = "aws-jl-test-issues---" * _now_formatted()
-S3.create_bucket(bucket_name)
+const BUCKET_NAME = "aws-jl-test-issues---" * _now_formatted()
+S3.create_bucket(BUCKET_NAME)
 
 @testset "issue 223" begin
     # https://github.com/JuliaCloud/AWS.jl/issues/223
@@ -9,13 +9,12 @@ S3.create_bucket(bucket_name)
     file_name = "contains spaces"
 
     try
-        S3.put_object(bucket_name, file_name, Dict("body" => body))
-        resp = S3.get_object(bucket_name, file_name)
+        S3.put_object(BUCKET_NAME, file_name, Dict("body" => body))
+        resp = S3.get_object(BUCKET_NAME, file_name)
 
         @test String(resp) == body
     finally
-        S3.delete_object(bucket_name, file_name)
-        S3.delete_bucket(bucket_name)
+        S3.delete_object(BUCKET_NAME, file_name)
     end
 end
 
@@ -59,16 +58,15 @@ end
     file_name = "streaming.bin"
 
     try
-        S3.create_bucket(bucket_name)
-        S3.put_object(bucket_name, file_name, Dict("body" => body))
-        resp = S3.get_object(bucket_name, file_name)
+        S3.put_object(BUCKET_NAME, file_name, Dict("body" => body))
+        resp = S3.get_object(BUCKET_NAME, file_name)
         @test String(resp) == body
 
         # ERROR: MethodError: no method matching iterate(::Base.BufferStream)
         #   => BUG: header `response_stream` is pushed into the query...
         io = Base.BufferStream()
         S3.get_object(
-            bucket_name, file_name, Dict("response_stream" => io, "return_stream" => true)
+            BUCKET_NAME, file_name, Dict("response_stream" => io, "return_stream" => true)
         )
         if bytesavailable(io) > 0
             @test String(readavailable(io)) == body
@@ -77,28 +75,22 @@ end
         end
 
     finally
-        S3.delete_object(bucket_name, file_name)
-        S3.delete_bucket(bucket_name)
+        S3.delete_object(BUCKET_NAME, file_name)
     end
 end
 
 @testset "issue 466" begin
-    bucket_name = "aws-jl-test-issues---" * _now_formatted()
     file_name = "hang.txt"
-    body = "Hello World!"
-    S3.create_bucket(bucket_name)
-    S3.put_object(bucket_name, file_name, Dict("body" => body))
 
     try
-        S3.create_bucket(bucket_name)
-        S3.put_object(bucket_name, file_name)
-
-        stream = S3.get_object(bucket_name, file_name, Dict("return_stream" => true))
+        S3.put_object(BUCKET_NAME, file_name)
+        stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
         println("test #466")  # So we know if this is the reason for tests hanging.
         @test eof(stream)  # This will hang if #466 not fixed and using HTTP.jl v0.9.15+
         println("#466 fixed")
     finally
-        S3.delete_object(bucket_name, file_name)
-        S3.delete_bucket(bucket_name)
+        S3.delete_object(BUCKET_NAME, file_name)
     end
 end
+
+S3.delete_bucket(BUCKET_NAME)
