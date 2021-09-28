@@ -1,7 +1,9 @@
 @service S3
 
 const BUCKET_NAME = "aws-jl-test-issues---" * _now_formatted()
-S3.create_bucket(BUCKET_NAME)
+
+try
+    S3.create_bucket(BUCKET_NAME)
 
 @testset "issue 223" begin
     # https://github.com/JuliaCloud/AWS.jl/issues/223
@@ -93,4 +95,6 @@ end
     end
 end
 
-S3.delete_bucket(BUCKET_NAME)
+finally
+    S3.delete_bucket(BUCKET_NAME)
+end
