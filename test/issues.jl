@@ -81,3 +81,24 @@ end
         S3.delete_bucket(bucket_name)
     end
 end
+
+@testset "issue 466" begin
+    bucket_name = "aws-jl-test-issues---" * _now_formatted()
+    file_name = "hang.txt"
+    body = "Hello World!"
+    S3.create_bucket(bucket_name)
+    S3.put_object(bucket_name, file_name, Dict("body" => body))
+
+    try
+        S3.create_bucket(bucket_name)
+        S3.put_object(bucket_name, file_name)
+
+        stream = S3.get_object(bucket_name, file_name, Dict("return_stream" => true))
+        println("test #466")  # So we know if this is the reason for tests hanging.
+        @test eof(stream)  # This will hang if #466 not fixed and using HTTP.jl v0.9.15+
+        println("#466 fixed")
+    finally
+        S3.delete_object(bucket_name, file_name)
+        S3.delete_bucket(bucket_name)
+    end
+end
