@@ -288,7 +288,7 @@ end
 
         @testset "text/xml" begin
             headers = Pair["Content-Type" => "text/xml"]
-            expected_body_type = OrderedDict{Union{String,Symbol},Any}
+            expected_body_type = LittleDict{Union{String,Symbol},Any}
             expected_body = _expected_xml(Patches.body, expected_body_type)
 
             r = Patches._response(; headers=headers)
@@ -303,7 +303,7 @@ end
 
         @testset "application/xml" begin
             headers = Pair["Content-Type" => "application/xml"]
-            expected_body_type = OrderedDict{Union{String,Symbol},Any}
+            expected_body_type = LittleDict{Union{String,Symbol},Any}
             expected_body = _expected_xml(Patches.body, expected_body_type)
 
             r = Patches._response(; headers=headers)
@@ -332,7 +332,7 @@ end
                 ),
             )
 
-            expected_body_type = OrderedDict{String,Any}
+            expected_body_type = LittleDict{String,Any}
             expected_body = JSON.parse(body; dicttype=expected_body_type)
 
             r = Patches._response(; body=body, headers=headers)

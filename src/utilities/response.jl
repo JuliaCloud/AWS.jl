@@ -56,12 +56,12 @@ Base.parse(r::Response) = parse(_read, r)
 function _read(io::IO, ::MIME"application/xml")
     xml = parse_xml(read(io, String))
     root = XMLDict.root(xml.x)  # Drop XML declaration
-    return xml_dict(root, OrderedDict{Union{String,Symbol},Any})
+    return xml_dict(root, LittleDict{Union{String,Symbol},Any})
 end
 
 function _read(io::IO, ::MIME"application/json")
     # Note: Using JSON instead of JSON3 does not support OrderedDict
-    return JSON.parse(io; dicttype=OrderedDict{String,Any})
+    return JSON.parse(io; dicttype=LittleDict{String,Any})
 end
 
 _read(io::IO, ::MIME"text/plain") = read(io, String)
