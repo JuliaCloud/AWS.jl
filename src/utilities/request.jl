@@ -213,6 +213,8 @@ function _http_request(http_backend::HTTPBackend, request::Request)
                         isa(e, Base.IOError) ||
                         (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
         end
+    finally
+        request.response_stream isa IO && close(request.response_stream)
     end
 end
 
