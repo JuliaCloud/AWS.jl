@@ -37,6 +37,7 @@ function create_application(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_application(
@@ -60,6 +61,7 @@ function create_application(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -87,6 +89,7 @@ function delete_application(
         "/applications/$(applicationId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_application(
@@ -101,6 +104,7 @@ function delete_application(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -118,7 +122,12 @@ Hub for AWS IoT Device Management is in public preview and is subject to change.
 function describe_application(
     applicationId; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotfleethub("GET", "/applications/$(applicationId)"; aws_config=aws_config)
+    return iotfleethub(
+        "GET",
+        "/applications/$(applicationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_application(
     applicationId,
@@ -126,7 +135,11 @@ function describe_application(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotfleethub(
-        "GET", "/applications/$(applicationId)", params; aws_config=aws_config
+        "GET",
+        "/applications/$(applicationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -143,12 +156,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to get the next set of results.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotfleethub("GET", "/applications"; aws_config=aws_config)
+    return iotfleethub(
+        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotfleethub("GET", "/applications", params; aws_config=aws_config)
+    return iotfleethub(
+        "GET",
+        "/applications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -165,14 +186,25 @@ public preview and is subject to change.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotfleethub("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return iotfleethub(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return iotfleethub("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return iotfleethub(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -194,6 +226,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -207,6 +240,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -230,6 +264,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -243,6 +278,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -272,6 +308,7 @@ function update_application(
         "/applications/$(applicationId)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_application(
@@ -286,5 +323,6 @@ function update_application(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -62,6 +62,7 @@ function create_connector(
             "serviceExecutionRoleArn" => serviceExecutionRoleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_connector(
@@ -98,6 +99,7 @@ function create_connector(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -126,6 +128,7 @@ function create_custom_plugin(
             "contentType" => contentType, "location" => location, "name" => name
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_custom_plugin(
@@ -148,6 +151,7 @@ function create_custom_plugin(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -173,6 +177,7 @@ function create_worker_configuration(
         "/v1/worker-configurations",
         Dict{String,Any}("name" => name, "propertiesFileContent" => propertiesFileContent);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_worker_configuration(
@@ -194,6 +199,7 @@ function create_worker_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -211,7 +217,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"currentVersion"`: The current version of the connector that you want to delete.
 """
 function delete_connector(connectorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect("DELETE", "/v1/connectors/$(connectorArn)"; aws_config=aws_config)
+    return kafkaconnect(
+        "DELETE",
+        "/v1/connectors/$(connectorArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_connector(
     connectorArn,
@@ -219,7 +230,11 @@ function delete_connector(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return kafkaconnect(
-        "DELETE", "/v1/connectors/$(connectorArn)", params; aws_config=aws_config
+        "DELETE",
+        "/v1/connectors/$(connectorArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -235,7 +250,12 @@ Returns summary information about the connector.
 
 """
 function describe_connector(connectorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect("GET", "/v1/connectors/$(connectorArn)"; aws_config=aws_config)
+    return kafkaconnect(
+        "GET",
+        "/v1/connectors/$(connectorArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_connector(
     connectorArn,
@@ -243,7 +263,11 @@ function describe_connector(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return kafkaconnect(
-        "GET", "/v1/connectors/$(connectorArn)", params; aws_config=aws_config
+        "GET",
+        "/v1/connectors/$(connectorArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -261,7 +285,10 @@ function describe_custom_plugin(
     customPluginArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kafkaconnect(
-        "GET", "/v1/custom-plugins/$(customPluginArn)"; aws_config=aws_config
+        "GET",
+        "/v1/custom-plugins/$(customPluginArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_custom_plugin(
@@ -270,7 +297,11 @@ function describe_custom_plugin(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return kafkaconnect(
-        "GET", "/v1/custom-plugins/$(customPluginArn)", params; aws_config=aws_config
+        "GET",
+        "/v1/custom-plugins/$(customPluginArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -289,7 +320,10 @@ function describe_worker_configuration(
     workerConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return kafkaconnect(
-        "GET", "/v1/worker-configurations/$(workerConfigurationArn)"; aws_config=aws_config
+        "GET",
+        "/v1/worker-configurations/$(workerConfigurationArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_worker_configuration(
@@ -302,6 +336,7 @@ function describe_worker_configuration(
         "/v1/worker-configurations/$(workerConfigurationArn)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -323,12 +358,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   where the previous operation left off.
 """
 function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect("GET", "/v1/connectors"; aws_config=aws_config)
+    return kafkaconnect(
+        "GET", "/v1/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return kafkaconnect("GET", "/v1/connectors", params; aws_config=aws_config)
+    return kafkaconnect(
+        "GET",
+        "/v1/connectors",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -345,12 +388,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   where the previous operation left off.
 """
 function list_custom_plugins(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect("GET", "/v1/custom-plugins"; aws_config=aws_config)
+    return kafkaconnect(
+        "GET", "/v1/custom-plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_custom_plugins(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return kafkaconnect("GET", "/v1/custom-plugins", params; aws_config=aws_config)
+    return kafkaconnect(
+        "GET",
+        "/v1/custom-plugins",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -367,12 +418,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from where the previous operation left off.
 """
 function list_worker_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect("GET", "/v1/worker-configurations"; aws_config=aws_config)
+    return kafkaconnect(
+        "GET",
+        "/v1/worker-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_worker_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return kafkaconnect("GET", "/v1/worker-configurations", params; aws_config=aws_config)
+    return kafkaconnect(
+        "GET",
+        "/v1/worker-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -398,6 +460,7 @@ function update_connector(
         "/v1/connectors/$(connectorArn)",
         Dict{String,Any}("capacity" => capacity, "currentVersion" => currentVersion);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_connector(
@@ -420,5 +483,6 @@ function update_connector(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

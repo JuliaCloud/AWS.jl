@@ -43,6 +43,7 @@ function batch_execute_statement(
             "ClusterIdentifier" => ClusterIdentifier, "Database" => Database, "Sqls" => Sqls
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_execute_statement(
@@ -66,6 +67,7 @@ function batch_execute_statement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -83,7 +85,10 @@ Cancels a running query. To be canceled, a query must be running.
 """
 function cancel_statement(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
-        "CancelStatement", Dict{String,Any}("Id" => Id); aws_config=aws_config
+        "CancelStatement",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_statement(
@@ -93,6 +98,7 @@ function cancel_statement(
         "CancelStatement",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -114,7 +120,10 @@ status, the number of rows returned, and the SQL statement.
 """
 function describe_statement(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
-        "DescribeStatement", Dict{String,Any}("Id" => Id); aws_config=aws_config
+        "DescribeStatement",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_statement(
@@ -124,6 +133,7 @@ function describe_statement(
         "DescribeStatement",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -175,6 +185,7 @@ function describe_table(
         "DescribeTable",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier, "Database" => Database);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_table(
@@ -195,6 +206,7 @@ function describe_table(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -238,6 +250,7 @@ function execute_statement(
             "ClusterIdentifier" => ClusterIdentifier, "Database" => Database, "Sql" => Sql
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function execute_statement(
@@ -261,6 +274,7 @@ function execute_statement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -289,7 +303,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_statement_result(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
-        "GetStatementResult", Dict{String,Any}("Id" => Id); aws_config=aws_config
+        "GetStatementResult",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_statement_result(
@@ -299,6 +316,7 @@ function get_statement_result(
         "GetStatementResult",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -342,6 +360,7 @@ function list_databases(
         "ListDatabases",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier, "Database" => Database);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_databases(
@@ -362,6 +381,7 @@ function list_databases(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -410,6 +430,7 @@ function list_schemas(
         "ListSchemas",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier, "Database" => Database);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_schemas(
@@ -430,6 +451,7 @@ function list_schemas(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -467,12 +489,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   submitted, but not yet processed.
 """
 function list_statements(; aws_config::AbstractAWSConfig=global_aws_config())
-    return redshift_data("ListStatements"; aws_config=aws_config)
+    return redshift_data(
+        "ListStatements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_statements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return redshift_data("ListStatements", params; aws_config=aws_config)
+    return redshift_data(
+        "ListStatements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -528,6 +554,7 @@ function list_tables(
         "ListTables",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier, "Database" => Database);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tables(
@@ -548,5 +575,6 @@ function list_tables(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

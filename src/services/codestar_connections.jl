@@ -31,6 +31,7 @@ function create_connection(
         "CreateConnection",
         Dict{String,Any}("ConnectionName" => ConnectionName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_connection(
@@ -44,6 +45,7 @@ function create_connection(
             mergewith(_merge, Dict{String,Any}("ConnectionName" => ConnectionName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -84,6 +86,7 @@ function create_host(
             "ProviderType" => ProviderType,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_host(
@@ -107,6 +110,7 @@ function create_host(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -126,6 +130,7 @@ function delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_a
         "DeleteConnection",
         Dict{String,Any}("ConnectionArn" => ConnectionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_connection(
@@ -139,6 +144,7 @@ function delete_connection(
             mergewith(_merge, Dict{String,Any}("ConnectionArn" => ConnectionArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -156,7 +162,10 @@ VPC_CONFIG_DELETING state.
 """
 function delete_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
     return codestar_connections(
-        "DeleteHost", Dict{String,Any}("HostArn" => HostArn); aws_config=aws_config
+        "DeleteHost",
+        Dict{String,Any}("HostArn" => HostArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_host(
@@ -166,6 +175,7 @@ function delete_host(
         "DeleteHost",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HostArn" => HostArn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -184,6 +194,7 @@ function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_
         "GetConnection",
         Dict{String,Any}("ConnectionArn" => ConnectionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_connection(
@@ -197,6 +208,7 @@ function get_connection(
             mergewith(_merge, Dict{String,Any}("ConnectionArn" => ConnectionArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -213,7 +225,10 @@ applicable, the VPC configuration.
 """
 function get_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
     return codestar_connections(
-        "GetHost", Dict{String,Any}("HostArn" => HostArn); aws_config=aws_config
+        "GetHost",
+        Dict{String,Any}("HostArn" => HostArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_host(
@@ -223,6 +238,7 @@ function get_host(
         "GetHost",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HostArn" => HostArn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -244,12 +260,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified provider, such as Bitbucket.
 """
 function list_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections("ListConnections"; aws_config=aws_config)
+    return codestar_connections(
+        "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return codestar_connections("ListConnections", params; aws_config=aws_config)
+    return codestar_connections(
+        "ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -266,12 +286,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to return the next set of hosts in the list.
 """
 function list_hosts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections("ListHosts"; aws_config=aws_config)
+    return codestar_connections(
+        "ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_hosts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return codestar_connections("ListHosts", params; aws_config=aws_config)
+    return codestar_connections(
+        "ListHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -292,6 +316,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -305,6 +330,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -326,6 +352,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -344,6 +371,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -365,6 +393,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -383,6 +412,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -404,7 +434,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
     return codestar_connections(
-        "UpdateHost", Dict{String,Any}("HostArn" => HostArn); aws_config=aws_config
+        "UpdateHost",
+        Dict{String,Any}("HostArn" => HostArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_host(
@@ -414,5 +447,6 @@ function update_host(
         "UpdateHost",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HostArn" => HostArn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -27,6 +27,7 @@ function cancel_image_creation(
             "clientToken" => clientToken, "imageBuildVersionArn" => imageBuildVersionArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_image_creation(
@@ -49,6 +50,7 @@ function cancel_image_creation(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -67,10 +69,10 @@ Creates a new component that can be used to build, validate, test, and assess yo
   &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
   first three, and can filter on all of them.  Assignment: For the first three nodes you can
   assign any positive integer value, including zero, with an upper limit of 2^30-1, or
-  1073741823 for each node. Image Builder automatically assigns the build number, and that is
-  not open for updates.  Patterns: You can use any numeric pattern that adheres to the
-  assignment requirements for the nodes that you can assign. For example, you might choose a
-  software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
+  1073741823 for each node. Image Builder automatically assigns the build number to the
+  fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment
+  requirements for the nodes that you can assign. For example, you might choose a software
+  version pattern, such as 1.0.0, or a date, such as 2021.01.01.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -108,6 +110,7 @@ function create_component(
             "semanticVersion" => semanticVersion,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_component(
@@ -134,6 +137,7 @@ function create_component(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -155,10 +159,10 @@ and assessed.
   &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
   first three, and can filter on all of them.  Assignment: For the first three nodes you can
   assign any positive integer value, including zero, with an upper limit of 2^30-1, or
-  1073741823 for each node. Image Builder automatically assigns the build number, and that is
-  not open for updates.  Patterns: You can use any numeric pattern that adheres to the
-  assignment requirements for the nodes that you can assign. For example, you might choose a
-  software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
+  1073741823 for each node. Image Builder automatically assigns the build number to the
+  fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment
+  requirements for the nodes that you can assign. For example, you might choose a software
+  version pattern, such as 1.0.0, or a date, such as 2021.01.01.
 - `target_repository`: The destination repository for the container image.
 
 # Optional Parameters
@@ -200,6 +204,7 @@ function create_container_recipe(
             "targetRepository" => targetRepository,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_container_recipe(
@@ -232,6 +237,7 @@ function create_container_recipe(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -262,6 +268,7 @@ function create_distribution_configuration(
             "clientToken" => clientToken, "distributions" => distributions, "name" => name
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_distribution_configuration(
@@ -286,6 +293,7 @@ function create_distribution_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -329,6 +337,7 @@ function create_image(
             "infrastructureConfigurationArn" => infrastructureConfigurationArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_image(
@@ -351,6 +360,7 @@ function create_image(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -400,6 +410,7 @@ function create_image_pipeline(
             "name" => name,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_image_pipeline(
@@ -424,6 +435,7 @@ function create_image_pipeline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -449,10 +461,10 @@ assessed.
   &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
   first three, and can filter on all of them.  Assignment: For the first three nodes you can
   assign any positive integer value, including zero, with an upper limit of 2^30-1, or
-  1073741823 for each node. Image Builder automatically assigns the build number, and that is
-  not open for updates.  Patterns: You can use any numeric pattern that adheres to the
-  assignment requirements for the nodes that you can assign. For example, you might choose a
-  software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
+  1073741823 for each node. Image Builder automatically assigns the build number to the
+  fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment
+  requirements for the nodes that you can assign. For example, you might choose a software
+  version pattern, such as 1.0.0, or a date, such as 2021.01.01.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -482,6 +494,7 @@ function create_image_recipe(
             "semanticVersion" => semanticVersion,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_image_recipe(
@@ -510,6 +523,7 @@ function create_image_recipe(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -529,10 +543,14 @@ environment in which your image will be built and tested.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the infrastructure configuration.
-- `"instanceTypes"`: The instance types of the infrastructure configuration. You can
-  specify one or more instance types to use for this build. The service will pick one of
-  these instance types based on availability.
-- `"keyPair"`: The key pair of the infrastructure configuration. This can be used to log on
+- `"instanceMetadataOptions"`: The instance metadata options that you can set for the HTTP
+  requests that pipeline builds use to launch EC2 build and test instances.
+- `"instanceTypes"`: The instance metadata options that you can set for the HTTP requests
+  that pipeline builds use to launch EC2 build and test instances. For more information about
+  instance metadata options, see one of the following links:    Configure the instance
+  metadata options in the  Amazon EC2 User Guide  for Linux instances.    Configure the
+  instance metadata options in the  Amazon EC2 Windows Guide  for Windows instances.
+- `"keyPair"`: The key pair of the infrastructure configuration. You can use this to log on
   to and debug the instance used to create your image.
 - `"logging"`: The logging configuration of the infrastructure configuration.
 - `"resourceTags"`: The tags attached to the resource created by Image Builder.
@@ -561,6 +579,7 @@ function create_infrastructure_configuration(
             "name" => name,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_infrastructure_configuration(
@@ -585,6 +604,7 @@ function create_infrastructure_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -607,6 +627,7 @@ function delete_component(
         "/DeleteComponent",
         Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_component(
@@ -625,6 +646,7 @@ function delete_component(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -646,6 +668,7 @@ function delete_container_recipe(
         "/DeleteContainerRecipe",
         Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_container_recipe(
@@ -662,6 +685,7 @@ function delete_container_recipe(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -684,6 +708,7 @@ function delete_distribution_configuration(
         "/DeleteDistributionConfiguration",
         Dict{String,Any}("distributionConfigurationArn" => distributionConfigurationArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_distribution_configuration(
@@ -704,6 +729,7 @@ function delete_distribution_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -711,10 +737,17 @@ end
     delete_image(image_build_version_arn)
     delete_image(image_build_version_arn, params::Dict{String,<:Any})
 
- Deletes an image.
+Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container
+images that are created during the image build process. You must clean those up separately,
+using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands.
+To deregister an EC2 Linux AMI, see Deregister your Linux AMI in the  Amazon EC2 User Guide
+.   To deregister an EC2 Windows AMI, see Deregister your Windows AMI in the  Amazon EC2
+Windows Guide .   To delete a container image from Amazon ECR, see Deleting an image in the
+Amazon ECR User Guide.
 
 # Arguments
-- `image_build_version_arn`: The Amazon Resource Name (ARN) of the image to delete.
+- `image_build_version_arn`: The Amazon Resource Name (ARN) of the Image Builder image
+  resource to delete.
 
 """
 function delete_image(
@@ -725,6 +758,7 @@ function delete_image(
         "/DeleteImage",
         Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_image(
@@ -743,6 +777,7 @@ function delete_image(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -764,6 +799,7 @@ function delete_image_pipeline(
         "/DeleteImagePipeline",
         Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_image_pipeline(
@@ -780,6 +816,7 @@ function delete_image_pipeline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -801,6 +838,7 @@ function delete_image_recipe(
         "/DeleteImageRecipe",
         Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_image_recipe(
@@ -815,6 +853,7 @@ function delete_image_recipe(
             mergewith(_merge, Dict{String,Any}("imageRecipeArn" => imageRecipeArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -839,6 +878,7 @@ function delete_infrastructure_configuration(
             "infrastructureConfigurationArn" => infrastructureConfigurationArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_infrastructure_configuration(
@@ -859,6 +899,7 @@ function delete_infrastructure_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -881,6 +922,7 @@ function get_component(
         "/GetComponent",
         Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_component(
@@ -899,6 +941,7 @@ function get_component(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -921,6 +964,7 @@ function get_component_policy(
         "/GetComponentPolicy",
         Dict{String,Any}("componentArn" => componentArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_component_policy(
@@ -935,6 +979,7 @@ function get_component_policy(
             mergewith(_merge, Dict{String,Any}("componentArn" => componentArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -957,6 +1002,7 @@ function get_container_recipe(
         "/GetContainerRecipe",
         Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_container_recipe(
@@ -973,6 +1019,7 @@ function get_container_recipe(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -995,6 +1042,7 @@ function get_container_recipe_policy(
         "/GetContainerRecipePolicy",
         Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_container_recipe_policy(
@@ -1011,6 +1059,7 @@ function get_container_recipe_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1033,6 +1082,7 @@ function get_distribution_configuration(
         "/GetDistributionConfiguration",
         Dict{String,Any}("distributionConfigurationArn" => distributionConfigurationArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_distribution_configuration(
@@ -1053,6 +1103,7 @@ function get_distribution_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1073,6 +1124,7 @@ function get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aw
         "/GetImage",
         Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_image(
@@ -1091,6 +1143,7 @@ function get_image(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1113,6 +1166,7 @@ function get_image_pipeline(
         "/GetImagePipeline",
         Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_image_pipeline(
@@ -1129,6 +1183,7 @@ function get_image_pipeline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1149,6 +1204,7 @@ function get_image_policy(imageArn; aws_config::AbstractAWSConfig=global_aws_con
         "/GetImagePolicy",
         Dict{String,Any}("imageArn" => imageArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_image_policy(
@@ -1163,6 +1219,7 @@ function get_image_policy(
             mergewith(_merge, Dict{String,Any}("imageArn" => imageArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1183,6 +1240,7 @@ function get_image_recipe(imageRecipeArn; aws_config::AbstractAWSConfig=global_a
         "/GetImageRecipe",
         Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_image_recipe(
@@ -1197,6 +1255,7 @@ function get_image_recipe(
             mergewith(_merge, Dict{String,Any}("imageRecipeArn" => imageRecipeArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1219,6 +1278,7 @@ function get_image_recipe_policy(
         "/GetImageRecipePolicy",
         Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_image_recipe_policy(
@@ -1233,6 +1293,7 @@ function get_image_recipe_policy(
             mergewith(_merge, Dict{String,Any}("imageRecipeArn" => imageRecipeArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1257,6 +1318,7 @@ function get_infrastructure_configuration(
             "infrastructureConfigurationArn" => infrastructureConfigurationArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_infrastructure_configuration(
@@ -1277,6 +1339,7 @@ function get_infrastructure_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1294,12 +1357,10 @@ Imports a component and transforms its data into a component document.
 - `semantic_version`: The semantic version of the component. This version follows the
   semantic version syntax.  The semantic version has four nodes:
   &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
-  first three, and can filter on all of them.  Filtering: When you retrieve or reference a
-  resource with a semantic version, you can use wildcards (x) to filter your results. When
-  you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-  wildcards. For example, specifying \"1.2.x\", or \"1.x.x\" works to filter list results,
-  but neither \"1.x.2\", nor \"x.2.x\" will work. You do not have to specify the build -
-  Image Builder automatically uses a wildcard for that, if applicable.
+  first three, and can filter on all of them.  Filtering: With semantic versioning, you have
+  the flexibility to use wildcards (x) to specify the most recent versions or nodes when
+  selecting the source image or components for your recipe. When you use a wildcard in any
+  node, all nodes to the right of the first wildcard must also be wildcards.
 - `type`: The type of the component denotes whether the component is used to build the
   image, or only to test it.
 
@@ -1340,6 +1401,7 @@ function import_component(
             "type" => type,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function import_component(
@@ -1370,6 +1432,7 @@ function import_component(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1379,13 +1442,11 @@ end
 
  Returns the list of component build versions for the specified semantic version.  The
 semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;.
-You can assign values for the first three, and can filter on all of them.  Filtering: When
-you retrieve or reference a resource with a semantic version, you can use wildcards (x) to
-filter your results. When you use a wildcard in any node, all nodes to the right of the
-first wildcard must also be wildcards. For example, specifying \"1.2.x\", or \"1.x.x\"
-works to filter list results, but neither \"1.x.2\", nor \"x.2.x\" will work. You do not
-have to specify the build - Image Builder automatically uses a wildcard for that, if
-applicable.
+You can assign values for the first three, and can filter on all of them.  Filtering: With
+semantic versioning, you have the flexibility to use wildcards (x) to specify the most
+recent versions or nodes when selecting the source image or components for your recipe.
+When you use a wildcard in any node, all nodes to the right of the first wildcard must also
+be wildcards.
 
 # Arguments
 - `component_version_arn`: The component version Amazon Resource Name (ARN) whose versions
@@ -1405,6 +1466,7 @@ function list_component_build_versions(
         "/ListComponentBuildVersions",
         Dict{String,Any}("componentVersionArn" => componentVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_component_build_versions(
@@ -1423,6 +1485,7 @@ function list_component_build_versions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1432,13 +1495,11 @@ end
 
 Returns the list of component build versions for the specified semantic version.  The
 semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;.
-You can assign values for the first three, and can filter on all of them.  Filtering: When
-you retrieve or reference a resource with a semantic version, you can use wildcards (x) to
-filter your results. When you use a wildcard in any node, all nodes to the right of the
-first wildcard must also be wildcards. For example, specifying \"1.2.x\", or \"1.x.x\"
-works to filter list results, but neither \"1.x.2\", nor \"x.2.x\" will work. You do not
-have to specify the build - Image Builder automatically uses a wildcard for that, if
-applicable.
+You can assign values for the first three, and can filter on all of them.  Filtering: With
+semantic versioning, you have the flexibility to use wildcards (x) to specify the most
+recent versions or nodes when selecting the source image or components for your recipe.
+When you use a wildcard in any node, all nodes to the right of the first wildcard must also
+be wildcards.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1454,12 +1515,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   shared with you by other customers.
 """
 function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder("POST", "/ListComponents"; aws_config=aws_config)
+    return imagebuilder(
+        "POST", "/ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return imagebuilder("POST", "/ListComponents", params; aws_config=aws_config)
+    return imagebuilder(
+        "POST",
+        "/ListComponents",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1480,12 +1549,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 """
 function list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder("POST", "/ListContainerRecipes"; aws_config=aws_config)
+    return imagebuilder(
+        "POST",
+        "/ListContainerRecipes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_container_recipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return imagebuilder("POST", "/ListContainerRecipes", params; aws_config=aws_config)
+    return imagebuilder(
+        "POST",
+        "/ListContainerRecipes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1504,13 +1584,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_distribution_configurations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return imagebuilder("POST", "/ListDistributionConfigurations"; aws_config=aws_config)
+    return imagebuilder(
+        "POST",
+        "/ListDistributionConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_distribution_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return imagebuilder(
-        "POST", "/ListDistributionConfigurations", params; aws_config=aws_config
+        "POST",
+        "/ListDistributionConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1540,6 +1629,7 @@ function list_image_build_versions(
         "/ListImageBuildVersions",
         Dict{String,Any}("imageVersionArn" => imageVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_image_build_versions(
@@ -1556,6 +1646,7 @@ function list_image_build_versions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1564,7 +1655,7 @@ end
     list_image_packages(image_build_version_arn, params::Dict{String,<:Any})
 
 List the Packages that are associated with an Image Build Version, as determined by Amazon
-EC2 Systems Manager Inventory at build time.
+Web Services Systems Manager Inventory at build time.
 
 # Arguments
 - `image_build_version_arn`: Filter results for the ListImagePackages request by the Image
@@ -1585,6 +1676,7 @@ function list_image_packages(
         "/ListImagePackages",
         Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_image_packages(
@@ -1603,6 +1695,7 @@ function list_image_packages(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1631,6 +1724,7 @@ function list_image_pipeline_images(
         "/ListImagePipelineImages",
         Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_image_pipeline_images(
@@ -1647,6 +1741,7 @@ function list_image_pipeline_images(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1666,12 +1761,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder("POST", "/ListImagePipelines"; aws_config=aws_config)
+    return imagebuilder(
+        "POST",
+        "/ListImagePipelines";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_image_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return imagebuilder("POST", "/ListImagePipelines", params; aws_config=aws_config)
+    return imagebuilder(
+        "POST",
+        "/ListImagePipelines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1693,12 +1799,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipes that have been shared with you by other customers.
 """
 function list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder("POST", "/ListImageRecipes"; aws_config=aws_config)
+    return imagebuilder(
+        "POST", "/ListImageRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_image_recipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return imagebuilder("POST", "/ListImageRecipes", params; aws_config=aws_config)
+    return imagebuilder(
+        "POST",
+        "/ListImageRecipes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1722,12 +1836,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   other customers.
 """
 function list_images(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder("POST", "/ListImages"; aws_config=aws_config)
+    return imagebuilder(
+        "POST", "/ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return imagebuilder("POST", "/ListImages", params; aws_config=aws_config)
+    return imagebuilder(
+        "POST",
+        "/ListImages",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1746,13 +1868,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_infrastructure_configurations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return imagebuilder("POST", "/ListInfrastructureConfigurations"; aws_config=aws_config)
+    return imagebuilder(
+        "POST",
+        "/ListInfrastructureConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_infrastructure_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return imagebuilder(
-        "POST", "/ListInfrastructureConfigurations", params; aws_config=aws_config
+        "POST",
+        "/ListInfrastructureConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1770,14 +1901,25 @@ end
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return imagebuilder("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return imagebuilder(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return imagebuilder("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return imagebuilder(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1803,6 +1945,7 @@ function put_component_policy(
         "/PutComponentPolicy",
         Dict{String,Any}("componentArn" => componentArn, "policy" => policy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_component_policy(
@@ -1822,6 +1965,7 @@ function put_component_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1852,6 +1996,7 @@ function put_container_recipe_policy(
         "/PutContainerRecipePolicy",
         Dict{String,Any}("containerRecipeArn" => containerRecipeArn, "policy" => policy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_container_recipe_policy(
@@ -1873,6 +2018,7 @@ function put_container_recipe_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1899,6 +2045,7 @@ function put_image_policy(
         "/PutImagePolicy",
         Dict{String,Any}("imageArn" => imageArn, "policy" => policy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_image_policy(
@@ -1916,6 +2063,7 @@ function put_image_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1942,6 +2090,7 @@ function put_image_recipe_policy(
         "/PutImageRecipePolicy",
         Dict{String,Any}("imageRecipeArn" => imageRecipeArn, "policy" => policy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_image_recipe_policy(
@@ -1961,6 +2110,7 @@ function put_image_recipe_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1986,6 +2136,7 @@ function start_image_pipeline_execution(
             "clientToken" => clientToken, "imagePipelineArn" => imagePipelineArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_image_pipeline_execution(
@@ -2007,6 +2158,7 @@ function start_image_pipeline_execution(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2027,6 +2179,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -2040,6 +2193,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2062,6 +2216,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -2075,6 +2230,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2110,6 +2266,7 @@ function update_distribution_configuration(
             "distributions" => distributions,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_distribution_configuration(
@@ -2134,6 +2291,7 @@ function update_distribution_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2185,6 +2343,7 @@ function update_image_pipeline(
             "infrastructureConfigurationArn" => infrastructureConfigurationArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_image_pipeline(
@@ -2209,6 +2368,7 @@ function update_image_pipeline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2229,10 +2389,16 @@ environment in which your image will be built and tested.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the infrastructure configuration.
+- `"instanceMetadataOptions"`: The instance metadata options that you can set for the HTTP
+  requests that pipeline builds use to launch EC2 build and test instances. For more
+  information about instance metadata options, see one of the following links:    Configure
+  the instance metadata options in the  Amazon EC2 User Guide  for Linux instances.
+  Configure the instance metadata options in the  Amazon EC2 Windows Guide  for Windows
+  instances.
 - `"instanceTypes"`: The instance types of the infrastructure configuration. You can
   specify one or more instance types to use for this build. The service will pick one of
   these instance types based on availability.
-- `"keyPair"`: The key pair of the infrastructure configuration. This can be used to log on
+- `"keyPair"`: The key pair of the infrastructure configuration. You can use this to log on
   to and debug the instance used to create your image.
 - `"logging"`: The logging configuration of the infrastructure configuration.
 - `"resourceTags"`: The tags attached to the resource created by Image Builder.
@@ -2260,6 +2426,7 @@ function update_infrastructure_configuration(
             "instanceProfileName" => instanceProfileName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_infrastructure_configuration(
@@ -2284,5 +2451,6 @@ function update_infrastructure_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

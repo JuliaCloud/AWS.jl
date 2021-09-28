@@ -34,6 +34,7 @@ function batch_check_layer_availability(
             "layerDigests" => layerDigests, "repositoryName" => repositoryName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_check_layer_availability(
@@ -54,6 +55,7 @@ function batch_check_layer_availability(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -85,6 +87,7 @@ function batch_delete_image(
         "BatchDeleteImage",
         Dict{String,Any}("imageIds" => imageIds, "repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_delete_image(
@@ -105,6 +108,7 @@ function batch_delete_image(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -138,6 +142,7 @@ function batch_get_image(
         "BatchGetImage",
         Dict{String,Any}("imageIds" => imageIds, "repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_get_image(
@@ -158,6 +163,7 @@ function batch_get_image(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -198,6 +204,7 @@ function complete_layer_upload(
             "uploadId" => uploadId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function complete_layer_upload(
@@ -221,6 +228,7 @@ function complete_layer_upload(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -247,6 +255,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is omitted, the default setting of MUTABLE will be used which will allow image tags to be
   overwritten. If IMMUTABLE is specified, all image tags within the repository will be
   immutable which will prevent them from being overwritten.
+- `"registryId"`: The AWS account ID associated with the registry to create the repository.
+  If you do not specify a registry, the default registry is assumed.
 - `"tags"`: The metadata that you apply to the repository to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   Tag keys can have a maximum character length of 128 characters, and tag values can have a
@@ -259,6 +269,7 @@ function create_repository(
         "CreateRepository",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_repository(
@@ -272,6 +283,7 @@ function create_repository(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -296,6 +308,7 @@ function delete_lifecycle_policy(
         "DeleteLifecyclePolicy",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_lifecycle_policy(
@@ -309,6 +322,7 @@ function delete_lifecycle_policy(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -320,12 +334,19 @@ Deletes the registry permissions policy.
 
 """
 function delete_registry_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ecr("DeleteRegistryPolicy"; aws_config=aws_config)
+    return ecr(
+        "DeleteRegistryPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_registry_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ecr("DeleteRegistryPolicy", params; aws_config=aws_config)
+    return ecr(
+        "DeleteRegistryPolicy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -352,6 +373,7 @@ function delete_repository(
         "DeleteRepository",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_repository(
@@ -365,6 +387,7 @@ function delete_repository(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -391,6 +414,7 @@ function delete_repository_policy(
         "DeleteRepositoryPolicy",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_repository_policy(
@@ -404,6 +428,52 @@ function delete_repository_policy(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_image_replication_status(image_id, repository_name)
+    describe_image_replication_status(image_id, repository_name, params::Dict{String,<:Any})
+
+Returns the replication status for a specified image.
+
+# Arguments
+- `image_id`:
+- `repository_name`: The name of the repository that the image is in.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"registryId"`: The Amazon Web Services account ID associated with the registry. If you
+  do not specify a registry, the default registry is assumed.
+"""
+function describe_image_replication_status(
+    imageId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "DescribeImageReplicationStatus",
+        Dict{String,Any}("imageId" => imageId, "repositoryName" => repositoryName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_image_replication_status(
+    imageId,
+    repositoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "DescribeImageReplicationStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("imageId" => imageId, "repositoryName" => repositoryName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -441,6 +511,7 @@ function describe_image_scan_findings(
         "DescribeImageScanFindings",
         Dict{String,Any}("imageId" => imageId, "repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_image_scan_findings(
@@ -459,6 +530,7 @@ function describe_image_scan_findings(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -499,6 +571,7 @@ function describe_images(repositoryName; aws_config::AbstractAWSConfig=global_aw
         "DescribeImages",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_images(
@@ -512,6 +585,7 @@ function describe_images(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -524,12 +598,14 @@ be created or updated with the PutReplicationConfiguration API action.
 
 """
 function describe_registry(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ecr("DescribeRegistry"; aws_config=aws_config)
+    return ecr("DescribeRegistry"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_registry(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ecr("DescribeRegistry", params; aws_config=aws_config)
+    return ecr(
+        "DescribeRegistry", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -561,12 +637,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   then all repositories in a registry are described.
 """
 function describe_repositories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ecr("DescribeRepositories"; aws_config=aws_config)
+    return ecr(
+        "DescribeRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ecr("DescribeRepositories", params; aws_config=aws_config)
+    return ecr(
+        "DescribeRepositories",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -588,12 +671,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the default registry is assumed.
 """
 function get_authorization_token(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ecr("GetAuthorizationToken"; aws_config=aws_config)
+    return ecr(
+        "GetAuthorizationToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_authorization_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ecr("GetAuthorizationToken", params; aws_config=aws_config)
+    return ecr(
+        "GetAuthorizationToken",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -625,6 +715,7 @@ function get_download_url_for_layer(
         "GetDownloadUrlForLayer",
         Dict{String,Any}("layerDigest" => layerDigest, "repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_download_url_for_layer(
@@ -645,6 +736,7 @@ function get_download_url_for_layer(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -669,6 +761,7 @@ function get_lifecycle_policy(
         "GetLifecyclePolicy",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_lifecycle_policy(
@@ -682,6 +775,7 @@ function get_lifecycle_policy(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -724,6 +818,7 @@ function get_lifecycle_policy_preview(
         "GetLifecyclePolicyPreview",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_lifecycle_policy_preview(
@@ -737,6 +832,7 @@ function get_lifecycle_policy_preview(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -748,12 +844,14 @@ Retrieves the permissions policy for a registry.
 
 """
 function get_registry_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ecr("GetRegistryPolicy"; aws_config=aws_config)
+    return ecr("GetRegistryPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_registry_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ecr("GetRegistryPolicy", params; aws_config=aws_config)
+    return ecr(
+        "GetRegistryPolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -777,6 +875,7 @@ function get_repository_policy(
         "GetRepositoryPolicy",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_repository_policy(
@@ -790,6 +889,7 @@ function get_repository_policy(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -820,6 +920,7 @@ function initiate_layer_upload(
         "InitiateLayerUpload",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function initiate_layer_upload(
@@ -833,6 +934,7 @@ function initiate_layer_upload(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -873,6 +975,7 @@ function list_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_co
         "ListImages",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_images(
@@ -886,6 +989,7 @@ function list_images(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -907,6 +1011,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -920,6 +1025,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -958,6 +1064,7 @@ function put_image(
             "imageManifest" => imageManifest, "repositoryName" => repositoryName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_image(
@@ -978,6 +1085,7 @@ function put_image(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1012,6 +1120,7 @@ function put_image_scanning_configuration(
             "repositoryName" => repositoryName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_image_scanning_configuration(
@@ -1033,6 +1142,7 @@ function put_image_scanning_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1065,6 +1175,7 @@ function put_image_tag_mutability(
             "imageTagMutability" => imageTagMutability, "repositoryName" => repositoryName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_image_tag_mutability(
@@ -1086,6 +1197,7 @@ function put_image_tag_mutability(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1115,6 +1227,7 @@ function put_lifecycle_policy(
             "lifecyclePolicyText" => lifecyclePolicyText, "repositoryName" => repositoryName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_lifecycle_policy(
@@ -1136,6 +1249,7 @@ function put_lifecycle_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1159,6 +1273,7 @@ function put_registry_policy(policyText; aws_config::AbstractAWSConfig=global_aw
         "PutRegistryPolicy",
         Dict{String,Any}("policyText" => policyText);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_registry_policy(
@@ -1172,6 +1287,7 @@ function put_registry_policy(
             mergewith(_merge, Dict{String,Any}("policyText" => policyText), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1200,6 +1316,7 @@ function put_replication_configuration(
         "PutReplicationConfiguration",
         Dict{String,Any}("replicationConfiguration" => replicationConfiguration);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_replication_configuration(
@@ -1217,6 +1334,7 @@ function put_replication_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1249,6 +1367,7 @@ function set_repository_policy(
         "SetRepositoryPolicy",
         Dict{String,Any}("policyText" => policyText, "repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_repository_policy(
@@ -1269,6 +1388,7 @@ function set_repository_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1297,6 +1417,7 @@ function start_image_scan(
         "StartImageScan",
         Dict{String,Any}("imageId" => imageId, "repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_image_scan(
@@ -1315,6 +1436,7 @@ function start_image_scan(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1342,6 +1464,7 @@ function start_lifecycle_policy_preview(
         "StartLifecyclePolicyPreview",
         Dict{String,Any}("repositoryName" => repositoryName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_lifecycle_policy_preview(
@@ -1355,6 +1478,7 @@ function start_lifecycle_policy_preview(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1378,6 +1502,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1396,6 +1521,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1418,6 +1544,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -1436,6 +1563,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1484,6 +1612,7 @@ function upload_layer_part(
             "uploadId" => uploadId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function upload_layer_part(
@@ -1511,5 +1640,6 @@ function upload_layer_part(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

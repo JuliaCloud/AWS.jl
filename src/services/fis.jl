@@ -51,6 +51,7 @@ function create_experiment_template(
             "stopConditions" => stopConditions,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_experiment_template(
@@ -79,6 +80,7 @@ function create_experiment_template(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -93,12 +95,23 @@ Deletes the specified experiment template.
 
 """
 function delete_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("DELETE", "/experimentTemplates/$(id)"; aws_config=aws_config)
+    return fis(
+        "DELETE",
+        "/experimentTemplates/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_experiment_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("DELETE", "/experimentTemplates/$(id)", params; aws_config=aws_config)
+    return fis(
+        "DELETE",
+        "/experimentTemplates/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -112,12 +125,20 @@ Gets information about the specified AWS FIS action.
 
 """
 function get_action(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("GET", "/actions/$(id)"; aws_config=aws_config)
+    return fis(
+        "GET", "/actions/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_action(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("GET", "/actions/$(id)", params; aws_config=aws_config)
+    return fis(
+        "GET",
+        "/actions/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -131,12 +152,20 @@ Gets information about the specified experiment.
 
 """
 function get_experiment(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("GET", "/experiments/$(id)"; aws_config=aws_config)
+    return fis(
+        "GET", "/experiments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_experiment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("GET", "/experiments/$(id)", params; aws_config=aws_config)
+    return fis(
+        "GET",
+        "/experiments/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -150,12 +179,23 @@ Gets information about the specified experiment template.
 
 """
 function get_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("GET", "/experimentTemplates/$(id)"; aws_config=aws_config)
+    return fis(
+        "GET",
+        "/experimentTemplates/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_experiment_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("GET", "/experimentTemplates/$(id)", params; aws_config=aws_config)
+    return fis(
+        "GET",
+        "/experimentTemplates/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -171,12 +211,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_actions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("GET", "/actions"; aws_config=aws_config)
+    return fis("GET", "/actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("GET", "/actions", params; aws_config=aws_config)
+    return fis(
+        "GET", "/actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -192,12 +234,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_experiment_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("GET", "/experimentTemplates"; aws_config=aws_config)
+    return fis(
+        "GET",
+        "/experimentTemplates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_experiment_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("GET", "/experimentTemplates", params; aws_config=aws_config)
+    return fis(
+        "GET",
+        "/experimentTemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -213,12 +266,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_experiments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("GET", "/experiments"; aws_config=aws_config)
+    return fis(
+        "GET", "/experiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_experiments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("GET", "/experiments", params; aws_config=aws_config)
+    return fis(
+        "GET",
+        "/experiments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -234,14 +295,25 @@ Lists the tags for the specified resource.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return fis(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return fis("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return fis(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -269,6 +341,7 @@ function start_experiment(
             "clientToken" => clientToken, "experimentTemplateId" => experimentTemplateId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_experiment(
@@ -291,6 +364,7 @@ function start_experiment(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -305,12 +379,23 @@ Stops the specified experiment.
 
 """
 function stop_experiment(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("DELETE", "/experiments/$(id)"; aws_config=aws_config)
+    return fis(
+        "DELETE",
+        "/experiments/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function stop_experiment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("DELETE", "/experiments/$(id)", params; aws_config=aws_config)
+    return fis(
+        "DELETE",
+        "/experiments/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -330,6 +415,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -343,6 +429,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -360,14 +447,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tagKeys"`: The tag keys to remove.
 """
 function untag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("DELETE", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return fis(
+        "DELETE",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function untag_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return fis("DELETE", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return fis(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -389,10 +487,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targets"`: The targets for the experiment.
 """
 function update_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("PATCH", "/experimentTemplates/$(id)"; aws_config=aws_config)
+    return fis(
+        "PATCH",
+        "/experimentTemplates/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_experiment_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return fis("PATCH", "/experimentTemplates/$(id)", params; aws_config=aws_config)
+    return fis(
+        "PATCH",
+        "/experimentTemplates/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end

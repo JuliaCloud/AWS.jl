@@ -34,10 +34,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTransaction"`: Command to start a new transaction.
 """
 function send_command(; aws_config::AbstractAWSConfig=global_aws_config())
-    return qldb_session("SendCommand"; aws_config=aws_config)
+    return qldb_session(
+        "SendCommand"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function send_command(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return qldb_session("SendCommand", params; aws_config=aws_config)
+    return qldb_session(
+        "SendCommand", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end

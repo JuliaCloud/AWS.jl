@@ -36,6 +36,7 @@ function add_facet_to_object(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_facet_to_object(
@@ -61,6 +62,7 @@ function add_facet_to_object(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -91,6 +93,7 @@ function apply_schema(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function apply_schema(
@@ -114,6 +117,7 @@ function apply_schema(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -149,6 +153,7 @@ function attach_object(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function attach_object(
@@ -176,6 +181,7 @@ function attach_object(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -209,6 +215,7 @@ function attach_policy(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function attach_policy(
@@ -234,6 +241,7 @@ function attach_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -265,6 +273,7 @@ function attach_to_index(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function attach_to_index(
@@ -290,6 +299,7 @@ function attach_to_index(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -331,6 +341,7 @@ function attach_typed_link(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function attach_typed_link(
@@ -360,6 +371,7 @@ function attach_typed_link(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -391,6 +403,7 @@ function batch_read(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_read(
@@ -414,6 +427,7 @@ function batch_read(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -440,6 +454,7 @@ function batch_write(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_write(
@@ -463,6 +478,7 @@ function batch_write(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -492,6 +508,7 @@ function create_directory(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_directory(
@@ -515,6 +532,7 @@ function create_directory(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -553,6 +571,7 @@ function create_facet(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_facet(
@@ -576,6 +595,7 @@ function create_facet(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -612,6 +632,7 @@ function create_index(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_index(
@@ -637,6 +658,7 @@ function create_index(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -674,6 +696,7 @@ function create_object(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_object(
@@ -697,6 +720,7 @@ function create_object(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -723,6 +747,7 @@ function create_schema(Name; aws_config::AbstractAWSConfig=global_aws_config())
         "/amazonclouddirectory/2017-01-11/schema/create",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_schema(
@@ -733,6 +758,7 @@ function create_schema(
         "/amazonclouddirectory/2017-01-11/schema/create",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -759,6 +785,7 @@ function create_typed_link_facet(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_typed_link_facet(
@@ -782,6 +809,7 @@ function create_typed_link_facet(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -806,6 +834,7 @@ function delete_directory(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_directory(
@@ -827,6 +856,7 @@ function delete_directory(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -854,6 +884,7 @@ function delete_facet(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_facet(
@@ -877,6 +908,7 @@ function delete_facet(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -905,6 +937,7 @@ function delete_object(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_object(
@@ -928,6 +961,7 @@ function delete_object(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -952,6 +986,7 @@ function delete_schema(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_schema(
@@ -973,6 +1008,7 @@ function delete_schema(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -999,6 +1035,7 @@ function delete_typed_link_facet(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_typed_link_facet(
@@ -1022,6 +1059,7 @@ function delete_typed_link_facet(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1053,6 +1091,7 @@ function detach_from_index(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function detach_from_index(
@@ -1078,6 +1117,7 @@ function detach_from_index(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1111,6 +1151,7 @@ function detach_object(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function detach_object(
@@ -1136,6 +1177,7 @@ function detach_object(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1168,6 +1210,7 @@ function detach_policy(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function detach_policy(
@@ -1193,6 +1236,7 @@ function detach_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1222,6 +1266,7 @@ function detach_typed_link(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function detach_typed_link(
@@ -1245,6 +1290,7 @@ function detach_typed_link(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1269,6 +1315,7 @@ function disable_directory(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disable_directory(
@@ -1290,6 +1337,7 @@ function disable_directory(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1314,6 +1362,7 @@ function enable_directory(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function enable_directory(
@@ -1335,6 +1384,7 @@ function enable_directory(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1356,6 +1406,7 @@ function get_applied_schema_version(
         "/amazonclouddirectory/2017-01-11/schema/getappliedschema",
         Dict{String,Any}("SchemaArn" => SchemaArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_applied_schema_version(
@@ -1370,6 +1421,7 @@ function get_applied_schema_version(
             mergewith(_merge, Dict{String,Any}("SchemaArn" => SchemaArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1393,6 +1445,7 @@ function get_directory(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_directory(
@@ -1414,6 +1467,7 @@ function get_directory(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1441,6 +1495,7 @@ function get_facet(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_facet(
@@ -1464,6 +1519,7 @@ function get_facet(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1499,6 +1555,7 @@ function get_link_attributes(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_link_attributes(
@@ -1524,6 +1581,7 @@ function get_link_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1564,6 +1622,7 @@ function get_object_attributes(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_object_attributes(
@@ -1591,6 +1650,7 @@ function get_object_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1620,6 +1680,7 @@ function get_object_information(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_object_information(
@@ -1643,6 +1704,7 @@ function get_object_information(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1666,6 +1728,7 @@ function get_schema_as_json(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_schema_as_json(
@@ -1687,6 +1750,7 @@ function get_schema_as_json(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1714,6 +1778,7 @@ function get_typed_link_facet_information(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_typed_link_facet_information(
@@ -1737,6 +1802,7 @@ function get_typed_link_facet_information(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1765,6 +1831,7 @@ function list_applied_schema_arns(
         "/amazonclouddirectory/2017-01-11/schema/applied",
         Dict{String,Any}("DirectoryArn" => DirectoryArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_applied_schema_arns(
@@ -1779,6 +1846,7 @@ function list_applied_schema_arns(
             mergewith(_merge, Dict{String,Any}("DirectoryArn" => DirectoryArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1809,6 +1877,7 @@ function list_attached_indices(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_attached_indices(
@@ -1832,6 +1901,7 @@ function list_attached_indices(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1848,7 +1918,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_development_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config())
     return clouddirectory(
-        "POST", "/amazonclouddirectory/2017-01-11/schema/development"; aws_config=aws_config
+        "POST",
+        "/amazonclouddirectory/2017-01-11/schema/development";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_development_schema_arns(
@@ -1859,6 +1932,7 @@ function list_development_schema_arns(
         "/amazonclouddirectory/2017-01-11/schema/development",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1877,7 +1951,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_directories(; aws_config::AbstractAWSConfig=global_aws_config())
     return clouddirectory(
-        "POST", "/amazonclouddirectory/2017-01-11/directory/list"; aws_config=aws_config
+        "POST",
+        "/amazonclouddirectory/2017-01-11/directory/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_directories(
@@ -1888,6 +1965,7 @@ function list_directories(
         "/amazonclouddirectory/2017-01-11/directory/list",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1917,6 +1995,7 @@ function list_facet_attributes(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_facet_attributes(
@@ -1940,6 +2019,7 @@ function list_facet_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1967,6 +2047,7 @@ function list_facet_names(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_facet_names(
@@ -1988,6 +2069,7 @@ function list_facet_names(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2026,6 +2108,7 @@ function list_incoming_typed_links(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_incoming_typed_links(
@@ -2049,6 +2132,7 @@ function list_incoming_typed_links(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2081,6 +2165,7 @@ function list_index(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_index(
@@ -2104,6 +2189,7 @@ function list_index(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2123,7 +2209,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_managed_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config())
     return clouddirectory(
-        "POST", "/amazonclouddirectory/2017-01-11/schema/managed"; aws_config=aws_config
+        "POST",
+        "/amazonclouddirectory/2017-01-11/schema/managed";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_managed_schema_arns(
@@ -2134,6 +2223,7 @@ function list_managed_schema_arns(
         "/amazonclouddirectory/2017-01-11/schema/managed",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2171,6 +2261,7 @@ function list_object_attributes(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_object_attributes(
@@ -2194,6 +2285,7 @@ function list_object_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2229,6 +2321,7 @@ function list_object_children(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_object_children(
@@ -2252,6 +2345,7 @@ function list_object_children(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2290,6 +2384,7 @@ function list_object_parent_paths(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_object_parent_paths(
@@ -2313,6 +2408,7 @@ function list_object_parent_paths(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2351,6 +2447,7 @@ function list_object_parents(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_object_parents(
@@ -2374,6 +2471,7 @@ function list_object_parents(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2409,6 +2507,7 @@ function list_object_policies(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_object_policies(
@@ -2432,6 +2531,7 @@ function list_object_policies(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2471,6 +2571,7 @@ function list_outgoing_typed_links(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_outgoing_typed_links(
@@ -2494,6 +2595,7 @@ function list_outgoing_typed_links(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2528,6 +2630,7 @@ function list_policy_attachments(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_policy_attachments(
@@ -2551,6 +2654,7 @@ function list_policy_attachments(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2570,7 +2674,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_published_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config())
     return clouddirectory(
-        "POST", "/amazonclouddirectory/2017-01-11/schema/published"; aws_config=aws_config
+        "POST",
+        "/amazonclouddirectory/2017-01-11/schema/published";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_published_schema_arns(
@@ -2581,6 +2688,7 @@ function list_published_schema_arns(
         "/amazonclouddirectory/2017-01-11/schema/published",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2611,6 +2719,7 @@ function list_tags_for_resource(
         "/amazonclouddirectory/2017-01-11/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -2625,6 +2734,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2656,6 +2766,7 @@ function list_typed_link_facet_attributes(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_typed_link_facet_attributes(
@@ -2679,6 +2790,7 @@ function list_typed_link_facet_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2708,6 +2820,7 @@ function list_typed_link_facet_names(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_typed_link_facet_names(
@@ -2729,6 +2842,7 @@ function list_typed_link_facet_names(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2765,6 +2879,7 @@ function lookup_policy(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function lookup_policy(
@@ -2788,6 +2903,7 @@ function lookup_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2821,6 +2937,7 @@ function publish_schema(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function publish_schema(
@@ -2844,6 +2961,7 @@ function publish_schema(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2870,6 +2988,7 @@ function put_schema_from_json(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_schema_from_json(
@@ -2893,6 +3012,7 @@ function put_schema_from_json(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2923,6 +3043,7 @@ function remove_facet_from_object(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function remove_facet_from_object(
@@ -2948,6 +3069,7 @@ function remove_facet_from_object(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2969,6 +3091,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/amazonclouddirectory/2017-01-11/tags/add",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -2988,6 +3111,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3011,6 +3135,7 @@ function untag_resource(
         "/amazonclouddirectory/2017-01-11/tags/remove",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -3030,6 +3155,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3064,6 +3190,7 @@ function update_facet(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_facet(
@@ -3087,6 +3214,7 @@ function update_facet(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3120,6 +3248,7 @@ function update_link_attributes(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_link_attributes(
@@ -3145,6 +3274,7 @@ function update_link_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3176,6 +3306,7 @@ function update_object_attributes(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_object_attributes(
@@ -3201,6 +3332,7 @@ function update_object_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3227,6 +3359,7 @@ function update_schema(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_schema(
@@ -3250,6 +3383,7 @@ function update_schema(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3290,6 +3424,7 @@ function update_typed_link_facet(
             "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_typed_link_facet(
@@ -3317,6 +3452,7 @@ function update_typed_link_facet(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3350,6 +3486,7 @@ function upgrade_applied_schema(
             "DirectoryArn" => DirectoryArn, "PublishedSchemaArn" => PublishedSchemaArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function upgrade_applied_schema(
@@ -3372,6 +3509,7 @@ function upgrade_applied_schema(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3411,6 +3549,7 @@ function upgrade_published_schema(
             "PublishedSchemaArn" => PublishedSchemaArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function upgrade_published_schema(
@@ -3435,5 +3574,6 @@ function upgrade_published_schema(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

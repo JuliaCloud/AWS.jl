@@ -27,6 +27,7 @@ function add_tags_to_resource(
         "AddTagsToResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_tags_to_resource(
@@ -45,6 +46,7 @@ function add_tags_to_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -80,6 +82,7 @@ function apply_pending_maintenance_action(
             "ReplicationInstanceArn" => ReplicationInstanceArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function apply_pending_maintenance_action(
@@ -103,6 +106,7 @@ function apply_pending_maintenance_action(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -128,6 +132,7 @@ function cancel_replication_task_assessment_run(
             "ReplicationTaskAssessmentRunArn" => ReplicationTaskAssessmentRunArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_replication_task_assessment_run(
@@ -147,6 +152,7 @@ function cancel_replication_task_assessment_run(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -276,6 +282,7 @@ function create_endpoint(
             "EngineName" => EngineName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_endpoint(
@@ -299,6 +306,7 @@ function create_endpoint(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -351,6 +359,7 @@ function create_event_subscription(
             "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_event_subscription(
@@ -371,6 +380,7 @@ function create_event_subscription(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -455,6 +465,7 @@ function create_replication_instance(
             "ReplicationInstanceIdentifier" => ReplicationInstanceIdentifier,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_replication_instance(
@@ -476,6 +487,7 @@ function create_replication_instance(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -514,6 +526,7 @@ function create_replication_subnet_group(
             "SubnetIds" => SubnetIds,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_replication_subnet_group(
@@ -538,6 +551,7 @@ function create_replication_subnet_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -619,6 +633,7 @@ function create_replication_task(
             "TargetEndpointArn" => TargetEndpointArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_replication_task(
@@ -648,6 +663,7 @@ function create_replication_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -668,6 +684,7 @@ function delete_certificate(
         "DeleteCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_certificate(
@@ -681,6 +698,7 @@ function delete_certificate(
             mergewith(_merge, Dict{String,Any}("CertificateArn" => CertificateArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -705,6 +723,7 @@ function delete_connection(
             "EndpointArn" => EndpointArn, "ReplicationInstanceArn" => ReplicationInstanceArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_connection(
@@ -726,6 +745,7 @@ function delete_connection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -746,6 +766,7 @@ function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteEndpoint",
         Dict{String,Any}("EndpointArn" => EndpointArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_endpoint(
@@ -759,6 +780,7 @@ function delete_endpoint(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -779,6 +801,7 @@ function delete_event_subscription(
         "DeleteEventSubscription",
         Dict{String,Any}("SubscriptionName" => SubscriptionName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_event_subscription(
@@ -794,6 +817,7 @@ function delete_event_subscription(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -816,6 +840,7 @@ function delete_replication_instance(
         "DeleteReplicationInstance",
         Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_replication_instance(
@@ -833,6 +858,7 @@ function delete_replication_instance(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -855,6 +881,7 @@ function delete_replication_subnet_group(
             "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_replication_subnet_group(
@@ -874,6 +901,7 @@ function delete_replication_subnet_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -895,6 +923,7 @@ function delete_replication_task(
         "DeleteReplicationTask",
         Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_replication_task(
@@ -910,6 +939,7 @@ function delete_replication_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -935,6 +965,7 @@ function delete_replication_task_assessment_run(
             "ReplicationTaskAssessmentRunArn" => ReplicationTaskAssessmentRunArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_replication_task_assessment_run(
@@ -954,6 +985,7 @@ function delete_replication_task_assessment_run(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -971,13 +1003,18 @@ not take any parameters.
 
 """
 function describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeAccountAttributes"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeAccountAttributes", params; aws_config=aws_config
+        "DescribeAccountAttributes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1024,14 +1061,19 @@ function describe_applicable_individual_assessments(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeApplicableIndividualAssessments"; aws_config=aws_config
+        "DescribeApplicableIndividualAssessments";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_applicable_individual_assessments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeApplicableIndividualAssessments", params; aws_config=aws_config
+        "DescribeApplicableIndividualAssessments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1052,12 +1094,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response so that the remaining results can be retrieved.  Default: 10
 """
 function describe_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeCertificates"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return database_migration_service("DescribeCertificates", params; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeCertificates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1080,12 +1129,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 function describe_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeConnections"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return database_migration_service("DescribeConnections", params; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeConnections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1114,6 +1170,7 @@ function describe_endpoint_settings(
         "DescribeEndpointSettings",
         Dict{String,Any}("EngineName" => EngineName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_endpoint_settings(
@@ -1127,6 +1184,7 @@ function describe_endpoint_settings(
             mergewith(_merge, Dict{String,Any}("EngineName" => EngineName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1149,13 +1207,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 function describe_endpoint_types(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeEndpointTypes"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeEndpointTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_endpoint_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeEndpointTypes", params; aws_config=aws_config
+        "DescribeEndpointTypes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1178,12 +1241,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeEndpoints"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return database_migration_service("DescribeEndpoints", params; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1201,13 +1268,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replication-instance | replication-task
 """
 function describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeEventCategories"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_event_categories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeEventCategories", params; aws_config=aws_config
+        "DescribeEventCategories",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1233,13 +1305,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubscriptionName"`: The name of the DMS event subscription to be described.
 """
 function describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeEventSubscriptions"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_event_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeEventSubscriptions", params; aws_config=aws_config
+        "DescribeEventSubscriptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1270,12 +1347,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The start time for the events to be listed.
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeEvents"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return database_migration_service("DescribeEvents", params; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1299,14 +1380,19 @@ function describe_orderable_replication_instances(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeOrderableReplicationInstances"; aws_config=aws_config
+        "DescribeOrderableReplicationInstances";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_orderable_replication_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeOrderableReplicationInstances", params; aws_config=aws_config
+        "DescribeOrderableReplicationInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1332,14 +1418,19 @@ function describe_pending_maintenance_actions(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribePendingMaintenanceActions"; aws_config=aws_config
+        "DescribePendingMaintenanceActions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_pending_maintenance_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribePendingMaintenanceActions", params; aws_config=aws_config
+        "DescribePendingMaintenanceActions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1361,6 +1452,7 @@ function describe_refresh_schemas_status(
         "DescribeRefreshSchemasStatus",
         Dict{String,Any}("EndpointArn" => EndpointArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_refresh_schemas_status(
@@ -1374,6 +1466,7 @@ function describe_refresh_schemas_status(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1403,6 +1496,7 @@ function describe_replication_instance_task_logs(
         "DescribeReplicationInstanceTaskLogs",
         Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_replication_instance_task_logs(
@@ -1420,6 +1514,7 @@ function describe_replication_instance_task_logs(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1443,13 +1538,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 function describe_replication_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeReplicationInstances"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeReplicationInstances";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_replication_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationInstances", params; aws_config=aws_config
+        "DescribeReplicationInstances",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1475,14 +1577,19 @@ function describe_replication_subnet_groups(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationSubnetGroups"; aws_config=aws_config
+        "DescribeReplicationSubnetGroups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_replication_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationSubnetGroups", params; aws_config=aws_config
+        "DescribeReplicationSubnetGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1512,14 +1619,19 @@ function describe_replication_task_assessment_results(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationTaskAssessmentResults"; aws_config=aws_config
+        "DescribeReplicationTaskAssessmentResults";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_replication_task_assessment_results(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationTaskAssessmentResults", params; aws_config=aws_config
+        "DescribeReplicationTaskAssessmentResults",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1549,14 +1661,19 @@ function describe_replication_task_assessment_runs(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationTaskAssessmentRuns"; aws_config=aws_config
+        "DescribeReplicationTaskAssessmentRuns";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_replication_task_assessment_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationTaskAssessmentRuns", params; aws_config=aws_config
+        "DescribeReplicationTaskAssessmentRuns",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1584,14 +1701,19 @@ function describe_replication_task_individual_assessments(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationTaskIndividualAssessments"; aws_config=aws_config
+        "DescribeReplicationTaskIndividualAssessments";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_replication_task_individual_assessments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationTaskIndividualAssessments", params; aws_config=aws_config
+        "DescribeReplicationTaskIndividualAssessments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1618,13 +1740,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   true; otherwise, choose false (the default).
 """
 function describe_replication_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("DescribeReplicationTasks"; aws_config=aws_config)
+    return database_migration_service(
+        "DescribeReplicationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_replication_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return database_migration_service(
-        "DescribeReplicationTasks", params; aws_config=aws_config
+        "DescribeReplicationTasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1653,6 +1780,7 @@ function describe_schemas(EndpointArn; aws_config::AbstractAWSConfig=global_aws_
         "DescribeSchemas",
         Dict{String,Any}("EndpointArn" => EndpointArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_schemas(
@@ -1666,6 +1794,7 @@ function describe_schemas(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1701,6 +1830,7 @@ function describe_table_statistics(
         "DescribeTableStatistics",
         Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_table_statistics(
@@ -1716,6 +1846,7 @@ function describe_table_statistics(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1745,6 +1876,7 @@ function import_certificate(
         "ImportCertificate",
         Dict{String,Any}("CertificateIdentifier" => CertificateIdentifier);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function import_certificate(
@@ -1762,6 +1894,7 @@ function import_certificate(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1784,12 +1917,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which each listed tag is created.
 """
 function list_tags_for_resource(; aws_config::AbstractAWSConfig=global_aws_config())
-    return database_migration_service("ListTagsForResource"; aws_config=aws_config)
+    return database_migration_service(
+        "ListTagsForResource"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_tags_for_resource(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return database_migration_service("ListTagsForResource", params; aws_config=aws_config)
+    return database_migration_service(
+        "ListTagsForResource",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1909,6 +2049,7 @@ function modify_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_c
         "ModifyEndpoint",
         Dict{String,Any}("EndpointArn" => EndpointArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function modify_endpoint(
@@ -1922,6 +2063,7 @@ function modify_endpoint(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1952,6 +2094,7 @@ function modify_event_subscription(
         "ModifyEventSubscription",
         Dict{String,Any}("SubscriptionName" => SubscriptionName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function modify_event_subscription(
@@ -1967,6 +2110,7 @@ function modify_event_subscription(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2028,6 +2172,7 @@ function modify_replication_instance(
         "ModifyReplicationInstance",
         Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function modify_replication_instance(
@@ -2045,6 +2190,7 @@ function modify_replication_instance(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2075,6 +2221,7 @@ function modify_replication_subnet_group(
             "SubnetIds" => SubnetIds,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function modify_replication_subnet_group(
@@ -2096,6 +2243,7 @@ function modify_replication_subnet_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2153,6 +2301,7 @@ function modify_replication_task(
         "ModifyReplicationTask",
         Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function modify_replication_task(
@@ -2168,6 +2317,7 @@ function modify_replication_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2197,6 +2347,7 @@ function move_replication_task(
             "TargetReplicationInstanceArn" => TargetReplicationInstanceArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function move_replication_task(
@@ -2218,6 +2369,7 @@ function move_replication_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2248,6 +2400,7 @@ function reboot_replication_instance(
         "RebootReplicationInstance",
         Dict{String,Any}("ReplicationInstanceArn" => ReplicationInstanceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reboot_replication_instance(
@@ -2265,6 +2418,7 @@ function reboot_replication_instance(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2291,6 +2445,7 @@ function refresh_schemas(
             "EndpointArn" => EndpointArn, "ReplicationInstanceArn" => ReplicationInstanceArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function refresh_schemas(
@@ -2312,6 +2467,7 @@ function refresh_schemas(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2343,6 +2499,7 @@ function reload_tables(
             "ReplicationTaskArn" => ReplicationTaskArn, "TablesToReload" => TablesToReload
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reload_tables(
@@ -2364,6 +2521,7 @@ function reload_tables(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2387,6 +2545,7 @@ function remove_tags_from_resource(
         "RemoveTagsFromResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function remove_tags_from_resource(
@@ -2405,6 +2564,7 @@ function remove_tags_from_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2455,6 +2615,7 @@ function start_replication_task(
             "StartReplicationTaskType" => StartReplicationTaskType,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_replication_task(
@@ -2476,6 +2637,7 @@ function start_replication_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2496,6 +2658,7 @@ function start_replication_task_assessment(
         "StartReplicationTaskAssessment",
         Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_replication_task_assessment(
@@ -2511,6 +2674,7 @@ function start_replication_task_assessment(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2578,6 +2742,7 @@ function start_replication_task_assessment_run(
             "ServiceAccessRoleArn" => ServiceAccessRoleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_replication_task_assessment_run(
@@ -2603,6 +2768,7 @@ function start_replication_task_assessment_run(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2624,6 +2790,7 @@ function stop_replication_task(
         "StopReplicationTask",
         Dict{String,Any}("ReplicationTaskArn" => ReplicationTaskArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function stop_replication_task(
@@ -2639,6 +2806,7 @@ function stop_replication_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2663,6 +2831,7 @@ function test_connection(
             "EndpointArn" => EndpointArn, "ReplicationInstanceArn" => ReplicationInstanceArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function test_connection(
@@ -2684,5 +2853,6 @@ function test_connection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

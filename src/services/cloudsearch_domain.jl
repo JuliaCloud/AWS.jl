@@ -222,6 +222,7 @@ function search(q; aws_config::AbstractAWSConfig=global_aws_config())
         "/2013-01-01/search?format=sdk&pretty=true",
         Dict{String,Any}("q" => q);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function search(
@@ -232,6 +233,7 @@ function search(
         "/2013-01-01/search?format=sdk&pretty=true",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("q" => q), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -265,6 +267,7 @@ function suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config()
         "/2013-01-01/suggest?format=sdk&pretty=true",
         Dict{String,Any}("q" => q, "suggester" => suggester);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function suggest(
@@ -280,6 +283,7 @@ function suggest(
             mergewith(_merge, Dict{String,Any}("q" => q, "suggester" => suggester), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -321,6 +325,7 @@ function upload_documents(
             "headers" => Dict{String,Any}("Content-Type" => Content_Type),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function upload_documents(
@@ -343,5 +348,6 @@ function upload_documents(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

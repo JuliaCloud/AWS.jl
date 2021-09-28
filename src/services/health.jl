@@ -38,6 +38,7 @@ function describe_affected_accounts_for_organization(
         "DescribeAffectedAccountsForOrganization",
         Dict{String,Any}("eventArn" => eventArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_affected_accounts_for_organization(
@@ -51,6 +52,7 @@ function describe_affected_accounts_for_organization(
             mergewith(_merge, Dict{String,Any}("eventArn" => eventArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -90,6 +92,7 @@ function describe_affected_entities(
         "DescribeAffectedEntities",
         Dict{String,Any}("filter" => filter);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_affected_entities(
@@ -99,6 +102,7 @@ function describe_affected_entities(
         "DescribeAffectedEntities",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filter" => filter), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -142,6 +146,7 @@ function describe_affected_entities_for_organization(
         "DescribeAffectedEntitiesForOrganization",
         Dict{String,Any}("organizationEntityFilters" => organizationEntityFilters);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_affected_entities_for_organization(
@@ -159,6 +164,7 @@ function describe_affected_entities_for_organization(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -178,12 +184,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"
 """
 function describe_entity_aggregates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return health("DescribeEntityAggregates"; aws_config=aws_config)
+    return health(
+        "DescribeEntityAggregates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_entity_aggregates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return health("DescribeEntityAggregates", params; aws_config=aws_config)
+    return health(
+        "DescribeEntityAggregates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -215,6 +228,7 @@ function describe_event_aggregates(
         "DescribeEventAggregates",
         Dict{String,Any}("aggregateField" => aggregateField);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_event_aggregates(
@@ -228,6 +242,7 @@ function describe_event_aggregates(
             mergewith(_merge, Dict{String,Any}("aggregateField" => aggregateField), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -263,6 +278,7 @@ function describe_event_details(
         "DescribeEventDetails",
         Dict{String,Any}("eventArns" => eventArns);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_event_details(
@@ -276,6 +292,7 @@ function describe_event_details(
             mergewith(_merge, Dict{String,Any}("eventArns" => eventArns), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -322,6 +339,7 @@ function describe_event_details_for_organization(
             "organizationEventDetailFilters" => organizationEventDetailFilters
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_event_details_for_organization(
@@ -341,6 +359,7 @@ function describe_event_details_for_organization(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -368,12 +387,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results have been returned, the response does not contain a pagination token value.
 """
 function describe_event_types(; aws_config::AbstractAWSConfig=global_aws_config())
-    return health("DescribeEventTypes"; aws_config=aws_config)
+    return health(
+        "DescribeEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_event_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return health("DescribeEventTypes", params; aws_config=aws_config)
+    return health(
+        "DescribeEventTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -407,12 +430,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results have been returned, the response does not contain a pagination token value.
 """
 function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
-    return health("DescribeEvents"; aws_config=aws_config)
+    return health("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return health("DescribeEvents", params; aws_config=aws_config)
+    return health(
+        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -448,12 +473,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_events_for_organization(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return health("DescribeEventsForOrganization"; aws_config=aws_config)
+    return health(
+        "DescribeEventsForOrganization";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_events_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return health("DescribeEventsForOrganization", params; aws_config=aws_config)
+    return health(
+        "DescribeEventsForOrganization",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -469,13 +503,20 @@ account.
 function describe_health_service_status_for_organization(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return health("DescribeHealthServiceStatusForOrganization"; aws_config=aws_config)
+    return health(
+        "DescribeHealthServiceStatusForOrganization";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_health_service_status_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return health(
-        "DescribeHealthServiceStatusForOrganization", params; aws_config=aws_config
+        "DescribeHealthServiceStatusForOrganization",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -500,13 +541,20 @@ continues to aggregate health events for your AWS account.
 function disable_health_service_access_for_organization(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return health("DisableHealthServiceAccessForOrganization"; aws_config=aws_config)
+    return health(
+        "DisableHealthServiceAccessForOrganization";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function disable_health_service_access_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return health(
-        "DisableHealthServiceAccessForOrganization", params; aws_config=aws_config
+        "DisableHealthServiceAccessForOrganization",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -531,10 +579,19 @@ AWS Health User Guide.
 function enable_health_service_access_for_organization(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return health("EnableHealthServiceAccessForOrganization"; aws_config=aws_config)
+    return health(
+        "EnableHealthServiceAccessForOrganization";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function enable_health_service_access_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return health("EnableHealthServiceAccessForOrganization", params; aws_config=aws_config)
+    return health(
+        "EnableHealthServiceAccessForOrganization",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end

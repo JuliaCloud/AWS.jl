@@ -23,6 +23,7 @@ function get_device_registration(
         "/GetDeviceRegistration",
         Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_device_registration(
@@ -44,6 +45,7 @@ function get_device_registration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -79,6 +81,7 @@ function send_heartbeat(
             "DeviceName" => DeviceName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function send_heartbeat(
@@ -103,5 +106,6 @@ function send_heartbeat(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

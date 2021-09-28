@@ -43,6 +43,7 @@ function batch_execute_statement(
             "resourceArn" => resourceArn, "secretArn" => secretArn, "sql" => sql
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_execute_statement(
@@ -65,6 +66,7 @@ function batch_execute_statement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -98,6 +100,7 @@ function begin_transaction(
         "/BeginTransaction",
         Dict{String,Any}("resourceArn" => resourceArn, "secretArn" => secretArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function begin_transaction(
@@ -117,6 +120,7 @@ function begin_transaction(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -144,6 +148,7 @@ function commit_transaction(
             "transactionId" => transactionId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function commit_transaction(
@@ -168,6 +173,7 @@ function commit_transaction(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -206,6 +212,7 @@ function execute_sql(
             "sqlStatements" => sqlStatements,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function execute_sql(
@@ -230,6 +237,7 @@ function execute_sql(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -277,6 +285,7 @@ function execute_statement(
             "resourceArn" => resourceArn, "secretArn" => secretArn, "sql" => sql
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function execute_statement(
@@ -299,6 +308,7 @@ function execute_statement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -326,6 +336,7 @@ function rollback_transaction(
             "transactionId" => transactionId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function rollback_transaction(
@@ -350,5 +361,6 @@ function rollback_transaction(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
