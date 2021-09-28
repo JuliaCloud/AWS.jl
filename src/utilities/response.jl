@@ -21,15 +21,10 @@ end
 
 function mime_type(r::Response)
     # Parse response data according to mimetype...
+    # Using "application/octet-stream" as the fallback MIME type as recommended by:
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
     mime = HTTP.header(r.response, "Content-Type", "application/octet-stream")
 
-    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
-
-    # Reading consumes the buffer so this is unsafe currently
-    # if isempty(mime) && read(r.io, 5) == b"<?xml"
-    #     "xml"
-
-    # e.g. "application/xml" or "text/xml"
     T = if occursin(r"/xml", mime)
         MIME"application/xml"
     elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
@@ -60,7 +55,7 @@ function _read(io::IO, ::MIME"application/xml")
 end
 
 function _read(io::IO, ::MIME"application/json")
-    # Note: Using JSON instead of JSON3 does not support OrderedDict
+    # Note: Using JSON instead of JSON3 since it does not support OrderedDict/LittleDict
     return JSON.parse(io; dicttype=LittleDict{String,Any})
 end
 
@@ -68,8 +63,6 @@ _read(io::IO, ::MIME"text/plain") = read(io, String)
 _read(io::IO, ::MIME) = read(io)
 
 # Dict-like access
-
-# TODO: Could be more user friendly
 function _dict(r::Response)
     if !isassigned(r.dict)
         dict = parse(r)::AbstractDict

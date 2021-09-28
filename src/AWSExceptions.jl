@@ -37,6 +37,7 @@ function Base.show(io::IO, e::AWSException)
     !isempty(e.message) && print(io, " -- ", e.message)
     print(io, "\n\n", e.cause)
 
+    # When the response is streamed then `e.cause` will not show the response body
     if e.streamed_body !== nothing
         print(io, "\n\n")
         if isempty(e.streamed_body)
@@ -87,7 +88,9 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
             info = parse_xml(body)
         end
     elseif parse(Int, HTTP.header(e.response, "Content-Length", "0")) > 0
-        @error "Internal Error: provided body is empty while the reported content-length is non-zero"
+        # Should only occur streaming a response and error handling is improperly configured
+        @error "Internal Error: provided body is empty while the reported content-length " *
+               "is non-zero"
     end
 
     # There are times when Errors or Error are returned back

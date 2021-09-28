@@ -32,6 +32,7 @@ Base.@kwdef mutable struct Request
     resource::String = ""
     url::String = ""
 
+    # Note: User provided `IO` should support seeking in order to support API error handling
     response_stream::Union{IO,Nothing} = nothing
 
     http_options::AbstractDict{Symbol,<:Any} = LittleDict{Symbol,String}()
@@ -45,13 +46,17 @@ Base.@kwdef mutable struct Request
 end
 
 """
-    submit_request(aws::AbstractAWSConfig, request::Request)
+    submit_request(aws::AbstractAWSConfig, request::Request; return_headers::Bool=false)
 
 Submit the request to AWS.
 
 # Arguments
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 - `request::Request`: All the information about making a request to AWS
+
+# Keywords
+- `return_headers::Bool=false`: Set to `true` if you want the headers from the response returned back. Only
+  used if `request.use_response_type = false`.
 
 # Returns
 - `AWS.Response`: A struct containing the response details

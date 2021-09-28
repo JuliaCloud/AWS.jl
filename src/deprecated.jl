@@ -1,3 +1,4 @@
+# Emulates the legacy `use_response_type=false` response behavior using the `AWS.Response`
 function legacy_response(
     request::AWS.Request, response::AWS.Response; return_headers=nothing
 )
@@ -7,12 +8,6 @@ function legacy_response(
     # The stored service name is always lowercase and may not match the module name
     # specified by the user. We'll assume that the typical casing used is titlecase.
     alt_service = "@service $(titlecase(request.service)) use_response_type=true"
-
-    # if response_dict_type !== nothing
-    #     Base.depwarn(
-    #         "The keyword `response_dict_type` is deprecated,
-    #         "use `$alt_service` instead to return an `AWS.Response` allowing for " *
-    #         "direct access and app)
 
     # For HEAD request, return headers...
     if request.request_method == "HEAD"
