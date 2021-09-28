@@ -28,7 +28,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_stream(StreamArn; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb_streams(
-        "DescribeStream", Dict{String,Any}("StreamArn" => StreamArn); aws_config=aws_config
+        "DescribeStream",
+        Dict{String,Any}("StreamArn" => StreamArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_stream(
@@ -42,6 +45,7 @@ function describe_stream(
             mergewith(_merge, Dict{String,Any}("StreamArn" => StreamArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -71,6 +75,7 @@ function get_records(ShardIterator; aws_config::AbstractAWSConfig=global_aws_con
         "GetRecords",
         Dict{String,Any}("ShardIterator" => ShardIterator);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_records(
@@ -84,6 +89,7 @@ function get_records(
             mergewith(_merge, Dict{String,Any}("ShardIterator" => ShardIterator), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -125,6 +131,7 @@ function get_shard_iterator(
             "StreamArn" => StreamArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_shard_iterator(
@@ -148,6 +155,7 @@ function get_shard_iterator(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -169,10 +177,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   table name are returned.
 """
 function list_streams(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb_streams("ListStreams"; aws_config=aws_config)
+    return dynamodb_streams(
+        "ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return dynamodb_streams("ListStreams", params; aws_config=aws_config)
+    return dynamodb_streams(
+        "ListStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end

@@ -35,6 +35,7 @@ function delete_session(
         "DELETE",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_session(
@@ -50,6 +51,7 @@ function delete_session(
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -81,6 +83,7 @@ function get_session(
         "GET",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_session(
@@ -96,6 +99,7 @@ function get_session(
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -139,6 +143,7 @@ function put_session(
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
         Dict{String,Any}("sessionState" => sessionState);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_session(
@@ -157,6 +162,7 @@ function put_session(
             mergewith(_merge, Dict{String,Any}("sessionState" => sessionState), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -196,6 +202,7 @@ function recognize_text(
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text",
         Dict{String,Any}("text" => text);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function recognize_text(
@@ -212,6 +219,7 @@ function recognize_text(
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("text" => text), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -280,6 +288,7 @@ function recognize_utterance(
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance",
         Dict{String,Any}("headers" => Dict{String,Any}("Content-Type" => Content_Type));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function recognize_utterance(
@@ -304,5 +313,6 @@ function recognize_utterance(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -67,6 +67,7 @@ function invoke_endpoint(
         "/endpoints/$(EndpointName)/invocations",
         Dict{String,Any}("Body" => Body);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function invoke_endpoint(
@@ -80,6 +81,7 @@ function invoke_endpoint(
         "/endpoints/$(EndpointName)/invocations",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Body" => Body), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -140,6 +142,7 @@ function invoke_endpoint_async(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function invoke_endpoint_async(
@@ -164,5 +167,6 @@ function invoke_endpoint_async(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

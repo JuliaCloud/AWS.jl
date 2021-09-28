@@ -34,6 +34,7 @@ function create_order(
             "PaymentOption" => PaymentOption,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_order(
@@ -58,6 +59,7 @@ function create_order(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -84,6 +86,7 @@ function create_outpost(Name, SiteId; aws_config::AbstractAWSConfig=global_aws_c
         "/outposts",
         Dict{String,Any}("Name" => Name, "SiteId" => SiteId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_outpost(
@@ -99,6 +102,7 @@ function create_outpost(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "SiteId" => SiteId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -113,14 +117,25 @@ Deletes the Outpost.
 
 """
 function delete_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config())
-    return outposts("DELETE", "/outposts/$(OutpostId)"; aws_config=aws_config)
+    return outposts(
+        "DELETE",
+        "/outposts/$(OutpostId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_outpost(
     OutpostId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return outposts("DELETE", "/outposts/$(OutpostId)", params; aws_config=aws_config)
+    return outposts(
+        "DELETE",
+        "/outposts/$(OutpostId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -134,12 +149,20 @@ Deletes the site.
 
 """
 function delete_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config())
-    return outposts("DELETE", "/sites/$(SiteId)"; aws_config=aws_config)
+    return outposts(
+        "DELETE", "/sites/$(SiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_site(
     SiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return outposts("DELETE", "/sites/$(SiteId)", params; aws_config=aws_config)
+    return outposts(
+        "DELETE",
+        "/sites/$(SiteId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -153,14 +176,25 @@ Gets information about the specified Outpost.
 
 """
 function get_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config())
-    return outposts("GET", "/outposts/$(OutpostId)"; aws_config=aws_config)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_outpost(
     OutpostId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return outposts("GET", "/outposts/$(OutpostId)", params; aws_config=aws_config)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -180,7 +214,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_outpost_instance_types(
     OutpostId; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return outposts("GET", "/outposts/$(OutpostId)/instanceTypes"; aws_config=aws_config)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostId)/instanceTypes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_outpost_instance_types(
     OutpostId,
@@ -188,7 +227,11 @@ function get_outpost_instance_types(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return outposts(
-        "GET", "/outposts/$(OutpostId)/instanceTypes", params; aws_config=aws_config
+        "GET",
+        "/outposts/$(OutpostId)/instanceTypes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -220,12 +263,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function list_outposts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return outposts("GET", "/outposts"; aws_config=aws_config)
+    return outposts(
+        "GET", "/outposts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_outposts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return outposts("GET", "/outposts", params; aws_config=aws_config)
+    return outposts(
+        "GET", "/outposts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -240,12 +287,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function list_sites(; aws_config::AbstractAWSConfig=global_aws_config())
-    return outposts("GET", "/sites"; aws_config=aws_config)
+    return outposts("GET", "/sites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_sites(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return outposts("GET", "/sites", params; aws_config=aws_config)
+    return outposts(
+        "GET", "/sites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -261,14 +310,25 @@ Lists the tags for the specified resource.
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return outposts("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+    return outposts(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return outposts("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+    return outposts(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -288,6 +348,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -301,6 +362,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -323,6 +385,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -336,5 +399,6 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

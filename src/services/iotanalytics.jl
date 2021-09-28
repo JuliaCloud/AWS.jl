@@ -32,6 +32,7 @@ function batch_put_message(
         "/messages/batch",
         Dict{String,Any}("channelName" => channelName, "messages" => messages);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_put_message(
@@ -51,6 +52,7 @@ function batch_put_message(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -73,6 +75,7 @@ function cancel_pipeline_reprocessing(
         "DELETE",
         "/pipelines/$(pipelineName)/reprocessing/$(reprocessingId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_pipeline_reprocessing(
@@ -86,6 +89,7 @@ function cancel_pipeline_reprocessing(
         "/pipelines/$(pipelineName)/reprocessing/$(reprocessingId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -114,6 +118,7 @@ function create_channel(channelName; aws_config::AbstractAWSConfig=global_aws_co
         "/channels",
         Dict{String,Any}("channelName" => channelName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_channel(
@@ -128,6 +133,7 @@ function create_channel(
             mergewith(_merge, Dict{String,Any}("channelName" => channelName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -173,6 +179,7 @@ function create_dataset(
         "/datasets",
         Dict{String,Any}("actions" => actions, "datasetName" => datasetName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_dataset(
@@ -192,6 +199,7 @@ function create_dataset(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -213,7 +221,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_dataset_content(
     datasetName; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotanalytics("POST", "/datasets/$(datasetName)/content"; aws_config=aws_config)
+    return iotanalytics(
+        "POST",
+        "/datasets/$(datasetName)/content";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function create_dataset_content(
     datasetName,
@@ -221,7 +234,11 @@ function create_dataset_content(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "POST", "/datasets/$(datasetName)/content", params; aws_config=aws_config
+        "POST",
+        "/datasets/$(datasetName)/content",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -255,6 +272,7 @@ function create_datastore(datastoreName; aws_config::AbstractAWSConfig=global_aw
         "/datastores",
         Dict{String,Any}("datastoreName" => datastoreName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_datastore(
@@ -269,6 +287,7 @@ function create_datastore(
             mergewith(_merge, Dict{String,Any}("datastoreName" => datastoreName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -305,6 +324,7 @@ function create_pipeline(
             "pipelineActivities" => pipelineActivities, "pipelineName" => pipelineName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_pipeline(
@@ -327,6 +347,7 @@ function create_pipeline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -341,14 +362,25 @@ Deletes the specified channel.
 
 """
 function delete_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("DELETE", "/channels/$(channelName)"; aws_config=aws_config)
+    return iotanalytics(
+        "DELETE",
+        "/channels/$(channelName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_channel(
     channelName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return iotanalytics("DELETE", "/channels/$(channelName)", params; aws_config=aws_config)
+    return iotanalytics(
+        "DELETE",
+        "/channels/$(channelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -363,14 +395,25 @@ you perform this operation.
 
 """
 function delete_dataset(datasetName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("DELETE", "/datasets/$(datasetName)"; aws_config=aws_config)
+    return iotanalytics(
+        "DELETE",
+        "/datasets/$(datasetName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_dataset(
     datasetName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return iotanalytics("DELETE", "/datasets/$(datasetName)", params; aws_config=aws_config)
+    return iotanalytics(
+        "DELETE",
+        "/datasets/$(datasetName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -391,7 +434,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_dataset_content(
     datasetName; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotanalytics("DELETE", "/datasets/$(datasetName)/content"; aws_config=aws_config)
+    return iotanalytics(
+        "DELETE",
+        "/datasets/$(datasetName)/content";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_dataset_content(
     datasetName,
@@ -399,7 +447,11 @@ function delete_dataset_content(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "DELETE", "/datasets/$(datasetName)/content", params; aws_config=aws_config
+        "DELETE",
+        "/datasets/$(datasetName)/content",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -414,7 +466,12 @@ Deletes the specified data store.
 
 """
 function delete_datastore(datastoreName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("DELETE", "/datastores/$(datastoreName)"; aws_config=aws_config)
+    return iotanalytics(
+        "DELETE",
+        "/datastores/$(datastoreName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_datastore(
     datastoreName,
@@ -422,7 +479,11 @@ function delete_datastore(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "DELETE", "/datastores/$(datastoreName)", params; aws_config=aws_config
+        "DELETE",
+        "/datastores/$(datastoreName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -437,7 +498,12 @@ Deletes the specified pipeline.
 
 """
 function delete_pipeline(pipelineName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("DELETE", "/pipelines/$(pipelineName)"; aws_config=aws_config)
+    return iotanalytics(
+        "DELETE",
+        "/pipelines/$(pipelineName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_pipeline(
     pipelineName,
@@ -445,7 +511,11 @@ function delete_pipeline(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "DELETE", "/pipelines/$(pipelineName)", params; aws_config=aws_config
+        "DELETE",
+        "/pipelines/$(pipelineName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -465,14 +535,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   customer-managed.
 """
 function describe_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/channels/$(channelName)"; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/channels/$(channelName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_channel(
     channelName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return iotanalytics("GET", "/channels/$(channelName)", params; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/channels/$(channelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -486,14 +567,25 @@ Retrieves information about a dataset.
 
 """
 function describe_dataset(datasetName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/datasets/$(datasetName)"; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/datasets/$(datasetName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_dataset(
     datasetName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return iotanalytics("GET", "/datasets/$(datasetName)", params; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/datasets/$(datasetName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -514,7 +606,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_datastore(
     datastoreName; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotanalytics("GET", "/datastores/$(datastoreName)"; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/datastores/$(datastoreName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_datastore(
     datastoreName,
@@ -522,7 +619,11 @@ function describe_datastore(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "GET", "/datastores/$(datastoreName)", params; aws_config=aws_config
+        "GET",
+        "/datastores/$(datastoreName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -534,12 +635,16 @@ Retrieves the current settings of the IoT Analytics logging options.
 
 """
 function describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/logging"; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotanalytics("GET", "/logging", params; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -553,14 +658,25 @@ Retrieves information about a pipeline.
 
 """
 function describe_pipeline(pipelineName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/pipelines/$(pipelineName)"; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/pipelines/$(pipelineName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_pipeline(
     pipelineName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return iotanalytics("GET", "/pipelines/$(pipelineName)", params; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/pipelines/$(pipelineName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -580,7 +696,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default.
 """
 function get_dataset_content(datasetName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/datasets/$(datasetName)/content"; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/datasets/$(datasetName)/content";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_dataset_content(
     datasetName,
@@ -588,7 +709,11 @@ function get_dataset_content(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "GET", "/datasets/$(datasetName)/content", params; aws_config=aws_config
+        "GET",
+        "/datasets/$(datasetName)/content",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -605,12 +730,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/channels"; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotanalytics("GET", "/channels", params; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -636,7 +765,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_dataset_contents(
     datasetName; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotanalytics("GET", "/datasets/$(datasetName)/contents"; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/datasets/$(datasetName)/contents";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_dataset_contents(
     datasetName,
@@ -644,7 +778,11 @@ function list_dataset_contents(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "GET", "/datasets/$(datasetName)/contents", params; aws_config=aws_config
+        "GET",
+        "/datasets/$(datasetName)/contents",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -661,12 +799,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/datasets"; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotanalytics("GET", "/datasets", params; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -682,12 +824,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 function list_datastores(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/datastores"; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/datastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_datastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotanalytics("GET", "/datastores", params; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/datastores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -703,12 +849,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/pipelines"; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/pipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iotanalytics("GET", "/pipelines", params; aws_config=aws_config)
+    return iotanalytics(
+        "GET", "/pipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -729,6 +879,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -743,6 +894,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -767,6 +919,7 @@ function put_logging_options(
         "/logging",
         Dict{String,Any}("loggingOptions" => loggingOptions);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_logging_options(
@@ -781,6 +934,7 @@ function put_logging_options(
             mergewith(_merge, Dict{String,Any}("loggingOptions" => loggingOptions), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -807,6 +961,7 @@ function run_pipeline_activity(
         "/pipelineactivities/run",
         Dict{String,Any}("payloads" => payloads, "pipelineActivity" => pipelineActivity);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function run_pipeline_activity(
@@ -828,6 +983,7 @@ function run_pipeline_activity(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -849,7 +1005,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: The start of the time window from which sample messages are retrieved.
 """
 function sample_channel_data(channelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("GET", "/channels/$(channelName)/sample"; aws_config=aws_config)
+    return iotanalytics(
+        "GET",
+        "/channels/$(channelName)/sample";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function sample_channel_data(
     channelName,
@@ -857,7 +1018,11 @@ function sample_channel_data(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "GET", "/channels/$(channelName)/sample", params; aws_config=aws_config
+        "GET",
+        "/channels/$(channelName)/sample",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -884,7 +1049,10 @@ function start_pipeline_reprocessing(
     pipelineName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotanalytics(
-        "POST", "/pipelines/$(pipelineName)/reprocessing"; aws_config=aws_config
+        "POST",
+        "/pipelines/$(pipelineName)/reprocessing";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_pipeline_reprocessing(
@@ -893,7 +1061,11 @@ function start_pipeline_reprocessing(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "POST", "/pipelines/$(pipelineName)/reprocessing", params; aws_config=aws_config
+        "POST",
+        "/pipelines/$(pipelineName)/reprocessing",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -915,6 +1087,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -934,6 +1107,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -956,6 +1130,7 @@ function untag_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -975,6 +1150,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -996,14 +1172,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retention period can't be updated if the channel's Amazon S3 storage is customer-managed.
 """
 function update_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("PUT", "/channels/$(channelName)"; aws_config=aws_config)
+    return iotanalytics(
+        "PUT",
+        "/channels/$(channelName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_channel(
     channelName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return iotanalytics("PUT", "/channels/$(channelName)", params; aws_config=aws_config)
+    return iotanalytics(
+        "PUT",
+        "/channels/$(channelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1039,6 +1226,7 @@ function update_dataset(
         "/datasets/$(datasetName)",
         Dict{String,Any}("actions" => actions);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_dataset(
@@ -1052,6 +1240,7 @@ function update_dataset(
         "/datasets/$(datasetName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("actions" => actions), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1077,7 +1266,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retention period can't be updated if the data store's Amazon S3 storage is customer-managed.
 """
 function update_datastore(datastoreName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotanalytics("PUT", "/datastores/$(datastoreName)"; aws_config=aws_config)
+    return iotanalytics(
+        "PUT",
+        "/datastores/$(datastoreName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_datastore(
     datastoreName,
@@ -1085,7 +1279,11 @@ function update_datastore(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iotanalytics(
-        "PUT", "/datastores/$(datastoreName)", params; aws_config=aws_config
+        "PUT",
+        "/datastores/$(datastoreName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1116,6 +1314,7 @@ function update_pipeline(
         "/pipelines/$(pipelineName)",
         Dict{String,Any}("pipelineActivities" => pipelineActivities);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_pipeline(
@@ -1133,5 +1332,6 @@ function update_pipeline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

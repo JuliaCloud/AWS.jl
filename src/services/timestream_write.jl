@@ -28,6 +28,7 @@ function create_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_
         "CreateDatabase",
         Dict{String,Any}("DatabaseName" => DatabaseName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_database(
@@ -41,6 +42,7 @@ function create_database(
             mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -72,6 +74,7 @@ function create_table(
         "CreateTable",
         Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_table(
@@ -90,6 +93,7 @@ function create_table(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -112,6 +116,7 @@ function delete_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_
         "DeleteDatabase",
         Dict{String,Any}("DatabaseName" => DatabaseName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_database(
@@ -125,6 +130,7 @@ function delete_database(
             mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -149,6 +155,7 @@ function delete_table(
         "DeleteTable",
         Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_table(
@@ -167,6 +174,7 @@ function delete_table(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -187,6 +195,7 @@ function describe_database(DatabaseName; aws_config::AbstractAWSConfig=global_aw
         "DescribeDatabase",
         Dict{String,Any}("DatabaseName" => DatabaseName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_database(
@@ -200,6 +209,7 @@ function describe_database(
             mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -218,12 +228,16 @@ APIs.
 
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write("DescribeEndpoints"; aws_config=aws_config)
+    return timestream_write(
+        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return timestream_write("DescribeEndpoints", params; aws_config=aws_config)
+    return timestream_write(
+        "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -246,6 +260,7 @@ function describe_table(
         "DescribeTable",
         Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_table(
@@ -264,6 +279,7 @@ function describe_table(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -283,12 +299,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument of a subsequent API invocation.
 """
 function list_databases(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write("ListDatabases"; aws_config=aws_config)
+    return timestream_write(
+        "ListDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return timestream_write("ListDatabases", params; aws_config=aws_config)
+    return timestream_write(
+        "ListDatabases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -307,12 +327,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument of a subsequent API invocation.
 """
 function list_tables(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write("ListTables"; aws_config=aws_config)
+    return timestream_write(
+        "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return timestream_write("ListTables", params; aws_config=aws_config)
+    return timestream_write(
+        "ListTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -333,6 +357,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -346,6 +371,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -368,6 +394,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -386,6 +413,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -409,6 +437,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -427,6 +456,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -456,6 +486,7 @@ function update_database(
         "UpdateDatabase",
         Dict{String,Any}("DatabaseName" => DatabaseName, "KmsKeyId" => KmsKeyId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_database(
@@ -474,6 +505,7 @@ function update_database(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -509,6 +541,7 @@ function update_table(
             "TableName" => TableName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_table(
@@ -532,6 +565,7 @@ function update_table(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -573,6 +607,7 @@ function write_records(
             "DatabaseName" => DatabaseName, "Records" => Records, "TableName" => TableName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function write_records(
@@ -596,5 +631,6 @@ function write_records(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

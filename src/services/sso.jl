@@ -33,6 +33,7 @@ function get_role_credentials(
                 Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_role_credentials(
@@ -59,6 +60,7 @@ function get_role_credentials(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -91,6 +93,7 @@ function list_account_roles(
                 Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_account_roles(
@@ -115,6 +118,7 @@ function list_account_roles(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -147,6 +151,7 @@ function list_accounts(
                 Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_accounts(
@@ -169,6 +174,7 @@ function list_accounts(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -192,6 +198,7 @@ function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws
                 Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function logout(
@@ -214,5 +221,6 @@ function logout(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

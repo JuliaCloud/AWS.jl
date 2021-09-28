@@ -15,12 +15,23 @@ This operation cancels a job. Jobs can be cancelled only when they are in the WA
 
 """
 function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return dataexchange("DELETE", "/v1/jobs/$(JobId)"; aws_config=aws_config)
+    return dataexchange(
+        "DELETE",
+        "/v1/jobs/$(JobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function cancel_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return dataexchange("DELETE", "/v1/jobs/$(JobId)", params; aws_config=aws_config)
+    return dataexchange(
+        "DELETE",
+        "/v1/jobs/$(JobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -53,6 +64,7 @@ function create_data_set(
             "AssetType" => AssetType, "Description" => Description, "Name" => Name
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_data_set(
@@ -75,6 +87,7 @@ function create_data_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -95,6 +108,7 @@ function create_job(Details, Type; aws_config::AbstractAWSConfig=global_aws_conf
         "/v1/jobs",
         Dict{String,Any}("Details" => Details, "Type" => Type);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_job(
@@ -112,6 +126,7 @@ function create_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -134,7 +149,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_revision(DataSetId; aws_config::AbstractAWSConfig=global_aws_config())
     return dataexchange(
-        "POST", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config
+        "POST",
+        "/v1/data-sets/$(DataSetId)/revisions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_revision(
@@ -143,7 +161,11 @@ function create_revision(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return dataexchange(
-        "POST", "/v1/data-sets/$(DataSetId)/revisions", params; aws_config=aws_config
+        "POST",
+        "/v1/data-sets/$(DataSetId)/revisions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -166,6 +188,7 @@ function delete_asset(
         "DELETE",
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_asset(
@@ -180,6 +203,7 @@ function delete_asset(
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -194,7 +218,12 @@ This operation deletes a data set.
 
 """
 function delete_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return dataexchange("DELETE", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
+    return dataexchange(
+        "DELETE",
+        "/v1/data-sets/$(DataSetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_data_set(
     DataSetId,
@@ -202,7 +231,11 @@ function delete_data_set(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return dataexchange(
-        "DELETE", "/v1/data-sets/$(DataSetId)", params; aws_config=aws_config
+        "DELETE",
+        "/v1/data-sets/$(DataSetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -224,6 +257,7 @@ function delete_revision(
         "DELETE",
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_revision(
@@ -237,6 +271,7 @@ function delete_revision(
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -259,6 +294,7 @@ function get_asset(
         "GET",
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_asset(
@@ -273,6 +309,7 @@ function get_asset(
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -287,14 +324,25 @@ This operation returns information about a data set.
 
 """
 function get_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return dataexchange("GET", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
+    return dataexchange(
+        "GET",
+        "/v1/data-sets/$(DataSetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_data_set(
     DataSetId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return dataexchange("GET", "/v1/data-sets/$(DataSetId)", params; aws_config=aws_config)
+    return dataexchange(
+        "GET",
+        "/v1/data-sets/$(DataSetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -308,12 +356,20 @@ This operation returns information about a job.
 
 """
 function get_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return dataexchange("GET", "/v1/jobs/$(JobId)"; aws_config=aws_config)
+    return dataexchange(
+        "GET", "/v1/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return dataexchange("GET", "/v1/jobs/$(JobId)", params; aws_config=aws_config)
+    return dataexchange(
+        "GET",
+        "/v1/jobs/$(JobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -331,7 +387,10 @@ function get_revision(
     DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return dataexchange(
-        "GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config
+        "GET",
+        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_revision(
@@ -345,6 +404,7 @@ function get_revision(
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -367,7 +427,10 @@ function list_data_set_revisions(
     DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return dataexchange(
-        "GET", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config
+        "GET",
+        "/v1/data-sets/$(DataSetId)/revisions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_data_set_revisions(
@@ -376,7 +439,11 @@ function list_data_set_revisions(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return dataexchange(
-        "GET", "/v1/data-sets/$(DataSetId)/revisions", params; aws_config=aws_config
+        "GET",
+        "/v1/data-sets/$(DataSetId)/revisions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -397,12 +464,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or ENTITLED to the account (for subscribers).
 """
 function list_data_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dataexchange("GET", "/v1/data-sets"; aws_config=aws_config)
+    return dataexchange(
+        "GET", "/v1/data-sets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_data_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return dataexchange("GET", "/v1/data-sets", params; aws_config=aws_config)
+    return dataexchange(
+        "GET",
+        "/v1/data-sets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -420,12 +495,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"revisionId"`: The unique identifier for a revision.
 """
 function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dataexchange("GET", "/v1/jobs"; aws_config=aws_config)
+    return dataexchange(
+        "GET", "/v1/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return dataexchange("GET", "/v1/jobs", params; aws_config=aws_config)
+    return dataexchange(
+        "GET", "/v1/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -451,6 +530,7 @@ function list_revision_assets(
         "GET",
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_revision_assets(
@@ -464,6 +544,7 @@ function list_revision_assets(
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -480,14 +561,25 @@ This operation lists the tags on the resource.
 function list_tags_for_resource(
     resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return dataexchange("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
+    return dataexchange(
+        "GET",
+        "/tags/$(resource-arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return dataexchange("GET", "/tags/$(resource-arn)", params; aws_config=aws_config)
+    return dataexchange(
+        "GET",
+        "/tags/$(resource-arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -501,12 +593,20 @@ This operation starts a job.
 
 """
 function start_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return dataexchange("PATCH", "/v1/jobs/$(JobId)"; aws_config=aws_config)
+    return dataexchange(
+        "PATCH", "/v1/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function start_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return dataexchange("PATCH", "/v1/jobs/$(JobId)", params; aws_config=aws_config)
+    return dataexchange(
+        "PATCH",
+        "/v1/jobs/$(JobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -526,6 +626,7 @@ function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_a
         "/tags/$(resource-arn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -539,6 +640,7 @@ function tag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -561,6 +663,7 @@ function untag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -574,6 +677,7 @@ function untag_resource(
         "/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -600,6 +704,7 @@ function update_asset(
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_asset(
@@ -615,6 +720,7 @@ function update_asset(
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -633,7 +739,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the data set.
 """
 function update_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config())
-    return dataexchange("PATCH", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
+    return dataexchange(
+        "PATCH",
+        "/v1/data-sets/$(DataSetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_data_set(
     DataSetId,
@@ -641,7 +752,11 @@ function update_data_set(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return dataexchange(
-        "PATCH", "/v1/data-sets/$(DataSetId)", params; aws_config=aws_config
+        "PATCH",
+        "/v1/data-sets/$(DataSetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -666,7 +781,10 @@ function update_revision(
     DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return dataexchange(
-        "PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config
+        "PATCH",
+        "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_revision(
@@ -680,5 +798,6 @@ function update_revision(
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

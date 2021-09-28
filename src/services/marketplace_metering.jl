@@ -31,6 +31,7 @@ function batch_meter_usage(
         "BatchMeterUsage",
         Dict{String,Any}("ProductCode" => ProductCode, "UsageRecords" => UsageRecords);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_meter_usage(
@@ -51,6 +52,7 @@ function batch_meter_usage(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -97,6 +99,7 @@ function meter_usage(
             "UsageDimension" => UsageDimension,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function meter_usage(
@@ -120,6 +123,7 @@ function meter_usage(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -172,6 +176,7 @@ function register_usage(
             "ProductCode" => ProductCode, "PublicKeyVersion" => PublicKeyVersion
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_usage(
@@ -192,6 +197,7 @@ function register_usage(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -217,6 +223,7 @@ function resolve_customer(
         "ResolveCustomer",
         Dict{String,Any}("RegistrationToken" => RegistrationToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function resolve_customer(
@@ -232,5 +239,6 @@ function resolve_customer(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

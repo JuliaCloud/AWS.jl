@@ -25,7 +25,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
     return finspace(
-        "POST", "/environment", Dict{String,Any}("name" => name); aws_config=aws_config
+        "POST",
+        "/environment",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_environment(
@@ -36,6 +40,7 @@ function create_environment(
         "/environment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -52,7 +57,12 @@ Delete an FinSpace environment.
 function delete_environment(
     environmentId; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return finspace("DELETE", "/environment/$(environmentId)"; aws_config=aws_config)
+    return finspace(
+        "DELETE",
+        "/environment/$(environmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_environment(
     environmentId,
@@ -60,7 +70,11 @@ function delete_environment(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return finspace(
-        "DELETE", "/environment/$(environmentId)", params; aws_config=aws_config
+        "DELETE",
+        "/environment/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -75,14 +89,25 @@ Returns the FinSpace environment object.
 
 """
 function get_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace("GET", "/environment/$(environmentId)"; aws_config=aws_config)
+    return finspace(
+        "GET",
+        "/environment/$(environmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_environment(
     environmentId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return finspace("GET", "/environment/$(environmentId)", params; aws_config=aws_config)
+    return finspace(
+        "GET",
+        "/environment/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -99,12 +124,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value from the response object of the previous page call.
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return finspace("GET", "/environment"; aws_config=aws_config)
+    return finspace(
+        "GET", "/environment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return finspace("GET", "/environment", params; aws_config=aws_config)
+    return finspace(
+        "GET",
+        "/environment",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -120,14 +153,25 @@ A list of all tags for a resource.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return finspace("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return finspace(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return finspace("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return finspace(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -147,6 +191,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -160,6 +205,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -183,6 +229,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -196,6 +243,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -220,12 +268,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_environment(
     environmentId; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return finspace("PUT", "/environment/$(environmentId)"; aws_config=aws_config)
+    return finspace(
+        "PUT",
+        "/environment/$(environmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_environment(
     environmentId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return finspace("PUT", "/environment/$(environmentId)", params; aws_config=aws_config)
+    return finspace(
+        "PUT",
+        "/environment/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end

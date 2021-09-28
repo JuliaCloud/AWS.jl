@@ -22,6 +22,7 @@ function create_anomaly_monitor(
         "CreateAnomalyMonitor",
         Dict{String,Any}("AnomalyMonitor" => AnomalyMonitor);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_anomaly_monitor(
@@ -35,6 +36,7 @@ function create_anomaly_monitor(
             mergewith(_merge, Dict{String,Any}("AnomalyMonitor" => AnomalyMonitor), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -57,6 +59,7 @@ function create_anomaly_subscription(
         "CreateAnomalySubscription",
         Dict{String,Any}("AnomalySubscription" => AnomalySubscription);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_anomaly_subscription(
@@ -74,6 +77,7 @@ function create_anomaly_subscription(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -102,6 +106,7 @@ function create_cost_category_definition(
         "CreateCostCategoryDefinition",
         Dict{String,Any}("Name" => Name, "RuleVersion" => RuleVersion, "Rules" => Rules);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_cost_category_definition(
@@ -123,6 +128,7 @@ function create_cost_category_definition(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -143,6 +149,7 @@ function delete_anomaly_monitor(
         "DeleteAnomalyMonitor",
         Dict{String,Any}("MonitorArn" => MonitorArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_anomaly_monitor(
@@ -156,6 +163,7 @@ function delete_anomaly_monitor(
             mergewith(_merge, Dict{String,Any}("MonitorArn" => MonitorArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -177,6 +185,7 @@ function delete_anomaly_subscription(
         "DeleteAnomalySubscription",
         Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_anomaly_subscription(
@@ -192,6 +201,7 @@ function delete_anomaly_subscription(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -213,6 +223,7 @@ function delete_cost_category_definition(
         "DeleteCostCategoryDefinition",
         Dict{String,Any}("CostCategoryArn" => CostCategoryArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_cost_category_definition(
@@ -228,6 +239,7 @@ function delete_cost_category_definition(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -255,6 +267,7 @@ function describe_cost_category_definition(
         "DescribeCostCategoryDefinition",
         Dict{String,Any}("CostCategoryArn" => CostCategoryArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_cost_category_definition(
@@ -270,6 +283,7 @@ function describe_cost_category_definition(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -302,6 +316,7 @@ function get_anomalies(DateInterval; aws_config::AbstractAWSConfig=global_aws_co
         "GetAnomalies",
         Dict{String,Any}("DateInterval" => DateInterval);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_anomalies(
@@ -315,6 +330,7 @@ function get_anomalies(
             mergewith(_merge, Dict{String,Any}("DateInterval" => DateInterval), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -334,12 +350,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page size.
 """
 function get_anomaly_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cost_explorer("GetAnomalyMonitors"; aws_config=aws_config)
+    return cost_explorer(
+        "GetAnomalyMonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_anomaly_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return cost_explorer("GetAnomalyMonitors", params; aws_config=aws_config)
+    return cost_explorer(
+        "GetAnomalyMonitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -359,12 +379,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubscriptionArnList"`: A list of cost anomaly subscription ARNs.
 """
 function get_anomaly_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cost_explorer("GetAnomalySubscriptions"; aws_config=aws_config)
+    return cost_explorer(
+        "GetAnomalySubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_anomaly_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return cost_explorer("GetAnomalySubscriptions", params; aws_config=aws_config)
+    return cost_explorer(
+        "GetAnomalySubscriptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -421,6 +448,7 @@ function get_cost_and_usage(
             "Granularity" => Granularity, "Metrics" => Metrics, "TimePeriod" => TimePeriod
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_cost_and_usage(
@@ -444,6 +472,7 @@ function get_cost_and_usage(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -506,6 +535,7 @@ function get_cost_and_usage_with_resources(
             "Filter" => Filter, "Granularity" => Granularity, "TimePeriod" => TimePeriod
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_cost_and_usage_with_resources(
@@ -529,6 +559,7 @@ function get_cost_and_usage_with_resources(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -569,6 +600,7 @@ function get_cost_categories(TimePeriod; aws_config::AbstractAWSConfig=global_aw
         "GetCostCategories",
         Dict{String,Any}("TimePeriod" => TimePeriod);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_cost_categories(
@@ -582,6 +614,7 @@ function get_cost_categories(
             mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -627,6 +660,7 @@ function get_cost_forecast(
             "Granularity" => Granularity, "Metric" => Metric, "TimePeriod" => TimePeriod
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_cost_forecast(
@@ -650,6 +684,7 @@ function get_cost_forecast(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -736,6 +771,7 @@ function get_dimension_values(
         "GetDimensionValues",
         Dict{String,Any}("Dimension" => Dimension, "TimePeriod" => TimePeriod);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_dimension_values(
@@ -754,6 +790,7 @@ function get_dimension_values(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -816,6 +853,7 @@ function get_reservation_coverage(
         "GetReservationCoverage",
         Dict{String,Any}("TimePeriod" => TimePeriod);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_reservation_coverage(
@@ -829,6 +867,7 @@ function get_reservation_coverage(
             mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -881,6 +920,7 @@ function get_reservation_purchase_recommendation(
         "GetReservationPurchaseRecommendation",
         Dict{String,Any}("Service" => Service);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_reservation_purchase_recommendation(
@@ -890,6 +930,7 @@ function get_reservation_purchase_recommendation(
         "GetReservationPurchaseRecommendation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Service" => Service), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -942,6 +983,7 @@ function get_reservation_utilization(
         "GetReservationUtilization",
         Dict{String,Any}("TimePeriod" => TimePeriod);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_reservation_utilization(
@@ -955,6 +997,7 @@ function get_reservation_utilization(
             mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -992,6 +1035,7 @@ function get_rightsizing_recommendation(
         "GetRightsizingRecommendation",
         Dict{String,Any}("Service" => Service);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_rightsizing_recommendation(
@@ -1001,6 +1045,7 @@ function get_rightsizing_recommendation(
         "GetRightsizingRecommendation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Service" => Service), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1051,6 +1096,7 @@ function get_savings_plans_coverage(
         "GetSavingsPlansCoverage",
         Dict{String,Any}("TimePeriod" => TimePeriod);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_savings_plans_coverage(
@@ -1064,6 +1110,7 @@ function get_savings_plans_coverage(
             mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1116,6 +1163,7 @@ function get_savings_plans_purchase_recommendation(
             "TermInYears" => TermInYears,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_savings_plans_purchase_recommendation(
@@ -1141,6 +1189,7 @@ function get_savings_plans_purchase_recommendation(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1180,6 +1229,7 @@ function get_savings_plans_utilization(
         "GetSavingsPlansUtilization",
         Dict{String,Any}("TimePeriod" => TimePeriod);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_savings_plans_utilization(
@@ -1193,6 +1243,7 @@ function get_savings_plans_utilization(
             mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1238,6 +1289,7 @@ function get_savings_plans_utilization_details(
         "GetSavingsPlansUtilizationDetails",
         Dict{String,Any}("TimePeriod" => TimePeriod);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_savings_plans_utilization_details(
@@ -1251,6 +1303,7 @@ function get_savings_plans_utilization_details(
             mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1287,7 +1340,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_tags(TimePeriod; aws_config::AbstractAWSConfig=global_aws_config())
     return cost_explorer(
-        "GetTags", Dict{String,Any}("TimePeriod" => TimePeriod); aws_config=aws_config
+        "GetTags",
+        Dict{String,Any}("TimePeriod" => TimePeriod);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_tags(
@@ -1301,6 +1357,7 @@ function get_tags(
             mergewith(_merge, Dict{String,Any}("TimePeriod" => TimePeriod), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1347,6 +1404,7 @@ function get_usage_forecast(
             "Granularity" => Granularity, "Metric" => Metric, "TimePeriod" => TimePeriod
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_usage_forecast(
@@ -1370,6 +1428,7 @@ function get_usage_forecast(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1393,12 +1452,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page size.
 """
 function list_cost_category_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cost_explorer("ListCostCategoryDefinitions"; aws_config=aws_config)
+    return cost_explorer(
+        "ListCostCategoryDefinitions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_cost_category_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return cost_explorer("ListCostCategoryDefinitions", params; aws_config=aws_config)
+    return cost_explorer(
+        "ListCostCategoryDefinitions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1420,6 +1488,7 @@ function provide_anomaly_feedback(
         "ProvideAnomalyFeedback",
         Dict{String,Any}("AnomalyId" => AnomalyId, "Feedback" => Feedback);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function provide_anomaly_feedback(
@@ -1438,6 +1507,7 @@ function provide_anomaly_feedback(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1462,6 +1532,7 @@ function update_anomaly_monitor(
         "UpdateAnomalyMonitor",
         Dict{String,Any}("MonitorArn" => MonitorArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_anomaly_monitor(
@@ -1475,6 +1546,7 @@ function update_anomaly_monitor(
             mergewith(_merge, Dict{String,Any}("MonitorArn" => MonitorArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1502,6 +1574,7 @@ function update_anomaly_subscription(
         "UpdateAnomalySubscription",
         Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_anomaly_subscription(
@@ -1517,6 +1590,7 @@ function update_anomaly_subscription(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1551,6 +1625,7 @@ function update_cost_category_definition(
             "Rules" => Rules,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_cost_category_definition(
@@ -1574,5 +1649,6 @@ function update_cost_category_definition(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

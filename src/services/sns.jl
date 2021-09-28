@@ -37,6 +37,7 @@ function add_permission(
             "TopicArn" => TopicArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_permission(
@@ -62,6 +63,7 @@ function add_permission(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -84,6 +86,7 @@ function check_if_phone_number_is_opted_out(
         "CheckIfPhoneNumberIsOptedOut",
         Dict{String,Any}("phoneNumber" => phoneNumber);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function check_if_phone_number_is_opted_out(
@@ -97,6 +100,7 @@ function check_if_phone_number_is_opted_out(
             mergewith(_merge, Dict{String,Any}("phoneNumber" => phoneNumber), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -127,6 +131,7 @@ function confirm_subscription(
         "ConfirmSubscription",
         Dict{String,Any}("Token" => Token, "TopicArn" => TopicArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function confirm_subscription(
@@ -143,6 +148,7 @@ function confirm_subscription(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -181,6 +187,7 @@ function create_platform_application(
             "Attributes" => Attributes, "Name" => Name, "Platform" => Platform
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_platform_application(
@@ -202,6 +209,7 @@ function create_platform_application(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -244,6 +252,7 @@ function create_platform_endpoint(
             "PlatformApplicationArn" => PlatformApplicationArn, "Token" => Token
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_platform_endpoint(
@@ -264,6 +273,7 @@ function create_platform_endpoint(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -295,6 +305,7 @@ function create_smssandbox_phone_number(
         "CreateSMSSandboxPhoneNumber",
         Dict{String,Any}("PhoneNumber" => PhoneNumber);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_smssandbox_phone_number(
@@ -308,6 +319,7 @@ function create_smssandbox_phone_number(
             mergewith(_merge, Dict{String,Any}("PhoneNumber" => PhoneNumber), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -352,7 +364,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you must have the sns:CreateTopic and sns:TagResource permissions.
 """
 function create_topic(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("CreateTopic", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+    return sns(
+        "CreateTopic",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function create_topic(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -361,6 +378,7 @@ function create_topic(
         "CreateTopic",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -382,6 +400,7 @@ function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteEndpoint",
         Dict{String,Any}("EndpointArn" => EndpointArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_endpoint(
@@ -395,6 +414,7 @@ function delete_endpoint(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -418,6 +438,7 @@ function delete_platform_application(
         "DeletePlatformApplication",
         Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_platform_application(
@@ -435,6 +456,7 @@ function delete_platform_application(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -461,6 +483,7 @@ function delete_smssandbox_phone_number(
         "DeleteSMSSandboxPhoneNumber",
         Dict{String,Any}("PhoneNumber" => PhoneNumber);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_smssandbox_phone_number(
@@ -474,6 +497,7 @@ function delete_smssandbox_phone_number(
             mergewith(_merge, Dict{String,Any}("PhoneNumber" => PhoneNumber), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -491,7 +515,10 @@ idempotent, so deleting a topic that does not exist does not result in an error.
 """
 function delete_topic(TopicArn; aws_config::AbstractAWSConfig=global_aws_config())
     return sns(
-        "DeleteTopic", Dict{String,Any}("TopicArn" => TopicArn); aws_config=aws_config
+        "DeleteTopic",
+        Dict{String,Any}("TopicArn" => TopicArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_topic(
@@ -505,6 +532,7 @@ function delete_topic(
             mergewith(_merge, Dict{String,Any}("TopicArn" => TopicArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -527,6 +555,7 @@ function get_endpoint_attributes(
         "GetEndpointAttributes",
         Dict{String,Any}("EndpointArn" => EndpointArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_endpoint_attributes(
@@ -540,6 +569,7 @@ function get_endpoint_attributes(
             mergewith(_merge, Dict{String,Any}("EndpointArn" => EndpointArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -563,6 +593,7 @@ function get_platform_application_attributes(
         "GetPlatformApplicationAttributes",
         Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_platform_application_attributes(
@@ -580,6 +611,7 @@ function get_platform_application_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -597,12 +629,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter, Amazon SNS returns all SMS attributes.
 """
 function get_smsattributes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("GetSMSAttributes"; aws_config=aws_config)
+    return sns("GetSMSAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_smsattributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return sns("GetSMSAttributes", params; aws_config=aws_config)
+    return sns(
+        "GetSMSAttributes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -619,12 +653,19 @@ messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide
 
 """
 function get_smssandbox_account_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("GetSMSSandboxAccountStatus"; aws_config=aws_config)
+    return sns(
+        "GetSMSSandboxAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_smssandbox_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return sns("GetSMSSandboxAccountStatus", params; aws_config=aws_config)
+    return sns(
+        "GetSMSSandboxAccountStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -644,6 +685,7 @@ function get_subscription_attributes(
         "GetSubscriptionAttributes",
         Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_subscription_attributes(
@@ -659,6 +701,7 @@ function get_subscription_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -678,6 +721,7 @@ function get_topic_attributes(TopicArn; aws_config::AbstractAWSConfig=global_aws
         "GetTopicAttributes",
         Dict{String,Any}("TopicArn" => TopicArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_topic_attributes(
@@ -691,6 +735,7 @@ function get_topic_attributes(
             mergewith(_merge, Dict{String,Any}("TopicArn" => TopicArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -724,6 +769,7 @@ function list_endpoints_by_platform_application(
         "ListEndpointsByPlatformApplication",
         Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_endpoints_by_platform_application(
@@ -741,6 +787,7 @@ function list_endpoints_by_platform_application(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -758,12 +805,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token that the previous ListOriginationNumbers request returns.
 """
 function list_origination_numbers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("ListOriginationNumbers"; aws_config=aws_config)
+    return sns(
+        "ListOriginationNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_origination_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return sns("ListOriginationNumbers", params; aws_config=aws_config)
+    return sns(
+        "ListOriginationNumbers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -783,12 +837,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action to retrieve additional records that are available after the first page of results.
 """
 function list_phone_numbers_opted_out(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("ListPhoneNumbersOptedOut"; aws_config=aws_config)
+    return sns(
+        "ListPhoneNumbersOptedOut"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_phone_numbers_opted_out(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return sns("ListPhoneNumbersOptedOut", params; aws_config=aws_config)
+    return sns(
+        "ListPhoneNumbersOptedOut",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -810,12 +871,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve additional records that are available after the first page results.
 """
 function list_platform_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("ListPlatformApplications"; aws_config=aws_config)
+    return sns(
+        "ListPlatformApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_platform_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return sns("ListPlatformApplications", params; aws_config=aws_config)
+    return sns(
+        "ListPlatformApplications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -837,12 +905,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token that the previous ListSMSSandboxPhoneNumbersInput request returns.
 """
 function list_smssandbox_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("ListSMSSandboxPhoneNumbers"; aws_config=aws_config)
+    return sns(
+        "ListSMSSandboxPhoneNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_smssandbox_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return sns("ListSMSSandboxPhoneNumbers", params; aws_config=aws_config)
+    return sns(
+        "ListSMSSandboxPhoneNumbers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -859,12 +934,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token returned by the previous ListSubscriptions request.
 """
 function list_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("ListSubscriptions"; aws_config=aws_config)
+    return sns("ListSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return sns("ListSubscriptions", params; aws_config=aws_config)
+    return sns(
+        "ListSubscriptions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -890,6 +967,7 @@ function list_subscriptions_by_topic(
         "ListSubscriptionsByTopic",
         Dict{String,Any}("TopicArn" => TopicArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_subscriptions_by_topic(
@@ -903,6 +981,7 @@ function list_subscriptions_by_topic(
             mergewith(_merge, Dict{String,Any}("TopicArn" => TopicArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -924,6 +1003,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -937,6 +1017,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -954,12 +1035,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token returned by the previous ListTopics request.
 """
 function list_topics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("ListTopics"; aws_config=aws_config)
+    return sns("ListTopics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_topics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return sns("ListTopics", params; aws_config=aws_config)
+    return sns("ListTopics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -978,6 +1059,7 @@ function opt_in_phone_number(phoneNumber; aws_config::AbstractAWSConfig=global_a
         "OptInPhoneNumber",
         Dict{String,Any}("phoneNumber" => phoneNumber);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function opt_in_phone_number(
@@ -991,6 +1073,7 @@ function opt_in_phone_number(
             mergewith(_merge, Dict{String,Any}("phoneNumber" => phoneNumber), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1072,7 +1155,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
 """
 function publish(Message; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("Publish", Dict{String,Any}("Message" => Message); aws_config=aws_config)
+    return sns(
+        "Publish",
+        Dict{String,Any}("Message" => Message);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function publish(
     Message, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1081,6 +1169,7 @@ function publish(
         "Publish",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Message" => Message), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1102,6 +1191,7 @@ function remove_permission(
         "RemovePermission",
         Dict{String,Any}("Label" => Label, "TopicArn" => TopicArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function remove_permission(
@@ -1118,6 +1208,7 @@ function remove_permission(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1149,6 +1240,7 @@ function set_endpoint_attributes(
         "SetEndpointAttributes",
         Dict{String,Any}("Attributes" => Attributes, "EndpointArn" => EndpointArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_endpoint_attributes(
@@ -1167,6 +1259,7 @@ function set_endpoint_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1209,6 +1302,7 @@ function set_platform_application_attributes(
             "Attributes" => Attributes, "PlatformApplicationArn" => PlatformApplicationArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_platform_application_attributes(
@@ -1230,6 +1324,7 @@ function set_platform_application_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1288,6 +1383,7 @@ function set_smsattributes(attributes; aws_config::AbstractAWSConfig=global_aws_
         "SetSMSAttributes",
         Dict{String,Any}("attributes" => attributes);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_smsattributes(
@@ -1301,6 +1397,7 @@ function set_smsattributes(
             mergewith(_merge, Dict{String,Any}("attributes" => attributes), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1344,6 +1441,7 @@ function set_subscription_attributes(
             "AttributeName" => AttributeName, "SubscriptionArn" => SubscriptionArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_subscription_attributes(
@@ -1364,6 +1462,7 @@ function set_subscription_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1404,6 +1503,7 @@ function set_topic_attributes(
         "SetTopicAttributes",
         Dict{String,Any}("AttributeName" => AttributeName, "TopicArn" => TopicArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_topic_attributes(
@@ -1422,6 +1522,7 @@ function set_topic_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1489,6 +1590,7 @@ function subscribe(Protocol, TopicArn; aws_config::AbstractAWSConfig=global_aws_
         "Subscribe",
         Dict{String,Any}("Protocol" => Protocol, "TopicArn" => TopicArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function subscribe(
@@ -1507,6 +1609,7 @@ function subscribe(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1533,6 +1636,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1551,6 +1655,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1574,6 +1679,7 @@ function unsubscribe(SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_c
         "Unsubscribe",
         Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function unsubscribe(
@@ -1589,6 +1695,7 @@ function unsubscribe(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1611,6 +1718,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -1629,6 +1737,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1659,6 +1768,7 @@ function verify_smssandbox_phone_number(
             "OneTimePassword" => OneTimePassword, "PhoneNumber" => PhoneNumber
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function verify_smssandbox_phone_number(
@@ -1679,5 +1789,6 @@ function verify_smssandbox_phone_number(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

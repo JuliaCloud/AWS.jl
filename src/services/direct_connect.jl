@@ -37,6 +37,7 @@ function accept_direct_connect_gateway_association_proposal(
             "proposalId" => proposalId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function accept_direct_connect_gateway_association_proposal(
@@ -60,6 +61,7 @@ function accept_direct_connect_gateway_association_proposal(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -102,6 +104,7 @@ function allocate_connection_on_interconnect(
             "vlan" => vlan,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function allocate_connection_on_interconnect(
@@ -129,6 +132,7 @@ function allocate_connection_on_interconnect(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -175,6 +179,7 @@ function allocate_hosted_connection(
             "vlan" => vlan,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function allocate_hosted_connection(
@@ -202,6 +207,7 @@ function allocate_hosted_connection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -236,6 +242,7 @@ function allocate_private_virtual_interface(
             "ownerAccount" => ownerAccount,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function allocate_private_virtual_interface(
@@ -260,6 +267,7 @@ function allocate_private_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -297,6 +305,7 @@ function allocate_public_virtual_interface(
             "ownerAccount" => ownerAccount,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function allocate_public_virtual_interface(
@@ -321,6 +330,7 @@ function allocate_public_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -357,6 +367,7 @@ function allocate_transit_virtual_interface(
             "ownerAccount" => ownerAccount,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function allocate_transit_virtual_interface(
@@ -381,6 +392,7 @@ function allocate_transit_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -413,6 +425,7 @@ function associate_connection_with_lag(
         "AssociateConnectionWithLag",
         Dict{String,Any}("connectionId" => connectionId, "lagId" => lagId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_connection_with_lag(
@@ -431,6 +444,7 @@ function associate_connection_with_lag(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -458,6 +472,7 @@ function associate_hosted_connection(
             "connectionId" => connectionId, "parentConnectionId" => parentConnectionId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_hosted_connection(
@@ -479,6 +494,7 @@ function associate_hosted_connection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -518,6 +534,7 @@ function associate_mac_sec_key(
         "AssociateMacSecKey",
         Dict{String,Any}("connectionId" => connectionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_mac_sec_key(
@@ -531,6 +548,7 @@ function associate_mac_sec_key(
             mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -563,6 +581,7 @@ function associate_virtual_interface(
             "connectionId" => connectionId, "virtualInterfaceId" => virtualInterfaceId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_virtual_interface(
@@ -584,6 +603,7 @@ function associate_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -604,6 +624,7 @@ function confirm_connection(connectionId; aws_config::AbstractAWSConfig=global_a
         "ConfirmConnection",
         Dict{String,Any}("connectionId" => connectionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function confirm_connection(
@@ -617,6 +638,7 @@ function confirm_connection(
             mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -644,6 +666,7 @@ function confirm_private_virtual_interface(
         "ConfirmPrivateVirtualInterface",
         Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function confirm_private_virtual_interface(
@@ -659,6 +682,7 @@ function confirm_private_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -681,6 +705,7 @@ function confirm_public_virtual_interface(
         "ConfirmPublicVirtualInterface",
         Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function confirm_public_virtual_interface(
@@ -696,6 +721,7 @@ function confirm_public_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -724,6 +750,7 @@ function confirm_transit_virtual_interface(
             "virtualInterfaceId" => virtualInterfaceId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function confirm_transit_virtual_interface(
@@ -745,6 +772,7 @@ function confirm_transit_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -768,12 +796,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
 function create_bgppeer(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect("CreateBGPPeer"; aws_config=aws_config)
+    return direct_connect(
+        "CreateBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function create_bgppeer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("CreateBGPPeer", params; aws_config=aws_config)
+    return direct_connect(
+        "CreateBGPPeer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -816,6 +848,7 @@ function create_connection(
             "location" => location,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_connection(
@@ -839,6 +872,7 @@ function create_connection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -869,6 +903,7 @@ function create_direct_connect_gateway(
         "CreateDirectConnectGateway",
         Dict{String,Any}("directConnectGatewayName" => directConnectGatewayName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_direct_connect_gateway(
@@ -886,6 +921,7 @@ function create_direct_connect_gateway(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -916,6 +952,7 @@ function create_direct_connect_gateway_association(
         "CreateDirectConnectGatewayAssociation",
         Dict{String,Any}("directConnectGatewayId" => directConnectGatewayId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_direct_connect_gateway_association(
@@ -933,6 +970,7 @@ function create_direct_connect_gateway_association(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -971,6 +1009,7 @@ function create_direct_connect_gateway_association_proposal(
             "gatewayId" => gatewayId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_direct_connect_gateway_association_proposal(
@@ -994,6 +1033,7 @@ function create_direct_connect_gateway_association_proposal(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1039,6 +1079,7 @@ function create_interconnect(
             "location" => location,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_interconnect(
@@ -1062,6 +1103,7 @@ function create_interconnect(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1122,6 +1164,7 @@ function create_lag(
             "numberOfConnections" => numberOfConnections,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_lag(
@@ -1147,6 +1190,7 @@ function create_lag(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1183,6 +1227,7 @@ function create_private_virtual_interface(
             "newPrivateVirtualInterface" => newPrivateVirtualInterface,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_private_virtual_interface(
@@ -1204,6 +1249,7 @@ function create_private_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1234,6 +1280,7 @@ function create_public_virtual_interface(
             "newPublicVirtualInterface" => newPublicVirtualInterface,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_public_virtual_interface(
@@ -1255,6 +1302,7 @@ function create_public_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1293,6 +1341,7 @@ function create_transit_virtual_interface(
             "newTransitVirtualInterface" => newTransitVirtualInterface,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_transit_virtual_interface(
@@ -1314,6 +1363,7 @@ function create_transit_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1333,12 +1383,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
 function delete_bgppeer(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect("DeleteBGPPeer"; aws_config=aws_config)
+    return direct_connect(
+        "DeleteBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_bgppeer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DeleteBGPPeer", params; aws_config=aws_config)
+    return direct_connect(
+        "DeleteBGPPeer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1358,6 +1412,7 @@ function delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aw
         "DeleteConnection",
         Dict{String,Any}("connectionId" => connectionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_connection(
@@ -1371,6 +1426,7 @@ function delete_connection(
             mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1393,6 +1449,7 @@ function delete_direct_connect_gateway(
         "DeleteDirectConnectGateway",
         Dict{String,Any}("directConnectGatewayId" => directConnectGatewayId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_direct_connect_gateway(
@@ -1410,6 +1467,7 @@ function delete_direct_connect_gateway(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1431,13 +1489,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_direct_connect_gateway_association(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DeleteDirectConnectGatewayAssociation"; aws_config=aws_config)
+    return direct_connect(
+        "DeleteDirectConnectGatewayAssociation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_direct_connect_gateway_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return direct_connect(
-        "DeleteDirectConnectGatewayAssociation", params; aws_config=aws_config
+        "DeleteDirectConnectGatewayAssociation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1459,6 +1524,7 @@ function delete_direct_connect_gateway_association_proposal(
         "DeleteDirectConnectGatewayAssociationProposal",
         Dict{String,Any}("proposalId" => proposalId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_direct_connect_gateway_association_proposal(
@@ -1472,6 +1538,7 @@ function delete_direct_connect_gateway_association_proposal(
             mergewith(_merge, Dict{String,Any}("proposalId" => proposalId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1492,6 +1559,7 @@ function delete_interconnect(
         "DeleteInterconnect",
         Dict{String,Any}("interconnectId" => interconnectId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_interconnect(
@@ -1505,6 +1573,7 @@ function delete_interconnect(
             mergewith(_merge, Dict{String,Any}("interconnectId" => interconnectId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1521,7 +1590,10 @@ active virtual interfaces or hosted connections.
 """
 function delete_lag(lagId; aws_config::AbstractAWSConfig=global_aws_config())
     return direct_connect(
-        "DeleteLag", Dict{String,Any}("lagId" => lagId); aws_config=aws_config
+        "DeleteLag",
+        Dict{String,Any}("lagId" => lagId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_lag(
@@ -1531,6 +1603,7 @@ function delete_lag(
         "DeleteLag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("lagId" => lagId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1551,6 +1624,7 @@ function delete_virtual_interface(
         "DeleteVirtualInterface",
         Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_virtual_interface(
@@ -1566,6 +1640,7 @@ function delete_virtual_interface(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1597,6 +1672,7 @@ function describe_connection_loa(
         "DescribeConnectionLoa",
         Dict{String,Any}("connectionId" => connectionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_connection_loa(
@@ -1610,6 +1686,7 @@ function describe_connection_loa(
             mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1624,12 +1701,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"connectionId"`: The ID of the connection.
 """
 function describe_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect("DescribeConnections"; aws_config=aws_config)
+    return direct_connect(
+        "DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeConnections", params; aws_config=aws_config)
+    return direct_connect(
+        "DescribeConnections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1651,6 +1735,7 @@ function describe_connections_on_interconnect(
         "DescribeConnectionsOnInterconnect",
         Dict{String,Any}("interconnectId" => interconnectId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_connections_on_interconnect(
@@ -1664,6 +1749,7 @@ function describe_connections_on_interconnect(
             mergewith(_merge, Dict{String,Any}("interconnectId" => interconnectId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1688,14 +1774,19 @@ function describe_direct_connect_gateway_association_proposals(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return direct_connect(
-        "DescribeDirectConnectGatewayAssociationProposals"; aws_config=aws_config
+        "DescribeDirectConnectGatewayAssociationProposals";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_direct_connect_gateway_association_proposals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return direct_connect(
-        "DescribeDirectConnectGatewayAssociationProposals", params; aws_config=aws_config
+        "DescribeDirectConnectGatewayAssociationProposals",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1727,13 +1818,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_direct_connect_gateway_associations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeDirectConnectGatewayAssociations"; aws_config=aws_config)
+    return direct_connect(
+        "DescribeDirectConnectGatewayAssociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_direct_connect_gateway_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return direct_connect(
-        "DescribeDirectConnectGatewayAssociations", params; aws_config=aws_config
+        "DescribeDirectConnectGatewayAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1760,13 +1858,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_direct_connect_gateway_attachments(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeDirectConnectGatewayAttachments"; aws_config=aws_config)
+    return direct_connect(
+        "DescribeDirectConnectGatewayAttachments";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_direct_connect_gateway_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return direct_connect(
-        "DescribeDirectConnectGatewayAttachments", params; aws_config=aws_config
+        "DescribeDirectConnectGatewayAttachments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1788,12 +1893,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_direct_connect_gateways(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeDirectConnectGateways"; aws_config=aws_config)
+    return direct_connect(
+        "DescribeDirectConnectGateways";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_direct_connect_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeDirectConnectGateways", params; aws_config=aws_config)
+    return direct_connect(
+        "DescribeDirectConnectGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1814,6 +1928,7 @@ function describe_hosted_connections(
         "DescribeHostedConnections",
         Dict{String,Any}("connectionId" => connectionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_hosted_connections(
@@ -1827,6 +1942,7 @@ function describe_hosted_connections(
             mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1858,6 +1974,7 @@ function describe_interconnect_loa(
         "DescribeInterconnectLoa",
         Dict{String,Any}("interconnectId" => interconnectId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_interconnect_loa(
@@ -1871,6 +1988,7 @@ function describe_interconnect_loa(
             mergewith(_merge, Dict{String,Any}("interconnectId" => interconnectId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1885,12 +2003,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"interconnectId"`: The ID of the interconnect.
 """
 function describe_interconnects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect("DescribeInterconnects"; aws_config=aws_config)
+    return direct_connect(
+        "DescribeInterconnects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_interconnects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeInterconnects", params; aws_config=aws_config)
+    return direct_connect(
+        "DescribeInterconnects",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1904,12 +2029,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"lagId"`: The ID of the LAG.
 """
 function describe_lags(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect("DescribeLags"; aws_config=aws_config)
+    return direct_connect(
+        "DescribeLags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_lags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeLags", params; aws_config=aws_config)
+    return direct_connect(
+        "DescribeLags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1938,6 +2067,7 @@ function describe_loa(connectionId; aws_config::AbstractAWSConfig=global_aws_con
         "DescribeLoa",
         Dict{String,Any}("connectionId" => connectionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_loa(
@@ -1951,6 +2081,7 @@ function describe_loa(
             mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1963,12 +2094,16 @@ be selected when calling CreateConnection or CreateInterconnect.
 
 """
 function describe_locations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect("DescribeLocations"; aws_config=aws_config)
+    return direct_connect(
+        "DescribeLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeLocations", params; aws_config=aws_config)
+    return direct_connect(
+        "DescribeLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1986,6 +2121,7 @@ function describe_tags(resourceArns; aws_config::AbstractAWSConfig=global_aws_co
         "DescribeTags",
         Dict{String,Any}("resourceArns" => resourceArns);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_tags(
@@ -1999,6 +2135,7 @@ function describe_tags(
             mergewith(_merge, Dict{String,Any}("resourceArns" => resourceArns), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2011,12 +2148,19 @@ Connect private virtual interfaces linked to a virtual private gateway.
 
 """
 function describe_virtual_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect("DescribeVirtualGateways"; aws_config=aws_config)
+    return direct_connect(
+        "DescribeVirtualGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_virtual_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeVirtualGateways", params; aws_config=aws_config)
+    return direct_connect(
+        "DescribeVirtualGateways",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2035,12 +2179,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
 function describe_virtual_interfaces(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect("DescribeVirtualInterfaces"; aws_config=aws_config)
+    return direct_connect(
+        "DescribeVirtualInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_virtual_interfaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("DescribeVirtualInterfaces", params; aws_config=aws_config)
+    return direct_connect(
+        "DescribeVirtualInterfaces",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2069,6 +2220,7 @@ function disassociate_connection_from_lag(
         "DisassociateConnectionFromLag",
         Dict{String,Any}("connectionId" => connectionId, "lagId" => lagId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_connection_from_lag(
@@ -2087,6 +2239,7 @@ function disassociate_connection_from_lag(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2111,6 +2264,7 @@ function disassociate_mac_sec_key(
         "DisassociateMacSecKey",
         Dict{String,Any}("connectionId" => connectionId, "secretARN" => secretARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_mac_sec_key(
@@ -2129,6 +2283,7 @@ function disassociate_mac_sec_key(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2153,12 +2308,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_virtual_interface_test_history(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("ListVirtualInterfaceTestHistory"; aws_config=aws_config)
+    return direct_connect(
+        "ListVirtualInterfaceTestHistory";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_virtual_interface_test_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("ListVirtualInterfaceTestHistory", params; aws_config=aws_config)
+    return direct_connect(
+        "ListVirtualInterfaceTestHistory",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2188,6 +2352,7 @@ function start_bgp_failover_test(
         "StartBgpFailoverTest",
         Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_bgp_failover_test(
@@ -2203,6 +2368,7 @@ function start_bgp_failover_test(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2223,6 +2389,7 @@ function stop_bgp_failover_test(
         "StopBgpFailoverTest",
         Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function stop_bgp_failover_test(
@@ -2238,6 +2405,7 @@ function stop_bgp_failover_test(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2259,6 +2427,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -2277,6 +2446,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2298,6 +2468,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -2316,6 +2487,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2342,6 +2514,7 @@ function update_connection(connectionId; aws_config::AbstractAWSConfig=global_aw
         "UpdateConnection",
         Dict{String,Any}("connectionId" => connectionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_connection(
@@ -2355,6 +2528,7 @@ function update_connection(
             mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2376,13 +2550,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_direct_connect_gateway_association(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return direct_connect("UpdateDirectConnectGatewayAssociation"; aws_config=aws_config)
+    return direct_connect(
+        "UpdateDirectConnectGatewayAssociation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_direct_connect_gateway_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return direct_connect(
-        "UpdateDirectConnectGatewayAssociation", params; aws_config=aws_config
+        "UpdateDirectConnectGatewayAssociation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2411,7 +2592,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_lag(lagId; aws_config::AbstractAWSConfig=global_aws_config())
     return direct_connect(
-        "UpdateLag", Dict{String,Any}("lagId" => lagId); aws_config=aws_config
+        "UpdateLag",
+        Dict{String,Any}("lagId" => lagId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_lag(
@@ -2421,6 +2605,7 @@ function update_lag(
         "UpdateLag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("lagId" => lagId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2451,6 +2636,7 @@ function update_virtual_interface_attributes(
         "UpdateVirtualInterfaceAttributes",
         Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_virtual_interface_attributes(
@@ -2466,5 +2652,6 @@ function update_virtual_interface_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

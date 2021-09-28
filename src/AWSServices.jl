@@ -601,6 +601,7 @@ const transfer = AWS.JSONService(
 const translate = AWS.JSONService(
     "translate", "translate", "2017-07-01", "1.1", "AWSShineFrontendService_20170701"
 )
+const voice_id = AWS.JSONService("voiceid", "voiceid", "2021-09-27", "1.0", "VoiceID")
 const waf = AWS.JSONService("waf", "waf", "2015-08-24", "1.1", "AWSWAF_20150824")
 const waf_regional = AWS.JSONService(
     "waf-regional", "waf-regional", "2016-11-28", "1.1", "AWSWAF_Regional_20161128"
@@ -609,6 +610,7 @@ const wafv2 = AWS.JSONService("wafv2", "wafv2", "2019-07-29", "1.1", "AWSWAF_201
 const wellarchitected = AWS.RestJSONService(
     "wellarchitected", "wellarchitected", "2020-03-31"
 )
+const wisdom = AWS.RestJSONService("wisdom", "wisdom", "2020-10-19")
 const workdocs = AWS.RestJSONService("workdocs", "workdocs", "2016-05-01")
 const worklink = AWS.RestJSONService("worklink", "worklink", "2018-09-25")
 const workmail = AWS.JSONService(

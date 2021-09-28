@@ -28,6 +28,7 @@ function list_realtime_contact_analysis_segments(
         "/realtime-contact-analysis/analysis-segments",
         Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_realtime_contact_analysis_segments(
@@ -47,5 +48,6 @@ function list_realtime_contact_analysis_segments(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

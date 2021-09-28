@@ -39,6 +39,7 @@ function complete_snapshot(
                 Dict{String,Any}("x-amz-ChangedBlocksCount" => x_amz_ChangedBlocksCount),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function complete_snapshot(
@@ -62,6 +63,7 @@ function complete_snapshot(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -87,6 +89,7 @@ function get_snapshot_block(
         "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
         Dict{String,Any}("blockToken" => blockToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_snapshot_block(
@@ -103,6 +106,7 @@ function get_snapshot_block(
             mergewith(_merge, Dict{String,Any}("blockToken" => blockToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -132,7 +136,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_changed_blocks(
     secondSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks"; aws_config=aws_config)
+    return ebs(
+        "GET",
+        "/snapshots/$(secondSnapshotId)/changedblocks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_changed_blocks(
     secondSnapshotId,
@@ -140,7 +149,11 @@ function list_changed_blocks(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return ebs(
-        "GET", "/snapshots/$(secondSnapshotId)/changedblocks", params; aws_config=aws_config
+        "GET",
+        "/snapshots/$(secondSnapshotId)/changedblocks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -161,14 +174,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will start from this block index or the next valid block index in the snapshot.
 """
 function list_snapshot_blocks(snapshotId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ebs("GET", "/snapshots/$(snapshotId)/blocks"; aws_config=aws_config)
+    return ebs(
+        "GET",
+        "/snapshots/$(snapshotId)/blocks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_snapshot_blocks(
     snapshotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return ebs("GET", "/snapshots/$(snapshotId)/blocks", params; aws_config=aws_config)
+    return ebs(
+        "GET",
+        "/snapshots/$(snapshotId)/blocks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -226,6 +250,7 @@ function put_snapshot_block(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_snapshot_block(
@@ -256,6 +281,7 @@ function put_snapshot_block(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -312,6 +338,7 @@ function start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=global_aws_con
         "/snapshots",
         Dict{String,Any}("VolumeSize" => VolumeSize, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_snapshot(
@@ -332,5 +359,6 @@ function start_snapshot(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

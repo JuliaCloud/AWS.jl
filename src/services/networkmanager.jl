@@ -40,6 +40,7 @@ function associate_customer_gateway(
             "CustomerGatewayArn" => CustomerGatewayArn, "DeviceId" => DeviceId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_customer_gateway(
@@ -62,6 +63,7 @@ function associate_customer_gateway(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -87,6 +89,7 @@ function associate_link(
         "/global-networks/$(globalNetworkId)/link-associations",
         Dict{String,Any}("DeviceId" => DeviceId, "LinkId" => LinkId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_link(
@@ -105,6 +108,7 @@ function associate_link(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -141,6 +145,7 @@ function associate_transit_gateway_connect_peer(
             "TransitGatewayConnectPeerArn" => TransitGatewayConnectPeerArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_transit_gateway_connect_peer(
@@ -164,6 +169,7 @@ function associate_transit_gateway_connect_peer(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -199,6 +205,7 @@ function create_connection(
         "/global-networks/$(globalNetworkId)/connections",
         Dict{String,Any}("ConnectedDeviceId" => ConnectedDeviceId, "DeviceId" => DeviceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_connection(
@@ -221,6 +228,7 @@ function create_connection(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -251,7 +259,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_device(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "POST", "/global-networks/$(globalNetworkId)/devices"; aws_config=aws_config
+        "POST",
+        "/global-networks/$(globalNetworkId)/devices";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_device(
@@ -260,7 +271,11 @@ function create_device(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return networkmanager(
-        "POST", "/global-networks/$(globalNetworkId)/devices", params; aws_config=aws_config
+        "POST",
+        "/global-networks/$(globalNetworkId)/devices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -277,12 +292,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 function create_global_network(; aws_config::AbstractAWSConfig=global_aws_config())
-    return networkmanager("POST", "/global-networks"; aws_config=aws_config)
+    return networkmanager(
+        "POST", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function create_global_network(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return networkmanager("POST", "/global-networks", params; aws_config=aws_config)
+    return networkmanager(
+        "POST",
+        "/global-networks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -314,6 +337,7 @@ function create_link(
         "/global-networks/$(globalNetworkId)/links",
         Dict{String,Any}("Bandwidth" => Bandwidth, "SiteId" => SiteId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_link(
@@ -334,6 +358,7 @@ function create_link(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -358,7 +383,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_site(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "POST", "/global-networks/$(globalNetworkId)/sites"; aws_config=aws_config
+        "POST",
+        "/global-networks/$(globalNetworkId)/sites";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_site(
@@ -367,7 +395,11 @@ function create_site(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return networkmanager(
-        "POST", "/global-networks/$(globalNetworkId)/sites", params; aws_config=aws_config
+        "POST",
+        "/global-networks/$(globalNetworkId)/sites",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -389,6 +421,7 @@ function delete_connection(
         "DELETE",
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_connection(
@@ -402,6 +435,7 @@ function delete_connection(
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -424,6 +458,7 @@ function delete_device(
         "DELETE",
         "/global-networks/$(globalNetworkId)/devices/$(deviceId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_device(
@@ -437,6 +472,7 @@ function delete_device(
         "/global-networks/$(globalNetworkId)/devices/$(deviceId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -455,7 +491,10 @@ function delete_global_network(
     globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return networkmanager(
-        "DELETE", "/global-networks/$(globalNetworkId)"; aws_config=aws_config
+        "DELETE",
+        "/global-networks/$(globalNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_global_network(
@@ -464,7 +503,11 @@ function delete_global_network(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return networkmanager(
-        "DELETE", "/global-networks/$(globalNetworkId)", params; aws_config=aws_config
+        "DELETE",
+        "/global-networks/$(globalNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -487,6 +530,7 @@ function delete_link(
         "DELETE",
         "/global-networks/$(globalNetworkId)/links/$(linkId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_link(
@@ -500,6 +544,7 @@ function delete_link(
         "/global-networks/$(globalNetworkId)/links/$(linkId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -521,6 +566,7 @@ function delete_site(
         "DELETE",
         "/global-networks/$(globalNetworkId)/sites/$(siteId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_site(
@@ -534,6 +580,7 @@ function delete_site(
         "/global-networks/$(globalNetworkId)/sites/$(siteId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -557,6 +604,7 @@ function deregister_transit_gateway(
         "DELETE",
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deregister_transit_gateway(
@@ -570,6 +618,7 @@ function deregister_transit_gateway(
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -589,12 +638,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function describe_global_networks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return networkmanager("GET", "/global-networks"; aws_config=aws_config)
+    return networkmanager(
+        "GET", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_global_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return networkmanager("GET", "/global-networks", params; aws_config=aws_config)
+    return networkmanager(
+        "GET",
+        "/global-networks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -616,6 +673,7 @@ function disassociate_customer_gateway(
         "DELETE",
         "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_customer_gateway(
@@ -629,6 +687,7 @@ function disassociate_customer_gateway(
         "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -653,6 +712,7 @@ function disassociate_link(
         "/global-networks/$(globalNetworkId)/link-associations",
         Dict{String,Any}("deviceId" => deviceId, "linkId" => linkId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_link(
@@ -671,6 +731,7 @@ function disassociate_link(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -695,6 +756,7 @@ function disassociate_transit_gateway_connect_peer(
         "DELETE",
         "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_transit_gateway_connect_peer(
@@ -708,6 +770,7 @@ function disassociate_transit_gateway_connect_peer(
         "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -729,7 +792,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_connections(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "GET", "/global-networks/$(globalNetworkId)/connections"; aws_config=aws_config
+        "GET",
+        "/global-networks/$(globalNetworkId)/connections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_connections(
@@ -742,6 +808,7 @@ function get_connections(
         "/global-networks/$(globalNetworkId)/connections",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -769,6 +836,7 @@ function get_customer_gateway_associations(
         "GET",
         "/global-networks/$(globalNetworkId)/customer-gateway-associations";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_customer_gateway_associations(
@@ -781,6 +849,7 @@ function get_customer_gateway_associations(
         "/global-networks/$(globalNetworkId)/customer-gateway-associations",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -802,7 +871,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_devices(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "GET", "/global-networks/$(globalNetworkId)/devices"; aws_config=aws_config
+        "GET",
+        "/global-networks/$(globalNetworkId)/devices";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_devices(
@@ -811,7 +883,11 @@ function get_devices(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return networkmanager(
-        "GET", "/global-networks/$(globalNetworkId)/devices", params; aws_config=aws_config
+        "GET",
+        "/global-networks/$(globalNetworkId)/devices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -839,6 +915,7 @@ function get_link_associations(
         "GET",
         "/global-networks/$(globalNetworkId)/link-associations";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_link_associations(
@@ -851,6 +928,7 @@ function get_link_associations(
         "/global-networks/$(globalNetworkId)/link-associations",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -876,7 +954,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_links(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "GET", "/global-networks/$(globalNetworkId)/links"; aws_config=aws_config
+        "GET",
+        "/global-networks/$(globalNetworkId)/links";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_links(
@@ -885,7 +966,11 @@ function get_links(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return networkmanager(
-        "GET", "/global-networks/$(globalNetworkId)/links", params; aws_config=aws_config
+        "GET",
+        "/global-networks/$(globalNetworkId)/links",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -906,7 +991,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_sites(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
-        "GET", "/global-networks/$(globalNetworkId)/sites"; aws_config=aws_config
+        "GET",
+        "/global-networks/$(globalNetworkId)/sites";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_sites(
@@ -915,7 +1003,11 @@ function get_sites(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return networkmanager(
-        "GET", "/global-networks/$(globalNetworkId)/sites", params; aws_config=aws_config
+        "GET",
+        "/global-networks/$(globalNetworkId)/sites",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -943,6 +1035,7 @@ function get_transit_gateway_connect_peer_associations(
         "GET",
         "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_transit_gateway_connect_peer_associations(
@@ -955,6 +1048,7 @@ function get_transit_gateway_connect_peer_associations(
         "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -981,6 +1075,7 @@ function get_transit_gateway_registrations(
         "GET",
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_transit_gateway_registrations(
@@ -993,6 +1088,7 @@ function get_transit_gateway_registrations(
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1009,14 +1105,25 @@ Lists the tags for a specified resource.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return networkmanager("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return networkmanager(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return networkmanager("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return networkmanager(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1041,6 +1148,7 @@ function register_transit_gateway(
         "/global-networks/$(globalNetworkId)/transit-gateway-registrations",
         Dict{String,Any}("TransitGatewayArn" => TransitGatewayArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_transit_gateway(
@@ -1058,6 +1166,7 @@ function register_transit_gateway(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1078,6 +1187,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1091,6 +1201,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1113,6 +1224,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -1126,6 +1238,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1154,6 +1267,7 @@ function update_connection(
         "PATCH",
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_connection(
@@ -1167,6 +1281,7 @@ function update_connection(
         "/global-networks/$(globalNetworkId)/connections/$(connectionId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1202,6 +1317,7 @@ function update_device(
         "PATCH",
         "/global-networks/$(globalNetworkId)/devices/$(deviceId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_device(
@@ -1215,6 +1331,7 @@ function update_device(
         "/global-networks/$(globalNetworkId)/devices/$(deviceId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1237,7 +1354,10 @@ function update_global_network(
     globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return networkmanager(
-        "PATCH", "/global-networks/$(globalNetworkId)"; aws_config=aws_config
+        "PATCH",
+        "/global-networks/$(globalNetworkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_global_network(
@@ -1246,7 +1366,11 @@ function update_global_network(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return networkmanager(
-        "PATCH", "/global-networks/$(globalNetworkId)", params; aws_config=aws_config
+        "PATCH",
+        "/global-networks/$(globalNetworkId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1277,6 +1401,7 @@ function update_link(
         "PATCH",
         "/global-networks/$(globalNetworkId)/links/$(linkId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_link(
@@ -1290,6 +1415,7 @@ function update_link(
         "/global-networks/$(globalNetworkId)/links/$(linkId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1318,6 +1444,7 @@ function update_site(
         "PATCH",
         "/global-networks/$(globalNetworkId)/sites/$(siteId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_site(
@@ -1331,5 +1458,6 @@ function update_site(
         "/global-networks/$(globalNetworkId)/sites/$(siteId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

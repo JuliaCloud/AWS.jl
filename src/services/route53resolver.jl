@@ -52,6 +52,7 @@ function associate_firewall_rule_group(
             "VpcId" => VpcId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_firewall_rule_group(
@@ -79,6 +80,7 @@ function associate_firewall_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -108,6 +110,7 @@ function associate_resolver_endpoint_ip_address(
             "IpAddress" => IpAddress, "ResolverEndpointId" => ResolverEndpointId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_resolver_endpoint_ip_address(
@@ -128,6 +131,7 @@ function associate_resolver_endpoint_ip_address(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -160,6 +164,7 @@ function associate_resolver_query_log_config(
             "ResourceId" => ResourceId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_resolver_query_log_config(
@@ -181,6 +186,7 @@ function associate_resolver_query_log_config(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -210,6 +216,7 @@ function associate_resolver_rule(
         "AssociateResolverRule",
         Dict{String,Any}("ResolverRuleId" => ResolverRuleId, "VPCId" => VPCId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_resolver_rule(
@@ -228,6 +235,7 @@ function associate_resolver_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -257,6 +265,7 @@ function create_firewall_domain_list(
         "CreateFirewallDomainList",
         Dict{String,Any}("CreatorRequestId" => CreatorRequestId, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_firewall_domain_list(
@@ -275,6 +284,7 @@ function create_firewall_domain_list(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -344,6 +354,7 @@ function create_firewall_rule(
             "Priority" => Priority,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_firewall_rule(
@@ -373,6 +384,7 @@ function create_firewall_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -401,6 +413,7 @@ function create_firewall_rule_group(
         "CreateFirewallRuleGroup",
         Dict{String,Any}("CreatorRequestId" => CreatorRequestId, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_firewall_rule_group(
@@ -419,6 +432,7 @@ function create_firewall_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -470,6 +484,7 @@ function create_resolver_endpoint(
             "SecurityGroupIds" => SecurityGroupIds,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resolver_endpoint(
@@ -495,6 +510,7 @@ function create_resolver_endpoint(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -545,6 +561,7 @@ function create_resolver_query_log_config(
             "Name" => Name,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resolver_query_log_config(
@@ -568,6 +585,7 @@ function create_resolver_query_log_config(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -621,6 +639,7 @@ function create_resolver_rule(
             "RuleType" => RuleType,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resolver_rule(
@@ -644,6 +663,7 @@ function create_resolver_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -664,6 +684,7 @@ function delete_firewall_domain_list(
         "DeleteFirewallDomainList",
         Dict{String,Any}("FirewallDomainListId" => FirewallDomainListId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_firewall_domain_list(
@@ -681,6 +702,7 @@ function delete_firewall_domain_list(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -708,6 +730,7 @@ function delete_firewall_rule(
             "FirewallRuleGroupId" => FirewallRuleGroupId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_firewall_rule(
@@ -729,6 +752,7 @@ function delete_firewall_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -750,6 +774,7 @@ function delete_firewall_rule_group(
         "DeleteFirewallRuleGroup",
         Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_firewall_rule_group(
@@ -767,6 +792,7 @@ function delete_firewall_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -790,6 +816,7 @@ function delete_resolver_endpoint(
         "DeleteResolverEndpoint",
         Dict{String,Any}("ResolverEndpointId" => ResolverEndpointId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_resolver_endpoint(
@@ -805,6 +832,7 @@ function delete_resolver_endpoint(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -836,6 +864,7 @@ function delete_resolver_query_log_config(
         "DeleteResolverQueryLogConfig",
         Dict{String,Any}("ResolverQueryLogConfigId" => ResolverQueryLogConfigId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_resolver_query_log_config(
@@ -853,6 +882,7 @@ function delete_resolver_query_log_config(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -875,6 +905,7 @@ function delete_resolver_rule(
         "DeleteResolverRule",
         Dict{String,Any}("ResolverRuleId" => ResolverRuleId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_resolver_rule(
@@ -888,6 +919,7 @@ function delete_resolver_rule(
             mergewith(_merge, Dict{String,Any}("ResolverRuleId" => ResolverRuleId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -910,6 +942,7 @@ function disassociate_firewall_rule_group(
             "FirewallRuleGroupAssociationId" => FirewallRuleGroupAssociationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_firewall_rule_group(
@@ -929,6 +962,7 @@ function disassociate_firewall_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -956,6 +990,7 @@ function disassociate_resolver_endpoint_ip_address(
             "IpAddress" => IpAddress, "ResolverEndpointId" => ResolverEndpointId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_resolver_endpoint_ip_address(
@@ -976,6 +1011,7 @@ function disassociate_resolver_endpoint_ip_address(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1007,6 +1043,7 @@ function disassociate_resolver_query_log_config(
             "ResourceId" => ResourceId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_resolver_query_log_config(
@@ -1028,6 +1065,7 @@ function disassociate_resolver_query_log_config(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1052,6 +1090,7 @@ function disassociate_resolver_rule(
         "DisassociateResolverRule",
         Dict{String,Any}("ResolverRuleId" => ResolverRuleId, "VPCId" => VPCId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_resolver_rule(
@@ -1070,6 +1109,7 @@ function disassociate_resolver_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1089,6 +1129,7 @@ function get_firewall_config(ResourceId; aws_config::AbstractAWSConfig=global_aw
         "GetFirewallConfig",
         Dict{String,Any}("ResourceId" => ResourceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_firewall_config(
@@ -1102,6 +1143,7 @@ function get_firewall_config(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1122,6 +1164,7 @@ function get_firewall_domain_list(
         "GetFirewallDomainList",
         Dict{String,Any}("FirewallDomainListId" => FirewallDomainListId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_firewall_domain_list(
@@ -1139,6 +1182,7 @@ function get_firewall_domain_list(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1159,6 +1203,7 @@ function get_firewall_rule_group(
         "GetFirewallRuleGroup",
         Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_firewall_rule_group(
@@ -1176,6 +1221,7 @@ function get_firewall_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1200,6 +1246,7 @@ function get_firewall_rule_group_association(
             "FirewallRuleGroupAssociationId" => FirewallRuleGroupAssociationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_firewall_rule_group_association(
@@ -1219,6 +1266,7 @@ function get_firewall_rule_group_association(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1238,7 +1286,10 @@ function get_firewall_rule_group_policy(
     Arn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53resolver(
-        "GetFirewallRuleGroupPolicy", Dict{String,Any}("Arn" => Arn); aws_config=aws_config
+        "GetFirewallRuleGroupPolicy",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_firewall_rule_group_policy(
@@ -1248,6 +1299,7 @@ function get_firewall_rule_group_policy(
         "GetFirewallRuleGroupPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1268,6 +1320,7 @@ function get_resolver_dnssec_config(
         "GetResolverDnssecConfig",
         Dict{String,Any}("ResourceId" => ResourceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resolver_dnssec_config(
@@ -1281,6 +1334,7 @@ function get_resolver_dnssec_config(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1303,6 +1357,7 @@ function get_resolver_endpoint(
         "GetResolverEndpoint",
         Dict{String,Any}("ResolverEndpointId" => ResolverEndpointId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resolver_endpoint(
@@ -1318,6 +1373,7 @@ function get_resolver_endpoint(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1341,6 +1397,7 @@ function get_resolver_query_log_config(
         "GetResolverQueryLogConfig",
         Dict{String,Any}("ResolverQueryLogConfigId" => ResolverQueryLogConfigId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resolver_query_log_config(
@@ -1358,6 +1415,7 @@ function get_resolver_query_log_config(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1383,6 +1441,7 @@ function get_resolver_query_log_config_association(
             "ResolverQueryLogConfigAssociationId" => ResolverQueryLogConfigAssociationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resolver_query_log_config_association(
@@ -1403,6 +1462,7 @@ function get_resolver_query_log_config_association(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1426,6 +1486,7 @@ function get_resolver_query_log_config_policy(
         "GetResolverQueryLogConfigPolicy",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resolver_query_log_config_policy(
@@ -1435,6 +1496,7 @@ function get_resolver_query_log_config_policy(
         "GetResolverQueryLogConfigPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1457,6 +1519,7 @@ function get_resolver_rule(
         "GetResolverRule",
         Dict{String,Any}("ResolverRuleId" => ResolverRuleId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resolver_rule(
@@ -1470,6 +1533,7 @@ function get_resolver_rule(
             mergewith(_merge, Dict{String,Any}("ResolverRuleId" => ResolverRuleId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1492,6 +1556,7 @@ function get_resolver_rule_association(
         "GetResolverRuleAssociation",
         Dict{String,Any}("ResolverRuleAssociationId" => ResolverRuleAssociationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resolver_rule_association(
@@ -1509,6 +1574,7 @@ function get_resolver_rule_association(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1527,7 +1593,10 @@ to use.
 """
 function get_resolver_rule_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config())
     return route53resolver(
-        "GetResolverRulePolicy", Dict{String,Any}("Arn" => Arn); aws_config=aws_config
+        "GetResolverRulePolicy",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_resolver_rule_policy(
@@ -1537,6 +1606,7 @@ function get_resolver_rule_policy(
         "GetResolverRulePolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1576,6 +1646,7 @@ function import_firewall_domains(
             "Operation" => Operation,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function import_firewall_domains(
@@ -1599,6 +1670,7 @@ function import_firewall_domains(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1623,12 +1695,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior request in your next request.
 """
 function list_firewall_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver("ListFirewallConfigs"; aws_config=aws_config)
+    return route53resolver(
+        "ListFirewallConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_firewall_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListFirewallConfigs", params; aws_config=aws_config)
+    return route53resolver(
+        "ListFirewallConfigs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1653,12 +1732,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior request in your next request.
 """
 function list_firewall_domain_lists(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver("ListFirewallDomainLists"; aws_config=aws_config)
+    return route53resolver(
+        "ListFirewallDomainLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_firewall_domain_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListFirewallDomainLists", params; aws_config=aws_config)
+    return route53resolver(
+        "ListFirewallDomainLists",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1691,6 +1777,7 @@ function list_firewall_domains(
         "ListFirewallDomains",
         Dict{String,Any}("FirewallDomainListId" => FirewallDomainListId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_firewall_domains(
@@ -1708,6 +1795,7 @@ function list_firewall_domains(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1745,13 +1833,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_firewall_rule_group_associations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListFirewallRuleGroupAssociations"; aws_config=aws_config)
+    return route53resolver(
+        "ListFirewallRuleGroupAssociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_firewall_rule_group_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53resolver(
-        "ListFirewallRuleGroupAssociations", params; aws_config=aws_config
+        "ListFirewallRuleGroupAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1776,12 +1871,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior request in your next request.
 """
 function list_firewall_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver("ListFirewallRuleGroups"; aws_config=aws_config)
+    return route53resolver(
+        "ListFirewallRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_firewall_rule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListFirewallRuleGroups", params; aws_config=aws_config)
+    return route53resolver(
+        "ListFirewallRuleGroups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1823,6 +1925,7 @@ function list_firewall_rules(
         "ListFirewallRules",
         Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_firewall_rules(
@@ -1840,6 +1943,7 @@ function list_firewall_rules(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1863,12 +1967,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that value for NextToken in the request.
 """
 function list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver("ListResolverDnssecConfigs"; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverDnssecConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_resolver_dnssec_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListResolverDnssecConfigs", params; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverDnssecConfigs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1898,6 +2009,7 @@ function list_resolver_endpoint_ip_addresses(
         "ListResolverEndpointIpAddresses",
         Dict{String,Any}("ResolverEndpointId" => ResolverEndpointId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_resolver_endpoint_ip_addresses(
@@ -1913,6 +2025,7 @@ function list_resolver_endpoint_ip_addresses(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1938,12 +2051,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of NextToken from the previous response.
 """
 function list_resolver_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver("ListResolverEndpoints"; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_resolver_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListResolverEndpoints", params; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1993,13 +2113,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_resolver_query_log_config_associations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListResolverQueryLogConfigAssociations"; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverQueryLogConfigAssociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_resolver_query_log_config_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53resolver(
-        "ListResolverQueryLogConfigAssociations", params; aws_config=aws_config
+        "ListResolverQueryLogConfigAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2053,12 +2180,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_resolver_query_log_configs(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListResolverQueryLogConfigs"; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverQueryLogConfigs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_resolver_query_log_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListResolverQueryLogConfigs", params; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverQueryLogConfigs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2085,12 +2221,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_resolver_rule_associations(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListResolverRuleAssociations"; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverRuleAssociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_resolver_rule_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListResolverRuleAssociations", params; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverRuleAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2114,12 +2259,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response.
 """
 function list_resolver_rules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver("ListResolverRules"; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_resolver_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return route53resolver("ListResolverRules", params; aws_config=aws_config)
+    return route53resolver(
+        "ListResolverRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2149,6 +2298,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -2162,6 +2312,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2188,6 +2339,7 @@ function put_firewall_rule_group_policy(
             "Arn" => Arn, "FirewallRuleGroupPolicy" => FirewallRuleGroupPolicy
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_firewall_rule_group_policy(
@@ -2208,6 +2360,7 @@ function put_firewall_rule_group_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2242,6 +2395,7 @@ function put_resolver_query_log_config_policy(
             "Arn" => Arn, "ResolverQueryLogConfigPolicy" => ResolverQueryLogConfigPolicy
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_resolver_query_log_config_policy(
@@ -2263,6 +2417,7 @@ function put_resolver_query_log_config_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2294,6 +2449,7 @@ function put_resolver_rule_policy(
         "PutResolverRulePolicy",
         Dict{String,Any}("Arn" => Arn, "ResolverRulePolicy" => ResolverRulePolicy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_resolver_rule_policy(
@@ -2312,6 +2468,7 @@ function put_resolver_rule_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2334,6 +2491,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -2352,6 +2510,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2376,6 +2535,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -2394,6 +2554,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2425,6 +2586,7 @@ function update_firewall_config(
             "FirewallFailOpen" => FirewallFailOpen, "ResourceId" => ResourceId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_firewall_config(
@@ -2445,6 +2607,7 @@ function update_firewall_config(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2481,6 +2644,7 @@ function update_firewall_domains(
             "Operation" => Operation,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_firewall_domains(
@@ -2504,6 +2668,7 @@ function update_firewall_domains(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2556,6 +2721,7 @@ function update_firewall_rule(
             "FirewallRuleGroupId" => FirewallRuleGroupId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_firewall_rule(
@@ -2577,6 +2743,7 @@ function update_firewall_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2612,6 +2779,7 @@ function update_firewall_rule_group_association(
             "FirewallRuleGroupAssociationId" => FirewallRuleGroupAssociationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_firewall_rule_group_association(
@@ -2631,6 +2799,7 @@ function update_firewall_rule_group_association(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2656,6 +2825,7 @@ function update_resolver_dnssec_config(
         "UpdateResolverDnssecConfig",
         Dict{String,Any}("ResourceId" => ResourceId, "Validation" => Validation);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_resolver_dnssec_config(
@@ -2674,6 +2844,7 @@ function update_resolver_dnssec_config(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2697,6 +2868,7 @@ function update_resolver_endpoint(
         "UpdateResolverEndpoint",
         Dict{String,Any}("ResolverEndpointId" => ResolverEndpointId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_resolver_endpoint(
@@ -2712,6 +2884,7 @@ function update_resolver_endpoint(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2734,6 +2907,7 @@ function update_resolver_rule(
         "UpdateResolverRule",
         Dict{String,Any}("Config" => Config, "ResolverRuleId" => ResolverRuleId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_resolver_rule(
@@ -2752,5 +2926,6 @@ function update_resolver_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -28,6 +28,7 @@ function batch_delete_document(
         "BatchDeleteDocument",
         Dict{String,Any}("DocumentIdList" => DocumentIdList, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_delete_document(
@@ -46,6 +47,7 @@ function batch_delete_document(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -76,6 +78,7 @@ function batch_get_document_status(
         "BatchGetDocumentStatus",
         Dict{String,Any}("DocumentInfoList" => DocumentInfoList, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_get_document_status(
@@ -96,6 +99,7 @@ function batch_get_document_status(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -135,6 +139,7 @@ function batch_put_document(
         "BatchPutDocument",
         Dict{String,Any}("Documents" => Documents, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function batch_put_document(
@@ -153,6 +158,7 @@ function batch_put_document(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -175,6 +181,7 @@ function clear_query_suggestions(IndexId; aws_config::AbstractAWSConfig=global_a
         "ClearQuerySuggestions",
         Dict{String,Any}("IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function clear_query_suggestions(
@@ -184,6 +191,7 @@ function clear_query_suggestions(
         "ClearQuerySuggestions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -237,6 +245,7 @@ function create_data_source(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_data_source(
@@ -261,6 +270,7 @@ function create_data_source(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -303,6 +313,7 @@ function create_faq(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_faq(
@@ -329,6 +340,7 @@ function create_faq(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -379,6 +391,7 @@ function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_co
             "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_index(
@@ -399,6 +412,7 @@ function create_index(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -448,6 +462,7 @@ function create_query_suggestions_block_list(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_query_suggestions_block_list(
@@ -474,6 +489,7 @@ function create_query_suggestions_block_list(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -512,6 +528,7 @@ function create_thesaurus(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_thesaurus(
@@ -538,6 +555,7 @@ function create_thesaurus(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -560,6 +578,7 @@ function delete_data_source(Id, IndexId; aws_config::AbstractAWSConfig=global_aw
         "DeleteDataSource",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_data_source(
@@ -574,6 +593,7 @@ function delete_data_source(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -593,6 +613,7 @@ function delete_faq(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config
         "DeleteFaq",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_faq(
@@ -607,6 +628,7 @@ function delete_faq(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -623,7 +645,12 @@ DescribeIndex operation is set to DELETING.
 
 """
 function delete_index(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra("DeleteIndex", Dict{String,Any}("Id" => Id); aws_config=aws_config)
+    return kendra(
+        "DeleteIndex",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_index(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -632,6 +659,7 @@ function delete_index(
         "DeleteIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -681,6 +709,7 @@ function delete_principal_mapping(
         "DeletePrincipalMapping",
         Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_principal_mapping(
@@ -697,6 +726,7 @@ function delete_principal_mapping(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -720,6 +750,7 @@ function delete_query_suggestions_block_list(
         "DeleteQuerySuggestionsBlockList",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_query_suggestions_block_list(
@@ -734,6 +765,7 @@ function delete_query_suggestions_block_list(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -753,6 +785,7 @@ function delete_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_
         "DeleteThesaurus",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_thesaurus(
@@ -767,6 +800,7 @@ function delete_thesaurus(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -788,6 +822,7 @@ function describe_data_source(
         "DescribeDataSource",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_data_source(
@@ -802,6 +837,7 @@ function describe_data_source(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -821,6 +857,7 @@ function describe_faq(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_conf
         "DescribeFaq",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_faq(
@@ -835,6 +872,7 @@ function describe_faq(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -849,7 +887,12 @@ Describes an existing Amazon Kendra index
 
 """
 function describe_index(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra("DescribeIndex", Dict{String,Any}("Id" => Id); aws_config=aws_config)
+    return kendra(
+        "DescribeIndex",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_index(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -858,6 +901,7 @@ function describe_index(
         "DescribeIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -889,6 +933,7 @@ function describe_principal_mapping(
         "DescribePrincipalMapping",
         Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_principal_mapping(
@@ -905,6 +950,7 @@ function describe_principal_mapping(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -927,6 +973,7 @@ function describe_query_suggestions_block_list(
         "DescribeQuerySuggestionsBlockList",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_query_suggestions_block_list(
@@ -941,6 +988,7 @@ function describe_query_suggestions_block_list(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -963,6 +1011,7 @@ function describe_query_suggestions_config(
         "DescribeQuerySuggestionsConfig",
         Dict{String,Any}("IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_query_suggestions_config(
@@ -972,6 +1021,7 @@ function describe_query_suggestions_config(
         "DescribeQuerySuggestionsConfig",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -991,6 +1041,7 @@ function describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aw
         "DescribeThesaurus",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_thesaurus(
@@ -1005,6 +1056,7 @@ function describe_thesaurus(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1034,6 +1086,7 @@ function get_query_suggestions(
         "GetQuerySuggestions",
         Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_query_suggestions(
@@ -1052,6 +1105,7 @@ function get_query_suggestions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1083,6 +1137,7 @@ function list_data_source_sync_jobs(
         "ListDataSourceSyncJobs",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_data_source_sync_jobs(
@@ -1097,6 +1152,7 @@ function list_data_source_sync_jobs(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1118,7 +1174,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_data_sources(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
     return kendra(
-        "ListDataSources", Dict{String,Any}("IndexId" => IndexId); aws_config=aws_config
+        "ListDataSources",
+        Dict{String,Any}("IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_data_sources(
@@ -1128,6 +1187,7 @@ function list_data_sources(
         "ListDataSources",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1148,7 +1208,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken to fetch the next set of FAQs.
 """
 function list_faqs(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra("ListFaqs", Dict{String,Any}("IndexId" => IndexId); aws_config=aws_config)
+    return kendra(
+        "ListFaqs",
+        Dict{String,Any}("IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_faqs(
     IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1157,6 +1222,7 @@ function list_faqs(
         "ListFaqs",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1188,6 +1254,7 @@ function list_groups_older_than_ordering_id(
         "ListGroupsOlderThanOrderingId",
         Dict{String,Any}("IndexId" => IndexId, "OrderingId" => OrderingId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_groups_older_than_ordering_id(
@@ -1206,6 +1273,7 @@ function list_groups_older_than_ordering_id(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1223,12 +1291,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of indexes (DataSourceSummaryItems).
 """
 function list_indices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra("ListIndices"; aws_config=aws_config)
+    return kendra("ListIndices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_indices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return kendra("ListIndices", params; aws_config=aws_config)
+    return kendra(
+        "ListIndices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1257,6 +1327,7 @@ function list_query_suggestions_block_lists(
         "ListQuerySuggestionsBlockLists",
         Dict{String,Any}("IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_query_suggestions_block_lists(
@@ -1266,6 +1337,7 @@ function list_query_suggestions_block_lists(
         "ListQuerySuggestionsBlockLists",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1288,6 +1360,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -1301,6 +1374,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1322,7 +1396,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_thesauri(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
     return kendra(
-        "ListThesauri", Dict{String,Any}("IndexId" => IndexId); aws_config=aws_config
+        "ListThesauri",
+        Dict{String,Any}("IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_thesauri(
@@ -1332,6 +1409,7 @@ function list_thesauri(
         "ListThesauri",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1391,6 +1469,7 @@ function put_principal_mapping(
             "GroupId" => GroupId, "GroupMembers" => GroupMembers, "IndexId" => IndexId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_principal_mapping(
@@ -1414,6 +1493,7 @@ function put_principal_mapping(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1481,6 +1561,7 @@ function query(IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_conf
         "Query",
         Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function query(
@@ -1499,6 +1580,7 @@ function query(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1521,6 +1603,7 @@ function start_data_source_sync_job(
         "StartDataSourceSyncJob",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_data_source_sync_job(
@@ -1535,6 +1618,7 @@ function start_data_source_sync_job(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1556,6 +1640,7 @@ function stop_data_source_sync_job(
         "StopDataSourceSyncJob",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function stop_data_source_sync_job(
@@ -1570,6 +1655,7 @@ function stop_data_source_sync_job(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1598,6 +1684,7 @@ function submit_feedback(
         "SubmitFeedback",
         Dict{String,Any}("IndexId" => IndexId, "QueryId" => QueryId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function submit_feedback(
@@ -1614,6 +1701,7 @@ function submit_feedback(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1635,6 +1723,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1653,6 +1742,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1676,6 +1766,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -1694,6 +1785,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1722,6 +1814,7 @@ function update_data_source(Id, IndexId; aws_config::AbstractAWSConfig=global_aw
         "UpdateDataSource",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_data_source(
@@ -1736,6 +1829,7 @@ function update_data_source(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1763,7 +1857,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function update_index(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra("UpdateIndex", Dict{String,Any}("Id" => Id); aws_config=aws_config)
+    return kendra(
+        "UpdateIndex",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_index(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1772,6 +1871,7 @@ function update_index(
         "UpdateIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1811,6 +1911,7 @@ function update_query_suggestions_block_list(
         "UpdateQuerySuggestionsBlockList",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_query_suggestions_block_list(
@@ -1825,6 +1926,7 @@ function update_query_suggestions_block_list(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1878,6 +1980,7 @@ function update_query_suggestions_config(
         "UpdateQuerySuggestionsConfig",
         Dict{String,Any}("IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_query_suggestions_config(
@@ -1887,6 +1990,7 @@ function update_query_suggestions_config(
         "UpdateQuerySuggestionsConfig",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1912,6 +2016,7 @@ function update_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_
         "UpdateThesaurus",
         Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_thesaurus(
@@ -1926,5 +2031,6 @@ function update_thesaurus(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

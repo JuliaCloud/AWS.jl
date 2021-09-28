@@ -40,6 +40,7 @@ function query_forecast(
         "QueryForecast",
         Dict{String,Any}("Filters" => Filters, "ForecastArn" => ForecastArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function query_forecast(
@@ -58,5 +59,6 @@ function query_forecast(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

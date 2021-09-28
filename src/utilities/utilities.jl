@@ -115,5 +115,5 @@ function _assignment_to_kw!(expr::Expr)
 end
 
 function _assignment_to_kw!(x)
-    throw(ArgumentError("Expected assignment expression, instead found: `$x`"))
+    return throw(ArgumentError("Expected assignment expression, instead found: `$x`"))
 end

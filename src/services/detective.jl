@@ -23,6 +23,7 @@ function accept_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_co
         "/invitation",
         Dict{String,Any}("GraphArn" => GraphArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function accept_invitation(
@@ -37,6 +38,7 @@ function accept_invitation(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -65,12 +67,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters. Each tag value can contain up to 256 characters.
 """
 function create_graph(; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective("POST", "/graph"; aws_config=aws_config)
+    return detective(
+        "POST", "/graph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function create_graph(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return detective("POST", "/graph", params; aws_config=aws_config)
+    return detective(
+        "POST", "/graph", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -112,6 +118,7 @@ function create_members(
         "/graph/members",
         Dict{String,Any}("Accounts" => Accounts, "GraphArn" => GraphArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_members(
@@ -131,6 +138,7 @@ function create_members(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -152,6 +160,7 @@ function delete_graph(GraphArn; aws_config::AbstractAWSConfig=global_aws_config(
         "/graph/removal",
         Dict{String,Any}("GraphArn" => GraphArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_graph(
@@ -166,6 +175,7 @@ function delete_graph(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -192,6 +202,7 @@ function delete_members(
         "/graph/members/removal",
         Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_members(
@@ -211,6 +222,7 @@ function delete_members(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -234,6 +246,7 @@ function disassociate_membership(
         "/membership/removal",
         Dict{String,Any}("GraphArn" => GraphArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_membership(
@@ -248,6 +261,7 @@ function disassociate_membership(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -273,6 +287,7 @@ function get_members(
         "/graph/members/get",
         Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_members(
@@ -292,6 +307,7 @@ function get_members(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -313,12 +329,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 function list_graphs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective("POST", "/graphs/list"; aws_config=aws_config)
+    return detective(
+        "POST", "/graphs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_graphs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return detective("POST", "/graphs/list", params; aws_config=aws_config)
+    return detective(
+        "POST",
+        "/graphs/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -341,12 +365,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective("POST", "/invitations/list"; aws_config=aws_config)
+    return detective(
+        "POST", "/invitations/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return detective("POST", "/invitations/list", params; aws_config=aws_config)
+    return detective(
+        "POST",
+        "/invitations/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -375,6 +407,7 @@ function list_members(GraphArn; aws_config::AbstractAWSConfig=global_aws_config(
         "/graph/members/list",
         Dict{String,Any}("GraphArn" => GraphArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_members(
@@ -389,6 +422,7 @@ function list_members(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -405,14 +439,25 @@ Returns the tag values that are assigned to a behavior graph.
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return detective("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+    return detective(
+        "GET",
+        "/tags/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return detective("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+    return detective(
+        "GET",
+        "/tags/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -433,6 +478,7 @@ function reject_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_co
         "/invitation/removal",
         Dict{String,Any}("GraphArn" => GraphArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reject_invitation(
@@ -447,6 +493,7 @@ function reject_invitation(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -473,6 +520,7 @@ function start_monitoring_member(
         "/graph/member/monitoringstate",
         Dict{String,Any}("AccountId" => AccountId, "GraphArn" => GraphArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_monitoring_member(
@@ -492,6 +540,7 @@ function start_monitoring_member(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -514,6 +563,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -527,6 +577,7 @@ function tag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -550,6 +601,7 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -563,5 +615,6 @@ function untag_resource(
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
