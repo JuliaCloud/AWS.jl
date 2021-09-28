@@ -42,6 +42,7 @@ try
     # Test retrieving an object into a stream target
     mktemp() do f, io
         S3.get_object("anewbucket", "myobject", Dict("response_stream" => io))
+        flush(io)
         @test read(f, String) == "Hi from Minio"
     end
 
