@@ -37,6 +37,7 @@ function add_attachments_to_set(
         "AddAttachmentsToSet",
         Dict{String,Any}("attachments" => attachments);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_attachments_to_set(
@@ -50,6 +51,7 @@ function add_attachments_to_set(
             mergewith(_merge, Dict{String,Any}("attachments" => attachments), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -85,6 +87,7 @@ function add_communication_to_case(
         "AddCommunicationToCase",
         Dict{String,Any}("communicationBody" => communicationBody);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_communication_to_case(
@@ -100,6 +103,7 @@ function add_communication_to_case(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -158,6 +162,7 @@ function create_case(
         "CreateCase",
         Dict{String,Any}("communicationBody" => communicationBody, "subject" => subject);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_case(
@@ -178,6 +183,7 @@ function create_case(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -206,6 +212,7 @@ function describe_attachment(
         "DescribeAttachment",
         Dict{String,Any}("attachmentId" => attachmentId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_attachment(
@@ -219,6 +226,7 @@ function describe_attachment(
             mergewith(_merge, Dict{String,Any}("attachmentId" => attachmentId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -258,12 +266,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A resumption point for pagination.
 """
 function describe_cases(; aws_config::AbstractAWSConfig=global_aws_config())
-    return support("DescribeCases"; aws_config=aws_config)
+    return support("DescribeCases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function describe_cases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return support("DescribeCases", params; aws_config=aws_config)
+    return support(
+        "DescribeCases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -300,6 +310,7 @@ function describe_communications(caseId; aws_config::AbstractAWSConfig=global_aw
         "DescribeCommunications",
         Dict{String,Any}("caseId" => caseId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_communications(
@@ -309,6 +320,7 @@ function describe_communications(
         "DescribeCommunications",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("caseId" => caseId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -336,12 +348,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceCodeList"`: A JSON-formatted list of service codes available for AWS services.
 """
 function describe_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return support("DescribeServices"; aws_config=aws_config)
+    return support(
+        "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return support("DescribeServices", params; aws_config=aws_config)
+    return support(
+        "DescribeServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -362,12 +378,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be passed explicitly for operations that take them.
 """
 function describe_severity_levels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return support("DescribeSeverityLevels"; aws_config=aws_config)
+    return support(
+        "DescribeSeverityLevels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_severity_levels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return support("DescribeSeverityLevels", params; aws_config=aws_config)
+    return support(
+        "DescribeSeverityLevels",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -397,6 +420,7 @@ function describe_trusted_advisor_check_refresh_statuses(
         "DescribeTrustedAdvisorCheckRefreshStatuses",
         Dict{String,Any}("checkIds" => checkIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_trusted_advisor_check_refresh_statuses(
@@ -410,6 +434,7 @@ function describe_trusted_advisor_check_refresh_statuses(
             mergewith(_merge, Dict{String,Any}("checkIds" => checkIds), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -445,6 +470,7 @@ function describe_trusted_advisor_check_result(
         "DescribeTrustedAdvisorCheckResult",
         Dict{String,Any}("checkId" => checkId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_trusted_advisor_check_result(
@@ -454,6 +480,7 @@ function describe_trusted_advisor_check_result(
         "DescribeTrustedAdvisorCheckResult",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("checkId" => checkId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -480,6 +507,7 @@ function describe_trusted_advisor_check_summaries(
         "DescribeTrustedAdvisorCheckSummaries",
         Dict{String,Any}("checkIds" => checkIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_trusted_advisor_check_summaries(
@@ -493,6 +521,7 @@ function describe_trusted_advisor_check_summaries(
             mergewith(_merge, Dict{String,Any}("checkIds" => checkIds), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -524,6 +553,7 @@ function describe_trusted_advisor_checks(
         "DescribeTrustedAdvisorChecks",
         Dict{String,Any}("language" => language);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_trusted_advisor_checks(
@@ -537,6 +567,7 @@ function describe_trusted_advisor_checks(
             mergewith(_merge, Dict{String,Any}("language" => language), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -566,6 +597,7 @@ function refresh_trusted_advisor_check(
         "RefreshTrustedAdvisorCheck",
         Dict{String,Any}("checkId" => checkId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function refresh_trusted_advisor_check(
@@ -575,6 +607,7 @@ function refresh_trusted_advisor_check(
         "RefreshTrustedAdvisorCheck",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("checkId" => checkId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -595,10 +628,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   case-12345678910-2013-c4c1d2bf33c5cf47
 """
 function resolve_case(; aws_config::AbstractAWSConfig=global_aws_config())
-    return support("ResolveCase"; aws_config=aws_config)
+    return support("ResolveCase"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function resolve_case(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return support("ResolveCase", params; aws_config=aws_config)
+    return support(
+        "ResolveCase", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end

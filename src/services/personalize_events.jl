@@ -33,6 +33,7 @@ function put_events(
             "eventList" => eventList, "sessionId" => sessionId, "trackingId" => trackingId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_events(
@@ -57,6 +58,7 @@ function put_events(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -79,6 +81,7 @@ function put_items(datasetArn, items; aws_config::AbstractAWSConfig=global_aws_c
         "/items",
         Dict{String,Any}("datasetArn" => datasetArn, "items" => items);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_items(
@@ -98,6 +101,7 @@ function put_items(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -120,6 +124,7 @@ function put_users(datasetArn, users; aws_config::AbstractAWSConfig=global_aws_c
         "/users",
         Dict{String,Any}("datasetArn" => datasetArn, "users" => users);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_users(
@@ -139,5 +144,6 @@ function put_users(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

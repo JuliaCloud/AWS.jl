@@ -28,6 +28,7 @@ function build_bot_locale(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function build_bot_locale(
@@ -42,6 +43,7 @@ function build_bot_locale(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -92,6 +94,7 @@ function create_bot(
             "roleArn" => roleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_bot(
@@ -118,6 +121,7 @@ function create_bot(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -159,6 +163,7 @@ function create_bot_alias(
         "/bots/$(botId)/botaliases/",
         Dict{String,Any}("botAliasName" => botAliasName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_bot_alias(
@@ -174,6 +179,7 @@ function create_bot_alias(
             mergewith(_merge, Dict{String,Any}("botAliasName" => botAliasName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -223,6 +229,7 @@ function create_bot_locale(
             "nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_bot_locale(
@@ -247,6 +254,7 @@ function create_bot_locale(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -279,6 +287,7 @@ function create_bot_version(
         "/bots/$(botId)/botversions/",
         Dict{String,Any}("botVersionLocaleSpecification" => botVersionLocaleSpecification);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_bot_version(
@@ -300,6 +309,7 @@ function create_bot_version(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -335,6 +345,7 @@ function create_export(
             "fileFormat" => fileFormat, "resourceSpecification" => resourceSpecification
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_export(
@@ -357,6 +368,7 @@ function create_export(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -448,6 +460,7 @@ function create_intent(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
         Dict{String,Any}("intentName" => intentName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_intent(
@@ -465,6 +478,7 @@ function create_intent(
             mergewith(_merge, Dict{String,Any}("intentName" => intentName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -491,6 +505,7 @@ function create_resource_policy(
         "/policy/$(resourceArn)/",
         Dict{String,Any}("policy" => policy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resource_policy(
@@ -504,6 +519,7 @@ function create_resource_policy(
         "/policy/$(resourceArn)/",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -559,6 +575,7 @@ function create_resource_policy_statement(
             "statementId" => statementId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resource_policy_statement(
@@ -586,6 +603,7 @@ function create_resource_policy_statement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -642,6 +660,7 @@ function create_slot(
             "valueElicitationSetting" => valueElicitationSetting,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_slot(
@@ -670,6 +689,7 @@ function create_slot(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -722,6 +742,7 @@ function create_slot_type(
             "slotTypeName" => slotTypeName, "valueSelectionSetting" => valueSelectionSetting
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_slot_type(
@@ -747,6 +768,7 @@ function create_slot_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -759,12 +781,20 @@ or a bot locale.
 
 """
 function create_upload_url(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("POST", "/createuploadurl/"; aws_config=aws_config)
+    return lex_models_v2(
+        "POST", "/createuploadurl/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function create_upload_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lex_models_v2("POST", "/createuploadurl/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "POST",
+        "/createuploadurl/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -787,12 +817,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource, such as an alias, is using the bot before it is deleted.
 """
 function delete_bot(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("DELETE", "/bots/$(botId)/"; aws_config=aws_config)
+    return lex_models_v2(
+        "DELETE", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_bot(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lex_models_v2("DELETE", "/bots/$(botId)/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -814,7 +852,10 @@ function delete_bot_alias(
     botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_models_v2(
-        "DELETE", "/bots/$(botId)/botaliases/$(botAliasId)/"; aws_config=aws_config
+        "DELETE",
+        "/bots/$(botId)/botaliases/$(botAliasId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_bot_alias(
@@ -824,7 +865,11 @@ function delete_bot_alias(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
-        "DELETE", "/bots/$(botId)/botaliases/$(botAliasId)/", params; aws_config=aws_config
+        "DELETE",
+        "/bots/$(botId)/botaliases/$(botAliasId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -849,6 +894,7 @@ function delete_bot_locale(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_bot_locale(
@@ -863,6 +909,7 @@ function delete_bot_locale(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -888,7 +935,10 @@ function delete_bot_version(
     botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_models_v2(
-        "DELETE", "/bots/$(botId)/botversions/$(botVersion)/"; aws_config=aws_config
+        "DELETE",
+        "/bots/$(botId)/botversions/$(botVersion)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_bot_version(
@@ -898,7 +948,11 @@ function delete_bot_version(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
-        "DELETE", "/bots/$(botId)/botversions/$(botVersion)/", params; aws_config=aws_config
+        "DELETE",
+        "/bots/$(botId)/botversions/$(botVersion)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -913,14 +967,25 @@ Removes a previous export and the associated files stored in an S3 bucket.
 
 """
 function delete_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("DELETE", "/exports/$(exportId)/"; aws_config=aws_config)
+    return lex_models_v2(
+        "DELETE",
+        "/exports/$(exportId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_export(
     exportId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return lex_models_v2("DELETE", "/exports/$(exportId)/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "DELETE",
+        "/exports/$(exportId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -934,14 +999,25 @@ Removes a previous import and the associated file stored in an S3 bucket.
 
 """
 function delete_import(importId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("DELETE", "/imports/$(importId)/"; aws_config=aws_config)
+    return lex_models_v2(
+        "DELETE",
+        "/imports/$(importId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_import(
     importId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return lex_models_v2("DELETE", "/imports/$(importId)/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "DELETE",
+        "/imports/$(importId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -967,6 +1043,7 @@ function delete_intent(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_intent(
@@ -982,6 +1059,7 @@ function delete_intent(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1005,14 +1083,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lex_models_v2("DELETE", "/policy/$(resourceArn)/"; aws_config=aws_config)
+    return lex_models_v2(
+        "DELETE",
+        "/policy/$(resourceArn)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return lex_models_v2("DELETE", "/policy/$(resourceArn)/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "DELETE",
+        "/policy/$(resourceArn)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1040,7 +1129,10 @@ function delete_resource_policy_statement(
     resourceArn, statementId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_models_v2(
-        "DELETE", "/policy/$(resourceArn)/statements/$(statementId)/"; aws_config=aws_config
+        "DELETE",
+        "/policy/$(resourceArn)/statements/$(statementId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_resource_policy_statement(
@@ -1054,6 +1146,7 @@ function delete_resource_policy_statement(
         "/policy/$(resourceArn)/statements/$(statementId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1085,6 +1178,7 @@ function delete_slot(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_slot(
@@ -1101,6 +1195,7 @@ function delete_slot(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1138,6 +1233,7 @@ function delete_slot_type(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_slot_type(
@@ -1153,6 +1249,7 @@ function delete_slot_type(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1180,13 +1277,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response from the and operations.
 """
 function delete_utterances(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("DELETE", "/bots/$(botId)/utterances/"; aws_config=aws_config)
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/utterances/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_utterances(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_models_v2(
-        "DELETE", "/bots/$(botId)/utterances/", params; aws_config=aws_config
+        "DELETE",
+        "/bots/$(botId)/utterances/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1201,12 +1307,20 @@ Provides metadata information about a bot.
 
 """
 function describe_bot(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("GET", "/bots/$(botId)/"; aws_config=aws_config)
+    return lex_models_v2(
+        "GET", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_bot(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lex_models_v2("GET", "/bots/$(botId)/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1224,7 +1338,10 @@ function describe_bot_alias(
     botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_models_v2(
-        "GET", "/bots/$(botId)/botaliases/$(botAliasId)/"; aws_config=aws_config
+        "GET",
+        "/bots/$(botId)/botaliases/$(botAliasId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_bot_alias(
@@ -1234,7 +1351,11 @@ function describe_bot_alias(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
-        "GET", "/bots/$(botId)/botaliases/$(botAliasId)/", params; aws_config=aws_config
+        "GET",
+        "/bots/$(botId)/botaliases/$(botAliasId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1258,6 +1379,7 @@ function describe_bot_locale(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_bot_locale(
@@ -1272,6 +1394,7 @@ function describe_bot_locale(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1290,7 +1413,10 @@ function describe_bot_version(
     botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_models_v2(
-        "GET", "/bots/$(botId)/botversions/$(botVersion)/"; aws_config=aws_config
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_bot_version(
@@ -1300,7 +1426,11 @@ function describe_bot_version(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
-        "GET", "/bots/$(botId)/botversions/$(botVersion)/", params; aws_config=aws_config
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1315,14 +1445,25 @@ Gets information about a specific export.
 
 """
 function describe_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("GET", "/exports/$(exportId)/"; aws_config=aws_config)
+    return lex_models_v2(
+        "GET",
+        "/exports/$(exportId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_export(
     exportId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return lex_models_v2("GET", "/exports/$(exportId)/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "GET",
+        "/exports/$(exportId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1336,14 +1477,25 @@ Gets information about a specific import.
 
 """
 function describe_import(importId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("GET", "/imports/$(importId)/"; aws_config=aws_config)
+    return lex_models_v2(
+        "GET",
+        "/imports/$(importId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_import(
     importId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return lex_models_v2("GET", "/imports/$(importId)/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "GET",
+        "/imports/$(importId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1368,6 +1520,7 @@ function describe_intent(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_intent(
@@ -1383,6 +1536,7 @@ function describe_intent(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1400,14 +1554,25 @@ Gets the resource policy and policy revision for a bot or bot alias.
 function describe_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lex_models_v2("GET", "/policy/$(resourceArn)/"; aws_config=aws_config)
+    return lex_models_v2(
+        "GET",
+        "/policy/$(resourceArn)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_resource_policy(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return lex_models_v2("GET", "/policy/$(resourceArn)/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "GET",
+        "/policy/$(resourceArn)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1438,6 +1603,7 @@ function describe_slot(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_slot(
@@ -1454,6 +1620,7 @@ function describe_slot(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1483,6 +1650,7 @@ function describe_slot_type(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_slot_type(
@@ -1498,6 +1666,7 @@ function describe_slot_type(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1551,6 +1720,7 @@ function list_aggregated_utterances(
             "aggregationDuration" => aggregationDuration, "localeId" => localeId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_aggregated_utterances(
@@ -1573,6 +1743,7 @@ function list_aggregated_utterances(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1594,13 +1765,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in the nextToken parameter to return the next page of results.
 """
 function list_bot_aliases(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("POST", "/bots/$(botId)/botaliases/"; aws_config=aws_config)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botaliases/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_bot_aliases(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_models_v2(
-        "POST", "/bots/$(botId)/botaliases/", params; aws_config=aws_config
+        "POST",
+        "/bots/$(botId)/botaliases/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1634,6 +1814,7 @@ function list_bot_locales(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_bot_locales(
@@ -1647,6 +1828,7 @@ function list_bot_locales(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1675,13 +1857,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the list be sorted by version name in either ascending or descending order.
 """
 function list_bot_versions(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("POST", "/bots/$(botId)/botversions/"; aws_config=aws_config)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_bot_versions(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_models_v2(
-        "POST", "/bots/$(botId)/botversions/", params; aws_config=aws_config
+        "POST",
+        "/bots/$(botId)/botversions/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1706,12 +1897,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list be sorted by bot name in ascending or descending order.
 """
 function list_bots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("POST", "/bots/"; aws_config=aws_config)
+    return lex_models_v2(
+        "POST", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_bots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lex_models_v2("POST", "/bots/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "POST", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1741,7 +1936,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_built_in_intents(localeId; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_models_v2(
-        "POST", "/builtins/locales/$(localeId)/intents/"; aws_config=aws_config
+        "POST",
+        "/builtins/locales/$(localeId)/intents/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_built_in_intents(
@@ -1750,7 +1948,11 @@ function list_built_in_intents(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
-        "POST", "/builtins/locales/$(localeId)/intents/", params; aws_config=aws_config
+        "POST",
+        "/builtins/locales/$(localeId)/intents/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1781,7 +1983,10 @@ function list_built_in_slot_types(
     localeId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lex_models_v2(
-        "POST", "/builtins/locales/$(localeId)/slottypes/"; aws_config=aws_config
+        "POST",
+        "/builtins/locales/$(localeId)/slottypes/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_built_in_slot_types(
@@ -1790,7 +1995,11 @@ function list_built_in_slot_types(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return lex_models_v2(
-        "POST", "/builtins/locales/$(localeId)/slottypes/", params; aws_config=aws_config
+        "POST",
+        "/builtins/locales/$(localeId)/slottypes/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1816,12 +2025,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the LastUpdatedDateTime field in ascending or descending order.
 """
 function list_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("POST", "/exports/"; aws_config=aws_config)
+    return lex_models_v2(
+        "POST", "/exports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lex_models_v2("POST", "/exports/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "POST", "/exports/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1846,12 +2059,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the LastUpdatedDateTime field in ascending or descending order.
 """
 function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("POST", "/imports/"; aws_config=aws_config)
+    return lex_models_v2(
+        "POST", "/imports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lex_models_v2("POST", "/imports/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "POST", "/imports/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1887,6 +2104,7 @@ function list_intents(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_intents(
@@ -1901,6 +2119,7 @@ function list_intents(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1939,6 +2158,7 @@ function list_slot_types(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_slot_types(
@@ -1953,6 +2173,7 @@ function list_slot_types(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1990,6 +2211,7 @@ function list_slots(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_slots(
@@ -2005,6 +2227,7 @@ function list_slots(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2022,14 +2245,25 @@ can have tags associated with them.
 function list_tags_for_resource(
     resourceARN; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lex_models_v2("GET", "/tags/$(resourceARN)"; aws_config=aws_config)
+    return lex_models_v2(
+        "GET",
+        "/tags/$(resourceARN)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return lex_models_v2("GET", "/tags/$(resourceARN)", params; aws_config=aws_config)
+    return lex_models_v2(
+        "GET",
+        "/tags/$(resourceARN)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2067,6 +2301,7 @@ function start_import(
             "resourceSpecification" => resourceSpecification,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_import(
@@ -2091,6 +2326,7 @@ function start_import(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2114,6 +2350,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceARN)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -2127,6 +2364,7 @@ function tag_resource(
         "/tags/$(resourceARN)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2150,6 +2388,7 @@ function untag_resource(
         "/tags/$(resourceARN)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -2163,6 +2402,7 @@ function untag_resource(
         "/tags/$(resourceARN)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2209,6 +2449,7 @@ function update_bot(
             "roleArn" => roleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_bot(
@@ -2236,6 +2477,7 @@ function update_bot(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2268,6 +2510,7 @@ function update_bot_alias(
         "/bots/$(botId)/botaliases/$(botAliasId)/",
         Dict{String,Any}("botAliasName" => botAliasName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_bot_alias(
@@ -2284,6 +2527,7 @@ function update_bot_alias(
             mergewith(_merge, Dict{String,Any}("botAliasName" => botAliasName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2321,6 +2565,7 @@ function update_bot_locale(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
         Dict{String,Any}("nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_bot_locale(
@@ -2344,6 +2589,7 @@ function update_bot_locale(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2364,14 +2610,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filePassword"`: The new password to use to encrypt the export zip archive.
 """
 function update_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2("PUT", "/exports/$(exportId)/"; aws_config=aws_config)
+    return lex_models_v2(
+        "PUT",
+        "/exports/$(exportId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_export(
     exportId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return lex_models_v2("PUT", "/exports/$(exportId)/", params; aws_config=aws_config)
+    return lex_models_v2(
+        "PUT",
+        "/exports/$(exportId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2425,6 +2682,7 @@ function update_intent(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
         Dict{String,Any}("intentName" => intentName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_intent(
@@ -2443,6 +2701,7 @@ function update_intent(
             mergewith(_merge, Dict{String,Any}("intentName" => intentName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2476,6 +2735,7 @@ function update_resource_policy(
         "/policy/$(resourceArn)/",
         Dict{String,Any}("policy" => policy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_resource_policy(
@@ -2489,6 +2749,7 @@ function update_resource_policy(
         "/policy/$(resourceArn)/",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2540,6 +2801,7 @@ function update_slot(
             "valueElicitationSetting" => valueElicitationSetting,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_slot(
@@ -2569,6 +2831,7 @@ function update_slot(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2613,6 +2876,7 @@ function update_slot_type(
             "slotTypeName" => slotTypeName, "valueSelectionSetting" => valueSelectionSetting
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_slot_type(
@@ -2639,5 +2903,6 @@ function update_slot_type(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

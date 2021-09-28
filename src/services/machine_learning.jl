@@ -28,6 +28,7 @@ function add_tags(
             "ResourceId" => ResourceId, "ResourceType" => ResourceType, "Tags" => Tags
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_tags(
@@ -51,6 +52,7 @@ function add_tags(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -101,6 +103,7 @@ function create_batch_prediction(
             "OutputUri" => OutputUri,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_batch_prediction(
@@ -126,6 +129,7 @@ function create_batch_prediction(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -188,6 +192,7 @@ function create_data_source_from_rds(
             "DataSourceId" => DataSourceId, "RDSData" => RDSData, "RoleARN" => RoleARN
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_data_source_from_rds(
@@ -211,6 +216,7 @@ function create_data_source_from_rds(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -278,6 +284,7 @@ function create_data_source_from_redshift(
             "DataSourceId" => DataSourceId, "DataSpec" => DataSpec, "RoleARN" => RoleARN
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_data_source_from_redshift(
@@ -301,6 +308,7 @@ function create_data_source_from_redshift(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -353,6 +361,7 @@ function create_data_source_from_s3(
         "CreateDataSourceFromS3",
         Dict{String,Any}("DataSourceId" => DataSourceId, "DataSpec" => DataSpec);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_data_source_from_s3(
@@ -371,6 +380,7 @@ function create_data_source_from_s3(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -415,6 +425,7 @@ function create_evaluation(
             "MLModelId" => MLModelId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_evaluation(
@@ -438,6 +449,7 @@ function create_evaluation(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -509,6 +521,7 @@ function create_mlmodel(
             "TrainingDataSourceId" => TrainingDataSourceId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_mlmodel(
@@ -532,6 +545,7 @@ function create_mlmodel(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -553,6 +567,7 @@ function create_realtime_endpoint(
         "CreateRealtimeEndpoint",
         Dict{String,Any}("MLModelId" => MLModelId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_realtime_endpoint(
@@ -566,6 +581,7 @@ function create_realtime_endpoint(
             mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -589,6 +605,7 @@ function delete_batch_prediction(
         "DeleteBatchPrediction",
         Dict{String,Any}("BatchPredictionId" => BatchPredictionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_batch_prediction(
@@ -604,6 +621,7 @@ function delete_batch_prediction(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -625,6 +643,7 @@ function delete_data_source(DataSourceId; aws_config::AbstractAWSConfig=global_a
         "DeleteDataSource",
         Dict{String,Any}("DataSourceId" => DataSourceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_data_source(
@@ -638,6 +657,7 @@ function delete_data_source(
             mergewith(_merge, Dict{String,Any}("DataSourceId" => DataSourceId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -659,6 +679,7 @@ function delete_evaluation(EvaluationId; aws_config::AbstractAWSConfig=global_aw
         "DeleteEvaluation",
         Dict{String,Any}("EvaluationId" => EvaluationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_evaluation(
@@ -672,6 +693,7 @@ function delete_evaluation(
             mergewith(_merge, Dict{String,Any}("EvaluationId" => EvaluationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -690,7 +712,10 @@ irreversible.
 """
 function delete_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config())
     return machine_learning(
-        "DeleteMLModel", Dict{String,Any}("MLModelId" => MLModelId); aws_config=aws_config
+        "DeleteMLModel",
+        Dict{String,Any}("MLModelId" => MLModelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_mlmodel(
@@ -704,6 +729,7 @@ function delete_mlmodel(
             mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -724,6 +750,7 @@ function delete_realtime_endpoint(
         "DeleteRealtimeEndpoint",
         Dict{String,Any}("MLModelId" => MLModelId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_realtime_endpoint(
@@ -737,6 +764,7 @@ function delete_realtime_endpoint(
             mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -763,6 +791,7 @@ function delete_tags(
             "ResourceId" => ResourceId, "ResourceType" => ResourceType, "TagKeys" => TagKeys
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_tags(
@@ -786,6 +815,7 @@ function delete_tags(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -830,12 +860,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
 function describe_batch_predictions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return machine_learning("DescribeBatchPredictions"; aws_config=aws_config)
+    return machine_learning(
+        "DescribeBatchPredictions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_batch_predictions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return machine_learning("DescribeBatchPredictions", params; aws_config=aws_config)
+    return machine_learning(
+        "DescribeBatchPredictions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -876,12 +913,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
 function describe_data_sources(; aws_config::AbstractAWSConfig=global_aws_config())
-    return machine_learning("DescribeDataSources"; aws_config=aws_config)
+    return machine_learning(
+        "DescribeDataSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_data_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return machine_learning("DescribeDataSources", params; aws_config=aws_config)
+    return machine_learning(
+        "DescribeDataSources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -924,12 +968,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
 function describe_evaluations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return machine_learning("DescribeEvaluations"; aws_config=aws_config)
+    return machine_learning(
+        "DescribeEvaluations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_evaluations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return machine_learning("DescribeEvaluations", params; aws_config=aws_config)
+    return machine_learning(
+        "DescribeEvaluations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -975,12 +1026,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
 """
 function describe_mlmodels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return machine_learning("DescribeMLModels"; aws_config=aws_config)
+    return machine_learning(
+        "DescribeMLModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_mlmodels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return machine_learning("DescribeMLModels", params; aws_config=aws_config)
+    return machine_learning(
+        "DescribeMLModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1001,6 +1056,7 @@ function describe_tags(
         "DescribeTags",
         Dict{String,Any}("ResourceId" => ResourceId, "ResourceType" => ResourceType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_tags(
@@ -1021,6 +1077,7 @@ function describe_tags(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1042,6 +1099,7 @@ function get_batch_prediction(
         "GetBatchPrediction",
         Dict{String,Any}("BatchPredictionId" => BatchPredictionId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_batch_prediction(
@@ -1057,6 +1115,7 @@ function get_batch_prediction(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1083,6 +1142,7 @@ function get_data_source(DataSourceId; aws_config::AbstractAWSConfig=global_aws_
         "GetDataSource",
         Dict{String,Any}("DataSourceId" => DataSourceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_data_source(
@@ -1096,6 +1156,7 @@ function get_data_source(
             mergewith(_merge, Dict{String,Any}("DataSourceId" => DataSourceId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1116,6 +1177,7 @@ function get_evaluation(EvaluationId; aws_config::AbstractAWSConfig=global_aws_c
         "GetEvaluation",
         Dict{String,Any}("EvaluationId" => EvaluationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_evaluation(
@@ -1129,6 +1191,7 @@ function get_evaluation(
             mergewith(_merge, Dict{String,Any}("EvaluationId" => EvaluationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1149,7 +1212,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config())
     return machine_learning(
-        "GetMLModel", Dict{String,Any}("MLModelId" => MLModelId); aws_config=aws_config
+        "GetMLModel",
+        Dict{String,Any}("MLModelId" => MLModelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_mlmodel(
@@ -1163,6 +1229,7 @@ function get_mlmodel(
             mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1191,6 +1258,7 @@ function predict(
             "Record" => Record,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function predict(
@@ -1214,6 +1282,7 @@ function predict(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1241,6 +1310,7 @@ function update_batch_prediction(
             "BatchPredictionName" => BatchPredictionName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_batch_prediction(
@@ -1262,6 +1332,7 @@ function update_batch_prediction(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1287,6 +1358,7 @@ function update_data_source(
             "DataSourceId" => DataSourceId, "DataSourceName" => DataSourceName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_data_source(
@@ -1307,6 +1379,7 @@ function update_data_source(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1332,6 +1405,7 @@ function update_evaluation(
             "EvaluationId" => EvaluationId, "EvaluationName" => EvaluationName
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_evaluation(
@@ -1352,6 +1426,7 @@ function update_evaluation(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1376,7 +1451,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_mlmodel(MLModelId; aws_config::AbstractAWSConfig=global_aws_config())
     return machine_learning(
-        "UpdateMLModel", Dict{String,Any}("MLModelId" => MLModelId); aws_config=aws_config
+        "UpdateMLModel",
+        Dict{String,Any}("MLModelId" => MLModelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_mlmodel(
@@ -1390,5 +1468,6 @@ function update_mlmodel(
             mergewith(_merge, Dict{String,Any}("MLModelId" => MLModelId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

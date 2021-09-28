@@ -19,13 +19,22 @@ getting the job identifier, use UpdatePipelineStatus to temporarily pause the pi
 
 """
 function cancel_job(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)"; aws_config=aws_config)
+    return elastic_transcoder(
+        "DELETE",
+        "/2012-09-25/jobs/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function cancel_job(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return elastic_transcoder(
-        "DELETE", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config
+        "DELETE",
+        "/2012-09-25/jobs/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -75,6 +84,7 @@ function create_job(PipelineId; aws_config::AbstractAWSConfig=global_aws_config(
         "/2012-09-25/jobs",
         Dict{String,Any}("PipelineId" => PipelineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_job(
@@ -89,6 +99,7 @@ function create_job(
             mergewith(_merge, Dict{String,Any}("PipelineId" => PipelineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -217,6 +228,7 @@ function create_pipeline(
         "/2012-09-25/pipelines",
         Dict{String,Any}("InputBucket" => InputBucket, "Name" => Name, "Role" => Role);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_pipeline(
@@ -239,6 +251,7 @@ function create_pipeline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -279,6 +292,7 @@ function create_preset(Container, Name; aws_config::AbstractAWSConfig=global_aws
         "/2012-09-25/presets",
         Dict{String,Any}("Container" => Container, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_preset(
@@ -296,6 +310,7 @@ function create_preset(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -313,14 +328,21 @@ pipeline is currently in use, DeletePipeline returns an error.
 """
 function delete_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return elastic_transcoder(
-        "DELETE", "/2012-09-25/pipelines/$(Id)"; aws_config=aws_config
+        "DELETE",
+        "/2012-09-25/pipelines/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_pipeline(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return elastic_transcoder(
-        "DELETE", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config
+        "DELETE",
+        "/2012-09-25/pipelines/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -336,13 +358,22 @@ delete the default presets that are included with Elastic Transcoder.
 
 """
 function delete_preset(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)"; aws_config=aws_config)
+    return elastic_transcoder(
+        "DELETE",
+        "/2012-09-25/presets/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_preset(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return elastic_transcoder(
-        "DELETE", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config
+        "DELETE",
+        "/2012-09-25/presets/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -368,7 +399,10 @@ function list_jobs_by_pipeline(
     PipelineId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return elastic_transcoder(
-        "GET", "/2012-09-25/jobsByPipeline/$(PipelineId)"; aws_config=aws_config
+        "GET",
+        "/2012-09-25/jobsByPipeline/$(PipelineId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_jobs_by_pipeline(
@@ -377,7 +411,11 @@ function list_jobs_by_pipeline(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return elastic_transcoder(
-        "GET", "/2012-09-25/jobsByPipeline/$(PipelineId)", params; aws_config=aws_config
+        "GET",
+        "/2012-09-25/jobsByPipeline/$(PipelineId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -402,14 +440,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_jobs_by_status(Status; aws_config::AbstractAWSConfig=global_aws_config())
     return elastic_transcoder(
-        "GET", "/2012-09-25/jobsByStatus/$(Status)"; aws_config=aws_config
+        "GET",
+        "/2012-09-25/jobsByStatus/$(Status)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_jobs_by_status(
     Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return elastic_transcoder(
-        "GET", "/2012-09-25/jobsByStatus/$(Status)", params; aws_config=aws_config
+        "GET",
+        "/2012-09-25/jobsByStatus/$(Status)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -428,12 +473,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_transcoder("GET", "/2012-09-25/pipelines"; aws_config=aws_config)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/pipelines";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return elastic_transcoder("GET", "/2012-09-25/pipelines", params; aws_config=aws_config)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/pipelines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -451,12 +507,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_presets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_transcoder("GET", "/2012-09-25/presets"; aws_config=aws_config)
+    return elastic_transcoder(
+        "GET", "/2012-09-25/presets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_presets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return elastic_transcoder("GET", "/2012-09-25/presets", params; aws_config=aws_config)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/presets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -470,13 +534,22 @@ The ReadJob operation returns detailed information about a job.
 
 """
 function read_job(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)"; aws_config=aws_config)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/jobs/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function read_job(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return elastic_transcoder(
-        "GET", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config
+        "GET",
+        "/2012-09-25/jobs/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -491,13 +564,22 @@ The ReadPipeline operation gets detailed information about a pipeline.
 
 """
 function read_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)"; aws_config=aws_config)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/pipelines/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function read_pipeline(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return elastic_transcoder(
-        "GET", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config
+        "GET",
+        "/2012-09-25/pipelines/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -512,13 +594,22 @@ The ReadPreset operation gets detailed information about a preset.
 
 """
 function read_preset(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_transcoder("GET", "/2012-09-25/presets/$(Id)"; aws_config=aws_config)
+    return elastic_transcoder(
+        "GET",
+        "/2012-09-25/presets/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function read_preset(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return elastic_transcoder(
-        "GET", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config
+        "GET",
+        "/2012-09-25/presets/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -560,6 +651,7 @@ function test_role(
             "Topics" => Topics,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function test_role(
@@ -586,6 +678,7 @@ function test_role(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -696,13 +789,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   S3 bucket.
 """
 function update_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)"; aws_config=aws_config)
+    return elastic_transcoder(
+        "PUT",
+        "/2012-09-25/pipelines/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_pipeline(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return elastic_transcoder(
-        "PUT", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config
+        "PUT",
+        "/2012-09-25/pipelines/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -739,6 +841,7 @@ function update_pipeline_notifications(
         "/2012-09-25/pipelines/$(Id)/notifications",
         Dict{String,Any}("Notifications" => Notifications);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_pipeline_notifications(
@@ -754,6 +857,7 @@ function update_pipeline_notifications(
             mergewith(_merge, Dict{String,Any}("Notifications" => Notifications), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -782,6 +886,7 @@ function update_pipeline_status(
         "/2012-09-25/pipelines/$(Id)/status",
         Dict{String,Any}("Status" => Status);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_pipeline_status(
@@ -795,5 +900,6 @@ function update_pipeline_status(
         "/2012-09-25/pipelines/$(Id)/status",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Status" => Status), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

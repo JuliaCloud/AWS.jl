@@ -33,6 +33,7 @@ function associate_web_acl(
         "AssociateWebACL",
         Dict{String,Any}("ResourceArn" => ResourceArn, "WebACLArn" => WebACLArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_web_acl(
@@ -51,6 +52,7 @@ function associate_web_acl(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -82,6 +84,7 @@ function check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=global_aws_c
         "CheckCapacity",
         Dict{String,Any}("Rules" => Rules, "Scope" => Scope);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function check_capacity(
@@ -96,6 +99,7 @@ function check_capacity(
             mergewith(_merge, Dict{String,Any}("Rules" => Rules, "Scope" => Scope), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -152,6 +156,7 @@ function create_ipset(
             "Scope" => Scope,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_ipset(
@@ -177,6 +182,7 @@ function create_ipset(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -213,6 +219,7 @@ function create_regex_pattern_set(
             "Scope" => Scope,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_regex_pattern_set(
@@ -236,6 +243,7 @@ function create_regex_pattern_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -301,6 +309,7 @@ function create_rule_group(
             "VisibilityConfig" => VisibilityConfig,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_rule_group(
@@ -326,6 +335,7 @@ function create_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -387,6 +397,7 @@ function create_web_acl(
             "VisibilityConfig" => VisibilityConfig,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_web_acl(
@@ -412,6 +423,7 @@ function create_web_acl(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -440,6 +452,7 @@ function delete_firewall_manager_rule_groups(
         "DeleteFirewallManagerRuleGroups",
         Dict{String,Any}("WebACLArn" => WebACLArn, "WebACLLockToken" => WebACLLockToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_firewall_manager_rule_groups(
@@ -460,6 +473,7 @@ function delete_firewall_manager_rule_groups(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -498,6 +512,7 @@ function delete_ipset(
             "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_ipset(
@@ -520,6 +535,7 @@ function delete_ipset(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -541,6 +557,7 @@ function delete_logging_configuration(
         "DeleteLoggingConfiguration",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_logging_configuration(
@@ -554,6 +571,7 @@ function delete_logging_configuration(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -576,6 +594,7 @@ function delete_permission_policy(
         "DeletePermissionPolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_permission_policy(
@@ -589,6 +608,7 @@ function delete_permission_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -626,6 +646,7 @@ function delete_regex_pattern_set(
             "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_regex_pattern_set(
@@ -648,6 +669,7 @@ function delete_regex_pattern_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -686,6 +708,7 @@ function delete_rule_group(
             "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_rule_group(
@@ -708,6 +731,7 @@ function delete_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -747,6 +771,7 @@ function delete_web_acl(
             "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_web_acl(
@@ -769,6 +794,7 @@ function delete_web_acl(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -803,6 +829,7 @@ function describe_managed_rule_group(
         "DescribeManagedRuleGroup",
         Dict{String,Any}("Name" => Name, "Scope" => Scope, "VendorName" => VendorName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_managed_rule_group(
@@ -824,6 +851,7 @@ function describe_managed_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -854,6 +882,7 @@ function disassociate_web_acl(
         "DisassociateWebACL",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_web_acl(
@@ -867,6 +896,7 @@ function disassociate_web_acl(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -894,6 +924,7 @@ function get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_con
         "GetIPSet",
         Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_ipset(
@@ -913,6 +944,7 @@ function get_ipset(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -934,6 +966,7 @@ function get_logging_configuration(
         "GetLoggingConfiguration",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_logging_configuration(
@@ -947,6 +980,7 @@ function get_logging_configuration(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -982,6 +1016,7 @@ function get_managed_rule_set(
         "GetManagedRuleSet",
         Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_managed_rule_set(
@@ -1001,6 +1036,7 @@ function get_managed_rule_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1023,6 +1059,7 @@ function get_permission_policy(
         "GetPermissionPolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_permission_policy(
@@ -1036,6 +1073,7 @@ function get_permission_policy(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1088,6 +1126,7 @@ function get_rate_based_statement_managed_keys(
             "WebACLName" => WebACLName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_rate_based_statement_managed_keys(
@@ -1113,6 +1152,7 @@ function get_rate_based_statement_managed_keys(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1141,6 +1181,7 @@ function get_regex_pattern_set(
         "GetRegexPatternSet",
         Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_regex_pattern_set(
@@ -1160,6 +1201,7 @@ function get_regex_pattern_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1184,12 +1226,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all calls, use the Region endpoint us-east-1.
 """
 function get_rule_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2("GetRuleGroup"; aws_config=aws_config)
+    return wafv2("GetRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return wafv2("GetRuleGroup", params; aws_config=aws_config)
+    return wafv2(
+        "GetRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1246,6 +1290,7 @@ function get_sampled_requests(
             "WebAclArn" => WebAclArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_sampled_requests(
@@ -1273,6 +1318,7 @@ function get_sampled_requests(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1300,6 +1346,7 @@ function get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_c
         "GetWebACL",
         Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_web_acl(
@@ -1319,6 +1366,7 @@ function get_web_acl(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1339,6 +1387,7 @@ function get_web_aclfor_resource(
         "GetWebACLForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_web_aclfor_resource(
@@ -1352,6 +1401,7 @@ function get_web_aclfor_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1390,6 +1440,7 @@ function list_available_managed_rule_group_versions(
         "ListAvailableManagedRuleGroupVersions",
         Dict{String,Any}("Name" => Name, "Scope" => Scope, "VendorName" => VendorName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_available_managed_rule_group_versions(
@@ -1411,6 +1462,7 @@ function list_available_managed_rule_group_versions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1447,6 +1499,7 @@ function list_available_managed_rule_groups(
         "ListAvailableManagedRuleGroups",
         Dict{String,Any}("Scope" => Scope);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_available_managed_rule_groups(
@@ -1456,6 +1509,7 @@ function list_available_managed_rule_groups(
         "ListAvailableManagedRuleGroups",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1484,7 +1538,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_ipsets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2("ListIPSets", Dict{String,Any}("Scope" => Scope); aws_config=aws_config)
+    return wafv2(
+        "ListIPSets",
+        Dict{String,Any}("Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_ipsets(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1493,6 +1552,7 @@ function list_ipsets(
         "ListIPSets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1519,12 +1579,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all calls, use the Region endpoint us-east-1.
 """
 function list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2("ListLoggingConfigurations"; aws_config=aws_config)
+    return wafv2(
+        "ListLoggingConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_logging_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return wafv2("ListLoggingConfigurations", params; aws_config=aws_config)
+    return wafv2(
+        "ListLoggingConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1558,7 +1625,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
     return wafv2(
-        "ListManagedRuleSets", Dict{String,Any}("Scope" => Scope); aws_config=aws_config
+        "ListManagedRuleSets",
+        Dict{String,Any}("Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_managed_rule_sets(
@@ -1568,6 +1638,7 @@ function list_managed_rule_sets(
         "ListManagedRuleSets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1598,7 +1669,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
     return wafv2(
-        "ListRegexPatternSets", Dict{String,Any}("Scope" => Scope); aws_config=aws_config
+        "ListRegexPatternSets",
+        Dict{String,Any}("Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_regex_pattern_sets(
@@ -1608,6 +1682,7 @@ function list_regex_pattern_sets(
         "ListRegexPatternSets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1635,6 +1710,7 @@ function list_resources_for_web_acl(
         "ListResourcesForWebACL",
         Dict{String,Any}("WebACLArn" => WebACLArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_resources_for_web_acl(
@@ -1648,6 +1724,7 @@ function list_resources_for_web_acl(
             mergewith(_merge, Dict{String,Any}("WebACLArn" => WebACLArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1677,7 +1754,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_rule_groups(Scope; aws_config::AbstractAWSConfig=global_aws_config())
     return wafv2(
-        "ListRuleGroups", Dict{String,Any}("Scope" => Scope); aws_config=aws_config
+        "ListRuleGroups",
+        Dict{String,Any}("Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_rule_groups(
@@ -1687,6 +1767,7 @@ function list_rule_groups(
         "ListRuleGroups",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1722,6 +1803,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -1735,6 +1817,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1763,7 +1846,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_web_acls(Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2("ListWebACLs", Dict{String,Any}("Scope" => Scope); aws_config=aws_config)
+    return wafv2(
+        "ListWebACLs",
+        Dict{String,Any}("Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_web_acls(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1772,6 +1860,7 @@ function list_web_acls(
         "ListWebACLs",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1807,6 +1896,7 @@ function put_logging_configuration(
         "PutLoggingConfiguration",
         Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_logging_configuration(
@@ -1824,6 +1914,7 @@ function put_logging_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1882,6 +1973,7 @@ function put_managed_rule_set_versions(
             "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_managed_rule_set_versions(
@@ -1904,6 +1996,7 @@ function put_managed_rule_set_versions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1937,6 +2030,7 @@ function put_permission_policy(
         "PutPermissionPolicy",
         Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_permission_policy(
@@ -1955,6 +2049,7 @@ function put_permission_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1980,6 +2075,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1998,6 +2094,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2022,6 +2119,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -2040,6 +2138,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2100,6 +2199,7 @@ function update_ipset(
             "Scope" => Scope,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_ipset(
@@ -2127,6 +2227,7 @@ function update_ipset(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2189,6 +2290,7 @@ function update_managed_rule_set_version_expiry_date(
             "VersionToExpire" => VersionToExpire,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_managed_rule_set_version_expiry_date(
@@ -2218,6 +2320,7 @@ function update_managed_rule_set_version_expiry_date(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2272,6 +2375,7 @@ function update_regex_pattern_set(
             "Scope" => Scope,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_regex_pattern_set(
@@ -2299,6 +2403,7 @@ function update_regex_pattern_set(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2368,6 +2473,7 @@ function update_rule_group(
             "VisibilityConfig" => VisibilityConfig,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_rule_group(
@@ -2395,6 +2501,7 @@ function update_rule_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2472,6 +2579,7 @@ function update_web_acl(
             "VisibilityConfig" => VisibilityConfig,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_web_acl(
@@ -2501,5 +2609,6 @@ function update_web_acl(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

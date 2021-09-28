@@ -25,6 +25,7 @@ function add_custom_attributes(
             "CustomAttributes" => CustomAttributes, "UserPoolId" => UserPoolId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_custom_attributes(
@@ -45,6 +46,7 @@ function add_custom_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -70,6 +72,7 @@ function admin_add_user_to_group(
             "GroupName" => GroupName, "UserPoolId" => UserPoolId, "Username" => Username
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_add_user_to_group(
@@ -93,6 +96,7 @@ function admin_add_user_to_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -133,6 +137,7 @@ function admin_confirm_sign_up(
         "AdminConfirmSignUp",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_confirm_sign_up(
@@ -151,6 +156,7 @@ function admin_confirm_sign_up(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -256,6 +262,7 @@ function admin_create_user(
         "AdminCreateUser",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_create_user(
@@ -274,6 +281,7 @@ function admin_create_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -296,6 +304,7 @@ function admin_delete_user(
         "AdminDeleteUser",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_delete_user(
@@ -314,6 +323,7 @@ function admin_delete_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -347,6 +357,7 @@ function admin_delete_user_attributes(
             "Username" => Username,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_delete_user_attributes(
@@ -370,6 +381,7 @@ function admin_delete_user_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -409,6 +421,7 @@ function admin_disable_provider_for_user(
         "AdminDisableProviderForUser",
         Dict{String,Any}("User" => User, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_disable_provider_for_user(
@@ -425,6 +438,7 @@ function admin_disable_provider_for_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -446,6 +460,7 @@ function admin_disable_user(
         "AdminDisableUser",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_disable_user(
@@ -464,6 +479,7 @@ function admin_disable_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -486,6 +502,7 @@ function admin_enable_user(
         "AdminEnableUser",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_enable_user(
@@ -504,6 +521,7 @@ function admin_enable_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -528,6 +546,7 @@ function admin_forget_device(
             "DeviceKey" => DeviceKey, "UserPoolId" => UserPoolId, "Username" => Username
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_forget_device(
@@ -551,6 +570,7 @@ function admin_forget_device(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -575,6 +595,7 @@ function admin_get_device(
             "DeviceKey" => DeviceKey, "UserPoolId" => UserPoolId, "Username" => Username
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_get_device(
@@ -598,6 +619,7 @@ function admin_get_device(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -621,6 +643,7 @@ function admin_get_user(
         "AdminGetUser",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_get_user(
@@ -639,6 +662,7 @@ function admin_get_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -728,6 +752,7 @@ function admin_initiate_auth(
             "AuthFlow" => AuthFlow, "ClientId" => ClientId, "UserPoolId" => UserPoolId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_initiate_auth(
@@ -751,6 +776,7 @@ function admin_initiate_auth(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -813,6 +839,7 @@ function admin_link_provider_for_user(
             "UserPoolId" => UserPoolId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_link_provider_for_user(
@@ -836,6 +863,7 @@ function admin_link_provider_for_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -861,6 +889,7 @@ function admin_list_devices(
         "AdminListDevices",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_list_devices(
@@ -879,6 +908,7 @@ function admin_list_devices(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -906,6 +936,7 @@ function admin_list_groups_for_user(
         "AdminListGroupsForUser",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_list_groups_for_user(
@@ -924,6 +955,7 @@ function admin_list_groups_for_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -950,6 +982,7 @@ function admin_list_user_auth_events(
         "AdminListUserAuthEvents",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_list_user_auth_events(
@@ -968,6 +1001,7 @@ function admin_list_user_auth_events(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -993,6 +1027,7 @@ function admin_remove_user_from_group(
             "GroupName" => GroupName, "UserPoolId" => UserPoolId, "Username" => Username
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_remove_user_from_group(
@@ -1016,6 +1051,7 @@ function admin_remove_user_from_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1075,6 +1111,7 @@ function admin_reset_user_password(
         "AdminResetUserPassword",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_reset_user_password(
@@ -1093,6 +1130,7 @@ function admin_reset_user_password(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1174,6 +1212,7 @@ function admin_respond_to_auth_challenge(
             "UserPoolId" => UserPoolId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_respond_to_auth_challenge(
@@ -1197,6 +1236,7 @@ function admin_respond_to_auth_challenge(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1227,6 +1267,7 @@ function admin_set_user_mfapreference(
         "AdminSetUserMFAPreference",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_set_user_mfapreference(
@@ -1245,6 +1286,7 @@ function admin_set_user_mfapreference(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1279,6 +1321,7 @@ function admin_set_user_password(
             "Password" => Password, "UserPoolId" => UserPoolId, "Username" => Username
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_set_user_password(
@@ -1302,6 +1345,7 @@ function admin_set_user_password(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1330,6 +1374,7 @@ function admin_set_user_settings(
             "MFAOptions" => MFAOptions, "UserPoolId" => UserPoolId, "Username" => Username
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_set_user_settings(
@@ -1353,6 +1398,7 @@ function admin_set_user_settings(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1387,6 +1433,7 @@ function admin_update_auth_event_feedback(
             "Username" => Username,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_update_auth_event_feedback(
@@ -1412,6 +1459,7 @@ function admin_update_auth_event_feedback(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1441,6 +1489,7 @@ function admin_update_device_status(
             "DeviceKey" => DeviceKey, "UserPoolId" => UserPoolId, "Username" => Username
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_update_device_status(
@@ -1464,6 +1513,7 @@ function admin_update_device_status(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1525,6 +1575,7 @@ function admin_update_user_attributes(
             "Username" => Username,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_update_user_attributes(
@@ -1548,6 +1599,7 @@ function admin_update_user_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1572,6 +1624,7 @@ function admin_user_global_sign_out(
         "AdminUserGlobalSignOut",
         Dict{String,Any}("UserPoolId" => UserPoolId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function admin_user_global_sign_out(
@@ -1590,6 +1643,7 @@ function admin_user_global_sign_out(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1612,13 +1666,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the service. This allows authentication of the user as part of the MFA setup process.
 """
 function associate_software_token(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cognito_identity_provider("AssociateSoftwareToken"; aws_config=aws_config)
+    return cognito_identity_provider(
+        "AssociateSoftwareToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function associate_software_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cognito_identity_provider(
-        "AssociateSoftwareToken", params; aws_config=aws_config
+        "AssociateSoftwareToken",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1648,6 +1707,7 @@ function change_password(
             "ProposedPassword" => ProposedPassword,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function change_password(
@@ -1671,6 +1731,7 @@ function change_password(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1696,6 +1757,7 @@ function confirm_device(
         "ConfirmDevice",
         Dict{String,Any}("AccessToken" => AccessToken, "DeviceKey" => DeviceKey);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function confirm_device(
@@ -1714,6 +1776,7 @@ function confirm_device(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1773,6 +1836,7 @@ function confirm_forgot_password(
             "Username" => Username,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function confirm_forgot_password(
@@ -1798,6 +1862,7 @@ function confirm_forgot_password(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1855,6 +1920,7 @@ function confirm_sign_up(
             "Username" => Username,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function confirm_sign_up(
@@ -1878,6 +1944,7 @@ function confirm_sign_up(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1915,6 +1982,7 @@ function create_group(
         "CreateGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_group(
@@ -1933,6 +2001,7 @@ function create_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1980,6 +2049,7 @@ function create_identity_provider(
             "UserPoolId" => UserPoolId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_identity_provider(
@@ -2005,6 +2075,7 @@ function create_identity_provider(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2034,6 +2105,7 @@ function create_resource_server(
             "Identifier" => Identifier, "Name" => Name, "UserPoolId" => UserPoolId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resource_server(
@@ -2055,6 +2127,7 @@ function create_resource_server(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2085,6 +2158,7 @@ function create_user_import_job(
             "UserPoolId" => UserPoolId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_user_import_job(
@@ -2108,6 +2182,7 @@ function create_user_import_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2179,7 +2254,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_user_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "CreateUserPool", Dict{String,Any}("PoolName" => PoolName); aws_config=aws_config
+        "CreateUserPool",
+        Dict{String,Any}("PoolName" => PoolName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_user_pool(
@@ -2193,6 +2271,7 @@ function create_user_pool(
             mergewith(_merge, Dict{String,Any}("PoolName" => PoolName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2295,6 +2374,7 @@ function create_user_pool_client(
         "CreateUserPoolClient",
         Dict{String,Any}("ClientName" => ClientName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_user_pool_client(
@@ -2313,6 +2393,7 @@ function create_user_pool_client(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2341,6 +2422,7 @@ function create_user_pool_domain(
         "CreateUserPoolDomain",
         Dict{String,Any}("Domain" => Domain, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_user_pool_domain(
@@ -2359,6 +2441,7 @@ function create_user_pool_domain(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2380,6 +2463,7 @@ function delete_group(
         "DeleteGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_group(
@@ -2398,6 +2482,7 @@ function delete_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2419,6 +2504,7 @@ function delete_identity_provider(
         "DeleteIdentityProvider",
         Dict{String,Any}("ProviderName" => ProviderName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_identity_provider(
@@ -2439,6 +2525,7 @@ function delete_identity_provider(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2460,6 +2547,7 @@ function delete_resource_server(
         "DeleteResourceServer",
         Dict{String,Any}("Identifier" => Identifier, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_resource_server(
@@ -2478,6 +2566,7 @@ function delete_resource_server(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2493,7 +2582,10 @@ Allows a user to delete himself or herself.
 """
 function delete_user(AccessToken; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "DeleteUser", Dict{String,Any}("AccessToken" => AccessToken); aws_config=aws_config
+        "DeleteUser",
+        Dict{String,Any}("AccessToken" => AccessToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_user(
@@ -2507,6 +2599,7 @@ function delete_user(
             mergewith(_merge, Dict{String,Any}("AccessToken" => AccessToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2532,6 +2625,7 @@ function delete_user_attributes(
             "AccessToken" => AccessToken, "UserAttributeNames" => UserAttributeNames
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_user_attributes(
@@ -2552,6 +2646,7 @@ function delete_user_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2570,6 +2665,7 @@ function delete_user_pool(UserPoolId; aws_config::AbstractAWSConfig=global_aws_c
         "DeleteUserPool",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_user_pool(
@@ -2583,6 +2679,7 @@ function delete_user_pool(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2604,6 +2701,7 @@ function delete_user_pool_client(
         "DeleteUserPoolClient",
         Dict{String,Any}("ClientId" => ClientId, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_user_pool_client(
@@ -2622,6 +2720,7 @@ function delete_user_pool_client(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2643,6 +2742,7 @@ function delete_user_pool_domain(
         "DeleteUserPoolDomain",
         Dict{String,Any}("Domain" => Domain, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_user_pool_domain(
@@ -2661,6 +2761,7 @@ function delete_user_pool_domain(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2682,6 +2783,7 @@ function describe_identity_provider(
         "DescribeIdentityProvider",
         Dict{String,Any}("ProviderName" => ProviderName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_identity_provider(
@@ -2702,6 +2804,7 @@ function describe_identity_provider(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2723,6 +2826,7 @@ function describe_resource_server(
         "DescribeResourceServer",
         Dict{String,Any}("Identifier" => Identifier, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_resource_server(
@@ -2741,6 +2845,7 @@ function describe_resource_server(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2764,6 +2869,7 @@ function describe_risk_configuration(
         "DescribeRiskConfiguration",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_risk_configuration(
@@ -2777,6 +2883,7 @@ function describe_risk_configuration(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2798,6 +2905,7 @@ function describe_user_import_job(
         "DescribeUserImportJob",
         Dict{String,Any}("JobId" => JobId, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_user_import_job(
@@ -2816,6 +2924,7 @@ function describe_user_import_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2834,6 +2943,7 @@ function describe_user_pool(UserPoolId; aws_config::AbstractAWSConfig=global_aws
         "DescribeUserPool",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_user_pool(
@@ -2847,6 +2957,7 @@ function describe_user_pool(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2869,6 +2980,7 @@ function describe_user_pool_client(
         "DescribeUserPoolClient",
         Dict{String,Any}("ClientId" => ClientId, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_user_pool_client(
@@ -2887,6 +2999,7 @@ function describe_user_pool_client(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2907,6 +3020,7 @@ function describe_user_pool_domain(
         "DescribeUserPoolDomain",
         Dict{String,Any}("Domain" => Domain);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_user_pool_domain(
@@ -2916,6 +3030,7 @@ function describe_user_pool_domain(
         "DescribeUserPoolDomain",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Domain" => Domain), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2934,7 +3049,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function forget_device(DeviceKey; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "ForgetDevice", Dict{String,Any}("DeviceKey" => DeviceKey); aws_config=aws_config
+        "ForgetDevice",
+        Dict{String,Any}("DeviceKey" => DeviceKey);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function forget_device(
@@ -2948,6 +3066,7 @@ function forget_device(
             mergewith(_merge, Dict{String,Any}("DeviceKey" => DeviceKey), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3012,6 +3131,7 @@ function forgot_password(
         "ForgotPassword",
         Dict{String,Any}("ClientId" => ClientId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function forgot_password(
@@ -3030,6 +3150,7 @@ function forgot_password(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3045,7 +3166,10 @@ Gets the header information for the .csv file to be used as input for the user i
 """
 function get_csvheader(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "GetCSVHeader", Dict{String,Any}("UserPoolId" => UserPoolId); aws_config=aws_config
+        "GetCSVHeader",
+        Dict{String,Any}("UserPoolId" => UserPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_csvheader(
@@ -3059,6 +3183,7 @@ function get_csvheader(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3077,7 +3202,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_device(DeviceKey; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "GetDevice", Dict{String,Any}("DeviceKey" => DeviceKey); aws_config=aws_config
+        "GetDevice",
+        Dict{String,Any}("DeviceKey" => DeviceKey);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_device(
@@ -3091,6 +3219,7 @@ function get_device(
             mergewith(_merge, Dict{String,Any}("DeviceKey" => DeviceKey), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3110,6 +3239,7 @@ function get_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=global_a
         "GetGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_group(
@@ -3128,6 +3258,7 @@ function get_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3149,6 +3280,7 @@ function get_identity_provider_by_identifier(
         "GetIdentityProviderByIdentifier",
         Dict{String,Any}("IdpIdentifier" => IdpIdentifier, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_identity_provider_by_identifier(
@@ -3169,6 +3301,7 @@ function get_identity_provider_by_identifier(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3189,6 +3322,7 @@ function get_signing_certificate(
         "GetSigningCertificate",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_signing_certificate(
@@ -3202,6 +3336,7 @@ function get_signing_certificate(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3226,6 +3361,7 @@ function get_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=global_aw
         "GetUICustomization",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_uicustomization(
@@ -3239,6 +3375,7 @@ function get_uicustomization(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3255,7 +3392,10 @@ Gets the user attributes and metadata for a user.
 """
 function get_user(AccessToken; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "GetUser", Dict{String,Any}("AccessToken" => AccessToken); aws_config=aws_config
+        "GetUser",
+        Dict{String,Any}("AccessToken" => AccessToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_user(
@@ -3269,6 +3409,7 @@ function get_user(
             mergewith(_merge, Dict{String,Any}("AccessToken" => AccessToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3322,6 +3463,7 @@ function get_user_attribute_verification_code(
         "GetUserAttributeVerificationCode",
         Dict{String,Any}("AccessToken" => AccessToken, "AttributeName" => AttributeName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_user_attribute_verification_code(
@@ -3342,6 +3484,7 @@ function get_user_attribute_verification_code(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3362,6 +3505,7 @@ function get_user_pool_mfa_config(
         "GetUserPoolMfaConfig",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_user_pool_mfa_config(
@@ -3375,6 +3519,7 @@ function get_user_pool_mfa_config(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3395,6 +3540,7 @@ function global_sign_out(AccessToken; aws_config::AbstractAWSConfig=global_aws_c
         "GlobalSignOut",
         Dict{String,Any}("AccessToken" => AccessToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function global_sign_out(
@@ -3408,6 +3554,7 @@ function global_sign_out(
             mergewith(_merge, Dict{String,Any}("AccessToken" => AccessToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3490,6 +3637,7 @@ function initiate_auth(
         "InitiateAuth",
         Dict{String,Any}("AuthFlow" => AuthFlow, "ClientId" => ClientId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function initiate_auth(
@@ -3508,6 +3656,7 @@ function initiate_auth(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3527,7 +3676,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_devices(AccessToken; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "ListDevices", Dict{String,Any}("AccessToken" => AccessToken); aws_config=aws_config
+        "ListDevices",
+        Dict{String,Any}("AccessToken" => AccessToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_devices(
@@ -3541,6 +3693,7 @@ function list_devices(
             mergewith(_merge, Dict{String,Any}("AccessToken" => AccessToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3562,7 +3715,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_groups(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "ListGroups", Dict{String,Any}("UserPoolId" => UserPoolId); aws_config=aws_config
+        "ListGroups",
+        Dict{String,Any}("UserPoolId" => UserPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_groups(
@@ -3576,6 +3732,7 @@ function list_groups(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3600,6 +3757,7 @@ function list_identity_providers(
         "ListIdentityProviders",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_identity_providers(
@@ -3613,6 +3771,7 @@ function list_identity_providers(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3637,6 +3796,7 @@ function list_resource_servers(
         "ListResourceServers",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_resource_servers(
@@ -3650,6 +3810,7 @@ function list_resource_servers(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3674,6 +3835,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -3687,6 +3849,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3712,6 +3875,7 @@ function list_user_import_jobs(
         "ListUserImportJobs",
         Dict{String,Any}("MaxResults" => MaxResults, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_user_import_jobs(
@@ -3730,6 +3894,7 @@ function list_user_import_jobs(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3757,6 +3922,7 @@ function list_user_pool_clients(
         "ListUserPoolClients",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_user_pool_clients(
@@ -3770,6 +3936,7 @@ function list_user_pool_clients(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3790,7 +3957,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_user_pools(MaxResults; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "ListUserPools", Dict{String,Any}("MaxResults" => MaxResults); aws_config=aws_config
+        "ListUserPools",
+        Dict{String,Any}("MaxResults" => MaxResults);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_user_pools(
@@ -3804,6 +3974,7 @@ function list_user_pools(
             mergewith(_merge, Dict{String,Any}("MaxResults" => MaxResults), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3842,7 +4013,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_users(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config())
     return cognito_identity_provider(
-        "ListUsers", Dict{String,Any}("UserPoolId" => UserPoolId); aws_config=aws_config
+        "ListUsers",
+        Dict{String,Any}("UserPoolId" => UserPoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_users(
@@ -3856,6 +4030,7 @@ function list_users(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3882,6 +4057,7 @@ function list_users_in_group(
         "ListUsersInGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_users_in_group(
@@ -3900,6 +4076,7 @@ function list_users_in_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3957,6 +4134,7 @@ function resend_confirmation_code(
         "ResendConfirmationCode",
         Dict{String,Any}("ClientId" => ClientId, "Username" => Username);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function resend_confirmation_code(
@@ -3975,6 +4153,7 @@ function resend_confirmation_code(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4047,6 +4226,7 @@ function respond_to_auth_challenge(
         "RespondToAuthChallenge",
         Dict{String,Any}("ChallengeName" => ChallengeName, "ClientId" => ClientId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function respond_to_auth_challenge(
@@ -4065,6 +4245,7 @@ function respond_to_auth_challenge(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4089,6 +4270,7 @@ function revoke_token(ClientId, Token; aws_config::AbstractAWSConfig=global_aws_
         "RevokeToken",
         Dict{String,Any}("ClientId" => ClientId, "Token" => Token);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function revoke_token(
@@ -4105,6 +4287,7 @@ function revoke_token(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4139,6 +4322,7 @@ function set_risk_configuration(
         "SetRiskConfiguration",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_risk_configuration(
@@ -4152,6 +4336,7 @@ function set_risk_configuration(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4181,6 +4366,7 @@ function set_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=global_aw
         "SetUICustomization",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_uicustomization(
@@ -4194,6 +4380,7 @@ function set_uicustomization(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4227,6 +4414,7 @@ function set_user_mfapreference(
         "SetUserMFAPreference",
         Dict{String,Any}("AccessToken" => AccessToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_user_mfapreference(
@@ -4240,6 +4428,7 @@ function set_user_mfapreference(
             mergewith(_merge, Dict{String,Any}("AccessToken" => AccessToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4280,6 +4469,7 @@ function set_user_pool_mfa_config(
         "SetUserPoolMfaConfig",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_user_pool_mfa_config(
@@ -4293,6 +4483,7 @@ function set_user_pool_mfa_config(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4317,6 +4508,7 @@ function set_user_settings(
         "SetUserSettings",
         Dict{String,Any}("AccessToken" => AccessToken, "MFAOptions" => MFAOptions);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_user_settings(
@@ -4335,6 +4527,7 @@ function set_user_settings(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4399,6 +4592,7 @@ function sign_up(
             "ClientId" => ClientId, "Password" => Password, "Username" => Username
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function sign_up(
@@ -4420,6 +4614,7 @@ function sign_up(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4441,6 +4636,7 @@ function start_user_import_job(
         "StartUserImportJob",
         Dict{String,Any}("JobId" => JobId, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_user_import_job(
@@ -4459,6 +4655,7 @@ function start_user_import_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4480,6 +4677,7 @@ function stop_user_import_job(
         "StopUserImportJob",
         Dict{String,Any}("JobId" => JobId, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function stop_user_import_job(
@@ -4498,6 +4696,7 @@ function stop_user_import_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4527,6 +4726,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -4545,6 +4745,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4568,6 +4769,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -4586,6 +4788,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4623,6 +4826,7 @@ function update_auth_event_feedback(
             "Username" => Username,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_auth_event_feedback(
@@ -4650,6 +4854,7 @@ function update_auth_event_feedback(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4674,6 +4879,7 @@ function update_device_status(
         "UpdateDeviceStatus",
         Dict{String,Any}("AccessToken" => AccessToken, "DeviceKey" => DeviceKey);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_device_status(
@@ -4692,6 +4898,7 @@ function update_device_status(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4721,6 +4928,7 @@ function update_group(
         "UpdateGroup",
         Dict{String,Any}("GroupName" => GroupName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_group(
@@ -4739,6 +4947,7 @@ function update_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4766,6 +4975,7 @@ function update_identity_provider(
         "UpdateIdentityProvider",
         Dict{String,Any}("ProviderName" => ProviderName, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_identity_provider(
@@ -4786,6 +4996,7 @@ function update_identity_provider(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4814,6 +5025,7 @@ function update_resource_server(
             "Identifier" => Identifier, "Name" => Name, "UserPoolId" => UserPoolId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_resource_server(
@@ -4835,6 +5047,7 @@ function update_resource_server(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4886,6 +5099,7 @@ function update_user_attributes(
         "UpdateUserAttributes",
         Dict{String,Any}("AccessToken" => AccessToken, "UserAttributes" => UserAttributes);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_user_attributes(
@@ -4906,6 +5120,7 @@ function update_user_attributes(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -4970,6 +5185,7 @@ function update_user_pool(UserPoolId; aws_config::AbstractAWSConfig=global_aws_c
         "UpdateUserPool",
         Dict{String,Any}("UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_user_pool(
@@ -4983,6 +5199,7 @@ function update_user_pool(
             mergewith(_merge, Dict{String,Any}("UserPoolId" => UserPoolId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5077,6 +5294,7 @@ function update_user_pool_client(
         "UpdateUserPoolClient",
         Dict{String,Any}("ClientId" => ClientId, "UserPoolId" => UserPoolId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_user_pool_client(
@@ -5095,6 +5313,7 @@ function update_user_pool_client(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5145,6 +5364,7 @@ function update_user_pool_domain(
             "UserPoolId" => UserPoolId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_user_pool_domain(
@@ -5168,6 +5388,7 @@ function update_user_pool_domain(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5195,6 +5416,7 @@ function verify_software_token(UserCode; aws_config::AbstractAWSConfig=global_aw
         "VerifySoftwareToken",
         Dict{String,Any}("UserCode" => UserCode);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function verify_software_token(
@@ -5208,6 +5430,7 @@ function verify_software_token(
             mergewith(_merge, Dict{String,Any}("UserCode" => UserCode), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5232,6 +5455,7 @@ function verify_user_attribute(
             "AccessToken" => AccessToken, "AttributeName" => AttributeName, "Code" => Code
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function verify_user_attribute(
@@ -5255,5 +5479,6 @@ function verify_user_attribute(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

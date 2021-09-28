@@ -50,6 +50,7 @@ function create_gateway_route(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_gateway_route(
@@ -75,6 +76,7 @@ function create_gateway_route(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -107,6 +109,7 @@ function create_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config()
         "/v20190125/meshes",
         Dict{String,Any}("meshName" => meshName, "clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_mesh(
@@ -125,6 +128,7 @@ function create_mesh(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -171,6 +175,7 @@ function create_route(
             "routeName" => routeName, "spec" => spec, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_route(
@@ -196,6 +201,7 @@ function create_route(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -240,6 +246,7 @@ function create_virtual_gateway(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_virtual_gateway(
@@ -264,6 +271,7 @@ function create_virtual_gateway(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -319,6 +327,7 @@ function create_virtual_node(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_virtual_node(
@@ -343,6 +352,7 @@ function create_virtual_node(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -387,6 +397,7 @@ function create_virtual_router(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_virtual_router(
@@ -411,6 +422,7 @@ function create_virtual_router(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -455,6 +467,7 @@ function create_virtual_service(
             "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_virtual_service(
@@ -479,6 +492,7 @@ function create_virtual_service(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -509,6 +523,7 @@ function delete_gateway_route(
         "DELETE",
         "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_gateway_route(
@@ -523,6 +538,7 @@ function delete_gateway_route(
         "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -539,7 +555,12 @@ itself.
 
 """
 function delete_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config())
-    return app_mesh("DELETE", "/v20190125/meshes/$(meshName)"; aws_config=aws_config)
+    return app_mesh(
+        "DELETE",
+        "/v20190125/meshes/$(meshName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_mesh(
     meshName,
@@ -547,7 +568,11 @@ function delete_mesh(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return app_mesh(
-        "DELETE", "/v20190125/meshes/$(meshName)", params; aws_config=aws_config
+        "DELETE",
+        "/v20190125/meshes/$(meshName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -578,6 +603,7 @@ function delete_route(
         "DELETE",
         "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_route(
@@ -592,6 +618,7 @@ function delete_route(
         "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -619,6 +646,7 @@ function delete_virtual_gateway(
         "DELETE",
         "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_virtual_gateway(
@@ -632,6 +660,7 @@ function delete_virtual_gateway(
         "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -659,6 +688,7 @@ function delete_virtual_node(
         "DELETE",
         "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_virtual_node(
@@ -672,6 +702,7 @@ function delete_virtual_node(
         "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -699,6 +730,7 @@ function delete_virtual_router(
         "DELETE",
         "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_virtual_router(
@@ -712,6 +744,7 @@ function delete_virtual_router(
         "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -738,6 +771,7 @@ function delete_virtual_service(
         "DELETE",
         "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_virtual_service(
@@ -751,6 +785,7 @@ function delete_virtual_service(
         "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -782,6 +817,7 @@ function describe_gateway_route(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_gateway_route(
@@ -796,6 +832,7 @@ function describe_gateway_route(
         "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -815,14 +852,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about mesh sharing, see Working with shared meshes.
 """
 function describe_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config())
-    return app_mesh("GET", "/v20190125/meshes/$(meshName)"; aws_config=aws_config)
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_mesh(
     meshName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return app_mesh("GET", "/v20190125/meshes/$(meshName)", params; aws_config=aws_config)
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -852,6 +900,7 @@ function describe_route(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_route(
@@ -866,6 +915,7 @@ function describe_route(
         "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -892,6 +942,7 @@ function describe_virtual_gateway(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_virtual_gateway(
@@ -905,6 +956,7 @@ function describe_virtual_gateway(
         "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -931,6 +983,7 @@ function describe_virtual_node(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_virtual_node(
@@ -944,6 +997,7 @@ function describe_virtual_node(
         "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -970,6 +1024,7 @@ function describe_virtual_router(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_virtual_router(
@@ -983,6 +1038,7 @@ function describe_virtual_router(
         "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1009,6 +1065,7 @@ function describe_virtual_service(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_virtual_service(
@@ -1022,6 +1079,7 @@ function describe_virtual_service(
         "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1057,6 +1115,7 @@ function list_gateway_routes(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_gateway_routes(
@@ -1070,6 +1129,7 @@ function list_gateway_routes(
         "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1094,12 +1154,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in a list and not for other programmatic purposes.
 """
 function list_meshes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return app_mesh("GET", "/v20190125/meshes"; aws_config=aws_config)
+    return app_mesh(
+        "GET", "/v20190125/meshes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_meshes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return app_mesh("GET", "/v20190125/meshes", params; aws_config=aws_config)
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1134,6 +1202,7 @@ function list_routes(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_routes(
@@ -1147,6 +1216,7 @@ function list_routes(
         "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1180,6 +1250,7 @@ function list_tags_for_resource(
         "/v20190125/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -1194,6 +1265,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1223,7 +1295,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_virtual_gateways(meshName; aws_config::AbstractAWSConfig=global_aws_config())
     return app_mesh(
-        "GET", "/v20190125/meshes/$(meshName)/virtualGateways"; aws_config=aws_config
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualGateways";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_virtual_gateways(
@@ -1236,6 +1311,7 @@ function list_virtual_gateways(
         "/v20190125/meshes/$(meshName)/virtualGateways",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1265,7 +1341,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_virtual_nodes(meshName; aws_config::AbstractAWSConfig=global_aws_config())
     return app_mesh(
-        "GET", "/v20190125/meshes/$(meshName)/virtualNodes"; aws_config=aws_config
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualNodes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_virtual_nodes(
@@ -1274,7 +1353,11 @@ function list_virtual_nodes(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return app_mesh(
-        "GET", "/v20190125/meshes/$(meshName)/virtualNodes", params; aws_config=aws_config
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualNodes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1304,7 +1387,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_virtual_routers(meshName; aws_config::AbstractAWSConfig=global_aws_config())
     return app_mesh(
-        "GET", "/v20190125/meshes/$(meshName)/virtualRouters"; aws_config=aws_config
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualRouters";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_virtual_routers(
@@ -1313,7 +1399,11 @@ function list_virtual_routers(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return app_mesh(
-        "GET", "/v20190125/meshes/$(meshName)/virtualRouters", params; aws_config=aws_config
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualRouters",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1343,7 +1433,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_virtual_services(meshName; aws_config::AbstractAWSConfig=global_aws_config())
     return app_mesh(
-        "GET", "/v20190125/meshes/$(meshName)/virtualServices"; aws_config=aws_config
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualServices";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_virtual_services(
@@ -1356,6 +1449,7 @@ function list_virtual_services(
         "/v20190125/meshes/$(meshName)/virtualServices",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1380,6 +1474,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/v20190125/tag",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1399,6 +1494,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1421,6 +1517,7 @@ function untag_resource(
         "/v20190125/untag",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -1440,6 +1537,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1477,6 +1575,7 @@ function update_gateway_route(
         "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)",
         Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_gateway_route(
@@ -1498,6 +1597,7 @@ function update_gateway_route(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1522,6 +1622,7 @@ function update_mesh(meshName; aws_config::AbstractAWSConfig=global_aws_config()
         "/v20190125/meshes/$(meshName)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_mesh(
@@ -1536,6 +1637,7 @@ function update_mesh(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1571,6 +1673,7 @@ function update_route(
         "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)",
         Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_route(
@@ -1592,6 +1695,7 @@ function update_route(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1622,6 +1726,7 @@ function update_virtual_gateway(
         "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)",
         Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_virtual_gateway(
@@ -1642,6 +1747,7 @@ function update_virtual_gateway(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1672,6 +1778,7 @@ function update_virtual_node(
         "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)",
         Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_virtual_node(
@@ -1692,6 +1799,7 @@ function update_virtual_node(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1722,6 +1830,7 @@ function update_virtual_router(
         "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)",
         Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_virtual_router(
@@ -1742,6 +1851,7 @@ function update_virtual_router(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1772,6 +1882,7 @@ function update_virtual_service(
         "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)",
         Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_virtual_service(
@@ -1792,5 +1903,6 @@ function update_virtual_service(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -103,3 +103,17 @@ function _generate_rest_resource(request_uri::String, args::AbstractDict{String,
 
     return request_uri
 end
+
+function _assignment_to_kw!(expr::Expr)
+    if expr.head === :(=)
+        expr.head = :kw
+    else
+        throw(ArgumentError("Expected assignment expression, instead found: `$expr`"))
+    end
+
+    return expr
+end
+
+function _assignment_to_kw!(x)
+    return throw(ArgumentError("Expected assignment expression, instead found: `$x`"))
+end

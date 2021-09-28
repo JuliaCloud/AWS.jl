@@ -25,7 +25,10 @@ function describe_job_execution(
     jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_jobs_data_plane(
-        "GET", "/things/$(thingName)/jobs/$(jobId)"; aws_config=aws_config
+        "GET",
+        "/things/$(thingName)/jobs/$(jobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_job_execution(
@@ -35,7 +38,11 @@ function describe_job_execution(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iot_jobs_data_plane(
-        "GET", "/things/$(thingName)/jobs/$(jobId)", params; aws_config=aws_config
+        "GET",
+        "/things/$(thingName)/jobs/$(jobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -52,7 +59,12 @@ Gets the list of all jobs for a thing that are not in a terminal status.
 function get_pending_job_executions(
     thingName; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_jobs_data_plane("GET", "/things/$(thingName)/jobs"; aws_config=aws_config)
+    return iot_jobs_data_plane(
+        "GET",
+        "/things/$(thingName)/jobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_pending_job_executions(
     thingName,
@@ -60,7 +72,11 @@ function get_pending_job_executions(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iot_jobs_data_plane(
-        "GET", "/things/$(thingName)/jobs", params; aws_config=aws_config
+        "GET",
+        "/things/$(thingName)/jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -89,7 +105,10 @@ function start_next_pending_job_execution(
     thingName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_jobs_data_plane(
-        "PUT", "/things/$(thingName)/jobs/$next"; aws_config=aws_config
+        "PUT",
+        "/things/$(thingName)/jobs/$next";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_next_pending_job_execution(
@@ -98,7 +117,11 @@ function start_next_pending_job_execution(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iot_jobs_data_plane(
-        "PUT", "/things/$(thingName)/jobs/$next", params; aws_config=aws_config
+        "PUT",
+        "/things/$(thingName)/jobs/$next",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -146,6 +169,7 @@ function update_job_execution(
         "/things/$(thingName)/jobs/$(jobId)",
         Dict{String,Any}("status" => status);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_job_execution(
@@ -160,5 +184,6 @@ function update_job_execution(
         "/things/$(thingName)/jobs/$(jobId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

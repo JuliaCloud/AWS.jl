@@ -27,6 +27,7 @@ function create_home_region_control(
         "CreateHomeRegionControl",
         Dict{String,Any}("HomeRegion" => HomeRegion, "Target" => Target);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_home_region_control(
@@ -45,6 +46,7 @@ function create_home_region_control(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -67,12 +69,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied, which is always of type ACCOUNT. It applies the home region to the current ACCOUNT.
 """
 function describe_home_region_controls(; aws_config::AbstractAWSConfig=global_aws_config())
-    return migrationhub_config("DescribeHomeRegionControls"; aws_config=aws_config)
+    return migrationhub_config(
+        "DescribeHomeRegionControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_home_region_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return migrationhub_config("DescribeHomeRegionControls", params; aws_config=aws_config)
+    return migrationhub_config(
+        "DescribeHomeRegionControls",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -87,10 +96,14 @@ Hub home region.
 
 """
 function get_home_region(; aws_config::AbstractAWSConfig=global_aws_config())
-    return migrationhub_config("GetHomeRegion"; aws_config=aws_config)
+    return migrationhub_config(
+        "GetHomeRegion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_home_region(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return migrationhub_config("GetHomeRegion", params; aws_config=aws_config)
+    return migrationhub_config(
+        "GetHomeRegion", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end

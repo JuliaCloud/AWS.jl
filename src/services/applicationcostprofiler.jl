@@ -19,7 +19,10 @@ function delete_report_definition(
     reportId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return applicationcostprofiler(
-        "DELETE", "/reportDefinition/$(reportId)"; aws_config=aws_config
+        "DELETE",
+        "/reportDefinition/$(reportId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_report_definition(
@@ -28,7 +31,11 @@ function delete_report_definition(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return applicationcostprofiler(
-        "DELETE", "/reportDefinition/$(reportId)", params; aws_config=aws_config
+        "DELETE",
+        "/reportDefinition/$(reportId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -44,7 +51,10 @@ Retrieves the definition of a report already configured in AWS Application Cost 
 """
 function get_report_definition(reportId; aws_config::AbstractAWSConfig=global_aws_config())
     return applicationcostprofiler(
-        "GET", "/reportDefinition/$(reportId)"; aws_config=aws_config
+        "GET",
+        "/reportDefinition/$(reportId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_report_definition(
@@ -53,7 +63,11 @@ function get_report_definition(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return applicationcostprofiler(
-        "GET", "/reportDefinition/$(reportId)", params; aws_config=aws_config
+        "GET",
+        "/reportDefinition/$(reportId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -78,6 +92,7 @@ function import_application_usage(
         "/importApplicationUsage",
         Dict{String,Any}("sourceS3Location" => sourceS3Location);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function import_application_usage(
@@ -94,6 +109,7 @@ function import_application_usage(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -110,13 +126,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value from a previous call to access the next page of results.
 """
 function list_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return applicationcostprofiler("GET", "/reportDefinition"; aws_config=aws_config)
+    return applicationcostprofiler(
+        "GET", "/reportDefinition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_report_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return applicationcostprofiler(
-        "GET", "/reportDefinition", params; aws_config=aws_config
+        "GET",
+        "/reportDefinition",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -155,6 +177,7 @@ function put_report_definition(
             "reportId" => reportId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_report_definition(
@@ -183,6 +206,7 @@ function put_report_definition(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -219,6 +243,7 @@ function update_report_definition(
             "reportFrequency" => reportFrequency,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_report_definition(
@@ -246,5 +271,6 @@ function update_report_definition(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

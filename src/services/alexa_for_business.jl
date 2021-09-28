@@ -17,7 +17,10 @@ private, the user implicitly accepts access to this skill during enablement.
 """
 function approve_skill(SkillId; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "ApproveSkill", Dict{String,Any}("SkillId" => SkillId); aws_config=aws_config
+        "ApproveSkill",
+        Dict{String,Any}("SkillId" => SkillId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function approve_skill(
@@ -27,6 +30,7 @@ function approve_skill(
         "ApproveSkill",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("SkillId" => SkillId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -48,6 +52,7 @@ function associate_contact_with_address_book(
         "AssociateContactWithAddressBook",
         Dict{String,Any}("AddressBookArn" => AddressBookArn, "ContactArn" => ContactArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_contact_with_address_book(
@@ -68,6 +73,7 @@ function associate_contact_with_address_book(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -91,6 +97,7 @@ function associate_device_with_network_profile(
             "DeviceArn" => DeviceArn, "NetworkProfileArn" => NetworkProfileArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_device_with_network_profile(
@@ -111,6 +118,7 @@ function associate_device_with_network_profile(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -128,12 +136,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoomArn"`: The ARN of the room with which to associate the device. Required.
 """
 function associate_device_with_room(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("AssociateDeviceWithRoom"; aws_config=aws_config)
+    return alexa_for_business(
+        "AssociateDeviceWithRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function associate_device_with_room(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("AssociateDeviceWithRoom", params; aws_config=aws_config)
+    return alexa_for_business(
+        "AssociateDeviceWithRoom",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -151,12 +166,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_skill_group_with_room(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("AssociateSkillGroupWithRoom"; aws_config=aws_config)
+    return alexa_for_business(
+        "AssociateSkillGroupWithRoom";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function associate_skill_group_with_room(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("AssociateSkillGroupWithRoom", params; aws_config=aws_config)
+    return alexa_for_business(
+        "AssociateSkillGroupWithRoom",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -179,6 +203,7 @@ function associate_skill_with_skill_group(
         "AssociateSkillWithSkillGroup",
         Dict{String,Any}("SkillId" => SkillId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_skill_with_skill_group(
@@ -188,6 +213,7 @@ function associate_skill_with_skill_group(
         "AssociateSkillWithSkillGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("SkillId" => SkillId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -208,6 +234,7 @@ function associate_skill_with_users(
         "AssociateSkillWithUsers",
         Dict{String,Any}("SkillId" => SkillId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_skill_with_users(
@@ -217,6 +244,7 @@ function associate_skill_with_users(
         "AssociateSkillWithUsers",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("SkillId" => SkillId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -241,6 +269,7 @@ function create_address_book(Name; aws_config::AbstractAWSConfig=global_aws_conf
         "CreateAddressBook",
         Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_address_book(
@@ -256,6 +285,7 @@ function create_address_book(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -293,6 +323,7 @@ function create_business_report_schedule(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_business_report_schedule(
@@ -315,6 +346,7 @@ function create_business_report_schedule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -351,6 +383,7 @@ function create_conference_provider(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_conference_provider(
@@ -375,6 +408,7 @@ function create_conference_provider(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -406,6 +440,7 @@ function create_contact(FirstName; aws_config::AbstractAWSConfig=global_aws_conf
         "CreateContact",
         Dict{String,Any}("FirstName" => FirstName, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_contact(
@@ -425,6 +460,7 @@ function create_contact(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -451,6 +487,7 @@ function create_gateway_group(
         "CreateGatewayGroup",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken, "Name" => Name);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_gateway_group(
@@ -471,6 +508,7 @@ function create_gateway_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -518,6 +556,7 @@ function create_network_profile(
             "Ssid" => Ssid,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_network_profile(
@@ -543,6 +582,7 @@ function create_network_profile(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -594,6 +634,7 @@ function create_profile(
             "ClientRequestToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_profile(
@@ -624,6 +665,7 @@ function create_profile(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -650,6 +692,7 @@ function create_room(RoomName; aws_config::AbstractAWSConfig=global_aws_config()
         "CreateRoom",
         Dict{String,Any}("RoomName" => RoomName, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_room(
@@ -669,6 +712,7 @@ function create_room(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -697,6 +741,7 @@ function create_skill_group(
             "SkillGroupName" => SkillGroupName, "ClientRequestToken" => string(uuid4())
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_skill_group(
@@ -717,6 +762,7 @@ function create_skill_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -743,6 +789,7 @@ function create_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
         "CreateUser",
         Dict{String,Any}("UserId" => UserId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_user(
@@ -760,6 +807,7 @@ function create_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -780,6 +828,7 @@ function delete_address_book(
         "DeleteAddressBook",
         Dict{String,Any}("AddressBookArn" => AddressBookArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_address_book(
@@ -793,6 +842,7 @@ function delete_address_book(
             mergewith(_merge, Dict{String,Any}("AddressBookArn" => AddressBookArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -813,6 +863,7 @@ function delete_business_report_schedule(
         "DeleteBusinessReportSchedule",
         Dict{String,Any}("ScheduleArn" => ScheduleArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_business_report_schedule(
@@ -826,6 +877,7 @@ function delete_business_report_schedule(
             mergewith(_merge, Dict{String,Any}("ScheduleArn" => ScheduleArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -846,6 +898,7 @@ function delete_conference_provider(
         "DeleteConferenceProvider",
         Dict{String,Any}("ConferenceProviderArn" => ConferenceProviderArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_conference_provider(
@@ -863,6 +916,7 @@ function delete_conference_provider(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -878,7 +932,10 @@ Deletes a contact by the contact ARN.
 """
 function delete_contact(ContactArn; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "DeleteContact", Dict{String,Any}("ContactArn" => ContactArn); aws_config=aws_config
+        "DeleteContact",
+        Dict{String,Any}("ContactArn" => ContactArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_contact(
@@ -892,6 +949,7 @@ function delete_contact(
             mergewith(_merge, Dict{String,Any}("ContactArn" => ContactArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -907,7 +965,10 @@ Removes a device from Alexa For Business.
 """
 function delete_device(DeviceArn; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "DeleteDevice", Dict{String,Any}("DeviceArn" => DeviceArn); aws_config=aws_config
+        "DeleteDevice",
+        Dict{String,Any}("DeviceArn" => DeviceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_device(
@@ -921,6 +982,7 @@ function delete_device(
             mergewith(_merge, Dict{String,Any}("DeviceArn" => DeviceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -944,6 +1006,7 @@ function delete_device_usage_data(
         "DeleteDeviceUsageData",
         Dict{String,Any}("DeviceArn" => DeviceArn, "DeviceUsageType" => DeviceUsageType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_device_usage_data(
@@ -964,6 +1027,7 @@ function delete_device_usage_data(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -984,6 +1048,7 @@ function delete_gateway_group(
         "DeleteGatewayGroup",
         Dict{String,Any}("GatewayGroupArn" => GatewayGroupArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_gateway_group(
@@ -999,6 +1064,7 @@ function delete_gateway_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1019,6 +1085,7 @@ function delete_network_profile(
         "DeleteNetworkProfile",
         Dict{String,Any}("NetworkProfileArn" => NetworkProfileArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_network_profile(
@@ -1034,6 +1101,7 @@ function delete_network_profile(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1048,12 +1116,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfileArn"`: The ARN of the room profile to delete. Required.
 """
 function delete_profile(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("DeleteProfile"; aws_config=aws_config)
+    return alexa_for_business(
+        "DeleteProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("DeleteProfile", params; aws_config=aws_config)
+    return alexa_for_business(
+        "DeleteProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1067,12 +1139,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoomArn"`: The ARN of the room to delete. Required.
 """
 function delete_room(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("DeleteRoom"; aws_config=aws_config)
+    return alexa_for_business(
+        "DeleteRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_room(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("DeleteRoom", params; aws_config=aws_config)
+    return alexa_for_business(
+        "DeleteRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1096,6 +1172,7 @@ function delete_room_skill_parameter(
         "DeleteRoomSkillParameter",
         Dict{String,Any}("ParameterKey" => ParameterKey, "SkillId" => SkillId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_room_skill_parameter(
@@ -1114,6 +1191,7 @@ function delete_room_skill_parameter(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1137,6 +1215,7 @@ function delete_skill_authorization(
         "DeleteSkillAuthorization",
         Dict{String,Any}("SkillId" => SkillId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_skill_authorization(
@@ -1146,6 +1225,7 @@ function delete_skill_authorization(
         "DeleteSkillAuthorization",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("SkillId" => SkillId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1160,12 +1240,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SkillGroupArn"`: The ARN of the skill group to delete. Required.
 """
 function delete_skill_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("DeleteSkillGroup"; aws_config=aws_config)
+    return alexa_for_business(
+        "DeleteSkillGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_skill_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("DeleteSkillGroup", params; aws_config=aws_config)
+    return alexa_for_business(
+        "DeleteSkillGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1186,6 +1270,7 @@ function delete_user(EnrollmentId; aws_config::AbstractAWSConfig=global_aws_conf
         "DeleteUser",
         Dict{String,Any}("EnrollmentId" => EnrollmentId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_user(
@@ -1199,6 +1284,7 @@ function delete_user(
             mergewith(_merge, Dict{String,Any}("EnrollmentId" => EnrollmentId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1220,6 +1306,7 @@ function disassociate_contact_from_address_book(
         "DisassociateContactFromAddressBook",
         Dict{String,Any}("AddressBookArn" => AddressBookArn, "ContactArn" => ContactArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_contact_from_address_book(
@@ -1240,6 +1327,7 @@ function disassociate_contact_from_address_book(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1256,12 +1344,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceArn"`: The ARN of the device to disassociate from a room. Required.
 """
 function disassociate_device_from_room(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("DisassociateDeviceFromRoom"; aws_config=aws_config)
+    return alexa_for_business(
+        "DisassociateDeviceFromRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function disassociate_device_from_room(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("DisassociateDeviceFromRoom", params; aws_config=aws_config)
+    return alexa_for_business(
+        "DisassociateDeviceFromRoom",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1284,6 +1379,7 @@ function disassociate_skill_from_skill_group(
         "DisassociateSkillFromSkillGroup",
         Dict{String,Any}("SkillId" => SkillId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_skill_from_skill_group(
@@ -1293,6 +1389,7 @@ function disassociate_skill_from_skill_group(
         "DisassociateSkillFromSkillGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("SkillId" => SkillId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1314,6 +1411,7 @@ function disassociate_skill_from_users(
         "DisassociateSkillFromUsers",
         Dict{String,Any}("SkillId" => SkillId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_skill_from_users(
@@ -1323,6 +1421,7 @@ function disassociate_skill_from_users(
         "DisassociateSkillFromUsers",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("SkillId" => SkillId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1342,13 +1441,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function disassociate_skill_group_from_room(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("DisassociateSkillGroupFromRoom"; aws_config=aws_config)
+    return alexa_for_business(
+        "DisassociateSkillGroupFromRoom";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function disassociate_skill_group_from_room(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return alexa_for_business(
-        "DisassociateSkillGroupFromRoom", params; aws_config=aws_config
+        "DisassociateSkillGroupFromRoom",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1369,6 +1475,7 @@ function forget_smart_home_appliances(
         "ForgetSmartHomeAppliances",
         Dict{String,Any}("RoomArn" => RoomArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function forget_smart_home_appliances(
@@ -1378,6 +1485,7 @@ function forget_smart_home_appliances(
         "ForgetSmartHomeAppliances",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoomArn" => RoomArn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1396,6 +1504,7 @@ function get_address_book(AddressBookArn; aws_config::AbstractAWSConfig=global_a
         "GetAddressBook",
         Dict{String,Any}("AddressBookArn" => AddressBookArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_address_book(
@@ -1409,6 +1518,7 @@ function get_address_book(
             mergewith(_merge, Dict{String,Any}("AddressBookArn" => AddressBookArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1420,12 +1530,19 @@ Retrieves the existing conference preferences.
 
 """
 function get_conference_preference(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("GetConferencePreference"; aws_config=aws_config)
+    return alexa_for_business(
+        "GetConferencePreference"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_conference_preference(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("GetConferencePreference", params; aws_config=aws_config)
+    return alexa_for_business(
+        "GetConferencePreference",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1445,6 +1562,7 @@ function get_conference_provider(
         "GetConferenceProvider",
         Dict{String,Any}("ConferenceProviderArn" => ConferenceProviderArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_conference_provider(
@@ -1462,6 +1580,7 @@ function get_conference_provider(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1477,7 +1596,10 @@ Gets the contact details by the contact ARN.
 """
 function get_contact(ContactArn; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "GetContact", Dict{String,Any}("ContactArn" => ContactArn); aws_config=aws_config
+        "GetContact",
+        Dict{String,Any}("ContactArn" => ContactArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_contact(
@@ -1491,6 +1613,7 @@ function get_contact(
             mergewith(_merge, Dict{String,Any}("ContactArn" => ContactArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1505,12 +1628,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceArn"`: The ARN of the device for which to request details. Required.
 """
 function get_device(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("GetDevice"; aws_config=aws_config)
+    return alexa_for_business(
+        "GetDevice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_device(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("GetDevice", params; aws_config=aws_config)
+    return alexa_for_business(
+        "GetDevice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1525,7 +1652,10 @@ Retrieves the details of a gateway.
 """
 function get_gateway(GatewayArn; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "GetGateway", Dict{String,Any}("GatewayArn" => GatewayArn); aws_config=aws_config
+        "GetGateway",
+        Dict{String,Any}("GatewayArn" => GatewayArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_gateway(
@@ -1539,6 +1669,7 @@ function get_gateway(
             mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1559,6 +1690,7 @@ function get_gateway_group(
         "GetGatewayGroup",
         Dict{String,Any}("GatewayGroupArn" => GatewayGroupArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_gateway_group(
@@ -1574,6 +1706,7 @@ function get_gateway_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1585,12 +1718,19 @@ Retrieves the configured values for the user enrollment invitation email templat
 
 """
 function get_invitation_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("GetInvitationConfiguration"; aws_config=aws_config)
+    return alexa_for_business(
+        "GetInvitationConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_invitation_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("GetInvitationConfiguration", params; aws_config=aws_config)
+    return alexa_for_business(
+        "GetInvitationConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1610,6 +1750,7 @@ function get_network_profile(
         "GetNetworkProfile",
         Dict{String,Any}("NetworkProfileArn" => NetworkProfileArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_network_profile(
@@ -1625,6 +1766,7 @@ function get_network_profile(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1639,12 +1781,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfileArn"`: The ARN of the room profile for which to request details. Required.
 """
 function get_profile(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("GetProfile"; aws_config=aws_config)
+    return alexa_for_business(
+        "GetProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("GetProfile", params; aws_config=aws_config)
+    return alexa_for_business(
+        "GetProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1658,12 +1804,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoomArn"`: The ARN of the room for which to request details. Required.
 """
 function get_room(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("GetRoom"; aws_config=aws_config)
+    return alexa_for_business(
+        "GetRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_room(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("GetRoom", params; aws_config=aws_config)
+    return alexa_for_business(
+        "GetRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1688,6 +1838,7 @@ function get_room_skill_parameter(
         "GetRoomSkillParameter",
         Dict{String,Any}("ParameterKey" => ParameterKey, "SkillId" => SkillId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_room_skill_parameter(
@@ -1706,6 +1857,7 @@ function get_room_skill_parameter(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1720,12 +1872,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SkillGroupArn"`: The ARN of the skill group for which to get details. Required.
 """
 function get_skill_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("GetSkillGroup"; aws_config=aws_config)
+    return alexa_for_business(
+        "GetSkillGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_skill_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("GetSkillGroup", params; aws_config=aws_config)
+    return alexa_for_business(
+        "GetSkillGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1742,12 +1898,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token used to list the remaining schedules from the previous API call.
 """
 function list_business_report_schedules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("ListBusinessReportSchedules"; aws_config=aws_config)
+    return alexa_for_business(
+        "ListBusinessReportSchedules";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_business_report_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("ListBusinessReportSchedules", params; aws_config=aws_config)
+    return alexa_for_business(
+        "ListBusinessReportSchedules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1763,12 +1928,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The tokens used for pagination.
 """
 function list_conference_providers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("ListConferenceProviders"; aws_config=aws_config)
+    return alexa_for_business(
+        "ListConferenceProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_conference_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("ListConferenceProviders", params; aws_config=aws_config)
+    return alexa_for_business(
+        "ListConferenceProviders",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1799,6 +1971,7 @@ function list_device_events(DeviceArn; aws_config::AbstractAWSConfig=global_aws_
         "ListDeviceEvents",
         Dict{String,Any}("DeviceArn" => DeviceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_device_events(
@@ -1812,6 +1985,7 @@ function list_device_events(
             mergewith(_merge, Dict{String,Any}("DeviceArn" => DeviceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1830,12 +2004,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   summaries.
 """
 function list_gateway_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("ListGatewayGroups"; aws_config=aws_config)
+    return alexa_for_business(
+        "ListGatewayGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_gateway_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("ListGatewayGroups", params; aws_config=aws_config)
+    return alexa_for_business(
+        "ListGatewayGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1853,12 +2031,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token used to paginate though multiple pages of gateway summaries.
 """
 function list_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("ListGateways"; aws_config=aws_config)
+    return alexa_for_business(
+        "ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("ListGateways", params; aws_config=aws_config)
+    return alexa_for_business(
+        "ListGateways", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1880,12 +2062,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SkillType"`: Whether the skill is publicly available or is a private skill.
 """
 function list_skills(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("ListSkills"; aws_config=aws_config)
+    return alexa_for_business(
+        "ListSkills"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_skills(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("ListSkills", params; aws_config=aws_config)
+    return alexa_for_business(
+        "ListSkills", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1900,12 +2086,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The tokens used for pagination.
 """
 function list_skills_store_categories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("ListSkillsStoreCategories"; aws_config=aws_config)
+    return alexa_for_business(
+        "ListSkillsStoreCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_skills_store_categories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("ListSkillsStoreCategories", params; aws_config=aws_config)
+    return alexa_for_business(
+        "ListSkillsStoreCategories",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1930,6 +2123,7 @@ function list_skills_store_skills_by_category(
         "ListSkillsStoreSkillsByCategory",
         Dict{String,Any}("CategoryId" => CategoryId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_skills_store_skills_by_category(
@@ -1943,6 +2137,7 @@ function list_skills_store_skills_by_category(
             mergewith(_merge, Dict{String,Any}("CategoryId" => CategoryId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1967,6 +2162,7 @@ function list_smart_home_appliances(
         "ListSmartHomeAppliances",
         Dict{String,Any}("RoomArn" => RoomArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_smart_home_appliances(
@@ -1976,6 +2172,7 @@ function list_smart_home_appliances(
         "ListSmartHomeAppliances",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoomArn" => RoomArn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1999,7 +2196,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_tags(Arn; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "ListTags", Dict{String,Any}("Arn" => Arn); aws_config=aws_config
+        "ListTags",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags(
@@ -2009,6 +2209,7 @@ function list_tags(
         "ListTags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2029,6 +2230,7 @@ function put_conference_preference(
         "PutConferencePreference",
         Dict{String,Any}("ConferencePreference" => ConferencePreference);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_conference_preference(
@@ -2046,6 +2248,7 @@ function put_conference_preference(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2073,6 +2276,7 @@ function put_invitation_configuration(
         "PutInvitationConfiguration",
         Dict{String,Any}("OrganizationName" => OrganizationName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_invitation_configuration(
@@ -2088,6 +2292,7 @@ function put_invitation_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2113,6 +2318,7 @@ function put_room_skill_parameter(
         "PutRoomSkillParameter",
         Dict{String,Any}("RoomSkillParameter" => RoomSkillParameter, "SkillId" => SkillId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_room_skill_parameter(
@@ -2133,6 +2339,7 @@ function put_room_skill_parameter(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2162,6 +2369,7 @@ function put_skill_authorization(
             "AuthorizationResult" => AuthorizationResult, "SkillId" => SkillId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_skill_authorization(
@@ -2182,6 +2390,7 @@ function put_skill_authorization(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2226,6 +2435,7 @@ function register_avsdevice(
             "UserCode" => UserCode,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_avsdevice(
@@ -2251,6 +2461,7 @@ function register_avsdevice(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2268,7 +2479,10 @@ rejected can be added later by calling the ApproveSkill API.
 """
 function reject_skill(SkillId; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "RejectSkill", Dict{String,Any}("SkillId" => SkillId); aws_config=aws_config
+        "RejectSkill",
+        Dict{String,Any}("SkillId" => SkillId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reject_skill(
@@ -2278,6 +2492,7 @@ function reject_skill(
         "RejectSkill",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("SkillId" => SkillId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2303,6 +2518,7 @@ function resolve_room(SkillId, UserId; aws_config::AbstractAWSConfig=global_aws_
         "ResolveRoom",
         Dict{String,Any}("SkillId" => SkillId, "UserId" => UserId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function resolve_room(
@@ -2319,6 +2535,7 @@ function resolve_room(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2334,12 +2551,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserArn"`: The ARN of the user for whom to revoke an enrollment invitation. Required.
 """
 function revoke_invitation(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("RevokeInvitation"; aws_config=aws_config)
+    return alexa_for_business(
+        "RevokeInvitation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function revoke_invitation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("RevokeInvitation", params; aws_config=aws_config)
+    return alexa_for_business(
+        "RevokeInvitation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2362,12 +2583,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The supported sort key is AddressBookName.
 """
 function search_address_books(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("SearchAddressBooks"; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchAddressBooks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function search_address_books(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("SearchAddressBooks", params; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchAddressBooks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2390,12 +2615,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported sort keys are DisplayName, FirstName, and LastName.
 """
 function search_contacts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("SearchContacts"; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchContacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function search_contacts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("SearchContacts", params; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchContacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2421,12 +2650,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ConnectionStatus, NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
 """
 function search_devices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("SearchDevices"; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function search_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("SearchDevices", params; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchDevices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2449,12 +2682,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid sort criteria includes NetworkProfileName, Ssid, and SecurityType.
 """
 function search_network_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("SearchNetworkProfiles"; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchNetworkProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function search_network_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("SearchNetworkProfiles", params; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchNetworkProfiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2477,12 +2717,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Supported sort keys are ProfileName and Address.
 """
 function search_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("SearchProfiles"; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function search_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("SearchProfiles", params; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2505,12 +2749,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported sort keys are RoomName and ProfileName.
 """
 function search_rooms(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("SearchRooms"; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchRooms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function search_rooms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("SearchRooms", params; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchRooms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2533,12 +2781,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported sort key is SkillGroupName.
 """
 function search_skill_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("SearchSkillGroups"; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchSkillGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function search_skill_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("SearchSkillGroups", params; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchSkillGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2561,12 +2813,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
 """
 function search_users(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("SearchUsers"; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function search_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("SearchUsers", params; aws_config=aws_config)
+    return alexa_for_business(
+        "SearchUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2604,6 +2860,7 @@ function send_announcement(
             "RoomFilters" => RoomFilters,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function send_announcement(
@@ -2627,6 +2884,7 @@ function send_announcement(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2642,12 +2900,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserArn"`: The ARN of the user to whom to send an invitation. Required.
 """
 function send_invitation(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("SendInvitation"; aws_config=aws_config)
+    return alexa_for_business(
+        "SendInvitation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function send_invitation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("SendInvitation", params; aws_config=aws_config)
+    return alexa_for_business(
+        "SendInvitation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2673,7 +2935,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function start_device_sync(Features; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "StartDeviceSync", Dict{String,Any}("Features" => Features); aws_config=aws_config
+        "StartDeviceSync",
+        Dict{String,Any}("Features" => Features);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_device_sync(
@@ -2687,6 +2952,7 @@ function start_device_sync(
             mergewith(_merge, Dict{String,Any}("Features" => Features), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2707,6 +2973,7 @@ function start_smart_home_appliance_discovery(
         "StartSmartHomeApplianceDiscovery",
         Dict{String,Any}("RoomArn" => RoomArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_smart_home_appliance_discovery(
@@ -2716,6 +2983,7 @@ function start_smart_home_appliance_discovery(
         "StartSmartHomeApplianceDiscovery",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoomArn" => RoomArn), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2733,7 +3001,10 @@ Adds metadata tags to a specified resource.
 """
 function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "TagResource", Dict{String,Any}("Arn" => Arn, "Tags" => Tags); aws_config=aws_config
+        "TagResource",
+        Dict{String,Any}("Arn" => Arn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -2748,6 +3019,7 @@ function tag_resource(
             mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Tags" => Tags), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2768,6 +3040,7 @@ function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_c
         "UntagResource",
         Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -2782,6 +3055,7 @@ function untag_resource(
             mergewith(_merge, Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2806,6 +3080,7 @@ function update_address_book(
         "UpdateAddressBook",
         Dict{String,Any}("AddressBookArn" => AddressBookArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_address_book(
@@ -2819,6 +3094,7 @@ function update_address_book(
             mergewith(_merge, Dict{String,Any}("AddressBookArn" => AddressBookArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2847,6 +3123,7 @@ function update_business_report_schedule(
         "UpdateBusinessReportSchedule",
         Dict{String,Any}("ScheduleArn" => ScheduleArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_business_report_schedule(
@@ -2860,6 +3137,7 @@ function update_business_report_schedule(
             mergewith(_merge, Dict{String,Any}("ScheduleArn" => ScheduleArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2893,6 +3171,7 @@ function update_conference_provider(
             "MeetingSetting" => MeetingSetting,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_conference_provider(
@@ -2916,6 +3195,7 @@ function update_conference_provider(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2941,7 +3221,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_contact(ContactArn; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "UpdateContact", Dict{String,Any}("ContactArn" => ContactArn); aws_config=aws_config
+        "UpdateContact",
+        Dict{String,Any}("ContactArn" => ContactArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_contact(
@@ -2955,6 +3238,7 @@ function update_contact(
             mergewith(_merge, Dict{String,Any}("ContactArn" => ContactArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2970,12 +3254,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceName"`: The updated device name. Required.
 """
 function update_device(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("UpdateDevice"; aws_config=aws_config)
+    return alexa_for_business(
+        "UpdateDevice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_device(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("UpdateDevice", params; aws_config=aws_config)
+    return alexa_for_business(
+        "UpdateDevice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -2997,7 +3285,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_gateway(GatewayArn; aws_config::AbstractAWSConfig=global_aws_config())
     return alexa_for_business(
-        "UpdateGateway", Dict{String,Any}("GatewayArn" => GatewayArn); aws_config=aws_config
+        "UpdateGateway",
+        Dict{String,Any}("GatewayArn" => GatewayArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_gateway(
@@ -3011,6 +3302,7 @@ function update_gateway(
             mergewith(_merge, Dict{String,Any}("GatewayArn" => GatewayArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3036,6 +3328,7 @@ function update_gateway_group(
         "UpdateGatewayGroup",
         Dict{String,Any}("GatewayGroupArn" => GatewayGroupArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_gateway_group(
@@ -3051,6 +3344,7 @@ function update_gateway_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3084,6 +3378,7 @@ function update_network_profile(
         "UpdateNetworkProfile",
         Dict{String,Any}("NetworkProfileArn" => NetworkProfileArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_network_profile(
@@ -3099,6 +3394,7 @@ function update_network_profile(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3128,12 +3424,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WakeWord"`: The updated wake word for the room profile.
 """
 function update_profile(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("UpdateProfile"; aws_config=aws_config)
+    return alexa_for_business(
+        "UpdateProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("UpdateProfile", params; aws_config=aws_config)
+    return alexa_for_business(
+        "UpdateProfile", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -3151,12 +3451,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoomName"`: The updated name for the room.
 """
 function update_room(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("UpdateRoom"; aws_config=aws_config)
+    return alexa_for_business(
+        "UpdateRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_room(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("UpdateRoom", params; aws_config=aws_config)
+    return alexa_for_business(
+        "UpdateRoom", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -3172,10 +3476,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SkillGroupName"`: The updated name for the skill group.
 """
 function update_skill_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return alexa_for_business("UpdateSkillGroup"; aws_config=aws_config)
+    return alexa_for_business(
+        "UpdateSkillGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_skill_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return alexa_for_business("UpdateSkillGroup", params; aws_config=aws_config)
+    return alexa_for_business(
+        "UpdateSkillGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end

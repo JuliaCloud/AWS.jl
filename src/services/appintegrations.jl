@@ -5,6 +5,55 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    create_data_integration(name)
+    create_data_integration(name, params::Dict{String,<:Any})
+
+Creates and persists a DataIntegration resource.  You cannot create a DataIntegration
+association for a DataIntegration that has been previously associated. Use a different
+DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
+
+# Arguments
+- `name`: The name of the DataIntegration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `"Description"`: A description of the DataIntegration.
+- `"KmsKey"`: The KMS key for the DataIntegration.
+- `"ScheduleConfig"`: The name of the data and how often it should be pulled from the
+  source.
+- `"SourceURI"`: The URI of the data source.
+- `"Tags"`: One or more tags.
+"""
+function create_data_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appintegrations(
+        "POST",
+        "/dataIntegrations",
+        Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_data_integration(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "POST",
+        "/dataIntegrations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_event_integration(event_bridge_bus, event_filter, name)
     create_event_integration(event_bridge_bus, event_filter, name, params::Dict{String,<:Any})
 
@@ -38,6 +87,7 @@ function create_event_integration(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_event_integration(
@@ -63,6 +113,46 @@ function create_event_integration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_integration(identifier)
+    delete_data_integration(identifier, params::Dict{String,<:Any})
+
+Deletes the DataIntegration. Only DataIntegrations that don't have any
+DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the
+underlying Amazon AppFlow flow and service linked role.   You cannot create a
+DataIntegration association for a DataIntegration that has been previously associated. Use
+a different DataIntegration, or recreate the DataIntegration using the
+CreateDataIntegration API.
+
+# Arguments
+- `identifier`: A unique identifier for the DataIntegration.
+
+"""
+function delete_data_integration(
+    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "DELETE",
+        "/dataIntegrations/$(Identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_data_integration(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "DELETE",
+        "/dataIntegrations/$(Identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -78,13 +168,56 @@ with clients, the request is rejected.
 
 """
 function delete_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations("DELETE", "/eventIntegrations/$(Name)"; aws_config=aws_config)
+    return appintegrations(
+        "DELETE",
+        "/eventIntegrations/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_event_integration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appintegrations(
-        "DELETE", "/eventIntegrations/$(Name)", params; aws_config=aws_config
+        "DELETE",
+        "/eventIntegrations/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_integration(identifier)
+    get_data_integration(identifier, params::Dict{String,<:Any})
+
+Returns information about the DataIntegration.  You cannot create a DataIntegration
+association for a DataIntegration that has been previously associated. Use a different
+DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
+
+# Arguments
+- `identifier`: A unique identifier.
+
+"""
+function get_data_integration(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return appintegrations(
+        "GET",
+        "/dataIntegrations/$(Identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_integration(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "GET",
+        "/dataIntegrations/$(Identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -92,20 +225,103 @@ end
     get_event_integration(name)
     get_event_integration(name, params::Dict{String,<:Any})
 
-Return information about the event integration.
+Returns information about the event integration.
 
 # Arguments
 - `name`: The name of the event integration.
 
 """
 function get_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations("GET", "/eventIntegrations/$(Name)"; aws_config=aws_config)
+    return appintegrations(
+        "GET",
+        "/eventIntegrations/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_event_integration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appintegrations(
-        "GET", "/eventIntegrations/$(Name)", params; aws_config=aws_config
+        "GET",
+        "/eventIntegrations/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_integration_associations(identifier)
+    list_data_integration_associations(identifier, params::Dict{String,<:Any})
+
+Returns a paginated list of DataIntegration associations in the account.  You cannot create
+a DataIntegration association for a DataIntegration that has been previously associated.
+Use a different DataIntegration, or recreate the DataIntegration using the
+CreateDataIntegration API.
+
+# Arguments
+- `identifier`: A unique identifier for the DataIntegration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_data_integration_associations(
+    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "GET",
+        "/dataIntegrations/$(Identifier)/associations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_data_integration_associations(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "GET",
+        "/dataIntegrations/$(Identifier)/associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_integrations()
+    list_data_integrations(params::Dict{String,<:Any})
+
+Returns a paginated list of DataIntegrations in the account.  You cannot create a
+DataIntegration association for a DataIntegration that has been previously associated. Use
+a different DataIntegration, or recreate the DataIntegration using the
+CreateDataIntegration API.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_data_integrations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appintegrations(
+        "GET", "/dataIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_data_integrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "GET",
+        "/dataIntegrations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -128,14 +344,21 @@ function list_event_integration_associations(
     Name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appintegrations(
-        "GET", "/eventIntegrations/$(Name)/associations"; aws_config=aws_config
+        "GET",
+        "/eventIntegrations/$(Name)/associations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_event_integration_associations(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appintegrations(
-        "GET", "/eventIntegrations/$(Name)/associations", params; aws_config=aws_config
+        "GET",
+        "/eventIntegrations/$(Name)/associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -152,12 +375,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_event_integrations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations("GET", "/eventIntegrations"; aws_config=aws_config)
+    return appintegrations(
+        "GET", "/eventIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_event_integrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return appintegrations("GET", "/eventIntegrations", params; aws_config=aws_config)
+    return appintegrations(
+        "GET",
+        "/eventIntegrations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -173,14 +404,25 @@ Lists the tags for the specified resource.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return appintegrations("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return appintegrations(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return appintegrations("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return appintegrations(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -200,6 +442,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -213,6 +456,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -235,6 +479,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -248,6 +493,47 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_integration(identifier)
+    update_data_integration(identifier, params::Dict{String,<:Any})
+
+Updates the description of a DataIntegration.  You cannot create a DataIntegration
+association for a DataIntegration that has been previously associated. Use a different
+DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
+
+# Arguments
+- `identifier`: A unique identifier for the DataIntegration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the DataIntegration.
+- `"Name"`: The name of the DataIntegration.
+"""
+function update_data_integration(
+    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "PATCH",
+        "/dataIntegrations/$(Identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_data_integration(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "PATCH",
+        "/dataIntegrations/$(Identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -265,12 +551,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the event inegration.
 """
 function update_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations("PATCH", "/eventIntegrations/$(Name)"; aws_config=aws_config)
+    return appintegrations(
+        "PATCH",
+        "/eventIntegrations/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_event_integration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appintegrations(
-        "PATCH", "/eventIntegrations/$(Name)", params; aws_config=aws_config
+        "PATCH",
+        "/eventIntegrations/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

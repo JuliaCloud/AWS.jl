@@ -27,6 +27,7 @@ function associate_delegate_to_resource(
             "ResourceId" => ResourceId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_delegate_to_resource(
@@ -50,6 +51,7 @@ function associate_delegate_to_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -74,6 +76,7 @@ function associate_member_to_group(
             "GroupId" => GroupId, "MemberId" => MemberId, "OrganizationId" => OrganizationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function associate_member_to_group(
@@ -97,6 +100,7 @@ function associate_member_to_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -124,6 +128,7 @@ function cancel_mailbox_export_job(
             "OrganizationId" => OrganizationId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_mailbox_export_job(
@@ -147,6 +152,7 @@ function cancel_mailbox_export_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -171,6 +177,7 @@ function create_alias(
             "Alias" => Alias, "EntityId" => EntityId, "OrganizationId" => OrganizationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_alias(
@@ -194,6 +201,7 @@ function create_alias(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -216,6 +224,7 @@ function create_group(
         "CreateGroup",
         Dict{String,Any}("Name" => Name, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_group(
@@ -234,6 +243,7 @@ function create_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -277,6 +287,7 @@ function create_mobile_device_access_rule(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_mobile_device_access_rule(
@@ -301,6 +312,7 @@ function create_mobile_device_access_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -340,6 +352,7 @@ function create_organization(Alias; aws_config::AbstractAWSConfig=global_aws_con
         "CreateOrganization",
         Dict{String,Any}("Alias" => Alias, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_organization(
@@ -355,6 +368,7 @@ function create_organization(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -380,6 +394,7 @@ function create_resource(
             "Name" => Name, "OrganizationId" => OrganizationId, "Type" => Type
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resource(
@@ -401,6 +416,7 @@ function create_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -435,6 +451,7 @@ function create_user(
             "Password" => Password,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_user(
@@ -460,6 +477,7 @@ function create_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -481,6 +499,7 @@ function delete_access_control_rule(
         "DeleteAccessControlRule",
         Dict{String,Any}("Name" => Name, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_access_control_rule(
@@ -499,6 +518,7 @@ function delete_access_control_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -525,6 +545,7 @@ function delete_alias(
             "Alias" => Alias, "EntityId" => EntityId, "OrganizationId" => OrganizationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_alias(
@@ -548,6 +569,7 @@ function delete_alias(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -569,6 +591,7 @@ function delete_group(
         "DeleteGroup",
         Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_group(
@@ -587,6 +610,7 @@ function delete_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -615,6 +639,7 @@ function delete_mailbox_permissions(
             "OrganizationId" => OrganizationId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_mailbox_permissions(
@@ -638,6 +663,7 @@ function delete_mailbox_permissions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -664,6 +690,7 @@ function delete_mobile_device_access_rule(
             "OrganizationId" => OrganizationId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_mobile_device_access_rule(
@@ -685,6 +712,7 @@ function delete_mobile_device_access_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -717,6 +745,7 @@ function delete_organization(
             "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_organization(
@@ -739,6 +768,7 @@ function delete_organization(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -761,6 +791,7 @@ function delete_resource(
         "DeleteResource",
         Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_resource(
@@ -781,6 +812,7 @@ function delete_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -802,6 +834,7 @@ function delete_retention_policy(
         "DeleteRetentionPolicy",
         Dict{String,Any}("Id" => Id, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_retention_policy(
@@ -820,6 +853,7 @@ function delete_retention_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -844,6 +878,7 @@ function delete_user(
         "DeleteUser",
         Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_user(
@@ -862,6 +897,7 @@ function delete_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -886,6 +922,7 @@ function deregister_from_work_mail(
         "DeregisterFromWorkMail",
         Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deregister_from_work_mail(
@@ -906,6 +943,7 @@ function deregister_from_work_mail(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -927,6 +965,7 @@ function describe_group(
         "DescribeGroup",
         Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_group(
@@ -945,6 +984,7 @@ function describe_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -966,6 +1006,7 @@ function describe_mailbox_export_job(
         "DescribeMailboxExportJob",
         Dict{String,Any}("JobId" => JobId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_mailbox_export_job(
@@ -984,6 +1025,7 @@ function describe_mailbox_export_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1004,6 +1046,7 @@ function describe_organization(
         "DescribeOrganization",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_organization(
@@ -1017,6 +1060,7 @@ function describe_organization(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1039,6 +1083,7 @@ function describe_resource(
         "DescribeResource",
         Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_resource(
@@ -1059,6 +1104,7 @@ function describe_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1080,6 +1126,7 @@ function describe_user(
         "DescribeUser",
         Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_user(
@@ -1098,6 +1145,7 @@ function describe_user(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1126,6 +1174,7 @@ function disassociate_delegate_from_resource(
             "ResourceId" => ResourceId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_delegate_from_resource(
@@ -1149,6 +1198,7 @@ function disassociate_delegate_from_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1173,6 +1223,7 @@ function disassociate_member_from_group(
             "GroupId" => GroupId, "MemberId" => MemberId, "OrganizationId" => OrganizationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function disassociate_member_from_group(
@@ -1196,6 +1247,7 @@ function disassociate_member_from_group(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1230,6 +1282,7 @@ function get_access_control_effect(
             "UserId" => UserId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_access_control_effect(
@@ -1255,6 +1308,7 @@ function get_access_control_effect(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1275,6 +1329,7 @@ function get_default_retention_policy(
         "GetDefaultRetentionPolicy",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_default_retention_policy(
@@ -1288,6 +1343,7 @@ function get_default_retention_policy(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1310,6 +1366,7 @@ function get_mailbox_details(
         "GetMailboxDetails",
         Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_mailbox_details(
@@ -1328,6 +1385,7 @@ function get_mailbox_details(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1356,6 +1414,7 @@ function get_mobile_device_access_effect(
         "GetMobileDeviceAccessEffect",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_mobile_device_access_effect(
@@ -1369,6 +1428,7 @@ function get_mobile_device_access_effect(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1389,6 +1449,7 @@ function list_access_control_rules(
         "ListAccessControlRules",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_access_control_rules(
@@ -1402,6 +1463,7 @@ function list_access_control_rules(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1428,6 +1490,7 @@ function list_aliases(
         "ListAliases",
         Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_aliases(
@@ -1448,6 +1511,7 @@ function list_aliases(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1475,6 +1539,7 @@ function list_group_members(
         "ListGroupMembers",
         Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_group_members(
@@ -1493,6 +1558,7 @@ function list_group_members(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1516,6 +1582,7 @@ function list_groups(OrganizationId; aws_config::AbstractAWSConfig=global_aws_co
         "ListGroups",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_groups(
@@ -1529,6 +1596,7 @@ function list_groups(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1554,6 +1622,7 @@ function list_mailbox_export_jobs(
         "ListMailboxExportJobs",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_mailbox_export_jobs(
@@ -1567,6 +1636,7 @@ function list_mailbox_export_jobs(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1595,6 +1665,7 @@ function list_mailbox_permissions(
         "ListMailboxPermissions",
         Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_mailbox_permissions(
@@ -1615,6 +1686,7 @@ function list_mailbox_permissions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1635,6 +1707,7 @@ function list_mobile_device_access_rules(
         "ListMobileDeviceAccessRules",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_mobile_device_access_rules(
@@ -1648,6 +1721,7 @@ function list_mobile_device_access_rules(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1664,12 +1738,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not contain any tokens.
 """
 function list_organizations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workmail("ListOrganizations"; aws_config=aws_config)
+    return workmail(
+        "ListOrganizations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_organizations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return workmail("ListOrganizations", params; aws_config=aws_config)
+    return workmail(
+        "ListOrganizations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -1697,6 +1775,7 @@ function list_resource_delegates(
         "ListResourceDelegates",
         Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_resource_delegates(
@@ -1717,6 +1796,7 @@ function list_resource_delegates(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1740,6 +1820,7 @@ function list_resources(OrganizationId; aws_config::AbstractAWSConfig=global_aws
         "ListResources",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_resources(
@@ -1753,6 +1834,7 @@ function list_resources(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1773,6 +1855,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -1786,6 +1869,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1809,6 +1893,7 @@ function list_users(OrganizationId; aws_config::AbstractAWSConfig=global_aws_con
         "ListUsers",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_users(
@@ -1822,6 +1907,7 @@ function list_users(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1866,6 +1952,7 @@ function put_access_control_rule(
             "OrganizationId" => OrganizationId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_access_control_rule(
@@ -1891,6 +1978,7 @@ function put_access_control_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1931,6 +2019,7 @@ function put_mailbox_permissions(
             "PermissionValues" => PermissionValues,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_mailbox_permissions(
@@ -1956,6 +2045,7 @@ function put_mailbox_permissions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1989,6 +2079,7 @@ function put_retention_policy(
             "OrganizationId" => OrganizationId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_retention_policy(
@@ -2012,6 +2103,7 @@ function put_retention_policy(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2043,6 +2135,7 @@ function register_to_work_mail(
             "Email" => Email, "EntityId" => EntityId, "OrganizationId" => OrganizationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_to_work_mail(
@@ -2066,6 +2159,7 @@ function register_to_work_mail(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2091,6 +2185,7 @@ function reset_password(
             "OrganizationId" => OrganizationId, "Password" => Password, "UserId" => UserId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function reset_password(
@@ -2114,6 +2209,7 @@ function reset_password(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2163,6 +2259,7 @@ function start_mailbox_export_job(
             "S3Prefix" => S3Prefix,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_mailbox_export_job(
@@ -2194,6 +2291,7 @@ function start_mailbox_export_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2213,6 +2311,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -2231,6 +2330,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2252,6 +2352,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -2270,6 +2371,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2297,6 +2399,7 @@ function update_mailbox_quota(
             "UserId" => UserId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_mailbox_quota(
@@ -2320,6 +2423,7 @@ function update_mailbox_quota(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2367,6 +2471,7 @@ function update_mobile_device_access_rule(
             "OrganizationId" => OrganizationId,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_mobile_device_access_rule(
@@ -2392,6 +2497,7 @@ function update_mobile_device_access_rule(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2418,6 +2524,7 @@ function update_primary_email_address(
             "Email" => Email, "EntityId" => EntityId, "OrganizationId" => OrganizationId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_primary_email_address(
@@ -2441,6 +2548,7 @@ function update_primary_email_address(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2469,6 +2577,7 @@ function update_resource(
         "UpdateResource",
         Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_resource(
@@ -2489,5 +2598,6 @@ function update_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

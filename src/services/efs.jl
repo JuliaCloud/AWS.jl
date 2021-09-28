@@ -48,6 +48,7 @@ function create_access_point(
         "/2015-02-01/access-points",
         Dict{String,Any}("ClientToken" => ClientToken, "FileSystemId" => FileSystemId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_access_point(
@@ -69,6 +70,7 @@ function create_access_point(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -173,6 +175,7 @@ function create_file_system(
         "/2015-02-01/file-systems",
         Dict{String,Any}("CreationToken" => CreationToken);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_file_system(
@@ -187,6 +190,7 @@ function create_file_system(
             mergewith(_merge, Dict{String,Any}("CreationToken" => CreationToken), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -271,6 +275,7 @@ function create_mount_target(
         "/2015-02-01/mount-targets",
         Dict{String,Any}("FileSystemId" => FileSystemId, "SubnetId" => SubnetId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_mount_target(
@@ -290,6 +295,7 @@ function create_mount_target(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -317,6 +323,7 @@ function create_tags(FileSystemId, Tags; aws_config::AbstractAWSConfig=global_aw
         "/2015-02-01/create-tags/$(FileSystemId)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_tags(
@@ -330,6 +337,7 @@ function create_tags(
         "/2015-02-01/create-tags/$(FileSystemId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -350,7 +358,10 @@ function delete_access_point(
     AccessPointId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return efs(
-        "DELETE", "/2015-02-01/access-points/$(AccessPointId)"; aws_config=aws_config
+        "DELETE",
+        "/2015-02-01/access-points/$(AccessPointId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_access_point(
@@ -363,6 +374,7 @@ function delete_access_point(
         "/2015-02-01/access-points/$(AccessPointId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -386,7 +398,12 @@ elasticfilesystem:DeleteFileSystem action.
 
 """
 function delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)"; aws_config=aws_config)
+    return efs(
+        "DELETE",
+        "/2015-02-01/file-systems/$(FileSystemId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_file_system(
     FileSystemId,
@@ -394,7 +411,11 @@ function delete_file_system(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return efs(
-        "DELETE", "/2015-02-01/file-systems/$(FileSystemId)", params; aws_config=aws_config
+        "DELETE",
+        "/2015-02-01/file-systems/$(FileSystemId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -415,7 +436,10 @@ function delete_file_system_policy(
     FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return efs(
-        "DELETE", "/2015-02-01/file-systems/$(FileSystemId)/policy"; aws_config=aws_config
+        "DELETE",
+        "/2015-02-01/file-systems/$(FileSystemId)/policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_file_system_policy(
@@ -428,6 +452,7 @@ function delete_file_system_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -457,7 +482,10 @@ function delete_mount_target(
     MountTargetId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return efs(
-        "DELETE", "/2015-02-01/mount-targets/$(MountTargetId)"; aws_config=aws_config
+        "DELETE",
+        "/2015-02-01/mount-targets/$(MountTargetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_mount_target(
@@ -470,6 +498,7 @@ function delete_mount_target(
         "/2015-02-01/mount-targets/$(MountTargetId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -497,6 +526,7 @@ function delete_tags(
         "/2015-02-01/delete-tags/$(FileSystemId)",
         Dict{String,Any}("TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_tags(
@@ -510,6 +540,7 @@ function delete_tags(
         "/2015-02-01/delete-tags/$(FileSystemId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -536,12 +567,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the subsequent request to fetch the next page of access point descriptions.
 """
 function describe_access_points(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs("GET", "/2015-02-01/access-points"; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/access-points";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_access_points(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return efs("GET", "/2015-02-01/access-points", params; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/access-points",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -561,12 +603,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of Amazon Web Services account preferences if the response payload was paginated.
 """
 function describe_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs("GET", "/2015-02-01/account-preferences"; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/account-preferences";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_account_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return efs("GET", "/2015-02-01/account-preferences", params; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/account-preferences",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -586,6 +639,7 @@ function describe_backup_policy(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_backup_policy(
@@ -598,6 +652,7 @@ function describe_backup_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -616,7 +671,10 @@ function describe_file_system_policy(
     FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return efs(
-        "GET", "/2015-02-01/file-systems/$(FileSystemId)/policy"; aws_config=aws_config
+        "GET",
+        "/2015-02-01/file-systems/$(FileSystemId)/policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_file_system_policy(
@@ -629,6 +687,7 @@ function describe_file_system_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -667,12 +726,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100 per page if you have more than 100 file systems.
 """
 function describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs("GET", "/2015-02-01/file-systems"; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/file-systems";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_file_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return efs("GET", "/2015-02-01/file-systems", params; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/file-systems",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -699,6 +769,7 @@ function describe_lifecycle_configuration(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_lifecycle_configuration(
@@ -711,6 +782,7 @@ function describe_lifecycle_configuration(
         "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -736,6 +808,7 @@ function describe_mount_target_security_groups(
         "GET",
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_mount_target_security_groups(
@@ -748,6 +821,7 @@ function describe_mount_target_security_groups(
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -781,12 +855,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either a mount target ID or ARN as input.
 """
 function describe_mount_targets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs("GET", "/2015-02-01/mount-targets"; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/mount-targets";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_mount_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return efs("GET", "/2015-02-01/mount-targets", params; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/mount-targets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -813,14 +898,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The response is paginated at 100 per page if you have more than 100 tags.
 """
 function describe_tags(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs("GET", "/2015-02-01/tags/$(FileSystemId)/"; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/tags/$(FileSystemId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_tags(
     FileSystemId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return efs("GET", "/2015-02-01/tags/$(FileSystemId)/", params; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/tags/$(FileSystemId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -845,7 +941,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_tags_for_resource(
     ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return efs("GET", "/2015-02-01/resource-tags/$(ResourceId)"; aws_config=aws_config)
+    return efs(
+        "GET",
+        "/2015-02-01/resource-tags/$(ResourceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     ResourceId,
@@ -853,7 +954,11 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return efs(
-        "GET", "/2015-02-01/resource-tags/$(ResourceId)", params; aws_config=aws_config
+        "GET",
+        "/2015-02-01/resource-tags/$(ResourceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -885,6 +990,7 @@ function modify_mount_target_security_groups(
         "PUT",
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function modify_mount_target_security_groups(
@@ -897,6 +1003,7 @@ function modify_mount_target_security_groups(
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -924,6 +1031,7 @@ function put_account_preferences(
         "/2015-02-01/account-preferences",
         Dict{String,Any}("ResourceIdType" => ResourceIdType);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_account_preferences(
@@ -938,6 +1046,7 @@ function put_account_preferences(
             mergewith(_merge, Dict{String,Any}("ResourceIdType" => ResourceIdType), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -961,6 +1070,7 @@ function put_backup_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
         Dict{String,Any}("BackupPolicy" => BackupPolicy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_backup_policy(
@@ -976,6 +1086,7 @@ function put_backup_policy(
             mergewith(_merge, Dict{String,Any}("BackupPolicy" => BackupPolicy), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1017,6 +1128,7 @@ function put_file_system_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
         Dict{String,Any}("Policy" => Policy);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_file_system_policy(
@@ -1030,6 +1142,7 @@ function put_file_system_policy(
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1073,6 +1186,7 @@ function put_lifecycle_configuration(
         "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
         Dict{String,Any}("LifecyclePolicies" => LifecyclePolicies);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_lifecycle_configuration(
@@ -1090,6 +1204,7 @@ function put_lifecycle_configuration(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1112,6 +1227,7 @@ function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -1125,6 +1241,7 @@ function tag_resource(
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1150,6 +1267,7 @@ function untag_resource(
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -1163,6 +1281,7 @@ function untag_resource(
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1188,7 +1307,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ProvisionedThroughputInMibps.
 """
 function update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)"; aws_config=aws_config)
+    return efs(
+        "PUT",
+        "/2015-02-01/file-systems/$(FileSystemId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function update_file_system(
     FileSystemId,
@@ -1196,6 +1320,10 @@ function update_file_system(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return efs(
-        "PUT", "/2015-02-01/file-systems/$(FileSystemId)", params; aws_config=aws_config
+        "PUT",
+        "/2015-02-01/file-systems/$(FileSystemId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

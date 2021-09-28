@@ -40,6 +40,7 @@ function create_dataset(
             "DatasetSchema" => DatasetSchema,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_dataset(
@@ -63,6 +64,7 @@ function create_dataset(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -130,6 +132,7 @@ function create_inference_scheduler(
             "RoleArn" => RoleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_inference_scheduler(
@@ -161,6 +164,7 @@ function create_inference_scheduler(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -223,6 +227,7 @@ function create_model(
             "ModelName" => ModelName,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_model(
@@ -246,6 +251,7 @@ function create_model(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -268,6 +274,7 @@ function delete_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_co
         "DeleteDataset",
         Dict{String,Any}("DatasetName" => DatasetName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_dataset(
@@ -281,6 +288,7 @@ function delete_dataset(
             mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -302,6 +310,7 @@ function delete_inference_scheduler(
         "DeleteInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_inference_scheduler(
@@ -319,6 +328,7 @@ function delete_inference_scheduler(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -335,7 +345,10 @@ it from being used with an inference scheduler, even one that is already set up.
 """
 function delete_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
-        "DeleteModel", Dict{String,Any}("ModelName" => ModelName); aws_config=aws_config
+        "DeleteModel",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_model(
@@ -349,6 +362,7 @@ function delete_model(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -370,6 +384,7 @@ function describe_data_ingestion_job(
         "DescribeDataIngestionJob",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_data_ingestion_job(
@@ -379,6 +394,7 @@ function describe_data_ingestion_job(
         "DescribeDataIngestionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -398,6 +414,7 @@ function describe_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_
         "DescribeDataset",
         Dict{String,Any}("DatasetName" => DatasetName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_dataset(
@@ -411,6 +428,7 @@ function describe_dataset(
             mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -432,6 +450,7 @@ function describe_inference_scheduler(
         "DescribeInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_inference_scheduler(
@@ -449,6 +468,7 @@ function describe_inference_scheduler(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -465,7 +485,10 @@ model name and ARN, dataset, training and evaluation information, status, and so
 """
 function describe_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
-        "DescribeModel", Dict{String,Any}("ModelName" => ModelName); aws_config=aws_config
+        "DescribeModel",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_model(
@@ -479,6 +502,7 @@ function describe_model(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -498,12 +522,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Indicates the status of the data ingestion job.
 """
 function list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lookoutequipment("ListDataIngestionJobs"; aws_config=aws_config)
+    return lookoutequipment(
+        "ListDataIngestionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_data_ingestion_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lookoutequipment("ListDataIngestionJobs", params; aws_config=aws_config)
+    return lookoutequipment(
+        "ListDataIngestionJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -520,12 +551,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   datasets.
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lookoutequipment("ListDatasets"; aws_config=aws_config)
+    return lookoutequipment(
+        "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lookoutequipment("ListDatasets", params; aws_config=aws_config)
+    return lookoutequipment(
+        "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -557,6 +592,7 @@ function list_inference_executions(
         "ListInferenceExecutions",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_inference_executions(
@@ -574,6 +610,7 @@ function list_inference_executions(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -593,12 +630,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inference schedulers.
 """
 function list_inference_schedulers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lookoutequipment("ListInferenceSchedulers"; aws_config=aws_config)
+    return lookoutequipment(
+        "ListInferenceSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_inference_schedulers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lookoutequipment("ListInferenceSchedulers", params; aws_config=aws_config)
+    return lookoutequipment(
+        "ListInferenceSchedulers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -619,12 +663,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: The status of the ML model.
 """
 function list_models(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lookoutequipment("ListModels"; aws_config=aws_config)
+    return lookoutequipment(
+        "ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return lookoutequipment("ListModels", params; aws_config=aws_config)
+    return lookoutequipment(
+        "ListModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -645,6 +693,7 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -658,6 +707,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -693,6 +743,7 @@ function start_data_ingestion_job(
             "RoleArn" => RoleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_data_ingestion_job(
@@ -718,6 +769,7 @@ function start_data_ingestion_job(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -738,6 +790,7 @@ function start_inference_scheduler(
         "StartInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_inference_scheduler(
@@ -755,6 +808,7 @@ function start_inference_scheduler(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -775,6 +829,7 @@ function stop_inference_scheduler(
         "StopInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function stop_inference_scheduler(
@@ -792,6 +847,7 @@ function stop_inference_scheduler(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -817,6 +873,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aw
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -835,6 +892,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -857,6 +915,7 @@ function untag_resource(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -875,6 +934,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -916,6 +976,7 @@ function update_inference_scheduler(
         "UpdateInferenceScheduler",
         Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_inference_scheduler(
@@ -933,5 +994,6 @@ function update_inference_scheduler(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

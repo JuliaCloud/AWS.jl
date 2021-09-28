@@ -24,6 +24,7 @@ function cancel_job_run(
         "DELETE",
         "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function cancel_job_run(
@@ -37,6 +38,7 @@ function cancel_job_run(
         "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -85,6 +87,7 @@ function create_managed_endpoint(
             "type" => type,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_managed_endpoint(
@@ -116,6 +119,7 @@ function create_managed_endpoint(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -150,6 +154,7 @@ function create_virtual_cluster(
             "name" => name,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_virtual_cluster(
@@ -174,6 +179,7 @@ function create_virtual_cluster(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -196,6 +202,7 @@ function delete_managed_endpoint(
         "DELETE",
         "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_managed_endpoint(
@@ -209,6 +216,7 @@ function delete_managed_endpoint(
         "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -230,7 +238,10 @@ function delete_virtual_cluster(
     virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return emr_containers(
-        "DELETE", "/virtualclusters/$(virtualClusterId)"; aws_config=aws_config
+        "DELETE",
+        "/virtualclusters/$(virtualClusterId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_virtual_cluster(
@@ -239,7 +250,11 @@ function delete_virtual_cluster(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return emr_containers(
-        "DELETE", "/virtualclusters/$(virtualClusterId)", params; aws_config=aws_config
+        "DELETE",
+        "/virtualclusters/$(virtualClusterId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -262,6 +277,7 @@ function describe_job_run(
         "GET",
         "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_job_run(
@@ -275,6 +291,7 @@ function describe_job_run(
         "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -298,6 +315,7 @@ function describe_managed_endpoint(
         "GET",
         "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)";
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_managed_endpoint(
@@ -311,6 +329,7 @@ function describe_managed_endpoint(
         "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -332,7 +351,10 @@ function describe_virtual_cluster(
     virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return emr_containers(
-        "GET", "/virtualclusters/$(virtualClusterId)"; aws_config=aws_config
+        "GET",
+        "/virtualclusters/$(virtualClusterId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_virtual_cluster(
@@ -341,7 +363,11 @@ function describe_virtual_cluster(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return emr_containers(
-        "GET", "/virtualclusters/$(virtualClusterId)", params; aws_config=aws_config
+        "GET",
+        "/virtualclusters/$(virtualClusterId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -366,7 +392,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_job_runs(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config())
     return emr_containers(
-        "GET", "/virtualclusters/$(virtualClusterId)/jobruns"; aws_config=aws_config
+        "GET",
+        "/virtualclusters/$(virtualClusterId)/jobruns";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_job_runs(
@@ -375,7 +404,11 @@ function list_job_runs(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return emr_containers(
-        "GET", "/virtualclusters/$(virtualClusterId)/jobruns", params; aws_config=aws_config
+        "GET",
+        "/virtualclusters/$(virtualClusterId)/jobruns",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -403,7 +436,10 @@ function list_managed_endpoints(
     virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return emr_containers(
-        "GET", "/virtualclusters/$(virtualClusterId)/endpoints"; aws_config=aws_config
+        "GET",
+        "/virtualclusters/$(virtualClusterId)/endpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_managed_endpoints(
@@ -416,6 +452,7 @@ function list_managed_endpoints(
         "/virtualclusters/$(virtualClusterId)/endpoints",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -432,14 +469,25 @@ Lists the tags assigned to the resources.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return emr_containers("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return emr_containers(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return emr_containers("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return emr_containers(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -464,12 +512,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: The states of the requested virtual clusters.
 """
 function list_virtual_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return emr_containers("GET", "/virtualclusters"; aws_config=aws_config)
+    return emr_containers(
+        "GET", "/virtualclusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_virtual_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return emr_containers("GET", "/virtualclusters", params; aws_config=aws_config)
+    return emr_containers(
+        "GET",
+        "/virtualclusters",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -510,6 +566,7 @@ function start_job_run(
             "releaseLabel" => releaseLabel,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_job_run(
@@ -537,6 +594,7 @@ function start_job_run(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -564,6 +622,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -577,6 +636,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -599,6 +659,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -612,5 +673,6 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

@@ -46,6 +46,7 @@ function create_alarm_model(
             "roleArn" => roleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_alarm_model(
@@ -70,6 +71,7 @@ function create_alarm_model(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -112,6 +114,7 @@ function create_detector_model(
             "roleArn" => roleArn,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_detector_model(
@@ -136,6 +139,7 @@ function create_detector_model(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -162,6 +166,7 @@ function create_input(
         "/inputs",
         Dict{String,Any}("inputDefinition" => inputDefinition, "inputName" => inputName);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_input(
@@ -183,6 +188,7 @@ function create_input(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -200,7 +206,12 @@ also deleted. This action can't be undone.
 function delete_alarm_model(
     alarmModelName; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_events("DELETE", "/alarm-models/$(alarmModelName)"; aws_config=aws_config)
+    return iot_events(
+        "DELETE",
+        "/alarm-models/$(alarmModelName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_alarm_model(
     alarmModelName,
@@ -208,7 +219,11 @@ function delete_alarm_model(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iot_events(
-        "DELETE", "/alarm-models/$(alarmModelName)", params; aws_config=aws_config
+        "DELETE",
+        "/alarm-models/$(alarmModelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -226,7 +241,10 @@ function delete_detector_model(
     detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_events(
-        "DELETE", "/detector-models/$(detectorModelName)"; aws_config=aws_config
+        "DELETE",
+        "/detector-models/$(detectorModelName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_detector_model(
@@ -235,7 +253,11 @@ function delete_detector_model(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iot_events(
-        "DELETE", "/detector-models/$(detectorModelName)", params; aws_config=aws_config
+        "DELETE",
+        "/detector-models/$(detectorModelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -250,14 +272,25 @@ Deletes an input.
 
 """
 function delete_input(inputName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events("DELETE", "/inputs/$(inputName)"; aws_config=aws_config)
+    return iot_events(
+        "DELETE",
+        "/inputs/$(inputName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function delete_input(
     inputName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return iot_events("DELETE", "/inputs/$(inputName)", params; aws_config=aws_config)
+    return iot_events(
+        "DELETE",
+        "/inputs/$(inputName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -277,7 +310,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_alarm_model(
     alarmModelName; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_events("GET", "/alarm-models/$(alarmModelName)"; aws_config=aws_config)
+    return iot_events(
+        "GET",
+        "/alarm-models/$(alarmModelName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_alarm_model(
     alarmModelName,
@@ -285,7 +323,11 @@ function describe_alarm_model(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iot_events(
-        "GET", "/alarm-models/$(alarmModelName)", params; aws_config=aws_config
+        "GET",
+        "/alarm-models/$(alarmModelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -306,7 +348,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_detector_model(
     detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_events("GET", "/detector-models/$(detectorModelName)"; aws_config=aws_config)
+    return iot_events(
+        "GET",
+        "/detector-models/$(detectorModelName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_detector_model(
     detectorModelName,
@@ -314,7 +361,11 @@ function describe_detector_model(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iot_events(
-        "GET", "/detector-models/$(detectorModelName)", params; aws_config=aws_config
+        "GET",
+        "/detector-models/$(detectorModelName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -333,7 +384,10 @@ function describe_detector_model_analysis(
     analysisId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_events(
-        "GET", "/analysis/detector-models/$(analysisId)"; aws_config=aws_config
+        "GET",
+        "/analysis/detector-models/$(analysisId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_detector_model_analysis(
@@ -342,7 +396,11 @@ function describe_detector_model_analysis(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iot_events(
-        "GET", "/analysis/detector-models/$(analysisId)", params; aws_config=aws_config
+        "GET",
+        "/analysis/detector-models/$(analysisId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -357,14 +415,25 @@ Describes an input.
 
 """
 function describe_input(inputName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events("GET", "/inputs/$(inputName)"; aws_config=aws_config)
+    return iot_events(
+        "GET",
+        "/inputs/$(inputName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function describe_input(
     inputName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return iot_events("GET", "/inputs/$(inputName)", params; aws_config=aws_config)
+    return iot_events(
+        "GET",
+        "/inputs/$(inputName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -375,12 +444,16 @@ Retrieves the current settings of the AWS IoT Events logging options.
 
 """
 function describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events("GET", "/logging"; aws_config=aws_config)
+    return iot_events(
+        "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_events("GET", "/logging", params; aws_config=aws_config)
+    return iot_events(
+        "GET", "/logging", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -402,7 +475,10 @@ function get_detector_model_analysis_results(
     analysisId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_events(
-        "GET", "/analysis/detector-models/$(analysisId)/results"; aws_config=aws_config
+        "GET",
+        "/analysis/detector-models/$(analysisId)/results";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_detector_model_analysis_results(
@@ -415,6 +491,7 @@ function get_detector_model_analysis_results(
         "/analysis/detector-models/$(analysisId)/results",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -437,7 +514,10 @@ function list_alarm_model_versions(
     alarmModelName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_events(
-        "GET", "/alarm-models/$(alarmModelName)/versions"; aws_config=aws_config
+        "GET",
+        "/alarm-models/$(alarmModelName)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_alarm_model_versions(
@@ -446,7 +526,11 @@ function list_alarm_model_versions(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return iot_events(
-        "GET", "/alarm-models/$(alarmModelName)/versions", params; aws_config=aws_config
+        "GET",
+        "/alarm-models/$(alarmModelName)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -463,12 +547,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_alarm_models(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events("GET", "/alarm-models"; aws_config=aws_config)
+    return iot_events(
+        "GET", "/alarm-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_alarm_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_events("GET", "/alarm-models", params; aws_config=aws_config)
+    return iot_events(
+        "GET",
+        "/alarm-models",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -490,7 +582,10 @@ function list_detector_model_versions(
     detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iot_events(
-        "GET", "/detector-models/$(detectorModelName)/versions"; aws_config=aws_config
+        "GET",
+        "/detector-models/$(detectorModelName)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_detector_model_versions(
@@ -503,6 +598,7 @@ function list_detector_model_versions(
         "/detector-models/$(detectorModelName)/versions",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -519,12 +615,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_detector_models(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events("GET", "/detector-models"; aws_config=aws_config)
+    return iot_events(
+        "GET", "/detector-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_detector_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_events("GET", "/detector-models", params; aws_config=aws_config)
+    return iot_events(
+        "GET",
+        "/detector-models",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -549,6 +653,7 @@ function list_input_routings(
         "/input-routings",
         Dict{String,Any}("inputIdentifier" => inputIdentifier);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_input_routings(
@@ -565,6 +670,7 @@ function list_input_routings(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -580,12 +686,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_inputs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events("GET", "/inputs"; aws_config=aws_config)
+    return iot_events(
+        "GET", "/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_inputs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return iot_events("GET", "/inputs", params; aws_config=aws_config)
+    return iot_events(
+        "GET", "/inputs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -606,6 +716,7 @@ function list_tags_for_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_tags_for_resource(
@@ -620,6 +731,7 @@ function list_tags_for_resource(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -644,6 +756,7 @@ function put_logging_options(
         "/logging",
         Dict{String,Any}("loggingOptions" => loggingOptions);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_logging_options(
@@ -658,6 +771,7 @@ function put_logging_options(
             mergewith(_merge, Dict{String,Any}("loggingOptions" => loggingOptions), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -680,6 +794,7 @@ function start_detector_model_analysis(
         "/analysis/detector-models/",
         Dict{String,Any}("detectorModelDefinition" => detectorModelDefinition);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_detector_model_analysis(
@@ -698,6 +813,7 @@ function start_detector_model_analysis(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -719,6 +835,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -738,6 +855,7 @@ function tag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -760,6 +878,7 @@ function untag_resource(
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -779,6 +898,7 @@ function untag_resource(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -812,6 +932,7 @@ function update_alarm_model(
         "/alarm-models/$(alarmModelName)",
         Dict{String,Any}("alarmRule" => alarmRule, "roleArn" => roleArn);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_alarm_model(
@@ -832,6 +953,7 @@ function update_alarm_model(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -867,6 +989,7 @@ function update_detector_model(
             "detectorModelDefinition" => detectorModelDefinition, "roleArn" => roleArn
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_detector_model(
@@ -890,6 +1013,7 @@ function update_detector_model(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -915,6 +1039,7 @@ function update_input(
         "/inputs/$(inputName)",
         Dict{String,Any}("inputDefinition" => inputDefinition);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_input(
@@ -932,5 +1057,6 @@ function update_input(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

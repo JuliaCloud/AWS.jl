@@ -27,6 +27,7 @@ function activate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_
         "ActivatePipeline",
         Dict{String,Any}("pipelineId" => pipelineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function activate_pipeline(
@@ -40,6 +41,7 @@ function activate_pipeline(
             mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -59,6 +61,7 @@ function add_tags(pipelineId, tags; aws_config::AbstractAWSConfig=global_aws_con
         "AddTags",
         Dict{String,Any}("pipelineId" => pipelineId, "tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function add_tags(
@@ -75,6 +78,7 @@ function add_tags(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -110,6 +114,7 @@ function create_pipeline(name, uniqueId; aws_config::AbstractAWSConfig=global_aw
         "CreatePipeline",
         Dict{String,Any}("name" => name, "uniqueId" => uniqueId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_pipeline(
@@ -126,6 +131,7 @@ function create_pipeline(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -152,6 +158,7 @@ function deactivate_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aw
         "DeactivatePipeline",
         Dict{String,Any}("pipelineId" => pipelineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deactivate_pipeline(
@@ -165,6 +172,7 @@ function deactivate_pipeline(
             mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -188,6 +196,7 @@ function delete_pipeline(pipelineId; aws_config::AbstractAWSConfig=global_aws_co
         "DeletePipeline",
         Dict{String,Any}("pipelineId" => pipelineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_pipeline(
@@ -201,6 +210,7 @@ function delete_pipeline(
             mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -231,6 +241,7 @@ function describe_objects(
         "DescribeObjects",
         Dict{String,Any}("objectIds" => objectIds, "pipelineId" => pipelineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_objects(
@@ -249,6 +260,7 @@ function describe_objects(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -273,6 +285,7 @@ function describe_pipelines(pipelineIds; aws_config::AbstractAWSConfig=global_aw
         "DescribePipelines",
         Dict{String,Any}("pipelineIds" => pipelineIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_pipelines(
@@ -286,6 +299,7 @@ function describe_pipelines(
             mergewith(_merge, Dict{String,Any}("pipelineIds" => pipelineIds), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -311,6 +325,7 @@ function evaluate_expression(
             "expression" => expression, "objectId" => objectId, "pipelineId" => pipelineId
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function evaluate_expression(
@@ -334,6 +349,7 @@ function evaluate_expression(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -360,6 +376,7 @@ function get_pipeline_definition(
         "GetPipelineDefinition",
         Dict{String,Any}("pipelineId" => pipelineId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_pipeline_definition(
@@ -373,6 +390,7 @@ function get_pipeline_definition(
             mergewith(_merge, Dict{String,Any}("pipelineId" => pipelineId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -389,12 +407,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the marker value from the previous call to retrieve the next set of results.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return data_pipeline("ListPipelines"; aws_config=aws_config)
+    return data_pipeline(
+        "ListPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return data_pipeline("ListPipelines", params; aws_config=aws_config)
+    return data_pipeline(
+        "ListPipelines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -431,7 +453,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function poll_for_task(workerGroup; aws_config::AbstractAWSConfig=global_aws_config())
     return data_pipeline(
-        "PollForTask", Dict{String,Any}("workerGroup" => workerGroup); aws_config=aws_config
+        "PollForTask",
+        Dict{String,Any}("workerGroup" => workerGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function poll_for_task(
@@ -445,6 +470,7 @@ function poll_for_task(
             mergewith(_merge, Dict{String,Any}("workerGroup" => workerGroup), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -478,6 +504,7 @@ function put_pipeline_definition(
         "PutPipelineDefinition",
         Dict{String,Any}("pipelineId" => pipelineId, "pipelineObjects" => pipelineObjects);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_pipeline_definition(
@@ -498,6 +525,7 @@ function put_pipeline_definition(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -532,6 +560,7 @@ function query_objects(
         "QueryObjects",
         Dict{String,Any}("pipelineId" => pipelineId, "sphere" => sphere);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function query_objects(
@@ -550,6 +579,7 @@ function query_objects(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -569,6 +599,7 @@ function remove_tags(pipelineId, tagKeys; aws_config::AbstractAWSConfig=global_a
         "RemoveTags",
         Dict{String,Any}("pipelineId" => pipelineId, "tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function remove_tags(
@@ -587,6 +618,7 @@ function remove_tags(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -615,7 +647,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function report_task_progress(taskId; aws_config::AbstractAWSConfig=global_aws_config())
     return data_pipeline(
-        "ReportTaskProgress", Dict{String,Any}("taskId" => taskId); aws_config=aws_config
+        "ReportTaskProgress",
+        Dict{String,Any}("taskId" => taskId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function report_task_progress(
@@ -625,6 +660,7 @@ function report_task_progress(
         "ReportTaskProgress",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -659,6 +695,7 @@ function report_task_runner_heartbeat(
         "ReportTaskRunnerHeartbeat",
         Dict{String,Any}("taskrunnerId" => taskrunnerId);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function report_task_runner_heartbeat(
@@ -672,6 +709,7 @@ function report_task_runner_heartbeat(
             mergewith(_merge, Dict{String,Any}("taskrunnerId" => taskrunnerId), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -702,6 +740,7 @@ function set_status(
             "objectIds" => objectIds, "pipelineId" => pipelineId, "status" => status
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_status(
@@ -723,6 +762,7 @@ function set_status(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -760,6 +800,7 @@ function set_task_status(
         "SetTaskStatus",
         Dict{String,Any}("taskId" => taskId, "taskStatus" => taskStatus);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function set_task_status(
@@ -778,6 +819,7 @@ function set_task_status(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -805,6 +847,7 @@ function validate_pipeline_definition(
         "ValidatePipelineDefinition",
         Dict{String,Any}("pipelineId" => pipelineId, "pipelineObjects" => pipelineObjects);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function validate_pipeline_definition(
@@ -825,5 +868,6 @@ function validate_pipeline_definition(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

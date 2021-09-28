@@ -18,13 +18,22 @@ it's processed from the queue before the CancelTask operation changes the task's
 
 """
 function cancel_task(taskId; aws_config::AbstractAWSConfig=global_aws_config())
-    return snow_device_management("POST", "/task/$(taskId)/cancel"; aws_config=aws_config)
+    return snow_device_management(
+        "POST",
+        "/task/$(taskId)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function cancel_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return snow_device_management(
-        "POST", "/task/$(taskId)/cancel", params; aws_config=aws_config
+        "POST",
+        "/task/$(taskId)/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -54,6 +63,7 @@ function create_task(command, targets; aws_config::AbstractAWSConfig=global_aws_
             "command" => command, "targets" => targets, "clientToken" => string(uuid4())
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_task(
@@ -77,6 +87,7 @@ function create_task(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -93,7 +104,10 @@ addresses, and lock status.
 """
 function describe_device(managedDeviceId; aws_config::AbstractAWSConfig=global_aws_config())
     return snow_device_management(
-        "POST", "/managed-device/$(managedDeviceId)/describe"; aws_config=aws_config
+        "POST",
+        "/managed-device/$(managedDeviceId)/describe";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_device(
@@ -102,7 +116,11 @@ function describe_device(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return snow_device_management(
-        "POST", "/managed-device/$(managedDeviceId)/describe", params; aws_config=aws_config
+        "POST",
+        "/managed-device/$(managedDeviceId)/describe",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -127,6 +145,7 @@ function describe_device_ec2_instances(
         "/managed-device/$(managedDeviceId)/resources/ec2/describe",
         Dict{String,Any}("instanceIds" => instanceIds);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_device_ec2_instances(
@@ -142,6 +161,7 @@ function describe_device_ec2_instances(
             mergewith(_merge, Dict{String,Any}("instanceIds" => instanceIds), params)
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -160,7 +180,10 @@ function describe_execution(
     managedDeviceId, taskId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return snow_device_management(
-        "POST", "/task/$(taskId)/execution/$(managedDeviceId)"; aws_config=aws_config
+        "POST",
+        "/task/$(taskId)/execution/$(managedDeviceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_execution(
@@ -174,6 +197,7 @@ function describe_execution(
         "/task/$(taskId)/execution/$(managedDeviceId)",
         params;
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -188,12 +212,20 @@ Checks the metadata for a given task on a device.
 
 """
 function describe_task(taskId; aws_config::AbstractAWSConfig=global_aws_config())
-    return snow_device_management("POST", "/task/$(taskId)"; aws_config=aws_config)
+    return snow_device_management(
+        "POST", "/task/$(taskId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return snow_device_management("POST", "/task/$(taskId)", params; aws_config=aws_config)
+    return snow_device_management(
+        "POST",
+        "/task/$(taskId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -216,7 +248,10 @@ function list_device_resources(
     managedDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return snow_device_management(
-        "GET", "/managed-device/$(managedDeviceId)/resources"; aws_config=aws_config
+        "GET",
+        "/managed-device/$(managedDeviceId)/resources";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_device_resources(
@@ -225,7 +260,11 @@ function list_device_resources(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return snow_device_management(
-        "GET", "/managed-device/$(managedDeviceId)/resources", params; aws_config=aws_config
+        "GET",
+        "/managed-device/$(managedDeviceId)/resources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -244,12 +283,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token to continue to the next page of results.
 """
 function list_devices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return snow_device_management("GET", "/managed-devices"; aws_config=aws_config)
+    return snow_device_management(
+        "GET", "/managed-devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return snow_device_management("GET", "/managed-devices", params; aws_config=aws_config)
+    return snow_device_management(
+        "GET",
+        "/managed-devices",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -269,7 +316,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_executions(taskId; aws_config::AbstractAWSConfig=global_aws_config())
     return snow_device_management(
-        "GET", "/executions", Dict{String,Any}("taskId" => taskId); aws_config=aws_config
+        "GET",
+        "/executions",
+        Dict{String,Any}("taskId" => taskId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function list_executions(
@@ -280,6 +331,7 @@ function list_executions(
         "/executions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -296,7 +348,12 @@ Returns a list of tags for a managed device or task.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return snow_device_management("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return snow_device_management(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
@@ -304,7 +361,11 @@ function list_tags_for_resource(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return snow_device_management(
-        "GET", "/tags/$(resourceArn)", params; aws_config=aws_config
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -321,12 +382,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: A structure used to filter the list of tasks.
 """
 function list_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return snow_device_management("GET", "/tasks"; aws_config=aws_config)
+    return snow_device_management(
+        "GET", "/tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function list_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return snow_device_management("GET", "/tasks", params; aws_config=aws_config)
+    return snow_device_management(
+        "GET", "/tasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -347,6 +412,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -360,6 +426,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -383,6 +450,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -396,5 +464,6 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

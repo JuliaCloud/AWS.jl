@@ -83,6 +83,7 @@ function create_canary(
             "Schedule" => Schedule,
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_canary(
@@ -113,6 +114,7 @@ function create_canary(
             ),
         );
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -140,12 +142,20 @@ canary.
 
 """
 function delete_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics("DELETE", "/canary/$(name)"; aws_config=aws_config)
+    return synthetics(
+        "DELETE", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function delete_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("DELETE", "/canary/$(name)", params; aws_config=aws_config)
+    return synthetics(
+        "DELETE",
+        "/canary/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -167,12 +177,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent operation to retrieve the next set of results.
 """
 function describe_canaries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics("POST", "/canaries"; aws_config=aws_config)
+    return synthetics(
+        "POST", "/canaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_canaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("POST", "/canaries", params; aws_config=aws_config)
+    return synthetics(
+        "POST", "/canaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 
 """
@@ -190,12 +204,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent DescribeCanaries operation to retrieve the next set of results.
 """
 function describe_canaries_last_run(; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics("POST", "/canaries/last-run"; aws_config=aws_config)
+    return synthetics(
+        "POST", "/canaries/last-run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_canaries_last_run(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("POST", "/canaries/last-run", params; aws_config=aws_config)
+    return synthetics(
+        "POST",
+        "/canaries/last-run",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -214,12 +236,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
 """
 function describe_runtime_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics("POST", "/runtime-versions"; aws_config=aws_config)
+    return synthetics(
+        "POST", "/runtime-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function describe_runtime_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("POST", "/runtime-versions", params; aws_config=aws_config)
+    return synthetics(
+        "POST",
+        "/runtime-versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -234,12 +264,20 @@ that you want. To get a list of canaries and their names, use DescribeCanaries.
 
 """
 function get_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics("GET", "/canary/$(name)"; aws_config=aws_config)
+    return synthetics(
+        "GET", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function get_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("GET", "/canary/$(name)", params; aws_config=aws_config)
+    return synthetics(
+        "GET",
+        "/canary/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -259,12 +297,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
 """
 function get_canary_runs(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics("POST", "/canary/$(name)/runs"; aws_config=aws_config)
+    return synthetics(
+        "POST",
+        "/canary/$(name)/runs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function get_canary_runs(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("POST", "/canary/$(name)/runs", params; aws_config=aws_config)
+    return synthetics(
+        "POST",
+        "/canary/$(name)/runs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -281,14 +330,25 @@ Displays the tags associated with a canary.
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+    return synthetics(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return synthetics("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+    return synthetics(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -305,12 +365,23 @@ schedule, use GetCanary.
 
 """
 function start_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics("POST", "/canary/$(name)/start"; aws_config=aws_config)
+    return synthetics(
+        "POST",
+        "/canary/$(name)/start";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function start_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("POST", "/canary/$(name)/start", params; aws_config=aws_config)
+    return synthetics(
+        "POST",
+        "/canary/$(name)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -329,12 +400,23 @@ again with the canary’s current schedule at any point in the future.
 
 """
 function stop_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics("POST", "/canary/$(name)/stop"; aws_config=aws_config)
+    return synthetics(
+        "POST",
+        "/canary/$(name)/stop";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 function stop_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("POST", "/canary/$(name)/stop", params; aws_config=aws_config)
+    return synthetics(
+        "POST",
+        "/canary/$(name)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -363,6 +445,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aw
         "/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function tag_resource(
@@ -376,6 +459,7 @@ function tag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -399,6 +483,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 function untag_resource(
@@ -412,6 +497,7 @@ function untag_resource(
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -460,10 +546,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see  Running a Canary in a VPC.
 """
 function update_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics("PATCH", "/canary/$(name)"; aws_config=aws_config)
+    return synthetics(
+        "PATCH", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
 end
 function update_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
-    return synthetics("PATCH", "/canary/$(name)", params; aws_config=aws_config)
+    return synthetics(
+        "PATCH",
+        "/canary/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
