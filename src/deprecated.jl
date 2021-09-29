@@ -5,6 +5,10 @@ function legacy_response(
     response_dict_type = something(request.response_dict_type, LittleDict)
     return_headers = something(return_headers, false)
 
+    # When a user defined I/O stream is passed in use the actual `HTTP.Response` body
+    # instead of the `AWS.Response` body which requires the I/O stream to be seekable.
+    body = request.response_stream !== nothing ? response.response.body : response.body
+
     # The stored service name is always lowercase and may not match the module name
     # specified by the user. We'll assume that the typical casing used is titlecase.
     alt_service = "@service $(titlecase(request.service)) use_response_type=true"
@@ -45,12 +49,19 @@ function legacy_response(
         end
 
         # Emulate HTTP 0.9.14 behavior of always closing the passed in stream. Doing this is
-        # particularly important for `Base.BufferStream`
+        # particularly important for `Base.BufferStream`.
         if request.backend isa HTTPBackend
             close(request.response_stream)
         end
 
         return request.response_stream
+    elseif request.response_stream !== nothing
+        # Emulate HTTP 0.9.14 behavior of always closing the passed in stream and the
+        # `read_body` behavior of closing all non-`IOBuffer` streams when `return_stream` is
+        # not `true`. Doing this is particularly important for `Base.BufferStream`.
+        if request.backend isa HTTPBackend || !(request.response_stream isa IOBuffer)
+            close(request.response_stream)
+        end
     end
 
     # Return raw data if requested...
@@ -73,19 +84,19 @@ function legacy_response(
             )
         end
 
-        return (return_headers ? (response.body, response.headers) : response.body)
+        return (return_headers ? (body, response.headers) : body)
     end
 
     # Parse response data according to mimetype...
     mime = HTTP.header(response.response, "Content-Type", "")
 
     if isempty(mime)
-        if length(response.body) > 5 && response.body[1:5] == b"<?xml"
+        if length(body) > 5 && body[1:5] == b"<?xml"
             mime = "text/xml"
         end
     end
 
-    body = String(copy(response.body))
+    body_str = String(copy(body))
 
     if occursin(r"/xml", mime)
         if return_headers
@@ -107,8 +118,8 @@ function legacy_response(
         end
 
         xml_dict_type = response_dict_type{Union{Symbol,String},Any}
-        body = parse_xml(body)
-        root = XMLDict.root(body.x)
+        xml = parse_xml(body_str)
+        root = XMLDict.root(xml.x)
 
         return (
             if return_headers
@@ -136,8 +147,7 @@ function legacy_response(
             )
         end
 
-        info =
-            isempty(response.body) ? nothing : JSON.parse(body; dicttype=response_dict_type)
+        info = isempty(body) ? nothing : JSON.parse(body_str; dicttype=response_dict_type)
         return (return_headers ? (info, response_dict_type(response.headers)) : info)
     elseif startswith(mime, "text/")
         if return_headers
@@ -158,7 +168,9 @@ function legacy_response(
             )
         end
 
-        return (return_headers ? (body, response_dict_type(response.headers)) : body)
+        return (
+            return_headers ? (body_str, response_dict_type(response.headers)) : body_str
+        )
     else
         if return_headers
             Base.depwarn(
@@ -178,6 +190,6 @@ function legacy_response(
             )
         end
 
-        return (return_headers ? (response.body, response.headers) : response.body)
+        return (return_headers ? (body, response.headers) : body)
     end
 end
