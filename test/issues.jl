@@ -91,7 +91,6 @@ try
 
             # The tests below validate the current behavior of how streams are handled.
             # Note: Avoid using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
-            
 
             stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
