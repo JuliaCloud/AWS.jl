@@ -5,7 +5,7 @@ function _can_read_file(file_name::String)
         false
     end
 end
-_begins_with_ec2(file_name::String) = return uppercase(String(read(file_name, 3))) == "EC2"
+_begins_with_ec2(file_name::String) = uppercase(String(read(file_name, 3))) == "EC2"
 function _ends_with_ec2(file_name::String)
     return endswith(strip(uppercase(read(file_name, String))), "EC2")
 end
@@ -93,8 +93,13 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
 
     # RoleSessionName Documentation
     # https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
-    role = @mock AWSServices.sts("AssumeRole", params; aws_config=config)
-
+    response = @mock AWSServices.sts(
+        "AssumeRole",
+        params;
+        aws_config=config,
+        feature_set=FeatureSet(; use_response_type=true),
+    )
+    role = parse(response)
     role_creds = role["AssumeRoleResult"]["Credentials"]
 
     return AWSCredentials(

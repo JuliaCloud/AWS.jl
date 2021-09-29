@@ -32,8 +32,11 @@ include("AWSConfig.jl")
 include("AWSMetadata.jl")
 
 include(joinpath("utilities", "request.jl"))
+include(joinpath("utilities", "response.jl"))
 include(joinpath("utilities", "sign.jl"))
 include(joinpath("utilities", "downloads_backend.jl"))
+
+include("deprecated.jl")
 
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
@@ -41,7 +44,22 @@ using ..AWSExceptions: AWSException
 const user_agent = Ref("AWS.jl/1.0.0")
 const aws_config = Ref{AbstractAWSConfig}()
 
-Base.@kwdef struct FeatureSet end
+"""
+    FeatureSet
+
+Allows end users to opt-in to new breaking behaviors prior before a major/breaking package
+release. Each field of this struct contains a default which specifies uses the original
+non-breaking behavior.
+
+# Features
+- `use_response_type::Bool=false`: When enabled, service calls will return an `AWS.Response`
+  which provides streaming/raw/parsed access to the response. When disabled, the service
+  call response typically be parsed but will vary depending on the following parameters:
+  "return_headers", "return_stream", "return_raw", "response_dict_type".
+"""
+Base.@kwdef struct FeatureSet
+    use_response_type::Bool = false
+end
 
 """
     global_aws_config()
@@ -92,12 +110,13 @@ Set the global user agent when making HTTP requests.
 set_user_agent(new_user_agent::String) = return user_agent[] = new_user_agent
 
 """
-    macro service(module_name::Symbol)
+    @service module_name feature=val...
 
-Include a high-level service wrapper based off of the module_name parameter.
+Include a high-level service wrapper based off of the `module_name` parameter optionally
+supplying a list of `features`.
 
-When calling the macro you cannot match the predefined constant for the lowl level API.
-The low level API constants are named in all lowercase, and spaces replaced with underscores.
+When calling the macro you cannot match the predefined constant for the low-level API.
+The low-level API constants are named in all lowercase, and spaces replaced with underscores.
 
 Examples:
 ```julia
@@ -116,13 +135,18 @@ using AWS: @service
 @service Secrets_Manager
 @service SECRETS_MANAGER
 @service sECRETS_MANAGER
+
+# Using a feature
+@service Secrets_Manager use_response_type = true
 ```
 
 # Arguments
-- `module_name::Symbol`: Name of the service to include high-level API wrappers in your namespace
+- `module_name::Symbol`: Name of the module and service to include high-level API wrappers in your namespace
+- `features=val...`: A list of features to enable/disable for this high-level API include.
+  See `FeatureSet` for a list of available features.
 
 # Return
-- `Expression`: Base.include() call to introduce the high-level service API wrapper functions in your namespace
+- `Expression`: Module which embeds the high-level service API wrapper functions in your namespace
 """
 macro service(module_name::Symbol, features...)
     service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
@@ -216,9 +240,10 @@ Perform a RestXML request to AWS.
 
 # Keywords
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
-- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+- `Tuple` or `Dict`: If `return_headers` is passed in through `args` a Tuple containing the headers and response will be returned, otherwise just a `Dict`
 """
 function (service::RestXMLService)(
     request_method::String,
@@ -227,10 +252,13 @@ function (service::RestXMLService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    return_headers = _pop!(args, "return_headers", false)
+    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
+
+    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
+        use_response_type=feature_set.use_response_type,
         request_method=request_method,
         content=_pop!(args, "body", ""),
     )
@@ -270,9 +298,10 @@ Perform a Query request to AWS.
 
 # Keywords
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
-- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+- `Tuple` or `Dict`: If `return_headers` is passed in through `args` a Tuple containing the headers and response will be returned, otherwise just a `Dict`
 """
 function (service::QueryService)(
     operation::String,
@@ -280,11 +309,14 @@ function (service::QueryService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
+    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
+
     POST_RESOURCE = "/"
-    return_headers = _pop!(args, "return_headers", false)
+    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
+        use_response_type=feature_set.use_response_type,
         resource=POST_RESOURCE,
         request_method="POST",
         url=generate_service_url(aws_config, service.endpoint_prefix, POST_RESOURCE),
@@ -313,9 +345,10 @@ Perform a JSON request to AWS.
 
 # Keywords
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
-- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+- `Tuple` or `Dict`: If `return_headers` is passed in through `args` a Tuple containing the headers and response will be returned, otherwise just a `Dict`
 """
 function (service::JSONService)(
     operation::String,
@@ -323,11 +356,14 @@ function (service::JSONService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
+    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
+
     POST_RESOURCE = "/"
-    return_headers = _pop!(args, "return_headers", false)
+    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
+        use_response_type=feature_set.use_response_type,
         resource=POST_RESOURCE,
         request_method="POST",
         content=json(args),
@@ -355,9 +391,10 @@ Perform a RestJSON request to AWS.
 
 # Keywords
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `feature_set::FeatureSet`: Specifies opt-in functionality for this specific API call.
 
 # Returns
-- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+- `Tuple` or `Dict`: If `return_headers` is passed in through `args` a Tuple containing the headers and response will be returned, otherwise just a `Dict`
 """
 function (service::RestJSONService)(
     request_method::String,
@@ -366,10 +403,13 @@ function (service::RestJSONService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    return_headers = _pop!(args, "return_headers", false)
+    feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
+
+    return_headers = _pop!(args, "return_headers", nothing)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
+        use_response_type=feature_set.use_response_type,
         request_method=request_method,
         resource=_generate_rest_resource(request_uri, args),
     )
