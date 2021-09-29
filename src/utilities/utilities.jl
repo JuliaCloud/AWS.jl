@@ -79,6 +79,18 @@ function _extract_common_kw_args(service, args)
 end
 
 function _delete_legacy_response_kw_args!(args)
+    used_kw_args = intersect(
+        keys(args), ("return_headers", "return_stream", "return_raw", "response_dict_type")
+    )
+
+    if !isempty(used_kw_args)
+        Base.depwarn(
+            "The parameter(s) \"$(join(used_kw_args, "\", \""))\" are no longer " *
+            "supported when the feature `use_response_type` is enabled.",
+            :_delete_legacy_response_kw_args!,
+        )
+    end
+
     delete!(args, "return_headers")
     delete!(args, "return_stream")
     delete!(args, "return_raw")
