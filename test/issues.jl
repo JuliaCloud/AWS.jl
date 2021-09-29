@@ -89,7 +89,9 @@ try
         try
             S3.put_object(BUCKET_NAME, file_name)
 
+            # The tests below validate the current behavior of how streams are handled.
             # Note: Avoid using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
+            
 
             stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
@@ -103,6 +105,7 @@ try
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @test !isopen(stream)
             else
+                # See: https://github.com/JuliaCloud/AWS.jl/issues/471
                 @test_broken isopen(stream)
             end
 
