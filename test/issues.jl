@@ -103,7 +103,7 @@ try
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @test !isopen(stream)
             else
-                @test !isopen(stream)
+                @test_broken isopen(stream)
             end
 
             stream = Base.BufferStream()
