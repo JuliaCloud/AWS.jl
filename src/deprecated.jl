@@ -13,13 +13,23 @@ function legacy_response(
     # specified by the user. We'll assume that the typical casing used is titlecase.
     alt_service = "@service $(titlecase(request.service)) use_response_type=true"
 
+    # When a user specifies a `response_dict_type` we'll update the deprecations to show how
+    # to use this type.
+    # Note: Using overly terse function name to stick within line length. A more descriptive
+    # function name would be `response_dict_type_str`.
+    tstr = if request.response_dict_type !== nothing
+        str -> "$(request.response_dict_type)($str)"
+    else
+        identity
+    end
+
     # For HEAD request, return headers...
     if request.request_method == "HEAD"
         Base.depwarn(
             "Using \"HEAD\" in AWS requests to return headers is deprecated, " *
             "use `$alt_service` to return an `AWS.Response` allowing for " *
             "header access via " *
-            "`$(response_dict_type)(response.headers)`.",
+            "`$(tstr("response.headers"))`.",
             :legacy_response,
         )
 
@@ -104,7 +114,7 @@ function legacy_response(
                 "The keyword `return_headers` is deprecated, " *
                 "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "parsed XML and header access via " *
-                "`parse(response)`/`$(response_dict_type)(response.header)` respectively",
+                "`$(tstr("parse(response)"))`/`$(tstr("response.header"))` respectively",
                 :legacy_response,
             )
         else
@@ -112,7 +122,7 @@ function legacy_response(
                 "Returning the parsed AWS response is deprecated, " *
                 "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "parsed XML access via " *
-                "`parse(response.body)`.",
+                "`$(tstr("parse(response.body)"))`.",
                 :legacy_response,
             )
         end
@@ -134,7 +144,7 @@ function legacy_response(
                 "The keyword `return_headers` is deprecated, " *
                 "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "parsed JSON and header access via " *
-                "`parse(response)`/`$(response_dict_type)(response.header)` respectively",
+                "`$(tstr("parse(response)"))`/`$(tstr("response.header"))` respectively",
                 :legacy_response,
             )
         else
@@ -142,7 +152,7 @@ function legacy_response(
                 "Returning the parsed AWS response is deprecated, " *
                 "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "parsed JSON access via " *
-                "`parse(response.body)`.",
+                "`$(tstr("parse(response.body)"))`.",
                 :legacy_response,
             )
         end
@@ -155,7 +165,7 @@ function legacy_response(
                 "The keyword `return_headers` is deprecated, " *
                 "use `$alt_service` instead to return an `AWS.Response` allowing for " *
                 "raw string data and header access via " *
-                "`String(response.body)`/`$(response_dict_type)(response.header)` respectively.",
+                "`String(response.body)`/`$(tstr("response.header"))` respectively.",
                 :legacy_response,
             )
         else
