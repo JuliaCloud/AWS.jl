@@ -31,6 +31,25 @@ function legacy_response(
             :legacy_response,
         )
 
+        # When `return_stream` was `true` the backends would create different I/O types to
+        # use. We'll replicate that behavior.
+        if request.response_stream === nothing
+            io = if request.backend isa HTTPBackend
+                Base.BufferStream()
+            else
+                IOBuffer()
+            end
+
+            write(io, _rewind(read, response.io))
+            request.response_stream = io
+        end
+
+        # Emulate HTTP 0.9.14 behavior of always closing the passed in stream. Doing this is
+        # particularly important for `Base.BufferStream`
+        if request.backend isa HTTPBackend
+            close(request.response_stream)
+        end
+
         return request.response_stream
     end
 
