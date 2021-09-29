@@ -1,3 +1,5 @@
+using HTTP.MessageRequest: body_was_streamed
+
 struct DownloadsBackend <: AWS.AbstractBackend
     downloader::Union{Nothing,Downloads.Downloader}
 end
@@ -88,7 +90,9 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
             downloader=downloader,
         )
 
-        http_response = HTTP.Response(response.status, response.headers; request=nothing)
+        http_response = HTTP.Response(
+            response.status, response.headers; body=body_was_streamed, request=nothing
+        )
 
         if HTTP.iserror(http_response)
             target = HTTP.resource(HTTP.URI(request.url))

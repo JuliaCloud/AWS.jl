@@ -259,6 +259,7 @@ end
         # lost. Mainly, this is a problem when using a temporary I/O stream instead of
         # writing directly to the `response_stream`.
         @test exception.message == message
+        @test exception.streamed_body !== nothing
     end
 
     @testset "read MIME-type" begin
