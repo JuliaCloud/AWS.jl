@@ -62,6 +62,41 @@ try
     @test sort(getindex.(objs_prefix["Contents"], "Key")) == ["empty", "myobject"]
     @test objs_prefix["CommonPrefixes"]["Prefix"] == "foo/"
 
+    @testset "issue 466" begin
+        file_name = "hang.txt"
+
+        try
+            S3.put_object("anewbucket", file_name)
+
+            # Note: Using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
+
+            stream = S3.get_object("anewbucket", file_name, Dict("return_stream" => true))
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test !isopen(stream)
+            else
+                @test isopen(stream)
+            end
+
+            stream = Base.BufferStream()
+            S3.get_object("anewbucket", file_name, Dict("response_stream" => stream))
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test !isopen(stream)
+            else
+                @test !isopen(stream)
+            end
+
+            stream = Base.BufferStream()
+            S3.get_object("anewbucket", file_name, Dict("response_stream" => stream, "return_stream" => true))
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test !isopen(stream)
+            else
+                @test isopen(stream)
+            end
+        finally
+            S3.delete_object("anewbucket", file_name)
+        end
+    end
+
 finally
     # Delete all objects and the bucket
     objs = S3.list_objects_v2("anewbucket")
