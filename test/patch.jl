@@ -2,6 +2,7 @@ module Patches
 
 using AWS
 using Dates
+using Downloads: Downloads
 using HTTP
 using JSON
 using GitHub
@@ -140,6 +141,46 @@ end
 
 get_profile_settings_patch = @patch function aws_get_profile_settings(profile, ini)
     return Dict("foo" => "bar")
+end
+
+# Simulate the HTTP.request behaviour with a HTTP 400 response
+function gen_http_options_400_patches(message)
+    body = "{\"__type\":\"AccessDeniedException\",\"Message\":\"$message\"}"
+    headers = [
+        "Content-Type" => "application/x-amz-json-1.1",
+        "Content-Length" => string(sizeof(body)),
+    ]
+
+    return [
+        @patch function HTTP.request(
+            args...; status_exception=true, response_stream=nothing, kwargs...
+        )
+            request = HTTP.Request("GET", "/")
+
+            if response_stream !== nothing
+                write(response_stream, body)
+                close(response_stream)  # Simulating current HTTP.jl 0.9.14 behaviour
+                body = HTTP.MessageRequest.body_was_streamed
+            end
+
+            response = HTTP.Response(400, headers; body=body, request=request)
+            exception = HTTP.StatusError(400, response)
+            return !status_exception ? response : throw(exception)
+        end
+        @patch function Downloads.request(args...; output=nothing, kwargs...)
+            if output !== nothing
+                write(output, body)
+            end
+
+            return Downloads.Response(
+                "https",
+                "https://region.amazonaws.com/",
+                400,
+                "HTTP/1.1 400 Bad Request",
+                headers,
+            )
+        end
+    ]
 end
 
 end

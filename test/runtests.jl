@@ -19,7 +19,6 @@ using AWS.AWSMetadata:
 using Base64
 using Compat: mergewith
 using Dates
-using Downloads: Downloads
 using GitHub
 using HTTP
 using IniFile: Inifile
