@@ -88,10 +88,37 @@ try
 
         try
             S3.put_object(BUCKET_NAME, file_name)
+
+            # The tests below validate the current behavior of how streams are handled.
+            # Note: Avoid using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
+
             stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
-            println("test #466")  # So we know if this is the reason for tests hanging.
-            @test eof(stream)  # This will hang if #466 not fixed and using HTTP.jl v0.9.15+
-            println("#466 fixed")
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test !isopen(stream)
+            else
+                @test isopen(stream)
+            end
+
+            stream = Base.BufferStream()
+            S3.get_object(BUCKET_NAME, file_name, Dict("response_stream" => stream))
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test !isopen(stream)
+            else
+                # See: https://github.com/JuliaCloud/AWS.jl/issues/471
+                @test_broken isopen(stream)
+            end
+
+            stream = Base.BufferStream()
+            S3.get_object(
+                BUCKET_NAME,
+                file_name,
+                Dict("response_stream" => stream, "return_stream" => true),
+            )
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test !isopen(stream)
+            else
+                @test isopen(stream)
+            end
         finally
             S3.delete_object(BUCKET_NAME, file_name)
         end
