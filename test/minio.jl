@@ -89,7 +89,11 @@ try
             end
 
             stream = Base.BufferStream()
-            S3.get_object("anewbucket", file_name, Dict("response_stream" => stream, "return_stream" => true))
+            S3.get_object(
+                "anewbucket",
+                file_name,
+                Dict("response_stream" => stream, "return_stream" => true),
+            )
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @test !isopen(stream)
             else
