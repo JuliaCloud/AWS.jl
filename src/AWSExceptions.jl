@@ -1,11 +1,10 @@
 module AWSExceptions
 
 using HTTP
+using HTTP.MessageRequest: body_was_streamed
 using JSON
 using XMLDict
 using XMLDict: XMLDictElement
-
-const BODY_STREAMED_PLACEHOLDER = b"[Message Body was streamed]"
 
 export AWSException, ProtocolNotDefined, InvalidFileName, NoCredentials
 
@@ -103,7 +102,7 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
     message = get(info, "Message", message)
     message = get(info, "message", message)
 
-    streamed_body = e.response.body == BODY_STREAMED_PLACEHOLDER ? body : nothing
+    streamed_body = e.response.body == body_was_streamed ? body : nothing
 
     return AWSException(code, message, info, e, streamed_body)
 end

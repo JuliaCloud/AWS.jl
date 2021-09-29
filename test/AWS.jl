@@ -218,7 +218,7 @@ end
                 if response_stream !== nothing
                     write(response_stream, body)
                     close(response_stream)  # Simulating current HTTP.jl 0.9.14 behaviour
-                    body = AWS.AWSExceptions.BODY_STREAMED_PLACEHOLDER
+                    body = HTTP.MessageRequest.body_was_streamed
                 end
 
                 response = HTTP.Response(400, headers; body=body, request=request)
