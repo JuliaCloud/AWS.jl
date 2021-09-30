@@ -124,6 +124,37 @@ try
         end
     end
 
+    @testset "issue 474" begin
+        body = "foo\0bar"
+        expected = Vector{UInt8}(body)
+        file_name = "null.txt"
+
+        try
+            S3.put_object(BUCKET_NAME, file_name, Dict("body" => body))
+
+            raw = S3.get_object(BUCKET_NAME, file_name, Dict("return_raw" => true))
+            @test raw == expected
+
+            stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test stream isa Base.BufferStream
+                @test !isopen(stream)
+
+                if !isopen(stream)
+                    @test read(stream) == expected
+                end
+            else
+                @test stream isa IOBuffer
+                @test isopen(stream)
+
+                seekstart(stream)
+                @test read(stream) == expected
+            end
+        finally
+            S3.delete_object(BUCKET_NAME, file_name)
+        end
+    end
+
 finally
     S3.delete_bucket(BUCKET_NAME)
 end
