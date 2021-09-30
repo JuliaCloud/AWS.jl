@@ -178,7 +178,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
             close(buffer)
 
             # Transfer the contents of the `BufferStream` into `response_stream` variable.
-            write(response_stream, read(buffer))
+            write(response_stream, buffer)
         end
 
         return @mock Response(r, response_stream)
