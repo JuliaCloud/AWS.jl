@@ -158,7 +158,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
         # stream. Effectively, this works as if we're not using streaming I/O at all but we
         # will keep using the `response_stream` kwarg to ensure we aren't relying on the
         # response's body being populated.
-        buffer = IOBuffer()
+        buffer = Base.BufferStream()
 
         r = try
             @mock HTTP.request(
@@ -172,25 +172,13 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
                 http_options...,
             )
         finally
-            # Read directly from the buffer's data as the I/O stream is closed by HTTP.jl.
-            # We need to be careful to always write the buffer data to the `response_stream`
-            # when an exception occurs as this data contains details about the AWS error.
-            data = if isopen(buffer)
-                take!(buffer)
-            else
-                # When closed the `IOBuffer` size will be set to 0. In order to retrieve the
-                # raw data we need to determine the size from the first '\0' character.
-                first_null = findfirst(==(0x00), buffer.data)
-                last_index = if first_null !== nothing
-                    first_null - 1
-                else
-                    lastindex(buffer.data)
-                end
+            # We're unable to read from the `Base.BufferStream` until it has been closed.
+            # HTTP.jl will close passed in `response_stream` keyword. This ensures that it
+            # is always closed (e.g. HTTP.jl 0.9.15)
+            close(buffer)
 
-                buffer.data[firstindex(buffer.data):last_index]
-            end
-
-            write(response_stream, data)
+            # Transfer the contents of the `BufferStream` into `response_stream` variable.
+            write(response_stream, read(buffer))
         end
 
         return @mock Response(r, response_stream)

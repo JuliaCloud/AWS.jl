@@ -65,6 +65,7 @@ try
     # Duplicated testset from "test/issues.jl". Useful for testing outside the CI. Ideally,
     # the tests should be revised such that local testing works without having to duplicate
     # testsets.
+
     @testset "issue 466" begin
         file_name = "hang.txt"
 
@@ -101,6 +102,37 @@ try
             end
         finally
             S3.delete_object("anewbucket", file_name)
+        end
+    end
+
+    @testset "issue 474" begin
+        body = "foo\0bar"
+        file_name = "null.txt"
+        bucket_name = "anewbucket"
+
+        try
+            S3.put_object(bucket_name, file_name, Dict("body" => body))
+
+            raw = S3.get_object(bucket_name, file_name, Dict("return_raw" => true))
+            @test raw isa Vector{UInt8}
+            @test raw == b"foo\0bar"
+
+            stream = S3.get_object(bucket_name, file_name, Dict("return_stream" => true))
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test stream isa Base.BufferStream
+                @test !isopen(stream)
+
+                if !isopen(stream)
+                    @test read(stream) == b"foo\0bar"
+                end
+            else
+                @test stream isa IOBuffer
+                @test isopen(stream)
+                seekstart(stream)
+                @test read(stream) == b"foo\0bar"
+            end
+        finally
+            S3.delete_object(bucket_name, file_name)
         end
     end
 
