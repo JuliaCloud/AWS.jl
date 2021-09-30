@@ -107,6 +107,7 @@ try
 
     @testset "issue 474" begin
         body = "foo\0bar"
+        expected = Vector{UInt8}(body)
         file_name = "null.txt"
         bucket_name = "anewbucket"
 
@@ -115,7 +116,7 @@ try
 
             raw = S3.get_object(bucket_name, file_name, Dict("return_raw" => true))
             @test raw isa Vector{UInt8}
-            @test raw == b"foo\0bar"
+            @test raw == expected
 
             stream = S3.get_object(bucket_name, file_name, Dict("return_stream" => true))
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
@@ -123,13 +124,13 @@ try
                 @test !isopen(stream)
 
                 if !isopen(stream)
-                    @test read(stream) == b"foo\0bar"
+                    @test read(stream) == expected
                 end
             else
                 @test stream isa IOBuffer
                 @test isopen(stream)
                 seekstart(stream)
-                @test read(stream) == b"foo\0bar"
+                @test read(stream) == expected
             end
         finally
             S3.delete_object(bucket_name, file_name)
