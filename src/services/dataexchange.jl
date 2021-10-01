@@ -92,6 +92,47 @@ function create_data_set(
 end
 
 """
+    create_event_action(action, event)
+    create_event_action(action, event, params::Dict{String,<:Any})
+
+This operation creates an event action.
+
+# Arguments
+- `action`: What occurs after a certain event.
+- `event`: What occurs to start an action.
+
+"""
+function create_event_action(
+    Action, Event; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return dataexchange(
+        "POST",
+        "/v1/event-actions",
+        Dict{String,Any}("Action" => Action, "Event" => Event);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_event_action(
+    Action,
+    Event,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dataexchange(
+        "POST",
+        "/v1/event-actions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Action" => Action, "Event" => Event), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_job(details, type)
     create_job(details, type, params::Dict{String,<:Any})
 
@@ -240,6 +281,40 @@ function delete_data_set(
 end
 
 """
+    delete_event_action(event_action_id)
+    delete_event_action(event_action_id, params::Dict{String,<:Any})
+
+This operation deletes the event action.
+
+# Arguments
+- `event_action_id`: The unique identifier for the event action.
+
+"""
+function delete_event_action(
+    EventActionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return dataexchange(
+        "DELETE",
+        "/v1/event-actions/$(EventActionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_event_action(
+    EventActionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dataexchange(
+        "DELETE",
+        "/v1/event-actions/$(EventActionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_revision(data_set_id, revision_id)
     delete_revision(data_set_id, revision_id, params::Dict{String,<:Any})
 
@@ -339,6 +414,38 @@ function get_data_set(
     return dataexchange(
         "GET",
         "/v1/data-sets/$(DataSetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_event_action(event_action_id)
+    get_event_action(event_action_id, params::Dict{String,<:Any})
+
+This operation retrieves information about an event action.
+
+# Arguments
+- `event_action_id`: The unique identifier for the event action.
+
+"""
+function get_event_action(EventActionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return dataexchange(
+        "GET",
+        "/v1/event-actions/$(EventActionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_event_action(
+    EventActionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dataexchange(
+        "GET",
+        "/v1/event-actions/$(EventActionId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -474,6 +581,36 @@ function list_data_sets(
     return dataexchange(
         "GET",
         "/v1/data-sets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_event_actions()
+    list_event_actions(params::Dict{String,<:Any})
+
+This operation lists your event actions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"eventSourceId"`: The unique identifier for the event source.
+- `"maxResults"`: The maximum number of results returned by a single call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_event_actions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return dataexchange(
+        "GET", "/v1/event-actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_event_actions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return dataexchange(
+        "GET",
+        "/v1/event-actions",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -754,6 +891,43 @@ function update_data_set(
     return dataexchange(
         "PATCH",
         "/v1/data-sets/$(DataSetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_event_action(event_action_id)
+    update_event_action(event_action_id, params::Dict{String,<:Any})
+
+This operation updates the event action.
+
+# Arguments
+- `event_action_id`: The unique identifier for the event action.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Action"`: What occurs after a certain event.
+"""
+function update_event_action(
+    EventActionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return dataexchange(
+        "PATCH",
+        "/v1/event-actions/$(EventActionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_event_action(
+    EventActionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dataexchange(
+        "PATCH",
+        "/v1/event-actions/$(EventActionId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -85,7 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component.
 - `"kmsKeyId"`: The ID of the KMS key that should be used to encrypt this component.
 - `"supportedOsVersions"`:  The operating system (OS) version supported by the component.
-  If the OS information is available, a prefix match is performed against the parent image OS
+  If the OS information is available, a prefix match is performed against the base image OS
   version during image recipe creation.
 - `"tags"`: The tags of the component.
 - `"uri"`: The uri of the component. Must be an Amazon S3 URL and the requester must have
@@ -153,7 +153,7 @@ and assessed.
 - `components`: Components for build and test that are included in the container recipe.
 - `container_type`: The type of container to create.
 - `name`: The name of the container recipe.
-- `parent_image`: The source image for the container recipe.
+- `parent_image`: The base image for the container recipe.
 - `semantic_version`: The semantic version of the container recipe. This version follows
   the semantic version syntax.  The semantic version has four nodes:
   &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
@@ -172,12 +172,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data blob.
 - `"dockerfileTemplateUri"`: The Amazon S3 URI for the Dockerfile that will be used to
   build your container image.
-- `"imageOsVersionOverride"`: Specifies the operating system version for the source image.
+- `"imageOsVersionOverride"`: Specifies the operating system version for the base image.
 - `"instanceConfiguration"`: A group of options that can be used to configure an instance
   for building and testing container images.
 - `"kmsKeyId"`: Identifies which KMS key is used to encrypt the container image.
-- `"platformOverride"`: Specifies the operating system platform when you use a custom
-  source image.
+- `"platformOverride"`: Specifies the operating system platform when you use a custom base
+  image.
 - `"tags"`: Tags that are attached to the container recipe.
 - `"workingDirectory"`: The working directory for use during build and test workflows.
 """
@@ -450,8 +450,8 @@ assessed.
 - `client_token`: The idempotency token used to make this request idempotent.
 - `components`: The components of the image recipe.
 - `name`:  The name of the image recipe.
-- `parent_image`: The parent image of the image recipe. The value of the string can be the
-  ARN of the parent image or an AMI ID. The format for the ARN follows this example:
+- `parent_image`: The base image of the image recipe. The value of the string can be the
+  ARN of the base image or an AMI ID. The format for the ARN follows this example:
   arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/x.x.x.
   You can provide the specific version that you want to use, or you can use a wildcard in all
   of the fields. If you enter an AMI ID for the string value, you must have access to the
@@ -545,11 +545,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the infrastructure configuration.
 - `"instanceMetadataOptions"`: The instance metadata options that you can set for the HTTP
   requests that pipeline builds use to launch EC2 build and test instances.
-- `"instanceTypes"`: The instance metadata options that you can set for the HTTP requests
-  that pipeline builds use to launch EC2 build and test instances. For more information about
-  instance metadata options, see one of the following links:    Configure the instance
-  metadata options in the  Amazon EC2 User Guide  for Linux instances.    Configure the
-  instance metadata options in the  Amazon EC2 Windows Guide  for Windows instances.
+- `"instanceTypes"`: The instance types of the infrastructure configuration. You can
+  specify one or more instance types to use for this build. The service will pick one of
+  these instance types based on availability.
 - `"keyPair"`: The key pair of the infrastructure configuration. You can use this to log on
   to and debug the instance used to create your image.
 - `"logging"`: The logging configuration of the infrastructure configuration.
@@ -1359,7 +1357,7 @@ Imports a component and transforms its data into a component document.
   &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
   first three, and can filter on all of them.  Filtering: With semantic versioning, you have
   the flexibility to use wildcards (x) to specify the most recent versions or nodes when
-  selecting the source image or components for your recipe. When you use a wildcard in any
+  selecting the base image or components for your recipe. When you use a wildcard in any
   node, all nodes to the right of the first wildcard must also be wildcards.
 - `type`: The type of the component denotes whether the component is used to build the
   image, or only to test it.
@@ -1444,9 +1442,9 @@ end
 semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;.
 You can assign values for the first three, and can filter on all of them.  Filtering: With
 semantic versioning, you have the flexibility to use wildcards (x) to specify the most
-recent versions or nodes when selecting the source image or components for your recipe.
-When you use a wildcard in any node, all nodes to the right of the first wildcard must also
-be wildcards.
+recent versions or nodes when selecting the base image or components for your recipe. When
+you use a wildcard in any node, all nodes to the right of the first wildcard must also be
+wildcards.
 
 # Arguments
 - `component_version_arn`: The component version Amazon Resource Name (ARN) whose versions
@@ -1497,9 +1495,9 @@ Returns the list of component build versions for the specified semantic version.
 semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;.
 You can assign values for the first three, and can filter on all of them.  Filtering: With
 semantic versioning, you have the flexibility to use wildcards (x) to specify the most
-recent versions or nodes when selecting the source image or components for your recipe.
-When you use a wildcard in any node, all nodes to the right of the first wildcard must also
-be wildcards.
+recent versions or nodes when selecting the base image or components for your recipe. When
+you use a wildcard in any node, all nodes to the right of the first wildcard must also be
+wildcards.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

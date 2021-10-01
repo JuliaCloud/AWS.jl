@@ -86,15 +86,16 @@ end
 Grants an Amazon Web Services service or another account permission to use a function. You
 can apply the policy at the function level, or specify a qualifier to restrict access to a
 single version or alias. If you use a qualifier, the invoker must use the full Amazon
-Resource Name (ARN) of that version or alias to invoke the function. To grant permission to
-another account, specify the account ID as the Principal. For Amazon Web Services services,
-the principal is a domain-style identifier defined by the service, like s3.amazonaws.com or
-sns.amazonaws.com. For Amazon Web Services services, you can also specify the ARN of the
-associated resource as the SourceArn. If you grant permission to a service principal
-without specifying the source, other accounts could potentially configure resources in
-their account to invoke your Lambda function. This action adds a statement to a
-resource-based permissions policy for the function. For more information about function
-policies, see Lambda Function Policies.
+Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not
+support adding policies to version LATEST. To grant permission to another account, specify
+the account ID as the Principal. For Amazon Web Services services, the principal is a
+domain-style identifier defined by the service, like s3.amazonaws.com or sns.amazonaws.com.
+For Amazon Web Services services, you can also specify the ARN of the associated resource
+as the SourceArn. If you grant permission to a service principal without specifying the
+source, other accounts could potentially configure resources in their account to invoke
+your Lambda function. This action adds a statement to a resource-based permissions policy
+for the function. For more information about function policies, see Lambda Function
+Policies.
 
 # Arguments
 - `action`: The action that the principal can use on the function. For example,
@@ -126,6 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 - `"SourceArn"`: For Amazon Web Services services, the ARN of the Amazon Web Services
   resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
+  Note that Lambda configures the comparison using the StringLike operator.
 """
 function add_permission(
     Action,
@@ -278,20 +280,19 @@ end
 
 Creates a mapping between an event source and an Lambda function. Lambda reads items from
 the event source and triggers the function. For details about each event source type, see
-the following topics. In particular, each of the topics describes the required and optional
-parameters for the specific event source.      Configuring a Dynamo DB stream as an event
-source      Configuring a Kinesis stream as an event source      Configuring an SQS queue
-as an event source      Configuring an MQ broker as an event source      Configuring MSK as
-an event source      Configuring Self-Managed Apache Kafka as an event source    The
-following error handling options are only available for stream sources (DynamoDB and
-Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch
-in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or
-Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified
-age. The default value is infinite (-1). When set to infinite (-1), failed records are
-retried until the record expires    MaximumRetryAttempts - Discard records after the
-specified number of retries. The default value is infinite (-1). When set to infinite (-1),
-failed records are retried until the record expires.    ParallelizationFactor - Process
-multiple batches from each shard concurrently.
+the following topics.      Configuring a Dynamo DB stream as an event source
+Configuring a Kinesis stream as an event source      Configuring an Amazon SQS queue as an
+event source      Configuring an MQ broker as an event source      Configuring MSK as an
+event source      Configuring Self-Managed Apache Kafka as an event source    The following
+error handling options are only available for stream sources (DynamoDB and Kinesis):
+BisectBatchOnFunctionError - If the function returns an error, split the batch in two and
+retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS
+topic.    MaximumRecordAgeInSeconds - Discard records older than the specified age. The
+default value is infinite (-1). When set to infinite (-1), failed records are retried until
+the record expires    MaximumRetryAttempts - Discard records after the specified number of
+retries. The default value is infinite (-1). When set to infinite (-1), failed records are
+retried until the record expires.    ParallelizationFactor - Process multiple batches from
+each shard concurrently.
 
 # Arguments
 - `function_name`: The name of the Lambda function.  Name formats     Function name -
@@ -302,25 +303,29 @@ multiple batches from each shard concurrently.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BatchSize"`: The maximum number of items to retrieve in a single batch.    Amazon
-  Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.
-  Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO
-  queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max
-  10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+- `"BatchSize"`: The maximum number of records in each batch that Lambda pulls from your
+  stream or queue and sends to your function. Lambda passes all of the records in the batch
+  to the function in a single call, up to the payload limit for synchronous invocation (6
+  MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
+  Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
+  10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
+  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
 - `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
   the batch in two and retry.
 - `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
   for discarded records.
-- `"Enabled"`: If true, the event source mapping is active. Set to false to pause polling
-  and invocation.
+- `"Enabled"`: When true, the event source mapping is active. When false, Lambda pauses
+  polling and invocation. Default: True
 - `"EventSourceArn"`: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis
   - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
   the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed
   Streaming for Apache Kafka - The ARN of the cluster.
 - `"FunctionResponseTypes"`: (Streams only) A list of current response type enums applied
   to the event source mapping.
-- `"MaximumBatchingWindowInSeconds"`: (Streams and SQS standard queues) The maximum amount
-  of time to gather records before invoking the function, in seconds.
+- `"MaximumBatchingWindowInSeconds"`: (Streams and Amazon SQS standard queues) The maximum
+  amount of time, in seconds, that Lambda spends gathering records before invoking the
+  function. Default: 0 Related setting: When you set BatchSize to a value greater than 10,
+  you must set MaximumBatchingWindowInSeconds to at least 1.
 - `"MaximumRecordAgeInSeconds"`: (Streams only) Discard records older than the specified
   age. The default value is infinite (-1).
 - `"MaximumRetryAttempts"`: (Streams only) Discard records after the specified number of
@@ -381,32 +386,34 @@ container image. For a container image, the code property must include the URI o
 container image in the Amazon ECR registry. You do not need to specify the handler and
 runtime properties.  You set the package type to Zip if the deployment package is a .zip
 file archive. For a .zip file archive, the code property specifies the location of the .zip
-file. You must also specify the handler and runtime properties. When you create a function,
-Lambda provisions an instance of the function and its supporting resources. If your
-function connects to a VPC, this process can take a minute or so. During this time, you
-can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in
-the response from GetFunctionConfiguration indicate when the function is ready to invoke.
-For more information, see Function States. A function has an unpublished version, and can
-have published versions and aliases. The unpublished version changes when you update your
-function's code and configuration. A published version is a snapshot of your function code
-and configuration that can't be changed. An alias is a named resource that maps to a
-version, and can be changed to map to a different version. Use the Publish parameter to
-create version 1 of your function from its initial configuration. The other parameters let
-you configure version-specific and function-level settings. You can modify version-specific
-settings later with UpdateFunctionConfiguration. Function-level settings apply to both the
-unpublished and published versions of the function, and include tags (TagResource) and
-per-function concurrency limits (PutFunctionConcurrency). You can use code signing if your
-deployment package is a .zip file archive. To enable code signing for this function,
-specify the ARN of a code-signing configuration. When a user attempts to deploy a code
-package with UpdateFunctionCode, Lambda checks that the code package has a valid signature
-from a trusted publisher. The code-signing configuration includes set set of signing
-profiles, which define the trusted publishers for this function. If another account or an
-Amazon Web Services service invokes your function, use AddPermission to grant permission by
-creating a resource-based IAM policy. You can grant permissions at the function level, on a
-version, or on an alias. To invoke your function directly, use Invoke. To invoke your
-function in response to events in other Amazon Web Services services, create an event
-source mapping (CreateEventSourceMapping), or configure a function trigger in the other
-service. For more information, see Invoking Functions.
+file. You must also specify the handler and runtime properties. The code in the deployment
+package must be compatible with the target instruction set architecture of the function
+(x86-64 or arm64). If you do not specify the architecture, the default value is x86-64.
+When you create a function, Lambda provisions an instance of the function and its
+supporting resources. If your function connects to a VPC, this process can take a minute or
+so. During this time, you can't invoke or modify the function. The State, StateReason, and
+StateReasonCode fields in the response from GetFunctionConfiguration indicate when the
+function is ready to invoke. For more information, see Function States. A function has an
+unpublished version, and can have published versions and aliases. The unpublished version
+changes when you update your function's code and configuration. A published version is a
+snapshot of your function code and configuration that can't be changed. An alias is a named
+resource that maps to a version, and can be changed to map to a different version. Use the
+Publish parameter to create version 1 of your function from its initial configuration. The
+other parameters let you configure version-specific and function-level settings. You can
+modify version-specific settings later with UpdateFunctionConfiguration. Function-level
+settings apply to both the unpublished and published versions of the function, and include
+tags (TagResource) and per-function concurrency limits (PutFunctionConcurrency). You can
+use code signing if your deployment package is a .zip file archive. To enable code signing
+for this function, specify the ARN of a code-signing configuration. When a user attempts to
+deploy a code package with UpdateFunctionCode, Lambda checks that the code package has a
+valid signature from a trusted publisher. The code-signing configuration includes set set
+of signing profiles, which define the trusted publishers for this function. If another
+account or an Amazon Web Services service invokes your function, use AddPermission to grant
+permission by creating a resource-based IAM policy. You can grant permissions at the
+function level, on a version, or on an alias. To invoke your function directly, use Invoke.
+To invoke your function in response to events in other Amazon Web Services services, create
+an event source mapping (CreateEventSourceMapping), or configure a function trigger in the
+other service. For more information, see Invoking Functions.
 
 # Arguments
 - `code`: The code for the function.
@@ -419,6 +426,8 @@ service. For more information, see Invoking Functions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Architectures"`: The instruction set architecture that the function supports. Enter a
+  string array with one of the valid values. The default value is x86_64.
 - `"CodeSigningConfigArn"`: To enable code signing for this function, specify the ARN of a
   code-signing configuration. A code-signing configuration includes a set of signing
   profiles, which define the trusted publishers for this function.
@@ -1419,7 +1428,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple times to the function's dead-letter queue (if it's configured). The API response
   only includes a status code.    DryRun - Validate parameter values and verify that the user
   or role has permission to invoke the function.
-- `"X-Amz-Log-Type"`: Set to Tail to include the execution log in the response.
+- `"X-Amz-Log-Type"`: Set to Tail to include the execution log in the response. Applies to
+  synchronously invoked functions only.
 """
 function invoke(FunctionName; aws_config::AbstractAWSConfig=global_aws_config())
     return lambda(
@@ -1742,13 +1752,15 @@ end
 
 Lists the versions of an Lambda layer. Versions that have been deleted aren't listed.
 Specify a runtime identifier to list only versions that indicate that they're compatible
-with that runtime.
+with that runtime. Specify a compatible architecture to include only layer versions that
+are compatible with that architecture.
 
 # Arguments
 - `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CompatibleArchitecture"`: The compatible instruction set architecture.
 - `"CompatibleRuntime"`: A runtime identifier. For example, go1.x.
 - `"Marker"`: A pagination token returned by a previous call.
 - `"MaxItems"`: The maximum number of versions to return.
@@ -1781,10 +1793,12 @@ end
 
 Lists Lambda layers and shows information about the latest version of each. Specify a
 runtime identifier to list only layers that indicate that they're compatible with that
-runtime.
+runtime. Specify a compatible architecture to include only layers that are compatible with
+that instruction set architecture.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CompatibleArchitecture"`: The compatible instruction set architecture.
 - `"CompatibleRuntime"`: A runtime identifier. For example, go1.x.
 - `"Marker"`: A pagination token returned by a previous call.
 - `"MaxItems"`: The maximum number of layers to return.
@@ -1856,7 +1870,8 @@ end
 Returns a function's tags. You can also view tags with GetFunction.
 
 # Arguments
-- `arn`: The function's Amazon Resource Name (ARN).
+- `arn`: The function's Amazon Resource Name (ARN). Note: Lambda does not support adding
+  tags to aliases or versions.
 
 """
 function list_tags(ARN; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1937,6 +1952,7 @@ or UpdateFunctionConfiguration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CompatibleArchitectures"`: A list of compatible instruction set architectures.
 - `"CompatibleRuntimes"`: A list of compatible function runtimes. Used for filtering with
   ListLayers and ListLayerVersions.
 - `"Description"`: The description of the version.
@@ -2518,17 +2534,19 @@ shard concurrently.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BatchSize"`: The maximum number of items to retrieve in a single batch.    Amazon
-  Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.
-  Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO
-  queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max
-  10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+- `"BatchSize"`: The maximum number of records in each batch that Lambda pulls from your
+  stream or queue and sends to your function. Lambda passes all of the records in the batch
+  to the function in a single call, up to the payload limit for synchronous invocation (6
+  MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100.
+  Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is
+  10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka -
+  Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
 - `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
   the batch in two and retry.
 - `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
   for discarded records.
-- `"Enabled"`: If true, the event source mapping is active. Set to false to pause polling
-  and invocation.
+- `"Enabled"`: When true, the event source mapping is active. When false, Lambda pauses
+  polling and invocation. Default: True
 - `"FunctionName"`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
@@ -2536,8 +2554,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   full ARN. If you specify only the function name, it's limited to 64 characters in length.
 - `"FunctionResponseTypes"`: (Streams only) A list of current response type enums applied
   to the event source mapping.
-- `"MaximumBatchingWindowInSeconds"`: (Streams and SQS standard queues) The maximum amount
-  of time to gather records before invoking the function, in seconds.
+- `"MaximumBatchingWindowInSeconds"`: (Streams and Amazon SQS standard queues) The maximum
+  amount of time, in seconds, that Lambda spends gathering records before invoking the
+  function. Default: 0 Related setting: When you set BatchSize to a value greater than 10,
+  you must set MaximumBatchingWindowInSeconds to at least 1.
 - `"MaximumRecordAgeInSeconds"`: (Streams only) Discard records older than the specified
   age. The default value is infinite (-1).
 - `"MaximumRetryAttempts"`: (Streams only) Discard records after the specified number of
@@ -2592,6 +2612,8 @@ update the image tag to a new image, Lambda does not automatically update the fu
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Architectures"`: The instruction set architecture that the function supports. Enter a
+  string array with one of the valid values. The default value is x86_64.
 - `"DryRun"`: Set to true to validate the request parameters and access permissions without
   modifying the function code.
 - `"ImageUri"`: URI of a container image in the Amazon ECR registry.
@@ -2668,7 +2690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   function. The format includes the file name. It can also include namespaces and other
   qualifiers, depending on the runtime. For more information, see Programming Model.
 - `"ImageConfig"`:  Container image configuration values that override the values in the
-  container image Dockerfile.
+  container image Docker file.
 - `"KMSKeyArn"`: The ARN of the Amazon Web Services Key Management Service (KMS) key that's
   used to encrypt your function's environment variables. If it's not provided, Lambda uses a
   default service key.
