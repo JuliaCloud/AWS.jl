@@ -15,7 +15,9 @@ configuration set to an email, all of the rules in that configuration set are ap
 the email.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set.
+- `configuration_set_name`: The name of the configuration set. The name can contain up to
+  64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_)
+  only.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -26,8 +28,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SendingOptions"`: An object that defines whether or not Amazon SES can send email that
   you send using the configuration set.
 - `"SuppressionOptions"`:
-- `"Tags"`: An array of objects that define the tags (keys and values) that you want to
-  associate with the configuration set.
+- `"Tags"`: An array of objects that define the tags (keys and values) to associate with
+  the configuration set.
 - `"TrackingOptions"`: An object that defines the open and click tracking options for
   emails that you send using the configuration set.
 """
@@ -74,8 +76,7 @@ Firehose to stream data to Amazon S3 for long-term storage. A single configurati
 include more than one event destination.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to add an event
-  destination to.
+- `configuration_set_name`: The name of the configuration set .
 - `event_destination`: An object that defines the event destination.
 - `event_destination_name`: A name that identifies the event destination within the
   configuration set.
@@ -298,9 +299,9 @@ end
     create_dedicated_ip_pool(pool_name, params::Dict{String,<:Any})
 
 Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP
-addresses that are associated with your AWS account. You can associate a pool with a
-configuration set. When you send an email that uses that configuration set, the message is
-sent from one of the addresses in the associated pool.
+addresses that are associated with your Amazon Web Services account. You can associate a
+pool with a configuration set. When you send an email that uses that configuration set, the
+message is sent from one of the addresses in the associated pool.
 
 # Arguments
 - `pool_name`: The name of the dedicated IP pool.
@@ -414,16 +415,16 @@ known as Easy DKIM. Alternatively, you can perform the verification process by p
 your own public-private key pair. This verification method is known as Bring Your Own DKIM
 (BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include
 the DkimSigningAttributes object. When you specify this object, you provide a selector (a
-component of the DNS record name that identifies the public key that you want to use for
-DKIM authentication) and a private key. When you verify a domain, this operation provides a
-set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to
-the DNS configuration for your domain. Your domain is verified when Amazon SES detects
-these records in the DNS configuration for your domain. For some DNS providers, it can take
-72 hours or more to complete the domain verification process. Additionally, you can
-associate an existing configuration set with the email identity that you're verifying.
+component of the DNS record name that identifies the public key to use for DKIM
+authentication) and a private key. When you verify a domain, this operation provides a set
+of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the
+DNS configuration for your domain. Your domain is verified when Amazon SES detects these
+records in the DNS configuration for your domain. For some DNS providers, it can take 72
+hours or more to complete the domain verification process. Additionally, you can associate
+an existing configuration set with the email identity that you're verifying.
 
 # Arguments
-- `email_identity`: The email address or domain that you want to verify.
+- `email_identity`: The email address or domain to verify.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -431,11 +432,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identity. Note that any configuration set defined in the email sending request takes
   precedence.
 - `"DkimSigningAttributes"`: If your request includes this object, Amazon SES configures
-  the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as
-  opposed to the default method, Easy DKIM. You can only specify this object if the email
-  identity is a domain, as opposed to an address.
-- `"Tags"`: An array of objects that define the tags (keys and values) that you want to
-  associate with the email identity.
+  the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, or,
+  configures the key length to be used for Easy DKIM. You can only specify this object if the
+  email identity is a domain, as opposed to an address.
+- `"Tags"`: An array of objects that define the tags (keys and values) to associate with
+  the email identity.
 """
 function create_email_identity(
     EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()
@@ -476,7 +477,7 @@ using sending authorization, see the Amazon SES Developer Guide. You can execute
 operation no more than once per second.
 
 # Arguments
-- `email_identity`: The email identity for which you want to create a policy.
+- `email_identity`: The email identity.
 - `policy`: The text of the policy in JSON format. The policy cannot exceed 4 KB. For
   information about the syntax of sending authorization policies, see the Amazon SES
   Developer Guide.
@@ -522,7 +523,7 @@ Developer Guide. You can execute this operation no more than once per second.
 # Arguments
 - `template_content`: The content of the email template, composed of a subject line, an
   HTML part, and a text-only part.
-- `template_name`: The name of the template you want to create.
+- `template_name`: The name of the template.
 
 """
 function create_email_template(
@@ -620,7 +621,7 @@ configuration set to an email, all of the rules in that configuration set are ap
 the email.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to delete.
+- `configuration_set_name`: The name of the configuration set.
 
 """
 function delete_configuration_set(
@@ -659,8 +660,8 @@ Firehose to stream data to Amazon S3 for long-term storage.
 
 # Arguments
 - `configuration_set_name`: The name of the configuration set that contains the event
-  destination that you want to delete.
-- `event_destination_name`: The name of the event destination that you want to delete.
+  destination to delete.
+- `event_destination_name`: The name of the event destination to delete.
 
 """
 function delete_configuration_set_event_destination(
@@ -839,8 +840,7 @@ end
 Deletes an email identity. An identity can be either an email address or a domain name.
 
 # Arguments
-- `email_identity`: The identity (that is, the email address or domain) that you want to
-  delete.
+- `email_identity`: The identity (that is, the email address or domain) to delete.
 
 """
 function delete_email_identity(
@@ -880,7 +880,7 @@ authorization, see the Amazon SES Developer Guide. You can execute this operatio
 than once per second.
 
 # Arguments
-- `email_identity`: The email identity for which you want to delete a policy.
+- `email_identity`: The email identity.
 - `policy_name`: The name of the policy. The policy name cannot exceed 64 characters and
   can only include alphanumeric characters, dashes, and underscores.
 
@@ -984,7 +984,7 @@ end
     get_account(params::Dict{String,<:Any})
 
 Obtain information about the email-sending status and capabilities of your Amazon SES
-account in the current AWS Region.
+account in the current Amazon Web Services Region.
 
 """
 function get_account(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1057,8 +1057,7 @@ headers of the email. When you apply a configuration set to an email, all of the
 that configuration set are applied to the email.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to obtain more
-  information about.
+- `configuration_set_name`: The name of the configuration set.
 
 """
 function get_configuration_set(
@@ -1244,7 +1243,8 @@ address.
 
 # Arguments
 - `ip`: The IP address that you want to obtain more information about. The value you
-  specify has to be a dedicated IP address that's assocaited with your AWS account.
+  specify has to be a dedicated IP address that's assocaited with your Amazon Web Services
+  account.
 
 """
 function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1271,7 +1271,7 @@ end
     get_dedicated_ips()
     get_dedicated_ips(params::Dict{String,<:Any})
 
-List the dedicated IP addresses that are associated with your AWS account.
+List the dedicated IP addresses that are associated with your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1311,8 +1311,9 @@ When the Deliverability dashboard is enabled, you gain access to reputation,
 deliverability, and other metrics for the domains that you use to send email. You also gain
 the ability to perform predictive inbox placement tests. When you use the Deliverability
 dashboard, you pay a monthly subscription charge, in addition to any other fees that you
-accrue by using Amazon SES and other AWS services. For more information about the features
-and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
+accrue by using Amazon SES and other Amazon Web Services services. For more information
+about the features and cost of a Deliverability dashboard subscription, see Amazon SES
+Pricing.
 
 """
 function get_deliverability_dashboard_options(;
@@ -1465,7 +1466,7 @@ status, sending authorization policies, its DKIM authentication status, and its 
 Mail-From settings.
 
 # Arguments
-- `email_identity`: The email identity that you want to retrieve details for.
+- `email_identity`: The email identity.
 
 """
 function get_email_identity(
@@ -1505,7 +1506,7 @@ senders to use its identities. For information about using sending authorization
 Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 # Arguments
-- `email_identity`: The email identity that you want to retrieve policies for.
+- `email_identity`: The email identity.
 
 """
 function get_email_identity_policies(
@@ -1540,7 +1541,7 @@ Displays the template object (which includes the subject line, HTML part and tex
 the template you specify. You can execute this operation no more than once per second.
 
 # Arguments
-- `template_name`: The name of the template you want to retrieve.
+- `template_name`: The name of the template.
 
 """
 function get_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1752,10 +1753,10 @@ end
     list_custom_verification_email_templates()
     list_custom_verification_email_templates(params::Dict{String,<:Any})
 
-Lists the existing custom verification email templates for your account in the current AWS
-Region. For more information about custom verification email templates, see Using Custom
-Verification Email Templates in the Amazon SES Developer Guide. You can execute this
-operation no more than once per second.
+Lists the existing custom verification email templates for your account in the current
+Amazon Web Services Region. For more information about custom verification email templates,
+see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can
+execute this operation no more than once per second.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1794,7 +1795,8 @@ end
     list_dedicated_ip_pools()
     list_dedicated_ip_pools(params::Dict{String,<:Any})
 
-List all of the dedicated IP pools that exist in your AWS account in the current Region.
+List all of the dedicated IP pools that exist in your Amazon Web Services account in the
+current Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1927,10 +1929,10 @@ end
     list_email_identities()
     list_email_identities(params::Dict{String,<:Any})
 
-Returns a list of all of the email identities that are associated with your AWS account. An
-identity can be either an email address or a domain. This operation returns identities that
-are verified as well as those that aren't. This operation returns identities that are
-associated with Amazon SES and Amazon Pinpoint.
+Returns a list of all of the email identities that are associated with your Amazon Web
+Services account. An identity can be either an email address or a domain. This operation
+returns identities that are verified as well as those that aren't. This operation returns
+identities that are associated with Amazon SES and Amazon Pinpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1965,8 +1967,8 @@ end
     list_email_templates()
     list_email_templates(params::Dict{String,<:Any})
 
-Lists the email templates present in your Amazon SES account in the current AWS Region. You
-can execute this operation no more than once per second.
+Lists the email templates present in your Amazon SES account in the current Amazon Web
+Services Region. You can execute this operation no more than once per second.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2125,8 +2127,9 @@ Enable or disable the automatic warm-up feature for dedicated IP addresses.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoWarmupEnabled"`: Enables or disables the automatic warm-up feature for dedicated IP
-  addresses that are associated with your Amazon SES account in the current AWS Region. Set
-  to true to enable the automatic warm-up feature, or set to false to disable it.
+  addresses that are associated with your Amazon SES account in the current Amazon Web
+  Services Region. Set to true to enable the automatic warm-up feature, or set to false to
+  disable it.
 """
 function put_account_dedicated_ip_warmup_attributes(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -2168,8 +2171,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notified regarding Amazon SES matters.
 - `"ContactLanguage"`: The language you would prefer to be contacted with.
 - `"ProductionAccessEnabled"`: Indicates whether or not your account should have production
-  access in the current AWS Region. If the value is false, then your account is in the
-  sandbox. When your account is in the sandbox, you can only send email to verified
+  access in the current Amazon Web Services Region. If the value is false, then your account
+  is in the sandbox. When your account is in the sandbox, you can only send email to verified
   identities. Additionally, the maximum number of emails you can send in a 24-hour period
   (your sending quota) is 200, and the maximum number of emails you can send per second (your
   maximum sending rate) is 1. If the value is true, then your account has production access.
@@ -2229,9 +2232,9 @@ Enable or disable the ability of your account to send email.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SendingEnabled"`: Enables or disables your account's ability to send email. Set to true
-  to enable email sending, or set to false to disable email sending.  If AWS paused your
-  account's ability to send email, you can't use this operation to resume your account's
-  ability to send email.
+  to enable email sending, or set to false to disable email sending.  If Amazon Web Services
+  paused your account's ability to send email, you can't use this operation to resume your
+  account's ability to send email.
 """
 function put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
     return sesv2(
@@ -2298,13 +2301,13 @@ Associate a configuration set with a dedicated IP pool. You can use dedicated IP
 create groups of dedicated IP addresses for sending specific types of email.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to associate
-  with a dedicated IP pool.
+- `configuration_set_name`: The name of the configuration set to associate with a dedicated
+  IP pool.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SendingPoolName"`: The name of the dedicated IP pool that you want to associate with
-  the configuration set.
+- `"SendingPoolName"`: The name of the dedicated IP pool to associate with the
+  configuration set.
 - `"TlsPolicy"`: Specifies whether messages that use the configuration set are required to
   use Transport Layer Security (TLS). If the value is Require, messages are only delivered if
   a TLS connection can be established. If the value is Optional, messages can be delivered in
@@ -2339,11 +2342,10 @@ end
     put_configuration_set_reputation_options(configuration_set_name, params::Dict{String,<:Any})
 
 Enable or disable collection of reputation metrics for emails that you send using a
-particular configuration set in a specific AWS Region.
+particular configuration set in a specific Amazon Web Services Region.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to enable or
-  disable reputation metric tracking for.
+- `configuration_set_name`: The name of the configuration set.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2380,11 +2382,11 @@ end
     put_configuration_set_sending_options(configuration_set_name, params::Dict{String,<:Any})
 
 Enable or disable email sending for messages that use a particular configuration set in a
-specific AWS Region.
+specific Amazon Web Services Region.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to enable or
-  disable email sending for.
+- `configuration_set_name`: The name of the configuration set to enable or disable email
+  sending for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2422,8 +2424,8 @@ end
 Specify the account suppression list preferences for a configuration set.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to change the
-  suppression list preferences for.
+- `configuration_set_name`: The name of the configuration set to change the suppression
+  list preferences for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2465,12 +2467,11 @@ end
 Specify a custom domain to use for open and click tracking elements in email that you send.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to add a custom
-  tracking domain to.
+- `configuration_set_name`: The name of the configuration set.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CustomRedirectDomain"`: The domain that you want to use to track open and click events.
+- `"CustomRedirectDomain"`: The domain to use to track open and click events.
 """
 function put_configuration_set_tracking_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2501,15 +2502,16 @@ end
     put_dedicated_ip_in_pool(destination_pool_name, ip, params::Dict{String,<:Any})
 
 Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP address
-that you specify must already exist, and must be associated with your AWS account.  The
-dedicated IP pool you specify must already exist. You can create a new pool by using the
-CreateDedicatedIpPool operation.
+that you specify must already exist, and must be associated with your Amazon Web Services
+account.  The dedicated IP pool you specify must already exist. You can create a new pool
+by using the CreateDedicatedIpPool operation.
 
 # Arguments
 - `destination_pool_name`: The name of the IP pool that you want to add the dedicated IP
   address to. You have to specify an IP pool that already exists.
 - `ip`: The IP address that you want to move to the dedicated IP pool. The value you
-  specify has to be a dedicated IP address that's associated with your AWS account.
+  specify has to be a dedicated IP address that's associated with your Amazon Web Services
+  account.
 
 """
 function put_dedicated_ip_in_pool(
@@ -2594,9 +2596,9 @@ Enable or disable the Deliverability dashboard. When you enable the Deliverabili
 dashboard, you gain access to reputation, deliverability, and other metrics for the domains
 that you use to send email. You also gain the ability to perform predictive inbox placement
 tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in
-addition to any other fees that you accrue by using Amazon SES and other AWS services. For
-more information about the features and cost of a Deliverability dashboard subscription,
-see Amazon SES Pricing.
+addition to any other fees that you accrue by using Amazon SES and other Amazon Web
+Services services. For more information about the features and cost of a Deliverability
+dashboard subscription, see Amazon SES Pricing.
 
 # Arguments
 - `dashboard_enabled`: Specifies whether to enable the Deliverability dashboard. To enable
@@ -2643,13 +2645,11 @@ end
 Used to associate a configuration set with an email identity.
 
 # Arguments
-- `email_identity`: The email address or domain that you want to associate with a
-  configuration set.
+- `email_identity`: The email address or domain to associate with a configuration set.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The configuration set that you want to associate with an email
-  identity.
+- `"ConfigurationSetName"`: The configuration set to associate with an email identity.
 """
 function put_email_identity_configuration_set_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2682,7 +2682,7 @@ end
 Used to enable or disable DKIM authentication for an email identity.
 
 # Arguments
-- `email_identity`: The email identity that you want to change the DKIM settings for.
+- `email_identity`: The email identity.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2720,23 +2720,23 @@ end
 
 Used to configure or change the DKIM authentication settings for an email domain identity.
 You can use this operation to do any of the following:   Update the signing attributes for
-an identity that uses Bring Your Own DKIM (BYODKIM).   Change from using no DKIM
-authentication to using Easy DKIM.   Change from using no DKIM authentication to using
-BYODKIM.   Change from using Easy DKIM to using BYODKIM.   Change from using BYODKIM to
-using Easy DKIM.
+an identity that uses Bring Your Own DKIM (BYODKIM).   Update the key length that should be
+used for Easy DKIM.   Change from using no DKIM authentication to using Easy DKIM.   Change
+from using no DKIM authentication to using BYODKIM.   Change from using Easy DKIM to using
+BYODKIM.   Change from using BYODKIM to using Easy DKIM.
 
 # Arguments
-- `email_identity`: The email identity that you want to configure DKIM for.
-- `signing_attributes_origin`: The method that you want to use to configure DKIM for the
-  identity. There are two possible values:    AWS_SES – Configure DKIM for the identity by
-  using Easy DKIM.    EXTERNAL – Configure DKIM for the identity by using Bring Your Own
-  DKIM (BYODKIM).
+- `email_identity`: The email identity.
+- `signing_attributes_origin`: The method to use to configure DKIM for the identity. There
+  are the following possible values:    AWS_SES – Configure DKIM for the identity by using
+  Easy DKIM.    EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM
+  (BYODKIM).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SigningAttributes"`: An object that contains information about the private key and
-  selector that you want to use to configure DKIM for the identity. This object is only
-  required if you want to configure Bring Your Own DKIM (BYODKIM) for the identity.
+  selector that you want to use to configure DKIM for the identity for Bring Your Own DKIM
+  (BYODKIM) for the identity, or, configures the key length to be used for Easy DKIM.
 """
 function put_email_identity_dkim_signing_attributes(
     EmailIdentity,
@@ -2786,8 +2786,7 @@ complaint notifications (for example, by setting up an event destination), you r
 email notification when these events occur (even if this setting is disabled).
 
 # Arguments
-- `email_identity`: The email identity that you want to configure bounce and complaint
-  feedback forwarding for.
+- `email_identity`: The email identity.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2830,17 +2829,16 @@ end
 Used to enable or disable the custom Mail-From domain configuration for an email identity.
 
 # Arguments
-- `email_identity`: The verified email identity that you want to set up the custom MAIL
-  FROM domain for.
+- `email_identity`: The verified email identity.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BehaviorOnMxFailure"`: The action that you want to take if the required MX record isn't
-  found when you send an email. When you set this value to UseDefaultValue, the mail is sent
-  using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the
-  Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver
-  the email. These behaviors are taken when the custom MAIL FROM domain configuration is in
-  the Pending, Failed, and TemporaryFailure states.
+- `"BehaviorOnMxFailure"`: The action to take if the required MX record isn't found when
+  you send an email. When you set this value to UseDefaultValue, the mail is sent using
+  amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon
+  SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the
+  email. These behaviors are taken when the custom MAIL FROM domain configuration is in the
+  Pending, Failed, and TemporaryFailure states.
 - `"MailFromDomain"`:  The custom MAIL FROM domain that you want the verified identity to
   use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of
   the verified identity.   It can't be used to receive email.   It can't be used in a
@@ -2928,8 +2926,7 @@ Composes an email message to multiple destinations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set that you want to use when
-  sending the email.
+- `"ConfigurationSetName"`: The name of the configuration set to use when sending the email.
 - `"DefaultEmailTags"`: A list of tags, in the form of name/value pairs, to apply to an
   email that you send using the SendEmail operation. Tags correspond to characteristics of
   the email that you define, so that you can publish email sending events.
@@ -2945,8 +2942,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
   FeedbackForwardingEmailAddress to be feedback@example.com. For more information about
   sending authorization, see the Amazon SES Developer Guide.
-- `"FromEmailAddress"`: The email address that you want to use as the \"From\" address for
-  the email. The address that you specify has to be verified.
+- `"FromEmailAddress"`: The email address to use as the \"From\" address for the email. The
+  address that you specify has to be verified.
 - `"FromEmailAddressIdentityArn"`: This parameter is used only for sending authorization.
   It is the ARN of the identity that is associated with the sending authorization policy that
   permits you to use the email address specified in the FromEmailAddress parameter. For
@@ -3001,11 +2998,12 @@ end
     send_custom_verification_email(email_address, template_name, params::Dict{String,<:Any})
 
 Adds an email address to the list of identities for your Amazon SES account in the current
-AWS Region and attempts to verify it. As a result of executing this operation, a customized
-verification email is sent to the specified address. To use this operation, you must first
-create a custom verification email template. For more information about creating and using
-custom verification email templates, see Using Custom Verification Email Templates in the
-Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Amazon Web Services Region and attempts to verify it. As a result of executing this
+operation, a customized verification email is sent to the specified address. To use this
+operation, you must first create a custom verification email template. For more information
+about creating and using custom verification email templates, see Using Custom Verification
+Email Templates in the Amazon SES Developer Guide. You can execute this operation no more
+than once per second.
 
 # Arguments
 - `email_address`: The email address to verify.
@@ -3055,15 +3053,15 @@ end
     send_email(content)
     send_email(content, params::Dict{String,<:Any})
 
-Sends an email message. You can use the Amazon SES API v2 to send two types of messages:
-Simple – A standard email message. When you create this type of message, you specify the
-sender, the recipient, and the message body, and Amazon SES assembles the message for you.
-  Raw – A raw, MIME-formatted email message. When you send this type of email, you have
-to specify all of the message headers, as well as the message body. You can use this
-message type to send messages that contain attachments. The message that you specify has to
-be a valid MIME message.    Templated – A message that contains personalization tags.
-When you send this type of email, Amazon SES API v2 automatically replaces the tags with
-values that you specify.
+Sends an email message. You can use the Amazon SES API v2 to send the following types of
+messages:    Simple – A standard email message. When you create this type of message, you
+specify the sender, the recipient, and the message body, and Amazon SES assembles the
+message for you.    Raw – A raw, MIME-formatted email message. When you send this type of
+email, you have to specify all of the message headers, as well as the message body. You can
+use this message type to send messages that contain attachments. The message that you
+specify has to be a valid MIME message.    Templated – A message that contains
+personalization tags. When you send this type of email, Amazon SES API v2 automatically
+replaces the tags with values that you specify.
 
 # Arguments
 - `content`: An object that contains the body of the message. You can send either a Simple
@@ -3071,8 +3069,7 @@ values that you specify.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set that you want to use when
-  sending the email.
+- `"ConfigurationSetName"`: The name of the configuration set to use when sending the email.
 - `"Destination"`: An object that contains the recipients of the email message.
 - `"EmailTags"`: A list of tags, in the form of name/value pairs, to apply to an email that
   you send using the SendEmail operation. Tags correspond to characteristics of the email
@@ -3089,8 +3086,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
   FeedbackForwardingEmailAddress to be feedback@example.com. For more information about
   sending authorization, see the Amazon SES Developer Guide.
-- `"FromEmailAddress"`: The email address that you want to use as the \"From\" address for
-  the email. The address that you specify has to be verified.
+- `"FromEmailAddress"`: The email address to use as the \"From\" address for the email. The
+  address that you specify has to be verified.
 - `"FromEmailAddressIdentityArn"`: This parameter is used only for sending authorization.
   It is the ARN of the identity that is associated with the sending authorization policy that
   permits you to use the email address specified in the FromEmailAddress parameter. For
@@ -3188,7 +3185,7 @@ of replacement data. You can execute this operation no more than once per second
 - `template_data`: A list of replacement values to apply to the template. This parameter is
   a JSON object, typically consisting of key-value pairs in which the keys correspond to
   replacement tags in the email template.
-- `template_name`: The name of the template that you want to render.
+- `template_name`: The name of the template.
 
 """
 function test_render_email_template(
@@ -3279,9 +3276,9 @@ can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term s
 
 # Arguments
 - `configuration_set_name`: The name of the configuration set that contains the event
-  destination that you want to modify.
+  destination to modify.
 - `event_destination`: An object that defines the event destination.
-- `event_destination_name`: The name of the event destination that you want to modify.
+- `event_destination_name`: The name of the event destination.
 
 """
 function update_configuration_set_event_destination(
@@ -3491,7 +3488,7 @@ authorization, see the Amazon SES Developer Guide. You can execute this operatio
 than once per second.
 
 # Arguments
-- `email_identity`: The email identity for which you want to update policy.
+- `email_identity`: The email identity.
 - `policy`: The text of the policy in JSON format. The policy cannot exceed 4 KB.  For
   information about the syntax of sending authorization policies, see the Amazon SES
   Developer Guide.
@@ -3537,7 +3534,7 @@ Developer Guide. You can execute this operation no more than once per second.
 # Arguments
 - `template_content`: The content of the email template, composed of a subject line, an
   HTML part, and a text-only part.
-- `template_name`: The name of the template you want to update.
+- `template_name`: The name of the template.
 
 """
 function update_email_template(

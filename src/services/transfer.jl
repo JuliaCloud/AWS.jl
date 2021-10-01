@@ -44,18 +44,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   target, it is displayed as is. You also must ensure that your Amazon Web Services Identity
   and Access Management (IAM) role provides access to paths in Target. This value can only be
   set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair
-  example.  [ { \"Entry\": \"your-personal-report.pdf\", \"Target\":
-  \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
-  this value instead of the session policy to lock down your user to the designated home
-  directory (\"chroot\"). To do this, you can set Entry to / and set Target to the
-  HomeDirectory parameter value. The following is an Entry and Target pair example for
-  chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
-  target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is
-  ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects
-  as place holders for your directory. If using the CLI, use the s3api or efsapi call instead
-  of s3 or efs so you can use the put-object operation. For example, you use the following:
-  aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of
-  the key name ends in a / for it to be considered a folder.
+  example.  [ { \"Entry\": \"/directory1\", \"Target\": \"/bucket_name/home/mydirectory\" } ]
+   In most cases, you can use this value instead of the session policy to lock down your user
+  to the designated home directory (\"chroot\"). To do this, you can set Entry to / and set
+  Target to the HomeDirectory parameter value. The following is an Entry and Target pair
+  example for chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" }
+  ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the
+  entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0
+  byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi
+  call instead of s3 or efs so you can use the put-object operation. For example, you use the
+  following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
+  the end of the key name ends in a / for it to be considered a folder.
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
@@ -241,18 +240,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   target, it is displayed as is. You also must ensure that your Amazon Web Services Identity
   and Access Management (IAM) role provides access to paths in Target. This value can only be
   set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair
-  example.  [ { \"Entry\": \"your-personal-report.pdf\", \"Target\":
-  \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
-  this value instead of the session policy to lock your user down to the designated home
-  directory (\"chroot\"). To do this, you can set Entry to / and set Target to the
-  HomeDirectory parameter value. The following is an Entry and Target pair example for
-  chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
-  target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is
-  ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects
-  as place holders for your directory. If using the CLI, use the s3api or efsapi call instead
-  of s3 or efs so you can use the put-object operation. For example, you use the following:
-  aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of
-  the key name ends in a / for it to be considered a folder.
+  example.  [ { \"Entry\": \"/directory1\", \"Target\": \"/bucket_name/home/mydirectory\" } ]
+   In most cases, you can use this value instead of the session policy to lock your user down
+  to the designated home directory (\"chroot\"). To do this, you can set Entry to / and set
+  Target to the HomeDirectory parameter value. The following is an Entry and Target pair
+  example for chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" }
+  ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the
+  entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0
+  byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi
+  call instead of s3 or efs so you can use the put-object operation. For example, you use the
+  following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
+  the end of the key name ends in a / for it to be considered a folder.
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
@@ -324,14 +322,17 @@ and UpdateServer operations.
 - `steps`: Specifies the details for the steps that are in the specified workflow.  The
   TYPE specifies which of the following actions is being taken for this step.     Copy: copy
   the file to another location    Custom: custom step with a lambda target    Delete: delete
-  the file    Tag: add a tag to the file    For file location, you specify either the S3
-  bucket and key, or the EFS filesystem ID and path.
+  the file    Tag: add a tag to the file     Currently, copying and tagging are supported
+  only on S3.    For file location, you specify either the S3 bucket and key, or the EFS
+  filesystem ID and path.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A textual description for the workflow.
-- `"OnExceptionSteps"`: Specifies the steps (actions) to take if any errors are encountered
-  during execution of the workflow.
+- `"OnExceptionSteps"`: Specifies the steps (actions) to take if errors are encountered
+  during execution of the workflow.  For custom steps, the lambda function needs to send
+  FAILURE to the call back API to kick off the exception steps. Additionally, if the lambda
+  does not send SUCCESS before it times out, the exception steps are executed.
 - `"Tags"`: Key-value pairs that can be used to group and search for workflows. Tags are
   metadata attached to workflows for any purpose.
 """
@@ -1425,18 +1426,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   target, it is displayed as is. You also must ensure that your Amazon Web Services Identity
   and Access Management (IAM) role provides access to paths in Target. This value can only be
   set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair
-  example.  [ { \"Entry\": \"your-personal-report.pdf\", \"Target\":
-  \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
-  this value instead of the session policy to lock down your user to the designated home
-  directory (\"chroot\"). To do this, you can set Entry to / and set Target to the
-  HomeDirectory parameter value. The following is an Entry and Target pair example for
-  chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
-  target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is
-  ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects
-  as place holders for your directory. If using the CLI, use the s3api or efsapi call instead
-  of s3 or efs so you can use the put-object operation. For example, you use the following:
-  aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of
-  the key name ends in a / for it to be considered a folder.
+  example.  [ { \"Entry\": \"/directory1\", \"Target\": \"/bucket_name/home/mydirectory\" } ]
+   In most cases, you can use this value instead of the session policy to lock down your user
+  to the designated home directory (\"chroot\"). To do this, you can set Entry to / and set
+  Target to the HomeDirectory parameter value. The following is an Entry and Target pair
+  example for chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" }
+  ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the
+  entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0
+  byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi
+  call instead of s3 or efs so you can use the put-object operation. For example, you use the
+  following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
+  the end of the key name ends in a / for it to be considered a folder.
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
@@ -1615,18 +1615,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   target, it is displayed as is. You also must ensure that your Amazon Web Services Identity
   and Access Management (IAM) role provides access to paths in Target. This value can only be
   set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair
-  example.  [ { \"Entry\": \"your-personal-report.pdf\", \"Target\":
-  \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
-  this value instead of the session policy to lock down your user to the designated home
-  directory (\"chroot\"). To do this, you can set Entry to '/' and set Target to the
-  HomeDirectory parameter value. The following is an Entry and Target pair example for
-  chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
-  target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is
-  ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects
-  as place holders for your directory. If using the CLI, use the s3api or efsapi call instead
-  of s3 or efs so you can use the put-object operation. For example, you use the following:
-  aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of
-  the key name ends in a / for it to be considered a folder.
+  example.  [ { \"Entry\": \"/directory1\", \"Target\": \"/bucket_name/home/mydirectory\" } ]
+   In most cases, you can use this value instead of the session policy to lock down your user
+  to the designated home directory (\"chroot\"). To do this, you can set Entry to '/' and set
+  Target to the HomeDirectory parameter value. The following is an Entry and Target pair
+  example for chroot.  [ { \"Entry:\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" }
+  ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the
+  entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0
+  byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi
+  call instead of s3 or efs so you can use the put-object operation. For example, you use the
+  following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
+  the end of the key name ends in a / for it to be considered a folder.
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If

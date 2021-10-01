@@ -668,6 +668,61 @@ function delete_mailbox_permissions(
 end
 
 """
+    delete_mobile_device_access_override(device_id, organization_id, user_id)
+    delete_mobile_device_access_override(device_id, organization_id, user_id, params::Dict{String,<:Any})
+
+Deletes the mobile device access override for the given WorkMail organization, user, and
+device.
+
+# Arguments
+- `device_id`: The mobile device for which you delete the override. DeviceId is case
+  insensitive.
+- `organization_id`: The Amazon WorkMail organization for which the access override will be
+  deleted.
+- `user_id`: The WorkMail user for which you want to delete the override. Accepts the
+  following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User
+  name: user
+
+"""
+function delete_mobile_device_access_override(
+    DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DeleteMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_mobile_device_access_override(
+    DeviceId,
+    OrganizationId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DeleteMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceId" => DeviceId,
+                    "OrganizationId" => OrganizationId,
+                    "UserId" => UserId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_mobile_device_access_rule(mobile_device_access_rule_id, organization_id)
     delete_mobile_device_access_rule(mobile_device_access_rule_id, organization_id, params::Dict{String,<:Any})
 
@@ -1433,6 +1488,61 @@ function get_mobile_device_access_effect(
 end
 
 """
+    get_mobile_device_access_override(device_id, organization_id, user_id)
+    get_mobile_device_access_override(device_id, organization_id, user_id, params::Dict{String,<:Any})
+
+Gets the mobile device access override for the given WorkMail organization, user, and
+device.
+
+# Arguments
+- `device_id`: The mobile device to which the override applies. DeviceId is case
+  insensitive.
+- `organization_id`: The Amazon WorkMail organization to which you want to apply the
+  override.
+- `user_id`: Identifies the WorkMail user for the override. Accepts the following types of
+  user identities:    User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User
+  name: user
+
+"""
+function get_mobile_device_access_override(
+    DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "GetMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_mobile_device_access_override(
+    DeviceId,
+    OrganizationId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "GetMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceId" => DeviceId,
+                    "OrganizationId" => OrganizationId,
+                    "UserId" => UserId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_access_control_rules(organization_id)
     list_access_control_rules(organization_id, params::Dict{String,<:Any})
 
@@ -1684,6 +1794,53 @@ function list_mailbox_permissions(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_mobile_device_access_overrides(organization_id)
+    list_mobile_device_access_overrides(organization_id, params::Dict{String,<:Any})
+
+Lists all the mobile device access overrides for any given combination of WorkMail
+organization, user, or device.
+
+# Arguments
+- `organization_id`: The Amazon WorkMail organization under which to list mobile device
+  access overrides.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceId"`: The mobile device to which the access override applies.
+- `"MaxResults"`: The maximum number of results to return in a single call.
+- `"NextToken"`: The token to use to retrieve the next page of results. The first call does
+  not require a token.
+- `"UserId"`: The WorkMail user under which you list the mobile device access overrides.
+  Accepts the following types of user identities:   User ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: user@domain.tld    User name: user
+"""
+function list_mobile_device_access_overrides(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "ListMobileDeviceAccessOverrides",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_mobile_device_access_overrides(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "ListMobileDeviceAccessOverrides",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2040,6 +2197,74 @@ function put_mailbox_permissions(
                     "GranteeId" => GranteeId,
                     "OrganizationId" => OrganizationId,
                     "PermissionValues" => PermissionValues,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_mobile_device_access_override(device_id, effect, organization_id, user_id)
+    put_mobile_device_access_override(device_id, effect, organization_id, user_id, params::Dict{String,<:Any})
+
+Creates or updates a mobile device access override for the given WorkMail organization,
+user, and device.
+
+# Arguments
+- `device_id`: The mobile device for which you create the override. DeviceId is case
+  insensitive.
+- `effect`: The effect of the override, ALLOW or DENY.
+- `organization_id`: Identifies the Amazon WorkMail organization for which you create the
+  override.
+- `user_id`: The WorkMail user for which you create the override. Accepts the following
+  types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User
+  name: user
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the override.
+"""
+function put_mobile_device_access_override(
+    DeviceId,
+    Effect,
+    OrganizationId,
+    UserId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "PutMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            "DeviceId" => DeviceId,
+            "Effect" => Effect,
+            "OrganizationId" => OrganizationId,
+            "UserId" => UserId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_mobile_device_access_override(
+    DeviceId,
+    Effect,
+    OrganizationId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "PutMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceId" => DeviceId,
+                    "Effect" => Effect,
+                    "OrganizationId" => OrganizationId,
+                    "UserId" => UserId,
                 ),
                 params,
             ),

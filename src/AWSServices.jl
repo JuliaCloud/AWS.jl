@@ -8,6 +8,7 @@ using OrderedCollections: LittleDict
 const accessanalyzer = AWS.RestJSONService(
     "access-analyzer", "access-analyzer", "2019-11-01"
 )
+const account = AWS.RestJSONService("account", "account", "2021-02-01")
 const acm = AWS.JSONService("acm", "acm", "2015-12-08", "1.1", "CertificateManager")
 const acm_pca = AWS.JSONService("acm-pca", "acm-pca", "2017-08-22", "1.1", "ACMPrivateCA")
 const alexa_for_business = AWS.JSONService(
@@ -75,6 +76,9 @@ const chime_sdk_identity = AWS.RestJSONService("chime", "identity-chime", "2021-
 const chime_sdk_messaging = AWS.RestJSONService("chime", "messaging-chime", "2021-05-15")
 const cloud9 = AWS.JSONService(
     "cloud9", "cloud9", "2017-09-23", "1.1", "AWSCloud9WorkspaceManagementService"
+)
+const cloudcontrol = AWS.JSONService(
+    "cloudcontrolapi", "cloudcontrolapi", "2021-09-30", "1.0", "CloudApiService"
 )
 const clouddirectory = AWS.RestJSONService("clouddirectory", "clouddirectory", "2017-01-11")
 const cloudformation = AWS.QueryService("cloudformation", "cloudformation", "2010-05-15")
