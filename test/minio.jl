@@ -94,24 +94,14 @@ try
         try
             S3.put_object(bucket_name, file_name, Dict("body" => body))
 
-            raw = S3.get_object(bucket_name, file_name, Dict("return_raw" => true))
-            @test raw isa Vector{UInt8}
-            @test raw == expected
+            response = S3.get_object(bucket_name, file_name)
+            @test response.body == expected
 
-            stream = S3.get_object(bucket_name, file_name, Dict("return_stream" => true))
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test stream isa Base.BufferStream
-                @test !isopen(stream)
+            @test response.io isa IOBuffer
+            @test isopen(response.io)
 
-                if !isopen(stream)
-                    @test read(stream) == expected
-                end
-            else
-                @test stream isa IOBuffer
-                @test isopen(stream)
-                seekstart(stream)
-                @test read(stream) == expected
-            end
+            seekstart(response.io)
+            @test read(response.io) == expected
         finally
             S3.delete_object(bucket_name, file_name)
         end
