@@ -1874,6 +1874,56 @@ function cancel_capacity_reservation(
 end
 
 """
+    cancel_capacity_reservation_fleets(capacity_reservation_fleet_id)
+    cancel_capacity_reservation_fleets(capacity_reservation_fleet_id, params::Dict{String,<:Any})
+
+Cancels one or more Capacity Reservation Fleets. When you cancel a Capacity Reservation
+Fleet, the following happens:   The Capacity Reservation Fleet's status changes to
+cancelled.   The individual Capacity Reservations in the Fleet are cancelled. Instances
+running in the Capacity Reservations at the time of cancelling the Fleet continue to run in
+shared capacity.   The Fleet stops creating new Capacity Reservations.
+
+# Arguments
+- `capacity_reservation_fleet_id`: The IDs of the Capacity Reservation Fleets to cancel.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function cancel_capacity_reservation_fleets(
+    CapacityReservationFleetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CancelCapacityReservationFleets",
+        Dict{String,Any}("CapacityReservationFleetId" => CapacityReservationFleetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_capacity_reservation_fleets(
+    CapacityReservationFleetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "CancelCapacityReservationFleets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityReservationFleetId" => CapacityReservationFleetId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_conversion_task(conversion_task_id)
     cancel_conversion_task(conversion_task_id, params::Dict{String,<:Any})
 
@@ -2538,6 +2588,93 @@ function create_capacity_reservation(
                     "InstanceCount" => InstanceCount,
                     "InstancePlatform" => InstancePlatform,
                     "InstanceType" => InstanceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_capacity_reservation_fleet(instance_type_specification, total_target_capacity)
+    create_capacity_reservation_fleet(instance_type_specification, total_target_capacity, params::Dict{String,<:Any})
+
+Creates a Capacity Reservation Fleet. For more information, see Create a Capacity
+Reservation Fleet in the Amazon EC2 User Guide.
+
+# Arguments
+- `instance_type_specification`: Information about the instance types for which to reserve
+  the capacity.
+- `total_target_capacity`: The total number of capacity units to be reserved by the
+  Capacity Reservation Fleet. This value, together with the instance type weights that you
+  assign to each instance type used by the Fleet determine the number of instances for which
+  the Fleet reserves capacity. Both values are based on units that make sense for your
+  workload. For more information, see  Total target capacity in the Amazon EC2 User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllocationStrategy"`: The strategy used by the Capacity Reservation Fleet to determine
+  which of the specified instance types to use. Currently, only the prioritized allocation
+  strategy is supported. For more information, see  Allocation strategy in the Amazon EC2
+  User Guide. Valid values: prioritized
+- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensure Idempotency.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"EndDate"`: The date and time at which the Capacity Reservation Fleet expires. When the
+  Capacity Reservation Fleet expires, its state changes to expired and all of the Capacity
+  Reservations in the Fleet expire. The Capacity Reservation Fleet expires within an hour
+  after the specified time. For example, if you specify 5/31/2019, 13:30:55, the Capacity
+  Reservation Fleet is guaranteed to expire between 13:30:55 and 14:30:55 on 5/31/2019.
+- `"InstanceMatchCriteria"`: Indicates the type of instance launches that the Capacity
+  Reservation Fleet accepts. All Capacity Reservations in the Fleet inherit this instance
+  matching criteria. Currently, Capacity Reservation Fleets support open instance matching
+  criteria only. This means that instances that have matching attributes (instance type,
+  platform, and Availability Zone) run in the Capacity Reservations automatically. Instances
+  do not need to explicitly target a Capacity Reservation Fleet to use its reserved capacity.
+- `"TagSpecification"`: The tags to assign to the Capacity Reservation Fleet. The tags are
+  automatically assigned to the Capacity Reservations in the Fleet.
+- `"Tenancy"`: Indicates the tenancy of the Capacity Reservation Fleet. All Capacity
+  Reservations in the Fleet inherit this tenancy. The Capacity Reservation Fleet can have one
+  of the following tenancy settings:    default - The Capacity Reservation Fleet is created
+  on hardware that is shared with other Amazon Web Services accounts.    dedicated - The
+  Capacity Reservations are created on single-tenant hardware that is dedicated to a single
+  Amazon Web Services account.
+"""
+function create_capacity_reservation_fleet(
+    InstanceTypeSpecification,
+    TotalTargetCapacity;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "CreateCapacityReservationFleet",
+        Dict{String,Any}(
+            "InstanceTypeSpecification" => InstanceTypeSpecification,
+            "TotalTargetCapacity" => TotalTargetCapacity,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_capacity_reservation_fleet(
+    InstanceTypeSpecification,
+    TotalTargetCapacity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "CreateCapacityReservationFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceTypeSpecification" => InstanceTypeSpecification,
+                    "TotalTargetCapacity" => TotalTargetCapacity,
+                    "ClientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -9337,6 +9474,50 @@ function describe_byoip_cidrs(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("MaxResults" => MaxResults), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_capacity_reservation_fleets()
+    describe_capacity_reservation_fleets(params::Dict{String,<:Any})
+
+Describes one or more Capacity Reservation Fleets.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CapacityReservationFleetId"`: The IDs of the Capacity Reservation Fleets to describe.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters.    state - The state of the Fleet (submitted | modifying
+  | active | partially_fulfilled | expiring | expired | cancelling | cancelled | failed).
+  instance-match-criteria - The instance matching criteria for the Fleet. Only open is
+  supported.    tenancy - The tenancy of the Fleet (default | dedicated).
+  allocation-strategy - The allocation strategy used by the Fleet. Only prioritized is
+  supported.
+- `"MaxResults"`: The maximum number of results to return for the request in a single page.
+  The remaining results can be seen by sending another request with the returned nextToken
+  value. This value can be between 5 and 500. If maxResults is given a larger value than 500,
+  you receive an error.
+- `"NextToken"`: The token to use to retrieve the next page of results.
+"""
+function describe_capacity_reservation_fleets(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeCapacityReservationFleets";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_capacity_reservation_fleets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeCapacityReservationFleets",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -18346,6 +18527,71 @@ function modify_capacity_reservation(
             mergewith(
                 _merge,
                 Dict{String,Any}("CapacityReservationId" => CapacityReservationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_capacity_reservation_fleet(capacity_reservation_fleet_id)
+    modify_capacity_reservation_fleet(capacity_reservation_fleet_id, params::Dict{String,<:Any})
+
+Modifies a Capacity Reservation Fleet. When you modify the total target capacity of a
+Capacity Reservation Fleet, the Fleet automatically creates new Capacity Reservations, or
+modifies or cancels existing Capacity Reservations in the Fleet to meet the new total
+target capacity. When you modify the end date for the Fleet, the end dates for all of the
+individual Capacity Reservations in the Fleet are updated accordingly.
+
+# Arguments
+- `capacity_reservation_fleet_id`: The ID of the Capacity Reservation Fleet to modify.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"EndDate"`: The date and time at which the Capacity Reservation Fleet expires. When the
+  Capacity Reservation Fleet expires, its state changes to expired and all of the Capacity
+  Reservations in the Fleet expire. The Capacity Reservation Fleet expires within an hour
+  after the specified time. For example, if you specify 5/31/2019, 13:30:55, the Capacity
+  Reservation Fleet is guaranteed to expire between 13:30:55 and 14:30:55 on 5/31/2019. You
+  can't specify EndDate and  RemoveEndDate in the same request.
+- `"RemoveEndDate"`: Indicates whether to remove the end date from the Capacity Reservation
+  Fleet. If you remove the end date, the Capacity Reservation Fleet does not expire and it
+  remains active until you explicitly cancel it using the CancelCapacityReservationFleet
+  action. You can't specify RemoveEndDate and  EndDate in the same request.
+- `"TotalTargetCapacity"`: The total number of capacity units to be reserved by the
+  Capacity Reservation Fleet. This value, together with the instance type weights that you
+  assign to each instance type used by the Fleet determine the number of instances for which
+  the Fleet reserves capacity. Both values are based on units that make sense for your
+  workload. For more information, see Total target capacity in the Amazon EC2 User Guide.
+"""
+function modify_capacity_reservation_fleet(
+    CapacityReservationFleetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "ModifyCapacityReservationFleet",
+        Dict{String,Any}("CapacityReservationFleetId" => CapacityReservationFleetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_capacity_reservation_fleet(
+    CapacityReservationFleetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ModifyCapacityReservationFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityReservationFleetId" => CapacityReservationFleetId
+                ),
                 params,
             ),
         );

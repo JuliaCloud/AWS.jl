@@ -164,8 +164,7 @@ end
 Creates a framework with one or more controls. A framework is a collection of controls that
 you can use to evaluate your backup practices. By using pre-built customizable controls to
 define your policies, you can evaluate whether your backup practices comply with your
-policies. To get insights into the compliance status of your frameworks, you can set up
-automatic daily reports.
+policies and which resources are not yet in compliance.
 
 # Arguments
 - `framework_controls`: A list of the controls that make up the framework. Each control in
@@ -240,8 +239,10 @@ a plan that already exists, you receive an AlreadyExistsException exception.
   256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers
   (0-9), and underscores (_).
 - `report_setting`: Identifies the report template for the report. Reports are built using
-  a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT |
-  RESTORE_JOB_REPORT
+  a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT |
+  CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If
+  the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API
+  resource also describes the report coverage by Amazon Web Services Regions and frameworks.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -250,8 +251,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   same idempotency token results in a success message with no action taken.
 - `"ReportPlanDescription"`: An optional description of the report plan with a maximum of
   1,024 characters.
-- `"ReportPlanTags"`: Metadata that you can assign to help organize the frameworks that you
-  create. Each tag is a key-value pair.
+- `"ReportPlanTags"`: Metadata that you can assign to help organize the report plans that
+  you create. Each tag is a key-value pair.
 """
 function create_report_plan(
     ReportDeliveryChannel,
@@ -2631,8 +2632,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReportPlanDescription"`: An optional description of the report plan with a maximum
   1,024 characters.
 - `"ReportSetting"`: Identifies the report template for the report. Reports are built using
-  a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT |
-  RESTORE_JOB_REPORT
+  a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT |
+  CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If
+  the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API
+  resource also describes the report coverage by Amazon Web Services Regions and frameworks.
 """
 function update_report_plan(
     reportPlanName; aws_config::AbstractAWSConfig=global_aws_config()

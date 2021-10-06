@@ -1019,10 +1019,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of items in the list, call this operation again, adding the next token to the
   call. To get all of the items in the list, keep calling this operation with each subsequent
   next token that is returned, until no more next tokens are returned.
-- `"sortOrder"`: The order to list results in. The results are sorted by build number, not
-  the build identifier. Valid values include:    ASCENDING: List the build IDs in ascending
-  order by build ID.    DESCENDING: List the build IDs in descending order by build ID.   If
-  the project has more than 100 builds, setting the sort order will result in an error.
+- `"sortOrder"`: The order to sort the results in. The results are sorted by build number,
+  not the build identifier. If this is not specified, the results are sorted in descending
+  order. Valid values include:    ASCENDING: List the build identifiers in ascending order,
+  by build number.    DESCENDING: List the build identifiers in descending order, by build
+  number.   If the project has more than 100 builds, setting the sort order will result in an
+  error.
 """
 function list_builds_for_project(
     projectName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1791,7 +1793,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in CloudWatch Logs, logs in an S3 bucket, or both.
 - `"queuedTimeoutInMinutes"`:  The number of minutes a build is allowed to be queued before
   it times out.
-- `"secondaryArtifacts"`:  An array of ProjectSource objects.
+- `"secondaryArtifacts"`:  An array of ProjectArtifact objects.
 - `"secondarySourceVersions"`:  An array of ProjectSourceVersion objects. If
   secondarySourceVersions is specified at the build level, then they take over these
   secondarySourceVersions (at the project level).

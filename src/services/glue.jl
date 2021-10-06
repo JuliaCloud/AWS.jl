@@ -828,6 +828,7 @@ Creates a connection definition in the Data Catalog.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog in which to create the connection. If none is
   provided, the Amazon Web Services account ID is used by default.
+- `"Tags"`: The tags you assign to the connection.
 """
 function create_connection(
     ConnectionInput; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3774,7 +3775,10 @@ Retrieves information about the partitions in a table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is provided, the Amazon Web Services account ID is used by default.
-- `"ExcludeColumnSchema"`:
+- `"ExcludeColumnSchema"`: When true, specifies not returning the partition column schema.
+  Useful when you are interested only in other partition attributes such as partition values
+  or location. This approach avoids the problem of a large response by not returning
+  duplicate data.
 - `"Expression"`: An expression that filters the partitions to be returned. The expression
   uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser
   parses the expression.   Operators: The following are the operators that you can use in the
