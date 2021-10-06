@@ -1044,6 +1044,41 @@ function describe_group(
 end
 
 """
+    describe_inbound_dmarc_settings(organization_id)
+    describe_inbound_dmarc_settings(organization_id, params::Dict{String,<:Any})
+
+Lists the settings in a DMARC policy for a specified organization.
+
+# Arguments
+- `organization_id`: Lists the ID of the given organization.
+
+"""
+function describe_inbound_dmarc_settings(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DescribeInboundDmarcSettings",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_inbound_dmarc_settings(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DescribeInboundDmarcSettings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_mailbox_export_job(job_id, organization_id)
     describe_mailbox_export_job(job_id, organization_id, params::Dict{String,<:Any})
 
@@ -2130,6 +2165,49 @@ function put_access_control_rule(
                     "Effect" => Effect,
                     "Name" => Name,
                     "OrganizationId" => OrganizationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_inbound_dmarc_settings(enforced, organization_id)
+    put_inbound_dmarc_settings(enforced, organization_id, params::Dict{String,<:Any})
+
+Enables or disables a DMARC policy for a given organization.
+
+# Arguments
+- `enforced`: Enforces or suspends a policy after it's applied.
+- `organization_id`: The ID of the organization that you are applying the DMARC policy to.
+
+"""
+function put_inbound_dmarc_settings(
+    Enforced, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "PutInboundDmarcSettings",
+        Dict{String,Any}("Enforced" => Enforced, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_inbound_dmarc_settings(
+    Enforced,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "PutInboundDmarcSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Enforced" => Enforced, "OrganizationId" => OrganizationId
                 ),
                 params,
             ),

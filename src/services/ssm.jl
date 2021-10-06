@@ -380,9 +380,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create an association in multiple Regions and multiple accounts.
 - `"Targets"`: The targets for the association. You can target instances by using tags,
   Amazon Web Services resource groups, all instances in an Amazon Web Services account, or
-  individual instance IDs. For more information about choosing targets for an association,
-  see Using targets and rate controls with State Manager associations in the Amazon Web
-  Services Systems Manager User Guide.
+  individual instance IDs. You can target all instances in an Amazon Web Services account by
+  specifying the InstanceIds key with a value of *. For more information about choosing
+  targets for an association, see Using targets and rate controls with State Manager
+  associations in the Amazon Web Services Systems Manager User Guide.
 """
 function create_association(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -5450,6 +5451,13 @@ received.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoApprove"`: Indicates whether the change request can be approved automatically
+  without the need for manual approvals. If AutoApprovable is enabled in a change template,
+  then setting AutoApprove to true in StartChangeRequestExecution creates a change request
+  that bypasses approver review.  Change Calendar restrictions are not bypassed in this
+  scenario. If the state of an associated calendar is CLOSED, change freeze approvers must
+  still grant permission for this change request to run. If they don't, the change won't be
+  processed until the calendar state is again OPEN.
 - `"ChangeDetails"`: User-provided details about the change. If no details are provided,
   content specified in the Template information section of the associated change template is
   added.

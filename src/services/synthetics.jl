@@ -46,6 +46,9 @@ Canaries.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ArtifactConfig"`: A structure that contains the configuration for canary artifacts,
+  including the encryption-at-rest settings for artifacts that the canary uploads to Amazon
+  S3.
 - `"FailureRetentionPeriodInDays"`: The number of days to retain data about failed runs of
   this canary. If you omit this field, the default of 31 days is used. The valid range is 1
   to 455 days.
@@ -516,6 +519,12 @@ existing canary, use TagResource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ArtifactConfig"`: A structure that contains the configuration for canary artifacts,
+  including the encryption-at-rest settings for artifacts that the canary uploads to Amazon
+  S3.
+- `"ArtifactS3Location"`: The location in Amazon S3 where Synthetics stores artifacts from
+  the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
+  The name of the S3 bucket can't include a period (.).
 - `"Code"`: A structure that includes the entry point from which the canary should start
   running your script. If the script is stored in an S3 bucket, the bucket name, key, and
   version are also included.
