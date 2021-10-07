@@ -19,4 +19,17 @@
 
         @test config.credentials.access_key_id == access_key_id
     end
+
+    @testset "default profile section names" begin
+        allowed_default_sections = ["default", "profile default"]
+        mktemp() do config_path, _
+            for default_section_str in allowed_default_sections
+                write(config_path, """
+                      [$default_section_str]
+                      region = xx-yy-1
+                      """)
+                @test aws_get_region(profile="default", config=config_path) == "xx-yy-1"
+            end
+        end
+    end
 end
