@@ -68,6 +68,7 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
 
     role_arn = get(settings, "role_arn", nothing)
     mfa_serial = get(settings, "mfa_serial", nothing)
+    duration_seconds = get(settings, "duration_seconds", nothing)
 
     credentials = nothing
     for f in (dot_aws_credentials, dot_aws_config)
@@ -86,9 +87,13 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
 
     if mfa_serial !== nothing
         params["SerialNumber"] = mfa_serial
-        token = Base.getpass("Enter MFA code for $mfa_serial")
+        token = @mock Base.getpass("Enter MFA code for $mfa_serial")
         params["TokenCode"] = read(token, String)
         Base.shred!(token)
+    end
+
+    if duration_seconds !== nothing
+        params["DurationSeconds"] = duration_seconds
     end
 
     # RoleSessionName Documentation
