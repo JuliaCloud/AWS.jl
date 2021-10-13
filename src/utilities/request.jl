@@ -102,7 +102,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         end
 
         @retry if :message in fieldnames(typeof(e)) &&
-                  occursin("Signature expired", e.message)
+            occursin("Signature expired", e.message)
         end
 
         # Handle ExpiredToken...
@@ -127,8 +127,8 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         end
 
         if e isa AWSException &&
-           occursin("Missing Authentication Token", e.message) &&
-           aws.credentials === nothing
+            occursin("Missing Authentication Token", e.message) &&
+            aws.credentials === nothing
             return throw(
                 NoCredentials(
                     "You're attempting to perform a request without credentials set."
@@ -187,10 +187,10 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
         # caught and wrapped in an HTTP.IOError
         # https://github.com/JuliaWeb/HTTP.jl/issues/382
         @delay_retry if isa(e, Sockets.DNSError) ||
-                        isa(e, HTTP.ParseError) ||
-                        isa(e, HTTP.IOError) ||
-                        isa(e, Base.IOError) ||
-                        (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
+            isa(e, HTTP.ParseError) ||
+            isa(e, HTTP.IOError) ||
+            isa(e, Base.IOError) ||
+            (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
         end
     end
 end

@@ -198,6 +198,34 @@ function cancel_input_device_transfer(
 end
 
 """
+    claim_device()
+    claim_device(params::Dict{String,<:Any})
+
+Send a request to claim an AWS Elemental device that you have purchased from a third-party
+vendor. After the request succeeds, you will own the device.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"id"`: The id of the device you want to claim.
+"""
+function claim_device(; aws_config::AbstractAWSConfig=global_aws_config())
+    return medialive(
+        "POST", "/prod/claimDevice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function claim_device(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/claimDevice",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_channel()
     create_channel(params::Dict{String,<:Any})
 
@@ -221,7 +249,7 @@ creating multiple resources.
 - `"roleArn"`: An optional Amazon Resource Name (ARN) of the role to assume when running
   the Channel.
 - `"tags"`: A collection of key-value pairs.
-- `"vpc"`: Settings for VPC output
+- `"vpc"`: Settings for the VPC outputs
 """
 function create_channel(; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(

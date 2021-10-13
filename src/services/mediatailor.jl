@@ -114,6 +114,69 @@ function create_channel(
 end
 
 """
+    create_prefetch_schedule(consumption, name, playback_configuration_name, retrieval)
+    create_prefetch_schedule(consumption, name, playback_configuration_name, retrieval, params::Dict{String,<:Any})
+
+Creates a new prefetch schedule for the specified playback configuration.
+
+# Arguments
+- `consumption`: The configuration settings for MediaTailor's consumption of the prefetched
+  ads from the ad decision server. Each consumption configuration contains an end time and an
+  optional start time that define the consumption window. Prefetch schedules automatically
+  expire no earlier than seven days after the end time.
+- `name`: The identifier for the playback configuration.
+- `playback_configuration_name`: The name of the playback configuration.
+- `retrieval`: The configuration settings for retrieval of prefetched ads from the ad
+  decision server. Only one set of prefetched ads will be retrieved and subsequently consumed
+  for each ad break.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamId"`: An optional stream identifier that MediaTailor uses to prefetch ads for
+  multiple streams that use the same playback configuration. If StreamId is specified,
+  MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not
+  specified, MediaTailor returns all of the prefetch schedules for the playback
+  configuration, regardless of StreamId.
+"""
+function create_prefetch_schedule(
+    Consumption,
+    Name,
+    PlaybackConfigurationName,
+    Retrieval;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "POST",
+        "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
+        Dict{String,Any}("Consumption" => Consumption, "Retrieval" => Retrieval);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_prefetch_schedule(
+    Consumption,
+    Name,
+    PlaybackConfigurationName,
+    Retrieval,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "POST",
+        "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Consumption" => Consumption, "Retrieval" => Retrieval),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_program(schedule_configuration, source_location_name, vod_source_name, channel_name, program_name)
     create_program(schedule_configuration, source_location_name, vod_source_name, channel_name, program_name, params::Dict{String,<:Any})
 
@@ -370,6 +433,44 @@ function delete_playback_configuration(
     return mediatailor(
         "DELETE",
         "/playbackConfiguration/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_prefetch_schedule(name, playback_configuration_name)
+    delete_prefetch_schedule(name, playback_configuration_name, params::Dict{String,<:Any})
+
+Deletes a prefetch schedule for a specific playback configuration. If you call
+DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404
+status code.
+
+# Arguments
+- `name`: The identifier for the playback configuration.
+- `playback_configuration_name`: The name of the playback configuration.
+
+"""
+function delete_prefetch_schedule(
+    Name, PlaybackConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediatailor(
+        "DELETE",
+        "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_prefetch_schedule(
+    Name,
+    PlaybackConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "DELETE",
+        "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -725,6 +826,44 @@ function get_playback_configuration(
 end
 
 """
+    get_prefetch_schedule(name, playback_configuration_name)
+    get_prefetch_schedule(name, playback_configuration_name, params::Dict{String,<:Any})
+
+Returns information about the prefetch schedule for a specific playback configuration. If
+you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP
+404 status code.
+
+# Arguments
+- `name`: The identifier for the playback configuration.
+- `playback_configuration_name`: The name of the playback configuration.
+
+"""
+function get_prefetch_schedule(
+    Name, PlaybackConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediatailor(
+        "GET",
+        "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_prefetch_schedule(
+    Name,
+    PlaybackConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "GET",
+        "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_alerts(resource_arn)
     list_alerts(resource_arn, params::Dict{String,<:Any})
 
@@ -821,6 +960,54 @@ function list_playback_configurations(
     return mediatailor(
         "GET",
         "/playbackConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_prefetch_schedules(playback_configuration_name)
+    list_prefetch_schedules(playback_configuration_name, params::Dict{String,<:Any})
+
+Creates a new prefetch schedule.
+
+# Arguments
+- `playback_configuration_name`: The name of the playback configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of prefetch schedules that you want MediaTailor to
+  return in response to the current request. If the playback configuration has more than
+  MaxResults prefetch schedules, use the value of NextToken in the response to get the next
+  page of results.
+- `"NextToken"`: (Optional) If the playback configuration has more than MaxResults prefetch
+  schedules, use NextToken to get the second and subsequent pages of results. For the first
+  ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent
+  requests, get the value of NextToken from the previous response and specify that value for
+  NextToken in the request. If the previous response didn't include a NextToken element,
+  there are no more prefetch schedules to get.
+- `"StreamId"`: An optional filtering parameter whereby MediaTailor filters the prefetch
+  schedules to include only specific streams.
+"""
+function list_prefetch_schedules(
+    PlaybackConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediatailor(
+        "POST",
+        "/prefetchSchedule/$(PlaybackConfigurationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_prefetch_schedules(
+    PlaybackConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mediatailor(
+        "POST",
+        "/prefetchSchedule/$(PlaybackConfigurationName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
