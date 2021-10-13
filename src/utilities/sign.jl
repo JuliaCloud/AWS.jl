@@ -50,10 +50,8 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     date = Dates.format(time, dateformat"yyyymmdd")
     datetime = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
 
-    # TODO 1: Pass the signing region in with the request as done in aws-sdk-js
-    #   https://github.com/aws/aws-sdk-js/blob/f017a848edb61456cf002c5c00bd5c7cca8a132f/lib/signers/v4.js#L101
-    # TODO 2: Autodetect this from the service configuration somehow
-    #   https://github.com/aws/aws-sdk-js/blob/307e82673b48577fce4389e4ce03f95064e8fe0d/lib/request.js#L316
+    # TODO: Get the signing region from the request / service configuration as
+    # discussed in https://github.com/JuliaCloud/AWS.jl/issues/488
     signing_region = request.service == "iam" ? "us-east-1" : region(aws)
 
     # Authentication scope...
