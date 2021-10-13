@@ -276,6 +276,7 @@ const global_accelerator = AWS.JSONService(
     "GlobalAccelerator_V20180706",
 )
 const glue = AWS.JSONService("glue", "glue", "2017-03-31", "1.1", "AWSGlue")
+const grafana = AWS.RestJSONService("grafana", "grafana", "2020-08-18")
 const greengrass = AWS.RestJSONService("greengrass", "greengrass", "2017-06-07")
 const greengrassv2 = AWS.RestJSONService("greengrass", "greengrass", "2020-11-30")
 const groundstation = AWS.RestJSONService("groundstation", "groundstation", "2019-05-23")

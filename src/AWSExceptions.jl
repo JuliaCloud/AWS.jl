@@ -89,7 +89,7 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
     elseif parse(Int, HTTP.header(e.response, "Content-Length", "0")) > 0
         # Should only occur streaming a response and error handling is improperly configured
         @error "Internal Error: provided body is empty while the reported content-length " *
-               "is non-zero"
+            "is non-zero"
     end
 
     # There are times when Errors or Error are returned back

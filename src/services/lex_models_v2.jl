@@ -204,7 +204,7 @@ locale to a bot before you can add intents and slot types to the bot.
   configured for the bot. For example, suppose a bot is configured with the confidence
   threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative
   intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC
-  (0.50). The response from the PostText operation would be:   AMAZON.FallbackIntent
+  (0.50). The response from the RecognizeText operation would be:   AMAZON.FallbackIntent
   IntentA   IntentB   IntentC
 
 # Optional Parameters
@@ -2018,7 +2018,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and one string to filter on.
 - `"maxResults"`: The maximum number of exports to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the ListExports operation contans more results that
+- `"nextToken"`: If the response from the ListExports operation contains more results that
   specified in the maxResults parameter, a token is returned in the response. Use that token
   in the nextToken parameter to return the next page of results.
 - `"sortBy"`: Determines the field that the list of exports is sorted by. You can sort by
