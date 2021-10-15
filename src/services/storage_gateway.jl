@@ -9,11 +9,12 @@ using AWS.UUIDs
     activate_gateway(activation_key, gateway_name, gateway_region, gateway_timezone, params::Dict{String,<:Any})
 
 Activates the gateway you previously deployed on your host. In the activation process, you
-specify information such as the Region that you want to use for storing snapshots or tapes,
-the time zone for scheduled snapshots the gateway snapshot schedule window, an activation
-key, and a name for your gateway. The activation process also associates your gateway with
-your account. For more information, see UpdateGatewayInformation.  You must turn on the
-gateway VM before you can activate your gateway.
+specify information such as the Amazon Web Services Region that you want to use for storing
+snapshots or tapes, the time zone for scheduled snapshots the gateway snapshot schedule
+window, an activation key, and a name for your gateway. The activation process also
+associates your gateway with your account. For more information, see
+UpdateGatewayInformation.  You must turn on the gateway VM before you can activate your
+gateway.
 
 # Arguments
 - `activation_key`: Your gateway activation key. You can obtain the activation key by
@@ -24,9 +25,10 @@ gateway VM before you can activate your gateway.
   ActivateGateway API call determine the actual configuration of your gateway. For more
   information, see Getting activation key in the Storage Gateway User Guide.
 - `gateway_name`: The name you configured for your gateway.
-- `gateway_region`: A value that indicates the Region where you want to store your data.
-  The gateway Region specified must be the same Region as the Region in your Host header in
-  the request. For more information about available Regions and endpoints for Storage
+- `gateway_region`: A value that indicates the Amazon Web Services Region where you want to
+  store your data. The gateway Amazon Web Services Region specified must be the same Amazon
+  Web Services Region as the Amazon Web Services Region in your Host header in the request.
+  For more information about available Amazon Web Services Regions and endpoints for Storage
   Gateway, see  Storage Gateway endpoints and quotas in the Amazon Web Services General
   Reference. Valid Values: See  Storage Gateway endpoints and quotas in the Amazon Web
   Services General Reference.
@@ -693,30 +695,36 @@ end
 Creates a Network File System (NFS) file share on an existing S3 File Gateway. In Storage
 Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage.
 Storage Gateway exposes file shares using an NFS interface. This operation is only
-supported for S3 File Gateways.  S3 File gateway requires Security Token Service (STS) to
-be activated to enable you to create a file share. Make sure STS is activated in the Region
-you are creating your S3 File Gateway in. If STS is not activated in the Region, activate
-it. For information about how to activate STS, see Activating and deactivating STS in an
-Region in the Identity and Access Management User Guide. S3 File Gateways do not support
-creating hard or symbolic links on a file share.
+supported for S3 File Gateways.  S3 File gateway requires Security Token Service (Amazon
+Web Services STS) to be activated to enable you to create a file share. Make sure Amazon
+Web Services STS is activated in the Amazon Web Services Region you are creating your S3
+File Gateway in. If Amazon Web Services STS is not activated in the Amazon Web Services
+Region, activate it. For information about how to activate Amazon Web Services STS, see
+Activating and deactivating Amazon Web Services STS in an Amazon Web Services Region in the
+Identity and Access Management User Guide. S3 File Gateways do not support creating hard or
+symbolic links on a file share.
 
 # Arguments
 - `client_token`: A unique string value that you supply that is used by S3 File Gateway to
   ensure idempotent file share creation.
 - `gateway_arn`: The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to
   create a file share.
-- `location_arn`: The ARN of the backend storage used for storing file data. A prefix name
-  can be added to the S3 bucket name. It must end with a \"/\".  You can specify a bucket
-  attached to an access point using a complete ARN that includes the bucket region as shown:
-  arn:aws:s3:region:account-id:accesspoint/access-point-name   If you specify a bucket
-  attached to an access point, the bucket policy must be configured to delegate access
-  control to the access point. For information, see Delegating access control to access
-  points in the Amazon S3 User Guide.
+- `location_arn`: A custom ARN for the backend storage used for storing data for file
+  shares. It includes a resource ARN with an optional prefix concatenation. The prefix must
+  end with a forward slash (/).  You can specify LocationARN as a bucket ARN, access point
+  ARN or access point alias, as shown in the following examples. Bucket ARN:
+  arn:aws:s3:::my-bucket/prefix/  Access point ARN:
+  arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/  If you specify an
+  access point, the bucket policy must be configured to delegate access control to the access
+  point. For information, see Delegating access control to access points in the Amazon S3
+  User Guide. Access point alias:  test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
 - `role`: The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway
   assumes when it accesses the underlying storage.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for audit
+  logs.
 - `"BucketRegion"`: Specifies the Region of the S3 bucket where the NFS file share stores
   files.  This parameter is required for NFS file shares that connect to Amazon S3 through a
   VPC endpoint, a VPC access point, or an access point alias that points to a VPC access
@@ -728,7 +736,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
-  an S3 prefix name is set in LocationARN.
+  an S3 prefix name is set in LocationARN, or if an access point or access point alias is
+  used.
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
@@ -823,24 +832,28 @@ end
 Creates a Server Message Block (SMB) file share on an existing S3 File Gateway. In Storage
 Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage.
 Storage Gateway exposes file shares using an SMB interface. This operation is only
-supported for S3 File Gateways.  S3 File Gateways require Security Token Service (STS) to
-be activated to enable you to create a file share. Make sure that STS is activated in the
-Region you are creating your S3 File Gateway in. If STS is not activated in this Region,
-activate it. For information about how to activate STS, see Activating and deactivating STS
-in an Region in the Identity and Access Management User Guide. File gateways don't support
+supported for S3 File Gateways.  S3 File Gateways require Security Token Service (Amazon
+Web Services STS) to be activated to enable you to create a file share. Make sure that
+Amazon Web Services STS is activated in the Amazon Web Services Region you are creating
+your S3 File Gateway in. If Amazon Web Services STS is not activated in this Amazon Web
+Services Region, activate it. For information about how to activate Amazon Web Services
+STS, see Activating and deactivating Amazon Web Services STS in an Amazon Web Services
+Region in the Identity and Access Management User Guide. File gateways don't support
 creating hard or symbolic links on a file share.
 
 # Arguments
 - `client_token`: A unique string value that you supply that is used by S3 File Gateway to
   ensure idempotent file share creation.
 - `gateway_arn`: The ARN of the S3 File Gateway on which you want to create a file share.
-- `location_arn`: The ARN of the backend storage used for storing file data. A prefix name
-  can be added to the S3 bucket name. It must end with a \"/\".  You can specify a bucket
-  attached to an access point using a complete ARN that includes the bucket region as shown:
-  arn:aws:s3:region:account-id:accesspoint/access-point-name   If you specify a bucket
-  attached to an access point, the bucket policy must be configured to delegate access
-  control to the access point. For information, see Delegating access control to access
-  points in the Amazon S3 User Guide.
+- `location_arn`: A custom ARN for the backend storage used for storing data for file
+  shares. It includes a resource ARN with an optional prefix concatenation. The prefix must
+  end with a forward slash (/).  You can specify LocationARN as a bucket ARN, access point
+  ARN or access point alias, as shown in the following examples. Bucket ARN:
+  arn:aws:s3:::my-bucket/prefix/  Access point ARN:
+  arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/  If you specify an
+  access point, the bucket policy must be configured to delegate access control to the access
+  point. For information, see Delegating access control to access points in the Amazon S3
+  User Guide. Access point alias:  test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
 - `role`: The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway
   assumes when it accesses the underlying storage.
 
@@ -869,7 +882,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
-  an S3 prefix name is set in LocationARN.
+  an S3 prefix name is set in LocationARN, or if an access point or access point alias is
+  used.
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
@@ -1220,9 +1234,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetentionLockTimeInDays"`: Tape retention lock time is set in days. Tape retention lock
   can be enabled for up to 100 years (36,500 days).
 - `"RetentionLockType"`: Tape retention lock can be configured in two modes. When
-  configured in governance mode, accounts with specific IAM permissions are authorized to
-  remove the tape retention lock from archived virtual tapes. When configured in compliance
-  mode, the tape retention lock cannot be removed by any user, including the root account.
+  configured in governance mode, Amazon Web Services accounts with specific IAM permissions
+  are authorized to remove the tape retention lock from archived virtual tapes. When
+  configured in compliance mode, the tape retention lock cannot be removed by any user,
+  including the root Amazon Web Services account.
 - `"Tags"`: A list of up to 50 tags that can be assigned to tape pool. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
@@ -1272,7 +1287,7 @@ create a virtual tape. Use the AddCache operation to add cache storage to a gate
 # Arguments
 - `gateway_arn`: The unique Amazon Resource Name (ARN) that represents the gateway to
   associate the virtual tape with. Use the ListGateways operation to return a list of
-  gateways for your account and Region.
+  gateways for your account and Amazon Web Services Region.
 - `tape_barcode`: The barcode that you want to assign to the tape.  Barcodes cannot be
   reused. This includes barcodes used for tapes that have been deleted.
 - `tape_size_in_bytes`: The size, in bytes, of the virtual tape that you want to create.
@@ -1355,7 +1370,7 @@ add cache storage to a gateway.
   ClientToken prevents creating the tape multiple times.
 - `gateway_arn`: The unique Amazon Resource Name (ARN) that represents the gateway to
   associate the virtual tapes with. Use the ListGateways operation to return a list of
-  gateways for your account and Region.
+  gateways for your account and Amazon Web Services Region.
 - `num_tapes_to_create`: The number of virtual tapes that you want to create.
 - `tape_barcode_prefix`: A prefix that you append to the barcode of the virtual tape you
   are creating. This prefix makes the barcode unique.  The prefix must be 1-4 characters in
@@ -1700,7 +1715,7 @@ type.
 # Arguments
 - `gateway_arn`: The unique Amazon Resource Name (ARN) of the gateway that the virtual tape
   to delete is associated with. Use the ListGateways operation to return a list of gateways
-  for your account and Region.
+  for your account and Amazon Web Services Region.
 - `tape_arn`: The Amazon Resource Name (ARN) of the virtual tape to delete.
 
 # Optional Parameters
@@ -2778,7 +2793,7 @@ file gateways that support the SMB file protocol.
 # Arguments
 - `domain_name`: The name of the domain that you want the gateway to join.
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the ListGateways
-  operation to return a list of gateways for your account and Region.
+  operation to return a list of gateways for your account and Amazon Web Services Region.
 - `password`: Sets the password of the user who has permission to add the gateway to the
   Active Directory domain.
 - `user_name`: Sets the user name of user who has permission to add the gateway to the
@@ -2942,13 +2957,13 @@ end
     list_gateways()
     list_gateways(params::Dict{String,<:Any})
 
-Lists gateways owned by an account in an Region specified in the request. The returned list
-is ordered by gateway Amazon Resource Name (ARN). By default, the operation returns a
-maximum of 100 gateways. This operation supports pagination that allows you to optionally
-reduce the number of gateways returned in a response. If you have more gateways than are
-returned in a response (that is, the response returns only a truncated list of your
-gateways), the response contains a marker that you can specify in your next request to
-fetch the next page of gateways.
+Lists gateways owned by an Amazon Web Services account in an Amazon Web Services Region
+specified in the request. The returned list is ordered by gateway Amazon Resource Name
+(ARN). By default, the operation returns a maximum of 100 gateways. This operation supports
+pagination that allows you to optionally reduce the number of gateways returned in a
+response. If you have more gateways than are returned in a response (that is, the response
+returns only a truncated list of your gateways), the response contains a marker that you
+can specify in your next request to fetch the next page of gateways.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3442,8 +3457,8 @@ is only supported in the tape gateway type.
 # Arguments
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway you want to retrieve the
   virtual tape to. Use the ListGateways operation to return a list of gateways for your
-  account and Region. You retrieve archived virtual tapes to only one gateway and the gateway
-  must be a tape gateway.
+  account and Amazon Web Services Region. You retrieve archived virtual tapes to only one
+  gateway and the gateway must be a tape gateway.
 - `tape_arn`: The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from
   the virtual tape shelf (VTS).
 
@@ -4180,14 +4195,17 @@ Squash settings   Write status of your file share
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheAttributes"`: specifies refresh cache information for the file share.
+- `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for audit
+  logs.
+- `"CacheAttributes"`: Specifies refresh cache information for the file share.
 - `"ClientList"`: The list of clients that are allowed to access the S3 File Gateway. The
   list must contain either valid IP addresses or valid CIDR blocks.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
-  an S3 prefix name is set in LocationARN.
+  an S3 prefix name is set in LocationARN, or if an access point or access point alias is
+  used.
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
@@ -4251,10 +4269,12 @@ end
 
 Updates a Server Message Block (SMB) file share. This operation is only supported for S3
 File Gateways.  To leave a file share field unchanged, set the corresponding input field to
-null.   File gateways require Security Token Service (STS) to be activated to enable you to
-create a file share. Make sure that STS is activated in the Region you are creating your
-file gateway in. If STS is not activated in this Region, activate it. For information about
-how to activate STS, see Activating and deactivating STS in an Region in the Identity and
+null.   File gateways require Security Token Service (Amazon Web Services STS) to be
+activated to enable you to create a file share. Make sure that Amazon Web Services STS is
+activated in the Amazon Web Services Region you are creating your file gateway in. If
+Amazon Web Services STS is not activated in this Amazon Web Services Region, activate it.
+For information about how to activate Amazon Web Services STS, see Activating and
+deactivating Amazon Web Services STS in an Amazon Web Services Region in the Identity and
 Access Management User Guide. File gateways don't support creating hard or symbolic links
 on a file share.
 
@@ -4280,7 +4300,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
-  an S3 prefix name is set in LocationARN.
+  an S3 prefix name is set in LocationARN, or if an access point or access point alias is
+  used.
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
@@ -4387,6 +4408,51 @@ function update_smbfile_share_visibility(
                 _merge,
                 Dict{String,Any}(
                     "FileSharesVisible" => FileSharesVisible, "GatewayARN" => GatewayARN
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_smblocal_groups(gateway_arn, smblocal_groups)
+    update_smblocal_groups(gateway_arn, smblocal_groups, params::Dict{String,<:Any})
+
+Updates the list of Active Directory users and groups that have special permissions for SMB
+file shares on the gateway.
+
+# Arguments
+- `gateway_arn`:
+- `smblocal_groups`: A list of Active Directory users and groups that you want to grant
+  special permissions for SMB file shares on the gateway.
+
+"""
+function update_smblocal_groups(
+    GatewayARN, SMBLocalGroups; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return storage_gateway(
+        "UpdateSMBLocalGroups",
+        Dict{String,Any}("GatewayARN" => GatewayARN, "SMBLocalGroups" => SMBLocalGroups);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_smblocal_groups(
+    GatewayARN,
+    SMBLocalGroups,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return storage_gateway(
+        "UpdateSMBLocalGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GatewayARN" => GatewayARN, "SMBLocalGroups" => SMBLocalGroups
                 ),
                 params,
             ),

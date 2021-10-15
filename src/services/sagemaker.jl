@@ -2835,8 +2835,9 @@ an ML pipeline from training to deploying an approved model.
 # Arguments
 - `project_name`: The name of the project.
 - `service_catalog_provisioning_details`: The product ID and provisioning artifact ID to
-  provision a service catalog. For information, see What is Amazon Web Services Service
-  Catalog.
+  provision a service catalog. The provisioning artifact ID will default to the latest
+  provisioning artifact ID of the product, if you don't provide the provisioning artifact ID.
+  For more information, see What is Amazon Web Services Service Catalog.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

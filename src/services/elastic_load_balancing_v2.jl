@@ -805,6 +805,8 @@ policies in the Network Load Balancers Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LoadBalancerType"`:  The type of load balancer. The default lists the SSL policies for
+  all load balancers.
 - `"Marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
 - `"Names"`: The names of the policies.
