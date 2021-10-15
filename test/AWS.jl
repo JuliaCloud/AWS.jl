@@ -105,11 +105,11 @@ end
         @test length(authorization_header) == 4
         @test authorization_header[1] == "AWS4-HMAC-SHA256"
         @test authorization_header[2] ==
-              "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
+            "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
         @test authorization_header[3] ==
-              "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
+            "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
         @test authorization_header[4] ==
-              "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
+            "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
     end
 end
 
@@ -357,7 +357,7 @@ end
         request.http_options = Dict(:pipeline_limit => 20)
         @test AWS._http_request(request.backend, request, io) == Dict(:pipeline_limit => 20)
         @test AWS._http_request(custom_backend, request, io) ==
-              Dict(:pipeline_limit => 20, :connection_limit => 5)
+            Dict(:pipeline_limit => 20, :connection_limit => 5)
 
         # per-request options override backend options:
         custom_backend = AWS.HTTPBackend(Dict(:pipeline_limit => 5))

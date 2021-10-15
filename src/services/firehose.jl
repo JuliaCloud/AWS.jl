@@ -60,6 +60,7 @@ Firehose Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AmazonopensearchserviceDestinationConfiguration"`:
 - `"DeliveryStreamEncryptionConfigurationInput"`: Used to specify the type and Amazon
   Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
 - `"DeliveryStreamType"`: The delivery stream type. This parameter can be one of the
@@ -706,6 +707,7 @@ version ID to set CurrentDeliveryStreamVersionId in the next call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AmazonopensearchserviceDestinationUpdate"`:
 - `"ElasticsearchDestinationUpdate"`: Describes an update for a destination in Amazon ES.
 - `"ExtendedS3DestinationUpdate"`: Describes an update for a destination in Amazon S3.
 - `"HttpEndpointDestinationUpdate"`: Describes an update to the specified HTTP endpoint

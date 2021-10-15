@@ -366,6 +366,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
+- `"FileSystemTypeVersion"`: Sets the version of the Amazon FSx for Lustre file system
+  you're creating. Valid values are 2.10 and 2.12.   Set the value to 2.10 to create a Lustre
+  2.10 file system.   Set the value to 2.12 to create a Lustre 2.12 file system.   Default
+  value is 2.10.
 - `"KmsKeyId"`:
 - `"LustreConfiguration"`:
 - `"OntapConfiguration"`:
@@ -467,6 +471,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
+- `"FileSystemTypeVersion"`: Sets the version for the Amazon FSx for Lustre file system
+  you're creating from a backup. Valid values are 2.10 and 2.12. You don't need to specify
+  FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion
+  setting. If you choose to specify FileSystemTypeVersion when creating from backup, the
+  value must match the backup's FileSystemTypeVersion setting.
 - `"KmsKeyId"`:
 - `"LustreConfiguration"`:
 - `"SecurityGroupIds"`: A list of IDs for the security groups that apply to the specified
