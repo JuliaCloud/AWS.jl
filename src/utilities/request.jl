@@ -99,41 +99,37 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     catch e
         if e isa HTTP.StatusError
             e = AWSException(e, stream)
-        end
 
-        @retry if :message in fieldnames(typeof(e)) &&
-            occursin("Signature expired", e.message)
-        end
+            @retry if :message in fieldnames(typeof(e)) &&
+                occursin("Signature expired", e.message)
+            end
 
-        # Handle ExpiredToken...
-        # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
-        @retry if e.code in EXPIRED_ERROR_CODES
-            check_credentials(credentials(aws); force_refresh=true)
-        end
+            # Handle ExpiredToken...
+            # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
+            @retry if e.code in EXPIRED_ERROR_CODES
+                check_credentials(credentials(aws); force_refresh=true)
+            end
 
-        # Throttle handling
-        # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
-        # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
-        @delay_retry if e isa AWSException && (
-            _http_status(e.cause) == TOO_MANY_REQUESTS || e.code in THROTTLING_ERROR_CODES
-        )
-        end
+            # Throttle handling
+            # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
+            # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
+            @delay_retry _http_status(e.cause) == TOO_MANY_REQUESTS ||
+                e.code in THROTTLING_ERROR_CODES
 
-        # Handle BadDigest error and CRC32 check sum failure
-        @retry if e isa AWSException && (
-            _header(e.cause, "crc32body") == "x-amz-crc32" ||
-            e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
-        )
-        end
+            # Handle BadDigest error and CRC32 check sum failure
+            @retry _header(e.cause, "crc32body") == "x-amz-crc32" ||
+                e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
 
-        if e isa AWSException &&
-            occursin("Missing Authentication Token", e.message) &&
-            aws.credentials === nothing
-            return throw(
-                NoCredentials(
-                    "You're attempting to perform a request without credentials set."
-                ),
-            )
+            if occursin("Missing Authentication Token", e.message) &&
+                aws.credentials === nothing
+                return throw(
+                             NoCredentials(
+                                           "You're attempting to perform a request without credentials set."
+                                          ),
+                            )
+            end
+        else
+            rethrow(e)
         end
     end
 
@@ -150,8 +146,8 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
     @repeat 4 try
         # HTTP options such as `status_exception` need to be used when creating the stack
         http_stack = HTTP.stack(;
-            redirect=false, retry=false, aws_authorization=false, http_options...
-        )
+                                redirect=false, retry=false, aws_authorization=false, http_options...
+                               )
 
         # To work around around issue where HTTP.jl closes the `response_stream`
         # (https://github.com/JuliaWeb/HTTP.jl/issues/543) we'll use a sacrificial I/O
@@ -162,15 +158,15 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
 
         r = try
             @mock HTTP.request(
-                http_stack,
-                request.request_method,
-                HTTP.URI(request.url),
-                HTTP.mkheaders(request.headers),
-                request.content;
-                require_ssl_verification=false,
-                response_stream=buffer,
-                http_options...,
-            )
+                               http_stack,
+                               request.request_method,
+                               HTTP.URI(request.url),
+                               HTTP.mkheaders(request.headers),
+                               request.content;
+                               require_ssl_verification=false,
+                               response_stream=buffer,
+                               http_options...,
+                              )
         finally
             # We're unable to read from the `Base.BufferStream` until it has been closed.
             # HTTP.jl will close passed in `response_stream` keyword. This ensures that it
