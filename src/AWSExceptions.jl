@@ -31,6 +31,10 @@ struct AWSException <: Exception
     streamed_body::Union{String,Nothing}
 end
 
+function AWSException(code, message, info, cause)
+    return AWSException(code, message, info, cause, nothing)
+end
+
 function Base.show(io::IO, e::AWSException)
     print(io, AWSException, ": ", e.code)
     !isempty(e.message) && print(io, " -- ", e.message)
