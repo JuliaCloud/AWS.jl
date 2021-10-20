@@ -106,7 +106,8 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             occursin("Signature expired", e.message)
         end
 
-        @retry if e.code == REQUEST_TIME_TOO_SKEWED end
+        @retry if e.code == REQUEST_TIME_TOO_SKEWED
+        end
 
         # Handle ExpiredToken...
         # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
