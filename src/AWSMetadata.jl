@@ -27,10 +27,11 @@ function parse_aws_metadata()
     auth = GitHub.authenticate(ENV["GITHUB_AUTH"])
     repo_name = "aws/aws-sdk-js"
 
-    files = _get_aws_sdk_js_files(repo_name, auth)
+    service_files = _get_service_files(repo_name, auth)
 
-    _generate_low_level_wrappers(files, repo_name, auth)
-    return _generate_high_level_wrapper(files, repo_name, auth)
+    _generate_low_level_wrappers(service_files, auth)
+    _generate_high_level_wrapper(service_files, auth)
+    return nothing
 end
 
 end
