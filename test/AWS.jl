@@ -105,38 +105,20 @@ end
         @test length(authorization_header) == 4
         @test authorization_header[1] == "AWS4-HMAC-SHA256"
         @test authorization_header[2] ==
-              "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
+            "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
         @test authorization_header[3] ==
-              "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
+            "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
         @test authorization_header[4] ==
-              "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
+            "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
     end
 end
 
 @testset "submit_request" begin
     aws = AWS.AWSConfig()
 
-    function _expected_body(body::AbstractString, dict_type::Type)
+    function _expected_xml(body::AbstractString, dict_type::Type)
         parsed = parse_xml(body)
         return xml_dict(XMLDict.root(parsed.x), dict_type)
-    end
-
-    @testset "HEAD request method" begin
-        expected_result_type = LittleDict
-
-        request = Request(;
-            service="s3",
-            api_version="api_version",
-            request_method="HEAD",
-            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-        )
-
-        apply(Patches._aws_http_request_patch()) do
-            result = AWS.submit_request(aws, request)
-
-            @test result == expected_result_type(Patches.headers)
-            @test result isa expected_result_type
-        end
     end
 
     @testset "301 redirect" begin
@@ -145,221 +127,201 @@ end
             api_version="api_version",
             request_method="HEAD",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            use_response_type=true,
         )
         apply(Patches._aws_http_request_patch(Patches._response(; status=301))) do
             @test_throws AWSException AWS.submit_request(aws, request)
         end
     end
 
-    @testset "return stream" begin
+    @testset "HEAD response" begin
         request = Request(;
             service="s3",
             api_version="api_version",
-            request_method="GET",
-            return_stream=true,
-            response_stream=Base.BufferStream(),
+            request_method="HEAD",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            use_response_type=true,
         )
 
-        apply(Patches._aws_http_request_patch()) do
-            result = AWS.submit_request(aws, request)
-
-            @test result == request.response_stream
+        response = apply(Patches._aws_http_request_patch()) do
+            AWS.submit_request(aws, request)
         end
+
+        # Access to response headers
+        @test response.response.headers == Patches.headers
+        @test response.response.headers isa Vector
+
+        # Access to streaming content
+        @test response.io isa IO
+
+        # Content as a string
+        @test String(take!(response.io)) == Patches.body
+
+        # Backwards compatibility with those expecting an `HTTP.Response`
+        @test response.headers == Patches.headers
+        @test response.headers isa Vector
+        @test String(response.body) == Patches.body
     end
 
-    @testset "return raw" begin
+    @testset "GET response" begin
         request = Request(;
             service="s3",
             api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            return_raw=true,
+            use_response_type=true,
         )
 
-        @testset "body" begin
-            apply(Patches._aws_http_request_patch()) do
-                result = AWS.submit_request(aws, request)
-
-                @test String(result) == Patches.body
-            end
+        response = apply(Patches._aws_http_request_patch()) do
+            AWS.submit_request(aws, request)
         end
 
-        @testset "body and headers" begin
-            apply(Patches._aws_http_request_patch()) do
-                body, headers = AWS.submit_request(aws, request; return_headers=true)
+        # Access to response headers
+        @test response.response.headers == Patches.headers
+        @test response.response.headers isa Vector
 
-                @test String(body) == Patches.body
-                @test headers == Patches.headers
-            end
-        end
+        # Access to streaming content
+        @test response.io isa IO
+
+        # Content as a string
+        @test String(take!(response.io)) == Patches.body
+
+        # Backwards compatibility with those expecting an `HTTP.Response`
+        @test response.headers == Patches.headers
+        @test response.headers isa Vector
+        @test String(response.body) == Patches.body
     end
 
-    @testset "MIME" begin
+    @testset "Not authorized" begin
         request = Request(;
             service="s3",
             api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            use_response_type=true,
         )
 
-        @testset "empty" begin
-            @testset "default" begin
-                expected_body = ""
-                expected_headers = Pair["Content-Type" => ""]
+        message = "User is not authorized to perform: action on resource with an explicit deny"
 
-                response = Patches._response(; headers=expected_headers, body=expected_body)
-                apply(Patches._aws_http_request_patch(response)) do
-                    @testset "body" begin
-                        result = AWS.submit_request(aws, request)
-
-                        @test String(result) == expected_body
-                    end
-
-                    @testset "body and headers" begin
-                        body, headers = AWS.submit_request(
-                            aws, request; return_headers=true
-                        )
-
-                        @test String(body) == expected_body
-                        @test headers == expected_headers
-                    end
-                end
-            end
-
-            @testset "text/xml" begin
-                expected_body_type = LittleDict{Union{Symbol,String},Any}
-                expected_body = _expected_body(Patches.body, expected_body_type)
-                expected_header_type = LittleDict{SubString{String},SubString{String}}
-                expected_headers = Pair["Content-Type" => "text/xml"]
-
-                response = Patches._response(; headers=expected_headers)
-                apply(Patches._aws_http_request_patch(response)) do
-                    @testset "body" begin
-                        result = AWS.submit_request(aws, request)
-
-                        @test result isa expected_body_type
-                        @test result == expected_body
-                    end
-
-                    @testset "body and headers" begin
-                        body, headers = AWS.submit_request(
-                            aws, request; return_headers=true
-                        )
-
-                        @test body == expected_body
-                        @test body isa expected_body_type
-
-                        @test headers == LittleDict(expected_headers)
-                        @test headers isa expected_header_type
-                    end
+        # Simulate the HTTP.request behaviour with a HTTP 400 response
+        exception = apply(Patches.gen_http_options_400_patches(message)) do
+            try
+                AWS.submit_request(aws, request)
+                return nothing
+            catch e
+                if e isa AWSException
+                    return e
+                else
+                    rethrow()
                 end
             end
         end
 
-        @testset "xml" begin
-            request = Request(;
-                service="s3",
-                api_version="api_version",
-                request_method="GET",
-                url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            )
+        @test exception isa AWSException
 
-            expected_body_type = LittleDict{Union{Symbol,String},Any}
-            expected_body = _expected_body(Patches.body, expected_body_type)
-            expected_headers = Pair["Content-Type" => "application/xml"]
+        # If handled incorrectly using a `response_stream` may result in the body data being
+        # lost. Mainly, this is a problem when using a temporary I/O stream instead of
+        # writing directly to the `response_stream`.
+        @test exception.message == message
+        @test exception.streamed_body !== nothing
+    end
 
-            response = Patches._response(; headers=expected_headers)
-            apply(Patches._aws_http_request_patch(response)) do
-                @testset "body" begin
-                    result = AWS.submit_request(aws, request)
+    @testset "read MIME-type" begin
+        request = Request(;
+            service="s3",
+            api_version="api_version",
+            request_method="GET",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            use_response_type=true,
+        )
 
-                    @test result == expected_body
-                    @test result isa expected_body_type
-                end
+        @testset "invalid content type" begin
+            headers = Pair["Content-Type" => ""]
+            body = ""
+            expected_body_type = Vector{UInt8}
+            expected_body = b""
 
-                @testset "body and headers" begin
-                    body, headers = AWS.submit_request(aws, request; return_headers=true)
-
-                    @test body == expected_body
-                    @test body isa expected_body_type
-
-                    @test headers == LittleDict(expected_headers)
-                    @test headers isa LittleDict{SubString{String},SubString{String}}
-                end
+            r = Patches._response(; headers=headers, body=body)
+            response = apply(Patches._aws_http_request_patch(r)) do
+                AWS.submit_request(aws, request)
             end
+
+            content = parse(response)
+            @test content isa expected_body_type
+            @test content == expected_body
         end
 
-        @testset "JSON" begin
-            json_headers = ["Content-Type" => "application/json"]
-            body = Dict{String,Any}(
-                "Marker" => nothing,
-                "VaultList" => Any[Dict{String,Any}(
-                    "VaultName" => "test",
-                    "SizeInBytes" => 0,
-                    "NumberOfArchives" => 0,
-                    "CreationDate" => "2020-06-22T03:14:41.754Z",
-                    "VaultARN" => "arn:aws:glacier:us-east-1:000:vaults/test",
-                    "LastInventoryDate" => nothing,
-                )],
+        @testset "text/xml" begin
+            headers = Pair["Content-Type" => "text/xml"]
+            expected_body_type = LittleDict{Union{String,Symbol},Any}
+            expected_body = _expected_xml(Patches.body, expected_body_type)
+
+            r = Patches._response(; headers=headers)
+            response = apply(Patches._aws_http_request_patch(r)) do
+                AWS.submit_request(aws, request)
+            end
+
+            content = parse(response)
+            @test content isa expected_body_type
+            @test content == expected_body
+        end
+
+        @testset "application/xml" begin
+            headers = Pair["Content-Type" => "application/xml"]
+            expected_body_type = LittleDict{Union{String,Symbol},Any}
+            expected_body = _expected_xml(Patches.body, expected_body_type)
+
+            r = Patches._response(; headers=headers)
+            response = apply(Patches._aws_http_request_patch(r)) do
+                AWS.submit_request(aws, request)
+            end
+
+            content = parse(response)
+            @test content isa expected_body_type
+            @test content == expected_body
+        end
+
+        @testset "application/json" begin
+            headers = ["Content-Type" => "application/json"]
+            body = JSON.json(
+                Dict{String,Any}(
+                    "Marker" => nothing,
+                    "VaultList" => Any[Dict{String,Any}(
+                        "VaultName" => "test",
+                        "SizeInBytes" => 0,
+                        "NumberOfArchives" => 0,
+                        "CreationDate" => "2020-06-22T03:14:41.754Z",
+                        "VaultARN" => "arn:aws:glacier:us-east-1:000:vaults/test",
+                        "LastInventoryDate" => nothing,
+                    )],
+                ),
             )
-            json_body = JSON.json(body)
 
             expected_body_type = LittleDict{String,Any}
-            expected_body = JSON.parse(json_body; dicttype=LittleDict)
+            expected_body = JSON.parse(body; dicttype=expected_body_type)
 
-            response = Patches._response(; body=json_body, headers=json_headers)
-            apply(Patches._aws_http_request_patch(response)) do
-                @testset "body" begin
-                    result = AWS.submit_request(aws, request)
-
-                    @test result isa expected_body_type
-                    @test result == expected_body
-                end
-
-                @testset "body and headers" begin
-                    body, headers = AWS.submit_request(aws, request; return_headers=true)
-
-                    @test body == expected_body
-                    @test body isa expected_body_type
-
-                    @test headers == LittleDict(json_headers)
-                    @test headers isa LittleDict{SubString{String},SubString{String}}
-                end
+            r = Patches._response(; body=body, headers=headers)
+            response = apply(Patches._aws_http_request_patch(r)) do
+                AWS.submit_request(aws, request)
             end
+
+            content = parse(response)
+            @test content isa expected_body_type
+            @test content == expected_body
         end
 
-        @testset "Text" begin
-            request = Request(;
-                service="s3",
-                api_version="api_version",
-                request_method="GET",
-                url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            )
-
-            expected_headers = ["Content-Type" => "text/html"]
+        @testset "text/html" begin
+            headers = ["Content-Type" => "text/html"]
             expected_body = Patches.body
-            expected_header_type = LittleDict{SubString{String},SubString{String}}
 
-            response = Patches._response(; headers=expected_headers)
-            apply(Patches._aws_http_request_patch(response)) do
-                @testset "body" begin
-                    result = AWS.submit_request(aws, request)
-
-                    @test result isa String
-                    @test result == expected_body
-                end
-
-                @testset "body and headers" begin
-                    body, headers = AWS.submit_request(aws, request; return_headers=true)
-
-                    @test body == expected_body
-                    @test body isa String
-
-                    @test headers == LittleDict(expected_headers)
-                    @test headers isa expected_header_type
-                end
+            r = Patches._response(; headers=headers)
+            response = apply(Patches._aws_http_request_patch(r)) do
+                AWS.submit_request(aws, request)
             end
+
+            content = parse(response)
+            @test content isa String
+            @test content == expected_body
         end
     end
 end
@@ -368,7 +330,7 @@ struct TestBackend <: AWS.AbstractBackend
     param::Int
 end
 
-function AWS._http_request(backend::TestBackend, request)
+function AWS._http_request(backend::TestBackend, ::AWS.Request, ::IO)
     return backend.param
 end
 
@@ -380,28 +342,30 @@ end
         url="https://s3.us-east-1.amazonaws.com/sample-bucket",
         backend=AWS.HTTPBackend(),
     )
-    apply(Patches._http_options_patch) do
+    io = IOBuffer()
+
+    apply(Patches._http_options_patches) do
         # No default options
-        @test isempty(AWS._http_request(request.backend, request))
+        @test isempty(AWS._http_request(request.backend, request, io))
 
         # We can pass HTTP options via the backend
         custom_backend = AWS.HTTPBackend(Dict(:connection_limit => 5))
         @test custom_backend isa AWS.AbstractBackend
-        @test AWS._http_request(custom_backend, request) == Dict(:connection_limit => 5)
+        @test AWS._http_request(custom_backend, request, io) == Dict(:connection_limit => 5)
 
         # We can pass options per-request
         request.http_options = Dict(:pipeline_limit => 20)
-        @test AWS._http_request(request.backend, request) == Dict(:pipeline_limit => 20)
-        @test AWS._http_request(custom_backend, request) ==
-              Dict(:pipeline_limit => 20, :connection_limit => 5)
+        @test AWS._http_request(request.backend, request, io) == Dict(:pipeline_limit => 20)
+        @test AWS._http_request(custom_backend, request, io) ==
+            Dict(:pipeline_limit => 20, :connection_limit => 5)
 
         # per-request options override backend options:
         custom_backend = AWS.HTTPBackend(Dict(:pipeline_limit => 5))
-        @test AWS._http_request(custom_backend, request) == Dict(:pipeline_limit => 20)
+        @test AWS._http_request(custom_backend, request, io) == Dict(:pipeline_limit => 20)
     end
 
     request.backend = TestBackend(2)
-    @test AWS._http_request(request.backend, request) == 2
+    @test AWS._http_request(request.backend, request, io) == 2
 
     request = Request(;
         service="s3",
@@ -410,7 +374,7 @@ end
         url="https://s3.us-east-1.amazonaws.com/sample-bucket",
         backend=TestBackend(4),
     )
-    @test AWS._http_request(request.backend, request) == 4
+    @test AWS._http_request(request.backend, request, io) == 4
 
     # Let's test setting the default backend
     prev_backend = AWS.DEFAULT_BACKEND[]
@@ -422,7 +386,7 @@ end
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
         )
-        @test AWS._http_request(request.backend, request) == 3
+        @test AWS._http_request(request.backend, request, io) == 3
     finally
         AWS.DEFAULT_BACKEND[] = prev_backend
     end
@@ -538,6 +502,28 @@ end
         "/anchor?query=yes#anchor1",
     )
         @test AWS._clean_s3_uri(uri) == uri
+    end
+end
+
+@testset "STS" begin
+    @testset "high-level" begin
+        @service STS
+
+        response = STS.get_caller_identity()
+        d = response["GetCallerIdentityResult"]
+
+        @test Set(keys(d)) == Set(["Arn", "UserId", "Account"])
+        @test occursin(r"^arn:aws:(iam|sts):", d["Arn"])
+        @test all(isdigit, d["Account"])
+    end
+
+    @testset "low-level" begin
+        response = AWSServices.sts("GetCallerIdentity")
+        d = response["GetCallerIdentityResult"]
+
+        @test Set(keys(d)) == Set(["Arn", "UserId", "Account"])
+        @test occursin(r"^arn:aws:(iam|sts):", d["Arn"])
+        @test all(isdigit, d["Account"])
     end
 end
 
@@ -886,7 +872,7 @@ end
             # PUT with parameters operation
             body = Array{UInt8}("sample-file-body")
             AWSServices.s3("PUT", "/$bucket_name/$file_name", Dict("body" => body))
-            @test body == AWSServices.s3("GET", "/$bucket_name/$file_name")
+            @test AWSServices.s3("GET", "/$bucket_name/$file_name") == body
 
             # GET operation
             result = AWSServices.s3("GET", "/$bucket_name")

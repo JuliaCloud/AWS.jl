@@ -485,7 +485,9 @@ end
     delete_access_control_rule(name, organization_id)
     delete_access_control_rule(name, organization_id, params::Dict{String,<:Any})
 
-Deletes an access control rule for the specified WorkMail organization.
+Deletes an access control rule for the specified WorkMail organization.  Deleting already
+deleted and non-existing rules does not produce an error. In those cases, the service sends
+back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
 - `name`: The name of the access control rule.
@@ -668,10 +670,68 @@ function delete_mailbox_permissions(
 end
 
 """
+    delete_mobile_device_access_override(device_id, organization_id, user_id)
+    delete_mobile_device_access_override(device_id, organization_id, user_id, params::Dict{String,<:Any})
+
+Deletes the mobile device access override for the given WorkMail organization, user, and
+device.  Deleting already deleted and non-existing overrides does not produce an error. In
+those cases, the service sends back an HTTP 200 response with an empty HTTP body.
+
+# Arguments
+- `device_id`: The mobile device for which you delete the override. DeviceId is case
+  insensitive.
+- `organization_id`: The Amazon WorkMail organization for which the access override will be
+  deleted.
+- `user_id`: The WorkMail user for which you want to delete the override. Accepts the
+  following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User
+  name: user
+
+"""
+function delete_mobile_device_access_override(
+    DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DeleteMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_mobile_device_access_override(
+    DeviceId,
+    OrganizationId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DeleteMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceId" => DeviceId,
+                    "OrganizationId" => OrganizationId,
+                    "UserId" => UserId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_mobile_device_access_rule(mobile_device_access_rule_id, organization_id)
     delete_mobile_device_access_rule(mobile_device_access_rule_id, organization_id, params::Dict{String,<:Any})
 
 Deletes a mobile device access rule for the specified Amazon WorkMail organization.
+Deleting already deleted and non-existing rules does not produce an error. In those cases,
+the service sends back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
 - `mobile_device_access_rule_id`: The identifier of the rule to be deleted.
@@ -948,6 +1008,53 @@ function deregister_from_work_mail(
 end
 
 """
+    deregister_mail_domain(domain_name, organization_id)
+    deregister_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
+
+Removes a domain from Amazon WorkMail, stops email routing to WorkMail, and removes the
+authorization allowing WorkMail use. SES keeps the domain because other applications may
+use it. You must first remove any email address used by WorkMail entities before you remove
+the domain.
+
+# Arguments
+- `domain_name`: The domain to deregister in WorkMail and SES.
+- `organization_id`: The Amazon WorkMail organization for which the domain will be
+  deregistered.
+
+"""
+function deregister_mail_domain(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DeregisterMailDomain",
+        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deregister_mail_domain(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DeregisterMailDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "OrganizationId" => OrganizationId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_group(group_id, organization_id)
     describe_group(group_id, organization_id, params::Dict{String,<:Any})
 
@@ -982,6 +1089,41 @@ function describe_group(
                 Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_inbound_dmarc_settings(organization_id)
+    describe_inbound_dmarc_settings(organization_id, params::Dict{String,<:Any})
+
+Lists the settings in a DMARC policy for a specified organization.
+
+# Arguments
+- `organization_id`: Lists the ID of the given organization.
+
+"""
+function describe_inbound_dmarc_settings(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DescribeInboundDmarcSettings",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_inbound_dmarc_settings(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DescribeInboundDmarcSettings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1348,6 +1490,50 @@ function get_default_retention_policy(
 end
 
 """
+    get_mail_domain(domain_name, organization_id)
+    get_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
+
+Gets details for a mail domain, including domain records required to configure your domain
+with recommended security.
+
+# Arguments
+- `domain_name`: The domain from which you want to retrieve details.
+- `organization_id`: The Amazon WorkMail organization for which the domain is retrieved.
+
+"""
+function get_mail_domain(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "GetMailDomain",
+        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_mail_domain(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "GetMailDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "OrganizationId" => OrganizationId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_mailbox_details(organization_id, user_id)
     get_mailbox_details(organization_id, user_id, params::Dict{String,<:Any})
 
@@ -1426,6 +1612,61 @@ function get_mobile_device_access_effect(
         "GetMobileDeviceAccessEffect",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_mobile_device_access_override(device_id, organization_id, user_id)
+    get_mobile_device_access_override(device_id, organization_id, user_id, params::Dict{String,<:Any})
+
+Gets the mobile device access override for the given WorkMail organization, user, and
+device.
+
+# Arguments
+- `device_id`: The mobile device to which the override applies. DeviceId is case
+  insensitive.
+- `organization_id`: The Amazon WorkMail organization to which you want to apply the
+  override.
+- `user_id`: Identifies the WorkMail user for the override. Accepts the following types of
+  user identities:    User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User
+  name: user
+
+"""
+function get_mobile_device_access_override(
+    DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "GetMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_mobile_device_access_override(
+    DeviceId,
+    OrganizationId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "GetMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceId" => DeviceId,
+                    "OrganizationId" => OrganizationId,
+                    "UserId" => UserId,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1601,6 +1842,46 @@ function list_groups(
 end
 
 """
+    list_mail_domains(organization_id)
+    list_mail_domains(organization_id, params::Dict{String,<:Any})
+
+Lists the mail domains in a given Amazon WorkMail organization.
+
+# Arguments
+- `organization_id`: The Amazon WorkMail organization for which to list domains.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in a single call.
+- `"NextToken"`: The token to use to retrieve the next page of results. The first call does
+  not require a token.
+"""
+function list_mail_domains(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "ListMailDomains",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_mail_domains(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "ListMailDomains",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_mailbox_export_jobs(organization_id)
     list_mailbox_export_jobs(organization_id, params::Dict{String,<:Any})
 
@@ -1684,6 +1965,53 @@ function list_mailbox_permissions(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_mobile_device_access_overrides(organization_id)
+    list_mobile_device_access_overrides(organization_id, params::Dict{String,<:Any})
+
+Lists all the mobile device access overrides for any given combination of WorkMail
+organization, user, or device.
+
+# Arguments
+- `organization_id`: The Amazon WorkMail organization under which to list mobile device
+  access overrides.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceId"`: The mobile device to which the access override applies.
+- `"MaxResults"`: The maximum number of results to return in a single call.
+- `"NextToken"`: The token to use to retrieve the next page of results. The first call does
+  not require a token.
+- `"UserId"`: The WorkMail user under which you list the mobile device access overrides.
+  Accepts the following types of user identities:   User ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: user@domain.tld    User name: user
+"""
+function list_mobile_device_access_overrides(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "ListMobileDeviceAccessOverrides",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_mobile_device_access_overrides(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "ListMobileDeviceAccessOverrides",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1983,6 +2311,49 @@ function put_access_control_rule(
 end
 
 """
+    put_inbound_dmarc_settings(enforced, organization_id)
+    put_inbound_dmarc_settings(enforced, organization_id, params::Dict{String,<:Any})
+
+Enables or disables a DMARC policy for a given organization.
+
+# Arguments
+- `enforced`: Enforces or suspends a policy after it's applied.
+- `organization_id`: The ID of the organization that you are applying the DMARC policy to.
+
+"""
+function put_inbound_dmarc_settings(
+    Enforced, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "PutInboundDmarcSettings",
+        Dict{String,Any}("Enforced" => Enforced, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_inbound_dmarc_settings(
+    Enforced,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "PutInboundDmarcSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Enforced" => Enforced, "OrganizationId" => OrganizationId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_mailbox_permissions(entity_id, grantee_id, organization_id, permission_values)
     put_mailbox_permissions(entity_id, grantee_id, organization_id, permission_values, params::Dict{String,<:Any})
 
@@ -2050,6 +2421,74 @@ function put_mailbox_permissions(
 end
 
 """
+    put_mobile_device_access_override(device_id, effect, organization_id, user_id)
+    put_mobile_device_access_override(device_id, effect, organization_id, user_id, params::Dict{String,<:Any})
+
+Creates or updates a mobile device access override for the given WorkMail organization,
+user, and device.
+
+# Arguments
+- `device_id`: The mobile device for which you create the override. DeviceId is case
+  insensitive.
+- `effect`: The effect of the override, ALLOW or DENY.
+- `organization_id`: Identifies the Amazon WorkMail organization for which you create the
+  override.
+- `user_id`: The WorkMail user for which you create the override. Accepts the following
+  types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User
+  name: user
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the override.
+"""
+function put_mobile_device_access_override(
+    DeviceId,
+    Effect,
+    OrganizationId,
+    UserId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "PutMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            "DeviceId" => DeviceId,
+            "Effect" => Effect,
+            "OrganizationId" => OrganizationId,
+            "UserId" => UserId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_mobile_device_access_override(
+    DeviceId,
+    Effect,
+    OrganizationId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "PutMobileDeviceAccessOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeviceId" => DeviceId,
+                    "Effect" => Effect,
+                    "OrganizationId" => OrganizationId,
+                    "UserId" => UserId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_retention_policy(folder_configurations, name, organization_id)
     put_retention_policy(folder_configurations, name, organization_id, params::Dict{String,<:Any})
 
@@ -2098,6 +2537,62 @@ function put_retention_policy(
                     "FolderConfigurations" => FolderConfigurations,
                     "Name" => Name,
                     "OrganizationId" => OrganizationId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    register_mail_domain(domain_name, organization_id)
+    register_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
+
+Registers a new domain in Amazon WorkMail and SES, and configures it for use by WorkMail.
+Emails received by SES for this domain are routed to the specified WorkMail organization,
+and WorkMail has permanent permission to use the specified domain for sending your users'
+emails.
+
+# Arguments
+- `domain_name`: The name of the mail domain to create in Amazon WorkMail and SES.
+- `organization_id`: The Amazon WorkMail organization under which you're creating the
+  domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Idempotency token used when retrying requests.
+"""
+function register_mail_domain(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "RegisterMailDomain",
+        Dict{String,Any}(
+            "DomainName" => DomainName,
+            "OrganizationId" => OrganizationId,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function register_mail_domain(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "RegisterMailDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName,
+                    "OrganizationId" => OrganizationId,
+                    "ClientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -2367,6 +2862,51 @@ function untag_resource(
             mergewith(
                 _merge,
                 Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_default_mail_domain(domain_name, organization_id)
+    update_default_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
+
+Updates the default mail domain for an organization. The default mail domain is used by the
+WorkMail AWS Console to suggest an email address when enabling a mail user. You can only
+have one default domain.
+
+# Arguments
+- `domain_name`: The domain name that will become the default domain.
+- `organization_id`: The Amazon WorkMail organization for which to list domains.
+
+"""
+function update_default_mail_domain(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "UpdateDefaultMailDomain",
+        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_default_mail_domain(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "UpdateDefaultMailDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "OrganizationId" => OrganizationId
+                ),
                 params,
             ),
         );

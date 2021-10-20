@@ -164,8 +164,7 @@ end
 Creates a framework with one or more controls. A framework is a collection of controls that
 you can use to evaluate your backup practices. By using pre-built customizable controls to
 define your policies, you can evaluate whether your backup practices comply with your
-policies. To get insights into the compliance status of your frameworks, you can set up
-automatic daily reports.
+policies and which resources are not yet in compliance.
 
 # Arguments
 - `framework_controls`: A list of the controls that make up the framework. Each control in
@@ -240,8 +239,10 @@ a plan that already exists, you receive an AlreadyExistsException exception.
   256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers
   (0-9), and underscores (_).
 - `report_setting`: Identifies the report template for the report. Reports are built using
-  a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT |
-  RESTORE_JOB_REPORT
+  a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT |
+  CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If
+  the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API
+  resource also describes the report coverage by Amazon Web Services Regions and frameworks.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -250,8 +251,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   same idempotency token results in a success message with no action taken.
 - `"ReportPlanDescription"`: An optional description of the report plan with a maximum of
   1,024 characters.
-- `"ReportPlanTags"`: Metadata that you can assign to help organize the frameworks that you
-  create. Each tag is a key-value pair.
+- `"ReportPlanTags"`: Metadata that you can assign to help organize the report plans that
+  you create. Each tag is a key-value pair.
 """
 function create_report_plan(
     ReportDeliveryChannel,
@@ -439,6 +440,43 @@ function delete_backup_vault_access_policy(
     return backup(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/access-policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_backup_vault_lock_configuration(backup_vault_name)
+    delete_backup_vault_lock_configuration(backup_vault_name, params::Dict{String,<:Any})
+
+Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the
+Vault Lock configuration is immutable, then you cannot delete Vault Lock using API
+operations, and you will receive an InvalidRequestException if you attempt to do so. For
+more information, see Vault Lock in the Backup Developer Guide.
+
+# Arguments
+- `backup_vault_name`: The name of the backup vault from which to delete Backup Vault Lock.
+
+"""
+function delete_backup_vault_lock_configuration(
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "DELETE",
+        "/backup-vaults/$(backupVaultName)/vault-lock";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_backup_vault_lock_configuration(
+    backupVaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "DELETE",
+        "/backup-vaults/$(backupVaultName)/vault-lock",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1934,6 +1972,80 @@ function put_backup_vault_access_policy(
 end
 
 """
+    put_backup_vault_lock_configuration(backup_vault_name)
+    put_backup_vault_lock_configuration(backup_vault_name, params::Dict{String,<:Any})
+
+Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery
+point stored in or created in a backup vault. Vault Lock also prevents attempts to update
+the lifecycle policy that controls the retention period of any recovery point currently
+stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention
+period for future backup and copy jobs that target a backup vault.
+
+# Arguments
+- `backup_vault_name`: The Backup Vault Lock configuration that specifies the name of the
+  backup vault it protects.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ChangeableForDays"`: The Backup Vault Lock configuration that specifies the number of
+  days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at
+  8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour
+  cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you
+  must set ChangeableForDays to 3 or greater. Before the lock date, you can delete Vault Lock
+  from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock
+  configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault
+  Lock becomes immutable and cannot be changed or deleted. If this parameter is not
+  specified, you can delete Vault Lock from the vault using
+  DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using
+  PutBackupVaultLockConfiguration at any time.
+- `"MaxRetentionDays"`: The Backup Vault Lock configuration that specifies the maximum
+  retention period that the vault retains its recovery points. This setting can be useful if,
+  for example, your organization's policies require you to destroy certain data after
+  retaining it for four years (1460 days). If this parameter is not included, Vault Lock does
+  not enforce a maximum retention period on the recovery points in the vault. If this
+  parameter is included without a value, Vault Lock will not enforce a maximum retention
+  period. If this parameter is specified, any backup or copy job to the vault must have a
+  lifecycle policy with a retention period equal to or shorter than the maximum retention
+  period. If the job's retention period is longer than that maximum retention period, then
+  the vault fails the backup or copy job, and you should either modify your lifecycle
+  settings or use a different vault. Recovery points already saved in the vault prior to
+  Vault Lock are not affected.
+- `"MinRetentionDays"`: The Backup Vault Lock configuration that specifies the minimum
+  retention period that the vault retains its recovery points. This setting can be useful if,
+  for example, your organization's policies require you to retain certain data for at least
+  seven years (2555 days). If this parameter is not specified, Vault Lock will not enforce a
+  minimum retention period. If this parameter is specified, any backup or copy job to the
+  vault must have a lifecycle policy with a retention period equal to or longer than the
+  minimum retention period. If the job's retention period is shorter than that minimum
+  retention period, then the vault fails that backup or copy job, and you should either
+  modify your lifecycle settings or use a different vault. Recovery points already saved in
+  the vault prior to Vault Lock are not affected.
+"""
+function put_backup_vault_lock_configuration(
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "PUT",
+        "/backup-vaults/$(backupVaultName)/vault-lock";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_backup_vault_lock_configuration(
+    backupVaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/backup-vaults/$(backupVaultName)/vault-lock",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_backup_vault_notifications(backup_vault_events, snstopic_arn, backup_vault_name)
     put_backup_vault_notifications(backup_vault_events, snstopic_arn, backup_vault_name, params::Dict{String,<:Any})
 
@@ -2631,8 +2743,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReportPlanDescription"`: An optional description of the report plan with a maximum
   1,024 characters.
 - `"ReportSetting"`: Identifies the report template for the report. Reports are built using
-  a report template. The report templates are:  BACKUP_JOB_REPORT | COPY_JOB_REPORT |
-  RESTORE_JOB_REPORT
+  a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT |
+  CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If
+  the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API
+  resource also describes the report coverage by Amazon Web Services Regions and frameworks.
 """
 function update_report_plan(
     reportPlanName; aws_config::AbstractAWSConfig=global_aws_config()

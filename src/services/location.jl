@@ -267,9 +267,14 @@ end
     batch_update_device_position(tracker_name, updates, params::Dict{String,<:Any})
 
 Uploads position update data for one or more devices to a tracker resource. Amazon Location
-uses the data when reporting the last known device position and position history.  Only one
-position update is stored per sample time. Location data is sampled at a fixed rate of one
-position per 30-second interval and retained for 30 days before it's deleted.
+uses the data when it reports the last known device position and position history. Amazon
+Location retains location data for 30 days.  Position updates are handled based on the
+PositionFiltering property of the tracker. When PositionFiltering is set to TimeBased,
+updates are evaluated against linked geofence collections, and location data is stored at a
+maximum of one position per 30 second interval. If your update frequency is more often than
+every 30 seconds, only one update per 30 seconds is stored for each unique device ID. When
+PositionFiltering is set to DistanceBased filtering, location data is stored and evaluated
+against linked geofence collections only if the device has moved more than 30 m (98.4 ft).
 
 # Arguments
 - `tracker_name`: The name of the tracker resource to update.
@@ -322,8 +327,9 @@ if traveling by Truck.
   calculate a route.
 - `departure_position`: The start position for the route. Defined in WGS 84 format:
   [longitude, latitude].   For example, [-123.115, 49.285]     If you specify a departure
-  that's not located on a road, Amazon Location moves the position to the nearest road.
-  Valid Values: [-180 to 180,-90 to 90]
+  that's not located on a road, Amazon Location moves the position to the nearest road. If
+  Esri is the provider for your route calculator, specifying a route that is longer than 400
+  km returns a 400 RoutesValidationException error.  Valid Values: [-180 to 180,-90 to 90]
 - `destination_position`: The finish position for the route. Defined in WGS 84 format:
   [longitude, latitude].    For example, [-122.339, 47.615]     If you specify a destination
   that's not located on a road, Amazon Location moves the position to the nearest road.
@@ -357,7 +363,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]]     If you
   specify a waypoint position that's not located on a road, Amazon Location moves the
   position to the nearest road.  Specifying more than 23 waypoints returns a 400
-  ValidationException error.  Valid Values: [-180 to 180,-90 to 90]
+  ValidationException error. If Esri is the provider for your route calculator, specifying a
+  route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid
+  Values: [-180 to 180,-90 to 90]
 """
 function calculate_route(
     CalculatorName,
@@ -481,7 +489,7 @@ sourced from global location data providers.
   characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).    Must be
   a unique map resource name.    No spaces allowed. For example, ExampleMap.
 - `pricing_plan`: Specifies the pricing plan for your map resource. For additional details
-  and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+  and restrictions on each pricing plan option, see Amazon Location Service pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -546,7 +554,7 @@ geospatial data sourced from your chosen data provider.
   case-sensitive. Enter the valid values as shown. For example, entering HERE returns an
   error.  Valid values include:    Esri – For additional information about Esri's coverage
   in your region of interest, see Esri details on geocoding coverage.    Here – For
-  additional information about HERE Technologies's coverage in your region of interest, see
+  additional information about HERE Technologies' coverage in your region of interest, see
   HERE details on goecoding coverage.  Place index resources using HERE Technologies as a
   data provider can't store results for locations in Japan. For more information, see the AWS
   Service Terms for Amazon Location Service.    For additional information , see Data
@@ -556,8 +564,7 @@ geospatial data sourced from your chosen data provider.
   (_).   Must be a unique place index resource name.   No spaces allowed. For example,
   ExamplePlaceIndex.
 - `pricing_plan`: Specifies the pricing plan for your place index resource. For additional
-  details and restrictions on each pricing plan option, see the Amazon Location Service
-  pricing page.
+  details and restrictions on each pricing plan option, see Amazon Location Service pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -626,11 +633,12 @@ calculator sources traffic and road network data from your chosen data provider.
   ExampleRouteCalculator.
 - `data_source`: Specifies the data provider of traffic and road network data.  This field
   is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an
-  error.  Valid values include:    Esri – For additional information about Esri's coverage
-  in your region of interest, see Esri details on street networks and traffic coverage.
-  Here – For additional information about HERE Technologies's coverage in your region of
-  interest, see HERE car routing coverage and HERE truck routing coverage.   For additional
-  information , see Data providers on the Amazon Location Service Developer Guide.
+  error. Route calculators that use Esri as a data source only calculate routes that are
+  shorter than 400 km.  Valid values include:    Esri – For additional information about
+  Esri's coverage in your region of interest, see Esri details on street networks and traffic
+  coverage.    Here – For additional information about HERE Technologies' coverage in your
+  region of interest, see HERE car routing coverage and HERE truck routing coverage.   For
+  additional information , see Data providers on the Amazon Location Service Developer Guide.
 - `pricing_plan`: Specifies the pricing plan for your route calculator resource. For
   additional details and restrictions on each pricing plan option, see Amazon Location
   Service pricing.
@@ -699,8 +707,7 @@ historical location of devices.
 
 # Arguments
 - `pricing_plan`: Specifies the pricing plan for the tracker resource. For additional
-  details and restrictions on each pricing plan option, see the Amazon Location Service
-  pricing page.
+  details and restrictions on each pricing plan option, see Amazon Location Service pricing.
 - `tracker_name`: The name for the tracker resource. Requirements:   Contain only
   alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).
   Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
@@ -710,12 +717,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: An optional description for the tracker resource.
 - `"KmsKeyId"`: A key identifier for an AWS KMS customer managed key. Enter a key ID, key
   ARN, alias name, or alias ARN.
+- `"PositionFiltering"`: Specifies the position filtering for the tracker resource. Valid
+  values:    TimeBased - Location updates are evaluated against linked geofence collections,
+  but not every location update is stored. If your update frequency is more often than 30
+  seconds, only one update per 30 seconds is stored for each unique device ID.
+  DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are
+  ignored. Location updates within this distance are neither evaluated against linked
+  geofence collections, nor stored. This helps control costs by reducing the number of
+  geofence evaluations and device positions to retrieve. Distance-based filtering can also
+  reduce the jitter effect when displaying device trajectory on a map.    This field is
+  optional. If not specified, the default value is TimeBased.
 - `"PricingPlanDataSource"`: Specifies the data provider for the tracker resource.
   Required value for the following pricing plans: MobileAssetTracking | MobileAssetManagement
      For more information about Data Providers, and Pricing plans, see the Amazon Location
   Service product page.  Amazon Location Service only uses PricingPlanDataSource to calculate
   billing for your tracker resource. Your data will not be shared with the data provider, and
-  will remain in your AWS account or Region unless you move it.  Valid Values: Esri | Here
+  will remain in your AWS account or Region unless you move it.  Valid values: Esri | Here
 - `"Tags"`: Applies one or more tags to the tracker resource. A tag is a key-value pair
   helps manage, identify, search, and filter your resources by labelling them. Format:
   \"key\" : \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must
@@ -1260,14 +1277,14 @@ Retrieves glyphs used to display labels on a map.
 
 # Arguments
 - `font_stack`: A comma-separated list of fonts to load glyphs from in order of preference.
-  For example, Noto Sans Regular, Arial Unicode. Valid fonts for Esri styles:
+  For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:
   VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu
   Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular |
   Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans
   Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic
   VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation –
-  Arial Regular | Arial Italic | Arial Bold    Valid fonts for HERE Technologies styles:
-  VectorHereBerlin – Fira GO Regular | Fira GO Bold
+  Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies
+  styles:    VectorHereBerlin – Fira GO Regular | Fira GO Bold
 - `font_unicode_range`: A Unicode range of characters to download glyphs for. Each response
   will contain 256 characters. For example, 0–255 includes all characters from range U+0000
   to 00FF. Must be aligned to multiples of 256.
@@ -2141,6 +2158,15 @@ Updates the specified properties of a given tracker resource.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: Updates the description for the tracker resource.
+- `"PositionFiltering"`: Updates the position filtering for the tracker resource. Valid
+  values:    TimeBased - Location updates are evaluated against linked geofence collections,
+  but not every location update is stored. If your update frequency is more often than 30
+  seconds, only one update per 30 seconds is stored for each unique device ID.
+  DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are
+  ignored. Location updates within this distance are neither evaluated against linked
+  geofence collections, nor stored. This helps control costs by reducing the number of
+  geofence evaluations and device positions to retrieve. Distance-based filtering can also
+  reduce the jitter effect when displaying device trajectory on a map.
 - `"PricingPlan"`: Updates the pricing plan for the tracker resource. For more information
   about each pricing plan option restrictions, see Amazon Location Service pricing.
 - `"PricingPlanDataSource"`: Updates the data provider for the tracker resource.  A

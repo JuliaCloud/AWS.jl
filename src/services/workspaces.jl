@@ -136,13 +136,13 @@ end
     copy_workspace_image(name, source_image_id, source_region, params::Dict{String,<:Any})
 
 Copies the specified image from the specified Region to the current Region. For more
-information about copying images, see  Copy a Custom WorkSpaces Image.  In the China
-(Ningxia) Region, you can copy images only within the same Region. In the AWS GovCloud
-(US-West) Region, to copy images to and from other AWS Regions, contact AWS Support.
-Before copying a shared image, be sure to verify that it has been shared from the correct
-AWS account. To determine if an image has been shared and to see the AWS account ID that
-owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API
-operations.
+information about copying images, see  Copy a Custom WorkSpaces Image. In the China
+(Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services
+GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services
+Support.  Before copying a shared image, be sure to verify that it has been shared from the
+correct Amazon Web Services account. To determine if an image has been shared and to see
+the ID of the Amazon Web Services account that owns an image, use the
+DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
 
 # Arguments
 - `name`: The name of the image.
@@ -201,9 +201,9 @@ information, see  Cross-Region Redirection for Amazon WorkSpaces.
 # Arguments
 - `connection_string`: A connection string in the form of a fully qualified domain name
   (FQDN), such as www.example.com.  After you create a connection string, it is always
-  associated to your AWS account. You cannot recreate the same connection string with a
-  different account, even if you delete all instances of it from the original account. The
-  connection string is globally reserved for your account.
+  associated to your Amazon Web Services account. You cannot recreate the same connection
+  string with a different account, even if you delete all instances of it from the original
+  account. The connection string is globally reserved for your account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -314,6 +314,67 @@ function create_tags(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_updated_workspace_image(description, name, source_image_id)
+    create_updated_workspace_image(description, name, source_image_id, params::Dict{String,<:Any})
+
+Creates a new updated WorkSpace image based on the specified source image. The new updated
+WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces
+components. To determine which WorkSpace images need to be updated with the latest Amazon
+WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10 WorkSpace images
+can be programmatically updated at this time.   Microsoft Windows updates and other
+application updates are not included in the update process.   The source WorkSpace image is
+not deleted. You can delete the source image after you've verified your new updated image
+and created a new bundle.
+
+# Arguments
+- `description`: A description of whether updates for the WorkSpace image are available.
+- `name`: The name of the new updated WorkSpace image.
+- `source_image_id`: The identifier of the source WorkSpace image.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tags that you want to add to the new updated WorkSpace image.  To add tags
+  at the same time when you're creating the updated image, you must create an IAM policy that
+  grants your IAM user permissions to use workspaces:CreateTags.
+"""
+function create_updated_workspace_image(
+    Description, Name, SourceImageId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "CreateUpdatedWorkspaceImage",
+        Dict{String,Any}(
+            "Description" => Description, "Name" => Name, "SourceImageId" => SourceImageId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_updated_workspace_image(
+    Description,
+    Name,
+    SourceImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateUpdatedWorkspaceImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Description" => Description,
+                    "Name" => Name,
+                    "SourceImageId" => SourceImageId,
+                ),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -602,9 +663,9 @@ you must remove them before you can deregister the directory.  Simple AD and AD 
 are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces
 being used with your Simple AD or AD Connector directory for 30 consecutive days, this
 directory will be automatically deregistered for use with Amazon WorkSpaces, and you will
-be charged for this directory as per the AWS Directory Services pricing terms. To delete
-empty directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple
-AD or AD Connector directory, you can always create a new one when you want to start using
+be charged for this directory as per the Directory Service pricing terms. To delete empty
+directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or
+AD Connector directory, you can always create a new one when you want to start using
 WorkSpaces again.
 
 # Arguments
@@ -728,9 +789,9 @@ end
     describe_connection_alias_permissions(alias_id)
     describe_connection_alias_permissions(alias_id, params::Dict{String,<:Any})
 
-Describes the permissions that the owner of a connection alias has granted to another AWS
-account for the specified connection alias. For more information, see  Cross-Region
-Redirection for Amazon WorkSpaces.
+Describes the permissions that the owner of a connection alias has granted to another
+Amazon Web Services account for the specified connection alias. For more information, see
+Cross-Region Redirection for Amazon WorkSpaces.
 
 # Arguments
 - `alias_id`: The identifier of the connection alias.
@@ -868,8 +929,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. (You received this token from a
   previous call.)
 - `"Owner"`: The owner of the bundles. You cannot combine this parameter with any other
-  filter. To describe the bundles provided by AWS, specify AMAZON. To describe the bundles
-  that belong to your account, don't specify a value.
+  filter. To describe the bundles provided by Amazon Web Services, specify AMAZON. To
+  describe the bundles that belong to your account, don't specify a value.
 """
 function describe_workspace_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces(
@@ -923,8 +984,8 @@ end
     describe_workspace_image_permissions(image_id)
     describe_workspace_image_permissions(image_id, params::Dict{String,<:Any})
 
-Describes the permissions that the owner of an image has granted to other AWS accounts for
-an image.
+Describes the permissions that the owner of an image has granted to other Amazon Web
+Services accounts for an image.
 
 # Arguments
 - `image_id`: The identifier of the image.
@@ -1096,9 +1157,9 @@ end
     disassociate_connection_alias(alias_id, params::Dict{String,<:Any})
 
 Disassociates a connection alias from a directory. Disassociating a connection alias
-disables cross-Region redirection between two directories in different AWS Regions. For
-more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing
-this operation, call  DescribeConnectionAliases to make sure that the current state of the
+disables cross-Region redirection between two directories in different Regions. For more
+information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this
+operation, call  DescribeConnectionAliases to make sure that the current state of the
 connection alias is CREATED.
 
 # Arguments
@@ -1172,9 +1233,9 @@ end
     import_workspace_image(ec2_image_id, image_description, image_name, ingestion_process, params::Dict{String,<:Any})
 
 Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon
-WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your AWS
-account, and you must own the image. For more information about creating BYOL images, see
-Bring Your Own Windows Desktop Licenses.
+WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon
+Web Services account, and you must own the image. For more information about creating BYOL
+images, see  Bring Your Own Windows Desktop Licenses.
 
 # Arguments
 - `ec2_image_id`: The identifier of the EC2 image.
@@ -1247,11 +1308,11 @@ end
 
 Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for
 the network management interface when you enable Bring Your Own License (BYOL).  This
-operation can be run only by AWS accounts that are enabled for BYOL. If your account isn't
-enabled for BYOL, you'll receive an AccessDeniedException error. The management network
-interface is connected to a secure Amazon WorkSpaces management network. It is used for
-interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow
-Amazon WorkSpaces to manage the WorkSpace.
+operation can be run only by Amazon Web Services accounts that are enabled for BYOL. If
+your account isn't enabled for BYOL, you'll receive an AccessDeniedException error. The
+management network interface is connected to a secure Amazon WorkSpaces management network.
+It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients,
+and to allow Amazon WorkSpaces to manage the WorkSpace.
 
 # Arguments
 - `management_cidr_range_constraint`: The IP address range to search. Specify an IP address
@@ -1772,10 +1833,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   OperationNotSupportedException error.
 - `"Tags"`: The tags associated with the directory.
 - `"Tenancy"`: Indicates whether your WorkSpace directory is dedicated or shared. To use
-  Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your AWS
-  account must be enabled for BYOL. If your account has not been enabled for BYOL, you will
-  receive an InvalidParameterValuesException error. For more information about BYOL images,
-  see Bring Your Own Windows Desktop Images.
+  Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon
+  Web Services account must be enabled for BYOL. If your account has not been enabled for
+  BYOL, you will receive an InvalidParameterValuesException error. For more information about
+  BYOL images, see Bring Your Own Windows Desktop Images.
 """
 function register_workspace_directory(
     DirectoryId, EnableWorkDocs; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1973,19 +2034,20 @@ end
 
 Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and
 cannot be undone. The user's data is destroyed. If you need to archive any user data,
-contact AWS Support before terminating the WorkSpace.  You can terminate a WorkSpace that
-is in any state except SUSPENDED. This operation is asynchronous and returns before the
-WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED
-state is returned only briefly before the WorkSpace directory metadata is cleaned up, so
-this state is rarely returned. To confirm that a WorkSpace is terminated, check for the
-WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the
-WorkSpace has been successfully terminated.  Simple AD and AD Connector are made available
-to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with
-your Simple AD or AD Connector directory for 30 consecutive days, this directory will be
-automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this
-directory as per the AWS Directory Services pricing terms. To delete empty directories, see
- Delete the Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector
-directory, you can always create a new one when you want to start using WorkSpaces again.
+contact Amazon Web Services Support before terminating the WorkSpace.  You can terminate a
+WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns
+before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the
+TERMINATED state is returned only briefly before the WorkSpace directory metadata is
+cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated,
+check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't
+returned, then the WorkSpace has been successfully terminated.  Simple AD and AD Connector
+are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces
+being used with your Simple AD or AD Connector directory for 30 consecutive days, this
+directory will be automatically deregistered for use with Amazon WorkSpaces, and you will
+be charged for this directory as per the Directory Service pricing terms. To delete empty
+directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or
+AD Connector directory, you can always create a new one when you want to start using
+WorkSpaces again.
 
 # Arguments
 - `terminate_workspace_requests`: The WorkSpaces to terminate. You can specify up to 25
@@ -2043,7 +2105,7 @@ any accounts or associated with any directories.
 - `alias_id`: The identifier of the connection alias that you want to update permissions
   for.
 - `connection_alias_permission`: Indicates whether to share or unshare the connection alias
-  with the specified AWS account.
+  with the specified Amazon Web Services account.
 
 """
 function update_connection_alias_permission(
@@ -2158,26 +2220,26 @@ end
     update_workspace_image_permission(allow_copy_image, image_id, shared_account_id)
     update_workspace_image_permission(allow_copy_image, image_id, shared_account_id, params::Dict{String,<:Any})
 
-Shares or unshares an image with one account in the same AWS Region by specifying whether
-that account has permission to copy the image. If the copy image permission is granted, the
-image is shared with that account. If the copy image permission is revoked, the image is
-unshared with the account. After an image has been shared, the recipient account can copy
-the image to other AWS Regions as needed.  In the China (Ningxia) Region, you can copy
-images only within the same Region. In the AWS GovCloud (US-West) Region, to copy images to
-and from other AWS Regions, contact AWS Support.  For more information about sharing
-images, see  Share or Unshare a Custom WorkSpaces Image.    To delete an image that has
-been shared, you must unshare the image before you delete it.   Sharing Bring Your Own
-License (BYOL) images across AWS accounts isn't supported at this time in the AWS GovCloud
-(US-West) Region. To share BYOL images across accounts in the AWS GovCloud (US-West)
-Region, contact AWS Support.
+Shares or unshares an image with one account in the same Amazon Web Services Region by
+specifying whether that account has permission to copy the image. If the copy image
+permission is granted, the image is shared with that account. If the copy image permission
+is revoked, the image is unshared with the account. After an image has been shared, the
+recipient account can copy the image to other Regions as needed. In the China (Ningxia)
+Region, you can copy images only within the same Region. In Amazon Web Services GovCloud
+(US), to copy images to and from other Regions, contact Amazon Web Services Support. For
+more information about sharing images, see  Share or Unshare a Custom WorkSpaces Image.
+To delete an image that has been shared, you must unshare the image before you delete it.
+Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't
+supported at this time in Amazon Web Services GovCloud (US). To share BYOL images across
+accounts in Amazon Web Services GovCloud (US), contact Amazon Web Services Support.
 
 # Arguments
 - `allow_copy_image`: The permission to copy the image. This permission can be revoked only
   after an image has been shared.
 - `image_id`: The identifier of the image.
-- `shared_account_id`: The identifier of the AWS account to share or unshare the image
-  with.  Before sharing the image, confirm that you are sharing to the correct AWS account
-  ID.
+- `shared_account_id`: The identifier of the Amazon Web Services account to share or
+  unshare the image with.  Before sharing the image, confirm that you are sharing to the
+  correct Amazon Web Services account ID.
 
 """
 function update_workspace_image_permission(

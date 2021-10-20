@@ -8,7 +8,7 @@ using AWS.UUIDs
     associate_custom_domain(domain_name, service_arn)
     associate_custom_domain(domain_name, service_arn, params::Dict{String,<:Any})
 
-Associate your own domain name with the AWS App Runner subdomain URL of your App Runner
+Associate your own domain name with the App Runner subdomain URL of your App Runner
 service. After you call AssociateCustomDomain and receive a successful response, use the
 information in the CustomDomain record that's returned to add CNAME records to your Domain
 Name System (DNS). For each mapped domain name, add a mapping to the target App Runner
@@ -62,22 +62,22 @@ end
     create_auto_scaling_configuration(auto_scaling_configuration_name)
     create_auto_scaling_configuration(auto_scaling_configuration_name, params::Dict{String,<:Any})
 
-Create an AWS App Runner automatic scaling configuration resource. App Runner requires this
+Create an App Runner automatic scaling configuration resource. App Runner requires this
 resource when you create App Runner services that require non-default auto scaling
 settings. You can share an auto scaling configuration across multiple services. Create
 multiple revisions of a configuration by using the same AutoScalingConfigurationName and
 different AutoScalingConfigurationRevision values. When you create a service, you can set
 it to use the latest active revision of an auto scaling configuration or a specific
 revision. Configure a higher MinSize to increase the spread of your App Runner service over
-more Availability Zones in the AWS Region. The tradeoff is a higher minimal cost. Configure
-a lower MaxSize to control your cost. The tradeoff is lower responsiveness during peak
-demand.
+more Availability Zones in the Amazon Web Services Region. The tradeoff is a higher minimal
+cost. Configure a lower MaxSize to control your cost. The tradeoff is lower responsiveness
+during peak demand.
 
 # Arguments
 - `auto_scaling_configuration_name`: A name for the auto scaling configuration. When you
-  use it for the first time in an AWS Region, App Runner creates revision number 1 of this
-  name. When you use the same name in subsequent calls, App Runner creates incremental
-  revisions of the configuration.
+  use it for the first time in an Amazon Web Services Region, App Runner creates revision
+  number 1 of this name. When you use the same name in subsequent calls, App Runner creates
+  incremental revisions of the configuration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -131,15 +131,15 @@ end
     create_connection(connection_name, provider_type)
     create_connection(connection_name, provider_type, params::Dict{String,<:Any})
 
-Create an AWS App Runner connection resource. App Runner requires a connection resource
-when you create App Runner services that access private repositories from certain
-third-party providers. You can share a connection across multiple services. A connection
-resource is needed to access GitHub repositories. GitHub requires a user interface approval
-process through the App Runner console before you can use the connection.
+Create an App Runner connection resource. App Runner requires a connection resource when
+you create App Runner services that access private repositories from certain third-party
+providers. You can share a connection across multiple services. A connection resource is
+needed to access GitHub repositories. GitHub requires a user interface approval process
+through the App Runner console before you can use the connection.
 
 # Arguments
 - `connection_name`: A name for the new connection. It must be unique across all App Runner
-  connections for the AWS account in the AWS Region.
+  connections for the Amazon Web Services account in the Amazon Web Services Region.
 - `provider_type`: The source repository provider.
 
 # Optional Parameters
@@ -185,14 +185,13 @@ end
     create_service(service_name, source_configuration)
     create_service(service_name, source_configuration, params::Dict{String,<:Any})
 
-Create an AWS App Runner service. After the service is created, the action also
-automatically starts a deployment. This is an asynchronous operation. On a successful call,
-you can use the returned OperationId and the ListOperations call to track the operation's
-progress.
+Create an App Runner service. After the service is created, the action also automatically
+starts a deployment. This is an asynchronous operation. On a successful call, you can use
+the returned OperationId and the ListOperations call to track the operation's progress.
 
 # Arguments
 - `service_name`: A name for the new service. It must be unique across all the running App
-  Runner services in your AWS account in the AWS Region.
+  Runner services in your Amazon Web Services account in the Amazon Web Services Region.
 - `source_configuration`: The source to deploy to the App Runner service. It can be a code
   or an image repository.
 
@@ -204,9 +203,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration.
 - `"EncryptionConfiguration"`: An optional custom encryption key that App Runner uses to
   encrypt the copy of your source repository that it maintains and your service logs. By
-  default, App Runner uses an AWS managed CMK.
-- `"HealthCheckConfiguration"`: The settings for the health check that AWS App Runner
-  performs to monitor the health of your service.
+  default, App Runner uses an Amazon Web Services managed CMK.
+- `"HealthCheckConfiguration"`: The settings for the health check that App Runner performs
+  to monitor the health of your service.
 - `"InstanceConfiguration"`: The runtime configuration of instances (scaling units) of the
   App Runner service.
 - `"Tags"`: An optional list of metadata items that you can associate with your service
@@ -251,9 +250,9 @@ end
     delete_auto_scaling_configuration(auto_scaling_configuration_arn)
     delete_auto_scaling_configuration(auto_scaling_configuration_arn, params::Dict{String,<:Any})
 
-Delete an AWS App Runner automatic scaling configuration resource. You can delete a
-specific revision or the latest active revision. You can't delete a configuration that's
-used by one or more App Runner services.
+Delete an App Runner automatic scaling configuration resource. You can delete a specific
+revision or the latest active revision. You can't delete a configuration that's used by one
+or more App Runner services.
 
 # Arguments
 - `auto_scaling_configuration_arn`: The Amazon Resource Name (ARN) of the App Runner auto
@@ -297,9 +296,8 @@ end
     delete_connection(connection_arn)
     delete_connection(connection_arn, params::Dict{String,<:Any})
 
-Delete an AWS App Runner connection. You must first ensure that there are no running App
-Runner services that use this connection. If there are any, the DeleteConnection action
-fails.
+Delete an App Runner connection. You must first ensure that there are no running App Runner
+services that use this connection. If there are any, the DeleteConnection action fails.
 
 # Arguments
 - `connection_arn`: The Amazon Resource Name (ARN) of the App Runner connection that you
@@ -333,8 +331,8 @@ end
     delete_service(service_arn)
     delete_service(service_arn, params::Dict{String,<:Any})
 
-Delete an AWS App Runner service. This is an asynchronous operation. On a successful call,
-you can use the returned OperationId and the ListOperations call to track the operation's
+Delete an App Runner service. This is an asynchronous operation. On a successful call, you
+can use the returned OperationId and the ListOperations call to track the operation's
 progress.
 
 # Arguments
@@ -369,7 +367,7 @@ end
     describe_auto_scaling_configuration(auto_scaling_configuration_arn)
     describe_auto_scaling_configuration(auto_scaling_configuration_arn, params::Dict{String,<:Any})
 
-Return a full description of an AWS App Runner automatic scaling configuration resource.
+Return a full description of an App Runner automatic scaling configuration resource.
 
 # Arguments
 - `auto_scaling_configuration_arn`: The Amazon Resource Name (ARN) of the App Runner auto
@@ -413,8 +411,7 @@ end
     describe_custom_domains(service_arn)
     describe_custom_domains(service_arn, params::Dict{String,<:Any})
 
-Return a description of custom domain names that are associated with an AWS App Runner
-service.
+Return a description of custom domain names that are associated with an App Runner service.
 
 # Arguments
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want
@@ -459,7 +456,7 @@ end
     describe_service(service_arn)
     describe_service(service_arn, params::Dict{String,<:Any})
 
-Return a full description of an AWS App Runner service.
+Return a full description of an App Runner service.
 
 # Arguments
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want a
@@ -493,9 +490,9 @@ end
     disassociate_custom_domain(domain_name, service_arn)
     disassociate_custom_domain(domain_name, service_arn, params::Dict{String,<:Any})
 
-Disassociate a custom domain name from an AWS App Runner service. Certificates tracking
-domain validity are associated with a custom domain and are stored in AWS Certificate
-Manager (ACM). These certificates aren't deleted as part of this action. App Runner delays
+Disassociate a custom domain name from an App Runner service. Certificates tracking domain
+validity are associated with a custom domain and are stored in AWS Certificate Manager
+(ACM). These certificates aren't deleted as part of this action. App Runner delays
 certificate deletion for 30 days after a domain is disassociated from your service.
 
 # Arguments
@@ -538,10 +535,10 @@ end
     list_auto_scaling_configurations()
     list_auto_scaling_configurations(params::Dict{String,<:Any})
 
-Returns a list of AWS App Runner automatic scaling configurations in your AWS account. You
-can query the revisions for a specific configuration name or the revisions for all
-configurations in your account. You can optionally query only the latest revision of each
-requested name.
+Returns a list of App Runner automatic scaling configurations in your Amazon Web Services
+account. You can query the revisions for a specific configuration name or the revisions for
+all configurations in your account. You can optionally query only the latest revision of
+each requested name.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -583,7 +580,8 @@ end
     list_connections()
     list_connections(params::Dict{String,<:Any})
 
-Returns a list of AWS App Runner connections that are associated with your AWS account.
+Returns a list of App Runner connections that are associated with your Amazon Web Services
+account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -614,9 +612,9 @@ end
     list_operations(service_arn)
     list_operations(service_arn, params::Dict{String,<:Any})
 
-Return a list of operations that occurred on an AWS App Runner service. The resulting list
-of OperationSummary objects is sorted in reverse chronological order. The first object on
-the list represents the last started operation.
+Return a list of operations that occurred on an App Runner service. The resulting list of
+OperationSummary objects is sorted in reverse chronological order. The first object on the
+list represents the last started operation.
 
 # Arguments
 - `service_arn`: The Amazon Resource Name (ARN) of the App Runner service that you want a
@@ -659,7 +657,7 @@ end
     list_services()
     list_services(params::Dict{String,<:Any})
 
-Returns a list of running AWS App Runner services in your AWS account.
+Returns a list of running App Runner services in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -686,8 +684,8 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-List tags that are associated with for an AWS App Runner resource. The response contains a
-list of tag key-value pairs.
+List tags that are associated with for an App Runner resource. The response contains a list
+of tag key-value pairs.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that a tag list is
@@ -723,9 +721,9 @@ end
     pause_service(service_arn)
     pause_service(service_arn, params::Dict{String,<:Any})
 
-Pause an active AWS App Runner service. App Runner reduces compute capacity for the service
-to zero and loses state (for example, ephemeral storage is removed). This is an
-asynchronous operation. On a successful call, you can use the returned OperationId and the
+Pause an active App Runner service. App Runner reduces compute capacity for the service to
+zero and loses state (for example, ephemeral storage is removed). This is an asynchronous
+operation. On a successful call, you can use the returned OperationId and the
 ListOperations call to track the operation's progress.
 
 # Arguments
@@ -760,7 +758,7 @@ end
     resume_service(service_arn)
     resume_service(service_arn, params::Dict{String,<:Any})
 
-Resume an active AWS App Runner service. App Runner provisions compute capacity for the
+Resume an active App Runner service. App Runner provisions compute capacity for the
 service. This is an asynchronous operation. On a successful call, you can use the returned
 OperationId and the ListOperations call to track the operation's progress.
 
@@ -797,11 +795,11 @@ end
     start_deployment(service_arn, params::Dict{String,<:Any})
 
 Initiate a manual deployment of the latest commit in a source code repository or the latest
-image in a source image repository to an AWS App Runner service. For a source code
-repository, App Runner retrieves the commit and builds a Docker image. For a source image
-repository, App Runner retrieves the latest Docker image. In both cases, App Runner then
-deploys the new image to your service and starts a new container instance. This is an
-asynchronous operation. On a successful call, you can use the returned OperationId and the
+image in a source image repository to an App Runner service. For a source code repository,
+App Runner retrieves the commit and builds a Docker image. For a source image repository,
+App Runner retrieves the latest Docker image. In both cases, App Runner then deploys the
+new image to your service and starts a new container instance. This is an asynchronous
+operation. On a successful call, you can use the returned OperationId and the
 ListOperations call to track the operation's progress.
 
 # Arguments
@@ -920,7 +918,7 @@ end
     update_service(service_arn)
     update_service(service_arn, params::Dict{String,<:Any})
 
-Update an AWS App Runner service. You can update the source configuration and instance
+Update an App Runner service. You can update the source configuration and instance
 configuration of the service. You can also update the ARN of the auto scaling configuration
 resource that's associated with the service. However, you can't change the name or the
 encryption configuration of the service. These can be set only when you create the service.
@@ -936,8 +934,8 @@ returned OperationId and the ListOperations call to track the operation's progre
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoScalingConfigurationArn"`: The Amazon Resource Name (ARN) of an App Runner
   automatic scaling configuration resource that you want to associate with your service.
-- `"HealthCheckConfiguration"`: The settings for the health check that AWS App Runner
-  performs to monitor the health of your service.
+- `"HealthCheckConfiguration"`: The settings for the health check that App Runner performs
+  to monitor the health of your service.
 - `"InstanceConfiguration"`: The runtime configuration to apply to instances (scaling
   units) of the App Runner service.
 - `"SourceConfiguration"`: The source configuration to apply to the App Runner service. You

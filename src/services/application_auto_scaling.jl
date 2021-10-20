@@ -19,8 +19,8 @@ scaling policy in the Application Auto Scaling User Guide.
 - `resource_id`: The identifier of the resource associated with the scalable target. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet request - The resource type is
-  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
+  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
+  the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -29,11 +29,11 @@ scaling policy in the Application Auto Scaling User Guide.
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -50,21 +50,23 @@ scaling policy in the Application Auto Scaling User Guide.
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
   instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The
-  target capacity of a Spot Fleet request.    appstream:fleet:DesiredCapacity - The desired
-  capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned
-  read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned
-  write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned
-  read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits -
-  The provisioned write capacity for a DynamoDB global secondary index.
+  target capacity of a Spot Fleet.    appstream:fleet:DesiredCapacity - The desired capacity
+  of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read
+  capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write
+  capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read
+  capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The
+  provisioned write capacity for a DynamoDB global secondary index.
   rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster.
   Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon
-  SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable
-  dimension for a custom resource provided by your own application or service.
+  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model
+  endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a
+  custom resource provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
   units for an Amazon Comprehend document classification endpoint.
   comprehend:entity-recognizer-endpoint:DesiredInferenceUnits - The number of inference units
@@ -76,7 +78,8 @@ scaling policy in the Application Auto Scaling User Guide.
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
@@ -139,8 +142,8 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
 - `resource_id`: The identifier of the resource associated with the scheduled action. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet request - The resource type is
-  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
+  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
+  the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -149,11 +152,11 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -170,21 +173,23 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
   instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The
-  target capacity of a Spot Fleet request.    appstream:fleet:DesiredCapacity - The desired
-  capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned
-  read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned
-  write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned
-  read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits -
-  The provisioned write capacity for a DynamoDB global secondary index.
+  target capacity of a Spot Fleet.    appstream:fleet:DesiredCapacity - The desired capacity
+  of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read
+  capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write
+  capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read
+  capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The
+  provisioned write capacity for a DynamoDB global secondary index.
   rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster.
   Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon
-  SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable
-  dimension for a custom resource provided by your own application or service.
+  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model
+  endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a
+  custom resource provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
   units for an Amazon Comprehend document classification endpoint.
   comprehend:entity-recognizer-endpoint:DesiredInferenceUnits - The number of inference units
@@ -196,7 +201,8 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 - `scheduled_action_name`: The name of the scheduled action.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
@@ -262,8 +268,8 @@ with it.
 - `resource_id`: The identifier of the resource associated with the scalable target. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet request - The resource type is
-  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
+  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
+  the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -272,11 +278,11 @@ with it.
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -293,11 +299,13 @@ with it.
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
   elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
-     ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
+     ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
   appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
   dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
   dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.
@@ -306,7 +314,7 @@ with it.
   a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
   Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
   PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
-  EC2 instances for an Amazon SageMaker model endpoint variant.
+  EC2 instances for an SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -320,7 +328,8 @@ with it.
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
@@ -391,8 +400,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceIds"`: The identifier of the resource associated with the scalable target. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet request - The resource type is
-  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
+  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
+  the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -401,11 +410,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -422,12 +431,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `"ScalableDimension"`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property. If you
   specify a scalable dimension, you must also specify a resource ID.
   ecs:service:DesiredCount - The desired task count of an ECS service.
   elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
-     ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
+     ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
   appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
   dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
   dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.
@@ -436,7 +447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
   Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
   PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
-  EC2 instances for an Amazon SageMaker model endpoint variant.
+  EC2 instances for an SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -450,7 +461,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 """
 function describe_scalable_targets(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -503,8 +515,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceId"`: The identifier of the resource associated with the scaling activity. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet request - The resource type is
-  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
+  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
+  the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -513,11 +525,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -534,20 +546,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
   ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
   Instance Group.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot
-  Fleet request.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream
-  2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a
-  DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a
-  DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a
-  DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned
-  write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The
-  count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible
-  edition and Aurora PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount
-  - The number of EC2 instances for an Amazon SageMaker model endpoint variant.
+  Fleet.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+     dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
+   dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.
+   dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global
+  secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for
+  a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
+  Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
+  PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
+  EC2 instances for an SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -561,7 +575,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 """
 function describe_scaling_activities(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -607,17 +622,17 @@ Application Auto Scaling User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of scalable targets. This value can be between 1 and
-  50. The default value is 50. If this parameter is used, the operation returns up to
+  10. The default value is 10. If this parameter is used, the operation returns up to
   MaxResults results at a time, along with a NextToken value. To get the next set of results,
   include the NextToken value in a subsequent call. If this parameter is not used, the
-  operation returns up to 50 results and a NextToken value, if applicable.
+  operation returns up to 10 results and a NextToken value, if applicable.
 - `"NextToken"`: The token for the next set of results.
 - `"PolicyNames"`: The names of the scaling policies to describe.
 - `"ResourceId"`: The identifier of the resource associated with the scaling policy. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet request - The resource type is
-  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
+  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
+  the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -626,11 +641,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -647,20 +662,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
   ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
   Instance Group.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot
-  Fleet request.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream
-  2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a
-  DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a
-  DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a
-  DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned
-  write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The
-  count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible
-  edition and Aurora PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount
-  - The number of EC2 instances for an Amazon SageMaker model endpoint variant.
+  Fleet.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+     dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
+   dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.
+   dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global
+  secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for
+  a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
+  Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
+  PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
+  EC2 instances for an SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -674,7 +691,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 """
 function describe_scaling_policies(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -728,8 +746,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceId"`: The identifier of the resource associated with the scheduled action. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet request - The resource type is
-  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
+  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
+  the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -738,11 +756,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -759,20 +777,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
   ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
   Instance Group.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot
-  Fleet request.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream
-  2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a
-  DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a
-  DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a
-  DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned
-  write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The
-  count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible
-  edition and Aurora PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount
-  - The number of EC2 instances for an Amazon SageMaker model endpoint variant.
+  Fleet.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+     dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
+   dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.
+   dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global
+  secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for
+  a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
+  Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
+  PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
+  EC2 instances for an SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -786,7 +806,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
 function describe_scheduled_actions(
@@ -847,8 +868,8 @@ scaling policies that were specified for the scalable target are deleted.
 - `resource_id`: The identifier of the resource associated with the scaling policy. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet request - The resource type is
-  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
+  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
+  the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -857,11 +878,11 @@ scaling policies that were specified for the scalable target are deleted.
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -878,21 +899,23 @@ scaling policies that were specified for the scalable target are deleted.
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
   instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The
-  target capacity of a Spot Fleet request.    appstream:fleet:DesiredCapacity - The desired
-  capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned
-  read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned
-  write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned
-  read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits -
-  The provisioned write capacity for a DynamoDB global secondary index.
+  target capacity of a Spot Fleet.    appstream:fleet:DesiredCapacity - The desired capacity
+  of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read
+  capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write
+  capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read
+  capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The
+  provisioned write capacity for a DynamoDB global secondary index.
   rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster.
   Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon
-  SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable
-  dimension for a custom resource provided by your own application or service.
+  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model
+  endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a
+  custom resource provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
   units for an Amazon Comprehend document classification endpoint.
   comprehend:entity-recognizer-endpoint:DesiredInferenceUnits - The number of inference units
@@ -904,7 +927,8 @@ scaling policies that were specified for the scalable target are deleted.
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
@@ -914,9 +938,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyType"`: The policy type. This parameter is required if you are creating a scaling
   policy. The following policy types are supported:   TargetTrackingScaling—Not supported
   for Amazon EMR  StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon
-  Keyspaces (for Apache Cassandra), Amazon MSK, or Amazon ElastiCache for Redis. For more
-  information, see Target tracking scaling policies and Step scaling policies in the
-  Application Auto Scaling User Guide.
+  Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see Target
+  tracking scaling policies and Step scaling policies in the Application Auto Scaling User
+  Guide.
 - `"StepScalingPolicyConfiguration"`: A step scaling policy. This parameter is required if
   you are creating a policy and the policy type is StepScaling.
 - `"TargetTrackingScalingPolicyConfiguration"`: A target tracking scaling policy. Includes
@@ -989,8 +1013,8 @@ scheduled actions that were specified for the scalable target are deleted.
 - `resource_id`: The identifier of the resource associated with the scheduled action. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet request - The resource type is
-  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
+  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
+  the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -999,11 +1023,11 @@ scheduled actions that were specified for the scalable target are deleted.
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -1020,21 +1044,23 @@ scheduled actions that were specified for the scalable target are deleted.
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
   instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The
-  target capacity of a Spot Fleet request.    appstream:fleet:DesiredCapacity - The desired
-  capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned
-  read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned
-  write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned
-  read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits -
-  The provisioned write capacity for a DynamoDB global secondary index.
+  target capacity of a Spot Fleet.    appstream:fleet:DesiredCapacity - The desired capacity
+  of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read
+  capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write
+  capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read
+  capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The
+  provisioned write capacity for a DynamoDB global secondary index.
   rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster.
   Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an Amazon
-  SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable
-  dimension for a custom resource provided by your own application or service.
+  sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model
+  endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a
+  custom resource provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
   units for an Amazon Comprehend document classification endpoint.
   comprehend:entity-recognizer-endpoint:DesiredInferenceUnits - The number of inference units
@@ -1046,7 +1072,8 @@ scheduled actions that were specified for the scalable target are deleted.
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 - `scheduled_action_name`: The name of the scheduled action. This name must be unique among
   all other scheduled actions on the specified scalable target.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
@@ -1139,13 +1166,17 @@ using DescribeScalableTargets. If you no longer need a scalable target, you can 
 it by using DeregisterScalableTarget. To update a scalable target, specify the parameters
 that you want to change. Include the parameters that identify the scalable target: resource
 ID, scalable dimension, and namespace. Any parameters that you don't specify are not
-changed by this update request.
+changed by this update request.   If you call the RegisterScalableTarget API to update an
+existing scalable target, Application Auto Scaling retrieves the current capacity of the
+resource. If it is below the minimum capacity or above the maximum capacity, Application
+Auto Scaling adjusts the capacity of the scalable target to place it within these bounds,
+even if you don't include the MinCapacity or MaxCapacity request parameters.
 
 # Arguments
 - `resource_id`: The identifier of the resource that is associated with the scalable
   target. This string consists of the resource type and unique identifier.   ECS service -
   The resource type is service and the unique identifier is the cluster name and service
-  name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is
+  name. Example: service/default/sample-webapp.   Spot Fleet - The resource type is
   spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
@@ -1155,11 +1186,11 @@ changed by this update request.
   is the table name. Example: table/my-table.   DynamoDB global secondary index - The
   resource type is index and the unique identifier is the index name. Example:
   table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and
-  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon
-  SageMaker endpoint variant - The resource type is variant and the unique identifier is the
-  resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources
-  are not supported with a resource type. This parameter must specify the OutputValue from
-  the CloudFormation template stack used to access the resources. The unique identifier is
+  the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker
+  endpoint variant - The resource type is variant and the unique identifier is the resource
+  ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not
+  supported with a resource type. This parameter must specify the OutputValue from the
+  CloudFormation template stack used to access the resources. The unique identifier is
   defined by the service provider. More information is available in our GitHub repository.
   Amazon Comprehend document classification endpoint - The resource type and unique
   identifier are specified using the endpoint ARN. Example:
@@ -1176,11 +1207,13 @@ changed by this update request.
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
+   Neptune cluster - The resource type is cluster and the unique identifier is the cluster
+  name. Example: cluster:mycluster.
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
   elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
-     ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
+     ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
   appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
   dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
   dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.
@@ -1189,7 +1222,7 @@ changed by this update request.
   a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora
   Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora
   PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of
-  EC2 instances for an Amazon SageMaker model endpoint variant.
+  EC2 instances for an SageMaker model endpoint variant.
   custom-resource:ResourceType:Property - The scalable dimension for a custom resource
   provided by your own application or service.
   comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference
@@ -1203,7 +1236,8 @@ changed by this update request.
   (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups
   - The number of node groups for an Amazon ElastiCache replication group.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
-  Amazon ElastiCache replication group.
+  Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
+  read replicas in an Amazon Neptune DB cluster.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.

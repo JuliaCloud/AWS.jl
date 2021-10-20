@@ -1060,6 +1060,8 @@ Creates a media capture pipeline.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ChimeSdkMeetingConfiguration"`: The configuration for a specified media capture
+  pipeline. SourceType must be ChimeSdkMeeting.
 - `"ClientRequestToken"`: The token assigned to the client making the pipeline request.
 """
 function create_media_capture_pipeline(
@@ -7116,50 +7118,25 @@ function update_channel_read_marker(
 end
 
 """
-    update_global_settings(business_calling, voice_connector)
-    update_global_settings(business_calling, voice_connector, params::Dict{String,<:Any})
+    update_global_settings()
+    update_global_settings(params::Dict{String,<:Any})
 
 Updates global settings for the administrator's AWS account, such as Amazon Chime Business
 Calling and Amazon Chime Voice Connector settings.
 
-# Arguments
-- `business_calling`: The Amazon Chime Business Calling settings.
-- `voice_connector`: The Amazon Chime Voice Connector settings.
-
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BusinessCalling"`: The Amazon Chime Business Calling settings.
+- `"VoiceConnector"`: The Amazon Chime Voice Connector settings.
 """
-function update_global_settings(
-    BusinessCalling, VoiceConnector; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
-        "PUT",
-        "/settings",
-        Dict{String,Any}(
-            "BusinessCalling" => BusinessCalling, "VoiceConnector" => VoiceConnector
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+function update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return chime("PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function update_global_settings(
-    BusinessCalling,
-    VoiceConnector,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return chime(
-        "PUT",
-        "/settings",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BusinessCalling" => BusinessCalling, "VoiceConnector" => VoiceConnector
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 

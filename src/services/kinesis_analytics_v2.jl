@@ -133,7 +133,7 @@ end
 
 Adds an InputProcessingConfiguration to a SQL-based Kinesis Data Analytics application. An
 input processor pre-processes records on the input stream before the application's SQL code
-executes. Currently, the only input processor available is AWS Lambda.
+executes. Currently, the only input processor available is Amazon Lambda.
 
 # Arguments
 - `application_name`: The name of the application to which you want to add the input
@@ -202,8 +202,8 @@ end
 Adds an external destination to your SQL-based Kinesis Data Analytics application. If you
 want Kinesis Data Analytics to deliver data from an in-application stream within your
 application to an external destination (such as an Kinesis data stream, a Kinesis Data
-Firehose delivery stream, or an AWS Lambda function), you add the relevant configuration to
-your application using this operation. You can configure one or more outputs for your
+Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration
+to your application using this operation. You can configure one or more outputs for your
 application. Each output configuration maps an in-application stream and an external
 destination.  You can use one of the output configurations to deliver data from your
 in-application error stream to an external destination so that you can analyze the errors.
@@ -220,8 +220,8 @@ to find the current application version.
   ConcurrentModificationException is returned.
 - `output`: An array of objects, each describing one output configuration. In the output
   configuration, you specify the name of an in-application stream, a destination (that is, a
-  Kinesis data stream, a Kinesis Data Firehose delivery stream, or an AWS Lambda function),
-  and record the formation to use when writing to the destination.
+  Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda
+  function), and record the formation to use when writing to the destination.
 
 """
 function add_application_output(
@@ -1223,7 +1223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of versions to list in this invocation of the operation.
 - `"NextToken"`: If a previous invocation of this operation returned a pagination token,
   pass it into this value to retrieve the next set of results. For more information about
-  pagination, see Using the AWS Command Line Interface's Pagination Options.
+  pagination, see Using the Amazon Command Line Interface's Pagination Options.
 """
 function list_application_versions(
     ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1266,7 +1266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of applications to list.
 - `"NextToken"`: If a previous command returned a pagination token, pass it into this value
   to retrieve the next set of results. For more information about pagination, see Using the
-  AWS Command Line Interface's Pagination Options.
+  Amazon Command Line Interface's Pagination Options.
 """
 function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
     return kinesis_analytics_v2(

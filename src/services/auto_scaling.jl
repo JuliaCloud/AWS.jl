@@ -595,7 +595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   optimized configuration stack to provide optimal I/O performance. This optimization is not
   available with all instance types. Additional fees are incurred when you enable EBS
   optimization for an instance type that is not EBS-optimized by default. For more
-  information, see Amazon EBS-Optimized Instances in the Amazon EC2 User Guide for Linux
+  information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide for Linux
   Instances. The default value is false.
 - `"IamInstanceProfile"`: The name or the Amazon Resource Name (ARN) of the instance
   profile associated with the IAM role for the instance. The instance profile contains the
@@ -1068,10 +1068,10 @@ end
     describe_account_limits(params::Dict{String,<:Any})
 
 Describes the current Amazon EC2 Auto Scaling resource quotas for your account. When you
-establish an account, the account has initial quotas on the maximum number of Auto Scaling
-groups and launch configurations that you can create in a given Region. For more
-information, see Amazon EC2 Auto Scaling service quotas in the Amazon EC2 Auto Scaling User
-Guide.
+establish an Amazon Web Services account, the account has initial quotas on the maximum
+number of Auto Scaling groups and launch configurations that you can create in a given
+Region. For more information, see Amazon EC2 Auto Scaling service quotas in the Amazon EC2
+Auto Scaling User Guide.
 
 """
 function describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1119,15 +1119,20 @@ end
     describe_auto_scaling_groups()
     describe_auto_scaling_groups(params::Dict{String,<:Any})
 
-Gets information about the Auto Scaling groups in the account and Region. This operation
-returns information about instances in Auto Scaling groups. To retrieve information about
-the instances in a warm pool, you must call the DescribeWarmPool API.
+Gets information about the Auto Scaling groups in the account and Region. If you specify
+Auto Scaling group names, the output includes information for only the specified Auto
+Scaling groups. If you specify filters, the output includes information for only those Auto
+Scaling groups that meet the filter criteria. If you do not specify group names or filters,
+the output includes information for all Auto Scaling groups.  This operation also returns
+information about instances in Auto Scaling groups. To retrieve information about the
+instances in a warm pool, you must call the DescribeWarmPool API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoScalingGroupNames"`: The names of the Auto Scaling groups. By default, you can only
   specify up to 50 names. You can optionally increase this limit using the MaxRecords
   parameter. If you omit this parameter, all Auto Scaling groups are described.
+- `"Filters"`: One or more filters to limit the results based on specific tags.
 - `"MaxRecords"`: The maximum number of items to return with this call. The default value
   is 50 and the maximum value is 100.
 - `"NextToken"`: The token for the next set of items to return. (You received this token

@@ -62,6 +62,81 @@ try
     @test sort(getindex.(objs_prefix["Contents"], "Key")) == ["empty", "myobject"]
     @test objs_prefix["CommonPrefixes"]["Prefix"] == "foo/"
 
+    # Duplicated testset from "test/issues.jl". Useful for testing outside the CI. Ideally,
+    # the tests should be revised such that local testing works without having to duplicate
+    # testsets.
+
+    @testset "issue 466" begin
+        file_name = "hang.txt"
+
+        try
+            S3.put_object("anewbucket", file_name)
+
+            # Note: Using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
+
+            stream = S3.get_object("anewbucket", file_name, Dict("return_stream" => true))
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test !isopen(stream)
+            else
+                @test isopen(stream)
+            end
+
+            stream = Base.BufferStream()
+            S3.get_object("anewbucket", file_name, Dict("response_stream" => stream))
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test !isopen(stream)
+            else
+                @test_broken isopen(stream)
+            end
+
+            stream = Base.BufferStream()
+            S3.get_object(
+                "anewbucket",
+                file_name,
+                Dict("response_stream" => stream, "return_stream" => true),
+            )
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test !isopen(stream)
+            else
+                @test isopen(stream)
+            end
+        finally
+            S3.delete_object("anewbucket", file_name)
+        end
+    end
+
+    @testset "issue 474" begin
+        body = "foo\0bar"
+        expected = Vector{UInt8}(body)
+        file_name = "null.txt"
+        bucket_name = "anewbucket"
+
+        try
+            S3.put_object(bucket_name, file_name, Dict("body" => body))
+
+            raw = S3.get_object(bucket_name, file_name, Dict("return_raw" => true))
+            @test raw isa Vector{UInt8}
+            @test raw == expected
+
+            stream = S3.get_object(bucket_name, file_name, Dict("return_stream" => true))
+            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+                @test stream isa Base.BufferStream
+                @test !isopen(stream)
+
+                if !isopen(stream)
+                    @test read(stream) == expected
+                end
+            else
+                @test stream isa IOBuffer
+                @test isopen(stream)
+                seekstart(stream)
+                @test read(stream) == expected
+            end
+        finally
+            S3.delete_object(bucket_name, file_name)
+        end
+    end
+
 finally
     # Delete all objects and the bucket
     objs = S3.list_objects_v2("anewbucket")

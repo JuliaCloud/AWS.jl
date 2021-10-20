@@ -286,11 +286,15 @@ function ec2_instance_credentials(profile::AbstractString)
     if duration !== nothing
         params["DurationSeconds"] = parse(Int, duration)
     end
-    resp = @mock AWSServices.sts(
-        "AssumeRole", params; aws_config=AWSConfig(; creds=instance_profile_creds)
+    response = @mock AWSServices.sts(
+        "AssumeRole",
+        params;
+        aws_config=AWSConfig(; creds=instance_profile_creds),
+        feature_set=FeatureSet(; use_response_type=true),
     )
-    role_creds = resp["AssumeRoleResult"]["Credentials"]
-    role_user = resp["AssumeRoleResult"]["AssumedRoleUser"]
+    dict = parse(response)
+    role_creds = dict["AssumeRoleResult"]["Credentials"]
+    role_user = dict["AssumeRoleResult"]["AssumedRoleUser"]
     return AWSCredentials(
         role_creds["AccessKeyId"],
         role_creds["SecretAccessKey"],
@@ -454,7 +458,7 @@ function localhost_is_ec2()
     # non-EC2 instance
     if @mock Sys.iswindows()
         command = `wmic path win32_computersystemproduct get uuid`
-        result = @mock Base.read(command, String)
+        result = @mock read(command, String)
         instance_uuid = strip(split(result, "\n")[2])
 
         return instance_uuid[1:3] == "EC2"
@@ -511,7 +515,7 @@ function credentials_from_webtoken()
         )
     end
 
-    resp = @mock AWSServices.sts(
+    response = @mock AWSServices.sts(
         "AssumeRoleWithWebIdentity",
         Dict(
             "RoleArn" => role_arn,
@@ -519,10 +523,12 @@ function credentials_from_webtoken()
             "WebIdentityToken" => web_identity,
         );
         aws_config=AWSConfig(; creds=nothing),
+        feature_set=FeatureSet(; use_response_type=true),
     )
+    dict = parse(response)
 
-    role_creds = resp["AssumeRoleWithWebIdentityResult"]["Credentials"]
-    assumed_role_user = resp["AssumeRoleWithWebIdentityResult"]["AssumedRoleUser"]
+    role_creds = dict["AssumeRoleWithWebIdentityResult"]["Credentials"]
+    assumed_role_user = dict["AssumeRoleWithWebIdentityResult"]["AssumedRoleUser"]
 
     return AWSCredentials(
         role_creds["AccessKeyId"],

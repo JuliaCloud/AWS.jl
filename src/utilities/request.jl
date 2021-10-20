@@ -19,7 +19,6 @@ function HTTPBackend(; kwargs...)
         HTTPBackend(LittleDict(kwargs))
     end
 end
-
 # populated in `__init__`
 const DEFAULT_BACKEND = Ref{AbstractBackend}()
 
@@ -33,12 +32,17 @@ Base.@kwdef mutable struct Request
     resource::String = ""
     url::String = ""
 
-    return_stream::Bool = false
-    response_stream::Union{<:IO,Nothing} = nothing
+    # Note: User provided `IO` should support seeking in order to support API error handling
+    response_stream::Union{IO,Nothing} = nothing
+
     http_options::AbstractDict{Symbol,<:Any} = LittleDict{Symbol,String}()
-    return_raw::Bool = false
-    response_dict_type::Type{<:AbstractDict} = LittleDict
     backend::AbstractBackend = DEFAULT_BACKEND[]
+
+    # Deprecated fields
+    use_response_type::Bool = false
+    return_stream::Union{Bool,Nothing} = nothing
+    return_raw::Union{Bool,Nothing} = nothing
+    response_dict_type::Union{Type{<:AbstractDict},Nothing} = nothing
 end
 
 """
@@ -51,15 +55,14 @@ Submit the request to AWS.
 - `request::Request`: All the information about making a request to AWS
 
 # Keywords
-- `return_headers::Bool=false`: True if you want the headers from the response returned back
+- `return_headers::Bool=false`: Set to `true` if you want the headers from the response returned back. Only
+  used if `request.use_response_type = false`.
 
 # Returns
-- `Tuple or Dict`: Tuple if returning_headers, otherwise just return a Dict of the response body
+- `AWS.Response`: A struct containing the response details
 """
-function submit_request(
-    aws::AbstractAWSConfig, request::Request; return_headers::Bool=false
-)
-    response = nothing
+function submit_request(aws::AbstractAWSConfig, request::Request; return_headers=nothing)
+    aws_response = nothing
     TOO_MANY_REQUESTS = 429
     EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
     REDIRECT_ERROR_CODES = [301, 302, 303, 304, 305, 307, 308]
@@ -77,27 +80,29 @@ function submit_request(
 
     request.headers["User-Agent"] = user_agent[]
     request.headers["Host"] = HTTP.URI(request.url).host
+    stream = @something request.response_stream IOBuffer()
 
     @repeat 3 try
         credentials(aws) === nothing || sign!(aws, request)
 
-        response = @mock _http_request(request.backend, request)
+        aws_response = @mock _http_request(request.backend, request, stream)
+        response = aws_response.response
 
         if response.status in REDIRECT_ERROR_CODES
             if HTTP.header(response, "Location") != ""
                 request.url = HTTP.header(response, "Location")
             else
                 e = HTTP.StatusError(response.status, response)
-                throw(AWSException(e))
+                throw(AWSException(e, stream))
             end
         end
     catch e
         if e isa HTTP.StatusError
-            e = AWSException(e)
+            e = AWSException(e, stream)
         end
 
         @retry if :message in fieldnames(typeof(e)) &&
-                  occursin("Signature expired", e.message)
+            occursin("Signature expired", e.message)
         end
 
         # Handle ExpiredToken...
@@ -122,8 +127,8 @@ function submit_request(
         end
 
         if e isa AWSException &&
-           occursin("Missing Authentication Token", e.message) &&
-           aws.credentials === nothing
+            occursin("Missing Authentication Token", e.message) &&
+            aws.credentials === nothing
             return throw(
                 NoCredentials(
                     "You're attempting to perform a request without credentials set."
@@ -132,86 +137,60 @@ function submit_request(
         end
     end
 
-    response_dict_type = request.response_dict_type
-
-    # For HEAD request, return headers...
-    if request.request_method == "HEAD"
-        return response_dict_type(response.headers)
-    end
-
-    # Return response stream if requested...
-    if request.return_stream
-        return request.response_stream
-    end
-
-    # Return raw data if requested...
-    if request.return_raw
-        return (return_headers ? (response.body, response.headers) : response.body)
-    end
-
-    # Parse response data according to mimetype...
-    mime = HTTP.header(response, "Content-Type", "")
-
-    if isempty(mime)
-        if length(response.body) > 5 && response.body[1:5] == b"<?xml"
-            mime = "text/xml"
-        end
-    end
-
-    body = String(copy(response.body))
-
-    if occursin(r"/xml", mime)
-        xml_dict_type = response_dict_type{Union{Symbol,String},Any}
-        body = parse_xml(body)
-        root = XMLDict.root(body.x)
-
-        return (
-            if return_headers
-                (xml_dict(root, xml_dict_type), response_dict_type(response.headers))
-            else
-                xml_dict(root, xml_dict_type)
-            end
-        )
-    elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
-        info =
-            isempty(response.body) ? nothing : JSON.parse(body; dicttype=response_dict_type)
-        return (return_headers ? (info, response_dict_type(response.headers)) : info)
-    elseif startswith(mime, "text/")
-        return (return_headers ? (body, response_dict_type(response.headers)) : body)
+    if request.use_response_type
+        return aws_response
     else
-        return (return_headers ? (response.body, response.headers) : response.body)
+        return legacy_response(request, aws_response; return_headers=return_headers)
     end
 end
 
-function _http_request(http_backend::HTTPBackend, request::Request)
+function _http_request(http_backend::HTTPBackend, request::Request, response_stream::IO)
     http_options = merge(http_backend.http_options, request.http_options)
 
     @repeat 4 try
-        http_stack = HTTP.stack(; redirect=false, retry=false, aws_authorization=false)
+        # HTTP options such as `status_exception` need to be used when creating the stack
+        http_stack = HTTP.stack(;
+            redirect=false, retry=false, aws_authorization=false, http_options...
+        )
 
-        if request.return_stream && request.response_stream === nothing
-            request.response_stream = Base.BufferStream()
+        # To work around around issue where HTTP.jl closes the `response_stream`
+        # (https://github.com/JuliaWeb/HTTP.jl/issues/543) we'll use a sacrificial I/O
+        # stream. Effectively, this works as if we're not using streaming I/O at all but we
+        # will keep using the `response_stream` kwarg to ensure we aren't relying on the
+        # response's body being populated.
+        buffer = Base.BufferStream()
+
+        r = try
+            @mock HTTP.request(
+                http_stack,
+                request.request_method,
+                HTTP.URI(request.url),
+                HTTP.mkheaders(request.headers),
+                request.content;
+                require_ssl_verification=false,
+                response_stream=buffer,
+                http_options...,
+            )
+        finally
+            # We're unable to read from the `Base.BufferStream` until it has been closed.
+            # HTTP.jl will close passed in `response_stream` keyword. This ensures that it
+            # is always closed (e.g. HTTP.jl 0.9.15)
+            close(buffer)
+
+            # Transfer the contents of the `BufferStream` into `response_stream` variable.
+            write(response_stream, buffer)
         end
 
-        return @mock HTTP.request(
-            http_stack,
-            request.request_method,
-            HTTP.URI(request.url),
-            HTTP.mkheaders(request.headers),
-            request.content;
-            require_ssl_verification=false,
-            response_stream=request.response_stream,
-            http_options...,
-        )
+        return @mock Response(r, response_stream)
     catch e
         # Base.IOError is needed because HTTP.jl can often have errors that aren't
         # caught and wrapped in an HTTP.IOError
         # https://github.com/JuliaWeb/HTTP.jl/issues/382
         @delay_retry if isa(e, Sockets.DNSError) ||
-                        isa(e, HTTP.ParseError) ||
-                        isa(e, HTTP.IOError) ||
-                        isa(e, Base.IOError) ||
-                        (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
+            isa(e, HTTP.ParseError) ||
+            isa(e, HTTP.IOError) ||
+            isa(e, Base.IOError) ||
+            (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
         end
     end
 end

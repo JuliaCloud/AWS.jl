@@ -1106,14 +1106,14 @@ Services Region in the Amazon Web Services Identity and Access Management User G
 add the IAM role policies for using this API operation, go to the IAM console, and choose
 Roles in the left navigation pane. Search the IAM role that you want to grant access to use
 the CreateEndpoint and CreateEndpointConfig API operations, add the following policies to
-the role.    Option 1: For a full Amazon SageMaker access, search and attach the
+the role.    Option 1: For a full SageMaker access, search and attach the
 AmazonSageMakerFullAccess policy.   Option 2: For granting a limited access to an IAM role,
 paste the following Action elements manually into the JSON file of the IAM role:
 \"Action\": [\"sagemaker:CreateEndpoint\", \"sagemaker:CreateEndpointConfig\"]
 \"Resource\": [   \"arn:aws:sagemaker:region:account-id:endpoint/endpointName\"
 \"arn:aws:sagemaker:region:account-id:endpoint-config/endpointConfigName\"   ]  For more
-information, see Amazon SageMaker API Permissions: Actions, Permissions, and Resources
-Reference.
+information, see SageMaker API Permissions: Actions, Permissions, and Resources Reference.
+
 
 # Arguments
 - `endpoint_config_name`: The name of an endpoint configuration. For more information, see
@@ -1360,8 +1360,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OfflineStoreConfig"`: Use this to configure an OfflineFeatureStore. This parameter
   allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an
   OfflineStore.   A configuration for an Amazon Web Services Glue or Amazon Web Services Hive
-  data cataolgue.    An KMS encryption key to encrypt the Amazon S3 location used for
-  OfflineStore.   To learn more about this parameter, see OfflineStoreConfig.
+  data catalog.    An KMS encryption key to encrypt the Amazon S3 location used for
+  OfflineStore. If KMS encryption key is not specified, by default we encrypt all data at
+  rest using Amazon Web Services KMS key. By defining your bucket-level key for SSE, you can
+  reduce Amazon Web Services KMS requests costs by up to 99 percent.   To learn more about
+  this parameter, see OfflineStoreConfig.
 - `"OnlineStoreConfig"`: You can turn the OnlineStore on or off by specifying True for the
   EnableOnlineStore flag in OnlineStoreConfig; the default value is False. You can also
   include an Amazon Web Services KMS key ID (KMSKeyId) for at-rest encryption of the
@@ -2832,8 +2835,9 @@ an ML pipeline from training to deploying an approved model.
 # Arguments
 - `project_name`: The name of the project.
 - `service_catalog_provisioning_details`: The product ID and provisioning artifact ID to
-  provision a service catalog. For information, see What is Amazon Web Services Service
-  Catalog.
+  provision a service catalog. The provisioning artifact ID will default to the latest
+  provisioning artifact ID of the product, if you don't provide the provisioning artifact ID.
+  For more information, see What is Amazon Web Services Service Catalog.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
