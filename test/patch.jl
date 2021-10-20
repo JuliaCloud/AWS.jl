@@ -105,13 +105,11 @@ end
 
 _github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
     if tree_obj == "master"
-        return Tree(
-            "test-sha", HTTP.URI(), [Dict("path" => "apis", "sha" => "apis-sha")], false
-        )
+        tree = [Dict("path" => "apis", "sha" => "apis-sha")]
+        return Tree("test-sha", HTTP.URI(), tree, false)
     else
-        return Tree(
-            "test-sha", HTTP.URI(), [Dict("path" => "test-2020-01-01.normal.json")], false
-        )
+        tree = [Dict("path" => "test-2020-01-01.normal.json", "sha" => "test-sha")]
+        return Tree("test-sha", HTTP.URI(), tree, false)
     end
 end
 
