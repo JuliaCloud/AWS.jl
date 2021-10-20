@@ -64,6 +64,7 @@ Submit the request to AWS.
 function submit_request(aws::AbstractAWSConfig, request::Request; return_headers=nothing)
     aws_response = nothing
     TOO_MANY_REQUESTS = 429
+    REQUEST_TIME_TOO_SKEWED = "RequestTimeTooSkewed"
     EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
     REDIRECT_ERROR_CODES = [301, 302, 303, 304, 305, 307, 308]
     THROTTLING_ERROR_CODES = [
@@ -104,6 +105,8 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         @retry if :message in fieldnames(typeof(e)) &&
             occursin("Signature expired", e.message)
         end
+
+        @retry if e.code == REQUEST_TIME_TOO_SKEWED end
 
         # Handle ExpiredToken...
         # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
