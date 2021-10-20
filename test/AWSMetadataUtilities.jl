@@ -12,7 +12,7 @@ end
 
         @test length(service_files) == 1
         @test service_files[1] ==
-              ServiceFile("foobar", "test-2020-01-01.normal.json", "test-sha", nothing)
+            ServiceFile("foobar", "test-2020-01-01.normal.json", "test-sha", nothing)
     end
 end
 
