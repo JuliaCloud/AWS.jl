@@ -1012,15 +1012,21 @@ end
     put_account_preferences(resource_id_type, params::Dict{String,<:Any})
 
 Use this operation to set the account preference in the current Amazon Web Services Region
-to use either long 17 character (63 bit) or short 8 character (32 bit) IDs for new EFS file
-systems and mount targets created. All existing resource IDs are not affected by any
+to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new EFS
+file system and mount target resources. All existing resource IDs are not affected by any
 changes you make. You can set the ID preference during the opt-in period as EFS transitions
-to long resource IDs. For more information, see Managing Amazon EFS resource IDs.
+to long resource IDs. For more information, see Managing Amazon EFS resource IDs.  Starting
+in October, 2021, you will receive an error if you try to set the account preference to use
+the short 8 character format resource ID. Contact Amazon Web Services support if you
+receive an error and need to use short IDs for file system and mount target resources.
 
 # Arguments
 - `resource_id_type`: Specifies the EFS resource ID preference to set for the user's Amazon
   Web Services account, in the current Amazon Web Services Region, either LONG_ID (17
-  characters), or SHORT_ID (8 characters).
+  characters), or SHORT_ID (8 characters).  Starting in October, 2021, you will receive an
+  error when setting the account preference to SHORT_ID. Contact Amazon Web Services support
+  if you receive an error and need to use short IDs for file system and mount target
+  resources.
 
 """
 function put_account_preferences(
@@ -1099,9 +1105,9 @@ is an IAM resource-based policy and can contain multiple policy statements. A fi
 always has exactly one file system policy, which can be the default policy or an explicit
 policy set or updated using this API operation. EFS file system policies have a 20,000
 character limit. When an explicit policy is set, it overrides the default policy. For more
-information about the default file system policy, see Default EFS File System Policy.  EFS
-file system policies have a 20,000 character limit. This operation requires permissions for
-the elasticfilesystem:PutFileSystemPolicy action.
+information about the default file system policy, see Default EFS File System Policy.   EFS
+file system policies have a 20,000 character limit.  This operation requires permissions
+for the elasticfilesystem:PutFileSystemPolicy action.
 
 # Arguments
 - `file_system_id`: The ID of the EFS file system that you want to create or update the
@@ -1154,28 +1160,35 @@ Enables lifecycle management by creating a new LifecycleConfiguration object. A
 LifecycleConfiguration object defines when files in an Amazon EFS file system are
 automatically transitioned to the lower-cost EFS Infrequent Access (IA) storage class. To
 enable EFS Intelligent Tiering, set the value of TransitionToPrimaryStorageClass to
-AFTER_1_ACCESS. For more information, see EFS Lifecycle Management. A
-LifecycleConfiguration applies to all files in a file system. Each Amazon EFS file system
-supports one lifecycle configuration, which applies to all files in the file system. If a
-LifecycleConfiguration object already exists for the specified file system, a
+AFTER_1_ACCESS. For more information, see EFS Lifecycle Management. Each Amazon EFS file
+system supports one lifecycle configuration, which applies to all files in the file system.
+If a LifecycleConfiguration object already exists for the specified file system, a
 PutLifecycleConfiguration call modifies the existing configuration. A
 PutLifecycleConfiguration call with an empty LifecyclePolicies array in the request body
-deletes any existing LifecycleConfiguration and disables lifecycle management. In the
-request, specify the following:    The ID for the file system for which you are enabling,
-disabling, or modifying lifecycle management.   A LifecyclePolicies array of
-LifecyclePolicy objects that define when files are moved to the IA storage class. The array
-can contain only one LifecyclePolicy item.   This operation requires permissions for the
-elasticfilesystem:PutLifecycleConfiguration operation. To apply a LifecycleConfiguration
-object to an encrypted file system, you need the same Key Management Service permissions as
-when you created the encrypted file system.
+deletes any existing LifecycleConfiguration and turns off lifecycle management for the file
+system. In the request, specify the following:    The ID for the file system for which you
+are enabling, disabling, or modifying lifecycle management.   A LifecyclePolicies array of
+LifecyclePolicy objects that define when files are moved to the IA storage class. Amazon
+EFS requires that each LifecyclePolicy object have only have a single transition, so the
+LifecyclePolicies array needs to be structured with separate LifecyclePolicy objects. See
+the example requests in the following section for more information.   This operation
+requires permissions for the elasticfilesystem:PutLifecycleConfiguration operation. To
+apply a LifecycleConfiguration object to an encrypted file system, you need the same Key
+Management Service permissions as when you created the encrypted file system.
 
 # Arguments
 - `file_system_id`: The ID of the file system for which you are creating the
   LifecycleConfiguration object (String).
 - `lifecycle_policies`: An array of LifecyclePolicy objects that define the file system's
-  LifecycleConfiguration object. A LifecycleConfiguration object tells lifecycle management
-  when to transition files from the Standard storage class to the Infrequent Access storage
-  class.
+  LifecycleConfiguration object. A LifecycleConfiguration object informs EFS lifecycle
+  management and intelligent tiering of the following:   When to move files in the file
+  system from primary storage to the IA storage class.   When to move files that are in IA
+  storage to primary storage.    When using the put-lifecycle-configuration CLI command or
+  the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy
+  object have only a single transition. This means that in a request body, LifecyclePolicies
+  needs to be structured as an array of LifecyclePolicy objects, one object for each
+  transition, TransitionToIA, TransitionToPrimaryStorageClass. See the example requests in
+  the following section for more information.
 
 """
 function put_lifecycle_configuration(
