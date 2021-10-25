@@ -100,8 +100,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         e isa HTTP.StatusError || rethrow(e)
         e = AWSException(e, stream)
 
-        @retry if :message in fieldnames(typeof(e)) &&
-            occursin("Signature expired", e.message)
+        @retry if occursin("Signature expired", e.message)
         end
 
         # Handle ExpiredToken...
