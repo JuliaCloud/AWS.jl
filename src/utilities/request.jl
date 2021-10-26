@@ -97,8 +97,11 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             end
         end
     catch e
-        e isa HTTP.StatusError || rethrow(e)
-        e = AWSException(e, stream)
+        if e isa HTTP.StatusError
+            e = AWSException(e, stream)
+        elseif !(e isa AWSException)
+            rethrow(e)
+        end
 
         @retry if occursin("Signature expired", e.message)
         end
