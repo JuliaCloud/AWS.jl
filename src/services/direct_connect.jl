@@ -12,8 +12,8 @@ Accepts a proposal request to attach a virtual private gateway or transit gatewa
 Direct Connect gateway.
 
 # Arguments
-- `associated_gateway_owner_account`: The ID of the account that owns the virtual private
-  gateway or transit gateway.
+- `associated_gateway_owner_account`: The ID of the Amazon Web Services account that owns
+  the virtual private gateway or transit gateway.
 - `direct_connect_gateway_id`: The ID of the Direct Connect gateway.
 - `proposal_id`: The ID of the request proposal.
 
@@ -81,8 +81,8 @@ Partners only.
   2Gbps, 5Gbps or 10Gbps hosted connection.
 - `connection_name`: The name of the provisioned connection.
 - `interconnect_id`: The ID of the interconnect on which the connection will be provisioned.
-- `owner_account`: The ID of the account of the customer for whom the connection will be
-  provisioned.
+- `owner_account`: The ID of the Amazon Web Services account of the customer for whom the
+  connection will be provisioned.
 - `vlan`: The dedicated VLAN provisioned to the connection.
 
 """
@@ -154,7 +154,8 @@ Intended for use by Direct Connect Partners only.
   2Gbps, 5Gbps or 10Gbps hosted connection.
 - `connection_id`: The ID of the interconnect or LAG.
 - `connection_name`: The name of the hosted connection.
-- `owner_account`: The ID of the account ID of the customer for the connection.
+- `owner_account`: The ID of the Amazon Web Services account ID of the customer for the
+  connection.
 - `vlan`: The dedicated VLAN provisioned to the hosted connection.
 
 # Optional Parameters
@@ -215,8 +216,8 @@ end
     allocate_private_virtual_interface(connection_id, new_private_virtual_interface_allocation, owner_account)
     allocate_private_virtual_interface(connection_id, new_private_virtual_interface_allocation, owner_account, params::Dict{String,<:Any})
 
-Provisions a private virtual interface to be owned by the specified account. Virtual
-interfaces created using this action must be confirmed by the owner using
+Provisions a private virtual interface to be owned by the specified Amazon Web Services
+account. Virtual interfaces created using this action must be confirmed by the owner using
 ConfirmPrivateVirtualInterface. Until then, the virtual interface is in the Confirming
 state and is not available to handle traffic.
 
@@ -225,7 +226,8 @@ state and is not available to handle traffic.
   provisioned.
 - `new_private_virtual_interface_allocation`: Information about the private virtual
   interface.
-- `owner_account`: The ID of the account that owns the virtual private interface.
+- `owner_account`: The ID of the Amazon Web Services account that owns the virtual private
+  interface.
 
 """
 function allocate_private_virtual_interface(
@@ -275,20 +277,22 @@ end
     allocate_public_virtual_interface(connection_id, new_public_virtual_interface_allocation, owner_account)
     allocate_public_virtual_interface(connection_id, new_public_virtual_interface_allocation, owner_account, params::Dict{String,<:Any})
 
-Provisions a public virtual interface to be owned by the specified account. The owner of a
-connection calls this function to provision a public virtual interface to be owned by the
-specified account. Virtual interfaces created using this function must be confirmed by the
-owner using ConfirmPublicVirtualInterface. Until this step has been completed, the virtual
-interface is in the confirming state and is not available to handle traffic. When creating
-an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6
-addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot
-specify custom IPv6 addresses.
+Provisions a public virtual interface to be owned by the specified Amazon Web Services
+account. The owner of a connection calls this function to provision a public virtual
+interface to be owned by the specified Amazon Web Services account. Virtual interfaces
+created using this function must be confirmed by the owner using
+ConfirmPublicVirtualInterface. Until this step has been completed, the virtual interface is
+in the confirming state and is not available to handle traffic. When creating an IPv6
+public virtual interface, omit the Amazon address and customer address. IPv6 addresses are
+automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom
+IPv6 addresses.
 
 # Arguments
 - `connection_id`: The ID of the connection on which the public virtual interface is
   provisioned.
 - `new_public_virtual_interface_allocation`: Information about the public virtual interface.
-- `owner_account`: The ID of the account that owns the public virtual interface.
+- `owner_account`: The ID of the Amazon Web Services account that owns the public virtual
+  interface.
 
 """
 function allocate_public_virtual_interface(
@@ -338,19 +342,21 @@ end
     allocate_transit_virtual_interface(connection_id, new_transit_virtual_interface_allocation, owner_account)
     allocate_transit_virtual_interface(connection_id, new_transit_virtual_interface_allocation, owner_account, params::Dict{String,<:Any})
 
-Provisions a transit virtual interface to be owned by the specified account. Use this type
-of interface to connect a transit gateway to your Direct Connect gateway. The owner of a
-connection provisions a transit virtual interface to be owned by the specified account.
-After you create a transit virtual interface, it must be confirmed by the owner using
-ConfirmTransitVirtualInterface. Until this step has been completed, the transit virtual
-interface is in the requested state and is not available to handle traffic.
+Provisions a transit virtual interface to be owned by the specified Amazon Web Services
+account. Use this type of interface to connect a transit gateway to your Direct Connect
+gateway. The owner of a connection provisions a transit virtual interface to be owned by
+the specified Amazon Web Services account. After you create a transit virtual interface, it
+must be confirmed by the owner using ConfirmTransitVirtualInterface. Until this step has
+been completed, the transit virtual interface is in the requested state and is not
+available to handle traffic.
 
 # Arguments
 - `connection_id`: The ID of the connection on which the transit virtual interface is
   provisioned.
 - `new_transit_virtual_interface_allocation`: Information about the transit virtual
   interface.
-- `owner_account`: The ID of the account that owns the transit virtual interface.
+- `owner_account`: The ID of the Amazon Web Services account that owns the transit virtual
+  interface.
 
 """
 function allocate_transit_virtual_interface(
@@ -643,13 +649,40 @@ function confirm_connection(
 end
 
 """
+    confirm_customer_agreement()
+    confirm_customer_agreement(params::Dict{String,<:Any})
+
+ The confirmation of the terms of agreement when creating the connection/link aggregation
+group (LAG).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"agreementName"`:  The name of the customer agreement.
+"""
+function confirm_customer_agreement(; aws_config::AbstractAWSConfig=global_aws_config())
+    return direct_connect(
+        "ConfirmCustomerAgreement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function confirm_customer_agreement(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return direct_connect(
+        "ConfirmCustomerAgreement",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     confirm_private_virtual_interface(virtual_interface_id)
     confirm_private_virtual_interface(virtual_interface_id, params::Dict{String,<:Any})
 
-Accepts ownership of a private virtual interface created by another account. After the
-virtual interface owner makes this call, the virtual interface is created and attached to
-the specified virtual private gateway or Direct Connect gateway, and is made available to
-handle traffic.
+Accepts ownership of a private virtual interface created by another Amazon Web Services
+account. After the virtual interface owner makes this call, the virtual interface is
+created and attached to the specified virtual private gateway or Direct Connect gateway,
+and is made available to handle traffic.
 
 # Arguments
 - `virtual_interface_id`: The ID of the virtual interface.
@@ -690,9 +723,9 @@ end
     confirm_public_virtual_interface(virtual_interface_id)
     confirm_public_virtual_interface(virtual_interface_id, params::Dict{String,<:Any})
 
-Accepts ownership of a public virtual interface created by another account. After the
-virtual interface owner makes this call, the specified virtual interface is created and
-made available to handle traffic.
+Accepts ownership of a public virtual interface created by another Amazon Web Services
+account. After the virtual interface owner makes this call, the specified virtual interface
+is created and made available to handle traffic.
 
 # Arguments
 - `virtual_interface_id`: The ID of the virtual interface.
@@ -729,9 +762,9 @@ end
     confirm_transit_virtual_interface(direct_connect_gateway_id, virtual_interface_id)
     confirm_transit_virtual_interface(direct_connect_gateway_id, virtual_interface_id, params::Dict{String,<:Any})
 
-Accepts ownership of a transit virtual interface created by another account.  After the
-owner of the transit virtual interface makes this call, the specified transit virtual
-interface is created and made available to handle traffic.
+Accepts ownership of a transit virtual interface created by another Amazon Web Services
+account.  After the owner of the transit virtual interface makes this call, the specified
+transit virtual interface is created and made available to handle traffic.
 
 # Arguments
 - `direct_connect_gateway_id`: The ID of the Direct Connect gateway.
@@ -882,10 +915,11 @@ end
 
 Creates a Direct Connect gateway, which is an intermediate object that enables you to
 connect a set of virtual interfaces and virtual private gateways. A Direct Connect gateway
-is global and visible in any Region after it is created. The virtual interfaces and virtual
-private gateways that are connected through a Direct Connect gateway can be in different
-Regions. This enables you to connect to a VPC in any Region, regardless of the Region in
-which the virtual interfaces are located, and pass traffic between them.
+is global and visible in any Amazon Web Services Region after it is created. The virtual
+interfaces and virtual private gateways that are connected through a Direct Connect gateway
+can be in different Amazon Web Services Regions. This enables you to connect to a VPC in
+any Region, regardless of the Region in which the virtual interfaces are located, and pass
+traffic between them.
 
 # Arguments
 - `direct_connect_gateway_name`: The name of the Direct Connect gateway.
@@ -980,12 +1014,13 @@ end
 
 Creates a proposal to associate the specified virtual private gateway or transit gateway
 with the specified Direct Connect gateway. You can associate a Direct Connect gateway and
-virtual private gateway or transit gateway that is owned by any account.
+virtual private gateway or transit gateway that is owned by any Amazon Web Services
+account.
 
 # Arguments
 - `direct_connect_gateway_id`: The ID of the Direct Connect gateway.
-- `direct_connect_gateway_owner_account`: The ID of the account that owns the Direct
-  Connect gateway.
+- `direct_connect_gateway_owner_account`: The ID of the Amazon Web Services account that
+  owns the Direct Connect gateway.
 - `gateway_id`: The ID of the virtual private gateway or transit gateway.
 
 # Optional Parameters
@@ -1124,10 +1159,10 @@ the total number of connections). Doing so interrupts the current physical dedic
 connection, and re-establishes them as a member of the LAG. The LAG will be created on the
 same Direct Connect endpoint to which the dedicated connection terminates. Any virtual
 interfaces associated with the dedicated connection are automatically disassociated and
-re-associated with the LAG. The connection ID does not change. If the account used to
-create a LAG is a registered Direct Connect Partner, the LAG is automatically enabled to
-host sub-connections. For a LAG owned by a partner, any associated virtual interfaces
-cannot be directly configured.
+re-associated with the LAG. The connection ID does not change. If the Amazon Web Services
+account used to create a LAG is a registered Direct Connect Partner, the LAG is
+automatically enabled to host sub-connections. For a LAG owned by a partner, any associated
+virtual interfaces cannot be directly configured.
 
 # Arguments
 - `connections_bandwidth`: The bandwidth of the individual physical dedicated connections
@@ -1202,13 +1237,14 @@ Creates a private virtual interface. A virtual interface is the VLAN that transp
 Connect traffic. A private virtual interface can be connected to either a Direct Connect
 gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a
 Direct Connect gateway enables the possibility for connecting to multiple VPCs, including
-VPCs in different Regions. Connecting the private virtual interface to a VGW only provides
-access to a single VPC within the same Region. Setting the MTU of a virtual interface to
-9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't
-updated to support jumbo frames. Updating the connection disrupts network connectivity for
-all virtual interfaces associated with the connection for up to 30 seconds. To check
-whether your connection supports jumbo frames, call DescribeConnections. To check whether
-your virtual interface supports jumbo frames, call DescribeVirtualInterfaces.
+VPCs in different Amazon Web Services Regions. Connecting the private virtual interface to
+a VGW only provides access to a single VPC within the same Region. Setting the MTU of a
+virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical
+connection if it wasn't updated to support jumbo frames. Updating the connection disrupts
+network connectivity for all virtual interfaces associated with the connection for up to 30
+seconds. To check whether your connection supports jumbo frames, call DescribeConnections.
+To check whether your virtual interface supports jumbo frames, call
+DescribeVirtualInterfaces.
 
 # Arguments
 - `connection_id`: The ID of the connection.
@@ -1754,6 +1790,30 @@ function describe_connections_on_interconnect(
 end
 
 """
+    describe_customer_metadata()
+    describe_customer_metadata(params::Dict{String,<:Any})
+
+Get and view a list of customer agreements, along with their signed status and whether the
+customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
+
+"""
+function describe_customer_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
+    return direct_connect(
+        "DescribeCustomerMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_customer_metadata(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return direct_connect(
+        "DescribeCustomerMetadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_direct_connect_gateway_association_proposals()
     describe_direct_connect_gateway_association_proposals(params::Dict{String,<:Any})
 
@@ -1996,7 +2056,8 @@ end
     describe_interconnects()
     describe_interconnects(params::Dict{String,<:Any})
 
-Lists the interconnects owned by the account or only the specified interconnect.
+Lists the interconnects owned by the Amazon Web Services account or only the specified
+interconnect.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2089,8 +2150,8 @@ end
     describe_locations()
     describe_locations(params::Dict{String,<:Any})
 
-Lists the Direct Connect locations in the current Region. These are the locations that can
-be selected when calling CreateConnection or CreateInterconnect.
+Lists the Direct Connect locations in the current Amazon Web Services Region. These are the
+locations that can be selected when calling CreateConnection or CreateInterconnect.
 
 """
 function describe_locations(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2103,6 +2164,47 @@ function describe_locations(
 )
     return direct_connect(
         "DescribeLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_router_configuration(virtual_interface_id)
+    describe_router_configuration(virtual_interface_id, params::Dict{String,<:Any})
+
+ Details about the router.
+
+# Arguments
+- `virtual_interface_id`: The ID of the virtual interface.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"routerTypeIdentifier"`: Identifies the router by a combination of vendor, platform, and
+  software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124.
+"""
+function describe_router_configuration(
+    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return direct_connect(
+        "DescribeRouterConfiguration",
+        Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_router_configuration(
+    virtualInterfaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return direct_connect(
+        "DescribeRouterConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2143,8 +2245,8 @@ end
     describe_virtual_gateways()
     describe_virtual_gateways(params::Dict{String,<:Any})
 
-Lists the virtual private gateways owned by the account. You can create one or more Direct
-Connect private virtual interfaces linked to a virtual private gateway.
+Lists the virtual private gateways owned by the Amazon Web Services account. You can create
+one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
 
 """
 function describe_virtual_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2167,11 +2269,12 @@ end
     describe_virtual_interfaces()
     describe_virtual_interfaces(params::Dict{String,<:Any})
 
-Displays all virtual interfaces for an account. Virtual interfaces deleted fewer than 15
-minutes before you make the request are also returned. If you specify a connection ID, only
-the virtual interfaces associated with the connection are returned. If you specify a
-virtual interface ID, then only a single virtual interface is returned. A virtual interface
-(VLAN) transmits the traffic between the Direct Connect location and the customer network.
+Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces
+deleted fewer than 15 minutes before you make the request are also returned. If you specify
+a connection ID, only the virtual interfaces associated with the connection are returned.
+If you specify a virtual interface ID, then only a single virtual interface is returned. A
+virtual interface (VLAN) transmits the traffic between the Direct Connect location and the
+customer network.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2526,6 +2629,55 @@ function update_connection(
         "UpdateConnection",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("connectionId" => connectionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_direct_connect_gateway(direct_connect_gateway_id, new_direct_connect_gateway_name)
+    update_direct_connect_gateway(direct_connect_gateway_id, new_direct_connect_gateway_name, params::Dict{String,<:Any})
+
+Updates the name of a current Direct Connect gateway.
+
+# Arguments
+- `direct_connect_gateway_id`: The ID of the Direct Connect gateway to update.
+- `new_direct_connect_gateway_name`: The new name for the Direct Connect gateway.
+
+"""
+function update_direct_connect_gateway(
+    directConnectGatewayId,
+    newDirectConnectGatewayName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return direct_connect(
+        "UpdateDirectConnectGateway",
+        Dict{String,Any}(
+            "directConnectGatewayId" => directConnectGatewayId,
+            "newDirectConnectGatewayName" => newDirectConnectGatewayName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_direct_connect_gateway(
+    directConnectGatewayId,
+    newDirectConnectGatewayName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return direct_connect(
+        "UpdateDirectConnectGateway",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "directConnectGatewayId" => directConnectGatewayId,
+                    "newDirectConnectGatewayName" => newDirectConnectGatewayName,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

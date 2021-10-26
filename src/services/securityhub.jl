@@ -365,6 +365,65 @@ function create_action_target(
 end
 
 """
+    create_finding_aggregator(region_linking_mode)
+    create_finding_aggregator(region_linking_mode, params::Dict{String,<:Any})
+
+Used to enable finding aggregation. Must be called from the aggregation Region. For more
+details about cross-Region replication, see Configuring finding aggregation in the Security
+Hub User Guide.
+
+# Arguments
+- `region_linking_mode`: Indicates whether to aggregate findings from all of the available
+  Regions in the current partition. Also determines whether to automatically aggregate
+  findings from new Regions as Security Hub supports them and you opt into them. The selected
+  option also determines how to use the Regions provided in the Regions list. The options are
+  as follows:    ALL_REGIONS - Indicates to aggregate findings from all of the Regions where
+  Security Hub is enabled. When you choose this option, Security Hub also automatically
+  aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions
+  where Security Hub is enabled, except for the Regions listed in the Regions parameter. When
+  you choose this option, Security Hub also automatically aggregates findings from new
+  Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS -
+  Indicates to aggregate findings only from the Regions listed in the Regions parameter.
+  Security Hub does not automatically aggregate findings from new Regions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Regions"`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
+  comma-separated list of Regions that do not aggregate findings to the aggregation Region.
+  If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions
+  that do aggregate findings to the aggregation Region.
+"""
+function create_finding_aggregator(
+    RegionLinkingMode; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/findingAggregator/create",
+        Dict{String,Any}("RegionLinkingMode" => RegionLinkingMode);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_finding_aggregator(
+    RegionLinkingMode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/findingAggregator/create",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RegionLinkingMode" => RegionLinkingMode), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_insight(filters, group_by_attribute, name)
     create_insight(filters, group_by_attribute, name, params::Dict{String,<:Any})
 
@@ -547,6 +606,44 @@ function delete_action_target(
     return securityhub(
         "DELETE",
         "/actionTargets/$(ActionTargetArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_finding_aggregator(finding_aggregator_arn)
+    delete_finding_aggregator(finding_aggregator_arn, params::Dict{String,<:Any})
+
+Deletes a finding aggregator. When you delete the finding aggregator, you stop finding
+aggregation. When you stop finding aggregation, findings that were already aggregated to
+the aggregation Region are still visible from the aggregation Region. New findings and
+finding updates are not aggregated.
+
+# Arguments
+- `finding_aggregator_arn`: The ARN of the finding aggregator to delete. To obtain the ARN,
+  use ListFindingAggregators.
+
+"""
+function delete_finding_aggregator(
+    FindingAggregatorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "DELETE",
+        "/findingAggregator/delete/$(FindingAggregatorArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_finding_aggregator(
+    FindingAggregatorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "DELETE",
+        "/findingAggregator/delete/$(FindingAggregatorArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1238,10 +1335,47 @@ function get_enabled_standards(
 end
 
 """
+    get_finding_aggregator(finding_aggregator_arn)
+    get_finding_aggregator(finding_aggregator_arn, params::Dict{String,<:Any})
+
+Returns the current finding aggregation configuration.
+
+# Arguments
+- `finding_aggregator_arn`: The ARN of the finding aggregator to return details for. To
+  obtain the ARN, use ListFindingAggregators.
+
+"""
+function get_finding_aggregator(
+    FindingAggregatorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "GET",
+        "/findingAggregator/get/$(FindingAggregatorArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_finding_aggregator(
+    FindingAggregatorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "GET",
+        "/findingAggregator/get/$(FindingAggregatorArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_findings()
     get_findings(params::Dict{String,<:Any})
 
-Returns a list of findings that match the specified criteria.
+Returns a list of findings that match the specified criteria. If finding aggregation is
+enabled, then when you call GetFindings from the aggregation Region, the results include
+all of the matching findings from both the aggregation Region and the linked Regions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1507,6 +1641,40 @@ function list_enabled_products_for_import(
 end
 
 """
+    list_finding_aggregators()
+    list_finding_aggregators(params::Dict{String,<:Any})
+
+If finding aggregation is enabled, then ListFindingAggregators returns the ARN of the
+finding aggregator. You can run this operation from any Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return. This operation currently only
+  returns a single result.
+- `"NextToken"`: The token returned with the previous set of results. Identifies the next
+  set of results to return.
+"""
+function list_finding_aggregators(; aws_config::AbstractAWSConfig=global_aws_config())
+    return securityhub(
+        "GET",
+        "/findingAggregator/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_finding_aggregators(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "GET",
+        "/findingAggregator/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_invitations()
     list_invitations(params::Dict{String,<:Any})
 
@@ -1750,6 +1918,79 @@ function update_action_target(
         "PATCH",
         "/actionTargets/$(ActionTargetArn)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_finding_aggregator(finding_aggregator_arn, region_linking_mode)
+    update_finding_aggregator(finding_aggregator_arn, region_linking_mode, params::Dict{String,<:Any})
+
+Updates the finding aggregation configuration. Used to update the Region linking mode and
+the list of included or excluded Regions. You cannot use UpdateFindingAggregator to change
+the aggregation Region. You must run UpdateFindingAggregator from the current aggregation
+Region.
+
+# Arguments
+- `finding_aggregator_arn`: The ARN of the finding aggregator. To obtain the ARN, use
+  ListFindingAggregators.
+- `region_linking_mode`: Indicates whether to aggregate findings from all of the available
+  Regions in the current partition. Also determines whether to automatically aggregate
+  findings from new Regions as Security Hub supports them and you opt into them. The selected
+  option also determines how to use the Regions provided in the Regions list. The options are
+  as follows:    ALL_REGIONS - Indicates to aggregate findings from all of the Regions where
+  Security Hub is enabled. When you choose this option, Security Hub also automatically
+  aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions
+  where Security Hub is enabled, except for the Regions listed in the Regions parameter. When
+  you choose this option, Security Hub also automatically aggregates findings from new
+  Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS -
+  Indicates to aggregate findings only from the Regions listed in the Regions parameter.
+  Security Hub does not automatically aggregate findings from new Regions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Regions"`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
+  comma-separated list of Regions that do not aggregate findings to the aggregation Region.
+  If RegionLinkingMode is SPECIFIED_REGIONS, then this is a comma-separated list of Regions
+  that do aggregate findings to the aggregation Region.
+"""
+function update_finding_aggregator(
+    FindingAggregatorArn,
+    RegionLinkingMode;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "PATCH",
+        "/findingAggregator/update",
+        Dict{String,Any}(
+            "FindingAggregatorArn" => FindingAggregatorArn,
+            "RegionLinkingMode" => RegionLinkingMode,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_finding_aggregator(
+    FindingAggregatorArn,
+    RegionLinkingMode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "PATCH",
+        "/findingAggregator/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FindingAggregatorArn" => FindingAggregatorArn,
+                    "RegionLinkingMode" => RegionLinkingMode,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

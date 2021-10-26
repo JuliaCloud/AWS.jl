@@ -87,10 +87,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceed the allowable resolution or bitrate, the stream probably will disconnect
   immediately. Default: STANDARD. Valid values:    STANDARD: Multiple qualities are generated
   from the original input, to automatically give viewers the best experience for their
-  devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up
-  to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s
-  video-quality choice is limited to the original input. Vertical resolution can be up to 480
-  and bitrate can be up to 1.5 Mbps.
+  devices and network conditions. Resolution can be up to 1080p and bitrate can be up to 8.5
+  Mbps. Audio is transcoded only for renditions 360p and below; above that, audio is passed
+  through.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s
+  video-quality choice is limited to the original input. Resolution can be up to 480p and
+  bitrate can be up to 1.5 Mbps.
 """
 function create_channel(; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs(
@@ -114,13 +115,14 @@ end
     create_recording_configuration(destination_configuration, params::Dict{String,<:Any})
 
 Creates a new recording configuration, used to enable recording to Amazon S3.  Known issue:
-In the us-east-1 region, if you use the AWS CLI to create a recording configuration, it
-returns success even if the S3 bucket is in a different region. In this case, the state of
-the recording configuration is CREATE_FAILED (instead of ACTIVE). (In other regions, the
-CLI correctly returns failure if the bucket is in a different region.)  Workaround: Ensure
-that your S3 bucket is in the same region as the recording configuration. If you create a
-recording configuration in a different region as your S3 bucket, delete that recording
-configuration and create a new one with an S3 bucket from the correct region.
+In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording
+configuration, it returns success even if the S3 bucket is in a different region. In this
+case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE). (In
+other regions, the CLI correctly returns failure if the bucket is in a different region.)
+Workaround: Ensure that your S3 bucket is in the same region as the recording
+configuration. If you create a recording configuration in a different region as your S3
+bucket, delete that recording configuration and create a new one with an S3 bucket from the
+correct region.
 
 # Arguments
 - `destination_configuration`: A complex type that contains a destination configuration for
@@ -128,8 +130,7 @@ configuration and create a new one with an S3 bucket from the correct region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"name"`: An arbitrary string (a nickname) that helps the customer identify that
-  resource. The value does not need to be unique.
+- `"name"`: Recording-configuration name. The value does not need to be unique.
 - `"tags"`: Array of 1-50 maps, each of the form string:string (key:value).
 """
 function create_recording_configuration(
@@ -517,8 +518,7 @@ Amazon IVS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"name"`: An arbitrary string (a nickname) assigned to a playback key pair that helps the
-  customer identify that resource. The value does not need to be unique.
+- `"name"`: Playback-key-pair name. The value does not need to be unique.
 - `"tags"`: Any tags provided with the request are added to the playback key pair tags.
 """
 function import_playback_key_pair(
@@ -554,10 +554,10 @@ end
     list_channels()
     list_channels(params::Dict{String,<:Any})
 
-Gets summary information about all channels in your account, in the AWS region where the
-API request is processed. This list can be filtered to match a specified name or
-recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If
-you try to use both filters, you will get an error (409 ConflictException).
+Gets summary information about all channels in your account, in the Amazon Web Services
+region where the API request is processed. This list can be filtered to match a specified
+name or recording-configuration ARN. Filters are mutually exclusive and cannot be used
+together. If you try to use both filters, you will get an error (409 ConflictException).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -622,8 +622,8 @@ end
     list_recording_configurations()
     list_recording_configurations(params::Dict{String,<:Any})
 
-Gets summary information about all recording configurations in your account, in the AWS
-region where the API request is processed.
+Gets summary information about all recording configurations in your account, in the Amazon
+Web Services region where the API request is processed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -695,8 +695,8 @@ end
     list_streams()
     list_streams(params::Dict{String,<:Any})
 
-Gets summary information about live streams in your account, in the AWS region where the
-API request is processed.
+Gets summary information about live streams in your account, in the Amazon Web Services
+region where the API request is processed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -725,16 +725,11 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Gets information about AWS tags for the specified ARN.
+Gets information about Amazon Web Services tags for the specified ARN.
 
 # Arguments
 - `resource_arn`: The ARN of the resource to be retrieved.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of tags to return. Default: 50.
-- `"nextToken"`: The first tag to retrieve. This is used for pagination; see the nextToken
-  response field.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -764,10 +759,11 @@ end
     put_metadata(channel_arn, metadata)
     put_metadata(channel_arn, metadata, params::Dict{String,<:Any})
 
-Inserts metadata into the active stream of the specified channel. A maximum of 5 requests
-per second per channel is allowed, each with a maximum 1 KB payload. (If 5 TPS is not
+Inserts metadata into the active stream of the specified channel. At most 5 requests per
+second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not
 sufficient for your needs, we recommend batching your data into a single PutMetadata call.)
-Also see Embedding Metadata within a Video Stream in the Amazon IVS User Guide.
+At most 155 requests per second per account are allowed. Also see Embedding Metadata within
+a Video Stream in the Amazon IVS User Guide.
 
 # Arguments
 - `channel_arn`: ARN of the channel into which metadata is inserted. This channel must have
@@ -849,7 +845,7 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds or updates tags for the AWS resource with the specified ARN.
+Adds or updates tags for the Amazon Web Services resource with the specified ARN.
 
 # Arguments
 - `resource_arn`: ARN of the resource for which tags are to be added or updated.
@@ -941,10 +937,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceed the allowable resolution or bitrate, the stream probably will disconnect
   immediately. Valid values:    STANDARD: Multiple qualities are generated from the original
   input, to automatically give viewers the best experience for their devices and network
-  conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.
+  conditions. Resolution can be up to 1080p and bitrate can be up to 8.5 Mbps. Audio is
+  transcoded only for renditions 360p and below; above that, audio is passed through.
   BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality
-  choice is limited to the original input. Vertical resolution can be up to 480 and bitrate
-  can be up to 1.5 Mbps.
+  choice is limited to the original input. Resolution can be up to 480p and bitrate can be up
+  to 1.5 Mbps.
 """
 function update_channel(arn; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs(
