@@ -38,15 +38,14 @@ function mime_type(r::Response)
     return T
 end
 
-function Base.parse(f::Function, r::Response)
-    M = mime_type(r)
+function Base.parse(f::Function, r::Response, mime::MIME=mime_type(r)())
     result = _rewind(r.io) do io
-        f(io, M())
+        f(io, mime)
     end
     return result
 end
 
-Base.parse(r::Response) = parse(_read, r)
+Base.parse(r::Response, mime::MIME=mime_type(r)()) = parse(_read, r, mime)
 
 function _read(io::IO, ::MIME"application/xml")
     xml = parse_xml(read(io, String))

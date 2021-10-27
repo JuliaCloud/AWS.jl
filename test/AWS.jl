@@ -323,6 +323,27 @@ end
             @test content isa String
             @test content == expected_body
         end
+
+        # Note: `S3.create_multipart_upload` is an example of a response type that doesn't
+        # specify a Content-Type.
+        @testset "missing content type" begin
+            headers = Pair[]
+            body = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <root><body>text</body></root>
+                """
+            expected_body_type = AbstractDict
+            expected_body = Dict{String,Any}("body" => "text")
+
+            r = Patches._response(; headers=headers, body=body)
+            response = apply(Patches._aws_http_request_patch(r)) do
+                AWS.submit_request(aws, request)
+            end
+
+            content = parse(response, MIME"application/xml"())
+            @test content isa expected_body_type
+            @test content == expected_body
+        end
     end
 end
 
