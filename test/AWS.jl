@@ -340,9 +340,13 @@ end
                 AWS.submit_request(aws, request)
             end
 
-            content = parse(response, MIME"application/xml"())
+            content = parse(response)
             @test content isa expected_body_type
             @test content == expected_body
+
+            content = parse(response, MIME"text/plain"())
+            @test content isa String
+            @test content == body
         end
     end
 end

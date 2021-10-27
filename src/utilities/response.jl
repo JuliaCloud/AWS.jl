@@ -25,7 +25,17 @@ function mime_type(r::Response)
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
     mime = HTTP.header(r.response, "Content-Type", "application/octet-stream")
 
-    T = if occursin(r"/xml", mime)
+    # When the MIME type is not specified attempt to determine type from first bytes of the
+    # stream.
+    magic_bytes = if isempty(HTTP.header(r.response, "Content-Type", ""))
+        _rewind(r.io) do io
+            read(io, 5)
+        end
+    else
+        UInt8[]
+    end
+
+    T = if occursin(r"/xml", mime) || magic_bytes == b"<?xml"
         MIME"application/xml"
     elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
         MIME"application/json"
