@@ -2845,7 +2845,8 @@ QuickSight Developer Portal.
 - `aws_account_id`: The ID for the Amazon Web Services account that contains the dashboard
   that you're embedding.
 - `experience_configuration`: The experience you are embedding. For registered users, you
-  can embed Amazon QuickSight dashboards or the entire Amazon QuickSight console.
+  can embed Amazon QuickSight dashboards, the entire Amazon QuickSight console, or the Amazon
+  QuickSight Q search bar.
 - `user_arn`: The Amazon Resource Name for the registered user.
 
 # Optional Parameters

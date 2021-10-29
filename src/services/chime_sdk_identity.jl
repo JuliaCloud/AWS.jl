@@ -272,6 +272,42 @@ function delete_app_instance_user(
 end
 
 """
+    deregister_app_instance_user_endpoint(app_instance_user_arn, endpoint_id)
+    deregister_app_instance_user_endpoint(app_instance_user_arn, endpoint_id, params::Dict{String,<:Any})
+
+Deregisters an AppInstanceUserEndpoint.
+
+# Arguments
+- `app_instance_user_arn`: The ARN of the AppInstanceUser.
+- `endpoint_id`: The unique identifier of the AppInstanceUserEndpoint.
+
+"""
+function deregister_app_instance_user_endpoint(
+    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "DELETE",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deregister_app_instance_user_endpoint(
+    appInstanceUserArn,
+    endpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "DELETE",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_app_instance(app_instance_arn)
     describe_app_instance(app_instance_arn, params::Dict{String,<:Any})
 
@@ -376,6 +412,42 @@ function describe_app_instance_user(
 end
 
 """
+    describe_app_instance_user_endpoint(app_instance_user_arn, endpoint_id)
+    describe_app_instance_user_endpoint(app_instance_user_arn, endpoint_id, params::Dict{String,<:Any})
+
+Returns the full details of an AppInstanceUserEndpoint.
+
+# Arguments
+- `app_instance_user_arn`: The ARN of the AppInstanceUser.
+- `endpoint_id`: The unique identifier of the AppInstanceUserEndpoint.
+
+"""
+function describe_app_instance_user_endpoint(
+    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "GET",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_app_instance_user_endpoint(
+    appInstanceUserArn,
+    endpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "GET",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_app_instance_retention_settings(app_instance_arn)
     get_app_instance_retention_settings(app_instance_arn, params::Dict{String,<:Any})
 
@@ -442,6 +514,45 @@ function list_app_instance_admins(
     return chime_sdk_identity(
         "GET",
         "/app-instances/$(appInstanceArn)/admins",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_app_instance_user_endpoints(app_instance_user_arn)
+    list_app_instance_user_endpoints(app_instance_user_arn, params::Dict{String,<:Any})
+
+Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
+
+# Arguments
+- `app_instance_user_arn`: The ARN of the AppInstanceUser.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of endpoints that you want to return.
+- `"next-token"`: The token passed by previous API calls until all requested endpoints are
+  returned.
+"""
+function list_app_instance_user_endpoints(
+    appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "GET",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_app_instance_user_endpoints(
+    appInstanceUserArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "GET",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -522,6 +633,37 @@ function list_app_instances(
 end
 
 """
+    list_tags_for_resource(arn)
+    list_tags_for_resource(arn, params::Dict{String,<:Any})
+
+Lists the tags applied to an Amazon Chime SDK identity resource.
+
+# Arguments
+- `arn`: The ARN of the resource.
+
+"""
+function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return chime_sdk_identity(
+        "GET",
+        "/tags",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "GET",
+        "/tags",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_app_instance_retention_settings(app_instance_retention_settings, app_instance_arn)
     put_app_instance_retention_settings(app_instance_retention_settings, app_instance_arn, params::Dict{String,<:Any})
 
@@ -560,6 +702,165 @@ function put_app_instance_retention_settings(
                 Dict{String,Any}(
                     "AppInstanceRetentionSettings" => AppInstanceRetentionSettings
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    register_app_instance_user_endpoint(client_request_token, endpoint_attributes, resource_arn, type, app_instance_user_arn)
+    register_app_instance_user_endpoint(client_request_token, endpoint_attributes, resource_arn, type, app_instance_user_arn, params::Dict{String,<:Any})
+
+Registers an endpoint under an Amazon Chime AppInstanceUser. The endpoint receives messages
+for a user. For push notifications, the endpoint is a mobile device used to receive mobile
+push notifications for a user.
+
+# Arguments
+- `client_request_token`: The idempotency token for each client request.
+- `endpoint_attributes`: The attributes of an Endpoint.
+- `resource_arn`: The ARN of the resource to which the endpoint belongs.
+- `type`: The type of the AppInstanceUserEndpoint. Supported types:    APNS: The mobile
+  notification service for an Apple device.    APNS_SANDBOX: The sandbox environment of the
+  mobile notification service for an Apple device.    GCM: The mobile notification service
+  for an Android device.   Populate the ResourceArn value of each type as PinpointAppArn.
+- `app_instance_user_arn`: The ARN of the AppInstanceUser.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowMessages"`: Boolean that controls whether the AppInstanceUserEndpoint is opted in
+  to receive messages. ALL indicates the endpoint receives all messages. NONE indicates the
+  endpoint receives no messages.
+- `"Name"`: The name of the AppInstanceUserEndpoint.
+"""
+function register_app_instance_user_endpoint(
+    ClientRequestToken,
+    EndpointAttributes,
+    ResourceArn,
+    Type,
+    appInstanceUserArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "POST",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken,
+            "EndpointAttributes" => EndpointAttributes,
+            "ResourceArn" => ResourceArn,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function register_app_instance_user_endpoint(
+    ClientRequestToken,
+    EndpointAttributes,
+    ResourceArn,
+    Type,
+    appInstanceUserArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "POST",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "EndpointAttributes" => EndpointAttributes,
+                    "ResourceArn" => ResourceArn,
+                    "Type" => Type,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Applies the specified tags to the specified Amazon Chime SDK identity resource.
+
+# Arguments
+- `resource_arn`: The resource ARN.
+- `tags`: The tag key-value pairs.
+
+"""
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return chime_sdk_identity(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes the specified tags from the specified Amazon Chime SDK identity resource.
+
+# Arguments
+- `resource_arn`: The resource ARN.
+- `tag_keys`: The tag keys.
+
+"""
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
                 params,
             ),
         );
@@ -649,6 +950,49 @@ function update_app_instance_user(
                 _merge, Dict{String,Any}("Metadata" => Metadata, "Name" => Name), params
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_app_instance_user_endpoint(app_instance_user_arn, endpoint_id)
+    update_app_instance_user_endpoint(app_instance_user_arn, endpoint_id, params::Dict{String,<:Any})
+
+Updates the details of an AppInstanceUserEndpoint. You can update the name and AllowMessage
+values.
+
+# Arguments
+- `app_instance_user_arn`: The ARN of the AppInstanceUser.
+- `endpoint_id`: The unique identifier of the AppInstanceUserEndpoint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowMessages"`: Boolean that controls whether the AppInstanceUserEndpoint is opted in
+  to receive messages. ALL indicates the endpoint will receive all messages. NONE indicates
+  the endpoint will receive no messages.
+- `"Name"`: The name of the AppInstanceUserEndpoint.
+"""
+function update_app_instance_user_endpoint(
+    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "PUT",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_app_instance_user_endpoint(
+    appInstanceUserArn,
+    endpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "PUT",
+        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
