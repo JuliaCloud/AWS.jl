@@ -11427,17 +11427,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name
   of the key pair used when the instance was launched.    launch-index - When launching
   multiple instances, this is the index for the instance in the launch group (for example, 0,
-  1, 2, and so on).     launch-time - The time when the instance was launched.
-  metadata-options.http-tokens - The metadata request authorization state (optional |
-  required)    metadata-options.http-put-response-hop-limit - The http metadata request put
-  response hop limit (integer, possible values 1 to 64)    metadata-options.http-endpoint -
-  Enable or disable metadata access on http endpoint (enabled | disabled)    monitoring-state
-  - Indicates whether detailed monitoring is enabled (disabled | enabled).
-  network-interface.addresses.private-ip-address - The private IPv4 address associated with
-  the network interface.    network-interface.addresses.primary - Specifies whether the IPv4
-  address of the network interface is the primary private IPv4 address.
-  network-interface.addresses.association.public-ip - The ID of the association of an Elastic
-  IP address (IPv4) with a network interface.
+  1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO
+  8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example,
+  2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which
+  matches an entire day.    metadata-options.http-tokens - The metadata request authorization
+  state (optional | required)    metadata-options.http-put-response-hop-limit - The http
+  metadata request put response hop limit (integer, possible values 1 to 64)
+  metadata-options.http-endpoint - Enable or disable metadata access on http endpoint
+  (enabled | disabled)    monitoring-state - Indicates whether detailed monitoring is enabled
+  (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4
+  address associated with the network interface.    network-interface.addresses.primary -
+  Specifies whether the IPv4 address of the network interface is the primary private IPv4
+  address.    network-interface.addresses.association.public-ip - The ID of the association
+  of an Elastic IP address (IPv4) with a network interface.
   network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4
   address associated with the network interface.    network-interface.association.public-ip -
   The address of the Elastic IP address (IPv4) bound to the network interface.
@@ -17369,6 +17371,77 @@ function get_host_reservation_purchase_preview(
 end
 
 """
+    get_instance_types_from_instance_requirements(architecture_type, instance_requirements, virtualization_type)
+    get_instance_types_from_instance_requirements(architecture_type, instance_requirements, virtualization_type, params::Dict{String,<:Any})
+
+Returns a list of instance types with the specified instance attributes. You can use the
+response to preview the instance types without launching instances. Note that the response
+does not consider capacity. When you specify multiple parameters, you get instance types
+that satisfy all of the specified parameters. If you specify multiple values for a
+parameter, you get instance types that satisfy any of the specified values. For more
+information, see Preview instance types with specified attributes, Attribute-based instance
+type selection for EC2 Fleet, Attribute-based instance type selection for Spot Fleet, and
+Spot placement score in the Amazon EC2 User Guide, and Creating an Auto Scaling group using
+attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
+
+# Arguments
+- `architecture_type`: The processor architecture type.
+- `instance_requirements`: The attributes required for the instance types.
+- `virtualization_type`: The virtualization type.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"MaxResults"`: The maximum number of results to return in a single call. Specify a value
+  between 1 and&#x2028; 1000. The default value is 1000. To retrieve the remaining results,
+  make another call with&#x2028; the returned NextToken value.
+- `"NextToken"`: The token for the next set of results.
+"""
+function get_instance_types_from_instance_requirements(
+    ArchitectureType,
+    InstanceRequirements,
+    VirtualizationType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetInstanceTypesFromInstanceRequirements",
+        Dict{String,Any}(
+            "ArchitectureType" => ArchitectureType,
+            "InstanceRequirements" => InstanceRequirements,
+            "VirtualizationType" => VirtualizationType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_instance_types_from_instance_requirements(
+    ArchitectureType,
+    InstanceRequirements,
+    VirtualizationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetInstanceTypesFromInstanceRequirements",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ArchitectureType" => ArchitectureType,
+                    "InstanceRequirements" => InstanceRequirements,
+                    "VirtualizationType" => VirtualizationType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_launch_template_data(instance_id)
     get_launch_template_data(instance_id, params::Dict{String,<:Any})
 
@@ -17627,6 +17700,71 @@ function get_serial_console_access_status(
     return ec2(
         "GetSerialConsoleAccessStatus",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_spot_placement_scores(target_capacity)
+    get_spot_placement_scores(target_capacity, params::Dict{String,<:Any})
+
+Calculates the Spot placement score for a Region or Availability Zone based on the
+specified target capacity and compute requirements. You can specify your compute
+requirements either by using InstanceRequirementsWithMetadata and letting Amazon EC2 choose
+the optimal instance types to fulfill your Spot request, or you can specify the instance
+types by using InstanceTypes. For more information, see Spot placement score in the Amazon
+EC2 User Guide.
+
+# Arguments
+- `target_capacity`: The target capacity.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"InstanceRequirementsWithMetadata"`: The attributes for the instance types. When you
+  specify instance attributes, Amazon EC2 will identify instance types with those attributes.
+  If you specify InstanceRequirementsWithMetadata, you can't specify InstanceTypes.
+- `"InstanceType"`: The instance types. We recommend that you specify at least three
+  instance types. If you specify one or two instance types, or specify variations of a single
+  instance type (for example, an m3.xlarge with and without instance storage), the returned
+  placement score will always be low.  If you specify InstanceTypes, you can't specify
+  InstanceRequirementsWithMetadata.
+- `"MaxResults"`: The maximum number of results to return in a single call. Specify a value
+  between 1 and&#x2028; 1000. The default value is 1000. To retrieve the remaining results,
+  make another call with&#x2028; the returned NextToken value.
+- `"NextToken"`: The token for the next set of results.
+- `"RegionName"`: The Regions used to narrow down the list of Regions to be scored. Enter
+  the Region code, for example, us-east-1.
+- `"SingleAvailabilityZone"`: Specify true so that the response returns a list of scored
+  Availability Zones. Otherwise, the response returns a list of scored Regions. A list of
+  scored Availability Zones is useful if you want to launch all of your Spot capacity into a
+  single Availability Zone.
+- `"TargetCapacityUnitType"`: The unit for the target capacity. Default: units (translates
+  to number of instances)
+"""
+function get_spot_placement_scores(
+    TargetCapacity; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "GetSpotPlacementScores",
+        Dict{String,Any}("TargetCapacity" => TargetCapacity);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_spot_placement_scores(
+    TargetCapacity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetSpotPlacementScores",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TargetCapacity" => TargetCapacity), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -18494,6 +18632,7 @@ and then create a new one with the required attributes.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Accept"`: Reserved. Capacity Reservations you have created are accepted by default.
+- `"AdditionalInfo"`: Reserved for future use.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.

@@ -453,8 +453,7 @@ end
     create_hours_of_operation(config, instance_id, name, time_zone)
     create_hours_of_operation(config, instance_id, name, time_zone, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Creates hours
-of operation.
+Creates hours of operation.
 
 # Arguments
 - `config`: Configuration information for the hours of operation: day, start time, and end
@@ -994,8 +993,7 @@ end
     delete_hours_of_operation(hours_of_operation_id, instance_id)
     delete_hours_of_operation(hours_of_operation_id, instance_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Deletes an
-hours of operation.
+Deletes an hours of operation.
 
 # Arguments
 - `hours_of_operation_id`: The identifier for the hours of operation.
@@ -1337,8 +1335,7 @@ end
     describe_hours_of_operation(hours_of_operation_id, instance_id)
     describe_hours_of_operation(hours_of_operation_id, instance_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Describes the
-hours of operation.
+Describes the hours of operation.
 
 # Arguments
 - `hours_of_operation_id`: The identifier for the hours of operation.
@@ -2744,7 +2741,8 @@ paginated list of all the Amazon Lex bots currently associated with the instance
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
+- `"maxResults"`: The maximum number of results to return per page. If no value is
+  specified, the default is 10.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -4135,8 +4133,7 @@ end
     update_hours_of_operation(hours_of_operation_id, instance_id)
     update_hours_of_operation(hours_of_operation_id, instance_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Updates the
-hours of operation.
+Updates the hours of operation.
 
 # Arguments
 - `hours_of_operation_id`: The identifier of the hours of operation.

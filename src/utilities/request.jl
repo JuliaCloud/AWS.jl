@@ -99,10 +99,11 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     catch e
         if e isa HTTP.StatusError
             e = AWSException(e, stream)
+        elseif !(e isa AWSException)
+            rethrow(e)
         end
 
-        @retry if :message in fieldnames(typeof(e)) &&
-            occursin("Signature expired", e.message)
+        @retry if occursin("Signature expired", e.message)
         end
 
         # Handle ExpiredToken...
@@ -114,20 +115,16 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         # Throttle handling
         # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
         # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
-        @delay_retry if e isa AWSException && (
-            _http_status(e.cause) == TOO_MANY_REQUESTS || e.code in THROTTLING_ERROR_CODES
-        )
+        @delay_retry if _http_status(e.cause) == TOO_MANY_REQUESTS ||
+            e.code in THROTTLING_ERROR_CODES
         end
 
         # Handle BadDigest error and CRC32 check sum failure
-        @retry if e isa AWSException && (
-            _header(e.cause, "crc32body") == "x-amz-crc32" ||
+        @retry if _header(e.cause, "crc32body") == "x-amz-crc32" ||
             e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
-        )
         end
 
-        if e isa AWSException &&
-            occursin("Missing Authentication Token", e.message) &&
+        if occursin("Missing Authentication Token", e.message) &&
             aws.credentials === nothing
             return throw(
                 NoCredentials(

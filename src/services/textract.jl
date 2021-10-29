@@ -271,19 +271,71 @@ function get_document_text_detection(
 end
 
 """
+    get_expense_analysis(job_id)
+    get_expense_analysis(job_id, params::Dict{String,<:Any})
+
+Gets the results for an Amazon Textract asynchronous operation that analyzes invoices and
+receipts. Amazon Textract finds contact information, items purchased, and vendor name, from
+input invoices and receipts. You start asynchronous invoice/receipt analysis by calling
+StartExpenseAnalysis, which returns a job identifier (JobId). Upon completion of the
+invoice/receipt analysis, Amazon Textract publishes the completion status to the Amazon
+Simple Notification Service (Amazon SNS) topic. This topic must be registered in the
+initial call to StartExpenseAnalysis. To get the results of the invoice/receipt analysis
+operation, first ensure that the status value published to the Amazon SNS topic is
+SUCCEEDED. If so, call GetExpenseAnalysis, and pass the job identifier (JobId) from the
+initial call to StartExpenseAnalysis. Use the MaxResults parameter to limit the number of
+blocks that are returned. If there are more results than specified in MaxResults, the value
+of NextToken in the operation response contains a pagination token for getting the next set
+of results. To get the next page of results, call GetExpenseAnalysis, and populate the
+NextToken request parameter with the token value that's returned from the previous call to
+GetExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
+
+# Arguments
+- `job_id`: A unique identifier for the text detection job. The JobId is returned from
+  StartExpenseAnalysis. A JobId value is only valid for 7 days.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per paginated call. The largest
+  value you can specify is 20. If you specify a value greater than 20, a maximum of 20
+  results is returned. The default value is 20.
+- `"NextToken"`: If the previous response was incomplete (because there are more blocks to
+  retrieve), Amazon Textract returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of blocks.
+"""
+function get_expense_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return textract(
+        "GetExpenseAnalysis",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_expense_analysis(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "GetExpenseAnalysis",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_document_analysis(document_location, feature_types)
     start_document_analysis(document_location, feature_types, params::Dict{String,<:Any})
 
 Starts the asynchronous analysis of an input document for relationships between detected
 items such as key-value pairs, tables, and selection elements.  StartDocumentAnalysis can
-analyze text in documents that are in JPEG, PNG, and PDF format. The documents are stored
-in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name of
-the document.   StartDocumentAnalysis returns a job identifier (JobId) that you use to get
-the results of the operation. When text analysis is finished, Amazon Textract publishes a
-completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you
-specify in NotificationChannel. To get the results of the text analysis operation, first
-check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call
-GetDocumentAnalysis, and pass the job identifier (JobId) from the initial call to
+analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are
+stored in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file
+name of the document.   StartDocumentAnalysis returns a job identifier (JobId) that you use
+to get the results of the operation. When text analysis is finished, Amazon Textract
+publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic
+that you specify in NotificationChannel. To get the results of the text analysis operation,
+first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so,
+call GetDocumentAnalysis, and pass the job identifier (JobId) from the initial call to
 StartDocumentAnalysis. For more information, see Document Text Analysis.
 
 # Arguments
@@ -353,8 +405,8 @@ end
 
 Starts the asynchronous detection of text in a document. Amazon Textract can detect lines
 of text and the words that make up a line of text.  StartDocumentTextDetection can analyze
-text in documents that are in JPEG, PNG, and PDF format. The documents are stored in an
-Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the
+text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in
+an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the
 document.   StartTextDetection returns a job identifier (JobId) that you use to get the
 results of the operation. When text detection is finished, Amazon Textract publishes a
 completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you
@@ -402,6 +454,72 @@ function start_document_text_detection(
 )
     return textract(
         "StartDocumentTextDetection",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DocumentLocation" => DocumentLocation), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_expense_analysis(document_location)
+    start_expense_analysis(document_location, params::Dict{String,<:Any})
+
+Starts the asynchronous analysis of invoices or receipts for data like contact information,
+items purchased, and vendor names.  StartExpenseAnalysis can analyze text in documents that
+are in JPEG, PNG, and PDF format. The documents must be stored in an Amazon S3 bucket. Use
+the DocumentLocation parameter to specify the name of your S3 bucket and the name of the
+document in that bucket.   StartExpenseAnalysis returns a job identifier (JobId) that you
+will provide to GetExpenseAnalysis to retrieve the results of the operation. When the
+analysis of the input invoices/receipts is finished, Amazon Textract publishes a completion
+status to the Amazon Simple Notification Service (Amazon SNS) topic that you provide to the
+NotificationChannel. To obtain the results of the invoice and receipt analysis operation,
+ensure that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call
+GetExpenseAnalysis, and pass the job identifier (JobId) that was returned by your call to
+StartExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
+
+# Arguments
+- `document_location`: The location of the document to be processed.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: The idempotent token that's used to identify the start request.
+  If you use the same token with multiple StartDocumentTextDetection requests, the same JobId
+  is returned. Use ClientRequestToken to prevent the same job from being accidentally started
+  more than once. For more information, see Calling Amazon Textract Asynchronous Operations
+- `"JobTag"`: An identifier you specify that's included in the completion notification
+  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
+  document that the completion notification corresponds to (such as a tax form or a receipt).
+- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either
+  Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
+  server-side encryption of the objects in the customer bucket. When this parameter is not
+  enabled, the result will be encrypted server side,using SSE-S3.
+- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to
+  publish the completion status of the operation to.
+- `"OutputConfig"`: Sets if the output will go to a customer defined bucket. By default,
+  Amazon Textract will save the results internally to be accessed by the GetExpenseAnalysis
+  operation.
+"""
+function start_expense_analysis(
+    DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "StartExpenseAnalysis",
+        Dict{String,Any}("DocumentLocation" => DocumentLocation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_expense_analysis(
+    DocumentLocation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return textract(
+        "StartExpenseAnalysis",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("DocumentLocation" => DocumentLocation), params
