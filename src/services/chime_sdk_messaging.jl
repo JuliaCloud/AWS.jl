@@ -70,7 +70,7 @@ end
 Adds a specified number of users to a channel.
 
 # Arguments
-- `member_arns`: The ARNs of the members you want to add to the channel.
+- `member_arns`: The AppInstanceUserArns of the members you want to add to the channel.
 - `channel_arn`: The ARN of the channel to which you're adding users.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
@@ -268,7 +268,7 @@ request header is mandatory. Use the AppInstanceUserArn of the user that makes t
 as the value in the header.
 
 # Arguments
-- `member_arn`: The ARN of the member being banned.
+- `member_arn`: The AppInstanceUserArn of the member being banned.
 - `channel_arn`: The ARN of the ban request.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
@@ -391,16 +391,16 @@ end
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer)
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Adds a user to a channel. The InvitedBy response field is derived from the request header.
-A channel member can:   List messages   Send messages   Receive messages   Edit their own
-messages   Leave the channel   Privacy settings impact this action as follows:   Public
-Channels: You do not need to be a member to list messages, but you must be a member to send
-messages.   Private Channels: You must be a member to list or send messages.    The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+Adds a user to a channel. The InvitedBy field in ChannelMembership is derived from the
+request header. A channel member can:   List messages   Send messages   Receive messages
+Edit their own messages   Leave the channel   Privacy settings impact this action as
+follows:   Public Channels: You do not need to be a member to list messages, but you must
+be a member to send messages.   Private Channels: You must be a member to list or send
+messages.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn
+of the user that makes the API call as the value in the header.
 
 # Arguments
-- `member_arn`: The ARN of the member you want to add to the channel.
+- `member_arn`: The AppInstanceUserArn of the member you want to add to the channel.
 - `type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
   returned as part of ListChannelMemberships. Hidden members are only returned if the type
   filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
@@ -467,7 +467,7 @@ x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of th
 makes the API call as the value in the header.
 
 # Arguments
-- `channel_moderator_arn`: The ARN of the moderator.
+- `channel_moderator_arn`: The AppInstanceUserArn of the moderator.
 - `channel_arn`: The ARN of the channel.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
@@ -667,7 +667,7 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 
 # Arguments
 - `channel_arn`: The ARN of the channel from which you want to remove the user.
-- `member_arn`: The ARN of the member that you're removing from the channel.
+- `member_arn`: The AppInstanceUserArn of the member that you're removing from the channel.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -777,7 +777,7 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `channel_moderator_arn`: The ARN of the moderator being deleted.
+- `channel_moderator_arn`: The AppInstanceUserArn of the moderator being deleted.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -882,7 +882,7 @@ the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel from which the user is banned.
-- `member_arn`: The ARN of the member being banned.
+- `member_arn`: The AppInstanceUserArn of the member being banned.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -972,7 +972,7 @@ value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `member_arn`: The ARN of the member.
+- `member_arn`: The AppInstanceUserArn of the member.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -1141,7 +1141,7 @@ value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `channel_moderator_arn`: The ARN of the channel moderator.
+- `channel_moderator_arn`: The AppInstanceUserArn of the channel moderator.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -1228,6 +1228,63 @@ function disassociate_channel_flow(
     return chime_sdk_messaging(
         "DELETE",
         "/channels/$(channelArn)/channel-flow/$(channelFlowArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_channel_membership_preferences(channel_arn, member_arn, x-amz-chime-bearer)
+    get_channel_membership_preferences(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
+
+Gets the membership preferences of an AppInstanceUser for the specified channel. The
+AppInstanceUser must be a member of the channel. Only the AppInstanceUser who owns the
+membership can retrieve preferences. Users in the AppInstanceAdmin and channel moderator
+roles can't retrieve preferences for other users. Banned users can't retrieve membership
+preferences for the channel from which they are banned.
+
+# Arguments
+- `channel_arn`: The ARN of the channel.
+- `member_arn`: The AppInstanceUserArn of the member retrieving the preferences.
+- `x-amz-chime-bearer`: The AppInstanceUserARN of the user making the API call.
+
+"""
+function get_channel_membership_preferences(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_channel_membership_preferences(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1492,7 +1549,8 @@ end
 
 Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is
 mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+the header.  If you want to list the channels to which a specific app instance user
+belongs, see the ListChannelMembershipsForAppInstanceUser API.
 
 # Arguments
 - `channel_arn`: The maximum number of channel memberships that you want returned.
@@ -1910,6 +1968,68 @@ function list_tags_for_resource(
 end
 
 """
+    put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer)
+    put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
+
+Sets the membership preferences of an AppInstanceUser for the specified channel. The
+AppInstanceUser must be a member of the channel. Only the AppInstanceUser who owns the
+membership can set preferences. Users in the AppInstanceAdmin and channel moderator roles
+can't set preferences for other users. Banned users can't set membership preferences for
+the channel from which they are banned.
+
+# Arguments
+- `preferences`: The channel membership preferences of an AppInstanceUser .
+- `channel_arn`: The ARN of the channel.
+- `member_arn`: The AppInstanceUserArn of the member setting the preferences.
+- `x-amz-chime-bearer`: The AppInstanceUserARN of the user making the API call.
+
+"""
+function put_channel_membership_preferences(
+    Preferences,
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+        Dict{String,Any}(
+            "Preferences" => Preferences,
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_channel_membership_preferences(
+    Preferences,
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Preferences" => Preferences,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     redact_channel_message(channel_arn, message_id, x-amz-chime-bearer)
     redact_channel_message(channel_arn, message_id, x-amz-chime-bearer, params::Dict{String,<:Any})
 
@@ -1986,7 +2106,10 @@ metadata.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MessageAttributes"`: The attributes for the message, used for message filtering along
+  with a FilterRule defined in the PushNotificationPreferences.
 - `"Metadata"`: The optional metadata for each message.
+- `"PushNotification"`: The push notification configuration of the message.
 """
 function send_channel_message(
     ClientRequestToken,

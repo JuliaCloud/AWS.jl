@@ -8,11 +8,11 @@ using AWS.UUIDs
     associate_assessment_report_evidence_folder(assessment_id, evidence_folder_id)
     associate_assessment_report_evidence_folder(assessment_id, evidence_folder_id, params::Dict{String,<:Any})
 
- Associates an evidence folder to the specified assessment report in Audit Manager.
+ Associates an evidence folder to an assessment report in a Audit Manager assessment.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `evidence_folder_id`:  The identifier for the folder in which evidence is stored.
+- `assessment_id`:  The identifier for the assessment.
+- `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
 
 """
 function associate_assessment_report_evidence_folder(
@@ -52,8 +52,8 @@ end
  Associates a list of evidence to an assessment report in an Audit Manager assessment.
 
 # Arguments
-- `assessment_id`:  The unique identifier for the specified assessment.
-- `evidence_folder_id`:  The identifier for the folder in which the evidence is stored.
+- `assessment_id`:  The identifier for the assessment.
+- `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
 - `evidence_ids`:  The list of evidence identifiers.
 
 """
@@ -101,10 +101,10 @@ end
     batch_create_delegation_by_assessment(assessment_id, create_delegation_requests)
     batch_create_delegation_by_assessment(assessment_id, create_delegation_requests, params::Dict{String,<:Any})
 
- Create a batch of delegations for a specified assessment in Audit Manager.
+ Creates a batch of delegations for an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 - `create_delegation_requests`:  The API request to batch create delegations in Audit
   Manager.
 
@@ -147,11 +147,11 @@ end
     batch_delete_delegation_by_assessment(assessment_id, delegation_ids)
     batch_delete_delegation_by_assessment(assessment_id, delegation_ids, params::Dict{String,<:Any})
 
- Deletes the delegations in the specified Audit Manager assessment.
+ Deletes a batch of delegations for an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `delegation_ids`:  The identifiers for the specified delegations.
+- `assessment_id`:  The identifier for the assessment.
+- `delegation_ids`:  The identifiers for the delegations.
 
 """
 function batch_delete_delegation_by_assessment(
@@ -186,11 +186,11 @@ end
     batch_disassociate_assessment_report_evidence(assessment_id, evidence_folder_id, evidence_ids)
     batch_disassociate_assessment_report_evidence(assessment_id, evidence_folder_id, evidence_ids, params::Dict{String,<:Any})
 
- Disassociates a list of evidence from the specified assessment report in Audit Manager.
+ Disassociates a list of evidence from an assessment report in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `evidence_folder_id`:  The identifier for the folder in which evidence is stored.
+- `assessment_id`:  The identifier for the assessment.
+- `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
 - `evidence_ids`:  The list of evidence identifiers.
 
 """
@@ -238,13 +238,12 @@ end
     batch_import_evidence_to_assessment_control(assessment_id, control_id, control_set_id, manual_evidence)
     batch_import_evidence_to_assessment_control(assessment_id, control_id, control_set_id, manual_evidence, params::Dict{String,<:Any})
 
- Uploads one or more pieces of evidence to the specified control in the assessment in Audit
-Manager.
+ Uploads one or more pieces of evidence to a control in an Audit Manager assessment.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `control_id`:  The identifier for the specified control.
-- `control_set_id`:  The identifier for the specified control set.
+- `assessment_id`:  The identifier for the assessment.
+- `control_id`:  The identifier for the control.
+- `control_set_id`:  The identifier for the control set.
 - `manual_evidence`:  The list of manual evidence objects.
 
 """
@@ -290,16 +289,17 @@ end
 
 # Arguments
 - `assessment_reports_destination`:  The assessment report storage destination for the
-  specified assessment that is being created.
-- `framework_id`:  The identifier for the specified framework.
+  assessment that's being created.
+- `framework_id`:  The identifier for the framework that the assessment will be created
+  from.
 - `name`:  The name of the assessment to be created.
-- `roles`:  The list of roles for the specified assessment.
+- `roles`:  The list of roles for the assessment.
 - `scope`:
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`:  The optional description of the assessment to be created.
-- `"tags"`:  The tags associated with the assessment.
+- `"tags"`:  The tags that are associated with the assessment.
 """
 function create_assessment(
     assessmentReportsDestination,
@@ -360,7 +360,7 @@ end
  Creates a custom framework in Audit Manager.
 
 # Arguments
-- `control_sets`:  The control sets to be associated with the framework.
+- `control_sets`:  The control sets that are associated with the framework.
 - `name`:  The name of the new custom framework.
 
 # Optional Parameters
@@ -368,7 +368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"complianceType"`:  The compliance type that the new custom framework supports, such as
   CIS or HIPAA.
 - `"description"`:  An optional description for the new custom framework.
-- `"tags"`:  The tags associated with the framework.
+- `"tags"`:  The tags that are associated with the framework.
 """
 function create_assessment_framework(
     controlSets, name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -409,7 +409,7 @@ end
  Creates an assessment report for the specified assessment.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 - `name`:  The name of the new assessment report.
 
 # Optional Parameters
@@ -449,18 +449,17 @@ end
  Creates a new custom control in Audit Manager.
 
 # Arguments
-- `control_mapping_sources`:  The data mapping sources for the specified control.
+- `control_mapping_sources`:  The data mapping sources for the control.
 - `name`:  The name of the control.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"actionPlanInstructions"`:  The recommended actions to carry out if the control is not
+- `"actionPlanInstructions"`:  The recommended actions to carry out if the control isn't
   fulfilled.
 - `"actionPlanTitle"`:  The title of the action plan for remediating the control.
 - `"description"`:  The description of the control.
-- `"tags"`:  The tags associated with the control.
-- `"testingInformation"`:  The steps to follow to determine if the control has been
-  satisfied.
+- `"tags"`:  The tags that are associated with the control.
+- `"testingInformation"`:  The steps to follow to determine if the control is satisfied.
 """
 function create_control(
     controlMappingSources, name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -503,7 +502,7 @@ end
  Deletes an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 
 """
 function delete_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -535,7 +534,7 @@ end
  Deletes a custom framework in Audit Manager.
 
 # Arguments
-- `framework_id`:  The identifier for the specified framework.
+- `framework_id`:  The identifier for the framework.
 
 """
 function delete_assessment_framework(
@@ -563,13 +562,53 @@ function delete_assessment_framework(
 end
 
 """
+    delete_assessment_framework_share(request_id, request_type)
+    delete_assessment_framework_share(request_id, request_type, params::Dict{String,<:Any})
+
+ Deletes a share request for a custom framework in Audit Manager.
+
+# Arguments
+- `request_id`: The unique identifier for the share request to be deleted.
+- `request_type`: Specifies whether the share request is a sent request or a received
+  request.
+
+"""
+function delete_assessment_framework_share(
+    requestId, requestType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return auditmanager(
+        "DELETE",
+        "/assessmentFrameworkShareRequests/$(requestId)",
+        Dict{String,Any}("requestType" => requestType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_assessment_framework_share(
+    requestId,
+    requestType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return auditmanager(
+        "DELETE",
+        "/assessmentFrameworkShareRequests/$(requestId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("requestType" => requestType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_assessment_report(assessment_id, assessment_report_id)
     delete_assessment_report(assessment_id, assessment_report_id, params::Dict{String,<:Any})
 
  Deletes an assessment report from an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 - `assessment_report_id`:  The unique identifier for the assessment report.
 
 """
@@ -605,7 +644,7 @@ end
  Deletes a custom control in Audit Manager.
 
 # Arguments
-- `control_id`:  The identifier for the specified control.
+- `control_id`:  The identifier for the control.
 
 """
 function delete_control(controlId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -661,15 +700,16 @@ end
     deregister_organization_admin_account()
     deregister_organization_admin_account(params::Dict{String,<:Any})
 
-Removes the specified member account as a delegated administrator for Audit Manager.   When
-you remove a delegated administrator from your Audit Manager settings, or when you
-deregister a delegated administrator from Organizations, you continue to have access to the
-evidence that you previously collected under that account. However, Audit Manager will stop
-collecting and attaching evidence to that delegated administrator account moving forward.
+Removes the specified member Amazon Web Services account as a delegated administrator for
+Audit Manager.   When you remove a delegated administrator from your Audit Manager
+settings, you continue to have access to the evidence that you previously collected under
+that account. This is also the case when you deregister a delegated administrator from
+Audit Manager. However, Audit Manager will stop collecting and attaching evidence to that
+delegated administrator account moving forward.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"adminAccountId"`:  The identifier for the specified administrator account.
+- `"adminAccountId"`:  The identifier for the administrator account.
 """
 function deregister_organization_admin_account(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -700,7 +740,7 @@ end
  Disassociates an evidence folder from the specified assessment report in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 - `evidence_folder_id`:  The identifier for the folder in which evidence is stored.
 
 """
@@ -765,7 +805,7 @@ end
  Returns an assessment from Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 
 """
 function get_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -797,7 +837,7 @@ end
  Returns a framework from Audit Manager.
 
 # Arguments
-- `framework_id`:  The identifier for the specified framework.
+- `framework_id`:  The identifier for the framework.
 
 """
 function get_assessment_framework(
@@ -828,10 +868,10 @@ end
     get_assessment_report_url(assessment_id, assessment_report_id)
     get_assessment_report_url(assessment_id, assessment_report_id, params::Dict{String,<:Any})
 
- Returns the URL of a specified assessment report in Audit Manager.
+ Returns the URL of an assessment report in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 - `assessment_report_id`:  The identifier for the assessment report.
 
 """
@@ -867,15 +907,15 @@ end
  Returns a list of changelogs from Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"controlId"`:  The identifier for the specified control.
-- `"controlSetId"`:  The identifier for the specified control set.
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"controlId"`:  The identifier for the control.
+- `"controlSetId"`:  The identifier for the control set.
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function get_change_logs(assessmentId; aws_config::AbstractAWSConfig=global_aws_config())
     return auditmanager(
@@ -906,7 +946,7 @@ end
  Returns a control from Audit Manager.
 
 # Arguments
-- `control_id`:  The identifier for the specified control.
+- `control_id`:  The identifier for the control.
 
 """
 function get_control(controlId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -939,9 +979,9 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function get_delegations(; aws_config::AbstractAWSConfig=global_aws_config())
     return auditmanager(
@@ -967,9 +1007,9 @@ end
  Returns evidence from Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `control_set_id`:  The identifier for the specified control set.
-- `evidence_folder_id`:  The identifier for the folder in which the evidence is stored.
+- `assessment_id`:  The identifier for the assessment.
+- `control_set_id`:  The identifier for the control set.
+- `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
 - `evidence_id`:  The identifier for the evidence.
 
 """
@@ -1011,16 +1051,16 @@ end
  Returns all evidence from a specified evidence folder in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 - `control_set_id`:  The identifier for the control set.
-- `evidence_folder_id`:  The unique identifier for the folder in which the evidence is
-  stored.
+- `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
+  in.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function get_evidence_by_evidence_folder(
     assessmentId,
@@ -1058,9 +1098,9 @@ end
  Returns an evidence folder from the specified assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `control_set_id`:  The identifier for the specified control set.
-- `evidence_folder_id`:  The identifier for the folder in which the evidence is stored.
+- `assessment_id`:  The identifier for the assessment.
+- `control_set_id`:  The identifier for the control set.
+- `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
 
 """
 function get_evidence_folder(
@@ -1099,13 +1139,13 @@ end
  Returns the evidence folders from a specified assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function get_evidence_folders_by_assessment(
     assessmentId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1135,19 +1175,19 @@ end
     get_evidence_folders_by_assessment_control(assessment_id, control_id, control_set_id)
     get_evidence_folders_by_assessment_control(assessment_id, control_id, control_set_id, params::Dict{String,<:Any})
 
- Returns a list of evidence folders associated with a specified control of an assessment in
-Audit Manager.
+ Returns a list of evidence folders that are associated with a specified control of an
+assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `control_id`:  The identifier for the specified control.
-- `control_set_id`:  The identifier for the specified control set.
+- `assessment_id`:  The identifier for the assessment.
+- `control_id`:  The identifier for the control.
+- `control_set_id`:  The identifier for the control set.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function get_evidence_folders_by_assessment_control(
     assessmentId, controlId, controlSetId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1227,7 +1267,7 @@ end
     get_settings(attribute)
     get_settings(attribute, params::Dict{String,<:Any})
 
- Returns the settings for the specified account.
+ Returns the settings for the specified Amazon Web Services account.
 
 # Arguments
 - `attribute`:  The list of SettingAttribute enum values.
@@ -1256,19 +1296,64 @@ function get_settings(
 end
 
 """
-    list_assessment_frameworks(framework_type)
-    list_assessment_frameworks(framework_type, params::Dict{String,<:Any})
+    list_assessment_framework_share_requests(request_type)
+    list_assessment_framework_share_requests(request_type, params::Dict{String,<:Any})
 
- Returns a list of the frameworks available in the Audit Manager framework library.
+ Returns a list of sent or received share requests for custom frameworks in Audit Manager.
 
 # Arguments
-- `framework_type`:  The type of framework, such as standard or custom.
+- `request_type`:  Specifies whether the share request is a sent request or a received
+  request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
+"""
+function list_assessment_framework_share_requests(
+    requestType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return auditmanager(
+        "GET",
+        "/assessmentFrameworkShareRequests",
+        Dict{String,Any}("requestType" => requestType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_assessment_framework_share_requests(
+    requestType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return auditmanager(
+        "GET",
+        "/assessmentFrameworkShareRequests",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("requestType" => requestType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_assessment_frameworks(framework_type)
+    list_assessment_frameworks(framework_type, params::Dict{String,<:Any})
+
+ Returns a list of the frameworks that are available in the Audit Manager framework
+library.
+
+# Arguments
+- `framework_type`:  The type of framework, such as a standard framework or a custom
+  framework.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
+  call.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function list_assessment_frameworks(
     frameworkType; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1305,9 +1390,9 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function list_assessment_reports(; aws_config::AbstractAWSConfig=global_aws_config())
     return auditmanager(
@@ -1334,9 +1419,9 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function list_assessments(; aws_config::AbstractAWSConfig=global_aws_config())
     return auditmanager(
@@ -1362,13 +1447,13 @@ end
  Returns a list of controls from Audit Manager.
 
 # Arguments
-- `control_type`:  The type of control, such as standard or custom.
+- `control_type`:  The type of control, such as a standard control or a custom control.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function list_controls(controlType; aws_config::AbstractAWSConfig=global_aws_config())
     return auditmanager(
@@ -1399,16 +1484,16 @@ end
     list_keywords_for_data_source(source)
     list_keywords_for_data_source(source, params::Dict{String,<:Any})
 
- Returns a list of keywords that pre-mapped to the specified control data source.
+ Returns a list of keywords that are pre-mapped to the specified control data source.
 
 # Arguments
-- `source`:  The control mapping data source to which the keywords apply.
+- `source`:  The control mapping data source that the keywords apply to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function list_keywords_for_data_source(
     source; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1441,9 +1526,9 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Represents the maximum number of results per page, or per API request
+- `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
-- `"nextToken"`:  The pagination token used to fetch the next set of results.
+- `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
 function list_notifications(; aws_config::AbstractAWSConfig=global_aws_config())
     return auditmanager(
@@ -1469,7 +1554,7 @@ end
  Returns a list of tags for the specified resource in Audit Manager.
 
 # Arguments
-- `resource_arn`:  The Amazon Resource Name (ARN) of the specified resource.
+- `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
 
 """
 function list_tags_for_resource(
@@ -1500,7 +1585,7 @@ end
     register_account()
     register_account(params::Dict{String,<:Any})
 
- Enables Audit Manager for the specified account.
+ Enables Audit Manager for the specified Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1531,11 +1616,11 @@ end
     register_organization_admin_account(admin_account_id)
     register_organization_admin_account(admin_account_id, params::Dict{String,<:Any})
 
- Enables an account within the organization as the delegated administrator for Audit
-Manager.
+ Enables an Amazon Web Services account within the organization as the delegated
+administrator for Audit Manager.
 
 # Arguments
-- `admin_account_id`:  The identifier for the specified delegated administrator account.
+- `admin_account_id`:  The identifier for the delegated administrator account.
 
 """
 function register_organization_admin_account(
@@ -1566,14 +1651,80 @@ function register_organization_admin_account(
 end
 
 """
+    start_assessment_framework_share(destination_account, destination_region, framework_id)
+    start_assessment_framework_share(destination_account, destination_region, framework_id, params::Dict{String,<:Any})
+
+ Creates a share request for a custom framework in Audit Manager.  The share request
+specifies a recipient and notifies them that a custom framework is available. Recipients
+have 120 days to accept or decline the request. If no action is taken, the share request
+expires.  When you invoke the StartAssessmentFrameworkShare API, you are about to share a
+custom framework with another Amazon Web Services account. You may not share a custom
+framework that is derived from a standard framework if the standard framework is designated
+as not eligible for sharing by Amazon Web Services, unless you have obtained permission to
+do so from the owner of the standard framework. To learn more about which standard
+frameworks are eligible for sharing, see Framework sharing eligibility in the Audit Manager
+User Guide.
+
+# Arguments
+- `destination_account`:  The Amazon Web Services account of the recipient.
+- `destination_region`:  The Amazon Web Services Region of the recipient.
+- `framework_id`:  The unique identifier for the custom framework to be shared.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"comment"`:  An optional comment from the sender about the share request.
+"""
+function start_assessment_framework_share(
+    destinationAccount,
+    destinationRegion,
+    frameworkId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return auditmanager(
+        "POST",
+        "/assessmentFrameworks/$(frameworkId)/shareRequests",
+        Dict{String,Any}(
+            "destinationAccount" => destinationAccount,
+            "destinationRegion" => destinationRegion,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_assessment_framework_share(
+    destinationAccount,
+    destinationRegion,
+    frameworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return auditmanager(
+        "POST",
+        "/assessmentFrameworks/$(frameworkId)/shareRequests",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationAccount" => destinationAccount,
+                    "destinationRegion" => destinationRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
  Tags the specified resource in Audit Manager.
 
 # Arguments
-- `resource_arn`:  The Amazon Resource Name (ARN) of the specified resource.
-- `tags`:  The tags to be associated with the resource.
+- `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
+- `tags`:  The tags that are associated with the resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1644,16 +1795,16 @@ end
  Edits an Audit Manager assessment.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `scope`:  The scope of the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
+- `scope`:  The scope of the assessment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"assessmentDescription"`:  The description of the specified assessment.
-- `"assessmentName"`:  The name of the specified assessment to be updated.
+- `"assessmentDescription"`:  The description of the assessment.
+- `"assessmentName"`:  The name of the assessment to be updated.
 - `"assessmentReportsDestination"`:  The assessment report storage destination for the
-  specified assessment that is being updated.
-- `"roles"`:  The list of roles for the specified assessment.
+  assessment that's being updated.
+- `"roles"`:  The list of roles for the assessment.
 """
 function update_assessment(
     assessmentId, scope; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1688,14 +1839,14 @@ end
  Updates a control within an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `control_id`:  The identifier for the specified control.
-- `control_set_id`:  The identifier for the specified control set.
+- `assessment_id`:  The identifier for the assessment.
+- `control_id`:  The identifier for the control.
+- `control_set_id`:  The identifier for the control set.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"commentBody"`:  The comment body text for the specified control.
-- `"controlStatus"`:  The status of the specified control.
+- `"commentBody"`:  The comment body text for the control.
+- `"controlStatus"`:  The status of the control.
 """
 function update_assessment_control(
     assessmentId, controlId, controlSetId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1730,10 +1881,10 @@ end
  Updates the status of a control set in an Audit Manager assessment.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `comment`:  The comment related to the status update.
-- `control_set_id`:  The identifier for the specified control set.
-- `status`:  The status of the control set that is being updated.
+- `assessment_id`:  The identifier for the assessment.
+- `comment`:  The comment that's related to the status update.
+- `control_set_id`:  The identifier for the control set.
+- `status`:  The status of the control set that's being updated.
 
 """
 function update_assessment_control_set_status(
@@ -1779,15 +1930,15 @@ end
  Updates a custom framework in Audit Manager.
 
 # Arguments
-- `control_sets`:  The control sets associated with the framework.
-- `framework_id`:  The identifier for the specified framework.
+- `control_sets`:  The control sets that are associated with the framework.
+- `framework_id`:  The identifier for the framework.
 - `name`:  The name of the framework to be updated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"complianceType"`:  The compliance type that the new custom framework supports, such as
   CIS or HIPAA.
-- `"description"`:  The description of the framework that is to be updated.
+- `"description"`:  The description of the updated framework.
 """
 function update_assessment_framework(
     controlSets, frameworkId, name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1823,14 +1974,60 @@ function update_assessment_framework(
 end
 
 """
+    update_assessment_framework_share(action, request_id, request_type)
+    update_assessment_framework_share(action, request_id, request_type, params::Dict{String,<:Any})
+
+ Updates a share request for a custom framework in Audit Manager.
+
+# Arguments
+- `action`: Specifies the update action for the share request.
+- `request_id`:  The unique identifier for the share request.
+- `request_type`: Specifies whether the share request is a sent request or a received
+  request.
+
+"""
+function update_assessment_framework_share(
+    action, requestId, requestType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return auditmanager(
+        "PUT",
+        "/assessmentFrameworkShareRequests/$(requestId)",
+        Dict{String,Any}("action" => action, "requestType" => requestType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_assessment_framework_share(
+    action,
+    requestId,
+    requestType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return auditmanager(
+        "PUT",
+        "/assessmentFrameworkShareRequests/$(requestId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("action" => action, "requestType" => requestType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_assessment_status(assessment_id, status)
     update_assessment_status(assessment_id, status, params::Dict{String,<:Any})
 
  Updates the status of an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the specified assessment.
-- `status`:  The current status of the specified assessment.
+- `assessment_id`:  The identifier for the assessment.
+- `status`:  The current status of the assessment.
 
 """
 function update_assessment_status(
@@ -1866,18 +2063,18 @@ end
  Updates a custom control in Audit Manager.
 
 # Arguments
-- `control_id`:  The identifier for the specified control.
-- `control_mapping_sources`:  The data mapping sources for the specified control.
-- `name`:  The name of the control to be updated.
+- `control_id`:  The identifier for the control.
+- `control_mapping_sources`:  The data mapping sources for the control.
+- `name`:  The name of the updated control.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"actionPlanInstructions"`:  The recommended actions to carry out if the control is not
+- `"actionPlanInstructions"`:  The recommended actions to carry out if the control isn't
   fulfilled.
 - `"actionPlanTitle"`:  The title of the action plan for remediating the control.
 - `"description"`:  The optional description of the control.
-- `"testingInformation"`:  The steps that to follow to determine if the control has been
-  satisfied.
+- `"testingInformation"`:  The steps that you should follow to determine if the control is
+  met.
 """
 function update_control(
     controlId,
@@ -1929,8 +2126,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reports.
 - `"defaultProcessOwners"`:  A list of the default audit owners.
 - `"kmsKey"`:  The KMS key details.
-- `"snsTopic"`:  The Amazon Simple Notification Service (Amazon SNS) topic to which Audit
-  Manager sends notifications.
+- `"snsTopic"`:  The Amazon Simple Notification Service (Amazon SNS) topic that Audit
+  Manager sends notifications to.
 """
 function update_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return auditmanager(
@@ -1952,8 +2149,8 @@ end
  Validates the integrity of an assessment report in Audit Manager.
 
 # Arguments
-- `s3_relative_path`:  The relative path of the specified Amazon S3 bucket in which the
-  assessment report is stored.
+- `s3_relative_path`:  The relative path of the Amazon S3 bucket that the assessment report
+  is stored in.
 
 """
 function validate_assessment_report_integrity(

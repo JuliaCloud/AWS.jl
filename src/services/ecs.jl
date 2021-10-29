@@ -2004,7 +2004,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is used to expand the total amount of ephemeral storage available, beyond the
   default amount, for tasks hosted on Fargate. For more information, see Fargate task storage
   in the Amazon ECS User Guide for Fargate.  This parameter is only supported for tasks
-  hosted on Fargate using platform version 1.4.0 or later.
+  hosted on Fargate using the following platform versions:   Linux platform version 1.4.0 or
+  later.   Windows platform version 1.0.0 or later.
 - `"executionRoleArn"`: The Amazon Resource Name (ARN) of the task execution role that
   grants the Amazon ECS container agent permission to make Amazon Web Services API calls on
   your behalf. The task execution IAM role is required depending on the requirements of your
@@ -2086,6 +2087,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task definition against. A client exception is returned if the task definition doesn't
   validate against the compatibilities specified. If no value is specified, the parameter is
   omitted from the response.
+- `"runtimePlatform"`: The operating system that your tasks definitions run on. A platform
+  family is specified only for tasks using the Fargate launch type.  When you specify a task
+  definition in a service, this value must match the runtimePlatform value of the service.
 - `"tags"`: The metadata that you apply to the task definition to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   The following basic restrictions apply to tags:   Maximum number of tags per resource - 50

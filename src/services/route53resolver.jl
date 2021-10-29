@@ -1304,6 +1304,40 @@ function get_firewall_rule_group_policy(
 end
 
 """
+    get_resolver_config(resource_id)
+    get_resolver_config(resource_id, params::Dict{String,<:Any})
+
+Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
+Amazon Virtual Private Cloud.
+
+# Arguments
+- `resource_id`: Resource ID of the Amazon VPC that you want to get information about.
+
+"""
+function get_resolver_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53resolver(
+        "GetResolverConfig",
+        Dict{String,Any}("ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resolver_config(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53resolver(
+        "GetResolverConfig",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_resolver_dnssec_config(resource_id)
     get_resolver_dnssec_config(resource_id, params::Dict{String,<:Any})
 
@@ -1942,6 +1976,40 @@ function list_firewall_rules(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resolver_configs()
+    list_resolver_configs(params::Dict{String,<:Any})
+
+Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the
+configurations to manage DNS resolution behavior for your VPCs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of Resolver configurations that you want to return in
+  the response to a ListResolverConfigs request. If you don't specify a value for MaxResults,
+  up to 100 Resolver configurations are returned.
+- `"NextToken"`: (Optional) If the current Amazon Web Services account has more than
+  MaxResults Resolver configurations, use NextToken to get the second and subsequent pages of
+  results. For the first ListResolverConfigs request, omit this value. For the second and
+  subsequent requests, get the value of NextToken from the previous response and specify that
+  value for NextToken in the request.
+"""
+function list_resolver_configs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53resolver(
+        "ListResolverConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_resolver_configs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53resolver(
+        "ListResolverConfigs",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2794,6 +2862,57 @@ function update_firewall_rule_group_association(
                 _merge,
                 Dict{String,Any}(
                     "FirewallRuleGroupAssociationId" => FirewallRuleGroupAssociationId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_resolver_config(autodefined_reverse_flag, resource_id)
+    update_resolver_config(autodefined_reverse_flag, resource_id, params::Dict{String,<:Any})
+
+Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
+Amazon Virtual Private Cloud.
+
+# Arguments
+- `autodefined_reverse_flag`: Indicates whether or not the Resolver will create autodefined
+  rules for reverse DNS lookups. This is enabled by default. Disabling this option will also
+  affect EC2-Classic instances using ClassicLink. For more information, see ClassicLink in
+  the Amazon EC2 guide.  It can take some time for the status change to be completed.
+- `resource_id`: Resource ID of the Amazon VPC that you want to update the Resolver
+  configuration for.
+
+"""
+function update_resolver_config(
+    AutodefinedReverseFlag, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53resolver(
+        "UpdateResolverConfig",
+        Dict{String,Any}(
+            "AutodefinedReverseFlag" => AutodefinedReverseFlag, "ResourceId" => ResourceId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_resolver_config(
+    AutodefinedReverseFlag,
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53resolver(
+        "UpdateResolverConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutodefinedReverseFlag" => AutodefinedReverseFlag,
+                    "ResourceId" => ResourceId,
                 ),
                 params,
             ),

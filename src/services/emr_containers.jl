@@ -43,14 +43,13 @@ function cancel_job_run(
 end
 
 """
-    create_managed_endpoint(certificate_arn, client_token, execution_role_arn, name, release_label, type, virtual_cluster_id)
-    create_managed_endpoint(certificate_arn, client_token, execution_role_arn, name, release_label, type, virtual_cluster_id, params::Dict{String,<:Any})
+    create_managed_endpoint(client_token, execution_role_arn, name, release_label, type, virtual_cluster_id)
+    create_managed_endpoint(client_token, execution_role_arn, name, release_label, type, virtual_cluster_id, params::Dict{String,<:Any})
 
 Creates a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to
 Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
 
 # Arguments
-- `certificate_arn`: The certificate ARN of the managed endpoint.
 - `client_token`: The client idempotency token for this create call.
 - `execution_role_arn`: The ARN of the execution role.
 - `name`: The name of the managed endpoint.
@@ -61,12 +60,13 @@ Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"certificateArn"`: The certificate ARN provided by users for the managed endpoint. This
+  fiedd is under deprecation and will be removed in future releases.
 - `"configurationOverrides"`: The configuration settings that will be used to override
   existing configurations.
 - `"tags"`: The tags of the managed endpoint.
 """
 function create_managed_endpoint(
-    certificateArn,
     clientToken,
     executionRoleArn,
     name,
@@ -79,7 +79,6 @@ function create_managed_endpoint(
         "POST",
         "/virtualclusters/$(virtualClusterId)/endpoints",
         Dict{String,Any}(
-            "certificateArn" => certificateArn,
             "clientToken" => clientToken,
             "executionRoleArn" => executionRoleArn,
             "name" => name,
@@ -91,7 +90,6 @@ function create_managed_endpoint(
     )
 end
 function create_managed_endpoint(
-    certificateArn,
     clientToken,
     executionRoleArn,
     name,
@@ -108,7 +106,6 @@ function create_managed_endpoint(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "certificateArn" => certificateArn,
                     "clientToken" => clientToken,
                     "executionRoleArn" => executionRoleArn,
                     "name" => name,
