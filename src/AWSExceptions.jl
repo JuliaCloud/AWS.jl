@@ -54,10 +54,6 @@ function Base.show(io::IO, e::AWSException)
     return nothing
 end
 
-http_status(e::HTTP.StatusError) = e.status
-content_type(e::HTTP.StatusError) = HTTP.header(e.response, "Content-Type")
-is_valid_xml_string(str) = startswith(str, '<')
-
 AWSException(e::HTTP.StatusError) = AWSException(e, String(copy(e.response.body)))
 
 function AWSException(e::HTTP.StatusError, stream::IO)
@@ -67,19 +63,20 @@ function AWSException(e::HTTP.StatusError, stream::IO)
 end
 
 function AWSException(e::HTTP.StatusError, body::AbstractString)
-    code = string(http_status(e))
+    content_type = HTTP.header(e.response, "Content-Type")
+    code = string(e.status)
     message = "AWSException"
     info = Dict{String,Dict}()
 
     try
         if !isempty(body)
             # Extract API error code from Lambda-style JSON error message...
-            if endswith(content_type(e), "json")
+            if endswith(content_type, "json")
                 info = JSON.parse(body)
             end
 
             # Extract API error code from JSON error message...
-            if occursin(r"^application/x-amz-json-1\.[01]$", content_type(e))
+            if occursin(r"^application/x-amz-json-1\.[01]$", content_type)
                 info = JSON.parse(body)
                 if haskey(info, "__type")
                     code = rsplit(info["__type"], '#'; limit=2)[end]
@@ -87,8 +84,7 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
             end
 
             # Extract API error code from XML error message...
-            error_content_types = ["", "application/xml", "text/xml"]
-            if content_type(e) in error_content_types && is_valid_xml_string(body)
+            if endswith(content_type, "/xml") || startswith(body, "<?xml")
                 info = parse_xml(body)
             end
         elseif parse(Int, HTTP.header(e.response, "Content-Length", "0")) > 0
