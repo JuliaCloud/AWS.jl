@@ -37,7 +37,7 @@ function mime_type(r::Response)
 
     T = if occursin(r"/xml", mime) || magic_bytes == b"<?xml"
         MIME"application/xml"
-    elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
+    elseif occursin(r"/x-amz-json-1\.[01]$", mime) || endswith(mime, "json")
         MIME"application/json"
     elseif startswith(mime, "text/")
         MIME"text/plain"
