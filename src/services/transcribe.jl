@@ -1121,7 +1121,11 @@ end
 Lists all tags associated with a given transcription job, vocabulary, or resource.
 
 # Arguments
-- `resource_arn`: Lists all tags associated with a given Amazon Resource Name (ARN).
+- `resource_arn`: Lists all tags associated with a given Amazon Resource Name (ARN). ARNs
+  have the format arn:partition:service:region:account-id:resource-type/resource-id (for
+  example, arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name). Valid
+  values for resource-type are: transcription-job, medical-transcription-job, vocabulary,
+  medical-vocabulary, vocabulary-filter, and language-model.
 
 """
 function list_tags_for_resource(
@@ -1399,12 +1403,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias:
   \"alias/ExampleAlias\"   You can use either of the following to identify a KMS key in the
   current account or another account:   Amazon Resource Name (ARN) of a KMS key in the
-  current account or another account: \"arn:aws:kms:region:account
-  ID:key/1234abcd-12ab-34cd-56ef-1234567890ab\"   ARN of a KMS Key Alias:
-  \"arn:aws:kms:region:account ID:alias/ExampleAlias\"   If you don't specify an encryption
-  key, the output of the medical transcription job is encrypted with the default Amazon S3
-  key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an
-  output location in the OutputBucketName parameter.
+  current account or another account:
+  \"arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab\"   ARN of a KMS
+  Key Alias: \"arn:aws:kms:region:account ID:alias/ExampleAlias\"   If you don't specify an
+  encryption key, the output of the medical transcription job is encrypted with the default
+  Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also
+  specify an output location in the OutputBucketName parameter.
 - `"OutputKey"`: You can specify a location in an Amazon S3 bucket to store the output of
   your medical transcription job. If you don't specify an output key, Amazon Transcribe
   Medical stores the output of your transcription job in the Amazon S3 bucket you specified.
@@ -1501,6 +1505,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LanguageCode"`: The language code for the language used in the input media file. To
   transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be
   encoded at a sample rate of 16,000 Hz or higher.
+- `"LanguageIdSettings"`: The language identification settings associated with your
+  transcription job. These settings include VocabularyName, VocabularyFilterName, and
+  LanguageModelName.
 - `"LanguageOptions"`: An object containing a list of languages that might be present in
   your collection of audio files. Automatic language identification chooses a language that
   best matches the source audio from that list. To transcribe speech in Modern Standard
@@ -1537,7 +1544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"alias/ExampleAlias\"   You can use either of the following to identify a KMS key in the
   current account or another account:   Amazon Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab\"   ARN of a KMS
-  Key Alias: \"arn:aws:kms:region:account ID:alias/ExampleAlias\"   If you don't specify an
+  Key Alias: \"arn:aws:kms:region:account-ID:alias/ExampleAlias\"   If you don't specify an
   encryption key, the output of the transcription job is encrypted with the default Amazon S3
   key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an
   output location in the OutputBucketName parameter.
@@ -1592,11 +1599,15 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Tags a Amazon Transcribe resource with the given list of tags.
+Tags an Amazon Transcribe resource with the given list of tags.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want
-  to tag.
+  to tag. ARNs have the format
+  arn:partition:service:region:account-id:resource-type/resource-id (for example,
+  arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name). Valid values for
+  resource-type are: transcription-job, medical-transcription-job, vocabulary,
+  medical-vocabulary, vocabulary-filter, and language-model.
 - `tags`: The tags you are assigning to a given Amazon Transcribe resource.
 
 """
@@ -1636,7 +1647,11 @@ Removes specified tags from a specified Amazon Transcribe resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want
-  to remove tags from.
+  to remove tags from. ARNs have the format
+  arn:partition:service:region:account-id:resource-type/resource-id (for example,
+  arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name). Valid values for
+  resource-type are: transcription-job, medical-transcription-job, vocabulary,
+  medical-vocabulary, vocabulary-filter, and language-model.
 - `tag_keys`: A list of tag keys you want to remove from a specified Amazon Transcribe
   resource.
 

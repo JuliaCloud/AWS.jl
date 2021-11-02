@@ -10852,6 +10852,12 @@ error indicating that the AMI ID cannot be found.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ExecutableBy"`: Scopes the images by users with explicit launch permissions. Specify an
   Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).
+  If you specify an Amazon Web Services account ID that is not your own, only AMIs shared
+  with that specific Amazon Web Services account ID are returned. However, AMIs that are
+  shared with the account’s organization or organizational unit (OU) are not returned.   If
+  you specify self or your own Amazon Web Services account ID, AMIs shared with your account
+  are returned. In addition, AMIs that are shared with the organization or OU of which you
+  are member are also returned.    If you specify all, all public AMIs are returned.
 - `"Filter"`: The filters.    architecture - The image architecture (i386 | x86_64 |
   arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates
   whether the Amazon EBS volume is deleted on instance termination.
@@ -19244,12 +19250,16 @@ from the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attribute"`: The name of the attribute to modify. The valid values are description and
-  launchPermission.
+- `"Attribute"`: The name of the attribute to modify. Valid values: description |
+  launchPermission
 - `"Description"`: A new description for the AMI.
 - `"LaunchPermission"`: A new launch permission for the AMI.
 - `"OperationType"`: The operation type. This parameter can be used only when the Attribute
   parameter is launchPermission.
+- `"OrganizationArn"`: The Amazon Resource Name (ARN) of an organization. This parameter
+  can be used only when the Attribute parameter is launchPermission.
+- `"OrganizationalUnitArn"`: The Amazon Resource Name (ARN) of an organizational unit (OU).
+  This parameter can be used only when the Attribute parameter is launchPermission.
 - `"ProductCode"`: Not supported.
 - `"UserGroup"`: The user groups. This parameter can be used only when the Attribute
   parameter is launchPermission.

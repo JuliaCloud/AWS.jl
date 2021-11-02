@@ -3509,6 +3509,73 @@ function start_contact_recording(
 end
 
 """
+    start_contact_streaming(chat_streaming_configuration, client_token, contact_id, instance_id)
+    start_contact_streaming(chat_streaming_configuration, client_token, contact_id, instance_id, params::Dict{String,<:Any})
+
+ Initiates real-time message streaming for a new chat contact.  For more information about
+message streaming, see Enable real-time chat message streaming in the Amazon Connect
+Administrator Guide.
+
+# Arguments
+- `chat_streaming_configuration`: The streaming configuration, such as the Amazon SNS
+  streaming endpoint.
+- `client_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `contact_id`: The identifier of the contact. This is the identifier of the contact
+  associated with the first interaction with the contact center.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+"""
+function start_contact_streaming(
+    ChatStreamingConfiguration,
+    ClientToken,
+    ContactId,
+    InstanceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/contact/start-streaming",
+        Dict{String,Any}(
+            "ChatStreamingConfiguration" => ChatStreamingConfiguration,
+            "ClientToken" => ClientToken,
+            "ContactId" => ContactId,
+            "InstanceId" => InstanceId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_contact_streaming(
+    ChatStreamingConfiguration,
+    ClientToken,
+    ContactId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/contact/start-streaming",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChatStreamingConfiguration" => ChatStreamingConfiguration,
+                    "ClientToken" => ClientToken,
+                    "ContactId" => ContactId,
+                    "InstanceId" => InstanceId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_outbound_voice_contact(contact_flow_id, destination_phone_number, instance_id)
     start_outbound_voice_contact(contact_flow_id, destination_phone_number, instance_id, params::Dict{String,<:Any})
 
@@ -3778,6 +3845,62 @@ function stop_contact_recording(
                     "ContactId" => ContactId,
                     "InitialContactId" => InitialContactId,
                     "InstanceId" => InstanceId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_contact_streaming(contact_id, instance_id, streaming_id)
+    stop_contact_streaming(contact_id, instance_id, streaming_id, params::Dict{String,<:Any})
+
+ Ends message streaming on a specified contact. To restart message streaming on that
+contact, call the StartContactStreaming API.
+
+# Arguments
+- `contact_id`: The identifier of the contact. This is the identifier of the contact that
+  is associated with the first interaction with the contact center.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `streaming_id`: The identifier of the streaming configuration enabled.
+
+"""
+function stop_contact_streaming(
+    ContactId, InstanceId, StreamingId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/contact/stop-streaming",
+        Dict{String,Any}(
+            "ContactId" => ContactId,
+            "InstanceId" => InstanceId,
+            "StreamingId" => StreamingId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_contact_streaming(
+    ContactId,
+    InstanceId,
+    StreamingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/contact/stop-streaming",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactId" => ContactId,
+                    "InstanceId" => InstanceId,
+                    "StreamingId" => StreamingId,
                 ),
                 params,
             ),
