@@ -2,9 +2,10 @@
     function _test_exception(ex::AWSException, expected::AbstractDict, msg::String)
         @test ex.code == expected["code"]
         @test ex.message == ex.info[msg] == expected["message"]
-        @test String(ex.cause.response.body) == expected["body"]
+        @test ex.cause.response.body == expected["body"]
         @test ex.cause.status == expected["status_code"]
         @test ex.cause.response.headers == expected["headers"]
+        @test ex.streamed_body == expected["streamed_body"]
     end
 
     cases = [
@@ -23,26 +24,24 @@
             "status_code" => 400,
         )
 
-        body = """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <$err>
-        <Code>$(expected["code"])</Code>
-        <$msg>$(expected["message"])</$msg>
-        <Resource>$(expected["resource"])</Resource>
-        <RequestId>$(expected["requestId"])</RequestId>
-        </$err>
-        """
-
-        expected["body"] = body
+        expected["body"] = HTTP.MessageRequest.body_was_streamed
+        expected["streamed_body"] = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <$err>
+            <Code>$(expected["code"])</Code>
+            <$msg>$(expected["message"])</$msg>
+            <Resource>$(expected["resource"])</Resource>
+            <RequestId>$(expected["requestId"])</RequestId>
+            </$err>
+            """
 
         # This does not actually send a request, just creates the object to test with
-        req = HTTP.Request(
-            "GET", "https://amazon.ca", expected["headers"], expected["body"]
-        )
+        req = HTTP.Request("GET", "https://aws.com", expected["headers"], expected["body"])
         resp = HTTP.Response(
             expected["status_code"], expected["headers"]; body=expected["body"], request=req
         )
-        ex = AWSException(HTTP.StatusError(expected["status_code"], resp))
+        status_error = HTTP.StatusError(expected["status_code"], resp)
+        ex = AWSException(status_error, expected["streamed_body"])
 
         _test_exception(ex, expected, msg)
         @test ex.info["Resource"] == expected["resource"]
@@ -51,19 +50,20 @@
 
     @testset "XMLRequest - Invalid XML" begin
         expected = Dict(
-            "body" => "InvalidXML",
+            "body" => HTTP.MessageRequest.body_was_streamed,
+            "streamed_body" => """<?xml version="1.0" encoding="UTF-8"?>InvalidXML""",
             "headers" => ["Content-Type" => "application/xml"],
             "status_code" => 404,
         )
-        req = HTTP.Request(
-            "GET", "https://amazon.ca", expected["headers"], expected["body"]
-        )
+        req = HTTP.Request("GET", "https://aws.com", expected["headers"], expected["body"])
         resp = HTTP.Response(
             expected["status_code"], expected["headers"]; body=expected["body"], request=req
         )
-        ex = AWSException(HTTP.StatusError(expected["status_code"], resp))
+        status_error = HTTP.StatusError(expected["status_code"], resp)
+        ex = @test_logs (:error,) AWSException(status_error, expected["streamed_body"])
 
         @test ex.code == "404"
+        @test ex.streamed_body == expected["streamed_body"]
     end
 
     @testset "JSON Request -- $msg" for msg in ["message", "Message"]
@@ -74,20 +74,21 @@
             "status_code" => 400,
         )
 
-        body = """
-        {
-        "__type": "$(expected["code"])",
-        "$msg": "$(expected["message"])"
-        }
-        """
-        expected["body"] = body
+        expected["body"] = HTTP.MessageRequest.body_was_streamed
+        expected["streamed_body"] = """
+            {
+            "__type": "$(expected["code"])",
+            "$msg": "$(expected["message"])"
+            }
+            """
 
         # This does not actually send a request, just creates the object to test with
-        req = HTTP.Request("GET", "https://amazon.ca", expected["headers"], body)
+        req = HTTP.Request("GET", "https://aws.com", expected["headers"], expected["body"])
         resp = HTTP.Response(
-            expected["status_code"], expected["headers"]; body=body, request=req
+            expected["status_code"], expected["headers"]; body=expected["body"], request=req
         )
-        ex = AWSException(HTTP.StatusError(expected["status_code"], resp))
+        status_error = HTTP.StatusError(expected["status_code"], resp)
+        ex = AWSException(status_error, expected["streamed_body"])
 
         _test_exception(ex, expected, "$msg")
         @test ex.info["__type"] == expected["code"]

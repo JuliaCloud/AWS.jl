@@ -54,10 +54,6 @@ function Base.show(io::IO, e::AWSException)
     return nothing
 end
 
-http_status(e::HTTP.StatusError) = e.status
-content_type(e::HTTP.StatusError) = HTTP.header(e.response, "Content-Type")
-is_valid_xml_string(str) = startswith(str, '<')
-
 AWSException(e::HTTP.StatusError) = AWSException(e, String(copy(e.response.body)))
 
 function AWSException(e::HTTP.StatusError, stream::IO)
@@ -67,33 +63,44 @@ function AWSException(e::HTTP.StatusError, stream::IO)
 end
 
 function AWSException(e::HTTP.StatusError, body::AbstractString)
-    code = string(http_status(e))
+    content_type = HTTP.header(e.response, "Content-Type")
+    code = string(e.status)
     message = "AWSException"
     info = Dict{String,Dict}()
 
-    if !isempty(body)
-        # Extract API error code from Lambda-style JSON error message...
-        if endswith(content_type(e), "json")
-            info = JSON.parse(body)
-        end
-
-        # Extract API error code from JSON error message...
-        if occursin(r"^application/x-amz-json-1\.[01]$", content_type(e))
-            info = JSON.parse(body)
-            if haskey(info, "__type")
-                code = rsplit(info["__type"], '#'; limit=2)[end]
+    try
+        if !isempty(body)
+            # Extract API error code from Lambda-style JSON error message...
+            if endswith(content_type, "json")
+                info = JSON.parse(body)
             end
-        end
 
-        # Extract API error code from XML error message...
-        error_content_types = ["", "application/xml", "text/xml"]
-        if content_type(e) in error_content_types && is_valid_xml_string(body)
-            info = parse_xml(body)
+            # Extract API error code from JSON error message...
+            if occursin(r"^application/x-amz-json-1\.[01]$", content_type)
+                info = JSON.parse(body)
+                if haskey(info, "__type")
+                    code = rsplit(info["__type"], '#'; limit=2)[end]
+                end
+            end
+
+            # Extract API error code from XML error message...
+            if endswith(content_type, "/xml") || startswith(body, "<?xml")
+                info = parse_xml(body)
+            end
+        elseif parse(Int, HTTP.header(e.response, "Content-Length", "0")) > 0
+            # Should only occur streaming a response and error handling is improperly configured
+            @error "Internal Error: provided body is empty while the reported content-length " *
+                "is non-zero"
         end
-    elseif parse(Int, HTTP.header(e.response, "Content-Length", "0")) > 0
-        # Should only occur streaming a response and error handling is improperly configured
-        @error "Internal Error: provided body is empty while the reported content-length " *
-            "is non-zero"
+    catch err
+        # Avoid throwing internal exceptions when parsing the error as this will result
+        # in the streamed content being hidden from the user.
+        @error sprint() do io
+            println(io, "Internal error: Failed to extract API error code:")
+            Base.showerror(io, err)
+            Base.show_backtrace(io, catch_backtrace())
+            println(io)
+        end
     end
 
     # There are times when Errors or Error are returned back
