@@ -173,7 +173,16 @@ end
 Sends user input to Amazon Lex V2. Client applications use this API to send requests to
 Amazon Lex V2 at runtime. Amazon Lex V2 then interprets the user input using the machine
 learning model that it build for the bot. In response, Amazon Lex V2 returns the next
-message to convey to the user and an optional response card to display.
+message to convey to the user and an optional response card to display. If the optional
+post-fulfillment response is specified, the messages are returned as follows. For more
+information, see PostFulfillmentStatusSpecification.    Success message - Returned if the
+Lambda function completes successfully and the intent state is fulfilled or ready
+fulfillment if the message is present.    Failed message - The failed message is returned
+if the Lambda function throws an exception or if the Lambda function returns a failed
+intent state without a message.    Timeout message - If you don't configure a timeout
+message and a timeout, and the Lambda function doesn't return within 30 seconds, the
+timeout message is returned. If you configure a timeout, the timeout message is returned
+when the period times out.    For more information, see Completion message.
 
 # Arguments
 - `bot_alias_id`: The alias identifier in use for the bot that processes the request.
@@ -236,7 +245,15 @@ and then base64 encoded by Amazon Lex V2. Before you can use these fields, you m
 and decompress them.    inputTranscript   interpretations   messages   requestAttributes
 sessionState   The example contains a Java application that compresses and encodes a Java
 object to send to Amazon Lex V2, and a second that decodes and decompresses a response from
-Amazon Lex V2.
+Amazon Lex V2. If the optional post-fulfillment response is specified, the messages are
+returned as follows. For more information, see PostFulfillmentStatusSpecification.
+Success message - Returned if the Lambda function completes successfully and the intent
+state is fulfilled or ready fulfillment if the message is present.    Failed message - The
+failed message is returned if the Lambda function throws an exception or if the Lambda
+function returns a failed intent state without a message.    Timeout message - If you don't
+configure a timeout message and a timeout, and the Lambda function doesn't return within 30
+seconds, the timeout message is returned. If you configure a timeout, the timeout message
+is returned when the period times out.    For more information, see Completion message.
 
 # Arguments
 - `content-_type`: Indicates the format for audio input or that the content is text. The

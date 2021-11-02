@@ -46,8 +46,8 @@ end
     create_account_customization(account_customization, aws_account_id)
     create_account_customization(account_customization, aws_account_id, params::Dict{String,<:Any})
 
-Creates Amazon QuickSight customizations the current Amazon Web Services Region;.
-Currently, you can add a custom default theme by using the CreateAccountCustomization or
+Creates Amazon QuickSight customizations the current Amazon Web Services Region. Currently,
+you can add a custom default theme by using the CreateAccountCustomization or
 UpdateAccountCustomization API operation. To further customize Amazon QuickSight by
 removing Amazon QuickSight sample assets and videos for all new users, see Customizing
 Amazon QuickSight in the Amazon QuickSight User Guide.  You can create customizations for
@@ -64,8 +64,8 @@ DescribeThemePermissions  API operation. To share the theme, grant permissions b
 
 # Arguments
 - `account_customization`: The Amazon QuickSight customizations you're adding in the
-  current Amazon Web Services Region;. You can add these to an Amazon Web Services account
-  and a Amazon QuickSight namespace.  For example, you can add a default theme by setting
+  current Amazon Web Services Region. You can add these to an Amazon Web Services account and
+  a Amazon QuickSight namespace.  For example, you can add a default theme by setting
   AccountCustomization to the midnight theme: \"AccountCustomization\": { \"DefaultTheme\":
   \"arn:aws:quicksight::aws:theme/MIDNIGHT\" }. Or, you can add a custom theme by specifying
   \"AccountCustomization\": { \"DefaultTheme\":
@@ -201,7 +201,7 @@ Amazon Web Services account.
   dashboard from an analysis, first convert the analysis to a template by using the
   CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of
   the source template. The SourceTemplateARN can contain any Amazon Web Services account and
-  any Amazon QuickSight-supported Amazon Web Services Region;.  Use the DataSetReferences
+  any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences
   entity within SourceTemplate to list the replacement datasets for the placeholders listed
   in the original. The schema in each dataset must match its placeholder.
 
@@ -278,7 +278,7 @@ Creates a dataset.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_set_id`: An ID for the dataset that you want to create. This ID is unique per
-  Amazon Web Services Region; for each Amazon Web Services account.
+  Amazon Web Services Region for each Amazon Web Services account.
 - `import_mode`: Indicates whether you want to import the data into SPICE.
 - `name`: The display name for the dataset.
 - `physical_table_map`: Declares the physical tables that are available in the underlying
@@ -362,10 +362,10 @@ Creates a data source.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_source_id`: An ID for the data source. This ID is unique per Amazon Web Services
-  Region; for each Amazon Web Services account.
+  Region for each Amazon Web Services account.
 - `name`: A display name for the data source.
 - `type`: The type of the data source. To return a list of all data sources, use
-  ListDataSources. Use AMAZON_ELASTICSEARCH for Amazon Elasticsearch Service.
+  ListDataSources. Use AMAZON_ELASTICSEARCH for Amazon OpenSearch Service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -690,6 +690,9 @@ the ingestion resource.
 - `data_set_id`: The ID of the dataset used in the ingestion.
 - `ingestion_id`: An ID for the ingestion.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IngestionType"`: The type of ingestion that you want to create.
 """
 function create_ingestion(
     AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -799,7 +802,7 @@ create the source analysis and template.
   a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name
   (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis,
   specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web
-  Services account and any Amazon QuickSight-supported Amazon Web Services Region;.  Use the
+  Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the
   DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement
   datasets for the placeholders listed in the original. The schema in each dataset must match
   its placeholder.
@@ -1033,12 +1036,12 @@ end
     delete_account_customization(aws_account_id)
     delete_account_customization(aws_account_id, params::Dict{String,<:Any})
 
-Deletes all Amazon QuickSight customizations in this Amazon Web Services Region; for the
+Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the
 specified Amazon Web Services account and Amazon QuickSight namespace.
 
 # Arguments
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to delete
-  Amazon QuickSight customizations from in this Amazon Web Services Region;.
+  Amazon QuickSight customizations from in this Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1174,7 +1177,7 @@ Deletes a dataset.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_set_id`: The ID for the dataset that you want to create. This ID is unique per
-  Amazon Web Services Region; for each Amazon Web Services account.
+  Amazon Web Services Region for each Amazon Web Services account.
 
 """
 function delete_data_set(
@@ -1212,7 +1215,7 @@ the deleted data source.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_source_id`: The ID of the data source. This ID is unique per Amazon Web Services
-  Region; for each Amazon Web Services account.
+  Region for each Amazon Web Services account.
 
 """
 function delete_data_source(
@@ -1741,35 +1744,35 @@ end
     describe_account_customization(aws_account_id, params::Dict{String,<:Any})
 
 Describes the customizations associated with the provided Amazon Web Services account and
-Amazon Amazon QuickSight namespace in an Amazon Web Services Region;. The Amazon QuickSight
+Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight
 console evaluates which customizations to apply by running this API operation with the
 Resolved flag included.  To determine what customizations display when you run this
 command, it can help to visualize the relationship of the entities involved.     Amazon Web
 Services account - The Amazon Web Services account exists at the top of the hierarchy. It
-has the potential to use all of the Amazon Web Services Regions; and AWS Services. When you
-subscribe to Amazon QuickSight, you choose one Amazon Web Services Region; to use as your
+has the potential to use all of the Amazon Web Services Regions and AWS Services. When you
+subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your
 home Region. That's where your free SPICE capacity is located. You can use Amazon
-QuickSight in any supported Amazon Web Services Region;.     Amazon Web Services Region; -
-In each Amazon Web Services Region; where you sign in to Amazon QuickSight at least once,
+QuickSight in any supported Amazon Web Services Region.     Amazon Web Services Region - In
+each Amazon Web Services Region where you sign in to Amazon QuickSight at least once,
 Amazon QuickSight acts as a separate instance of the same service. If you have a user
 directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking,
-these users have access to Amazon QuickSight in any Amazon Web Services Region;, unless
-they are constrained to a namespace.  To run the command in a different Amazon Web Services
-Region;, you change your Region settings. If you're using the AWS CLI, you can use one of
+these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they
+are constrained to a namespace.  To run the command in a different Amazon Web Services
+Region, you change your Region settings. If you're using the AWS CLI, you can use one of
 the following options:   Use command line options.    Use named profiles.    Run aws
-configure to change your default Amazon Web Services Region;. Use Enter to key the same
+configure to change your default Amazon Web Services Region. Use Enter to key the same
 settings for your keys. For more information, see Configuring the AWS CLI.      Namespace -
 A Amazon QuickSight namespace is a partition that contains users and assets (data sources,
 datasets, dashboards, and so on). To access assets that are in a specific namespace, users
 and groups must also be part of the same namespace. People who share a namespace are
 completely isolated from users and assets in other namespaces, even if they are in the same
-Amazon Web Services account and Amazon Web Services Region;.    Applied customizations -
-Within an Amazon Web Services Region;, a set of Amazon QuickSight customizations can apply
+Amazon Web Services account and Amazon Web Services Region.    Applied customizations -
+Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply
 to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace
 override settings that you apply to an Amazon Web Services account. All settings are
-isolated to a single Amazon Web Services Region;. To apply them in other Amazon Web
-Services Regions;, run the CreateAccountCustomization command in each Amazon Web Services
-Region; where you want to apply the same customizations.
+isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services
+Regions, run the CreateAccountCustomization command in each Amazon Web Services Region
+where you want to apply the same customizations.
 
 # Arguments
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to describe
@@ -2010,7 +2013,7 @@ Describes a dataset.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_set_id`: The ID for the dataset that you want to create. This ID is unique per
-  Amazon Web Services Region; for each Amazon Web Services account.
+  Amazon Web Services Region for each Amazon Web Services account.
 
 """
 function describe_data_set(
@@ -2048,7 +2051,7 @@ arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_set_id`: The ID for the dataset that you want to create. This ID is unique per
-  Amazon Web Services Region; for each Amazon Web Services account.
+  Amazon Web Services Region for each Amazon Web Services account.
 
 """
 function describe_data_set_permissions(
@@ -2085,7 +2088,7 @@ Describes a data source.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_source_id`: The ID of the data source. This ID is unique per Amazon Web Services
-  Region; for each Amazon Web Services account.
+  Region for each Amazon Web Services account.
 
 """
 function describe_data_source(
@@ -2122,7 +2125,7 @@ Describes the resource permissions for a data source.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_source_id`: The ID of the data source. This ID is unique per Amazon Web Services
-  Region; for each Amazon Web Services account.
+  Region for each Amazon Web Services account.
 
 """
 function describe_data_source_permissions(
@@ -2373,6 +2376,40 @@ function describe_ingestion(
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_ip_restriction(aws_account_id)
+    describe_ip_restriction(aws_account_id, params::Dict{String,<:Any})
+
+Provides a summary and status of IP Rules.
+
+# Arguments
+- `aws_account_id`: Your AWS account ID.
+
+"""
+function describe_ip_restriction(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/ip-restriction";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_ip_restriction(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/ip-restriction",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2808,7 +2845,8 @@ QuickSight Developer Portal.
 - `aws_account_id`: The ID for the Amazon Web Services account that contains the dashboard
   that you're embedding.
 - `experience_configuration`: The experience you are embedding. For registered users, you
-  can embed Amazon QuickSight dashboards or the entire Amazon QuickSight console.
+  can embed Amazon QuickSight dashboards, the entire Amazon QuickSight console, or the Amazon
+  QuickSight Q search bar.
 - `user_arn`: The Amazon Resource Name for the registered user.
 
 # Optional Parameters
@@ -3118,7 +3156,7 @@ end
     list_data_sets(aws_account_id, params::Dict{String,<:Any})
 
 Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon
-Web Services Region;. The permissions resource is
+Web Services Region. The permissions resource is
 arn:aws:quicksight:region:aws-account-id:dataset/*.
 
 # Arguments
@@ -3156,7 +3194,7 @@ end
     list_data_sources(aws_account_id)
     list_data_sources(aws_account_id, params::Dict{String,<:Any})
 
-Lists data sources in current Amazon Web Services Region; that belong to this Amazon Web
+Lists data sources in current Amazon Web Services Region that belong to this Amazon Web
 Services account.
 
 # Arguments
@@ -4255,16 +4293,16 @@ end
     update_account_customization(account_customization, aws_account_id)
     update_account_customization(account_customization, aws_account_id, params::Dict{String,<:Any})
 
-Updates Amazon QuickSight customizations the current Amazon Web Services Region;.
-Currently, the only customization you can use is a theme. You can use customizations for
-your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight
-namespace instead. Customizations that apply to a namespace override customizations that
-apply to an Amazon Web Services account. To find out which customizations apply, use the
+Updates Amazon QuickSight customizations the current Amazon Web Services Region. Currently,
+the only customization you can use is a theme. You can use customizations for your Amazon
+Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace
+instead. Customizations that apply to a namespace override customizations that apply to an
+Amazon Web Services account. To find out which customizations apply, use the
 DescribeAccountCustomization API operation.
 
 # Arguments
 - `account_customization`: The Amazon QuickSight customizations you're updating in the
-  current Amazon Web Services Region;.
+  current Amazon Web Services Region.
 - `aws_account_id`: The ID for the Amazon Web Services account that you want to update
   Amazon QuickSight customizations for.
 
@@ -4482,7 +4520,7 @@ operation.
   dashboard from an analysis, first convert the analysis to a template by using the
   CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of
   the source template. The SourceTemplate ARN can contain any Amazon Web Services account and
-  any Amazon QuickSight-supported Amazon Web Services Region;.  Use the DataSetReferences
+  any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences
   entity within SourceTemplate to list the replacement datasets for the placeholders listed
   in the original. The schema in each dataset must match its placeholder.
 
@@ -4637,7 +4675,7 @@ Updates a dataset.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_set_id`: The ID for the dataset that you want to update. This ID is unique per
-  Amazon Web Services Region; for each Amazon Web Services account.
+  Amazon Web Services Region for each Amazon Web Services account.
 - `import_mode`: Indicates whether you want to import the data into SPICE.
 - `name`: The display name for the dataset.
 - `physical_table_map`: Declares the physical tables that are available in the underlying
@@ -4717,7 +4755,7 @@ arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_set_id`: The ID for the dataset whose permissions you want to update. This ID is
-  unique per Amazon Web Services Region; for each Amazon Web Services account.
+  unique per Amazon Web Services Region for each Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4758,7 +4796,7 @@ Updates a data source.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_source_id`: The ID of the data source. This ID is unique per Amazon Web Services
-  Region; for each Amazon Web Services account.
+  Region for each Amazon Web Services account.
 - `name`: A display name for the data source.
 
 # Optional Parameters
@@ -4809,7 +4847,7 @@ Updates the permissions to a data source.
 # Arguments
 - `aws_account_id`: The Amazon Web Services account ID.
 - `data_source_id`: The ID of the data source. This ID is unique per Amazon Web Services
-  Region; for each Amazon Web Services account.
+  Region for each Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5014,6 +5052,44 @@ function update_iampolicy_assignment(
     return quicksight(
         "PUT",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_ip_restriction(aws_account_id)
+    update_ip_restriction(aws_account_id, params::Dict{String,<:Any})
+
+Updates content and status of IP Rules.
+
+# Arguments
+- `aws_account_id`: Your AWS account ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Enabled"`: Whether or not IP rules are enabled.
+- `"IpRestrictionRuleMap"`: Describes updated IP rules.
+"""
+function update_ip_restriction(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/ip-restriction";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_ip_restriction(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/ip-restriction",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

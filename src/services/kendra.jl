@@ -199,11 +199,11 @@ end
     create_data_source(index_id, name, type)
     create_data_source(index_id, name, type, params::Dict{String,<:Any})
 
-Creates a data source that you use to with an Amazon Kendra index.  You specify a name,
-data source connector type and description for your data source. You also specify
-configuration information such as document metadata (author, source URI, and so on) and
-user context information.  CreateDataSource is a synchronous operation. The operation
-returns 200 if the data source was successfully created. Otherwise, an exception is raised.
+Creates a data source that you want to use with an Amazon Kendra index.  You specify a
+name, data source connector type and description for your data source. You also specify
+configuration information for the data source connector.  CreateDataSource is a synchronous
+operation. The operation returns 200 if the data source was successfully created.
+Otherwise, an exception is raised.
 
 # Arguments
 - `index_id`: The identifier of the index that should be associated with this data source.
@@ -221,6 +221,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CUSTOM. If you do, you receive a ValidationException exception. The Configuration parameter
   is required for all other data sources.
 - `"Description"`: A description for the data source.
+- `"LanguageCode"`: The code for a language. This allows you to support a language for all
+  documents when creating the data source. English is supported by default. For more
+  information on supported languages, including their codes, see Adding documents in
+  languages other than English.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source. For more information, see IAM Roles for Amazon Kendra. You can't specify the
   RoleArn parameter when the Type parameter is set to CUSTOM. If you do, you receive a
@@ -297,6 +301,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a CSV format that includes customs attributes in a header, and a JSON format that includes
   custom attributes. The format must match the format of the file stored in the S3 bucket
   identified in the S3Path parameter. For more information, see Adding questions and answers.
+- `"LanguageCode"`: The code for a language. This allows you to support a language for the
+  FAQ document. English is supported by default. For more information on supported languages,
+  including their codes, see Adding documents in languages other than English.
 - `"Tags"`: A list of key-value pairs that identify the FAQ. You can use the tags to
   identify and organize your resources and to control access to resources.
 """
@@ -378,10 +385,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs that identify the index. You can use the tags to
   identify and organize your resources and to control access to resources.
 - `"UserContextPolicy"`: The user context policy.  ATTRIBUTE_FILTER  All indexed content is
-  searchable and displayable for all users. If there is an access control list, it is
-  ignored. You can filter on user and group attributes.   USER_TOKEN  Enables SSO and
-  token-based user access control. All documents with no access control and all documents
-  accessible to the user will be searchable and displayable.
+  searchable and displayable for all users. If you want to filter search results on user
+  context, you can use the attribute filters of _user_id and _group_ids or you can provide
+  user and group information in UserContext.   USER_TOKEN  Enables token-based user access
+  control to filter search results on user context. All documents with no access control and
+  all documents accessible to the user will be searchable and displayable.
+- `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
+  from an AWS Single Sign-On identity source. To configure this, see
+  UserGroupResolutionConfiguration.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -510,7 +521,7 @@ Creates a thesaurus for an index. The thesaurus contains a list of synonyms in S
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A token that you provide to identify the request to create a thesaurus.
   Multiple calls to the CreateThesaurus operation with the same client token will create only
-  one index.
+  one thesaurus.
 - `"Description"`: The description for the new thesaurus.
 - `"Tags"`: A list of key-value pairs that identify the thesaurus. You can use the tags to
   identify and organize your resources and to control access to resources.
@@ -1123,8 +1134,9 @@ Gets statistics about synchronizing Amazon Kendra with a data source.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of synchronization jobs to return in the response. If
   there are fewer results in the list, this response contains only the actual results.
-- `"NextToken"`: If the result of the previous request to GetDataSourceSyncJobHistory was
-  truncated, include the NextToken to fetch the next set of jobs.
+- `"NextToken"`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Kendra returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of jobs.
 - `"StartTimeFilter"`: When specified, the synchronization jobs returned in the list are
   limited to jobs between the specified dates.
 - `"StatusFilter"`: When specified, only returns synchronization jobs with the Status field
@@ -1204,8 +1216,9 @@ Gets a list of FAQ lists associated with an index.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of FAQs to return in the response. If there are fewer
   results in the list, this response contains only the actual results.
-- `"NextToken"`: If the result of the previous request to ListFaqs was truncated, include
-  the NextToken to fetch the next set of FAQs.
+- `"NextToken"`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Kendra returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of FAQs.
 """
 function list_faqs(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
     return kendra(
@@ -1243,9 +1256,12 @@ identifier.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DataSourceId"`: The identifier of the data source for getting a list of groups mapped
   to users before a given ordering timestamp identifier.
-- `"MaxResults"`:  The maximum results shown for a list of groups that are mapped to users
-  before a given ordering or timestamp identifier.
-- `"NextToken"`:  The next items in the list of groups that go beyond the maximum.
+- `"MaxResults"`:  The maximum number of returned groups that are mapped to users before a
+  given ordering or timestamp identifier.
+- `"NextToken"`:  If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Kendra returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of groups that are mapped to users before a given
+  ordering or timestamp identifier.
 """
 function list_groups_older_than_ordering_id(
     IndexId, OrderingId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1417,15 +1433,16 @@ end
     put_principal_mapping(group_id, group_members, index_id)
     put_principal_mapping(group_id, group_members, index_id, params::Dict{String,<:Any})
 
-Maps users to their groups. You can also map sub groups to groups. For example, the group
-\"Company Intellectual Property Teams\" includes sub groups \"Research\" and
-\"Engineering\". These sub groups include their own list of users or people who work in
-these teams. Only users who work in research and engineering, and therefore belong in the
-intellectual property group, can see top-secret company documents in their search results.
-You map users to their groups when you want to filter search results for different users
-based on their group’s access to documents. For more information on filtering search
-results for different users, see Filtering on user context. If more than five PUT actions
-for a group are currently processing, a validation exception is thrown.
+Maps users to their groups so that you only need to provide the user ID when you issue the
+query. You can also map sub groups to groups. For example, the group \"Company Intellectual
+Property Teams\" includes sub groups \"Research\" and \"Engineering\". These sub groups
+include their own list of users or people who work in these teams. Only users who work in
+research and engineering, and therefore belong in the intellectual property group, can see
+top-secret company documents in their search results. You map users to their groups when
+you want to filter search results for different users based on their group’s access to
+documents. For more information on filtering search results for different users, see
+Filtering on user context. If more than five PUT actions for a group are currently
+processing, a validation exception is thrown.
 
 # Arguments
 - `group_id`: The identifier of the group you want to map its users to.
@@ -1551,7 +1568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of ties in sorting the results, the results are sorted by relevance. If you don't provide
   sorting configuration, the results are sorted by the relevance that Amazon Kendra
   determines for the result.
-- `"UserContext"`: The user context token.
+- `"UserContext"`: The user context token or user and group information.
 - `"VisitorId"`: Provides an identifier for a specific user. The VisitorId should be a
   unique identifier, such as a GUID. Don't use personally identifiable information, such as
   the user's email address, as the VisitorId.
@@ -1803,6 +1820,10 @@ Updates an existing Amazon Kendra data source.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Configuration"`:
 - `"Description"`: The new description for the data source.
+- `"LanguageCode"`: The code for a language. This allows you to support a language for all
+  documents when updating the data source. English is supported by default. For more
+  information on supported languages, including their codes, see Adding documents in
+  languages other than English.
 - `"Name"`: The name of the data source to update. The name of the data source can't be
   updated. To rename a data source you must delete the data source and re-create it.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the new role to use when the data source
@@ -1853,7 +1874,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the index to update.
 - `"RoleArn"`: A new IAM role that gives Amazon Kendra permission to access your Amazon
   CloudWatch logs.
-- `"UserContextPolicy"`: The user user token context policy.
+- `"UserContextPolicy"`: The user context policy.
+- `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
+  from an AWS Single Sign-On identity source. To configure this, see
+  UserGroupResolutionConfiguration.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function update_index(Id; aws_config::AbstractAWSConfig=global_aws_config())

@@ -308,7 +308,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"propagateTags"`: Specifies whether to propagate the tags from the task definition or
   the service to the tasks in the service. If no value is specified, the tags are not
   propagated. Tags can only be propagated to the tasks within the service during service
-  creation. To add tags to a task after service creation, use the TagResource API action.
+  creation. To add tags to a task after service creation or task creation, use the
+  TagResource API action.
 - `"role"`: The name or full Amazon Resource Name (ARN) of the IAM role that allows Amazon
   ECS to make calls to your load balancer on your behalf. This parameter is only permitted if
   you are using a load balancer with your service and your task definition does not use the
@@ -2003,7 +2004,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is used to expand the total amount of ephemeral storage available, beyond the
   default amount, for tasks hosted on Fargate. For more information, see Fargate task storage
   in the Amazon ECS User Guide for Fargate.  This parameter is only supported for tasks
-  hosted on Fargate using platform version 1.4.0 or later.
+  hosted on Fargate using the following platform versions:   Linux platform version 1.4.0 or
+  later.   Windows platform version 1.0.0 or later.
 - `"executionRoleArn"`: The Amazon Resource Name (ARN) of the task execution role that
   grants the Amazon ECS container agent permission to make Amazon Web Services API calls on
   your behalf. The task execution IAM role is required depending on the requirements of your
@@ -2085,6 +2087,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task definition against. A client exception is returned if the task definition doesn't
   validate against the compatibilities specified. If no value is specified, the parameter is
   omitted from the response.
+- `"runtimePlatform"`: The operating system that your tasks definitions run on. A platform
+  family is specified only for tasks using the Fargate launch type.  When you specify a task
+  definition in a service, this value must match the runtimePlatform value of the service.
 - `"tags"`: The metadata that you apply to the task definition to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   The following basic restrictions apply to tags:   Maximum number of tags per resource - 50
@@ -2164,7 +2169,11 @@ time.
 
 # Arguments
 - `task_definition`: The family and revision (family:revision) or full ARN of the task
-  definition to run. If a revision is not specified, the latest ACTIVE revision is used.
+  definition to run. If a revision is not specified, the latest ACTIVE revision is used. The
+  full ARN value must match the value that you specified ias the Resource of the IAM
+  principal's permissions policy. For example, if the Resource is
+  arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*, the taskDefinition ARN
+  value must be arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

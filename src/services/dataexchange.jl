@@ -41,8 +41,7 @@ end
 This operation creates a data set.
 
 # Arguments
-- `asset_type`: The type of file your data is stored in. Currently, the supported asset
-  type is S3_SNAPSHOT.
+- `asset_type`: The type of asset that is added to a data set.
 - `description`: A description for the data set. This value can be up to 16,348 characters
   long.
 - `name`: The name of the data set.

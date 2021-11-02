@@ -36,7 +36,7 @@ function _get_ini_value(
 end
 
 function _aws_profile_config(ini::Inifile, profile::AbstractString)
-    if profile != "default"
+    if profile != "default" || !haskey(sections(ini), "default")
         profile = "profile $profile"
     end
 

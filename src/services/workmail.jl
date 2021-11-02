@@ -485,7 +485,9 @@ end
     delete_access_control_rule(name, organization_id)
     delete_access_control_rule(name, organization_id, params::Dict{String,<:Any})
 
-Deletes an access control rule for the specified WorkMail organization.
+Deletes an access control rule for the specified WorkMail organization.  Deleting already
+deleted and non-existing rules does not produce an error. In those cases, the service sends
+back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
 - `name`: The name of the access control rule.
@@ -672,7 +674,8 @@ end
     delete_mobile_device_access_override(device_id, organization_id, user_id, params::Dict{String,<:Any})
 
 Deletes the mobile device access override for the given WorkMail organization, user, and
-device.
+device.  Deleting already deleted and non-existing overrides does not produce an error. In
+those cases, the service sends back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
 - `device_id`: The mobile device for which you delete the override. DeviceId is case
@@ -727,6 +730,8 @@ end
     delete_mobile_device_access_rule(mobile_device_access_rule_id, organization_id, params::Dict{String,<:Any})
 
 Deletes a mobile device access rule for the specified Amazon WorkMail organization.
+Deleting already deleted and non-existing rules does not produce an error. In those cases,
+the service sends back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
 - `mobile_device_access_rule_id`: The identifier of the rule to be deleted.
@@ -993,6 +998,53 @@ function deregister_from_work_mail(
                 _merge,
                 Dict{String,Any}(
                     "EntityId" => EntityId, "OrganizationId" => OrganizationId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deregister_mail_domain(domain_name, organization_id)
+    deregister_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
+
+Removes a domain from Amazon WorkMail, stops email routing to WorkMail, and removes the
+authorization allowing WorkMail use. SES keeps the domain because other applications may
+use it. You must first remove any email address used by WorkMail entities before you remove
+the domain.
+
+# Arguments
+- `domain_name`: The domain to deregister in WorkMail and SES.
+- `organization_id`: The Amazon WorkMail organization for which the domain will be
+  deregistered.
+
+"""
+function deregister_mail_domain(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DeregisterMailDomain",
+        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deregister_mail_domain(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DeregisterMailDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "OrganizationId" => OrganizationId
                 ),
                 params,
             ),
@@ -1438,6 +1490,50 @@ function get_default_retention_policy(
 end
 
 """
+    get_mail_domain(domain_name, organization_id)
+    get_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
+
+Gets details for a mail domain, including domain records required to configure your domain
+with recommended security.
+
+# Arguments
+- `domain_name`: The domain from which you want to retrieve details.
+- `organization_id`: The Amazon WorkMail organization for which the domain is retrieved.
+
+"""
+function get_mail_domain(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "GetMailDomain",
+        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_mail_domain(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "GetMailDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "OrganizationId" => OrganizationId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_mailbox_details(organization_id, user_id)
     get_mailbox_details(organization_id, user_id, params::Dict{String,<:Any})
 
@@ -1737,6 +1833,46 @@ function list_groups(
 )
     return workmail(
         "ListGroups",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_mail_domains(organization_id)
+    list_mail_domains(organization_id, params::Dict{String,<:Any})
+
+Lists the mail domains in a given Amazon WorkMail organization.
+
+# Arguments
+- `organization_id`: The Amazon WorkMail organization for which to list domains.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in a single call.
+- `"NextToken"`: The token to use to retrieve the next page of results. The first call does
+  not require a token.
+"""
+function list_mail_domains(
+    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "ListMailDomains",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_mail_domains(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "ListMailDomains",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
@@ -2411,6 +2547,62 @@ function put_retention_policy(
 end
 
 """
+    register_mail_domain(domain_name, organization_id)
+    register_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
+
+Registers a new domain in Amazon WorkMail and SES, and configures it for use by WorkMail.
+Emails received by SES for this domain are routed to the specified WorkMail organization,
+and WorkMail has permanent permission to use the specified domain for sending your users'
+emails.
+
+# Arguments
+- `domain_name`: The name of the mail domain to create in Amazon WorkMail and SES.
+- `organization_id`: The Amazon WorkMail organization under which you're creating the
+  domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Idempotency token used when retrying requests.
+"""
+function register_mail_domain(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "RegisterMailDomain",
+        Dict{String,Any}(
+            "DomainName" => DomainName,
+            "OrganizationId" => OrganizationId,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function register_mail_domain(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "RegisterMailDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName,
+                    "OrganizationId" => OrganizationId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     register_to_work_mail(email, entity_id, organization_id)
     register_to_work_mail(email, entity_id, organization_id, params::Dict{String,<:Any})
 
@@ -2670,6 +2862,51 @@ function untag_resource(
             mergewith(
                 _merge,
                 Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_default_mail_domain(domain_name, organization_id)
+    update_default_mail_domain(domain_name, organization_id, params::Dict{String,<:Any})
+
+Updates the default mail domain for an organization. The default mail domain is used by the
+WorkMail AWS Console to suggest an email address when enabling a mail user. You can only
+have one default domain.
+
+# Arguments
+- `domain_name`: The domain name that will become the default domain.
+- `organization_id`: The Amazon WorkMail organization for which to list domains.
+
+"""
+function update_default_mail_domain(
+    DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "UpdateDefaultMailDomain",
+        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_default_mail_domain(
+    DomainName,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "UpdateDefaultMailDomain",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DomainName" => DomainName, "OrganizationId" => OrganizationId
+                ),
                 params,
             ),
         );

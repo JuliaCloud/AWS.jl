@@ -396,7 +396,7 @@ end
             return HTTP.Response(test_values["Security-Credentials"])
         elseif url ==
                "http://169.254.169.254/latest/meta-data/iam/security-credentials/$security_credentials" ||
-               url == "http://169.254.170.2$uri"
+            url == "http://169.254.170.2$uri"
             my_dict = JSON.json(test_values)
             response = HTTP.Response(my_dict)
             return response
@@ -711,7 +711,7 @@ end
             withenv("AWS_DEFAULT_REGION" => nothing) do
                 @test aws_get_region(; config=ini, profile="test") == "ap-northeast-1"
                 @test aws_get_region(; config=config_file, profile="test") ==
-                      "ap-northeast-1"
+                    "ap-northeast-1"
             end
 
             withenv(
@@ -727,7 +727,7 @@ end
             withenv("AWS_DEFAULT_REGION" => nothing) do
                 @test aws_get_region(; config=ini, profile="unknown") == AWS.DEFAULT_REGION
                 @test aws_get_region(; config=config_file, profile="unknown") ==
-                      AWS.DEFAULT_REGION
+                    AWS.DEFAULT_REGION
             end
 
             withenv(
@@ -743,7 +743,7 @@ end
             default = nothing
             withenv("AWS_DEFAULT_REGION" => nothing) do
                 @test aws_get_region(; config=ini, profile="unknown", default=default) ===
-                      default
+                    default
                 @test aws_get_region(;
                     config=config_file, profile="unknown", default=default
                 ) === default

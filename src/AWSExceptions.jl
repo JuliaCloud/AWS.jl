@@ -31,6 +31,10 @@ struct AWSException <: Exception
     streamed_body::Union{String,Nothing}
 end
 
+function AWSException(code, message, info, cause)
+    return AWSException(code, message, info, cause, nothing)
+end
+
 function Base.show(io::IO, e::AWSException)
     print(io, AWSException, ": ", e.code)
     !isempty(e.message) && print(io, " -- ", e.message)
@@ -89,7 +93,7 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
     elseif parse(Int, HTTP.header(e.response, "Content-Length", "0")) > 0
         # Should only occur streaming a response and error handling is improperly configured
         @error "Internal Error: provided body is empty while the reported content-length " *
-               "is non-zero"
+            "is non-zero"
     end
 
     # There are times when Errors or Error are returned back

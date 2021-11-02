@@ -74,6 +74,36 @@ function batch_get_variable(
 end
 
 """
+    cancel_batch_import_job(job_id)
+    cancel_batch_import_job(job_id, params::Dict{String,<:Any})
+
+ Cancels an in-progress batch import job.
+
+# Arguments
+- `job_id`:  The ID of an in-progress batch import job to cancel.  Amazon Fraud Detector
+  will throw an error if the batch import job is in FAILED, CANCELED, or COMPLETED state.
+
+"""
+function cancel_batch_import_job(jobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return frauddetector(
+        "CancelBatchImportJob",
+        Dict{String,Any}("jobId" => jobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_batch_import_job(
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "CancelBatchImportJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobId" => jobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_batch_prediction_job(job_id)
     cancel_batch_prediction_job(job_id, params::Dict{String,<:Any})
 
@@ -99,6 +129,75 @@ function cancel_batch_prediction_job(
     return frauddetector(
         "CancelBatchPredictionJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobId" => jobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_batch_import_job(event_type_name, iam_role_arn, input_path, job_id, output_path)
+    create_batch_import_job(event_type_name, iam_role_arn, input_path, job_id, output_path, params::Dict{String,<:Any})
+
+Creates a batch import job.
+
+# Arguments
+- `event_type_name`: The name of the event type.
+- `iam_role_arn`: The ARN of the IAM role created for Amazon S3 bucket that holds your data
+  file. The IAM role must have read and write permissions to both input and output S3 buckets.
+- `input_path`: The URI that points to the Amazon S3 location of your data file.
+- `job_id`: The ID of the batch import job. The ID cannot be of a past job, unless the job
+  exists in CREATE_FAILED state.
+- `output_path`: The URI that points to the Amazon S3 location for storing your results.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: A collection of key-value pairs associated with this request.
+"""
+function create_batch_import_job(
+    eventTypeName,
+    iamRoleArn,
+    inputPath,
+    jobId,
+    outputPath;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "CreateBatchImportJob",
+        Dict{String,Any}(
+            "eventTypeName" => eventTypeName,
+            "iamRoleArn" => iamRoleArn,
+            "inputPath" => inputPath,
+            "jobId" => jobId,
+            "outputPath" => outputPath,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_batch_import_job(
+    eventTypeName,
+    iamRoleArn,
+    inputPath,
+    jobId,
+    outputPath,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "CreateBatchImportJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "eventTypeName" => eventTypeName,
+                    "iamRoleArn" => iamRoleArn,
+                    "inputPath" => inputPath,
+                    "jobId" => jobId,
+                    "outputPath" => outputPath,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -299,8 +398,10 @@ Creates a version of the model using the specified model type and model id.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"externalEventsDetail"`: Details for the external events data used for model version
+- `"externalEventsDetail"`: Details of the external events data used for model version
   training. Required if trainingDataSource is EXTERNAL_EVENTS.
+- `"ingestedEventsDetail"`: Details of the ingested events data used for model version
+  training. Required if trainingDataSource is INGESTED_EVENTS.
 - `"tags"`: A collection of key and value pairs.
 """
 function create_model_version(
@@ -488,6 +589,35 @@ function create_variable(
 end
 
 """
+    delete_batch_import_job(job_id)
+    delete_batch_import_job(job_id, params::Dict{String,<:Any})
+
+Deletes data that was batch imported to Amazon Fraud Detector.
+
+# Arguments
+- `job_id`: The ID of the batch import job to delete.
+
+"""
+function delete_batch_import_job(jobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return frauddetector(
+        "DeleteBatchImportJob",
+        Dict{String,Any}("jobId" => jobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_batch_import_job(
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "DeleteBatchImportJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobId" => jobId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_batch_prediction_job(job_id)
     delete_batch_prediction_job(job_id, params::Dict{String,<:Any})
 
@@ -643,6 +773,10 @@ deletes that event and the event data is no longer stored in Amazon Fraud Detect
 - `event_id`: The ID of the event to delete.
 - `event_type_name`: The name of the event type.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deleteAuditHistory"`: Specifies whether or not to delete any predictions associated
+  with the event.
 """
 function delete_event(
     eventId, eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -679,8 +813,8 @@ end
     delete_event_type(name, params::Dict{String,<:Any})
 
 Deletes an event type. You cannot delete an event type that is used in a detector or a
-model. When you delete an entity type, Amazon Fraud Detector permanently deletes that
-entity type and the data is no longer stored in Amazon Fraud Detector.
+model. When you delete an event type, Amazon Fraud Detector permanently deletes that event
+type and the data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
 - `name`: The name of the event type to delete.
@@ -700,6 +834,41 @@ function delete_event_type(
     return frauddetector(
         "DeleteEventType",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_events_by_event_type(event_type_name)
+    delete_events_by_event_type(event_type_name, params::Dict{String,<:Any})
+
+Deletes all events of a particular event type.
+
+# Arguments
+- `event_type_name`: The name of the event type.
+
+"""
+function delete_events_by_event_type(
+    eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "DeleteEventsByEventType",
+        Dict{String,Any}("eventTypeName" => eventTypeName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_events_by_event_type(
+    eventTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "DeleteEventsByEventType",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("eventTypeName" => eventTypeName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1037,6 +1206,35 @@ function describe_model_versions(
 end
 
 """
+    get_batch_import_jobs()
+    get_batch_import_jobs(params::Dict{String,<:Any})
+
+Gets all batch import jobs or a specific job of the specified ID. This is a paginated API.
+If you provide a null maxResults, this action retrieves a maximum of 50 records per page.
+If you provide a maxResults, the value must be between 1 and 50. To get the next page
+results, provide the pagination token from the GetBatchImportJobsResponse as part of your
+request. A null pagination token fetches the records from the beginning.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"jobId"`: The ID of the batch import job to get.
+- `"maxResults"`: The maximum number of objects to return for request.
+- `"nextToken"`: The next token from the previous request.
+"""
+function get_batch_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return frauddetector(
+        "GetBatchImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_batch_import_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "GetBatchImportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     get_batch_prediction_jobs()
     get_batch_prediction_jobs(params::Dict{String,<:Any})
 
@@ -1063,6 +1261,41 @@ function get_batch_prediction_jobs(
     return frauddetector(
         "GetBatchPredictionJobs",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_delete_events_by_event_type_status(event_type_name)
+    get_delete_events_by_event_type_status(event_type_name, params::Dict{String,<:Any})
+
+Retrieves the status of a DeleteEventsByEventType action.
+
+# Arguments
+- `event_type_name`: Name of event type for which to get the deletion status.
+
+"""
+function get_delete_events_by_event_type_status(
+    eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "GetDeleteEventsByEventTypeStatus",
+        Dict{String,Any}("eventTypeName" => eventTypeName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_delete_events_by_event_type_status(
+    eventTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "GetDeleteEventsByEventTypeStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("eventTypeName" => eventTypeName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1172,6 +1405,48 @@ function get_entity_types(
 end
 
 """
+    get_event(event_id, event_type_name)
+    get_event(event_id, event_type_name, params::Dict{String,<:Any})
+
+Retrieves details of events stored with Amazon Fraud Detector. This action does not
+retrieve prediction results.
+
+# Arguments
+- `event_id`: The ID of the event to retrieve.
+- `event_type_name`: The event type of the event to retrieve.
+
+"""
+function get_event(
+    eventId, eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "GetEvent",
+        Dict{String,Any}("eventId" => eventId, "eventTypeName" => eventTypeName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_event(
+    eventId,
+    eventTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "GetEvent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("eventId" => eventId, "eventTypeName" => eventTypeName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_event_prediction(detector_id, entities, event_id, event_timestamp, event_type_name, event_variables)
     get_event_prediction(detector_id, entities, event_id, event_timestamp, event_type_name, event_variables, params::Dict{String,<:Any})
 
@@ -1184,23 +1459,22 @@ detector’s (ACTIVE) version is used.
   entity ID representing who performed the event. If an entity id is not available, use
   \"UNKNOWN.\"
 - `event_id`: The unique ID used to identify the event.
-- `event_timestamp`: Timestamp that defines when the event under evaluation occurred.
+- `event_timestamp`: Timestamp that defines when the event under evaluation occurred. The
+  timestamp must be specified using ISO 8601 standard in UTC.
 - `event_type_name`: The event type associated with the detector specified for the
   prediction.
 - `event_variables`: Names of the event type's variables you defined in Amazon Fraud
   Detector to represent data elements and their corresponding values for the event you are
-  sending for evaluation.    You must provide at least one eventVariable   If detectorVersion
-  is associated with a modelVersion, you must provide at least one associated eventVariable
-   To ensure highest possible fraud prediction and to simplify your data preparation, Amazon
-  Fraud Detector will replace all missing variables or values as follows:  For Amazon Fraud
-  Detector trained models:  If a null value is provided explicitly for a variable or if a
-  variable is missing, model will replace the null value or the missing variable (no variable
-  name in the eventVariables map) with calculated default mean/medians for numeric variables
-  and with special values for categorical variables.  For External models ( for example,
-  imported SageMaker):  If a null value is provided explicitly for a variable, the model and
-  rules will use “null” as the value. If a variable is not provided (no variable name in
-  the eventVariables map), model and rules will use the default value that is provided for
-  the variable.
+  sending for evaluation.  You must provide at least one eventVariable  To ensure most
+  accurate fraud prediction and to simplify your data preparation, Amazon Fraud Detector will
+  replace all missing variables or values as follows:  For Amazon Fraud Detector trained
+  models:  If a null value is provided explicitly for a variable or if a variable is missing,
+  model will replace the null value or the missing variable (no variable name in the
+  eventVariables map) with calculated default mean/medians for numeric variables and with
+  special values for categorical variables.  For imported SageMaker models:  If a null value
+  is provided explicitly for a variable, the model and rules will use “null” as the
+  value. If a variable is not provided (no variable name in the eventVariables map), model
+  and rules will use the default value that is provided for the variable.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1324,8 +1598,8 @@ end
     get_kmsencryption_key()
     get_kmsencryption_key(params::Dict{String,<:Any})
 
-Gets the encryption key if a Key Management Service (KMS) customer master key (CMK) has
-been specified to be used to encrypt content in Amazon Fraud Detector.
+Gets the encryption key if a KMS key has been specified to be used to encrypt content in
+Amazon Fraud Detector.
 
 """
 function get_kmsencryption_key(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1707,6 +1981,7 @@ transactions, account registrations, and authentications.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the event type.
+- `"eventIngestion"`: Specifies if ingenstion is enabled or disabled.
 - `"labels"`: The event type labels.
 - `"tags"`: A collection of key and value pairs.
 """
@@ -1825,8 +2100,7 @@ end
     put_kmsencryption_key(kms_encryption_key_arn)
     put_kmsencryption_key(kms_encryption_key_arn, params::Dict{String,<:Any})
 
-Specifies the Key Management Service (KMS) customer master key (CMK) to be used to encrypt
-content in Amazon Fraud Detector.
+Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
 
 # Arguments
 - `kms_encryption_key_arn`: The KMS encryption key ARN.
@@ -1924,6 +2198,81 @@ function put_outcome(
     return frauddetector(
         "PutOutcome",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    send_event(entities, event_id, event_timestamp, event_type_name, event_variables)
+    send_event(entities, event_id, event_timestamp, event_type_name, event_variables, params::Dict{String,<:Any})
+
+Stores events in Amazon Fraud Detector without generating fraud predictions for those
+events. For example, you can use SendEvent to upload a historical dataset, which you can
+then later use to train a model.
+
+# Arguments
+- `entities`: An array of entities.
+- `event_id`: The event ID to upload.
+- `event_timestamp`: The timestamp that defines when the event under evaluation occurred.
+  The timestamp must be specified using ISO 8601 standard in UTC.
+- `event_type_name`: The event type name of the event.
+- `event_variables`: Names of the event type's variables you defined in Amazon Fraud
+  Detector to represent data elements and their corresponding values for the event you are
+  sending for evaluation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"assignedLabel"`: The label to associate with the event. Required if specifying
+  labelTimestamp.
+- `"labelTimestamp"`: The timestamp associated with the label. Required if specifying
+  assignedLabel.
+"""
+function send_event(
+    entities,
+    eventId,
+    eventTimestamp,
+    eventTypeName,
+    eventVariables;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "SendEvent",
+        Dict{String,Any}(
+            "entities" => entities,
+            "eventId" => eventId,
+            "eventTimestamp" => eventTimestamp,
+            "eventTypeName" => eventTypeName,
+            "eventVariables" => eventVariables,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function send_event(
+    entities,
+    eventId,
+    eventTimestamp,
+    eventTypeName,
+    eventVariables,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "SendEvent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "entities" => entities,
+                    "eventId" => eventId,
+                    "eventTimestamp" => eventTimestamp,
+                    "eventTypeName" => eventTypeName,
+                    "eventVariables" => eventVariables,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2190,10 +2539,70 @@ function update_detector_version_status(
 end
 
 """
+    update_event_label(assigned_label, event_id, event_type_name, label_timestamp)
+    update_event_label(assigned_label, event_id, event_type_name, label_timestamp, params::Dict{String,<:Any})
+
+Updates the specified event with a new label.
+
+# Arguments
+- `assigned_label`: The new label to assign to the event.
+- `event_id`: The ID of the event associated with the label to update.
+- `event_type_name`: The event type of the event associated with the label to update.
+- `label_timestamp`: The timestamp associated with the label. The timestamp must be
+  specified using ISO 8601 standard in UTC.
+
+"""
+function update_event_label(
+    assignedLabel,
+    eventId,
+    eventTypeName,
+    labelTimestamp;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "UpdateEventLabel",
+        Dict{String,Any}(
+            "assignedLabel" => assignedLabel,
+            "eventId" => eventId,
+            "eventTypeName" => eventTypeName,
+            "labelTimestamp" => labelTimestamp,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_event_label(
+    assignedLabel,
+    eventId,
+    eventTypeName,
+    labelTimestamp,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return frauddetector(
+        "UpdateEventLabel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "assignedLabel" => assignedLabel,
+                    "eventId" => eventId,
+                    "eventTypeName" => eventTypeName,
+                    "labelTimestamp" => labelTimestamp,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_model(model_id, model_type)
     update_model(model_id, model_type, params::Dict{String,<:Any})
 
-Updates a model. You can update the description attribute using this action.
+Updates model description.
 
 # Arguments
 - `model_id`: The model ID.
@@ -2247,7 +2656,10 @@ creates and trains a new minor version of the model, for example version 1.01, 1
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"externalEventsDetail"`: The event details.
+- `"externalEventsDetail"`: The details of the external events data used for training the
+  model version. Required if trainingDataSource is EXTERNAL_EVENTS.
+- `"ingestedEventsDetail"`: The details of the ingested event used for training the model
+  version. Required if your trainingDataSource is INGESTED_EVENTS.
 - `"tags"`: A collection of key and value pairs.
 """
 function update_model_version(
@@ -2297,7 +2709,7 @@ end
     update_model_version_status(model_id, model_type, model_version_number, status, params::Dict{String,<:Any})
 
 Updates the status of a model version. You can perform the following status updates:
-Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVEto INACTIVE.
+Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVE to INACTIVE.
 
 # Arguments
 - `model_id`: The model ID of the model version to update.

@@ -167,6 +167,46 @@ function associate_trial_component(
 end
 
 """
+    batch_describe_model_package(model_package_arn_list)
+    batch_describe_model_package(model_package_arn_list, params::Dict{String,<:Any})
+
+This action batch describes a list of versioned model packages
+
+# Arguments
+- `model_package_arn_list`: The list of Amazon Resource Name (ARN) of the model package
+  groups.
+
+"""
+function batch_describe_model_package(
+    ModelPackageArnList; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "BatchDescribeModelPackage",
+        Dict{String,Any}("ModelPackageArnList" => ModelPackageArnList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_describe_model_package(
+    ModelPackageArnList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "BatchDescribeModelPackage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ModelPackageArnList" => ModelPackageArnList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_action(action_name, action_type, source)
     create_action(action_name, action_type, source, params::Dict{String,<:Any})
 
@@ -933,6 +973,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by
   Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is
   through the specified VPC and subnets
+- `"AppSecurityGroupManagement"`: The entity that creates and manages the required security
+  groups for inter-app communication in VPCOnly mode. Required when
+  CreateDomain.AppNetworkAccessType is VPCOnly and
+  DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
+- `"DomainSettings"`: A collection of Domain settings.
 - `"HomeEfsFileSystemKmsKeyId"`: This member is deprecated and replaced with KmsKeyId.
 - `"KmsKeyId"`: SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached
   to the domain with an Amazon Web Services managed key by default. For more control, specify
@@ -1106,14 +1151,14 @@ Services Region in the Amazon Web Services Identity and Access Management User G
 add the IAM role policies for using this API operation, go to the IAM console, and choose
 Roles in the left navigation pane. Search the IAM role that you want to grant access to use
 the CreateEndpoint and CreateEndpointConfig API operations, add the following policies to
-the role.    Option 1: For a full Amazon SageMaker access, search and attach the
+the role.    Option 1: For a full SageMaker access, search and attach the
 AmazonSageMakerFullAccess policy.   Option 2: For granting a limited access to an IAM role,
 paste the following Action elements manually into the JSON file of the IAM role:
 \"Action\": [\"sagemaker:CreateEndpoint\", \"sagemaker:CreateEndpointConfig\"]
 \"Resource\": [   \"arn:aws:sagemaker:region:account-id:endpoint/endpointName\"
 \"arn:aws:sagemaker:region:account-id:endpoint-config/endpointConfigName\"   ]  For more
-information, see Amazon SageMaker API Permissions: Actions, Permissions, and Resources
-Reference.
+information, see SageMaker API Permissions: Actions, Permissions, and Resources Reference.
+
 
 # Arguments
 - `endpoint_config_name`: The name of an endpoint configuration. For more information, see
@@ -1360,8 +1405,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OfflineStoreConfig"`: Use this to configure an OfflineFeatureStore. This parameter
   allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an
   OfflineStore.   A configuration for an Amazon Web Services Glue or Amazon Web Services Hive
-  data cataolgue.    An KMS encryption key to encrypt the Amazon S3 location used for
-  OfflineStore.   To learn more about this parameter, see OfflineStoreConfig.
+  data catalog.    An KMS encryption key to encrypt the Amazon S3 location used for
+  OfflineStore. If KMS encryption key is not specified, by default we encrypt all data at
+  rest using Amazon Web Services KMS key. By defining your bucket-level key for SSE, you can
+  reduce Amazon Web Services KMS requests costs by up to 99 percent.   To learn more about
+  this parameter, see OfflineStoreConfig.
 - `"OnlineStoreConfig"`: You can turn the OnlineStore on or off by specifying True for the
   EnableOnlineStore flag in OnlineStoreConfig; the default value is False. You can also
   include an Amazon Web Services KMS key ID (KMSKeyId) for at-rest encryption of the
@@ -2146,6 +2194,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Marketplace. This parameter is optional for unversioned models, and does not apply
   to versioned models.
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
+- `"CustomerMetadataProperties"`: The metadata properties associated with the model package
+  versions.
 - `"InferenceSpecification"`: Specifies details about inference jobs that can be run with
   models based on this model package, including the following:   The Amazon ECR paths of
   containers that contain the inference code and model artifacts.   The instance types that
@@ -2157,9 +2207,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   models, the value of this parameter must be set to Approved to deploy the model.
 - `"ModelMetrics"`: A structure that contains model metrics reports.
 - `"ModelPackageDescription"`: A description of the model package.
-- `"ModelPackageGroupName"`: The name of the model group that this model version belongs
-  to. This parameter is required for versioned models, and does not apply to unversioned
-  models.
+- `"ModelPackageGroupName"`: The name or Amazon Resource Name (ARN) of the model package
+  group that this model version belongs to. This parameter is required for versioned models,
+  and does not apply to unversioned models.
 - `"ModelPackageName"`: The name of the model package. The name must have 1 to 63
   characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). This parameter is required
   for unversioned models. It is not applicable to versioned models.
@@ -2832,8 +2882,9 @@ an ML pipeline from training to deploying an approved model.
 # Arguments
 - `project_name`: The name of the project.
 - `service_catalog_provisioning_details`: The product ID and provisioning artifact ID to
-  provision a service catalog. For information, see What is Amazon Web Services Service
-  Catalog.
+  provision a service catalog. The provisioning artifact ID will default to the latest
+  provisioning artifact ID of the product, if you don't provide the provisioning artifact ID.
+  For more information, see What is Amazon Web Services Service Catalog.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6076,10 +6127,9 @@ end
     describe_model_package(model_package_name)
     describe_model_package(model_package_name, params::Dict{String,<:Any})
 
-Returns a description of the specified model package, which is used to create Amazon
-SageMaker models or list them on Amazon Web Services Marketplace. To create models in
-Amazon SageMaker, buyers can subscribe to model packages listed on Amazon Web Services
-Marketplace.
+Returns a description of the specified model package, which is used to create SageMaker
+models or list them on Amazon Web Services Marketplace. To create models in SageMaker,
+buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
 
 # Arguments
 - `model_package_name`: The name or Amazon Resource Name (ARN) of the model package to
@@ -10436,6 +10486,8 @@ Updates the default settings for new user profiles in the domain.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DefaultUserSettings"`: A collection of settings.
+- `"DomainSettingsForUpdate"`: A collection of DomainSettings configuration values to
+  update.
 """
 function update_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
     return sagemaker(
@@ -10667,34 +10719,34 @@ function update_image(
 end
 
 """
-    update_model_package(model_approval_status, model_package_arn)
-    update_model_package(model_approval_status, model_package_arn, params::Dict{String,<:Any})
+    update_model_package(model_package_arn)
+    update_model_package(model_package_arn, params::Dict{String,<:Any})
 
 Updates a versioned model.
 
 # Arguments
-- `model_approval_status`: The approval status of the model.
-- `model_package_arn`: The Amazon Resource Name (ARN) of the model.
+- `model_package_arn`: The Amazon Resource Name (ARN) of the model package.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ApprovalDescription"`: A description for the approval status of the model.
+- `"CustomerMetadataProperties"`: The metadata properties associated with the model package
+  versions.
+- `"CustomerMetadataPropertiesToRemove"`: The metadata properties associated with the model
+  package versions to remove.
+- `"ModelApprovalStatus"`: The approval status of the model.
 """
 function update_model_package(
-    ModelApprovalStatus, ModelPackageArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ModelPackageArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sagemaker(
         "UpdateModelPackage",
-        Dict{String,Any}(
-            "ModelApprovalStatus" => ModelApprovalStatus,
-            "ModelPackageArn" => ModelPackageArn,
-        );
+        Dict{String,Any}("ModelPackageArn" => ModelPackageArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_model_package(
-    ModelApprovalStatus,
     ModelPackageArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -10703,12 +10755,7 @@ function update_model_package(
         "UpdateModelPackage",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ModelApprovalStatus" => ModelApprovalStatus,
-                    "ModelPackageArn" => ModelPackageArn,
-                ),
-                params,
+                _merge, Dict{String,Any}("ModelPackageArn" => ModelPackageArn), params
             ),
         );
         aws_config=aws_config,
@@ -10987,6 +11034,52 @@ function update_pipeline_execution(
                 Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_project(project_name)
+    update_project(project_name, params::Dict{String,<:Any})
+
+Updates a machine learning (ML) project that is created from a template that sets up an ML
+pipeline from training to deploying an approved model.  You must not update a project that
+is in use. If you update the ServiceCatalogProvisioningUpdateDetails of a project that is
+active or being created, or updated, you may lose resources already created by the project.
+
+# Arguments
+- `project_name`: The name of the project.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ProjectDescription"`: The description for the project.
+- `"ServiceCatalogProvisioningUpdateDetails"`: The product ID and provisioning artifact ID
+  to provision a service catalog. The provisioning artifact ID will default to the latest
+  provisioning artifact ID of the product, if you don't provide the provisioning artifact ID.
+  For more information, see What is Amazon Web Services Service Catalog.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
+"""
+function update_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker(
+        "UpdateProject",
+        Dict{String,Any}("ProjectName" => ProjectName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_project(
+    ProjectName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "UpdateProject",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProjectName" => ProjectName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

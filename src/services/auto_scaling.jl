@@ -433,6 +433,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   equal to the minimum size of the group and less than or equal to the maximum size of the
   group. If you do not specify a desired capacity, the default is the minimum size of the
   group.
+- `"DesiredCapacityType"`: The unit of measurement for the value specified for desired
+  capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance
+  type selection only. For more information, see Creating an Auto Scaling group using
+  attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By
+  default, Amazon EC2 Auto Scaling specifies units, which translates into number of
+  instances. Valid values: units | vcpu | memory-mib
 - `"HealthCheckGracePeriod"`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
   waits before checking the health status of an EC2 instance that has come into service.
   During this time, any health check failures for the instance are ignored. The default value
@@ -466,14 +472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in service. The default is null. If specified, the value must be either 0 or a number equal
   to or greater than 86,400 seconds (1 day). For more information, see Replacing Auto Scaling
   instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
-- `"MixedInstancesPolicy"`: An embedded object that specifies a mixed instances policy. The
-  required properties must be specified. If optional properties are unspecified, their
-  default values are used. The policy includes properties that not only define the
-  distribution of On-Demand Instances and Spot Instances, the maximum price to pay for Spot
-  Instances, and how the Auto Scaling group allocates instance types to fulfill On-Demand and
-  Spot capacities, but also the properties that specify the instance configuration
-  information—the launch template and instance types. The policy can also include a weight
-  for each instance type and different launch templates for individual instance types. For
+- `"MixedInstancesPolicy"`: An embedded object that specifies a mixed instances policy. For
   more information, see Auto Scaling groups with multiple instance types and purchase options
   in the Amazon EC2 Auto Scaling User Guide.
 - `"NewInstancesProtectedFromScaleIn"`: Indicates whether newly launched instances are
@@ -595,7 +594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   optimized configuration stack to provide optimal I/O performance. This optimization is not
   available with all instance types. Additional fees are incurred when you enable EBS
   optimization for an instance type that is not EBS-optimized by default. For more
-  information, see Amazon EBS-Optimized Instances in the Amazon EC2 User Guide for Linux
+  information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide for Linux
   Instances. The default value is false.
 - `"IamInstanceProfile"`: The name or the Amazon Resource Name (ARN) of the instance
   profile associated with the IAM role for the instance. The instance profile contains the
@@ -1068,10 +1067,10 @@ end
     describe_account_limits(params::Dict{String,<:Any})
 
 Describes the current Amazon EC2 Auto Scaling resource quotas for your account. When you
-establish an account, the account has initial quotas on the maximum number of Auto Scaling
-groups and launch configurations that you can create in a given Region. For more
-information, see Amazon EC2 Auto Scaling service quotas in the Amazon EC2 Auto Scaling User
-Guide.
+establish an Amazon Web Services account, the account has initial quotas on the maximum
+number of Auto Scaling groups and launch configurations that you can create in a given
+Region. For more information, see Amazon EC2 Auto Scaling service quotas in the Amazon EC2
+Auto Scaling User Guide.
 
 """
 function describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1119,15 +1118,20 @@ end
     describe_auto_scaling_groups()
     describe_auto_scaling_groups(params::Dict{String,<:Any})
 
-Gets information about the Auto Scaling groups in the account and Region. This operation
-returns information about instances in Auto Scaling groups. To retrieve information about
-the instances in a warm pool, you must call the DescribeWarmPool API.
+Gets information about the Auto Scaling groups in the account and Region. If you specify
+Auto Scaling group names, the output includes information for only the specified Auto
+Scaling groups. If you specify filters, the output includes information for only those Auto
+Scaling groups that meet the filter criteria. If you do not specify group names or filters,
+the output includes information for all Auto Scaling groups.  This operation also returns
+information about instances in Auto Scaling groups. To retrieve information about the
+instances in a warm pool, you must call the DescribeWarmPool API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoScalingGroupNames"`: The names of the Auto Scaling groups. By default, you can only
   specify up to 50 names. You can optionally increase this limit using the MaxRecords
   parameter. If you omit this parameter, all Auto Scaling groups are described.
+- `"Filters"`: One or more filters to limit the results based on specific tags.
 - `"MaxRecords"`: The maximum number of items to return with this call. The default value
   is 50 and the maximum value is 100.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
@@ -3221,6 +3225,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group after this operation completes and the capacity it attempts to maintain. This number
   must be greater than or equal to the minimum size of the group and less than or equal to
   the maximum size of the group.
+- `"DesiredCapacityType"`: The unit of measurement for the value specified for desired
+  capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance
+  type selection only. For more information, see Creating an Auto Scaling group using
+  attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By
+  default, Amazon EC2 Auto Scaling specifies units, which translates into number of
+  instances. Valid values: units | vcpu | memory-mib
 - `"HealthCheckGracePeriod"`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
   waits before checking the health status of an EC2 instance that has come into service. The
   default value is 0. For more information, see Health check grace period in the Amazon EC2
@@ -3246,10 +3256,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MaxSize by more than your largest instance weight (weights that define how many units each
   instance contributes to the desired capacity of the group).
 - `"MinSize"`: The minimum size of the Auto Scaling group.
-- `"MixedInstancesPolicy"`: An embedded object that specifies a mixed instances policy.
-  When you make changes to an existing policy, all optional properties are left unchanged if
-  not specified. For more information, see Auto Scaling groups with multiple instance types
-  and purchase options in the Amazon EC2 Auto Scaling User Guide.
+- `"MixedInstancesPolicy"`: An embedded object that specifies a mixed instances policy. For
+  more information, see Auto Scaling groups with multiple instance types and purchase options
+  in the Amazon EC2 Auto Scaling User Guide.
 - `"NewInstancesProtectedFromScaleIn"`: Indicates whether newly launched instances are
   protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information
   about preventing instances from terminating on scale in, see Instance scale-in protection

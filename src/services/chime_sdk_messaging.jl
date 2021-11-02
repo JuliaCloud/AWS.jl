@@ -5,13 +5,72 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_channel_flow(channel_flow_arn, channel_arn, x-amz-chime-bearer)
+    associate_channel_flow(channel_flow_arn, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
+
+Associates a channel flow with a channel. Once associated, all messages to that channel go
+through channel flow processors. To stop processing, use the DisassociateChannelFlow API.
+Only administrators or channel moderators can associate a channel flow. The
+x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
+makes the API call as the value in the header.
+
+# Arguments
+- `channel_flow_arn`: The ARN of the channel flow.
+- `channel_arn`: The ARN of the channel.
+- `x-amz-chime-bearer`: The AppInstanceUserArn of the user making the API call.
+
+"""
+function associate_channel_flow(
+    ChannelFlowArn,
+    channelArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/channel-flow",
+        Dict{String,Any}(
+            "ChannelFlowArn" => ChannelFlowArn,
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_channel_flow(
+    ChannelFlowArn,
+    channelArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/channel-flow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChannelFlowArn" => ChannelFlowArn,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_create_channel_membership(member_arns, channel_arn, x-amz-chime-bearer)
     batch_create_channel_membership(member_arns, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Adds a specified number of users to a channel.
 
 # Arguments
-- `member_arns`: The ARNs of the members you want to add to the channel.
+- `member_arns`: The AppInstanceUserArns of the members you want to add to the channel.
 - `channel_arn`: The ARN of the channel to which you're adding users.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
@@ -56,6 +115,64 @@ function batch_create_channel_membership(
                     "MemberArns" => MemberArns,
                     "headers" =>
                         Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    channel_flow_callback(callback_id, channel_message, channel_arn)
+    channel_flow_callback(callback_id, channel_message, channel_arn, params::Dict{String,<:Any})
+
+Calls back Chime SDK Messaging with a processing response message. This should be invoked
+from the processor Lambda. This is a developer API. You can return one of the following
+processing responses:   Update message content or metadata   Deny a message   Make no
+changes to the message
+
+# Arguments
+- `callback_id`: The identifier passed to the processor by the service when invoked. Use
+  the identifier to call back the service.
+- `channel_message`: Stores information about the processed message.
+- `channel_arn`: The ARN of the channel.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeleteResource"`: When a processor determines that a message needs to be DENIED, pass
+  this parameter with a value of true.
+"""
+function channel_flow_callback(
+    CallbackId,
+    ChannelMessage,
+    channelArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels/$(channelArn)?operation=channel-flow-callback",
+        Dict{String,Any}("CallbackId" => CallbackId, "ChannelMessage" => ChannelMessage);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function channel_flow_callback(
+    CallbackId,
+    ChannelMessage,
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channels/$(channelArn)?operation=channel-flow-callback",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CallbackId" => CallbackId, "ChannelMessage" => ChannelMessage
                 ),
                 params,
             ),
@@ -151,7 +268,7 @@ request header is mandatory. Use the AppInstanceUserArn of the user that makes t
 as the value in the header.
 
 # Arguments
-- `member_arn`: The ARN of the member being banned.
+- `member_arn`: The AppInstanceUserArn of the member being banned.
 - `channel_arn`: The ARN of the ban request.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
@@ -200,19 +317,90 @@ function create_channel_ban(
 end
 
 """
+    create_channel_flow(app_instance_arn, client_request_token, name, processors)
+    create_channel_flow(app_instance_arn, client_request_token, name, processors, params::Dict{String,<:Any})
+
+Creates a channel flow, a container for processors. Processors are AWS Lambda functions
+that perform actions on chat messages, such as stripping out profanity. You can associate
+channel flows with channels, and the processors in the channel flow then take action on all
+messages sent to that channel. This is a developer API. Channel flows process the following
+items:   New and updated messages   Persistent and non-persistent messages   The Standard
+message type    Channel flows don't process Control or System messages. For more
+information about the message types provided by Chime SDK Messaging, refer to Message types
+in the Amazon Chime developer guide.
+
+# Arguments
+- `app_instance_arn`: The ARN of the channel flow request.
+- `client_request_token`: The client token for the request. An Idempotency token.
+- `name`: The name of the channel flow.
+- `processors`: Information about the processor Lambda functions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tags for the creation request.
+"""
+function create_channel_flow(
+    AppInstanceArn,
+    ClientRequestToken,
+    Name,
+    Processors;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channel-flows",
+        Dict{String,Any}(
+            "AppInstanceArn" => AppInstanceArn,
+            "ClientRequestToken" => ClientRequestToken,
+            "Name" => Name,
+            "Processors" => Processors,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_channel_flow(
+    AppInstanceArn,
+    ClientRequestToken,
+    Name,
+    Processors,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/channel-flows",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppInstanceArn" => AppInstanceArn,
+                    "ClientRequestToken" => ClientRequestToken,
+                    "Name" => Name,
+                    "Processors" => Processors,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer)
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Adds a user to a channel. The InvitedBy response field is derived from the request header.
-A channel member can:   List messages   Send messages   Receive messages   Edit their own
-messages   Leave the channel   Privacy settings impact this action as follows:   Public
-Channels: You do not need to be a member to list messages, but you must be a member to send
-messages.   Private Channels: You must be a member to list or send messages.    The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+Adds a user to a channel. The InvitedBy field in ChannelMembership is derived from the
+request header. A channel member can:   List messages   Send messages   Receive messages
+Edit their own messages   Leave the channel   Privacy settings impact this action as
+follows:   Public Channels: You do not need to be a member to list messages, but you must
+be a member to send messages.   Private Channels: You must be a member to list or send
+messages.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn
+of the user that makes the API call as the value in the header.
 
 # Arguments
-- `member_arn`: The ARN of the member you want to add to the channel.
+- `member_arn`: The AppInstanceUserArn of the member you want to add to the channel.
 - `type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
   returned as part of ListChannelMemberships. Hidden members are only returned if the type
   filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
@@ -279,7 +467,7 @@ x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of th
 makes the API call as the value in the header.
 
 # Arguments
-- `channel_moderator_arn`: The ARN of the moderator.
+- `channel_moderator_arn`: The AppInstanceUserArn of the moderator.
 - `channel_arn`: The ARN of the channel.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
@@ -433,6 +621,44 @@ function delete_channel_ban(
 end
 
 """
+    delete_channel_flow(channel_flow_arn)
+    delete_channel_flow(channel_flow_arn, params::Dict{String,<:Any})
+
+Deletes a channel flow, an irreversible process. This is a developer API.   This API works
+only when the channel flow is not associated with any channel. To get a list of all
+channels that a channel flow is associated with, use the
+ListChannelsAssociatedWithChannelFlow API. Use the DisassociateChannelFlow API to
+disassociate a channel flow from all channels.
+
+# Arguments
+- `channel_flow_arn`: The ARN of the channel flow.
+
+"""
+function delete_channel_flow(
+    channelFlowArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channel-flows/$(channelFlowArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_channel_flow(
+    channelFlowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channel-flows/$(channelFlowArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_channel_membership(channel_arn, member_arn, x-amz-chime-bearer)
     delete_channel_membership(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
@@ -441,7 +667,7 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 
 # Arguments
 - `channel_arn`: The ARN of the channel from which you want to remove the user.
-- `member_arn`: The ARN of the member that you're removing from the channel.
+- `member_arn`: The AppInstanceUserArn of the member that you're removing from the channel.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -551,7 +777,7 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `channel_moderator_arn`: The ARN of the moderator being deleted.
+- `channel_moderator_arn`: The AppInstanceUserArn of the moderator being deleted.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -656,7 +882,7 @@ the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel from which the user is banned.
-- `member_arn`: The ARN of the member being banned.
+- `member_arn`: The AppInstanceUserArn of the member being banned.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -702,6 +928,41 @@ function describe_channel_ban(
 end
 
 """
+    describe_channel_flow(channel_flow_arn)
+    describe_channel_flow(channel_flow_arn, params::Dict{String,<:Any})
+
+Returns the full details of a channel flow in an Amazon Chime AppInstance. This is a
+developer API.
+
+# Arguments
+- `channel_flow_arn`: The ARN of the channel flow.
+
+"""
+function describe_channel_flow(
+    channelFlowArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channel-flows/$(channelFlowArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_channel_flow(
+    channelFlowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channel-flows/$(channelFlowArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_channel_membership(channel_arn, member_arn, x-amz-chime-bearer)
     describe_channel_membership(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
@@ -711,7 +972,7 @@ value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `member_arn`: The ARN of the member.
+- `member_arn`: The AppInstanceUserArn of the member.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -880,7 +1141,7 @@ value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `channel_moderator_arn`: The ARN of the channel moderator.
+- `channel_moderator_arn`: The AppInstanceUserArn of the channel moderator.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 
 """
@@ -910,6 +1171,120 @@ function describe_channel_moderator(
     return chime_sdk_messaging(
         "GET",
         "/channels/$(channelArn)/moderators/$(channelModeratorArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_channel_flow(channel_arn, channel_flow_arn, x-amz-chime-bearer)
+    disassociate_channel_flow(channel_arn, channel_flow_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
+
+Disassociates a channel flow from all its channels. Once disassociated, all messages to
+that channel stop going through the channel flow processor.  Only administrators or channel
+moderators can disassociate a channel flow. The x-amz-chime-bearer request header is
+mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
+the header.
+
+# Arguments
+- `channel_arn`: The ARN of the channel.
+- `channel_flow_arn`: The ARN of the channel flow.
+- `x-amz-chime-bearer`: The AppInstanceUserArn of the user making the API call.
+
+"""
+function disassociate_channel_flow(
+    channelArn,
+    channelFlowArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channels/$(channelArn)/channel-flow/$(channelFlowArn)",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_channel_flow(
+    channelArn,
+    channelFlowArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/channels/$(channelArn)/channel-flow/$(channelFlowArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_channel_membership_preferences(channel_arn, member_arn, x-amz-chime-bearer)
+    get_channel_membership_preferences(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
+
+Gets the membership preferences of an AppInstanceUser for the specified channel. The
+AppInstanceUser must be a member of the channel. Only the AppInstanceUser who owns the
+membership can retrieve preferences. Users in the AppInstanceAdmin and channel moderator
+roles can't retrieve preferences for other users. Banned users can't retrieve membership
+preferences for the channel from which they are banned.
+
+# Arguments
+- `channel_arn`: The ARN of the channel.
+- `member_arn`: The AppInstanceUserArn of the member retrieving the preferences.
+- `x-amz-chime-bearer`: The AppInstanceUserARN of the user making the API call.
+
+"""
+function get_channel_membership_preferences(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_channel_membership_preferences(
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -965,6 +1340,67 @@ function get_channel_message(
     return chime_sdk_messaging(
         "GET",
         "/channels/$(channelArn)/messages/$(messageId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_channel_message_status(channel_arn, message_id, x-amz-chime-bearer)
+    get_channel_message_status(channel_arn, message_id, x-amz-chime-bearer, params::Dict{String,<:Any})
+
+Gets message status for a specified messageId. Use this API to determine the intermediate
+status of messages going through channel flow processing. The API provides an alternative
+to retrieving message status if the event was not received because a client wasn't
+connected to a websocket.  Messages can have any one of these statuses.  SENT  Message
+processed successfully  PENDING  Ongoing processing  FAILED  Processing failed  DENIED
+Messasge denied by the processor      This API does not return statuses for denied
+messages, because we don't store them once the processor denies them.    Only the message
+sender can invoke this API.   The x-amz-chime-bearer request header is mandatory. Use the
+AppInstanceUserArn of the user that makes the API call as the value in the header
+
+# Arguments
+- `channel_arn`: The ARN of the channel
+- `message_id`: The ID of the message.
+- `x-amz-chime-bearer`: The AppInstanceUserArn of the user making the API call.
+
+"""
+function get_channel_message_status(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/messages/$(messageId)?scope=message-status",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_channel_message_status(
+    channelArn,
+    messageId,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels/$(channelArn)/messages/$(messageId)?scope=message-status",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1063,12 +1499,58 @@ function list_channel_bans(
 end
 
 """
+    list_channel_flows(app-instance-arn)
+    list_channel_flows(app-instance-arn, params::Dict{String,<:Any})
+
+Returns a paginated lists of all the channel flows created under a single Chime. This is a
+developer API.
+
+# Arguments
+- `app-instance-arn`: The ARN of the app instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of channel flows that you want to return.
+- `"next-token"`: The token passed by previous API calls until all requested channel flows
+  are returned.
+"""
+function list_channel_flows(
+    app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channel-flows",
+        Dict{String,Any}("app-instance-arn" => app_instance_arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_channel_flows(
+    app_instance_arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channel-flows",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("app-instance-arn" => app_instance_arn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_channel_memberships(channel_arn, x-amz-chime-bearer)
     list_channel_memberships(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is
 mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+the header.  If you want to list the channels to which a specific app instance user
+belongs, see the ListChannelMembershipsForAppInstanceUser API.
 
 # Arguments
 - `channel_arn`: The maximum number of channel memberships that you want returned.
@@ -1355,6 +1837,52 @@ function list_channels(
 end
 
 """
+    list_channels_associated_with_channel_flow(channel-flow-arn)
+    list_channels_associated_with_channel_flow(channel-flow-arn, params::Dict{String,<:Any})
+
+Lists all channels associated with a specified channel flow. You can associate a channel
+flow with multiple channels, but you can only associate a channel with one channel flow.
+This is a developer API.
+
+# Arguments
+- `channel-flow-arn`: The ARN of the channel flow.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of channels that you want to return.
+- `"next-token"`: The token passed by previous API calls until all requested channels are
+  returned.
+"""
+function list_channels_associated_with_channel_flow(
+    channel_flow_arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels?scope=channel-flow-associations",
+        Dict{String,Any}("channel-flow-arn" => channel_flow_arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_channels_associated_with_channel_flow(
+    channel_flow_arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/channels?scope=channel-flow-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("channel-flow-arn" => channel_flow_arn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_channels_moderated_by_app_instance_user(x-amz-chime-bearer)
     list_channels_moderated_by_app_instance_user(x-amz-chime-bearer, params::Dict{String,<:Any})
 
@@ -1397,6 +1925,99 @@ function list_channels_moderated_by_app_instance_user(
             mergewith(
                 _merge,
                 Dict{String,Any}(
+                    "headers" =>
+                        Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tags_for_resource(arn)
+    list_tags_for_resource(arn, params::Dict{String,<:Any})
+
+Lists the tags applied to an Amazon Chime SDK messaging resource.
+
+# Arguments
+- `arn`: The ARN of the resource.
+
+"""
+function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return chime_sdk_messaging(
+        "GET",
+        "/tags",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/tags",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer)
+    put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
+
+Sets the membership preferences of an AppInstanceUser for the specified channel. The
+AppInstanceUser must be a member of the channel. Only the AppInstanceUser who owns the
+membership can set preferences. Users in the AppInstanceAdmin and channel moderator roles
+can't set preferences for other users. Banned users can't set membership preferences for
+the channel from which they are banned.
+
+# Arguments
+- `preferences`: The channel membership preferences of an AppInstanceUser .
+- `channel_arn`: The ARN of the channel.
+- `member_arn`: The AppInstanceUserArn of the member setting the preferences.
+- `x-amz-chime-bearer`: The AppInstanceUserARN of the user making the API call.
+
+"""
+function put_channel_membership_preferences(
+    Preferences,
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+        Dict{String,Any}(
+            "Preferences" => Preferences,
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_channel_membership_preferences(
+    Preferences,
+    channelArn,
+    memberArn,
+    x_amz_chime_bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/memberships/$(memberArn)/preferences",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Preferences" => Preferences,
                     "headers" =>
                         Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
                 ),
@@ -1485,7 +2106,10 @@ metadata.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MessageAttributes"`: The attributes for the message, used for message filtering along
+  with a FilterRule defined in the PushNotificationPreferences.
 - `"Metadata"`: The optional metadata for each message.
+- `"PushNotification"`: The push notification configuration of the message.
 """
 function send_channel_message(
     ClientRequestToken,
@@ -1534,6 +2158,90 @@ function send_channel_message(
                     "headers" =>
                         Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Applies the specified tags to the specified Amazon Chime SDK messaging resource.
+
+# Arguments
+- `resource_arn`: The resource ARN.
+- `tags`: The tag key-value pairs.
+
+"""
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return chime_sdk_messaging(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/tags?operation=tag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes the specified tags from the specified Amazon Chime SDK messaging resource.
+
+# Arguments
+- `resource_arn`: The resource ARN.
+- `tag_keys`: The tag keys.
+
+"""
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "POST",
+        "/tags?operation=untag-resource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
                 params,
             ),
         );
@@ -1600,6 +2308,49 @@ function update_channel(
                         Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_channel_flow(name, processors, channel_flow_arn)
+    update_channel_flow(name, processors, channel_flow_arn, params::Dict{String,<:Any})
+
+Updates channel flow attributes. This is a developer API.
+
+# Arguments
+- `name`: The name of the channel flow.
+- `processors`: Information about the processor Lambda functions
+- `channel_flow_arn`: The ARN of the channel flow.
+
+"""
+function update_channel_flow(
+    Name, Processors, channelFlowArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channel-flows/$(channelFlowArn)",
+        Dict{String,Any}("Name" => Name, "Processors" => Processors);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_channel_flow(
+    Name,
+    Processors,
+    channelFlowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channel-flows/$(channelFlowArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "Processors" => Processors), params
             ),
         );
         aws_config=aws_config,

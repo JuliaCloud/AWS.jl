@@ -276,6 +276,7 @@ const global_accelerator = AWS.JSONService(
     "GlobalAccelerator_V20180706",
 )
 const glue = AWS.JSONService("glue", "glue", "2017-03-31", "1.1", "AWSGlue")
+const grafana = AWS.RestJSONService("grafana", "grafana", "2020-08-18")
 const greengrass = AWS.RestJSONService("greengrass", "greengrass", "2017-06-07")
 const greengrassv2 = AWS.RestJSONService("greengrass", "greengrass", "2020-11-30")
 const groundstation = AWS.RestJSONService("groundstation", "groundstation", "2019-05-23")
@@ -450,6 +451,7 @@ const organizations = AWS.JSONService(
     "organizations", "organizations", "2016-11-28", "1.1", "AWSOrganizationsV20161128"
 )
 const outposts = AWS.RestJSONService("outposts", "outposts", "2019-12-03")
+const panorama = AWS.RestJSONService("panorama", "panorama", "2019-07-24")
 const personalize = AWS.JSONService(
     "personalize", "personalize", "2018-05-22", "1.1", "AmazonPersonalize"
 )

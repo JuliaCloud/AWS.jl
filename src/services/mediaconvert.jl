@@ -347,6 +347,33 @@ function delete_job_template(
 end
 
 """
+    delete_policy()
+    delete_policy(params::Dict{String,<:Any})
+
+Permanently delete a policy that you created.
+
+"""
+function delete_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconvert(
+        "DELETE",
+        "/2017-08-29/policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconvert(
+        "DELETE",
+        "/2017-08-29/policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_preset(name)
     delete_preset(name, params::Dict{String,<:Any})
 
@@ -530,6 +557,30 @@ function get_job_template(
     return mediaconvert(
         "GET",
         "/2017-08-29/jobTemplates/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_policy()
+    get_policy(params::Dict{String,<:Any})
+
+Retrieve the JSON for your policy.
+
+"""
+function get_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconvert(
+        "GET", "/2017-08-29/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/policy",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -777,6 +828,40 @@ function list_tags_for_resource(
         "GET",
         "/2017-08-29/tags/$(arn)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_policy(policy)
+    put_policy(policy, params::Dict{String,<:Any})
+
+Create or change your policy. For more information about policies, see the user guide at
+http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+
+# Arguments
+- `policy`: A policy configures behavior that you allow or disallow for your account. For
+  information about MediaConvert policies, see the user guide at
+  http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+
+"""
+function put_policy(policy; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconvert(
+        "PUT",
+        "/2017-08-29/policy",
+        Dict{String,Any}("policy" => policy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_policy(
+    policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconvert(
+        "PUT",
+        "/2017-08-29/policy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
