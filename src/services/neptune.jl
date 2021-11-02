@@ -8,7 +8,7 @@ using AWS.UUIDs
     add_role_to_dbcluster(dbcluster_identifier, role_arn)
     add_role_to_dbcluster(dbcluster_identifier, role_arn, params::Dict{String,<:Any})
 
-Associates an Identity and Access Management (IAM) role from an Neptune DB cluster.
+Associates an Identity and Access Management (IAM) role with an Neptune DB cluster.
 
 # Arguments
 - `dbcluster_identifier`: The name of the DB cluster to associate the IAM role with.
@@ -1708,10 +1708,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is false. You can share a manual DB cluster snapshot as public by using the
   ModifyDBClusterSnapshotAttribute API action.
 - `"IncludeShared"`: True to include shared manual DB cluster snapshots from other Amazon
-  accounts that this AWS account has been given permission to copy or restore, and otherwise
-  false. The default is false. You can give an Amazon account permission to restore a manual
-  DB cluster snapshot from another Amazon account by the ModifyDBClusterSnapshotAttribute API
-  action.
+  accounts that this Amazon account has been given permission to copy or restore, and
+  otherwise false. The default is false. You can give an Amazon account permission to restore
+  a manual DB cluster snapshot from another Amazon account by the
+  ModifyDBClusterSnapshotAttribute API action.
 - `"Marker"`: An optional pagination token provided by a previous
   DescribeDBClusterSnapshots request. If this parameter is specified, the response includes
   only records beyond the marker, up to the value specified by MaxRecords.
@@ -1722,8 +1722,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotType"`: The type of DB cluster snapshots to be returned. You can specify one of
   the following values:    automated - Return all DB cluster snapshots that have been
   automatically taken by Amazon Neptune for my Amazon account.    manual - Return all DB
-  cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB
-  cluster snapshots that have been shared to my Amazon account.    public - Return all DB
+  cluster snapshots that have been taken by my Amazon account.    shared - Return all manual
+  DB cluster snapshots that have been shared to my Amazon account.    public - Return all DB
   cluster snapshots that have been marked as public.   If you don't specify a SnapshotType
   value, then both automated and manual DB cluster snapshots are returned. You can include
   shared DB cluster snapshots with these results by setting the IncludeShared parameter to
@@ -2440,6 +2440,10 @@ parameters by specifying these parameters and the new values in the request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowMajorVersionUpgrade"`: A value that indicates whether upgrades between different
+  major versions are allowed. Constraints: You must set the allow-major-version-upgrade flag
+  when providing an EngineVersion parameter that uses a different major version than the DB
+  cluster's current version.
 - `"ApplyImmediately"`: A value that specifies whether the modifications in this request
   and any pending modifications are asynchronously applied as soon as possible, regardless of
   the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to
@@ -2457,6 +2461,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster that is created.
 - `"DBClusterParameterGroupName"`: The name of the DB cluster parameter group to use for
   the DB cluster.
+- `"DBInstanceParameterGroupName"`: The name of the DB parameter group to apply to all
+  instances of the DB cluster.   When you apply a parameter group using
+  DBInstanceParameterGroupName, parameter changes aren't applied during the next maintenance
+  window but instead are applied immediately.  Default: The existing name setting
+  Constraints:   The DB parameter group must be in the same DB parameter group family as the
+  target DB cluster version.   The DBInstanceParameterGroupName parameter is only valid in
+  combination with the AllowMajorVersionUpgrade parameter.
 - `"DeletionProtection"`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection is disabled.
@@ -2663,7 +2674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DB cluster snapshot, set this list to include one or more Amazon account IDs, or all to
   make the manual DB cluster snapshot restorable by any Amazon account. Do not add the all
   value for any manual DB cluster snapshots that contain private information that you don't
-  want available to all AWS accounts.
+  want available to all Amazon accounts.
 - `"ValuesToRemove"`: A list of DB cluster snapshot attributes to remove from the attribute
   specified by AttributeName. To remove authorization for other Amazon accounts to copy or
   restore a manual DB cluster snapshot, set this list to include one or more Amazon account
@@ -2750,7 +2761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CopyTagsToSnapshot"`: True to copy all tags from the DB instance to snapshots of the DB
   instance, and otherwise false. The default is false.
 - `"DBInstanceClass"`: The new compute and memory capacity of the DB instance, for example,
-  db.m4.large. Not all DB instance classes are available in all AWS Regions. If you modify
+  db.m4.large. Not all DB instance classes are available in all Amazon Regions. If you modify
   the DB instance class, an outage occurs during the change. The change is applied during the
   next maintenance window, unless ApplyImmediately is specified as true for this request.
   Default: Uses existing setting
@@ -3153,7 +3164,7 @@ Disassociates an Identity and Access Management (IAM) role from a DB cluster.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"FeatureName"`: The name of the feature for the DB cluster that the IAM role is to be
-  disassociated from. For the list of supported feature names, see DBEngineVersion.
+  disassociated from. For the list of supported feature names, see DescribeDBEngineVersions.
 """
 function remove_role_from_dbcluster(
     DBClusterIdentifier, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3602,8 +3613,8 @@ end
     start_dbcluster(dbcluster_identifier)
     start_dbcluster(dbcluster_identifier, params::Dict{String,<:Any})
 
-Starts an Amazon Neptune DB cluster that was stopped using the AWS console, the Amazon CLI
-stop-db-cluster command, or the StopDBCluster API.
+Starts an Amazon Neptune DB cluster that was stopped using the Amazon console, the Amazon
+CLI stop-db-cluster command, or the StopDBCluster API.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier of the Neptune DB cluster to be

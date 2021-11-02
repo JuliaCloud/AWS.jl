@@ -18,8 +18,7 @@ DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot asso
 customer gateway with more than one device and link.
 
 # Arguments
-- `customer_gateway_arn`: The Amazon Resource Name (ARN) of the customer gateway. For more
-  information, see Resources Defined by Amazon EC2.
+- `customer_gateway_arn`: The Amazon Resource Name (ARN) of the customer gateway.
 - `device_id`: The ID of the device.
 - `global_network_id`: The ID of the global network.
 
@@ -244,18 +243,18 @@ location of the site is used for visualization in the Network Manager console.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AWSLocation"`: The AWS location of the device.
-- `"Description"`: A description of the device. Length Constraints: Maximum length of 256
+- `"AWSLocation"`: The Amazon Web Services location of the device, if applicable. For an
+  on-premises device, you can omit this parameter.
+- `"Description"`: A description of the device. Constraints: Maximum length of 256
   characters.
 - `"Location"`: The location of the device.
-- `"Model"`: The model of the device. Length Constraints: Maximum length of 128 characters.
-- `"SerialNumber"`: The serial number of the device. Length Constraints: Maximum length of
-  128 characters.
+- `"Model"`: The model of the device. Constraints: Maximum length of 128 characters.
+- `"SerialNumber"`: The serial number of the device. Constraints: Maximum length of 128
+  characters.
 - `"SiteId"`: The ID of the site.
 - `"Tags"`: The tags to apply to the resource during creation.
 - `"Type"`: The type of the device.
-- `"Vendor"`: The vendor of the device. Length Constraints: Maximum length of 128
-  characters.
+- `"Vendor"`: The vendor of the device. Constraints: Maximum length of 128 characters.
 """
 function create_device(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config())
     return networkmanager(
@@ -287,8 +286,8 @@ Creates a new, empty global network.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of the global network. Length Constraints: Maximum length
-  of 256 characters.
+- `"Description"`: A description of the global network. Constraints: Maximum length of 256
+  characters.
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 function create_global_network(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -321,13 +320,12 @@ Creates a new link for a specified site.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of the link. Length Constraints: Maximum length of 256
-  characters.
-- `"Provider"`: The provider of the link. Constraints: Cannot include the following
-  characters: |  ^ Length Constraints: Maximum length of 128 characters.
+- `"Description"`: A description of the link. Constraints: Maximum length of 256 characters.
+- `"Provider"`: The provider of the link. Constraints: Maximum length of 128 characters.
+  Cannot include the following characters: |  ^
 - `"Tags"`: The tags to apply to the resource during creation.
-- `"Type"`: The type of the link. Constraints: Cannot include the following characters: |
-  ^ Length Constraints: Maximum length of 128 characters.
+- `"Type"`: The type of the link. Constraints: Maximum length of 128 characters. Cannot
+  include the following characters: |  ^
 """
 function create_link(
     Bandwidth, SiteId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -373,7 +371,7 @@ Creates a new site in a global network.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of your site. Length Constraints: Maximum length of 256
+- `"Description"`: A description of your site. Constraints: Maximum length of 256
   characters.
 - `"Location"`: The site location. This information is used for visualization in the
   Network Manager console. If you specify the address, the latitude and longitude are
@@ -661,8 +659,7 @@ end
 Disassociates a customer gateway from a device and a link.
 
 # Arguments
-- `customer_gateway_arn`: The Amazon Resource Name (ARN) of the customer gateway. For more
-  information, see Resources Defined by Amazon EC2.
+- `customer_gateway_arn`: The Amazon Resource Name (ARN) of the customer gateway.
 - `global_network_id`: The ID of the global network.
 
 """
@@ -824,8 +821,8 @@ links in your global network.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"customerGatewayArns"`: One or more customer gateway Amazon Resource Names (ARNs). For
-  more information, see Resources Defined by Amazon EC2. The maximum is 10.
+- `"customerGatewayArns"`: One or more customer gateway Amazon Resource Names (ARNs). The
+  maximum is 10.
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token for the next page of results.
 """
@@ -968,6 +965,294 @@ function get_links(
     return networkmanager(
         "GET",
         "/global-networks/$(globalNetworkId)/links",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_network_resource_counts(global_network_id)
+    get_network_resource_counts(global_network_id, params::Dict{String,<:Any})
+
+Gets the count of network resources, by resource type, for the specified global network.
+
+# Arguments
+- `global_network_id`: The ID of the global network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+- `"resourceType"`: The resource type. The following are the supported resource types for
+  Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
+  resource types for Network Manager:    connection     device     link     site    The
+  following are the supported resource types for Amazon VPC:    customer-gateway
+  transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer
+  transit-gateway-route-table     vpn-connection
+"""
+function get_network_resource_counts(
+    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resource-count";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_network_resource_counts(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resource-count",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_network_resource_relationships(global_network_id)
+    get_network_resource_relationships(global_network_id, params::Dict{String,<:Any})
+
+Gets the network resource relationships for the specified global network.
+
+# Arguments
+- `global_network_id`: The ID of the global network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountId"`: The Amazon Web Services account ID.
+- `"awsRegion"`: The Amazon Web Services Region.
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+- `"registeredGatewayArn"`: The ARN of the registered gateway.
+- `"resourceArn"`: The ARN of the gateway.
+- `"resourceType"`: The resource type. The following are the supported resource types for
+  Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
+  resource types for Network Manager:    connection     device     link     site    The
+  following are the supported resource types for Amazon VPC:    customer-gateway
+  transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer
+  transit-gateway-route-table     vpn-connection
+"""
+function get_network_resource_relationships(
+    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resource-relationships";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_network_resource_relationships(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resource-relationships",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_network_resources(global_network_id)
+    get_network_resources(global_network_id, params::Dict{String,<:Any})
+
+Describes the network resources for the specified global network. The results include
+information from the corresponding Describe call for the resource, minus any sensitive
+information such as pre-shared keys.
+
+# Arguments
+- `global_network_id`: The ID of the global network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountId"`: The Amazon Web Services account ID.
+- `"awsRegion"`: The Amazon Web Services Region.
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+- `"registeredGatewayArn"`: The ARN of the gateway.
+- `"resourceArn"`: The ARN of the resource.
+- `"resourceType"`: The resource type. The following are the supported resource types for
+  Direct Connect:    dxcon - The definition model is Connection.    dx-gateway - The
+  definition model is DirectConnectGateway.    dx-vif - The definition model is
+  VirtualInterface.   The following are the supported resource types for Network Manager:
+  connection - The definition model is Connection.    device - The definition model is
+  Device.    link - The definition model is Link.    site - The definition model is Site.
+  The following are the supported resource types for Amazon VPC:    customer-gateway - The
+  definition model is CustomerGateway.    transit-gateway - The definition model is
+  TransitGateway.    transit-gateway-attachment - The definition model is
+  TransitGatewayAttachment.    transit-gateway-connect-peer - The definition model is
+  TransitGatewayConnectPeer.    transit-gateway-route-table - The definition model is
+  TransitGatewayRouteTable.    vpn-connection - The definition model is VpnConnection.
+"""
+function get_network_resources(
+    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resources";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_network_resources(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-resources",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_network_routes(route_table_identifier, global_network_id)
+    get_network_routes(route_table_identifier, global_network_id, params::Dict{String,<:Any})
+
+Gets the network routes of the specified global network.
+
+# Arguments
+- `route_table_identifier`: The ID of the route table.
+- `global_network_id`: The ID of the global network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DestinationFilters"`: Filter by route table destination. Possible Values:
+  TRANSIT_GATEWAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE.
+- `"ExactCidrMatches"`: An exact CIDR block.
+- `"LongestPrefixMatches"`: The most specific route that matches the traffic (longest
+  prefix match).
+- `"PrefixListIds"`: The IDs of the prefix lists.
+- `"States"`: The route states.
+- `"SubnetOfMatches"`: The routes with a subnet that match the specified CIDR filter.
+- `"SupernetOfMatches"`: The routes with a CIDR that encompasses the CIDR filter. Example:
+  If you specify 10.0.1.0/30, then the result returns 10.0.1.0/29.
+- `"Types"`: The route types.
+"""
+function get_network_routes(
+    RouteTableIdentifier, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/network-routes",
+        Dict{String,Any}("RouteTableIdentifier" => RouteTableIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_network_routes(
+    RouteTableIdentifier,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/network-routes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RouteTableIdentifier" => RouteTableIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_network_telemetry(global_network_id)
+    get_network_telemetry(global_network_id, params::Dict{String,<:Any})
+
+Gets the network telemetry of the specified global network.
+
+# Arguments
+- `global_network_id`: The ID of the global network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountId"`: The Amazon Web Services account ID.
+- `"awsRegion"`: The Amazon Web Services Region.
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next page of results.
+- `"registeredGatewayArn"`: The ARN of the gateway.
+- `"resourceArn"`: The ARN of the resource.
+- `"resourceType"`: The resource type. The following are the supported resource types for
+  Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
+  resource types for Network Manager:    connection     device     link     site    The
+  following are the supported resource types for Amazon VPC:    customer-gateway
+  transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer
+  transit-gateway-route-table     vpn-connection
+"""
+function get_network_telemetry(
+    globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-telemetry";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_network_telemetry(
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/network-telemetry",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_route_analysis(global_network_id, route_analysis_id)
+    get_route_analysis(global_network_id, route_analysis_id, params::Dict{String,<:Any})
+
+Gets information about the specified route analysis.
+
+# Arguments
+- `global_network_id`: The ID of the global network.
+- `route_analysis_id`: The ID of the route analysis.
+
+"""
+function get_route_analysis(
+    globalNetworkId, routeAnalysisId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_route_analysis(
+    globalNetworkId,
+    routeAnalysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/global-networks/$(globalNetworkId)/route-analyses/$(routeAnalysisId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1130,13 +1415,13 @@ end
     register_transit_gateway(transit_gateway_arn, global_network_id)
     register_transit_gateway(transit_gateway_arn, global_network_id, params::Dict{String,<:Any})
 
-Registers a transit gateway in your global network. The transit gateway can be in any AWS
-Region, but it must be owned by the same AWS account that owns the global network. You
-cannot register a transit gateway in more than one global network.
+Registers a transit gateway in your global network. The transit gateway can be in any
+Amazon Web Services Region, but it must be owned by the same Amazon Web Services account
+that owns the global network. You cannot register a transit gateway in more than one global
+network.
 
 # Arguments
-- `transit_gateway_arn`: The Amazon Resource Name (ARN) of the transit gateway. For more
-  information, see Resources Defined by Amazon EC2.
+- `transit_gateway_arn`: The Amazon Resource Name (ARN) of the transit gateway.
 - `global_network_id`: The ID of the global network.
 
 """
@@ -1163,6 +1448,57 @@ function register_transit_gateway(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("TransitGatewayArn" => TransitGatewayArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_route_analysis(destination, source, global_network_id)
+    start_route_analysis(destination, source, global_network_id, params::Dict{String,<:Any})
+
+Starts analyzing the routing path between the specified source and destination. For more
+information, see Route Analyzer.
+
+# Arguments
+- `destination`: The destination.
+- `source`: The source from which traffic originates.
+- `global_network_id`: The ID of the global network.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IncludeReturnPath"`: Indicates whether to analyze the return path. The default is false.
+- `"UseMiddleboxes"`: Indicates whether to include the location of middlebox appliances in
+  the route analysis. The default is false.
+"""
+function start_route_analysis(
+    Destination, Source, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/route-analyses",
+        Dict{String,Any}("Destination" => Destination, "Source" => Source);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_route_analysis(
+    Destination,
+    Source,
+    globalNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/global-networks/$(globalNetworkId)/route-analyses",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Destination" => Destination, "Source" => Source),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -1298,17 +1634,17 @@ parameters, specify an empty string.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AWSLocation"`: The AWS location of the device.
-- `"Description"`: A description of the device. Length Constraints: Maximum length of 256
+- `"AWSLocation"`: The Amazon Web Services location of the device, if applicable. For an
+  on-premises device, you can omit this parameter.
+- `"Description"`: A description of the device. Constraints: Maximum length of 256
   characters.
 - `"Location"`:
-- `"Model"`: The model of the device. Length Constraints: Maximum length of 128 characters.
-- `"SerialNumber"`: The serial number of the device. Length Constraints: Maximum length of
-  128 characters.
+- `"Model"`: The model of the device. Constraints: Maximum length of 128 characters.
+- `"SerialNumber"`: The serial number of the device. Constraints: Maximum length of 128
+  characters.
 - `"SiteId"`: The ID of the site.
 - `"Type"`: The type of the device.
-- `"Vendor"`: The vendor of the device. Length Constraints: Maximum length of 128
-  characters.
+- `"Vendor"`: The vendor of the device. Constraints: Maximum length of 128 characters.
 """
 function update_device(
     deviceId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1347,8 +1683,8 @@ specify an empty string.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of the global network. Length Constraints: Maximum length
-  of 256 characters.
+- `"Description"`: A description of the global network. Constraints: Maximum length of 256
+  characters.
 """
 function update_global_network(
     globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1388,11 +1724,9 @@ specify an empty string.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Bandwidth"`: The upload and download speed in Mbps.
-- `"Description"`: A description of the link. Length Constraints: Maximum length of 256
-  characters.
-- `"Provider"`: The provider of the link. Length Constraints: Maximum length of 128
-  characters.
-- `"Type"`: The type of the link. Length Constraints: Maximum length of 128 characters.
+- `"Description"`: A description of the link. Constraints: Maximum length of 256 characters.
+- `"Provider"`: The provider of the link. Constraints: Maximum length of 128 characters.
+- `"Type"`: The type of the link. Constraints: Maximum length of 128 characters.
 """
 function update_link(
     globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1420,6 +1754,50 @@ function update_link(
 end
 
 """
+    update_network_resource_metadata(metadata, global_network_id, resource_arn)
+    update_network_resource_metadata(metadata, global_network_id, resource_arn, params::Dict{String,<:Any})
+
+Updates the resource metadata for the specified global network.
+
+# Arguments
+- `metadata`: The resource metadata.
+- `global_network_id`: The ID of the global network.
+- `resource_arn`: The ARN of the resource.
+
+"""
+function update_network_resource_metadata(
+    Metadata,
+    globalNetworkId,
+    resourceArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata",
+        Dict{String,Any}("Metadata" => Metadata);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_network_resource_metadata(
+    Metadata,
+    globalNetworkId,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/global-networks/$(globalNetworkId)/network-resources/$(resourceArn)/metadata",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Metadata" => Metadata), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_site(global_network_id, site_id)
     update_site(global_network_id, site_id, params::Dict{String,<:Any})
 
@@ -1432,7 +1810,7 @@ parameters, specify an empty string.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of your site. Length Constraints: Maximum length of 256
+- `"Description"`: A description of your site. Constraints: Maximum length of 256
   characters.
 - `"Location"`: The site location:    Address: The physical address of the site.
   Latitude: The latitude of the site.     Longitude: The longitude of the site.
