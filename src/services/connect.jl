@@ -365,7 +365,7 @@ agent status for the specified Amazon Connect instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the status.
 - `"DisplayOrder"`: The display order of the status.
-- `"Tags"`: One or more tags.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_agent_status(
     InstanceId, Name, State; aws_config::AbstractAWSConfig=global_aws_config()
@@ -466,7 +466,7 @@ Creates hours of operation.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the hours of operation.
-- `"Tags"`: One or more tags.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_hours_of_operation(
     Config, InstanceId, Name, TimeZone; aws_config::AbstractAWSConfig=global_aws_config()
@@ -576,7 +576,7 @@ end
     create_integration_association(instance_id, integration_arn, integration_type)
     create_integration_association(instance_id, integration_arn, integration_type, params::Dict{String,<:Any})
 
-Creates an AWS resource association with an Amazon Connect instance.
+Creates an Amazon Web Services resource association with an Amazon Connect instance.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -592,7 +592,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required for the EVENT integration type.
 - `"SourceType"`: The type of the data source. This field is only required for the EVENT
   integration type.
-- `"Tags"`: One or more tags.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_integration_association(
     InstanceId,
@@ -654,7 +654,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   considered full.
 - `"OutboundCallerConfig"`: The outbound caller ID name, number, and outbound whisper flow.
 - `"QuickConnectIds"`: The quick connects available to agents who are working the queue.
-- `"Tags"`: One or more tags.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_queue(
     HoursOfOperationId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -706,7 +706,7 @@ Creates a quick connect for the specified Amazon Connect instance.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the quick connect.
-- `"Tags"`: One or more tags.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_quick_connect(
     InstanceId, Name, QuickConnectConfig; aws_config::AbstractAWSConfig=global_aws_config()
@@ -815,6 +815,56 @@ function create_routing_profile(
 end
 
 """
+    create_security_profile(instance_id, security_profile_name)
+    create_security_profile(instance_id, security_profile_name, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Creates a
+security profile.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `security_profile_name`: The name of the security profile.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the security profile.
+- `"Permissions"`: Permissions assigned to the security profile.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_security_profile(
+    InstanceId, SecurityProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "PUT",
+        "/security-profiles/$(InstanceId)",
+        Dict{String,Any}("SecurityProfileName" => SecurityProfileName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_security_profile(
+    InstanceId,
+    SecurityProfileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/security-profiles/$(InstanceId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SecurityProfileName" => SecurityProfileName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_use_case(instance_id, integration_association_id, use_case_type)
     create_use_case(instance_id, integration_association_id, use_case_type, params::Dict{String,<:Any})
 
@@ -829,7 +879,7 @@ Creates a use case for an integration association.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: One or more tags.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_use_case(
     InstanceId,
@@ -1068,8 +1118,8 @@ end
     delete_integration_association(instance_id, integration_association_id)
     delete_integration_association(instance_id, integration_association_id, params::Dict{String,<:Any})
 
-Deletes an AWS resource association from an Amazon Connect instance. The association must
-not have any use cases associated with it.
+Deletes an Amazon Web Services resource association from an Amazon Connect instance. The
+association must not have any use cases associated with it.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -1133,6 +1183,44 @@ function delete_quick_connect(
     return connect(
         "DELETE",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_security_profile(instance_id, security_profile_id)
+    delete_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Deletes a
+security profile.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `security_profile_id`: The identifier for the security profle.
+
+"""
+function delete_security_profile(
+    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "DELETE",
+        "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_security_profile(
+    InstanceId,
+    SecurityProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "DELETE",
+        "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1598,6 +1686,44 @@ function describe_routing_profile(
     return connect(
         "GET",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_security_profile(instance_id, security_profile_id)
+    describe_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Gets basic
+information about the security profle.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `security_profile_id`: The identifier for the security profle.
+
+"""
+function describe_security_profile(
+    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_security_profile(
+    InstanceId,
+    SecurityProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2648,8 +2774,8 @@ end
     list_integration_associations(instance_id)
     list_integration_associations(instance_id, params::Dict{String,<:Any})
 
-Provides summary information about the AWS resource associations for the specified Amazon
-Connect instance.
+Provides summary information about the Amazon Web Services resource associations for the
+specified Amazon Connect instance.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -2657,7 +2783,7 @@ Connect instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"integrationType"`:
+- `"integrationType"`: The type of integration.
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -3098,12 +3224,56 @@ function list_security_keys(
 end
 
 """
+    list_security_profile_permissions(instance_id, security_profile_id)
+    list_security_profile_permissions(instance_id, security_profile_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Lists the
+permissions granted to a security profile.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `security_profile_id`: The identifier for the security profle.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_security_profile_permissions(
+    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/security-profiles-permissions/$(InstanceId)/$(SecurityProfileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_security_profile_permissions(
+    InstanceId,
+    SecurityProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/security-profiles-permissions/$(InstanceId)/$(SecurityProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_security_profiles(instance_id)
     list_security_profiles(instance_id, params::Dict{String,<:Any})
 
-Provides summary information about the security profiles for the specified Amazon Connect
-instance. For more information about security profiles, see Security Profiles in the Amazon
-Connect Administrator Guide.
+This API is in preview release for Amazon Connect and is subject to change. Provides
+summary information about the security profiles for the specified Amazon Connect instance.
+For more information about security profiles, see Security Profiles in the Amazon Connect
+Administrator Guide.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -4304,7 +4474,8 @@ value for the specified attribute type.
 
 # Arguments
 - `attribute_type`: The type of attribute.  Only allowlisted customers can consume
-  USE_CUSTOM_TTS_VOICES. To access this feature, contact AWS Support for allowlisting.
+  USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for
+  allowlisting.
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
 - `value`: The value for the attribute. Maximum character limit is 100.
@@ -4888,6 +5059,48 @@ function update_routing_profile_queues(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("QueueConfigs" => QueueConfigs), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_security_profile(instance_id, security_profile_id)
+    update_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Updates a
+security profile.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `security_profile_id`: The identifier for the security profle.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the security profile.
+- `"Permissions"`: The permissions granted to a security profile.
+"""
+function update_security_profile(
+    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_security_profile(
+    InstanceId,
+    SecurityProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

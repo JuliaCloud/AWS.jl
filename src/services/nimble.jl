@@ -11,16 +11,13 @@ using AWS.UUIDs
 Accept EULAs.
 
 # Arguments
-- `studio_id`: The studio ID.
+- `studio_id`: A collection of EULA IDs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"eulaIds"`: The EULA ID.
 """
 function accept_eulas(studioId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -57,7 +54,8 @@ end
 Create a launch profile.
 
 # Arguments
-- `ec2_subnet_ids`:
+- `ec2_subnet_ids`: Specifies the IDs of the EC2 subnets where streaming sessions will be
+  accessible from. These subnets must support the specified instance types.
 - `launch_profile_protocol_versions`: The version number of the protocol that is used by
   the launch profile. The only valid version is \"2021-03-31\".
 - `name`: The name for the launch profile.
@@ -68,12 +66,9 @@ Create a launch profile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"description"`: The description.
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
@@ -147,12 +142,9 @@ Creates a streaming image resource in a studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"description"`: A human-readable description of the streaming image.
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
@@ -210,12 +202,9 @@ GetStreamingSession until the streaming session is in state READY.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"ec2InstanceType"`: The EC2 Instance type used for the streaming session.
 - `"launchProfileId"`: The launch profile ID.
 - `"ownedBy"`: The user ID of the user that owns the streaming session.
@@ -261,17 +250,14 @@ GetStreamingSessionStream with the returned streamId to poll the resource until 
 state READY.
 
 # Arguments
-- `session_id`: The session ID.
+- `session_id`: The streaming session ID.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"expirationInSeconds"`: The expiration time in seconds.
 """
 function create_streaming_session_stream(
@@ -334,12 +320,9 @@ studio will no longer be accessible.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"studioEncryptionConfiguration"`: The studio encryption configuration.
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
@@ -407,12 +390,9 @@ Creates a studio component resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"configuration"`: The configuration of the studio component, based on component type.
 - `"description"`: The description.
 - `"ec2SecurityGroupIds"`: The EC2 security groups that control access to the studio
@@ -467,17 +447,14 @@ end
 Permanently delete a launch profile.
 
 # Arguments
-- `launch_profile_id`: The launch profile ID.
+- `launch_profile_id`: The Launch Profile ID.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_launch_profile(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -516,18 +493,16 @@ end
 Delete a user from launch profile membership.
 
 # Arguments
-- `launch_profile_id`: The launch profile ID.
-- `principal_id`: The principal ID.
+- `launch_profile_id`: The Launch Profile ID.
+- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
+  UserId.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_launch_profile_member(
     launchProfileId,
@@ -575,12 +550,9 @@ Delete streaming image.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_streaming_image(
     streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -621,17 +593,14 @@ to poll the resource until it transitions to a DELETED state. A streaming sessio
 count against your streaming session quota until it is marked DELETED.
 
 # Arguments
-- `session_id`: The session ID.
+- `session_id`: The streaming session ID.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_streaming_session(
     sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -674,12 +643,9 @@ Delete a studio resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
@@ -720,12 +686,9 @@ Deletes a studio component resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_studio_component(
     studioComponentId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -764,17 +727,15 @@ end
 Delete a user from studio membership.
 
 # Arguments
-- `principal_id`: The principal ID.
+- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
+  UserId.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_studio_member(
     principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -843,7 +804,7 @@ end
 Get a launch profile.
 
 # Arguments
-- `launch_profile_id`: The launch profile ID.
+- `launch_profile_id`: The Launch Profile ID.
 - `studio_id`: The studio ID.
 
 """
@@ -882,7 +843,7 @@ description of all studio components used by the launch profiles, and the name a
 description of streaming images that can be used with this launch profile.
 
 # Arguments
-- `launch_profile_id`: The launch profile ID.
+- `launch_profile_id`: The Launch Profile ID.
 - `studio_id`: The studio ID.
 
 """
@@ -918,10 +879,11 @@ end
 Get a launch profile initialization.
 
 # Arguments
-- `launch_profile_id`: The launch profile ID.
-- `launch_profile_protocol_versions`: A collection of launch profile protocol versions.
+- `launch_profile_id`: The Launch Profile ID.
+- `launch_profile_protocol_versions`: The launch profile protocol versions supported by the
+  client.
 - `launch_purpose`: The launch purpose.
-- `platform`: The platform.
+- `platform`: The platform where this Launch Profile will be used, either WINDOWS or LINUX.
 - `studio_id`: The studio ID.
 
 """
@@ -980,8 +942,9 @@ end
 Get a user persona in launch profile membership.
 
 # Arguments
-- `launch_profile_id`: The launch profile ID.
-- `principal_id`: The principal ID.
+- `launch_profile_id`: The Launch Profile ID.
+- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
+  UserId.
 - `studio_id`: The studio ID.
 
 """
@@ -1054,11 +1017,11 @@ end
     get_streaming_session(session_id, studio_id)
     get_streaming_session(session_id, studio_id, params::Dict{String,<:Any})
 
-Gets StreamingSession resource. Invoke this operation to poll for a streaming session state
+Gets StreamingSession resource. anvoke this operation to poll for a streaming session state
 while creating or deleting a session.
 
 # Arguments
-- `session_id`: The session ID.
+- `session_id`: The streaming session ID.
 - `studio_id`: The studio ID.
 
 """
@@ -1097,8 +1060,8 @@ changes to the state READY, the url property will contain a stream to be used wi
 streaming client.
 
 # Arguments
-- `session_id`: The session ID.
-- `stream_id`: The stream ID.
+- `session_id`: The streaming session ID.
+- `stream_id`: The streaming session stream ID.
 - `studio_id`: The studio ID.
 
 """
@@ -1203,7 +1166,8 @@ end
 Get a user's membership in a studio.
 
 # Arguments
-- `principal_id`: The principal ID.
+- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
+  UserId.
 - `studio_id`: The studio ID.
 
 """
@@ -1243,9 +1207,8 @@ List Eula Acceptances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"eulaIds"`: A collection of EULA IDs.
-- `"nextToken"`: The token for the next set of results, or null if there are no more
-  results.
+- `"eulaIds"`: The list of EULA IDs that have been previously accepted.
+- `"nextToken"`: The token to request the next page of results.
 """
 function list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
@@ -1277,9 +1240,8 @@ List Eulas.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"eulaIds"`: A collection of EULA IDs.
-- `"nextToken"`: The token for the next set of results, or null if there are no more
-  results.
+- `"eulaIds"`: The list of EULA IDs that should be returned
+- `"nextToken"`: The token to request the next page of results.
 """
 function list_eulas(; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
@@ -1305,14 +1267,13 @@ end
 Get all users in a given launch profile membership.
 
 # Arguments
-- `launch_profile_id`: The launch profile ID.
+- `launch_profile_id`: The Launch Profile ID.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to be returned per request.
-- `"nextToken"`: The token for the next set of results, or null if there are no more
-  results.
+- `"maxResults"`: The max number of results to return in the response.
+- `"nextToken"`: The token to request the next page of results.
 """
 function list_launch_profile_members(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1350,11 +1311,11 @@ List all the launch profiles a studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to be returned per request.
-- `"nextToken"`: The token for the next set of results, or null if there are no more
-  results.
-- `"principalId"`: The principal ID.
-- `"states"`: A list of states.
+- `"maxResults"`: The max number of results to return in the response.
+- `"nextToken"`: The token to request the next page of results.
+- `"principalId"`: The principal ID. This currently supports a Amazon Web Services SSO
+  UserId.
+- `"states"`: Filter this request to launch profiles in any of the given states.
 """
 function list_launch_profiles(studioId; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
@@ -1391,9 +1352,8 @@ in your studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: The token for the next set of results, or null if there are no more
-  results.
-- `"owner"`: The owner.
+- `"nextToken"`: The token to request the next page of results.
+- `"owner"`: Filter this request to streaming images with the given owner
 """
 function list_streaming_images(studioId; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
@@ -1428,11 +1388,10 @@ Lists the streaming image resources in a studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"createdBy"`: The user ID of the user that created the streaming session.
-- `"nextToken"`: The token for the next set of results, or null if there are no more
-  results.
-- `"ownedBy"`: The user ID of the user that owns the streaming session.
-- `"sessionIds"`: A collection of session IDs.
+- `"createdBy"`: Filters the request to streaming sessions created by the given user.
+- `"nextToken"`: The token to request the next page of results.
+- `"ownedBy"`: Filters the request to streaming session owned by the given user
+- `"sessionIds"`: Filters the request to only the provided session IDs.
 """
 function list_streaming_sessions(
     studioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1469,11 +1428,10 @@ Lists the StudioComponents in a studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to be returned per request.
-- `"nextToken"`: The token for the next set of results, or null if there are no more
-  results.
-- `"states"`: A list of states.
-- `"types"`: The types.
+- `"maxResults"`: The max number of results to return in the response.
+- `"nextToken"`: The token to request the next page of results.
+- `"states"`: Filters the request to studio components that are in one of the given states.
+- `"types"`: Filters the request to studio components that are of one of the given types.
 """
 function list_studio_components(studioId; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
@@ -1508,9 +1466,8 @@ Get all users in a given studio membership.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to be returned per request.
-- `"nextToken"`: The token for the next set of results, or null if there are no more
-  results.
+- `"maxResults"`: The max number of results to return in the response.
+- `"nextToken"`: The token to request the next page of results.
 """
 function list_studio_members(studioId; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
@@ -1543,8 +1500,7 @@ Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: The token for the next set of results, or null if there are no more
-  results.
+- `"nextToken"`: The token to request the next page of results.
 """
 function list_studios(; aws_config::AbstractAWSConfig=global_aws_config())
     return nimble(
@@ -1574,7 +1530,8 @@ that can be tagged will contain an ARN property, so you do not have to create th
 yourself.
 
 # Arguments
-- `resource_arn`: The ARN of the target resource for tagging operations.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to list
+  tags.
 
 """
 function list_tags_for_resource(
@@ -1609,18 +1566,15 @@ Add/update users with given persona to launch profile membership.
 
 # Arguments
 - `identity_store_id`: The ID of the identity store.
-- `launch_profile_id`: The launch profile ID.
+- `launch_profile_id`: The Launch Profile ID.
 - `members`: A list of members.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function put_launch_profile_members(
     identityStoreId,
@@ -1681,12 +1635,9 @@ Add/update users with given persona to studio membership.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function put_studio_members(
     identityStoreId, members, studioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1730,28 +1681,72 @@ function put_studio_members(
 end
 
 """
+    start_streaming_session(session_id, studio_id)
+    start_streaming_session(session_id, studio_id, params::Dict{String,<:Any})
+
+ Transitions sessions from the STOPPED state into the READY state. The START_IN_PROGRESS
+state is the intermediate state between the STOPPED and READY states.
+
+# Arguments
+- `session_id`: The streaming session ID for the StartStreamingSessionRequest.
+- `studio_id`: The studio ID for the StartStreamingSessionRequest.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
+"""
+function start_streaming_session(
+    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start",
+        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_streaming_session(
+    sessionId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_studio_ssoconfiguration_repair(studio_id)
     start_studio_ssoconfiguration_repair(studio_id, params::Dict{String,<:Any})
 
-Repairs the SSO configuration for a given studio. If the studio has a valid Amazon Web
-Services SSO configuration currently associated with it, this operation will fail with a
-validation error. If the studio does not have a valid Amazon Web Services SSO configuration
-currently associated with it, then a new Amazon Web Services SSO application is created for
-the studio and the studio is changed to the READY state. After the Amazon Web Services SSO
-application is repaired, you must use the Amazon Nimble Studio console to add
-administrators and users to your studio.
+Repairs the Amazon Web Services SSO configuration for a given studio. If the studio has a
+valid Amazon Web Services SSO configuration currently associated with it, this operation
+will fail with a validation error. If the studio does not have a valid Amazon Web Services
+SSO configuration currently associated with it, then a new Amazon Web Services SSO
+application is created for the studio and the studio is changed to the READY state. After
+the Amazon Web Services SSO application is repaired, you must use the Amazon Nimble Studio
+console to add administrators and users to your studio.
 
 # Arguments
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function start_studio_ssoconfiguration_repair(
     studioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1783,13 +1778,60 @@ function start_studio_ssoconfiguration_repair(
 end
 
 """
+    stop_streaming_session(session_id, studio_id)
+    stop_streaming_session(session_id, studio_id, params::Dict{String,<:Any})
+
+Transitions sessions from the READY state into the STOPPED state. The STOP_IN_PROGRESS
+state is the intermediate state between the READY and STOPPED states.
+
+# Arguments
+- `session_id`: The streaming session ID for the StopStreamingSessionRequest.
+- `studio_id`: The studioId for the StopStreamingSessionRequest.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
+"""
+function stop_streaming_session(
+    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop",
+        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_streaming_session(
+    sessionId,
+    studioId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return nimble(
+        "POST",
+        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn)
     tag_resource(resource_arn, params::Dict{String,<:Any})
 
 Creates tags for a resource, given its ARN.
 
 # Arguments
-- `resource_arn`: The ARN of the target resource for tagging operations.
+- `resource_arn`:  The Amazon Resource Name (ARN) of the resource you want to add tags to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1825,8 +1867,9 @@ end
 Deletes the tags for a resource.
 
 # Arguments
-- `resource_arn`: The ARN of the target resource for tagging operations.
-- `tag_keys`: An array of tag keys to delete.
+- `resource_arn`: Identifies the Amazon Resource Name(ARN) key from which you are removing
+  tags.
+- `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 
 """
 function untag_resource(
@@ -1862,17 +1905,14 @@ end
 Update a launch profile.
 
 # Arguments
-- `launch_profile_id`: The launch profile ID.
+- `launch_profile_id`: The Launch Profile ID.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"description"`: The description.
 - `"launchProfileProtocolVersions"`: The version number of the protocol that is used by the
   launch profile. The only valid version is \"2021-03-31\".
@@ -1918,19 +1958,17 @@ end
 Update a user persona in launch profile membership.
 
 # Arguments
-- `launch_profile_id`: The launch profile ID.
+- `launch_profile_id`: The Launch Profile ID.
 - `persona`: The persona.
-- `principal_id`: The principal ID.
+- `principal_id`: The principal ID. This currently supports a Amazon Web Services SSO
+  UserId.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function update_launch_profile_member(
     launchProfileId,
@@ -1984,12 +2022,9 @@ Update streaming image.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"description"`: The description.
 - `"name"`: The name for the streaming image.
 """
@@ -2035,12 +2070,9 @@ of your studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"adminRoleArn"`: The IAM role that Studio Admins will assume when logging in to the
   Nimble Studio portal.
 - `"displayName"`: A friendly name for the studio.
@@ -2086,12 +2118,9 @@ Updates a studio component resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: To make an idempotent API request using one of these actions,
-  specify a client token in the request. You should not reuse the same client token for other
-  API requests. If you retry a request that completed successfully using the same client
-  token and the same parameters, the retry succeeds without performing any further actions.
-  If you retry a successful request using the same client token, but one or more of the
-  parameters are different, the retry fails with a ValidationException error.
+- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you don’t specify a client token, the AWS SDK
+  automatically generates a client token and uses it for the request to ensure idempotency.
 - `"configuration"`: The configuration of the studio component, based on component type.
 - `"description"`: The description.
 - `"ec2SecurityGroupIds"`: The EC2 security groups that control access to the studio
