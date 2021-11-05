@@ -113,12 +113,12 @@ end
 
         mfa_token = "123456"
         sent_token = Ref("")
-        server_time = now(UTC)
+        server_time = DateTime(0)
         patches = [
             Patches._assume_role_patch(
                 "AssumeRole";
                 access_key=access_key_id,
-                server_time=server_time,
+                expiry=duration -> server_time + duration,
                 token_code_ref=sent_token,
             ),
             Patches._getpass_patch(; secret=mfa_token),
@@ -618,6 +618,7 @@ end
                 secret_key=secret_key,
                 session_token=session_token,
                 role_arn=role_arn,
+                expiry=duration -> now(UTC), # expire immediately to check renewal
             )
 
             withenv(

@@ -80,12 +80,12 @@ _assume_role_patch = function (
     secret_key="secret_key",
     session_token="token",
     role_arn="arn:aws:sts:::assumed-role/role-name",
-    server_time=now(UTC),
+    expiry=duration -> now(UTC) + duration,
     token_code_ref=nothing,
 )
     @patch function AWSServices.sts(op, params; aws_config, feature_set)
-        duration_seconds = parse(Int, get(params, "DurationSeconds", "3600"))
-        expiration = server_time + Second(duration_seconds)
+        duration = Second(parse(Int, get(params, "DurationSeconds", "3600")))
+        expiration = expiry(duration)
         if token_code_ref !== nothing
             token_code_ref[] = params["TokenCode"]
         end
