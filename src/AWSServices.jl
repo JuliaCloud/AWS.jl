@@ -73,6 +73,7 @@ const budgets = AWS.JSONService(
 )
 const chime = AWS.RestJSONService("chime", "chime", "2018-05-01")
 const chime_sdk_identity = AWS.RestJSONService("chime", "identity-chime", "2021-04-20")
+const chime_sdk_meetings = AWS.RestJSONService("chime", "meetings-chime", "2021-07-15")
 const chime_sdk_messaging = AWS.RestJSONService("chime", "messaging-chime", "2021-05-15")
 const cloud9 = AWS.JSONService(
     "cloud9", "cloud9", "2017-09-23", "1.1", "AWSCloud9WorkspaceManagementService"
