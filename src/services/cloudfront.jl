@@ -692,6 +692,56 @@ function create_realtime_log_config2020_05_31(
 end
 
 """
+    create_response_headers_policy2020_05_31(response_headers_policy_config)
+    create_response_headers_policy2020_05_31(response_headers_policy_config, params::Dict{String,<:Any})
+
+Creates a response headers policy. A response headers policy contains information about a
+set of HTTP response headers and their values. To create a response headers policy, you
+provide some metadata about the policy, and a set of configurations that specify the
+response headers. After you create a response headers policy, you can use its ID to attach
+it to one or more cache behaviors in a CloudFront distribution. When it’s attached to a
+cache behavior, CloudFront adds the headers in the policy to HTTP responses that it sends
+for requests that match the cache behavior.
+
+# Arguments
+- `response_headers_policy_config`: Contains metadata about the response headers policy,
+  and a set of configurations that specify the response headers.
+
+"""
+function create_response_headers_policy2020_05_31(
+    ResponseHeadersPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/response-headers-policy",
+        Dict{String,Any}("ResponseHeadersPolicyConfig" => ResponseHeadersPolicyConfig);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_response_headers_policy2020_05_31(
+    ResponseHeadersPolicyConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/response-headers-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResponseHeadersPolicyConfig" => ResponseHeadersPolicyConfig
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_streaming_distribution2020_05_31(streaming_distribution_config)
     create_streaming_distribution2020_05_31(streaming_distribution_config, params::Dict{String,<:Any})
 
@@ -1201,6 +1251,48 @@ function delete_realtime_log_config2020_05_31(
     return cloudfront(
         "POST",
         "/2020-05-31/delete-realtime-log-config/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_response_headers_policy2020_05_31(id)
+    delete_response_headers_policy2020_05_31(id, params::Dict{String,<:Any})
+
+Deletes a response headers policy. You cannot delete a response headers policy if it’s
+attached to a cache behavior. First update your distributions to remove the response
+headers policy from all cache behaviors, then delete the response headers policy. To delete
+a response headers policy, you must provide the policy’s identifier and version. To get
+these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
+
+# Arguments
+- `id`: The identifier for the response headers policy that you are deleting. To get the
+  identifier, you can use ListResponseHeadersPolicies.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: The version of the response headers policy that you are deleting. The
+  version is the response headers policy’s ETag value, which you can get using
+  ListResponseHeadersPolicies, GetResponseHeadersPolicy, or GetResponseHeadersPolicyConfig.
+"""
+function delete_response_headers_policy2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/response-headers-policy/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_response_headers_policy2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/response-headers-policy/$(Id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1989,6 +2081,85 @@ function get_realtime_log_config2020_05_31(
 end
 
 """
+    get_response_headers_policy2020_05_31(id)
+    get_response_headers_policy2020_05_31(id, params::Dict{String,<:Any})
+
+Gets a response headers policy, including metadata (the policy’s identifier and the date
+and time when the policy was last modified). To get a response headers policy, you must
+provide the policy’s identifier. If the response headers policy is attached to a
+distribution’s cache behavior, you can get the policy’s identifier using
+ListDistributions or GetDistribution. If the response headers policy is not attached to a
+cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+
+# Arguments
+- `id`: The identifier for the response headers policy. If the response headers policy is
+  attached to a distribution’s cache behavior, you can get the policy’s identifier using
+  ListDistributions or GetDistribution. If the response headers policy is not attached to a
+  cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+
+"""
+function get_response_headers_policy2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/response-headers-policy/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_response_headers_policy2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/response-headers-policy/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_response_headers_policy_config2020_05_31(id)
+    get_response_headers_policy_config2020_05_31(id, params::Dict{String,<:Any})
+
+Gets a response headers policy configuration. To get a response headers policy
+configuration, you must provide the policy’s identifier. If the response headers policy
+is attached to a distribution’s cache behavior, you can get the policy’s identifier
+using ListDistributions or GetDistribution. If the response headers policy is not attached
+to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+
+# Arguments
+- `id`: The identifier for the response headers policy. If the response headers policy is
+  attached to a distribution’s cache behavior, you can get the policy’s identifier using
+  ListDistributions or GetDistribution. If the response headers policy is not attached to a
+  cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+
+"""
+function get_response_headers_policy_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/response-headers-policy/$(Id)/config";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_response_headers_policy_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/response-headers-policy/$(Id)/config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_streaming_distribution2020_05_31(id)
     get_streaming_distribution2020_05_31(id, params::Dict{String,<:Any})
 
@@ -2058,12 +2229,12 @@ end
     list_cache_policies2020_05_31(params::Dict{String,<:Any})
 
 Gets a list of cache policies. You can optionally apply a filter to return only the managed
-policies created by Amazon Web Services, or only the custom policies created in your
-account. You can optionally specify the maximum number of items to receive in the response.
-If the total number of items in the list exceeds the maximum that you specify, or the
-default maximum, the response is paginated. To get the next page of items, send a
-subsequent request that specifies the NextMarker value from the current response as the
-Marker value in the subsequent request.
+policies created by Amazon Web Services, or only the custom policies created in your Amazon
+Web Services account. You can optionally specify the maximum number of items to receive in
+the response. If the total number of items in the list exceeds the maximum that you
+specify, or the default maximum, the response is paginated. To get the next page of items,
+send a subsequent request that specifies the NextMarker value from the current response as
+the Marker value in the subsequent request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2074,7 +2245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of cache policies that you want in the response.
 - `"Type"`: A filter to return only the specified kinds of cache policies. Valid values
   are:    managed – Returns only the managed policies created by Amazon Web Services.
-  custom – Returns only the custom policies created in your account.
+  custom – Returns only the custom policies created in your Amazon Web Services account.
 """
 function list_cache_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudfront(
@@ -2426,6 +2597,53 @@ function list_distributions_by_realtime_log_config2020_05_31(
 end
 
 """
+    list_distributions_by_response_headers_policy_id2020_05_31(response_headers_policy_id)
+    list_distributions_by_response_headers_policy_id2020_05_31(response_headers_policy_id, params::Dict{String,<:Any})
+
+Gets a list of distribution IDs for distributions that have a cache behavior that’s
+associated with the specified response headers policy. You can optionally specify the
+maximum number of items to receive in the response. If the total number of items in the
+list exceeds the maximum that you specify, or the default maximum, the response is
+paginated. To get the next page of items, send a subsequent request that specifies the
+NextMarker value from the current response as the Marker value in the subsequent request.
+
+# Arguments
+- `response_headers_policy_id`: The ID of the response headers policy whose associated
+  distribution IDs you want to list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list of distribution IDs. The response includes distribution IDs in the list that occur
+  after the marker. To get the next page of the list, set this field’s value to the value
+  of NextMarker from the current page’s response.
+- `"MaxItems"`: The maximum number of distribution IDs that you want to get in the response.
+"""
+function list_distributions_by_response_headers_policy_id2020_05_31(
+    ResponseHeadersPolicyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByResponseHeadersPolicyId/$(ResponseHeadersPolicyId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_distributions_by_response_headers_policy_id2020_05_31(
+    ResponseHeadersPolicyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByResponseHeadersPolicyId/$(ResponseHeadersPolicyId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_distributions_by_web_aclid2020_05_31(web_aclid)
     list_distributions_by_web_aclid2020_05_31(web_aclid, params::Dict{String,<:Any})
 
@@ -2550,13 +2768,13 @@ end
     list_functions2020_05_31()
     list_functions2020_05_31(params::Dict{String,<:Any})
 
-Gets a list of all CloudFront functions in your account. You can optionally apply a filter
-to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE.
-You can optionally specify the maximum number of items to receive in the response. If the
-total number of items in the list exceeds the maximum that you specify, or the default
-maximum, the response is paginated. To get the next page of items, send a subsequent
-request that specifies the NextMarker value from the current response as the Marker value
-in the subsequent request.
+Gets a list of all CloudFront functions in your Amazon Web Services account. You can
+optionally apply a filter to return only the functions that are in the specified stage,
+either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to
+receive in the response. If the total number of items in the list exceeds the maximum that
+you specify, or the default maximum, the response is paginated. To get the next page of
+items, send a subsequent request that specifies the NextMarker value from the current
+response as the Marker value in the subsequent request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2676,11 +2894,11 @@ end
 
 Gets a list of origin request policies. You can optionally apply a filter to return only
 the managed policies created by Amazon Web Services, or only the custom policies created in
-your account. You can optionally specify the maximum number of items to receive in the
-response. If the total number of items in the list exceeds the maximum that you specify, or
-the default maximum, the response is paginated. To get the next page of items, send a
-subsequent request that specifies the NextMarker value from the current response as the
-Marker value in the subsequent request.
+your Amazon Web Services account. You can optionally specify the maximum number of items to
+receive in the response. If the total number of items in the list exceeds the maximum that
+you specify, or the default maximum, the response is paginated. To get the next page of
+items, send a subsequent request that specifies the NextMarker value from the current
+response as the Marker value in the subsequent request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2691,7 +2909,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of origin request policies that you want in the response.
 - `"Type"`: A filter to return only the specified kinds of origin request policies. Valid
   values are:    managed – Returns only the managed policies created by Amazon Web
-  Services.    custom – Returns only the custom policies created in your account.
+  Services.    custom – Returns only the custom policies created in your Amazon Web
+  Services account.
 """
 function list_origin_request_policies2020_05_31(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -2784,6 +3003,52 @@ function list_realtime_log_configs2020_05_31(
     return cloudfront(
         "GET",
         "/2020-05-31/realtime-log-config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_response_headers_policies2020_05_31()
+    list_response_headers_policies2020_05_31(params::Dict{String,<:Any})
+
+Gets a list of response headers policies. You can optionally apply a filter to get only the
+managed policies created by Amazon Web Services, or only the custom policies created in
+your Amazon Web Services account. You can optionally specify the maximum number of items to
+receive in the response. If the total number of items in the list exceeds the maximum that
+you specify, or the default maximum, the response is paginated. To get the next page of
+items, send a subsequent request that specifies the NextMarker value from the current
+response as the Marker value in the subsequent request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list of response headers policies. The response includes response headers policies in the
+  list that occur after the marker. To get the next page of the list, set this field’s
+  value to the value of NextMarker from the current page’s response.
+- `"MaxItems"`: The maximum number of response headers policies that you want to get in the
+  response.
+- `"Type"`: A filter to get only the specified kind of response headers policies. Valid
+  values are:    managed – Gets only the managed policies created by Amazon Web Services.
+   custom – Gets only the custom policies created in your Amazon Web Services account.
+"""
+function list_response_headers_policies2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/response-headers-policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_response_headers_policies2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/response-headers-policy",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3602,6 +3867,62 @@ function update_realtime_log_config2020_05_31(
         "PUT",
         "/2020-05-31/realtime-log-config/",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_response_headers_policy2020_05_31(id, response_headers_policy_config)
+    update_response_headers_policy2020_05_31(id, response_headers_policy_config, params::Dict{String,<:Any})
+
+Updates a response headers policy. When you update a response headers policy, the entire
+policy is replaced. You cannot update some policy fields independent of others. To update a
+response headers policy configuration:   Use GetResponseHeadersPolicyConfig to get the
+current policy’s configuration.   Modify the fields in the response headers policy
+configuration that you want to update.   Call UpdateResponseHeadersPolicy, providing the
+entire response headers policy configuration, including the fields that you modified and
+those that you didn’t.
+
+# Arguments
+- `id`: The identifier for the response headers policy that you are updating.
+- `response_headers_policy_config`: A response headers policy configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: The version of the response headers policy that you are updating. The
+  version is returned in the cache policy’s ETag field in the response to
+  GetResponseHeadersPolicyConfig.
+"""
+function update_response_headers_policy2020_05_31(
+    Id, ResponseHeadersPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/response-headers-policy/$(Id)",
+        Dict{String,Any}("ResponseHeadersPolicyConfig" => ResponseHeadersPolicyConfig);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_response_headers_policy2020_05_31(
+    Id,
+    ResponseHeadersPolicyConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/response-headers-policy/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResponseHeadersPolicyConfig" => ResponseHeadersPolicyConfig
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

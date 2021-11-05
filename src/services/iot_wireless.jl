@@ -56,6 +56,129 @@ function associate_aws_account_with_partner_account(
 end
 
 """
+    associate_multicast_group_with_fuota_task(id, multicast_group_id)
+    associate_multicast_group_with_fuota_task(id, multicast_group_id, params::Dict{String,<:Any})
+
+Associate a multicast group with a FUOTA task.
+
+# Arguments
+- `id`:
+- `multicast_group_id`:
+
+"""
+function associate_multicast_group_with_fuota_task(
+    Id, MulticastGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PUT",
+        "/fuota-tasks/$(Id)/multicast-group",
+        Dict{String,Any}("MulticastGroupId" => MulticastGroupId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_multicast_group_with_fuota_task(
+    Id,
+    MulticastGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PUT",
+        "/fuota-tasks/$(Id)/multicast-group",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("MulticastGroupId" => MulticastGroupId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_wireless_device_with_fuota_task(id, wireless_device_id)
+    associate_wireless_device_with_fuota_task(id, wireless_device_id, params::Dict{String,<:Any})
+
+Associate a wireless device with a FUOTA task.
+
+# Arguments
+- `id`:
+- `wireless_device_id`:
+
+"""
+function associate_wireless_device_with_fuota_task(
+    Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PUT",
+        "/fuota-tasks/$(Id)/wireless-device",
+        Dict{String,Any}("WirelessDeviceId" => WirelessDeviceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_wireless_device_with_fuota_task(
+    Id,
+    WirelessDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PUT",
+        "/fuota-tasks/$(Id)/wireless-device",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("WirelessDeviceId" => WirelessDeviceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_wireless_device_with_multicast_group(id, wireless_device_id)
+    associate_wireless_device_with_multicast_group(id, wireless_device_id, params::Dict{String,<:Any})
+
+Associates a wireless device with a multicast group.
+
+# Arguments
+- `id`:
+- `wireless_device_id`:
+
+"""
+function associate_wireless_device_with_multicast_group(
+    Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PUT",
+        "/multicast-groups/$(Id)/wireless-device",
+        Dict{String,Any}("WirelessDeviceId" => WirelessDeviceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_wireless_device_with_multicast_group(
+    Id,
+    WirelessDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PUT",
+        "/multicast-groups/$(Id)/wireless-device",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("WirelessDeviceId" => WirelessDeviceId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_wireless_device_with_thing(id, thing_arn)
     associate_wireless_device_with_thing(id, thing_arn, params::Dict{String,<:Any})
 
@@ -175,6 +298,38 @@ function associate_wireless_gateway_with_thing(
 end
 
 """
+    cancel_multicast_group_session(id)
+    cancel_multicast_group_session(id, params::Dict{String,<:Any})
+
+Cancels an existing multicast group session.
+
+# Arguments
+- `id`:
+
+"""
+function cancel_multicast_group_session(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/multicast-groups/$(Id)/session";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_multicast_group_session(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/multicast-groups/$(Id)/session",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_destination(expression, expression_type, name, role_arn)
     create_destination(expression, expression_type, name, role_arn, params::Dict{String,<:Any})
 
@@ -281,6 +436,114 @@ function create_device_profile(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("ClientRequestToken" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_fuota_task(firmware_update_image, firmware_update_role)
+    create_fuota_task(firmware_update_image, firmware_update_role, params::Dict{String,<:Any})
+
+Creates a FUOTA task.
+
+# Arguments
+- `firmware_update_image`:
+- `firmware_update_role`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"Description"`:
+- `"LoRaWAN"`:
+- `"Name"`:
+- `"Tags"`:
+"""
+function create_fuota_task(
+    FirmwareUpdateImage,
+    FirmwareUpdateRole;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "POST",
+        "/fuota-tasks",
+        Dict{String,Any}(
+            "FirmwareUpdateImage" => FirmwareUpdateImage,
+            "FirmwareUpdateRole" => FirmwareUpdateRole,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_fuota_task(
+    FirmwareUpdateImage,
+    FirmwareUpdateRole,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "POST",
+        "/fuota-tasks",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirmwareUpdateImage" => FirmwareUpdateImage,
+                    "FirmwareUpdateRole" => FirmwareUpdateRole,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_multicast_group(lo_ra_wan)
+    create_multicast_group(lo_ra_wan, params::Dict{String,<:Any})
+
+Creates a multicast group.
+
+# Arguments
+- `lo_ra_wan`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
+  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
+- `"Description"`: The description of the multicast group.
+- `"Name"`:
+- `"Tags"`:
+"""
+function create_multicast_group(LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "POST",
+        "/multicast-groups",
+        Dict{String,Any}("LoRaWAN" => LoRaWAN, "ClientRequestToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_multicast_group(
+    LoRaWAN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST",
+        "/multicast-groups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LoRaWAN" => LoRaWAN, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -607,6 +870,66 @@ function delete_device_profile(
 end
 
 """
+    delete_fuota_task(id)
+    delete_fuota_task(id, params::Dict{String,<:Any})
+
+Deletes a FUOTA task.
+
+# Arguments
+- `id`:
+
+"""
+function delete_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "DELETE",
+        "/fuota-tasks/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_fuota_task(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/fuota-tasks/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_multicast_group(id)
+    delete_multicast_group(id, params::Dict{String,<:Any})
+
+Deletes a multicast group if it is not in use by a fuota task.
+
+# Arguments
+- `id`:
+
+"""
+function delete_multicast_group(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "DELETE",
+        "/multicast-groups/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_multicast_group(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/multicast-groups/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_service_profile(id)
     delete_service_profile(id, params::Dict{String,<:Any})
 
@@ -800,6 +1123,114 @@ function disassociate_aws_account_from_partner_account(
 end
 
 """
+    disassociate_multicast_group_from_fuota_task(id, multicast_group_id)
+    disassociate_multicast_group_from_fuota_task(id, multicast_group_id, params::Dict{String,<:Any})
+
+Disassociates a multicast group from a fuota task.
+
+# Arguments
+- `id`:
+- `multicast_group_id`:
+
+"""
+function disassociate_multicast_group_from_fuota_task(
+    Id, MulticastGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/fuota-tasks/$(Id)/multicast-groups/$(MulticastGroupId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_multicast_group_from_fuota_task(
+    Id,
+    MulticastGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "DELETE",
+        "/fuota-tasks/$(Id)/multicast-groups/$(MulticastGroupId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_wireless_device_from_fuota_task(id, wireless_device_id)
+    disassociate_wireless_device_from_fuota_task(id, wireless_device_id, params::Dict{String,<:Any})
+
+Disassociates a wireless device from a FUOTA task.
+
+# Arguments
+- `id`:
+- `wireless_device_id`:
+
+"""
+function disassociate_wireless_device_from_fuota_task(
+    Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/fuota-tasks/$(Id)/wireless-devices/$(WirelessDeviceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_wireless_device_from_fuota_task(
+    Id,
+    WirelessDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "DELETE",
+        "/fuota-tasks/$(Id)/wireless-devices/$(WirelessDeviceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_wireless_device_from_multicast_group(id, wireless_device_id)
+    disassociate_wireless_device_from_multicast_group(id, wireless_device_id, params::Dict{String,<:Any})
+
+Disassociates a wireless device from a multicast group.
+
+# Arguments
+- `id`:
+- `wireless_device_id`:
+
+"""
+function disassociate_wireless_device_from_multicast_group(
+    Id, WirelessDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/multicast-groups/$(Id)/wireless-devices/$(WirelessDeviceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_wireless_device_from_multicast_group(
+    Id,
+    WirelessDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "DELETE",
+        "/multicast-groups/$(Id)/wireless-devices/$(WirelessDeviceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disassociate_wireless_device_from_thing(id)
     disassociate_wireless_device_from_thing(id, params::Dict{String,<:Any})
 
@@ -956,6 +1387,33 @@ function get_device_profile(
 end
 
 """
+    get_fuota_task(id)
+    get_fuota_task(id, params::Dict{String,<:Any})
+
+Gets information about a FUOTA task.
+
+# Arguments
+- `id`:
+
+"""
+function get_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "GET", "/fuota-tasks/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_fuota_task(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/fuota-tasks/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_log_levels_by_resource_types()
     get_log_levels_by_resource_types(params::Dict{String,<:Any})
 
@@ -975,6 +1433,66 @@ function get_log_levels_by_resource_types(
 )
     return iot_wireless(
         "GET", "/log-levels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_multicast_group(id)
+    get_multicast_group(id, params::Dict{String,<:Any})
+
+Gets information about a multicast group.
+
+# Arguments
+- `id`:
+
+"""
+function get_multicast_group(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "GET",
+        "/multicast-groups/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_multicast_group(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/multicast-groups/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_multicast_group_session(id)
+    get_multicast_group_session(id, params::Dict{String,<:Any})
+
+Gets information about a multicast group session.
+
+# Arguments
+- `id`:
+
+"""
+function get_multicast_group_session(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "GET",
+        "/multicast-groups/$(Id)/session";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_multicast_group_session(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/multicast-groups/$(Id)/session",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1012,6 +1530,49 @@ function get_partner_account(
         "/partner-accounts/$(PartnerAccountId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("partnerType" => partnerType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resource_event_configuration(identifier, identifier_type)
+    get_resource_event_configuration(identifier, identifier_type, params::Dict{String,<:Any})
+
+Get the event configuration for a particular resource identifier.
+
+# Arguments
+- `identifier`: Resource identifier to opt in for event messaging.
+- `identifier_type`: Identifier type of the particular resource identifier for event
+  configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"partnerType"`: Partner type of the resource if the identifier type is PartnerAccountId.
+"""
+function get_resource_event_configuration(
+    Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/event-configurations/$(Identifier)",
+        Dict{String,Any}("identifierType" => identifierType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_event_configuration(
+    Identifier,
+    identifierType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "GET",
+        "/event-configurations/$(Identifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifierType" => identifierType), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1445,6 +2006,101 @@ function list_device_profiles(
 end
 
 """
+    list_fuota_tasks()
+    list_fuota_tasks(params::Dict{String,<:Any})
+
+Lists the FUOTA tasks registered to your AWS account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+"""
+function list_fuota_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "GET", "/fuota-tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_fuota_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/fuota-tasks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_multicast_groups()
+    list_multicast_groups(params::Dict{String,<:Any})
+
+Lists the multicast groups registered to your AWS account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+"""
+function list_multicast_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "GET", "/multicast-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_multicast_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/multicast-groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_multicast_groups_by_fuota_task(id)
+    list_multicast_groups_by_fuota_task(id, params::Dict{String,<:Any})
+
+List all multicast groups associated with a fuota task.
+
+# Arguments
+- `id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+"""
+function list_multicast_groups_by_fuota_task(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/fuota-tasks/$(Id)/multicast-groups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_multicast_groups_by_fuota_task(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/fuota-tasks/$(Id)/multicast-groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_partner_accounts()
     list_partner_accounts(params::Dict{String,<:Any})
 
@@ -1550,7 +2206,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"destinationName"`: A filter to list only the wireless devices that use this destination.
 - `"deviceProfileId"`: A filter to list only the wireless devices that use this device
   profile.
+- `"fuotaTaskId"`:
 - `"maxResults"`: The maximum number of results to return in this operation.
+- `"multicastGroupId"`:
 - `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 - `"serviceProfileId"`: A filter to list only the wireless devices that use this service
@@ -1756,6 +2414,55 @@ function reset_resource_log_level(
 end
 
 """
+    send_data_to_multicast_group(id, payload_data, wireless_metadata)
+    send_data_to_multicast_group(id, payload_data, wireless_metadata, params::Dict{String,<:Any})
+
+Sends the specified data to a multicast group.
+
+# Arguments
+- `id`:
+- `payload_data`:
+- `wireless_metadata`:
+
+"""
+function send_data_to_multicast_group(
+    Id, PayloadData, WirelessMetadata; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST",
+        "/multicast-groups/$(Id)/data",
+        Dict{String,Any}(
+            "PayloadData" => PayloadData, "WirelessMetadata" => WirelessMetadata
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function send_data_to_multicast_group(
+    Id,
+    PayloadData,
+    WirelessMetadata,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "POST",
+        "/multicast-groups/$(Id)/data",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PayloadData" => PayloadData, "WirelessMetadata" => WirelessMetadata
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     send_data_to_wireless_device(id, payload_data, transmit_mode)
     send_data_to_wireless_device(id, payload_data, transmit_mode, params::Dict{String,<:Any})
 
@@ -1763,7 +2470,7 @@ Sends a decrypted application data frame to a device.
 
 # Arguments
 - `id`: The ID of the wireless device to receive the data.
-- `payload_data`: The binary to be sent to the end device, encoded in base64.
+- `payload_data`:
 - `transmit_mode`: The transmit mode to use to send data to the wireless device. Can be: 0
   for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
 
@@ -1801,6 +2508,145 @@ function send_data_to_wireless_device(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_bulk_associate_wireless_device_with_multicast_group(id)
+    start_bulk_associate_wireless_device_with_multicast_group(id, params::Dict{String,<:Any})
+
+Starts a bulk association of all qualifying wireless devices with a multicast group.
+
+# Arguments
+- `id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"QueryString"`:
+- `"Tags"`:
+"""
+function start_bulk_associate_wireless_device_with_multicast_group(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/multicast-groups/$(Id)/bulk";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_bulk_associate_wireless_device_with_multicast_group(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/multicast-groups/$(Id)/bulk",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_bulk_disassociate_wireless_device_from_multicast_group(id)
+    start_bulk_disassociate_wireless_device_from_multicast_group(id, params::Dict{String,<:Any})
+
+Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
+
+# Arguments
+- `id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"QueryString"`:
+- `"Tags"`:
+"""
+function start_bulk_disassociate_wireless_device_from_multicast_group(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST",
+        "/multicast-groups/$(Id)/bulk";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_bulk_disassociate_wireless_device_from_multicast_group(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST",
+        "/multicast-groups/$(Id)/bulk",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_fuota_task(id)
+    start_fuota_task(id, params::Dict{String,<:Any})
+
+Starts a FUOTA task.
+
+# Arguments
+- `id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LoRaWAN"`:
+"""
+function start_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "PUT", "/fuota-tasks/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function start_fuota_task(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PUT",
+        "/fuota-tasks/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_multicast_group_session(id, lo_ra_wan)
+    start_multicast_group_session(id, lo_ra_wan, params::Dict{String,<:Any})
+
+Starts a multicast group session.
+
+# Arguments
+- `id`:
+- `lo_ra_wan`:
+
+"""
+function start_multicast_group_session(
+    Id, LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PUT",
+        "/multicast-groups/$(Id)/session",
+        Dict{String,Any}("LoRaWAN" => LoRaWAN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_multicast_group_session(
+    Id,
+    LoRaWAN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PUT",
+        "/multicast-groups/$(Id)/session",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LoRaWAN" => LoRaWAN), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1958,6 +2804,43 @@ function update_destination(
 end
 
 """
+    update_fuota_task(id)
+    update_fuota_task(id, params::Dict{String,<:Any})
+
+Updates properties of a FUOTA task.
+
+# Arguments
+- `id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`:
+- `"FirmwareUpdateImage"`:
+- `"FirmwareUpdateRole"`:
+- `"LoRaWAN"`:
+- `"Name"`:
+"""
+function update_fuota_task(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "PATCH",
+        "/fuota-tasks/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_fuota_task(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/fuota-tasks/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_log_levels_by_resource_types()
     update_log_levels_by_resource_types(params::Dict{String,<:Any})
 
@@ -1984,6 +2867,41 @@ function update_log_levels_by_resource_types(
     return iot_wireless(
         "POST",
         "/log-levels",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_multicast_group(id)
+    update_multicast_group(id, params::Dict{String,<:Any})
+
+Updates properties of a multicast group session.
+
+# Arguments
+- `id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`:
+- `"LoRaWAN"`:
+- `"Name"`:
+"""
+function update_multicast_group(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "PATCH",
+        "/multicast-groups/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_multicast_group(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/multicast-groups/$(Id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2032,6 +2950,51 @@ function update_partner_account(
                 Dict{String,Any}("Sidewalk" => Sidewalk, "partnerType" => partnerType),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_resource_event_configuration(identifier, identifier_type)
+    update_resource_event_configuration(identifier, identifier_type, params::Dict{String,<:Any})
+
+Update the event configuration for a particular resource identifier.
+
+# Arguments
+- `identifier`: Resource identifier to opt in for event messaging.
+- `identifier_type`: Identifier type of the particular resource identifier for event
+  configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceRegistrationState"`: Event configuration for the device registration state event
+- `"Proximity"`: Event configuration for the Proximity event
+- `"partnerType"`: Partner type of the resource if the identifier type is PartnerAccountId
+"""
+function update_resource_event_configuration(
+    Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/event-configurations/$(Identifier)",
+        Dict{String,Any}("identifierType" => identifierType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_resource_event_configuration(
+    Identifier,
+    identifierType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PATCH",
+        "/event-configurations/$(Identifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifierType" => identifierType), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
