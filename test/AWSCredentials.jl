@@ -106,6 +106,40 @@ end
 
         @test cred.access_key_id == access_key_id
     end
+
+    @testset "profile with role and MFA" begin
+        access_key_id = "assumed_access_key_id"
+        config_dir = joinpath(@__DIR__, "configs", "role-with-mfa")
+
+        mfa_token = "123456"
+        sent_token = Ref("")
+        server_time = DateTime(0)
+        patches = [
+            Patches._assume_role_patch(
+                "AssumeRole";
+                access_key=access_key_id,
+                expiry=duration -> server_time + duration,
+                token_code_ref=sent_token,
+            ),
+            Patches._getpass_patch(; secret=mfa_token),
+        ]
+
+        cred = withenv(
+            "AWS_CONFIG_FILE" => joinpath(config_dir, "config"),
+            "AWS_SHARED_CREDENTIALS_FILE" => joinpath(config_dir, "credentials"),
+            "AWS_ACCESS_KEY_ID" => nothing,
+            "AWS_SECRET_ACCESS_KEY" => nothing,
+        ) do
+            ini = read(Inifile(), ENV["AWS_CONFIG_FILE"])
+            apply(patches) do
+                AWS._aws_get_role("role_and_mfa", ini)
+            end
+        end
+
+        @test cred.access_key_id == access_key_id
+        @test cred.expiry == server_time + Second(1234)
+        @test sent_token[] == mfa_token
+    end
 end
 
 @testset "AWSCredentials" begin
@@ -584,6 +618,7 @@ end
                 secret_key=secret_key,
                 session_token=session_token,
                 role_arn=role_arn,
+                expiry=duration -> now(UTC), # expire immediately to check renewal
             )
 
             withenv(
