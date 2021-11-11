@@ -368,6 +368,9 @@ API, an Application Load Balancer, or an AppSync GraphQL API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CaptchaConfig"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
+  don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
+  default settings for CaptchaConfig.
 - `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
   create a rule with a block action, you can send a custom response to the web request. You
   define these for the web ACL, and then use them in the rules and default actions that you
@@ -1557,10 +1560,18 @@ function list_ipsets(
 end
 
 """
-    list_logging_configurations()
-    list_logging_configurations(params::Dict{String,<:Any})
+    list_logging_configurations(scope)
+    list_logging_configurations(scope, params::Dict{String,<:Any})
 
 Retrieves an array of your LoggingConfiguration objects.
+
+# Arguments
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must
+  also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when
+  you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
+  all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1571,24 +1582,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
-- `"Scope"`: Specifies whether this is for an Amazon CloudFront distribution or for a
-  regional application. A regional application can be an Application Load Balancer (ALB), an
-  Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must
-  also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when
-  you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
-  all calls, use the Region endpoint us-east-1.
 """
-function list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "ListLoggingConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function list_logging_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return wafv2(
         "ListLoggingConfigurations",
-        params;
+        Dict{String,Any}("Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_logging_configurations(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wafv2(
+        "ListLoggingConfigurations",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2547,6 +2557,9 @@ GraphQL API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CaptchaConfig"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
+  don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
+  default settings for CaptchaConfig.
 - `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
   create a rule with a block action, you can send a custom response to the web request. You
   define these for the web ACL, and then use them in the rules and default actions that you

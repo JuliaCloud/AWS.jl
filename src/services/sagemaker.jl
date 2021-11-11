@@ -1169,6 +1169,7 @@ information, see SageMaker API Permissions: Actions, Permissions, and Resources 
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeploymentConfig"`:
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
   Services resources in different ways, for example, by purpose, owner, or environment. For
   more information, see Tagging Amazon Web Services Resources.
@@ -10534,7 +10535,8 @@ incurring charges.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeploymentConfig"`: The deployment configuration for the endpoint to be updated.
+- `"DeploymentConfig"`: The deployment configuration for an endpoint, which contains the
+  desired deployment strategy and rollback configurations.
 - `"ExcludeRetainedVariantProperties"`: When you are updating endpoint resources with
   UpdateEndpointInputRetainAllVariantProperties, whose value is set to true,
   ExcludeRetainedVariantProperties specifies the list of type VariantProperty to override
@@ -10546,6 +10548,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RetainAllVariantProperties to true. To use the variant properties specified in a new
   EndpointConfig call when updating an endpoint, set RetainAllVariantProperties to false. The
   default is false.
+- `"RetainDeploymentConfig"`: Specifies whether to reuse the last deployment configuration.
+  The default value is false (the configuration is not reused).
 """
 function update_endpoint(
     EndpointConfigName, EndpointName; aws_config::AbstractAWSConfig=global_aws_config()

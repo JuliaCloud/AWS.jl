@@ -488,6 +488,7 @@ const redshift_data = AWS.JSONService(
 const rekognition = AWS.JSONService(
     "rekognition", "rekognition", "2016-06-27", "1.1", "RekognitionService"
 )
+const resiliencehub = AWS.RestJSONService("resiliencehub", "resiliencehub", "2020-04-30")
 const resource_groups = AWS.RestJSONService(
     "resource-groups", "resource-groups", "2017-11-27"
 )
