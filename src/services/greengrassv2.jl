@@ -143,7 +143,8 @@ IoT Greengrass V2. This function only accepts Lambda functions that use the foll
 runtimes:   Python 2.7 – python2.7    Python 3.7 – python3.7    Python 3.8 –
 python3.8    Java 8 – java8    Node.js 10 – nodejs10.x    Node.js 12 – nodejs12.x
 To create a component from a Lambda function, specify lambdaFunction when you call this
-operation.
+operation.  IoT Greengrass currently supports Lambda functions on only Linux core devices.
+
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
