@@ -173,10 +173,11 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
             # HTTP.jl will close passed in `response_stream` keyword. This ensures that it
             # is always closed (e.g. HTTP.jl 0.9.15)
             close(buffer)
-
-            # Transfer the contents of the `BufferStream` into `response_stream` variable.
-            write(response_stream, buffer)
         end
+
+        # Transfer the contents of the `BufferStream` into `response_stream` variable.
+        # but only if no error. Multiple retries shouldn't be passed to the `response_stream`
+        write(response_stream, buffer)
 
         return @mock Response(r, response_stream)
     catch e
