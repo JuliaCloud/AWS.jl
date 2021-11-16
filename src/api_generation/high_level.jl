@@ -1,3 +1,22 @@
+abstract type OperationType end
+struct RestBased <: OperationType end
+struct JSONBased <: OperationType end
+
+function _parse_protocol(function_name::AbstractString, protocol::AbstractString)
+    if protocol in ("json", "query", "ec2")
+        return JSONBased()
+    elseif protocol in ("rest-xml", "rest-json")
+        return RestBased()
+    else
+        throw(
+            ProtocolNotDefined(
+                "$function_name is using a new protocol; $protocol which is not supported."
+            ),
+        )
+    end
+end
+
+
 """
 Generate the `src/services/{service}.jl` file.
 """
@@ -55,6 +74,7 @@ function _generate_high_level_definitions(
     service_name::String, protocol::String, operations::AbstractDict, shapes::AbstractDict
 )
     operation_definitions = String[]
+    aws_service_param_mapping = Dict{String, String}()
 
     for (_, operation) in operations
         name = operation["name"]
@@ -75,6 +95,8 @@ function _generate_high_level_definitions(
                 operation["input"]["shape"], shapes
             )
         end
+
+        add_aws_param_names!(aws_service_param_mapping, optional_parameters)
 
         operation_definition = _generate_high_level_definition(
             service_name,
@@ -109,7 +131,8 @@ function _generate_high_level_definition(
     """
     Generate function definition for a service request given required, header and idempotent parameters.
     """
-    function _generate_rest_operation_defintion(
+    function _generate_operation_definition(
+        protocol::RestBased,
         required_params::AbstractDict,
         optional_params::AbstractDict,
         function_name::String,
@@ -152,28 +175,38 @@ function _generate_high_level_definition(
 
         if required_keys && (idempotent || headers)
             return """
-                $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+                    params = amazonify(kwargs)
+                    $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                end
                 """
         elseif !required_keys && (idempotent || headers)
             return """
-                $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-                $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                function $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+                    params = amazonify(kwargs)
+                    $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                end
                 """
         elseif required_keys && !isempty(req_kv)
             return """
-                $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+                    params = amazonify(kwargs)
+                    $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                end
                 """
         elseif required_keys
             return """
-                $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+                    params = amazonify(kwargs)
+                    $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                end
                 """
         else
             return """
-                $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-                $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                function $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+                    params = amazonify(kwargs)
+                    $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                end
                 """
         end
     end
@@ -181,11 +214,14 @@ function _generate_high_level_definition(
     """
     Generate a JSON/Query high level definition.
     """
-    function _generate_json_query_opeation_definition(
+    function _generate_operation_definition(
+        protocol::JSONBased,
         required_params::AbstractDict,
         optional_params::AbstractDict,
         function_name::String,
         service_name::String,
+        method::String,
+        request_uri::String,
     )
         req_keys = [replace(key, '-' => '_') for key in collect(keys(required_params))]
 
@@ -277,26 +313,11 @@ function _generate_high_level_definition(
         name, documentation, required_parameters, optional_parameters
     )
 
-    if protocol in ("json", "query", "ec2")
-        function_string = _generate_json_query_opeation_definition(
-            required_parameters, optional_parameters, name, service_name
-        )
-    elseif protocol in ("rest-json", "rest-xml")
-        function_string = _generate_rest_operation_defintion(
-            required_parameters,
-            optional_parameters,
-            name,
-            service_name,
-            method,
-            request_uri,
-        )
-    else
-        throw(
-            ProtocolNotDefined(
-                "$function_name is using a new protocol; $protocol which is not supported."
-            ),
-        )
-    end
+    protocol_base = _parse_protocol(function_name, protocol)
+
+    function_string = _generate_operation_definition(
+        protocol_base, required_parameters, optional_parameters, name, service_name, method, request_uri)
+    )
 
     return string(doc_string, '\n', function_string)
 end

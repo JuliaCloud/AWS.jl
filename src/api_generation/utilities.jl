@@ -254,9 +254,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
 
     if haskey(input_shape, "members")
         for (member_key, member_value) in input_shape["members"]
-            parameter_name = get(
-                input_shape["members"][member_key], "locationName", member_key
-            )
+            parameter_name = _format_name(member_key)
 
             if !haskey(required_parameters, parameter_name)
                 documentation = _clean_documentation(get(member_value, "documentation", ""))
@@ -265,9 +263,23 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
                 optional_parameters[parameter_name] = LittleDict{String,Union{String,Bool}}(
                     "documentation" => documentation, "idempotent" => idempotent
                 )
+
+                if haskey(input_shape["members"][member_key], "locationName")
+                    optional_parameters[parameter_name]["location_name"] = input_shape["members"]["locationName"]
+                end
             end
         end
     end
 
     return (sort(required_parameters), sort(optional_parameters))
+end
+
+function add_aws_param_names!(aws_service_param_mapping, optional_parameters)
+    for opt_param in optional_parameters
+        if haskey(opt_param, "location_name")
+            aws_service_param_mapping[opt_param] = opt_param["location_name"]
+        end
+    end
+
+    return aws_service_param_mapping
 end
