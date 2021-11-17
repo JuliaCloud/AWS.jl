@@ -208,18 +208,27 @@ metadata is available (typically due to not running within an EC2 instance) then
 will be returned. See the AWS documentation for details on what metadata is available:
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
 
+If using KIAM or something similar which filters the calls to instance metadata,
+set the `ignored_codes` parameter to prevent exceptions being raised for certain statuses.
+
 # Arguments
 - `path`: The URI path to used to specify that metadata to return
+- `ignored_codes`: a tuple of HTTP status codes to ignore (default empty tuple)
 """
-function ec2_instance_metadata(path::AbstractString)
+
+function ec2_instance_metadata(path::AbstractString, ignored_codes::Tuple{Vararg{<:Integer}}=())
     uri = HTTP.URI(; scheme="http", host="169.254.169.254", path=path)
     request = try
-        @mock HTTP.request("GET", uri; connect_timeout=1)
+        Mocking.@mock HTTP.request("GET", uri; connect_timeout=1)
     catch e
         if e isa HTTP.ConnectionPool.ConnectTimeout
             nothing
-        else
-            rethrow()
+        elseif e isa HTTP.StatusError
+            if e.status in ignored_codes
+                nothing
+            else
+                rethrow()
+            end
         end
     end
 
@@ -252,8 +261,8 @@ function ec2_instance_credentials(profile::AbstractString)
         source == "Ec2InstanceMetadata" || return nothing
     end
 
-    info = ec2_instance_metadata("/latest/meta-data/iam/info")
-    info === nothing && return nothing
+    info = ec2_instance_metadata("/latest/meta-data/iam/info", (404,))
+    info = isnothing(info) ? "{}" : info
     info = JSON.parse(info)
 
     # Get credentials for the role associated to the instance via instance profile.
@@ -264,7 +273,7 @@ function ec2_instance_credentials(profile::AbstractString)
         parsed["AccessKeyId"],
         parsed["SecretAccessKey"],
         parsed["Token"],
-        info["InstanceProfileArn"];
+        get(info, "InstanceProfileArn", "");
         expiry=DateTime(rstrip(parsed["Expiration"], 'Z')),
         renew=() -> ec2_instance_credentials(profile),
     )
